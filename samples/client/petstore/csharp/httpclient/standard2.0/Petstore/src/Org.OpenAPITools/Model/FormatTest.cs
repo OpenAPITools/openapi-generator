@@ -68,7 +68,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), int int32Range = default(int), int int64Positive = default(int), int int64Negative = default(int), int int64PositiveExclusive = default(int), int int64NegativeExclusive = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        /// <param name="stringFormattedAsDecimal">stringFormattedAsDecimal.</param>
+        /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired (required).</param>
+        /// <param name="duplicatePropertyName2">duplicatePropertyName2.</param>
+        /// <param name="duplicatePropertyName">duplicatePropertyName.</param>
+        public FormatTest(int integer = default, int int32 = default, int int32Range = default, int int64Positive = default, int int64Negative = default, int int64PositiveExclusive = default, int int64NegativeExclusive = default, uint unsignedInteger = default, long int64 = default, ulong unsignedLong = default, decimal number = default, float varFloat = default, double varDouble = default, decimal varDecimal = default, string varString = default, byte[] varByte = default, FileParameter binary = default, DateTime date = default, DateTime dateTime = default, Guid uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default, string duplicatePropertyName2 = default, string duplicatePropertyName = default)
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -84,6 +88,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             this.Password = password;
+            this.StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
             this.Integer = integer;
             this.Int32 = int32;
             this.Int32Range = int32Range;
@@ -104,6 +109,9 @@ namespace Org.OpenAPITools.Model
             this.PatternWithDigits = patternWithDigits;
             this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
             this.PatternWithBackslash = patternWithBackslash;
+            this.StringFormattedAsDecimal = stringFormattedAsDecimal;
+            this.DuplicatePropertyName2 = duplicatePropertyName2;
+            this.DuplicatePropertyName = duplicatePropertyName;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -265,6 +273,30 @@ namespace Org.OpenAPITools.Model
         public string PatternWithBackslash { get; set; }
 
         /// <summary>
+        /// Gets or Sets StringFormattedAsDecimal
+        /// </summary>
+        [DataMember(Name = "string_formatted_as_decimal", EmitDefaultValue = false)]
+        public decimal StringFormattedAsDecimal { get; set; }
+
+        /// <summary>
+        /// Gets or Sets StringFormattedAsDecimalRequired
+        /// </summary>
+        [DataMember(Name = "string_formatted_as_decimal_required", IsRequired = true, EmitDefaultValue = true)]
+        public decimal StringFormattedAsDecimalRequired { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DuplicatePropertyName2
+        /// </summary>
+        [DataMember(Name = "duplicate_property_name", EmitDefaultValue = false)]
+        public string DuplicatePropertyName2 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DuplicatePropertyName
+        /// </summary>
+        [DataMember(Name = "@duplicate_property_name", EmitDefaultValue = false)]
+        public string DuplicatePropertyName { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -302,6 +334,10 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
+            sb.Append("  StringFormattedAsDecimal: ").Append(StringFormattedAsDecimal).Append("\n");
+            sb.Append("  StringFormattedAsDecimalRequired: ").Append(StringFormattedAsDecimalRequired).Append("\n");
+            sb.Append("  DuplicatePropertyName2: ").Append(DuplicatePropertyName2).Append("\n");
+            sb.Append("  DuplicatePropertyName: ").Append(DuplicatePropertyName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -398,6 +434,16 @@ namespace Org.OpenAPITools.Model
                 if (this.PatternWithBackslash != null)
                 {
                     hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
+                if (this.DuplicatePropertyName2 != null)
+                {
+                    hashCode = (hashCode * 59) + this.DuplicatePropertyName2.GetHashCode();
+                }
+                if (this.DuplicatePropertyName != null)
+                {
+                    hashCode = (hashCode * 59) + this.DuplicatePropertyName.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

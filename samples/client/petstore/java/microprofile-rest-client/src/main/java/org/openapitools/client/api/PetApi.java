@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -25,11 +25,12 @@ import java.util.Set;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
+
 
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
 
 /**
  * OpenAPI Petstore
@@ -119,7 +120,7 @@ public interface PetApi  {
     @POST
     @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) throws ApiException, ProcessingException;
+    void updatePetWithForm(@PathParam("petId") Long petId, @FormParam("name")  String name, @FormParam("status")  String status) throws ApiException, ProcessingException;
 
     /**
      * uploads an image
@@ -131,7 +132,7 @@ public interface PetApi  {
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment _fileDetail) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @FormParam("additionalMetadata")  String additionalMetadata,  @FormParam("file") File _fileDetail) throws ApiException, ProcessingException;
 
     /**
      * uploads an image (required)
@@ -143,5 +144,5 @@ public interface PetApi  {
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "requiredFile" ) Attachment requiredFileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @FormParam("requiredFile") File requiredFileDetail, @FormParam("additionalMetadata")  String additionalMetadata) throws ApiException, ProcessingException;
 }

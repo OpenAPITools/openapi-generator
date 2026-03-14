@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Category: NSObject, Codable, JSONEncodable {
+@objcMembers public final class Category: NSObject, Codable, @unchecked Sendable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {

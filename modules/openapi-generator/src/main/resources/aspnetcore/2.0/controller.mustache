@@ -40,7 +40,7 @@ namespace {{packageName}}.Controllers
         { {{#responses}}
 {{#dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode({{code}}, default({{&dataType}}));
+            // return StatusCode({{code}}, default);
 {{/dataType}}
 {{^dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...

@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **pet_id** | Option<**i64**> |  | [optional]
 **quantity** | Option<**i32**> |  | [optional]
 **ship_date** | Option<**String**> |  | [optional]
-**status** | Option<**String**> | Order Status | [optional]
+**status** | Option<**Status**> | Order Status (enum: placed, approved, delivered) | [optional]
 **complete** | Option<**bool**> |  | [optional][default to false]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

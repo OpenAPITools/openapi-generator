@@ -31,7 +31,7 @@ import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 import org.openapitools.client.infrastructure.*
 
-class QueryApi(client: WebClient) : ApiClient(client) {
+open class QueryApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -55,7 +55,7 @@ class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEnumRefString(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): Mono<kotlin.String> {
         return testEnumRefStringWithHttpInfo(enumNonrefStringQuery = enumNonrefStringQuery, enumRefStringQuery = enumRefStringQuery)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -98,7 +98,7 @@ class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryDatetimeDateString(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): Mono<kotlin.String> {
         return testQueryDatetimeDateStringWithHttpInfo(datetimeQuery = datetimeQuery, dateQuery = dateQuery, stringQuery = stringQuery)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -144,7 +144,7 @@ class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryIntegerBooleanString(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): Mono<kotlin.String> {
         return testQueryIntegerBooleanStringWithHttpInfo(integerQuery = integerQuery, booleanQuery = booleanQuery, stringQuery = stringQuery)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -190,7 +190,7 @@ class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryStyleDeepObjectExplodeTrueObject(queryObject: Pet? = null): Mono<kotlin.String> {
         return testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -230,7 +230,7 @@ class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryStyleFormExplodeTrueArrayString(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): Mono<kotlin.String> {
         return testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject = queryObject)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -270,7 +270,7 @@ class QueryApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testQueryStyleFormExplodeTrueObject(queryObject: Pet? = null): Mono<kotlin.String> {
         return testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

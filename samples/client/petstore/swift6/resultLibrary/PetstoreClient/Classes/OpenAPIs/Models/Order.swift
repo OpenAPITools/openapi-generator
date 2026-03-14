@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Order: Sendable, Codable, JSONEncodable {
+internal struct Order: Sendable, Codable {
 
     internal enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case placed = "placed"
@@ -55,5 +55,4 @@ internal struct Order: Sendable, Codable, JSONEncodable {
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension Order: Identifiable {}

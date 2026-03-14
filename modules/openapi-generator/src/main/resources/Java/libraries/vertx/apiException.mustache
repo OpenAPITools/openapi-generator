@@ -7,6 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 
 {{>generatedAnnotation}}
+
 public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
     private static final long serialVersionUID = 1L;
 

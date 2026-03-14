@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link AnotherFakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public interface AnotherFakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -41,6 +41,7 @@ public interface AnotherFakeApiDelegate {
     default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> client,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
+    
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -49,6 +50,8 @@ public interface AnotherFakeApiDelegate {
                 break;
             }
         }
+    
+
         return result.then(client).then(Mono.empty());
 
     }

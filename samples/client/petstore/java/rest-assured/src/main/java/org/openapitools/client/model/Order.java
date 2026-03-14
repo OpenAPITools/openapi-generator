@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Order
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -245,6 +245,7 @@ public class Order {
   public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }
+
 
   @Override
   public boolean equals(Object o) {

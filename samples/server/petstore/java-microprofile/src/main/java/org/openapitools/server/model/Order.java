@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -14,6 +14,8 @@ package org.openapitools.server.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,19 +41,19 @@ public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
   
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
   
-  private Long petId;
+  protected Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   
-  private Integer quantity;
+  protected Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   
-  private Date shipDate;
+  protected Date shipDate;
 
   public enum StatusEnum {
 
@@ -90,17 +92,18 @@ public class Order  {
   * Order Status
   */
   
-  private StatusEnum status;
+  protected StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   
-  private Boolean complete = false;
+  protected Boolean complete = false;
+
 
   /**
    * Get id
    * @return id
    **/
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
@@ -109,7 +112,7 @@ public class Order  {
   /**
    * Set id
    */
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
@@ -124,7 +127,7 @@ public class Order  {
    * Get petId
    * @return petId
    **/
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getPetId() {
     return petId;
@@ -133,7 +136,7 @@ public class Order  {
   /**
    * Set petId
    */
-  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPetId(Long petId) {
     this.petId = petId;
@@ -148,7 +151,7 @@ public class Order  {
    * Get quantity
    * @return quantity
    **/
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getQuantity() {
     return quantity;
@@ -157,7 +160,7 @@ public class Order  {
   /**
    * Set quantity
    */
-  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
@@ -172,7 +175,7 @@ public class Order  {
    * Get shipDate
    * @return shipDate
    **/
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Date getShipDate() {
     return shipDate;
@@ -181,7 +184,7 @@ public class Order  {
   /**
    * Set shipDate
    */
-  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
@@ -196,7 +199,7 @@ public class Order  {
    * Order Status
    * @return status
    **/
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public StatusEnum getStatus() {
     return status;
@@ -205,7 +208,7 @@ public class Order  {
   /**
    * Set status
    */
-  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -220,7 +223,7 @@ public class Order  {
    * Get complete
    * @return complete
    **/
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getComplete() {
     return complete;
@@ -229,7 +232,7 @@ public class Order  {
   /**
    * Set complete
    */
-  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setComplete(Boolean complete) {
     this.complete = complete;

@@ -20,9 +20,17 @@ package org.openapitools.server.models
  * @param notNullableNotRequired 
  */
 data class Pet(
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("notNullable_required")
     val notNullableRequired: kotlin.String,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("nullable_required")
     val nullableRequired: kotlin.String?,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("nullable_notRequired")
     val nullableNotRequired: kotlin.String? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("notNullable_notRequired")
     val notNullableNotRequired: kotlin.String? = null
 )
 

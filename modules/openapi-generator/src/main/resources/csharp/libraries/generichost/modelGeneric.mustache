@@ -62,7 +62,7 @@
         {{^composedSchemas.anyOf}}
         [JsonConstructor]
         {{/composedSchemas.anyOf}}
-        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{baseType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#composedSchemas.anyOf}}
             {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
@@ -97,12 +97,14 @@
         {{#items}}
         {{^complexType}}
 {{>modelInnerEnum}}
+
         {{/complexType}}
         {{/items}}
         {{/items.isEnum}}
         {{#isEnum}}
         {{^complexType}}
 {{>modelInnerEnum}}
+
         {{/complexType}}
         {{/isEnum}}
         {{^isDiscriminator}}
@@ -129,7 +131,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{#isNew}}new {{/isNew}}{{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+        public {{#isNew}}new {{/isNew}}{{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
 
         {{/isEnum}}
         {{/isDiscriminator}}
@@ -155,7 +157,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option; } {{^isReadOnly}}set { this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option.Value; } {{^isReadOnly}}set { this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
 
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.anyOf}}
@@ -213,7 +215,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public new {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+        public new {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option.Value; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
 
         {{/isNew}}
         {{/isInherited}}
@@ -388,6 +390,7 @@
 {{^parentModel}}
 
 {{>validatable}}
+
 {{/parentModel}}
 {{/validatable}}
     }

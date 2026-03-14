@@ -29,9 +29,6 @@ StringEnumRef <- R6::R6Class(
           stop("Use one of the valid values: ",
             paste0(enumvec, collapse = ", "))
         }
-        warning("Initializing StringEnumRef with DUMMY_ENUM. Use one of the valid values: ",
-          paste0(enumvec, collapse = ", "),
-          ". If you did not manually initialize StringEnumRef, this may already be overwritten by an enum loaded from a JSON config.")
       }
       private$value <- val
     },

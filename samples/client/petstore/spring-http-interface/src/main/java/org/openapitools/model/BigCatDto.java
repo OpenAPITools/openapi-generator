@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("BigCat")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class BigCatDto extends CatDto {
 
   /**
@@ -40,7 +40,7 @@ public class BigCatDto extends CatDto {
     
     JAGUARS("jaguars");
 
-    private String value;
+    private final String value;
 
     KindEnum(String value) {
       this.value = value;
@@ -73,7 +73,7 @@ public class BigCatDto extends CatDto {
     super();
   }
 
-  public BigCatDto kind(KindEnum kind) {
+  public BigCatDto kind(@Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
@@ -84,11 +84,12 @@ public class BigCatDto extends CatDto {
    */
   
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public @Nullable KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  @JsonProperty("kind")
+  public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }
 
@@ -139,7 +140,7 @@ public class BigCatDto extends CatDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

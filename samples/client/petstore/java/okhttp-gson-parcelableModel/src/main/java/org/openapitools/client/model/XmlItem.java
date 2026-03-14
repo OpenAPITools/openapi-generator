@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class XmlItem implements Parcelable {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -1003,39 +1003,10 @@ public class XmlItem implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("attribute_string");
-    openapiFields.add("attribute_number");
-    openapiFields.add("attribute_integer");
-    openapiFields.add("attribute_boolean");
-    openapiFields.add("wrapped_array");
-    openapiFields.add("name_string");
-    openapiFields.add("name_number");
-    openapiFields.add("name_integer");
-    openapiFields.add("name_boolean");
-    openapiFields.add("name_array");
-    openapiFields.add("name_wrapped_array");
-    openapiFields.add("prefix_string");
-    openapiFields.add("prefix_number");
-    openapiFields.add("prefix_integer");
-    openapiFields.add("prefix_boolean");
-    openapiFields.add("prefix_array");
-    openapiFields.add("prefix_wrapped_array");
-    openapiFields.add("namespace_string");
-    openapiFields.add("namespace_number");
-    openapiFields.add("namespace_integer");
-    openapiFields.add("namespace_boolean");
-    openapiFields.add("namespace_array");
-    openapiFields.add("namespace_wrapped_array");
-    openapiFields.add("prefix_ns_string");
-    openapiFields.add("prefix_ns_number");
-    openapiFields.add("prefix_ns_integer");
-    openapiFields.add("prefix_ns_boolean");
-    openapiFields.add("prefix_ns_array");
-    openapiFields.add("prefix_ns_wrapped_array");
+    openapiFields = new HashSet<String>(Arrays.asList("attribute_string", "attribute_number", "attribute_integer", "attribute_boolean", "wrapped_array", "name_string", "name_number", "name_integer", "name_boolean", "name_array", "name_wrapped_array", "prefix_string", "prefix_number", "prefix_integer", "prefix_boolean", "prefix_array", "prefix_wrapped_array", "namespace_string", "namespace_number", "namespace_integer", "namespace_boolean", "namespace_array", "namespace_wrapped_array", "prefix_ns_string", "prefix_ns_number", "prefix_ns_integer", "prefix_ns_boolean", "prefix_ns_array", "prefix_ns_wrapped_array"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -1047,7 +1018,7 @@ public class XmlItem implements Parcelable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
         }
       }
 
@@ -1055,60 +1026,60 @@ public class XmlItem implements Parcelable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!XmlItem.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("attribute_string") != null && !jsonObj.get("attribute_string").isJsonNull()) && !jsonObj.get("attribute_string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `attribute_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("attribute_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `attribute_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("attribute_string").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("wrapped_array") != null && !jsonObj.get("wrapped_array").isJsonNull() && !jsonObj.get("wrapped_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("wrapped_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("wrapped_array").toString()));
       }
       if ((jsonObj.get("name_string") != null && !jsonObj.get("name_string").isJsonNull()) && !jsonObj.get("name_string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `name_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `name_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name_string").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("name_array") != null && !jsonObj.get("name_array").isJsonNull() && !jsonObj.get("name_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `name_array` to be an array in the JSON string but got `%s`", jsonObj.get("name_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `name_array` to be an array in the JSON string but got `%s`", jsonObj.get("name_array").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("name_wrapped_array") != null && !jsonObj.get("name_wrapped_array").isJsonNull() && !jsonObj.get("name_wrapped_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `name_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("name_wrapped_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `name_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("name_wrapped_array").toString()));
       }
       if ((jsonObj.get("prefix_string") != null && !jsonObj.get("prefix_string").isJsonNull()) && !jsonObj.get("prefix_string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `prefix_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `prefix_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_string").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("prefix_array") != null && !jsonObj.get("prefix_array").isJsonNull() && !jsonObj.get("prefix_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `prefix_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `prefix_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_array").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("prefix_wrapped_array") != null && !jsonObj.get("prefix_wrapped_array").isJsonNull() && !jsonObj.get("prefix_wrapped_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `prefix_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_wrapped_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `prefix_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_wrapped_array").toString()));
       }
       if ((jsonObj.get("namespace_string") != null && !jsonObj.get("namespace_string").isJsonNull()) && !jsonObj.get("namespace_string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `namespace_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("namespace_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `namespace_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("namespace_string").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("namespace_array") != null && !jsonObj.get("namespace_array").isJsonNull() && !jsonObj.get("namespace_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `namespace_array` to be an array in the JSON string but got `%s`", jsonObj.get("namespace_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `namespace_array` to be an array in the JSON string but got `%s`", jsonObj.get("namespace_array").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("namespace_wrapped_array") != null && !jsonObj.get("namespace_wrapped_array").isJsonNull() && !jsonObj.get("namespace_wrapped_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `namespace_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("namespace_wrapped_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `namespace_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("namespace_wrapped_array").toString()));
       }
       if ((jsonObj.get("prefix_ns_string") != null && !jsonObj.get("prefix_ns_string").isJsonNull()) && !jsonObj.get("prefix_ns_string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `prefix_ns_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_ns_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `prefix_ns_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("prefix_ns_string").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("prefix_ns_array") != null && !jsonObj.get("prefix_ns_array").isJsonNull() && !jsonObj.get("prefix_ns_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `prefix_ns_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_ns_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `prefix_ns_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_ns_array").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("prefix_ns_wrapped_array") != null && !jsonObj.get("prefix_ns_wrapped_array").isJsonNull() && !jsonObj.get("prefix_ns_wrapped_array").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `prefix_ns_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_ns_wrapped_array").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `prefix_ns_wrapped_array` to be an array in the JSON string but got `%s`", jsonObj.get("prefix_ns_wrapped_array").toString()));
       }
   }
 

@@ -17,6 +17,14 @@ open_api_server_pet_deletepet:
     requirements:
         petId: '\d+'
 
+open_api_server_pet_downloadfile:
+    path:     /pet/{petId}/downloadImage
+    methods:  [GET]
+    defaults:
+        _controller: open_api_server.controller.pet::downloadFileAction
+    requirements:
+        petId: '\d+'
+
 open_api_server_pet_findpetsbystatus:
     path:     /pet/findByStatus
     methods:  [GET]
@@ -34,6 +42,22 @@ open_api_server_pet_getpetbyid:
     methods:  [GET]
     defaults:
         _controller: open_api_server.controller.pet::getPetByIdAction
+    requirements:
+        petId: '\d+'
+
+open_api_server_pet_petage:
+    path:     /pet/{petId}/age
+    methods:  [GET]
+    defaults:
+        _controller: open_api_server.controller.pet::petAgeAction
+    requirements:
+        petId: '\d+'
+
+open_api_server_pet_petavailableforsale:
+    path:     /pet/{petId}/available-for-sale
+    methods:  [GET]
+    defaults:
+        _controller: open_api_server.controller.pet::petAvailableForSaleAction
     requirements:
         petId: '\d+'
 

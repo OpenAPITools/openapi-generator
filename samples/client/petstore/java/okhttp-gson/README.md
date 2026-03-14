@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.13.0-SNAPSHOT
+  - Generator version: 7.21.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -117,7 +117,6 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 *AnotherFakeApi* | [**getParameterArrayNumber**](docs/AnotherFakeApi.md#getParameterArrayNumber) | **GET** /fake/parameter-array-number | parameter array number default value
 *AnotherFakeApi* | [**getParameterStringNumber**](docs/AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number
-*AnotherFakeApi* | [**nullRequestBody**](docs/AnotherFakeApi.md#nullRequestBody) | **GET** /fake/null-request-body | null request body
 *DefaultApi* | [**fakeAnyOfWIthSameErasureGet**](docs/DefaultApi.md#fakeAnyOfWIthSameErasureGet) | **GET** /fake/anyOfWIthSameErasure | 
 *DefaultApi* | [**fakeFreeFormQueryParametersGet**](docs/DefaultApi.md#fakeFreeFormQueryParametersGet) | **GET** /fake/free-form-query-parameters | 
 *DefaultApi* | [**fakeOneOfWIthSameErasureGet**](docs/DefaultApi.md#fakeOneOfWIthSameErasureGet) | **GET** /fake/oneOfWIthSameErasure | 
@@ -128,6 +127,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakeRefParameter**](docs/FakeApi.md#fakeRefParameter) | **POST** /fake/pet/{petId}/reference/parameter | fake reference parameter
+*FakeApi* | [**fakeRequiredNullableBodyGet**](docs/FakeApi.md#fakeRequiredNullableBodyGet) | **GET** /fake/required-nullable-body | fields in the response body, required and nullable are both true
 *FakeApi* | [**fakeUploadRefRequestBodies**](docs/FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake reference parameter
 *FakeApi* | [**getFakeArrayofenums**](docs/FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getFakeHealth**](docs/FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint
@@ -177,6 +177,9 @@ Class | Method | HTTP request | Description
  - [AllOfModelArrayAnyOfAllOfAttributesC](docs/AllOfModelArrayAnyOfAllOfAttributesC.md)
  - [AllOfModelArrayAnyOfAllOfLinkListColumn1](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md)
  - [AllOfModelArrayAnyOfAllOfLinkListColumn1Value](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md)
+ - [AllOfRefToDouble](docs/AllOfRefToDouble.md)
+ - [AllOfRefToFloat](docs/AllOfRefToFloat.md)
+ - [AllOfRefToLong](docs/AllOfRefToLong.md)
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
@@ -233,10 +236,12 @@ Class | Method | HTTP request | Description
  - [ModelReturn](docs/ModelReturn.md)
  - [ModelWithOneOfAnyOfProperties](docs/ModelWithOneOfAnyOfProperties.md)
  - [Name](docs/Name.md)
+ - [NestedArrayWithDefaultValues](docs/NestedArrayWithDefaultValues.md)
  - [NewPet](docs/NewPet.md)
  - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)
  - [NewPetCategoryInlineAllofAllOfCategoryTag](docs/NewPetCategoryInlineAllofAllOfCategoryTag.md)
  - [NullableClass](docs/NullableClass.md)
+ - [NullableEnum](docs/NullableEnum.md)
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
@@ -257,6 +262,7 @@ Class | Method | HTTP request | Description
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [RequiredNullableBody](docs/RequiredNullableBody.md)
  - [Scalar](docs/Scalar.md)
  - [ScalarAnyOf](docs/ScalarAnyOf.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)

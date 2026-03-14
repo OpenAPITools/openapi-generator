@@ -1,0 +1,86 @@
+name: Samples Rust Servers
+
+on:
+  push:
+    paths:
+      - "samples/server/petstore/rust-server/**"
+      - "samples/server/petstore/rust-axum/**"
+  pull_request:
+    paths:
+      - "samples/server/petstore/rust-server/**"
+      - "samples/server/petstore/rust-axum/**"
+
+jobs:
+  build:
+    name: Build Rust
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # these folders contain sub-projects of rust clients, servers
+          - samples/server/petstore/rust-server/
+          - samples/server/petstore/rust-server-deprecated/
+          - samples/server/petstore/rust-axum/
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-targets: false # Don't cache workspace target directories as they don't exist
+          cache-directories:
+            ${{ matrix.sample }}/target
+          workspaces: |
+            ${{ matrix.sample }}/output/*
+
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: |
+          set -e
+          cargo build --all-targets --all-features
+          cargo build --all-targets --no-default-features
+      - name: Tests
+        working-directory: ${{ matrix.sample }}
+        run: |
+          set -e
+
+          # Iterate through each package and test various features
+          for package in $(find output -maxdepth 1 -mindepth 1 -type d)
+          do
+            pushd $package
+            # Not all versions have a server example
+            if test -f examples/server/main.rs; then
+              cargo build --example ${package##*/}-server --features="server"
+            fi
+            # Not all versions have a client example
+            if test -f examples/client/main.rs; then
+              cargo build --example ${package##*/}-client --features="client"
+            fi
+            # Test the CLI works if present
+            if test -f bin/cli.rs; then
+              cargo build --bin ${package##*/} --features cli
+              ../../target/debug/${package##*/} --help
+            fi
+            # Test the validate feature if it exists
+            if cargo read-manifest | grep -q '"validate"'; then
+              cargo build --features validate --all-targets
+            fi
+            # Test TLS features if they exist
+            if cargo read-manifest | grep -q '"client-tls"'; then
+              # Client without TLS (HTTP-only)
+              cargo build --no-default-features --features=client --lib
+              # Client with TLS (using native-tls)
+              cargo build --no-default-features --features=client,client-tls --lib
+              # Server without TLS
+              cargo build --no-default-features --features=server --lib
+            fi
+            cargo fmt
+            cargo test
+            cargo clippy
+            cargo doc
+            popd
+          done

@@ -2,7 +2,7 @@
 * {{{description}}}
 * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-enum class {{classname}}(@get:JsonValue val value: {{dataType}}) {
+enum class {{classname}}(@get:JsonValue val value: {{dataType}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}} {{/vendorExtensions.x-kotlin-implements}}{
 {{#allowableValues}}{{#enumVars}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
 
@@ -10,7 +10,8 @@ enum class {{classname}}(@get:JsonValue val value: {{dataType}}) {
         @JvmStatic
         @JsonCreator
         fun forValue(value: {{dataType}}): {{classname}} {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{classname}}'")
         }
     }
 }

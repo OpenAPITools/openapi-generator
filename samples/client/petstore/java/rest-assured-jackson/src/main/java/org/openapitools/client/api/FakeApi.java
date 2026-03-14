@@ -186,7 +186,7 @@ public class FakeApi {
          * @param xmlItem (XmlItem) XmlItem Body (required)
          * @return operation
          */
-        public CreateXmlItemOper body(XmlItem xmlItem) {
+        public CreateXmlItemOper body(@javax.annotation.Nonnull XmlItem xmlItem) {
             reqSpec.setBody(xmlItem);
             return this;
         }
@@ -258,7 +258,7 @@ public class FakeApi {
          * @param body (Boolean) Input boolean as post body (optional)
          * @return operation
          */
-        public FakeOuterBooleanSerializeOper body(Boolean body) {
+        public FakeOuterBooleanSerializeOper body(@javax.annotation.Nullable Boolean body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -330,7 +330,7 @@ public class FakeApi {
          * @param body (OuterComposite) Input composite as post body (optional)
          * @return operation
          */
-        public FakeOuterCompositeSerializeOper body(OuterComposite body) {
+        public FakeOuterCompositeSerializeOper body(@javax.annotation.Nullable OuterComposite body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -402,7 +402,7 @@ public class FakeApi {
          * @param body (BigDecimal) Input number as post body (optional)
          * @return operation
          */
-        public FakeOuterNumberSerializeOper body(BigDecimal body) {
+        public FakeOuterNumberSerializeOper body(@javax.annotation.Nullable BigDecimal body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -474,7 +474,7 @@ public class FakeApi {
          * @param body (String) Input string as post body (optional)
          * @return operation
          */
-        public FakeOuterStringSerializeOper body(String body) {
+        public FakeOuterStringSerializeOper body(@javax.annotation.Nullable String body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -535,7 +535,7 @@ public class FakeApi {
          * @param body (FileSchemaTestClass)  (required)
          * @return operation
          */
-        public TestBodyWithFileSchemaOper body(FileSchemaTestClass body) {
+        public TestBodyWithFileSchemaOper body(@javax.annotation.Nonnull FileSchemaTestClass body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -597,7 +597,7 @@ public class FakeApi {
          * @param body (User)  (required)
          * @return operation
          */
-        public TestBodyWithQueryParamsOper body(User body) {
+        public TestBodyWithQueryParamsOper body(@javax.annotation.Nonnull User body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -680,7 +680,7 @@ public class FakeApi {
          * @param body (Client) client model (required)
          * @return operation
          */
-        public TestClientModelOper body(Client body) {
+        public TestClientModelOper body(@javax.annotation.Nonnull Client body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -899,7 +899,7 @@ public class FakeApi {
          * @param binary (File) None (optional)
          * @return operation
          */
-         public TestEndpointParametersOper binaryMultiPart(File binary) {
+         public TestEndpointParametersOper binaryMultiPart(@javax.annotation.Nullable File binary) {
             reqSpec.addMultiPart(binary);
             return this;
          }
@@ -1229,7 +1229,7 @@ public class FakeApi {
          * @param param (Map&lt;String, String&gt;) request body (required)
          * @return operation
          */
-        public TestInlineAdditionalPropertiesOper body(Map<String, String> param) {
+        public TestInlineAdditionalPropertiesOper body(@javax.annotation.Nonnull Map<String, String> param) {
             reqSpec.setBody(param);
             return this;
         }

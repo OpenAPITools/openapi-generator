@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class AdditionalPropertiesAnyType: Content, Hashable {
+public struct AdditionalPropertiesAnyType: Sendable, Content, Hashable {
 
     public var name: String?
 
@@ -54,16 +54,6 @@ public final class AdditionalPropertiesAnyType: Content, Hashable {
         nonAdditionalPropertyKeys.insert("name")
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         additionalProperties = try additionalPropertiesContainer.decodeMap(JSONValue.self, excludedKeys: nonAdditionalPropertyKeys)
-    }
-
-    public static func == (lhs: AdditionalPropertiesAnyType, rhs: AdditionalPropertiesAnyType) -> Bool {
-        lhs.name == rhs.name
-        && lhs.additionalProperties == rhs.additionalProperties
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(name?.hashValue)
-        hasher.combine(additionalProperties.hashValue)
     }
 }
 

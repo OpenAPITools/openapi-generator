@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
@@ -249,13 +249,10 @@ public class AnyTypeTest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("any_type_property");
-    openapiFields.add("array_prop");
-    openapiFields.add("ref_array_prefix_items");
+    openapiFields = new HashSet<String>(Arrays.asList("any_type_property", "array_prop", "ref_array_prefix_items"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -267,17 +264,17 @@ public class AnyTypeTest {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AnyTypeTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AnyTypeTest is not found in the empty JSON string", AnyTypeTest.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in AnyTypeTest is not found in the empty JSON string", AnyTypeTest.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_prop") != null && !jsonObj.get("array_prop").isJsonNull() && !jsonObj.get("array_prop").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_prop").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_prop").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("ref_array_prefix_items") != null && !jsonObj.get("ref_array_prefix_items").isJsonNull() && !jsonObj.get("ref_array_prefix_items").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `ref_array_prefix_items` to be an array in the JSON string but got `%s`", jsonObj.get("ref_array_prefix_items").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `ref_array_prefix_items` to be an array in the JSON string but got `%s`", jsonObj.get("ref_array_prefix_items").toString()));
       }
   }
 
@@ -338,7 +335,7 @@ public class AnyTypeTest {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

@@ -13,7 +13,6 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
 # import models into model package
 from openapi_client.models.bird import Bird
 from openapi_client.models.category import Category
@@ -27,3 +26,4 @@ from openapi_client.models.tag import Tag
 from openapi_client.models.test_form_object_multipart_request_marker import TestFormObjectMultipartRequestMarker
 from openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+

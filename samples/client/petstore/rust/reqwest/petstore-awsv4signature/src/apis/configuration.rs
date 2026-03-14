@@ -80,7 +80,7 @@ impl Configuration {
 impl Default for Configuration {
     fn default() -> Self {
         Configuration {
-            base_path: "http://petstore.swagger.io/v2".to_owned(),
+            base_path: "http://localhost/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
             client: reqwest::blocking::Client::new(),
             basic_auth: None,

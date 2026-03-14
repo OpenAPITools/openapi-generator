@@ -61,7 +61,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @JsonDeserialize(using=MammalAnyof.MammalAnyofDeserializer.class)
 @JsonSerialize(using = MammalAnyof.MammalAnyofSerializer.class)
 public class MammalAnyof extends AbstractOpenApiSchema {
@@ -93,7 +93,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
 
         @Override
         public MammalAnyof deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
 
             Object deserialized = null;
             Class<?> cls = JSON.getClassForElement(tree, new MammalAnyof().getClass());
@@ -139,7 +139,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'MammalAnyof'", e);
             }
 
-            throw new IOException(String.format("Failed deserialization for MammalAnyof: no match found"));
+            throw new IOException("Failed deserialization for MammalAnyof: no match found");
         }
 
         /**

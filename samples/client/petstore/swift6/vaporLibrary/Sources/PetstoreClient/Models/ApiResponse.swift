@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class ApiResponse: Content, Hashable {
+public struct ApiResponse: Sendable, Content, Hashable {
 
     public var code: Int?
     public var type: String?
@@ -33,20 +33,6 @@ public final class ApiResponse: Content, Hashable {
         try container.encodeIfPresent(code, forKey: .code)
         try container.encodeIfPresent(type, forKey: .type)
         try container.encodeIfPresent(message, forKey: .message)
-    }
-
-    public static func == (lhs: ApiResponse, rhs: ApiResponse) -> Bool {
-        lhs.code == rhs.code &&
-        lhs.type == rhs.type &&
-        lhs.message == rhs.message
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(code?.hashValue)
-        hasher.combine(type?.hashValue)
-        hasher.combine(message?.hashValue)
-        
     }
 }
 

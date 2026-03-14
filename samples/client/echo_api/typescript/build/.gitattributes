@@ -1,0 +1,8 @@
+**/* linguist-generated
+*.md linguist-documentation
+
+.gitattributes text
+.gitattributes export-ignore
+
+.gitignore text
+.gitignore export-ignore

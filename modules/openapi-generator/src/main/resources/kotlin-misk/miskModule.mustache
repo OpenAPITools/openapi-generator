@@ -1,0 +1,25 @@
+package {{apiPackage}}
+
+import misk.inject.KAbstractModule
+import misk.web.WebActionModule
+import {{javaxPackage}}.inject.Singleton
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+import {{apiPackage}}.{{classname}}Action
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+@Singleton
+class {{moduleClassName}} : KAbstractModule() {
+    override fun configure() {
+        {{#apiInfo}}
+        {{#apis}}
+        {{#operations}}
+        install(WebActionModule.create<{{classname}}Action>())
+        {{/operations}}
+        {{/apis}}
+        {{/apiInfo}}
+    }
+}

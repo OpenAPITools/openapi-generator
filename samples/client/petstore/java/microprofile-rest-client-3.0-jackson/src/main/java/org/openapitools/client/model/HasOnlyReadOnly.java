@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,11 +36,12 @@ public class HasOnlyReadOnly  {
   
   public static final String JSON_PROPERTY_BAR = "bar";
   
-  private String bar;
+  protected String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
   
-  private String foo;
+  protected String foo;
+
 
   public HasOnlyReadOnly() {
   }
@@ -56,7 +59,7 @@ public class HasOnlyReadOnly  {
    * Get bar
    * @return bar
    **/
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -67,7 +70,7 @@ public class HasOnlyReadOnly  {
    * Get foo
    * @return foo
    **/
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getFoo() {
     return foo;

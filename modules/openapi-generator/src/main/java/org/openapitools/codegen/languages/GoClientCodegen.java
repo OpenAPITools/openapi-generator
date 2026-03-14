@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Iterables;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
@@ -440,6 +441,35 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return null;
         }
 
+        if (ModelUtils.isArraySchema(p)) {
+            StringJoiner joinedDefaultValues = new StringJoiner(", ");
+            Object defaultValues = p.getDefault();
+            if (defaultValues instanceof ArrayNode) {
+                for (var value : (ArrayNode) defaultValues) {
+                    if (value.isNull()) {
+                        joinedDefaultValues.add("nil");
+                    } else if (value.isTextual()) {
+                        joinedDefaultValues.add("\"" + escapeText(value.asText()) + "\"");
+                    } else {
+                        joinedDefaultValues.add(value.toString());
+                    }
+                }
+                return "{" + joinedDefaultValues + "}";
+            } else if (defaultValues instanceof List<?>) {
+                for (var value : (List<?>) defaultValues) {
+                    if (value == null) {
+                        joinedDefaultValues.add("nil");
+                    } else if (value instanceof String) {
+                        joinedDefaultValues.add("\"" + escapeText((String) value) + "\"");
+                    } else {
+                        joinedDefaultValues.add(value.toString());
+                    }
+                }
+                return "{" + joinedDefaultValues + "}";
+            }
+            return null;
+        }
+
         return super.toDefaultValue(p);
     }
 
@@ -508,7 +538,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 addedFmtImport = true;
             }
 
-            if (model.hasRequired) {
+            if (generateUnmarshalJSON && model.hasRequired) {
                 if (!model.isAdditionalPropertiesTrue &&
                         (model.oneOf == null || model.oneOf.isEmpty()) &&
                         (model.anyOf == null || model.anyOf.isEmpty())) {
@@ -578,7 +608,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
+                    return "\"" + escapeText(codegenParameter.example) + "\"";
                 } else {
                     return "\"" + codegenParameter.paramName + "_example\"";
                 }
@@ -610,7 +640,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap, 0);
             } else if (codegenParameter.isEmail) { // email
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
+                    return "\"" + escapeText(codegenParameter.example) + "\"";
                 } else {
                     return "\"" + codegenParameter.paramName + "@example.com\"";
                 }
@@ -651,7 +681,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
+                    return "\"" + escapeText(codegenProperty.example) + "\"";
                 } else {
                     return "\"" + codegenProperty.name + "_example\"";
                 }
@@ -684,7 +714,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap, depth + 1);
             } else if (codegenProperty.isEmail) { // email
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
+                    return "\"" + escapeText(codegenProperty.example) + "\"";
                 } else {
                     return "\"" + codegenProperty.name + "@example.com\"";
                 }

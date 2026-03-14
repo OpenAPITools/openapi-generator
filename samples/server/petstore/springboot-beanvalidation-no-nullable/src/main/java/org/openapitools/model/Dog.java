@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Dog extends Animal {
 
   private @Nullable String breed;
@@ -40,7 +40,7 @@ public class Dog extends Animal {
     super(className);
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -52,11 +52,12 @@ public class Dog extends Animal {
   
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
-  public String getBreed() {
+  public @Nullable String getBreed() {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  @JsonProperty("breed")
+  public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }
 
@@ -102,7 +103,7 @@ public class Dog extends Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

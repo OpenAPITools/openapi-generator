@@ -53,6 +53,18 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Fruit" /> class.
+        /// </summary>
+        /// <param name="orange"></param>
+        /// <param name="color">color</param>
+        public Fruit(Orange orange, Option<string> color = default)
+        {
+            Orange = orange;
+            ColorOption = color;
+            OnCreated();
+        }
+
         partial void OnCreated();
 
         /// <summary>
@@ -64,6 +76,11 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Banana
         /// </summary>
         public Banana Banana { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Orange
+        /// </summary>
+        public Orange Orange { get; set; }
 
         /// <summary>
         /// Used to track the state of Color
@@ -135,6 +152,7 @@ namespace Org.OpenAPITools.Model
 
             Apple apple = default;
             Banana banana = default;
+            Orange orange = default;
 
             Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
             while (utf8JsonReaderOneOf.Read())
@@ -152,6 +170,9 @@ namespace Org.OpenAPITools.Model
 
                     Utf8JsonReader utf8JsonReaderBanana = utf8JsonReader;
                     ClientUtils.TryDeserialize<Banana>(ref utf8JsonReaderBanana, jsonSerializerOptions, out banana);
+
+                    Utf8JsonReader utf8JsonReaderOrange = utf8JsonReader;
+                    ClientUtils.TryDeserialize<Orange>(ref utf8JsonReaderOrange, jsonSerializerOptions, out orange);
                 }
             }
 
@@ -187,6 +208,9 @@ namespace Org.OpenAPITools.Model
 
             if (banana != null)
                 return new Fruit(banana, color);
+
+            if (orange != null)
+                return new Fruit(orange, color);
 
             throw new JsonException();
         }

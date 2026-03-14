@@ -34,4 +34,9 @@ open class OpenApiGeneratorValidateExtension(project: Project) {
      * Whether to offer recommendations related to the validated specification document.
      */
     val recommend = project.objects.property<Boolean>().convention(true)
+
+    /**
+     * Whether to treat warnings as errors and fail the task.
+     */
+    val treatWarningsAsErrors = project.objects.property<Boolean>().convention(false)
 }

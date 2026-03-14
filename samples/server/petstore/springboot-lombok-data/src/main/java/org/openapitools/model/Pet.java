@@ -30,18 +30,38 @@ import javax.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Pet {
+
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
 
   private @Nullable Long id;
 
+  @Valid 
+  @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("category")
+
   private @Nullable Category category;
 
+  @NotNull 
+  @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
+
   private String name;
+
+  
+  @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("photoUrls")
 
   @lombok.Builder.Default
   @Valid
   private List<String> photoUrls = new ArrayList<>();
+
+  
+  @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tags")
 
   @lombok.Builder.Default
   @Valid
@@ -57,7 +77,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -83,6 +103,10 @@ public class Pet {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
+
+  
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
 
   @Deprecated
   private @Nullable StatusEnum status;

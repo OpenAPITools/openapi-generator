@@ -11,7 +11,7 @@ title: Documentation for the ocaml Generator
 | generator type | CLIENT | |
 | generator language | OCaml | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates an OCaml client library (beta). | |
+| helpTxt | Generates an OCaml client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -209,8 +209,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
-|anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|anyOf|✓|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature

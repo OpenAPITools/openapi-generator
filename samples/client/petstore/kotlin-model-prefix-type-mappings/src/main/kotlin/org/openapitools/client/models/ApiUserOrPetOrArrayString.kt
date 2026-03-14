@@ -35,8 +35,6 @@ import java.io.IOException
  * 
  *
  */
-
-
 data class ApiUserOrPetOrArrayString(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
@@ -74,7 +72,7 @@ data class ApiUserOrPetOrArrayString(var actualInstance: Any? = null) {
                     // check if the actual instance is of the type `kotlin.collections.List<kotlin.String>`
                     if (value.actualInstance is List<*>) {
                         val list = value.actualInstance as List<Any>
-                        if (list.get(0) is kotlin.String) {
+                        if (!list.isEmpty() && list.get(0) is kotlin.String) {
                             val array = adapterkotlincollectionsListkotlinString.toJsonTree(value.actualInstance as kotlin.collections.List<kotlin.String>?).getAsJsonArray()
                             elementAdapter.write(out, array)
                             return
@@ -205,3 +203,4 @@ data class ApiUserOrPetOrArrayString(var actualInstance: Any? = null) {
         }
     }
 }
+

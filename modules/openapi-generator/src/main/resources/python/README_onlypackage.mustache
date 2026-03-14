@@ -26,12 +26,12 @@ This python library package is generated without supporting files like setup.py 
 
 To be able to use it, you will need these dependencies in your own package that uses this library:
 
-* urllib3 >= 1.25.3, < 3.0.0
+* urllib3 >= 2.1.0, < 3.0.0
 * python-dateutil >= 2.8.2
-{{#asyncio}}
+{{#async}}
 * aiohttp >= 3.8.4
 * aiohttp-retry >= 2.8.3
-{{/asyncio}}
+{{/async}}
 {{#tornado}}
 * tornado >= 4.2, < 5
 {{/tornado}}
@@ -39,7 +39,7 @@ To be able to use it, you will need these dependencies in your own package that 
 * pem >= 19.3.0
 * pycryptodome >= 3.9.0
 {{/hasHttpSignatureMethods}}
-* pydantic >= 2
+* pydantic >= 2.11
 * typing-extensions >= 4.7.1
 
 ## Getting Started
@@ -48,3 +48,4 @@ In your own code, to use this library to connect and interact with {{{projectNam
 you can run the following:
 
 {{> common_README }}
+

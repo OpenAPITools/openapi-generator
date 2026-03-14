@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Name", description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
@@ -58,11 +58,12 @@ public class Name {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
 
-  public Name snakeCase(Integer snakeCase) {
+  public Name snakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
@@ -74,15 +75,16 @@ public class Name {
   
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public @Nullable Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  @JsonProperty("snake_case")
+  public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-  public Name property(String property) {
+  public Name property(@Nullable String property) {
     this.property = property;
     return this;
   }
@@ -94,15 +96,16 @@ public class Name {
   
   @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property")
-  public String getProperty() {
+  public @Nullable String getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  @JsonProperty("property")
+  public void setProperty(@Nullable String property) {
     this.property = property;
   }
 
-  public Name _123number(Integer _123number) {
+  public Name _123number(@Nullable Integer _123number) {
     this._123number = _123number;
     return this;
   }
@@ -114,11 +117,12 @@ public class Name {
   
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123Number")
-  public Integer get123number() {
+  public @Nullable Integer get123number() {
     return _123number;
   }
 
-  public void set123number(Integer _123number) {
+  @JsonProperty("123Number")
+  public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;
   }
 
@@ -158,7 +162,7 @@ public class Name {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

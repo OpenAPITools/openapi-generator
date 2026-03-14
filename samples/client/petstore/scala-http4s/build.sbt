@@ -1,4 +1,4 @@
-scalaVersion := "3.3.3"
+scalaVersion := "3.6.4"
 
 version := "1.0.0"
 name := "scala-http4s-client"

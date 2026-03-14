@@ -28,11 +28,11 @@ import org.hibernate.validator.constraints.*;
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  @javax.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   protected String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
@@ -87,6 +87,7 @@ public class Animal {
   public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -41,7 +41,7 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Claims,
                       GetUserByNameResponse,
                       UpdateUserResponse,
                      };
-use clap::{App, Arg};
+use clap::{Command, Arg};
 
 // NOTE: Set environment variable RUST_LOG to the name of the executable (or "cargo run") to activate console logging for all loglevels.
 //     See https://docs.rs/env_logger/latest/env_logger/  for more details
@@ -64,10 +64,10 @@ use client_auth::build_token;
 fn main() {
     env_logger::init();
 
-    let matches = App::new("client")
-        .arg(Arg::with_name("operation")
+    let matches = Command::new("client")
+        .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .possible_values(&[
+            .value_parser(Vec::<&str>::from([
                 "Call123example",
                 "FakeOuterBooleanSerialize",
                 "FakeOuterCompositeSerialize",
@@ -77,7 +77,6 @@ fn main() {
                 "TestEndpointParameters",
                 "TestEnumParameters",
                 "TestJsonFormData",
-                "HyphenParam",
                 "FindPetsByStatus",
                 "FindPetsByTags",
                 "DeletePet",
@@ -85,28 +84,22 @@ fn main() {
                 "UpdatePetWithForm",
                 "UploadFile",
                 "GetInventory",
-                "DeleteOrder",
                 "GetOrderById",
                 "CreateUsersWithArrayInput",
                 "CreateUsersWithListInput",
-                "LoginUser",
                 "LogoutUser",
-                "DeleteUser",
-                "GetUserByName",
-            ])
+            ]))
             .required(true)
             .index(1))
-        .arg(Arg::with_name("https")
+        .arg(Arg::new("https")
             .long("https")
             .help("Whether to use HTTPS or not"))
-        .arg(Arg::with_name("host")
+        .arg(Arg::new("host")
             .long("host")
-            .takes_value(true)
             .default_value("petstore.swagger.io")
             .help("Hostname to contact"))
-        .arg(Arg::with_name("port")
+        .arg(Arg::new("port")
             .long("port")
-            .takes_value(true)
             .default_value("80")
             .help("Port to contact"))
         .get_matches();
@@ -133,37 +126,53 @@ fn main() {
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
-        Some(AuthData::Bearer(swagger::auth::Bearer { token: auth_token}))
+        Some(AuthData::Bearer(auth_token))
     } else {
         // No Bearer-token available, so return None
         None
     };
 
-    let is_https = matches.is_present("https");
+    let is_https = matches.contains_id("https");
     let base_url = format!("{}://{}:{}",
         if is_https { "https" } else { "http" },
-        matches.value_of("host").unwrap(),
-        matches.value_of("port").unwrap());
+        matches.get_one::<String>("host").unwrap(),
+        matches.get_one::<u16>("port").unwrap());
 
     let context: ClientContext =
         swagger::make_context!(ContextBuilder, EmptyContext, auth_data, XSpanIdString::default());
 
-    let mut client : Box<dyn ApiNoContext<ClientContext>> = if matches.is_present("https") {
-        // Using Simple HTTPS
-        let client = Box::new(Client::try_new_https(&base_url)
-            .expect("Failed to create HTTPS client"));
-        Box::new(client.with_context(context))
-    } else {
-        // Using HTTP
-        let client = Box::new(Client::try_new_http(
-            &base_url)
-            .expect("Failed to create HTTP client"));
-        Box::new(client.with_context(context))
+    let mut client : Box<dyn ApiNoContext<ClientContext>> = {
+        #[cfg(feature = "client-tls")]
+        {
+            if is_https {
+                // Using HTTPS with native-tls
+                let client = Box::new(Client::try_new_https(&base_url)
+                    .expect("Failed to create HTTPS client"));
+                Box::new(client.with_context(context))
+            } else {
+                // Using HTTP
+                let client = Box::new(Client::try_new_http(&base_url)
+                    .expect("Failed to create HTTP client"));
+                Box::new(client.with_context(context))
+            }
+        }
+
+        #[cfg(not(feature = "client-tls"))]
+        {
+            if is_https {
+                panic!("HTTPS requested but TLS support not enabled. \
+                        Enable the 'client-tls' feature to use HTTPS.");
+            }
+            // Using HTTP only
+            let client = Box::new(Client::try_new_http(&base_url)
+                .expect("Failed to create HTTP client"));
+            Box::new(client.with_context(context))
+        }
     };
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.value_of("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         /* Disabled because there's no example.
         Some("TestSpecialTags") => {
             let result = rt.block_on(client.test_special_tags(
@@ -209,7 +218,7 @@ fn main() {
         /* Disabled because there's no example.
         Some("TestBodyWithQueryParams") => {
             let result = rt.block_on(client.test_body_with_query_params(
-                  "query_example".to_string(),
+                  ???,
                   ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
@@ -245,12 +254,12 @@ fn main() {
         Some("TestEnumParameters") => {
             let result = rt.block_on(client.test_enum_parameters(
                   Some(&Vec::new()),
-                  None,
+                  Some(models::TestEnumParametersEnumHeaderStringParameter::Abc),
                   Some(&Vec::new()),
-                  None,
-                  None,
-                  None,
-                  None
+                  Some(models::TestEnumParametersEnumHeaderStringParameter::Abc),
+                  Some(models::TestEnumParametersEnumQueryIntegerParameter::Variant1),
+                  Some(models::TestEnumParametersEnumQueryDoubleParameter::Variant11),
+                  Some(models::TestEnumParametersRequestEnumFormString::Abc)
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -269,12 +278,14 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
         Some("HyphenParam") => {
             let result = rt.block_on(client.hyphen_param(
-                  "hyphen_param_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         /* Disabled because there's no example.
         Some("TestClassname") => {
             let result = rt.block_on(client.test_classname(
@@ -313,20 +324,20 @@ fn main() {
         */
         Some("DeletePet") => {
             let result = rt.block_on(client.delete_pet(
-                  789,
-                  Some("api_key_example".to_string())
+                  0,
+                  None
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("GetPetById") => {
             let result = rt.block_on(client.get_pet_by_id(
-                  789
+                  0
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("UpdatePetWithForm") => {
             let result = rt.block_on(client.update_pet_with_form(
-                  789,
+                  0,
                   Some("name_example".to_string()),
                   Some("status_example".to_string())
             ));
@@ -334,7 +345,7 @@ fn main() {
         },
         Some("UploadFile") => {
             let result = rt.block_on(client.upload_file(
-                  789,
+                  0,
                   Some("additional_metadata_example".to_string()),
                   Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
             ));
@@ -353,15 +364,17 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        /* Disabled because there's no example.
         Some("DeleteOrder") => {
             let result = rt.block_on(client.delete_order(
-                  "order_id_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         Some("GetOrderById") => {
             let result = rt.block_on(client.get_order_by_id(
-                  789
+                  0
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -385,34 +398,40 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
         Some("LoginUser") => {
             let result = rt.block_on(client.login_user(
-                  "username_example".to_string(),
-                  "password_example".to_string()
+                  ???,
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         Some("LogoutUser") => {
             let result = rt.block_on(client.logout_user(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
         Some("DeleteUser") => {
             let result = rt.block_on(client.delete_user(
-                  "username_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
+        /* Disabled because there's no example.
         Some("GetUserByName") => {
             let result = rt.block_on(client.get_user_by_name(
-                  "username_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         /* Disabled because there's no example.
         Some("UpdateUser") => {
             let result = rt.block_on(client.update_user(
-                  "username_example".to_string(),
+                  ???,
                   ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());

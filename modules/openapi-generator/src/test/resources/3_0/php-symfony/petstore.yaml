@@ -283,6 +283,74 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
+  '/pet/{petId}/downloadImage':
+    get:
+      tags:
+        - pet
+      summary: downloads an image
+      description: response may be an image
+      operationId: downloadFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to download an image from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+  '/pet/{petId}/age':
+    get:
+      tags:
+        - pet
+      summary: Get the age of the pet
+      description: response may be an int
+      operationId: petAge
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: integer
+                format: int64
+  '/pet/{petId}/available-for-sale':
+    get:
+      tags:
+        - pet
+      summary: Whether the pet can currently be bought
+      description: response may be a boolean
+      operationId: petAvailableForSale
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            text/plain:
+              schema:
+                type: boolean
   /store/inventory:
     get:
       tags:

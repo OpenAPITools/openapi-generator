@@ -19,6 +19,7 @@ class {{classname}}(baseUrl: String) {
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
+
 {{/javadocRenderer}}
   def {{operationId}}({{>methodParameters}}): ApiRequest[{{>operationReturnType}}] =
     ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, baseUrl, "{{{path}}}", {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})

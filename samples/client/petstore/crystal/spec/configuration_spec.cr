@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Petstore::Configuration do
+Spectator.describe Petstore::Configuration do
   describe "#initialize" do
     context "with block" do
       it "works" do
@@ -8,7 +8,7 @@ describe Petstore::Configuration do
           config.username = "xxx"
         end
 
-        config.username.should eq "xxx"
+        expect(config.username).to eq "xxx"
       end
     end
   end
@@ -20,7 +20,7 @@ describe Petstore::Configuration do
         config.username = "xxx"
       end
 
-      config.username.should eq "xxx"
+      expect(config.username).to eq "xxx"
     end
   end
 end

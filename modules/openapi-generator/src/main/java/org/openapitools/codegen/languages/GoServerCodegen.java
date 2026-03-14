@@ -410,6 +410,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     private void addConditionalImportInformation(OperationsMap operations) {
         boolean hasPathParams = false;
         boolean hasBodyParams = false;
+        boolean hasOptionalBodyParams = false;
 
         for (CodegenOperation op : operations.getOperations().getOperation()) {
             if (op.getHasPathParams()) {
@@ -418,10 +419,14 @@ public class GoServerCodegen extends AbstractGoCodegen {
             if (op.getHasBodyParam()) {
                 hasBodyParams = true;
             }
+            if (op.getHasOptionalBodyParam()) {
+                hasOptionalBodyParams = true;
+            }
         }
 
         additionalProperties.put("hasPathParams", hasPathParams);
         additionalProperties.put("hasBodyParams", hasBodyParams);
+        additionalProperties.put("hasOptionalBodyParams", hasOptionalBodyParams);
     }
 
 

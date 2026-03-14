@@ -51,56 +51,56 @@ public:
 
 	/*! \brief Set 
 	 */
-	void setId(long  id);
+	void setId(long id);
 	/*! \brief Get 
 	 */
 	std::string getUsername();
 
 	/*! \brief Set 
 	 */
-	void setUsername(std::string  username);
+	void setUsername(std::string username);
 	/*! \brief Get 
 	 */
 	std::string getFirstName();
 
 	/*! \brief Set 
 	 */
-	void setFirstName(std::string  firstName);
+	void setFirstName(std::string firstName);
 	/*! \brief Get 
 	 */
 	std::string getLastName();
 
 	/*! \brief Set 
 	 */
-	void setLastName(std::string  lastName);
+	void setLastName(std::string lastName);
 	/*! \brief Get 
 	 */
 	std::string getEmail();
 
 	/*! \brief Set 
 	 */
-	void setEmail(std::string  email);
+	void setEmail(std::string email);
 	/*! \brief Get 
 	 */
 	std::string getPassword();
 
 	/*! \brief Set 
 	 */
-	void setPassword(std::string  password);
+	void setPassword(std::string password);
 	/*! \brief Get 
 	 */
 	std::string getPhone();
 
 	/*! \brief Set 
 	 */
-	void setPhone(std::string  phone);
+	void setPhone(std::string phone);
 	/*! \brief Get User Status
 	 */
 	int getUserStatus();
 
 	/*! \brief Set User Status
 	 */
-	void setUserStatus(int  userStatus);
+	void setUserStatus(int userStatus);
 
 
     private:

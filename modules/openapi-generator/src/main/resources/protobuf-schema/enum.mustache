@@ -1,7 +1,26 @@
-enum {{classname}} {
-  {{#allowableValues}}
-  {{#enumVars}}
-  {{{name}}} = {{{protobuf-enum-index}}};
-  {{/enumVars}}
-  {{/allowableValues}}
+{{!
+  Generates an extracted enum wrapped in a message container.
+  
+  This wrapper pattern is used to prevent enum value name collisions
+  in the Protocol Buffers global enum namespace. Multiple enums can
+  have values with the same name when wrapped in separate messages.
+  
+  Generated format:
+    message EnumName {
+      enum Enum {
+        VALUE1 = 0;
+        VALUE2 = 1;
+      }
+    }
+  
+  Usage in models: EnumName.Enum field_name = 1;
+}}
+message {{classname}} {
+  enum Enum {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{protobuf-enum-index}}};
+    {{/enumVars}}
+    {{/allowableValues}}
+  }
 }

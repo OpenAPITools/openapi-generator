@@ -20,6 +20,19 @@ pub struct TestsAllOfWithOneModelGetParams {
     pub person: models::Person
 }
 
+/// struct for passing parameters to the method [`tests_inline_enum_boxing_get`]
+#[derive(Clone, Debug)]
+pub struct TestsInlineEnumBoxingGetParams {
+    /// Filter by status (inline enum)
+    pub status: Option<String>
+}
+
+/// struct for passing parameters to the method [`tests_inline_enum_boxing_post`]
+#[derive(Clone, Debug)]
+pub struct TestsInlineEnumBoxingPostParams {
+    pub model_with_inline_enum: models::ModelWithInlineEnum
+}
+
 
 /// struct for typed successes of method [`tests_all_of_with_one_model_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -29,19 +42,27 @@ pub enum TestsAllOfWithOneModelGetSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method [`tests_discriminator_duplicate_enums_get`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum TestsDiscriminatorDuplicateEnumsGetSuccess {
-    Status200(models::TestsDiscriminatorDuplicateEnumsGet200Response),
-    UnknownValue(serde_json::Value),
-}
-
 /// struct for typed successes of method [`tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsFileResponseGetSuccess {
     Status200(std::path::PathBuf),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method [`tests_inline_enum_boxing_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingGetSuccess {
+    Status200(Vec<models::ModelWithInlineEnum>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method [`tests_inline_enum_boxing_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingPostSuccess {
+    Status200(models::ModelWithInlineEnum),
     UnknownValue(serde_json::Value),
 }
 
@@ -60,17 +81,24 @@ pub enum TestsAllOfWithOneModelGetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`tests_discriminator_duplicate_enums_get`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum TestsDiscriminatorDuplicateEnumsGetError {
-    UnknownValue(serde_json::Value),
-}
-
 /// struct for typed errors of method [`tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsFileResponseGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`tests_inline_enum_boxing_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`tests_inline_enum_boxing_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingPostError {
     UnknownValue(serde_json::Value),
 }
 
@@ -108,31 +136,6 @@ pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Conf
     }
 }
 
-pub async fn tests_discriminator_duplicate_enums_get(configuration: &configuration::Configuration) -> Result<ResponseContent<TestsDiscriminatorDuplicateEnumsGetSuccess>, Error<TestsDiscriminatorDuplicateEnumsGetError>> {
-
-    let uri_str = format!("{}/tests/discriminatorDuplicateEnums", configuration.base_path);
-    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
-        let entity: Option<TestsDiscriminatorDuplicateEnumsGetSuccess> = serde_json::from_str(&content).ok();
-        Ok(ResponseContent { status, content, entity })
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<TestsDiscriminatorDuplicateEnumsGetError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
 pub async fn tests_file_response_get(configuration: &configuration::Configuration) -> Result<reqwest::Response, Error<TestsFileResponseGetError>> {
 
     let uri_str = format!("{}/tests/fileResponse", configuration.base_path);
@@ -152,6 +155,62 @@ pub async fn tests_file_response_get(configuration: &configuration::Configuratio
     } else {
         let content = resp.text().await?;
         let entity: Option<TestsFileResponseGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Tests inline enum query parameters
+pub async fn tests_inline_enum_boxing_get(configuration: &configuration::Configuration, params: TestsInlineEnumBoxingGetParams) -> Result<ResponseContent<TestsInlineEnumBoxingGetSuccess>, Error<TestsInlineEnumBoxingGetError>> {
+
+    let uri_str = format!("{}/tests/inlineEnumBoxing", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref param_value) = params.status {
+        req_builder = req_builder.query(&[("status", &param_value.to_string())]);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<TestsInlineEnumBoxingGetSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TestsInlineEnumBoxingGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Regression test to ensure inline enum fields are not wrapped in Box::new() in model constructors
+pub async fn tests_inline_enum_boxing_post(configuration: &configuration::Configuration, params: TestsInlineEnumBoxingPostParams) -> Result<ResponseContent<TestsInlineEnumBoxingPostSuccess>, Error<TestsInlineEnumBoxingPostError>> {
+
+    let uri_str = format!("{}/tests/inlineEnumBoxing", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    req_builder = req_builder.json(&params.model_with_inline_enum);
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<TestsInlineEnumBoxingPostSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TestsInlineEnumBoxingPostError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

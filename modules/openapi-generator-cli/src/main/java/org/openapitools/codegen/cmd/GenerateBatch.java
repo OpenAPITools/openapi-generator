@@ -29,6 +29,7 @@ import io.airlift.airline.Arguments;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
@@ -248,7 +249,7 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
             Path filesMeta = Paths.get(outDir.toAbsolutePath().toString(), ".openapi-generator", "FILES");
             if (filesMeta.toFile().exists()) {
                 FileUtils.readLines(filesMeta.toFile(), StandardCharsets.UTF_8).forEach(relativePath -> {
-                    if (!StringUtils.startsWith(relativePath, ".")) {
+                    if (!Strings.CS.startsWith(relativePath, ".")) {
                         Path file = outDir.resolve(relativePath).toAbsolutePath();
                         // hack: disallow directory traversal outside of output directory. we don't want to delete wrong files.
                         if (file.toString().startsWith(outDir.toAbsolutePath().toString())) {

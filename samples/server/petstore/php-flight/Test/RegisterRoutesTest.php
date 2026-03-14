@@ -29,7 +29,7 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
             }
         };
         \OpenAPIServer\RegisterRoutes::registerRoutes($handler);
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
     public function testRegisterRoutesAbstractStoreApi(): void
     {
@@ -39,7 +39,7 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
             }
         };
         \OpenAPIServer\RegisterRoutes::registerRoutes($handler);
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
     public function testRegisterRoutesAbstractUserApi(): void
     {
@@ -49,12 +49,12 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
             }
         };
         \OpenAPIServer\RegisterRoutes::registerRoutes($handler);
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
     public function testParseParamsEnumFindPetsByStatusStatusParameterInner(): void
     {
         $value = 'available';
-        $this->assertEquals(
+        self::assertEquals(
             parseParam($value, '\\OpenAPIServer\\Model\\FindPetsByStatusStatusParameterInner'),
             \OpenAPIServer\Model\FindPetsByStatusStatusParameterInner::AVAILABLE
         );
@@ -62,7 +62,7 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
     public function testParseParamsEnumOrderStatus(): void
     {
         $value = 'placed';
-        $this->assertEquals(
+        self::assertEquals(
             parseParam($value, '\\OpenAPIServer\\Model\\OrderStatus'),
             \OpenAPIServer\Model\OrderStatus::PLACED
         );
@@ -70,7 +70,7 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
     public function testParseParamsEnumPetStatus(): void
     {
         $value = 'available';
-        $this->assertEquals(
+        self::assertEquals(
             parseParam($value, '\\OpenAPIServer\\Model\\PetStatus'),
             \OpenAPIServer\Model\PetStatus::AVAILABLE
         );

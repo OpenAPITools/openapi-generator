@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  * NumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NumberOnly {
 
   private Optional<BigDecimal> justNumber = Optional.empty();
@@ -42,6 +42,7 @@ public class NumberOnly {
     return justNumber;
   }
 
+  @JsonProperty("JustNumber")
   public void setJustNumber(Optional<BigDecimal> justNumber) {
     this.justNumber = justNumber;
   }

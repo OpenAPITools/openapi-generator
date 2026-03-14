@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class NumberOnly: Content, Hashable {
+public struct NumberOnly: Sendable, Content, Hashable {
 
     public var justNumber: Double?
 
@@ -25,16 +25,6 @@ public final class NumberOnly: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
-    }
-
-    public static func == (lhs: NumberOnly, rhs: NumberOnly) -> Bool {
-        lhs.justNumber == rhs.justNumber
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(justNumber?.hashValue)
-        
     }
 }
 

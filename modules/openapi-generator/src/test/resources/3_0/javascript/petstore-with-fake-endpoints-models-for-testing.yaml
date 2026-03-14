@@ -1997,6 +1997,57 @@ components:
       required:
         - className
         - size
+    Bird:
+      oneOf:
+        - $ref: '#/components/schemas/Parrot'
+        - $ref: '#/components/schemas/Finch'
+      discriminator:
+        propertyName: birdType
+    Parrot:
+      type: object
+      properties:
+        birdType:
+          type: string
+        speech:
+          type: string
+      required:
+        - birdType
+    Finch:
+      type: object
+      properties:
+        birdType:
+          type: string
+        beakSize:
+          type: integer
+      required:
+        - birdType
+    Fish:
+      oneOf:
+        - $ref: '#/components/schemas/Salmon'
+        - $ref: '#/components/schemas/Tuna'
+      discriminator:
+        propertyName: fishType
+        mapping:
+          atlantic_salmon: '#/components/schemas/Salmon'
+          yellowfin_tuna: '#/components/schemas/Tuna'
+    Salmon:
+      type: object
+      properties:
+        fishType:
+          type: string
+        length:
+          type: number
+      required:
+        - fishType
+    Tuna:
+      type: object
+      properties:
+        fishType:
+          type: string
+        weight:
+          type: number
+      required:
+        - fishType
     NestedOneOf:
       type: object
       properties:

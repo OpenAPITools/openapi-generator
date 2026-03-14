@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Test Empty Model
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Response:
+      type: "object"
+      properties:
+        result_or_error:
+          nullable: true
+          discriminator:
+            propertyName: "_type"
+            mapping:
+              result: "#/components/schemas/EmptyModel"
+              error: "#/components/schemas/Error"
+          oneOf:
+            - $ref: "#/components/schemas/EmptyModel"
+            - $ref: "#/components/schemas/Error"
+    EmptyModel:
+      type: object
+      properties:
+        _type:
+          required:
+            - "_type"
+          type: string
+          default: "result"
+      additionalProperties: false
+    Error:
+      type: object
+      required:
+        - "code"
+      properties:
+        code:
+          type: integer
+        _type:
+          required:
+            - "_type"
+          type: string
+          default: "error"
+      additionalProperties: false

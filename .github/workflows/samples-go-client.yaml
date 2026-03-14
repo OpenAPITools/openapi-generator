@@ -1,0 +1,45 @@
+name: Samples Go Clients
+
+on:
+  push:
+    paths:
+      - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
+      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
+      - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
+      - samples/client/others/go/allof_multiple_ref_and_discriminator/**
+      - samples/client/others/go/oneof-anyof-required/**
+      - samples/client/others/go/oneof-discriminator-lookup/**
+  pull_request:
+    paths:
+      - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
+      - 'samples/openapi3/client/petstore/go-petstore-withXml/**'
+      - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/**
+      - samples/client/others/go/allof_multiple_ref_and_discriminator/**
+      - samples/client/others/go/oneof-anyof-required/**
+      - samples/client/others/go/oneof-discriminator-lookup/**
+jobs:
+  build:
+    name: Build Go
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
+          - 'samples/openapi3/client/petstore/go-petstore-withXml/'
+          - samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/
+          - samples/client/others/go/allof_multiple_ref_and_discriminator/
+          - samples/client/others/go/oneof-anyof-required/
+          - samples/client/others/go/oneof-discriminator-lookup/
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+      - run: go version
+      - name: Install Dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          go mod tidy
+      - name: Run test
+        working-directory: ${{ matrix.sample }}
+        run: go test -mod=mod -v
+

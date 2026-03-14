@@ -6,6 +6,7 @@ additionalProperties:
   shardVersion: 1.0.0
   moduleName: Petstore
   shardName: petstore
+  #paramsEncoder: Crest::EnumeratedFlatParamsEncoder
 strictSpecBehavior: false
 modelNameMappings:
   PropertyNameMapping: AnotherPropertyNameMapping

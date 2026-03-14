@@ -1,6 +1,7 @@
 generatorName: go
 outputDir: samples/client/others/go/oneof-discriminator-lookup
 inputSpec: modules/openapi-generator/src/test/resources/3_0/go/spec-with-oneof-discriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/go
 additionalProperties:
   useOneOfDiscriminatorLookup: "true"
   hideGenerationTimestamp: "true"

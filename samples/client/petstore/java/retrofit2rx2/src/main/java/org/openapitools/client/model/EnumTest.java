@@ -26,7 +26,7 @@ import org.openapitools.client.model.OuterEnum;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -352,6 +352,7 @@ public class EnumTest {
   public void setOuterEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
+
 
   @Override
   public boolean equals(Object o) {

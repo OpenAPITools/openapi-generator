@@ -24,12 +24,24 @@ import org.openapitools.server.models.Tag
  * @param status pet status in the store
  */
 data class Pet(
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("name")
     val name: kotlin.String,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("id")
     val id: kotlin.Long? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("category")
     val category: Category? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("status")
     val status: Pet.Status? = null
 )
 {

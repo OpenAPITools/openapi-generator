@@ -15,14 +15,14 @@ export enum {{classname}}{{enumName}} {
 };
 {{/stringEnums}}
 {{^stringEnums}}
-    export type {{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
     export const {{enumName}} = {
     {{#allowableValues}}
     {{#enumVars}}
-        {{name}}: {{{value}}} as {{enumName}}{{^-last}},{{/-last}}
+        {{name}}: {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
     {{/allowableValues}}
-    };
+    } as const;
+    export type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
 {{/stringEnums}}
     {{/isEnum}}
 {{/vars}}

@@ -3,8 +3,7 @@
 // TODO: evaluate if we can easily get rid of this library
 import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URL, URLSearchParams } from 'url';
-import * as http from 'http';
-import * as https from 'https';
+import { type Dispatcher } from 'undici';
 {{/node}}
 {{/platforms}}
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
@@ -25,6 +24,22 @@ export * from './jquery{{importFileExtension}}';
 /**
  * Represents an HTTP method.
  */
+{{#useErasableSyntax}}
+export const HttpMethod = {
+    GET: "GET",
+    HEAD: "HEAD",
+    POST: "POST",
+    PUT: "PUT",
+    DELETE: "DELETE",
+    CONNECT: "CONNECT",
+    OPTIONS: "OPTIONS",
+    TRACE: "TRACE",
+    PATCH: "PATCH"
+} as const;
+
+export type HttpMethod = typeof HttpMethod[keyof typeof HttpMethod];
+{{/useErasableSyntax}}
+{{^useErasableSyntax}}
 export enum HttpMethod {
     GET = "GET",
     HEAD = "HEAD",
@@ -36,6 +51,7 @@ export enum HttpMethod {
     TRACE = "TRACE",
     PATCH = "PATCH"
 }
+{{/useErasableSyntax}}
 
 /**
  * Represents an HTTP file which will be transferred from or to a server.
@@ -86,9 +102,10 @@ export class RequestContext {
     private headers: Headers = {};
     private body: RequestBody = undefined;
     private url: URL;
+    private signal: AbortSignal | undefined = undefined;
     {{#platforms}}
     {{#node}}
-    private agent: http.Agent | https.Agent | undefined = undefined;
+    private dispatcher: Dispatcher | undefined = undefined;
     {{/node}}
     {{/platforms}}
 
@@ -165,17 +182,32 @@ export class RequestContext {
     }
 
     public setHeaderParam(key: string, value: string): void  {
+        // Delete any existing headers with case-insensitive matching keys
+        const lowerKey = key.toLowerCase();
+        for (const existingKey in this.headers) {
+            if (existingKey.toLowerCase() === lowerKey) {
+                delete this.headers[existingKey];
+            }
+        }
         this.headers[key] = value;
     }
-    {{#platforms}}
-    {{#node}}
 
-    public setAgent(agent: http.Agent | https.Agent) {
-        this.agent = agent;
+    public setSignal(signal: AbortSignal): void {
+        this.signal = signal;
     }
 
-    public getAgent(): http.Agent | https.Agent | undefined {
-        return this.agent;
+    public getSignal(): AbortSignal | undefined {
+        return this.signal;
+    }
+
+    {{#platforms}}
+    {{#node}}
+    public setDispatcher(dispatcher: Dispatcher): void {
+        this.dispatcher = dispatcher;
+    }
+
+    public getDispatcher(): Dispatcher | undefined {
+        return this.dispatcher;
     }
     {{/node}}
     {{/platforms}}
@@ -184,6 +216,11 @@ export class RequestContext {
 export interface ResponseBody {
     text(): Promise<string>;
     binary(): Promise<{{{fileContentDataType}}}>;
+    {{#platforms}}
+    {{#node}}
+    stream(): ReadableStream<Uint8Array> | null;
+    {{/node}}
+    {{/platforms}}
 }
 
 /**
@@ -221,6 +258,14 @@ export class SelfDecodingBody implements ResponseBody {
         {{/deno}}
         {{/platforms}}
     }
+
+    {{#platforms}}
+    {{#node}}
+    stream(): ReadableStream<Uint8Array> | null {
+        return null;
+    }
+    {{/node}}
+    {{/platforms}}
 }
 
 export class ResponseContext {

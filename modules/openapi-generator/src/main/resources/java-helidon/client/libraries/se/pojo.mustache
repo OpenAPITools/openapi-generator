@@ -21,6 +21,7 @@ import {{rootJavaEEPackage}}.json.bind.annotation.JsonbCreator;
  **/
 {{/description}}
 {{>additionalModelTypeAnnotations}}
+
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -34,7 +35,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   **/
 {{/description}}
 {{#vendorExtensions.x-field-extra-annotation}}
-{{{vendorExtensions.x-field-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};

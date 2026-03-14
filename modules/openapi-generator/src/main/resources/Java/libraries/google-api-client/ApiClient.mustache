@@ -24,15 +24,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 {{>generatedAnnotation}}
-public class ApiClient {
-    private final String basePath;
-    private final HttpRequestFactory httpRequestFactory;
-    private final ObjectMapper objectMapper;
 
-    private static final String defaultBasePath = "{{basePath}}";
+public class ApiClient {
+    protected final String basePath;
+    protected final HttpRequestFactory httpRequestFactory;
+    protected final ObjectMapper objectMapper;
+
+    protected static final String defaultBasePath = "{{basePath}}";
 
     // A reasonable default object mapper. Client can pass in a chosen ObjectMapper anyway, this is just for reasonable defaults.
-    private static ObjectMapper createDefaultObjectMapper() {
+    protected static ObjectMapper createDefaultObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper()
             {{#failOnUnknownProperties}}
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -84,7 +85,7 @@ public class ApiClient {
 
     public class JacksonJsonHttpContent extends AbstractHttpContent {
         /* A POJO that can be serialized with a com.fasterxml Jackson ObjectMapper */
-        private final Object data;
+        protected final Object data;
 
         public JacksonJsonHttpContent(Object data) {
             super(Json.MEDIA_TYPE);

@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
     name: "PetstoreClient",
     platforms: [
-        .iOS(.v12),
-        .macOS(.v10_13),
-        .tvOS(.v12),
-        .watchOS(.v4),
+        .iOS(.v13),
+        .macOS(.v10_15),
+        .tvOS(.v13),
+        .watchOS(.v6),
     ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
@@ -19,8 +19,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        // TODO: Alamofire versions 5.10.0 and above are not currently supported. If you need a newer version, please consider submitting a Pull Request with the required changes.
-        .package(url: "https://github.com/Alamofire/Alamofire", exact: "5.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.10.2")),
         .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "8.1.2")),
         .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.8.0")),
     ],

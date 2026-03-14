@@ -1,0 +1,50 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+
+#include "oatpp/web/client/ApiClient.hpp"
+#include "oatpp/web/protocol/http/outgoing/MultipartBody.hpp"
+#include "oatpp/core/macro/codegen.hpp"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+#include OATPP_CODEGEN_BEGIN(ApiClient) ///< Begin code-gen section
+
+namespace {{apiNamespace}}
+{
+
+class {{classname}} : public oatpp::web::client::ApiClient {
+public:
+
+  API_CLIENT_INIT({{classname}})
+
+  {{#operation}}
+  /// <summary>
+  /// {{summary}}
+  /// </summary>
+  /// <remarks>
+  /// {{notes}}
+  /// </remarks>
+  {{#allParams}}
+  {{#isPathParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isPathParam}}{{#isQueryParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isQueryParam}}{{#isBodyParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isBodyParam}}{{#isHeaderParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isHeaderParam}}{{#isFormParam}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/isFormParam}}
+  {{/allParams}}
+  API_CALL("{{httpMethod}}", "{{{vendorExtensions.x-codegen-oatpp-path}}}", {{operationIdSnakeCase}}{{#allParams}}{{#isPathParam}}, PATH({{#isModel}}{{modelNamespace}}::{{/isModel}}{{&dataType}}, {{paramName}}){{/isPathParam}}{{#isQueryParam}}, QUERY({{#isModel}}{{modelNamespace}}::{{/isModel}}{{&dataType}}, {{paramName}}){{/isQueryParam}}{{#isBodyParam}}, BODY_DTO({{#isModel}}oatpp::Object<{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}>{{/isModel}}{{^isModel}}{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}{{/isModel}}, {{paramName}}){{/isBodyParam}}{{#isHeaderParam}}, HEADER({{{dataType}}}, {{paramName}}, "{{paramName}}"){{/isHeaderParam}}{{/allParams}}{{#hasFormParams}}, BODY(std::shared_ptr<oatpp::web::protocol::http::outgoing::MultipartBody>, formData){{/hasFormParams}})
+  {{/operation}}
+};
+
+#include OATPP_CODEGEN_END(ApiClient) ///< End code-gen section
+
+} // namespace {{apiNamespace}}
+
+#endif /* {{classname}}_H_ */
+
+{{/operations}}

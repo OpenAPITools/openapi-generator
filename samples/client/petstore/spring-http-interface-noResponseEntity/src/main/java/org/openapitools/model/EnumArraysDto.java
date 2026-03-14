@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("EnumArrays")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class EnumArraysDto {
 
   /**
@@ -34,7 +34,7 @@ public class EnumArraysDto {
     
     DOLLAR("$");
 
-    private String value;
+    private final String value;
 
     JustSymbolEnum(String value) {
       this.value = value;
@@ -71,7 +71,7 @@ public class EnumArraysDto {
     
     CRAB("crab");
 
-    private String value;
+    private final String value;
 
     ArrayEnumEnum(String value) {
       this.value = value;
@@ -101,7 +101,7 @@ public class EnumArraysDto {
   
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  public EnumArraysDto justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArraysDto justSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;
   }
@@ -112,11 +112,12 @@ public class EnumArraysDto {
    */
   
   @JsonProperty("just_symbol")
-  public JustSymbolEnum getJustSymbol() {
+  public @Nullable JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
 
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  @JsonProperty("just_symbol")
+  public void setJustSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
@@ -143,6 +144,7 @@ public class EnumArraysDto {
     return arrayEnum;
   }
 
+  @JsonProperty("array_enum")
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
@@ -179,7 +181,7 @@ public class EnumArraysDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

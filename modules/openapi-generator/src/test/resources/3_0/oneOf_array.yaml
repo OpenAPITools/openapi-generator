@@ -15,6 +15,7 @@ paths:
                   - type: array
                     items:
                       "$ref": "#/components/schemas/OneOf1"
+                  - "$ref": "#/components/schemas/OneOf1"
 components:
   schemas:
     OneOf1:

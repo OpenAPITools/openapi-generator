@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class PizzaSpeziale extends Pizza {
 
   private @Nullable String toppings;
@@ -41,7 +41,7 @@ public class PizzaSpeziale extends Pizza {
     super(atType);
   }
 
-  public PizzaSpeziale toppings(String toppings) {
+  public PizzaSpeziale toppings(@Nullable String toppings) {
     this.toppings = toppings;
     return this;
   }
@@ -53,11 +53,12 @@ public class PizzaSpeziale extends Pizza {
   
   @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("toppings")
-  public String getToppings() {
+  public @Nullable String getToppings() {
     return toppings;
   }
 
-  public void setToppings(String toppings) {
+  @JsonProperty("toppings")
+  public void setToppings(@Nullable String toppings) {
     this.toppings = toppings;
   }
 
@@ -123,7 +124,7 @@ public class PizzaSpeziale extends Pizza {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

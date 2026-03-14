@@ -19,7 +19,7 @@ open class PetAPI {
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func addPetRaw(body: Pet, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func addPetRaw(body: Pet, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -27,8 +27,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             try localVariableRequest.content.encode(body, using: apiConfiguration.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
@@ -52,8 +52,8 @@ open class PetAPI {
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: `EventLoopFuture` of `AddPet` 
      */
-    open class func addPet(body: Pet, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<AddPet> {
-        return addPetRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> AddPet in
+    open class func addPet(body: Pet, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<AddPet> {
+        return addPetRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> AddPet in
             switch response.status.code {
             case 200:
                 return .http200(raw: response)
@@ -75,7 +75,7 @@ open class PetAPI {
      - parameter apiKey: (header)  (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func deletePetRaw(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func deletePetRaw(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -86,8 +86,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.DELETE, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             localVariableRequest.headers.add(name: "api_key", value: apiKey?.description ?? "")
             
@@ -113,8 +113,8 @@ open class PetAPI {
      - parameter apiKey: (header)  (optional)
      - returns: `EventLoopFuture` of `DeletePet` 
      */
-    open class func deletePet(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeletePet> {
-        return deletePetRaw(petId: petId, apiKey: apiKey, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> DeletePet in
+    open class func deletePet(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeletePet> {
+        return deletePetRaw(petId: petId, apiKey: apiKey, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> DeletePet in
             switch response.status.code {
             case 200:
                 return .http200(raw: response)
@@ -145,7 +145,7 @@ open class PetAPI {
      - parameter status: (query) Status values that need to be considered for filter 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func findPetsByStatusRaw(status: [Status_findPetsByStatus], headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func findPetsByStatusRaw(status: [Status_findPetsByStatus], headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet/findByStatus"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -153,8 +153,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             struct QueryParams: Content {
                 var status: [Status_findPetsByStatus]
@@ -185,8 +185,8 @@ open class PetAPI {
      - parameter status: (query) Status values that need to be considered for filter 
      - returns: `EventLoopFuture` of `FindPetsByStatus` 
      */
-    open class func findPetsByStatus(status: [Status_findPetsByStatus], headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus> {
-        return findPetsByStatusRaw(status: status, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> FindPetsByStatus in
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus> {
+        return findPetsByStatusRaw(status: status, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> FindPetsByStatus in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode([Pet].self, using: apiConfiguration.contentConfiguration.requireDecoder(for: [Pet].defaultContentType)), raw: response)
@@ -209,7 +209,7 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    open class func findPetsByTagsRaw(tags: Set<String>, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func findPetsByTagsRaw(tags: Set<String>, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet/findByTags"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -217,8 +217,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             struct QueryParams: Content {
                 var tags: Set<String>
@@ -250,8 +250,8 @@ open class PetAPI {
      - returns: `EventLoopFuture` of `FindPetsByTags` 
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    open class func findPetsByTags(tags: Set<String>, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByTags> {
-        return findPetsByTagsRaw(tags: tags, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> FindPetsByTags in
+    open class func findPetsByTags(tags: Set<String>, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByTags> {
+        return findPetsByTagsRaw(tags: tags, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> FindPetsByTags in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(Set<Pet>.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: Set<Pet>.defaultContentType)), raw: response)
@@ -273,7 +273,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to return 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func getPetByIdRaw(petId: Int64, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func getPetByIdRaw(petId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -284,8 +284,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             
@@ -310,8 +310,8 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to return 
      - returns: `EventLoopFuture` of `GetPetById` 
      */
-    open class func getPetById(petId: Int64, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetPetById> {
-        return getPetByIdRaw(petId: petId, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> GetPetById in
+    open class func getPetById(petId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetPetById> {
+        return getPetByIdRaw(petId: petId, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> GetPetById in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(Pet.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: Pet.defaultContentType)), raw: response)
@@ -334,7 +334,7 @@ open class PetAPI {
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func updatePetRaw(body: Pet, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func updatePetRaw(body: Pet, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/pet"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -342,8 +342,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.PUT, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.PUT, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             try localVariableRequest.content.encode(body, using: apiConfiguration.contentConfiguration.requireEncoder(for: Pet.defaultContentType))
@@ -369,8 +369,8 @@ open class PetAPI {
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: `EventLoopFuture` of `UpdatePet` 
      */
-    open class func updatePet(body: Pet, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePet> {
-        return updatePetRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UpdatePet in
+    open class func updatePet(body: Pet, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePet> {
+        return updatePetRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> UpdatePet in
             switch response.status.code {
             case 200:
                 return .http200(raw: response)
@@ -397,7 +397,7 @@ open class PetAPI {
      - parameter status: (form) Updated status of the pet (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func updatePetWithFormRaw(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func updatePetWithFormRaw(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -408,8 +408,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -438,8 +438,8 @@ open class PetAPI {
      - parameter status: (form) Updated status of the pet (optional)
      - returns: `EventLoopFuture` of `UpdatePetWithForm` 
      */
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePetWithForm> {
-        return updatePetWithFormRaw(petId: petId, name: name, status: status, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UpdatePetWithForm in
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePetWithForm> {
+        return updatePetWithFormRaw(petId: petId, name: name, status: status, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> UpdatePetWithForm in
             switch response.status.code {
             case 405:
                 return .http405(raw: response)
@@ -460,7 +460,7 @@ open class PetAPI {
      - parameter file: (form) file to upload (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func uploadFileRaw(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func uploadFileRaw(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/pet/{petId}/uploadImage"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -471,8 +471,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -501,8 +501,8 @@ open class PetAPI {
      - parameter file: (form) file to upload (optional)
      - returns: `EventLoopFuture` of `UploadFile` 
      */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFile> {
-        return uploadFileRaw(petId: petId, additionalMetadata: additionalMetadata, file: file, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UploadFile in
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFile> {
+        return uploadFileRaw(petId: petId, additionalMetadata: additionalMetadata, file: file, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> UploadFile in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(ApiResponse.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)
@@ -523,7 +523,7 @@ open class PetAPI {
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func uploadFileWithRequiredFileRaw(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func uploadFileWithRequiredFileRaw(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/fake/{petId}/uploadImageWithRequiredFile"
         let petIdPreEscape = String(describing: petId)
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -534,8 +534,8 @@ open class PetAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -564,8 +564,8 @@ open class PetAPI {
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - returns: `EventLoopFuture` of `UploadFileWithRequiredFile` 
      */
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFileWithRequiredFile> {
-        return uploadFileWithRequiredFileRaw(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> UploadFileWithRequiredFile in
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFileWithRequiredFile> {
+        return uploadFileWithRequiredFileRaw(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> UploadFileWithRequiredFile in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(ApiResponse.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: ApiResponse.defaultContentType)), raw: response)

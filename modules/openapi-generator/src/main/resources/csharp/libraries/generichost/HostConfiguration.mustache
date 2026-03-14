@@ -80,8 +80,7 @@ namespace {{packageName}}.{{clientPackage}}
 
             {{/useSourceGeneration}}
             _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
-            _services.AddSingleton<{{classname}}Events>();
-            _services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
+            _services.AddSingleton<{{classname}}Events>();{{/apis}}{{/apiInfo}}
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace {{packageName}}.{{clientPackage}}
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>(client));
+            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>("{{packageName}}.{{apiPackage}}.{{interfacePrefix}}{{classname}}", client));
             {{/apis}}{{/apiInfo}}
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

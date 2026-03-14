@@ -29,7 +29,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Pet {
 
   private @Nullable Long id;
@@ -54,7 +54,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -96,7 +96,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Long id) {
+  public Pet id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -108,15 +108,16 @@ public class Pet {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Pet category(Category category) {
+  public Pet category(@Nullable Category category) {
     this.category = category;
     return this;
   }
@@ -128,11 +129,12 @@ public class Pet {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public Category getCategory() {
+  public @Nullable Category getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  @JsonProperty("category")
+  public void setCategory(@Nullable Category category) {
     this.category = category;
   }
 
@@ -152,6 +154,7 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -181,6 +184,7 @@ public class Pet {
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -209,11 +213,12 @@ public class Pet {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -225,9 +230,9 @@ public class Pet {
    */
   
   @ApiModelProperty(value = "pet status in the store")
-  @JsonProperty("status")
   @Deprecated
-  public StatusEnum getStatus() {
+  @JsonProperty("status")
+  public @Nullable StatusEnum getStatus() {
     return status;
   }
 
@@ -235,7 +240,8 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
-  public void setStatus(StatusEnum status) {
+  @JsonProperty("status")
+  public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
 
@@ -279,7 +285,7 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

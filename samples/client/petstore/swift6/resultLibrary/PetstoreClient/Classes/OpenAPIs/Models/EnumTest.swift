@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumTest: Sendable, Codable, JSONEncodable {
+internal struct EnumTest: Sendable, Codable {
 
     internal enum EnumString: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
@@ -27,7 +27,9 @@ internal struct EnumTest: Sendable, Codable, JSONEncodable {
         case unknownDefaultOpenApi = 11184809
     }
     internal enum EnumNumber: Double, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+        /// Description for 1.1
         case _11 = 1.1
+        /// Description for -1.2
         case number12 = -1.2
         case unknownDefaultOpenApi = 11184809
     }

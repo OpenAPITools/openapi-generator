@@ -1,0 +1,44 @@
+openapi: "3.0.0"
+info:
+  title: Optional Header Test
+  version: 1.0.0
+paths:
+  /ping:
+    get:
+      summary: Ping with optional header
+      operationId: getPing
+      parameters:
+        - name: X-Optional-Header
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: X-Required-Header
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-Optional-Schema-Header
+          in: header
+          required: false
+          schema:
+            $ref: '#/components/schemas/UUID'
+        - name: X-Required-Schema-Header
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/UUID'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    UUID:
+      type: object
+      properties:
+        uuid:
+          type: string

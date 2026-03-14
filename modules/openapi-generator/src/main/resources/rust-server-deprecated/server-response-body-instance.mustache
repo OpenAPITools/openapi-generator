@@ -1,0 +1,48 @@
+{{#dataType}}
+  {{#vendorExtensions}}
+    {{^x-produces-multipart-related}}
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_static("{{{x-mime-type}}}"));
+    {{/x-produces-multipart-related}}
+    {{#x-produces-xml}}
+                                                    // XML Body
+      {{^x-has-namespace}}
+                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+      {{/x-has-namespace}}
+      {{#x-has-namespace}}
+                                                    // An empty string is used to indicate a global namespace in xmltree.
+                                                    let config = serde_xml_rs::SerdeXml::new()
+                                                        .namespace("", {{{dataType}}}::NAMESPACE);
+                                                    let body = config.to_string(&body).expect("impossible to fail to serialize");
+      {{/x-has-namespace}}
+    {{/x-produces-xml}}
+    {{#x-produces-json}}
+                                                    // JSON Body
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+    {{/x-produces-json}}
+    {{#x-produces-bytes}}
+                                                    // Binary Body
+                                                    let body = body.0;
+    {{/x-produces-bytes}}
+    {{#x-produces-plain-text}}
+                                                    // Plain text Body
+                                                    let body = body;
+    {{/x-produces-plain-text}}
+    {{#x-produces-multipart-related}}
+                                                    // multipart/related Body
+      {{#formParams}}
+                                                    let param_{{{paramName}}} = body.{{{paramName}}};
+      {{/formParams}}
+      {{#formParams}}
+{{>generate-multipart-related}}
+                                                    let header = "multipart/related";
+                                                    response.headers_mut().insert(CONTENT_TYPE,
+                                                        HeaderValue::from_bytes(
+                                                            &["multipart/related; boundary=".as_bytes(), &boundary].concat())
+                                                        .expect("Unable to create Content-Type header for multipart/related"));
+      {{/formParams}}
+    {{/x-produces-multipart-related}}
+  {{/vendorExtensions}}
+                                                    *response.body_mut() = Body::from(body);
+{{/dataType}}

@@ -1,0 +1,6 @@
+generatorName: cpp-oatpp-server
+outputDir: samples/server/petstore/cpp-oatpp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/cpp-oatpp-server/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-oatpp-server
+additionalProperties:
+  addExternalLibs: "true"

@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class File {
 
   private @Nullable String sourceURI;
@@ -37,7 +37,7 @@ public class File {
       this.sourceURI = sourceURI;
   }
 
-  public File sourceURI(String sourceURI) {
+  public File sourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
     return this;
   }
@@ -49,11 +49,12 @@ public class File {
   
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")
-  public String getSourceURI() {
+  public @Nullable String getSourceURI() {
     return sourceURI;
   }
 
-  public void setSourceURI(String sourceURI) {
+  @JsonProperty("sourceURI")
+  public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
 
@@ -87,7 +88,7 @@ public class File {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

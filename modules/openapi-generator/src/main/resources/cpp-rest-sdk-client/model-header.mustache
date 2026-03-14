@@ -16,6 +16,7 @@
 #include <variant>
 {{/-first}}
 {{/oneOf}}
+#include <boost/optional.hpp>
 {{^parent}}
 {{{defaultInclude}}}
 #include "{{packageName}}/ModelBase.h"
@@ -92,6 +93,15 @@ class {{declspec}} {{classname}}
 {
 public:
     {{classname}}();
+    {{classname}}(utility::string_t str);
+    operator utility::string_t() const {
+        return enumToStrMap.at(getValue());
+    }
+
+    {{! operator std::string() const {
+        return enumToStrMap.at(getValue());
+    } }}
+
     virtual ~{{classname}}();
 
     /////////////////////////////////////////////
@@ -114,7 +124,7 @@ public:
         /// {{.}}
         /// </summary>
         {{/enumDescription}}
-        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{{name}}}{{^last}},{{/last}}
         {{/enumVars}}
         {{/allowableValues}}
     };
@@ -124,6 +134,21 @@ public:
 
     protected:
         e{{classname}} m_value;
+        std::map<e{{classname}},utility::string_t> enumToStrMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { e{{classname}}::{{{name}}}, _XPLATSTR("{{{name}}}") }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+        std::map<utility::string_t,e{{classname}}> strToEnumMap = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        { _XPLATSTR("{{{name}}}"), e{{classname}}::{{{name}}} }{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+};
+
 };
 {{/isEnum}}
 {{^isEnum}}
@@ -161,8 +186,11 @@ public:
     {{#isEnum}}
     enum class {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}
     {
-        {{#allowableValues}}{{#enumVars}}{{value}},
-        {{/enumVars}}{{/allowableValues}}
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
     };
     {{#description}}
     /// <summary>
@@ -233,10 +261,36 @@ public:
     {{/isInherited}}
 
     {{/vars}}
+    {{#additionalPropertiesType}}
+
+    /// <summary>
+    /// Get additional properties (properties not defined in the schema)
+    /// </summary>
+    std::map<utility::string_t, web::json::value> getAdditionalProperties() const;
+    bool additionalPropertiesIsSet() const;
+    void unsetAdditionalProperties();
+    /// <summary>
+    /// Set additional properties
+    /// </summary>
+    void setAdditionalProperties(const std::map<utility::string_t, web::json::value>& value);
+    /// <summary>
+    /// Add a single additional property
+    /// </summary>
+    void addAdditionalProperty(const utility::string_t& key, const web::json::value& value);
+    {{/additionalPropertiesType}}
 
 protected:
     {{#vars}}
     {{^isInherited}}
+    {{#isNullable}}
+    {{^isEnum}}
+    boost::optional<{{{dataType}}}> m_{{name}};
+    {{/isEnum}}
+    {{#isEnum}}
+    boost::optional<{{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}}> m_{{name}};
+    {{/isEnum}}
+    {{/isNullable}}
+    {{^isNullable}}
     {{^isEnum}}
     {{{dataType}}} m_{{name}};
     {{/isEnum}}
@@ -244,9 +298,14 @@ protected:
     {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} m_{{name}};
     {{/isEnum}}
     bool m_{{name}}IsSet;
+    {{/isNullable}}
     {{/isInherited}}
 
     {{/vars}}
+    {{#additionalPropertiesType}}
+    std::map<utility::string_t, web::json::value> m_AdditionalProperties;
+    bool m_AdditionalPropertiesIsSet;
+    {{/additionalPropertiesType}}
 };
 
 {{/isEnum}}

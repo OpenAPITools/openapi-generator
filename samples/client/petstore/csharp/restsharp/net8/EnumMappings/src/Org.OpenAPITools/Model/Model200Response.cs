@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="varClass">varClass.</param>
-        public Model200Response(int name = default(int), string varClass = default(string))
+        public Model200Response(int name = default, string varClass = default)
         {
             this.Name = name;
             this.Class = varClass;

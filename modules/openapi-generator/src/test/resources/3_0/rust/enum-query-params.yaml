@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: Enum Query Parameter Test
+  description: Test spec for enum and non-primitive query parameters
+  version: 1.0.0
+paths:
+  /aggregate:
+    get:
+      operationId: getAggregateData
+      summary: Get aggregated data
+      description: Test endpoint with enum query parameters referenced via $ref
+      parameters:
+        - name: timeBucket
+          in: query
+          description: Time aggregation bucket
+          required: false
+          schema:
+            $ref: '#/components/schemas/TimeBucket'
+        - name: sortDirection
+          in: query
+          description: Sort direction
+          required: false
+          schema:
+            $ref: '#/components/schemas/SortDirection'
+        - name: status
+          in: query
+          description: Status filter
+          required: true
+          schema:
+            $ref: '#/components/schemas/Status'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AggregateResponse'
+        '400':
+          description: Bad request
+  /items:
+    get:
+      operationId: getItems
+      summary: Get items with filters
+      parameters:
+        - name: category
+          in: query
+          description: Item category (inline enum)
+          required: false
+          schema:
+            type: string
+            enum:
+              - electronics
+              - clothing
+              - food
+        - name: priority
+          in: query
+          description: Priority level (enum via ref)
+          required: false
+          schema:
+            $ref: '#/components/schemas/Priority'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    TimeBucket:
+      type: string
+      description: Time aggregation bucket options
+      enum:
+        - hour
+        - day
+        - week
+        - month
+        - year
+    SortDirection:
+      type: string
+      description: Sort direction options
+      enum:
+        - asc
+        - desc
+      default: asc
+    Status:
+      type: string
+      description: Status filter options
+      enum:
+        - active
+        - inactive
+        - pending
+        - completed
+    Priority:
+      type: string
+      description: Priority level
+      enum:
+        - low
+        - medium
+        - high
+        - critical
+    AggregateResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string

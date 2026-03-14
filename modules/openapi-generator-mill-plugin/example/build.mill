@@ -1,0 +1,51 @@
+//| mill-version: 1.0.6
+//| # usually you would add the plugin dependency like the following,
+//| # but for testing with SNAPSHOT versions, the plugin dependency is added in the meta-build
+//| # mvnDeps:
+//| #  - org.openapitools:openapi-generator-mill-plugin:$MILL_OPENAPITOOLS_PLUGIN_VERSION
+//|
+package build
+
+import mill.*
+import mill.api.BuildCtx
+import mill.javalib.publish.{Developer, License, VersionControl}
+import mill.scalalib.publish.PomSettings
+import mill.util.BuildInfo.{millBinPlatform, millVersion}
+import javalib.*
+
+import org.openapitools.generator.mill.OpenApiModule
+
+object `package` extends JavaModule with MavenModule with OpenApiModule {
+
+  override def mvnDeps = Seq(
+    mvn"jakarta.platform:jakarta.jakartaee-api:10.0.0",
+    mvn"com.fasterxml.jackson.core:jackson-databind:2.20.0",
+    mvn"org.openapitools:jackson-databind-nullable:0.2.8"
+  )
+
+  object openapi extends OpenApiConfig {
+    override def inputSpec: T[PathRef] = Task.Source(BuildCtx.workspaceRoot / "api" / "petstore.yaml")
+    override def apiPackage: T[String] = "com.acme.foo.boundary.web.api"
+    override def modelPackage: T[String] = "com.acme.foo.boundary.web.model"
+    override def generatorName: T[String] = "jaxrs-spec"
+    override def sourceFolder: T[String] = "src/gen/java"
+
+    override def gitSettings: T[Option[GitSettings]] = Some(GitSettings("host", "userid", "repoid"))
+    override def artifactSettings: T[Option[ArtifactSettings]] = Some(ArtifactSettings("groupid", "artifactid", None))
+
+    override def cleanupOutput: T[Boolean] = true
+
+    def additionalProperties: T[Map[String, String]] = Map(
+      "dateLibrary" -> "java8",
+      "useJakartaEe" -> "true",
+      "useSwaggerAnnotations" -> "false",
+      "interfaceOnly" -> "true",
+      "useTags" -> "true",
+    )
+  }
+
+  override def generatedSources: T[Seq[PathRef]] = Seq(
+    PathRef(Task.dest),
+    openapi.generate(),
+  )
+}

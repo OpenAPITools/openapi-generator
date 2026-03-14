@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelFile implements Parcelable {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
@@ -144,11 +144,10 @@ public class ModelFile implements Parcelable {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("sourceURI");
+    openapiFields = new HashSet<String>(Arrays.asList("sourceURI"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -160,7 +159,7 @@ public class ModelFile implements Parcelable {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ModelFile.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in ModelFile is not found in the empty JSON string", ModelFile.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in ModelFile is not found in the empty JSON string", ModelFile.openapiRequiredFields.toString()));
         }
       }
 
@@ -168,12 +167,12 @@ public class ModelFile implements Parcelable {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!ModelFile.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ModelFile` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `ModelFile` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("sourceURI") != null && !jsonObj.get("sourceURI").isJsonNull()) && !jsonObj.get("sourceURI").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `sourceURI` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sourceURI").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `sourceURI` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sourceURI").toString()));
       }
   }
 

@@ -1,22 +1,46 @@
 #![allow(unused_qualifications)]
-
+#[cfg(not(feature = "validate"))]
 use validator::Validate;
 
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
+#[cfg(feature = "validate")]
+use serde_valid::Validate;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for AdditionalPropertiesClass {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for AdditionalPropertiesClass {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -31,21 +55,21 @@ impl AdditionalPropertiesClass {
 }
 
 /// Converts the AdditionalPropertiesClass value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AdditionalPropertiesClass {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AdditionalPropertiesClass {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping map map_property in query parameter serialization
             // Skipping map map_of_map_property in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesClass value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for AdditionalPropertiesClass {
     type Err = String;
@@ -103,8 +127,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<AdditionalPropertiesClass>> f
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for AdditionalPropertiesClass - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for AdditionalPropertiesClass - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -119,18 +142,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <AdditionalPropertiesClass as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into AdditionalPropertiesClass - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into AdditionalPropertiesClass - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesClass>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -141,13 +162,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesClass
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesClass>> {
     type Error = String;
 
@@ -162,16 +182,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <AdditionalPropertiesClass as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into AdditionalPropertiesClass - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into AdditionalPropertiesClass - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -185,16 +203,38 @@ impl AdditionalPropertiesClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Animal {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Animal {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -209,10 +249,10 @@ impl Animal {
 }
 
 /// Converts the Animal value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Animal {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Animal {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("className".to_string()),
             Some(self.class_name.to_string()),
@@ -224,12 +264,12 @@ impl std::string::ToString for Animal {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Animal value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Animal {
     type Err = String;
@@ -289,8 +329,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Animal>> for hyper::header::H
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Animal - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Animal - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -305,18 +344,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Animal as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Animal - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Animal - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Animal>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -327,13 +364,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Animal>>> for hyper::head
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Animal>> {
     type Error = String;
 
@@ -348,16 +384,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Animal as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Animal - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Animal - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -372,6 +406,7 @@ impl Animal {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnimalFarm(
     Vec<Animal>
@@ -436,16 +471,16 @@ impl std::ops::DerefMut for AnimalFarm {
 }
 
 /// Converts the AnimalFarm value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AnimalFarm {
-    fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+impl std::fmt::Display for AnimalFarm {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a AnimalFarm value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for AnimalFarm {
     type Err = <Animal as std::str::FromStr>::Err;
@@ -472,8 +507,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<AnimalFarm>> for hyper::heade
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for AnimalFarm - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for AnimalFarm - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -488,18 +522,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <AnimalFarm as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into AnimalFarm - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into AnimalFarm - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnimalFarm>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -510,13 +542,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnimalFarm>>> for hyper::
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnimalFarm>> {
     type Error = String;
 
@@ -531,16 +562,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <AnimalFarm as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into AnimalFarm - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into AnimalFarm - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -554,21 +583,44 @@ impl AnimalFarm {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#type: Option<String>,
 
     #[serde(rename = "message")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub message: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ApiResponse {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ApiResponse {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -584,10 +636,10 @@ impl ApiResponse {
 }
 
 /// Converts the ApiResponse value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ApiResponse {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ApiResponse {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.code.as_ref().map(|code| {
                 [
@@ -609,12 +661,12 @@ impl std::string::ToString for ApiResponse {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ApiResponse value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ApiResponse {
     type Err = String;
@@ -678,8 +730,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ApiResponse>> for hyper::head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ApiResponse - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ApiResponse - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -694,18 +745,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ApiResponse as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ApiResponse - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ApiResponse - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ApiResponse>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -716,13 +765,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ApiResponse>>> for hyper:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ApiResponse>> {
     type Error = String;
 
@@ -737,16 +785,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ApiResponse as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ApiResponse - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ApiResponse - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -760,13 +806,34 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_number: Option<Vec<Vec<f64>>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ArrayOfArrayOfNumberOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ArrayOfArrayOfNumberOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -780,20 +847,20 @@ impl ArrayOfArrayOfNumberOnly {
 }
 
 /// Converts the ArrayOfArrayOfNumberOnly value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ArrayOfArrayOfNumberOnly {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ArrayOfArrayOfNumberOnly {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type ArrayArrayNumber in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ArrayOfArrayOfNumberOnly value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
     type Err = String;
@@ -848,8 +915,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfArrayOfNumberOnly>> fo
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ArrayOfArrayOfNumberOnly - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ArrayOfArrayOfNumberOnly - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -864,18 +930,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ArrayOfArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ArrayOfArrayOfNumberOnly - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ArrayOfArrayOfNumberOnly - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfArrayOfNumberOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -886,13 +950,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfArrayOfNumberOnly>
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ArrayOfArrayOfNumberOnly>> {
     type Error = String;
 
@@ -907,16 +970,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ArrayOfArrayOfNumberOnly as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ArrayOfArrayOfNumberOnly - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ArrayOfArrayOfNumberOnly - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -930,13 +991,34 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_number: Option<Vec<f64>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ArrayOfNumberOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ArrayOfNumberOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -950,10 +1032,10 @@ impl ArrayOfNumberOnly {
 }
 
 /// Converts the ArrayOfNumberOnly value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ArrayOfNumberOnly {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ArrayOfNumberOnly {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.array_number.as_ref().map(|array_number| {
                 [
@@ -963,12 +1045,12 @@ impl std::string::ToString for ArrayOfNumberOnly {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ArrayOfNumberOnly value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ArrayOfNumberOnly {
     type Err = String;
@@ -1023,8 +1105,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ArrayOfNumberOnly>> for hyper
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ArrayOfNumberOnly - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ArrayOfNumberOnly - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -1039,18 +1120,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ArrayOfNumberOnly as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ArrayOfNumberOnly - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ArrayOfNumberOnly - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfNumberOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1061,13 +1140,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayOfNumberOnly>>> for 
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ArrayOfNumberOnly>> {
     type Error = String;
 
@@ -1082,16 +1160,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ArrayOfNumberOnly as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ArrayOfNumberOnly - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ArrayOfNumberOnly - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -1105,25 +1181,51 @@ impl ArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_string: Option<Vec<String>>,
 
     #[serde(rename = "array_array_of_integer")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_integer: Option<Vec<Vec<i64>>>,
 
     #[serde(rename = "array_array_of_model")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
 
     #[serde(rename = "array_of_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_enum: Option<Vec<models::MapTestMapMapOfEnumValueValue>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ArrayTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ArrayTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1140,10 +1242,10 @@ impl ArrayTest {
 }
 
 /// Converts the ArrayTest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ArrayTest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ArrayTest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.array_of_string.as_ref().map(|array_of_string| {
                 [
@@ -1156,12 +1258,12 @@ impl std::string::ToString for ArrayTest {
             // Skipping non-primitive type array_of_enum in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ArrayTest value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ArrayTest {
     type Err = String;
@@ -1225,8 +1327,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ArrayTest>> for hyper::header
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ArrayTest - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ArrayTest - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -1241,18 +1342,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ArrayTest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ArrayTest - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ArrayTest - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1263,13 +1362,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ArrayTest>>> for hyper::h
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ArrayTest>> {
     type Error = String;
 
@@ -1284,16 +1382,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ArrayTest as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ArrayTest - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ArrayTest - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -1307,34 +1403,60 @@ impl ArrayTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_camel: Option<String>,
 
     #[serde(rename = "CapitalCamel")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_camel: Option<String>,
 
     #[serde(rename = "small_Snake")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_snake: Option<String>,
 
     #[serde(rename = "Capital_Snake")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_snake: Option<String>,
 
     #[serde(rename = "SCA_ETH_Flow_Points")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
     /// Name of the pet 
     #[serde(rename = "ATT_NAME")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub att_name: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Capitalization {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Capitalization {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1353,10 +1475,10 @@ impl Capitalization {
 }
 
 /// Converts the Capitalization value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Capitalization {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Capitalization {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.small_camel.as_ref().map(|small_camel| {
                 [
@@ -1396,12 +1518,12 @@ impl std::string::ToString for Capitalization {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Capitalization value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Capitalization {
     type Err = String;
@@ -1477,8 +1599,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Capitalization>> for hyper::h
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Capitalization - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Capitalization - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -1493,18 +1614,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Capitalization as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Capitalization - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Capitalization - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Capitalization>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1515,13 +1634,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Capitalization>>> for hyp
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Capitalization>> {
     type Error = String;
 
@@ -1536,16 +1654,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Capitalization as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Capitalization - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Capitalization - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -1559,20 +1675,43 @@ impl Capitalization {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "declawed")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Cat {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Cat {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1588,10 +1727,10 @@ impl Cat {
 }
 
 /// Converts the Cat value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Cat {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Cat {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("className".to_string()),
             Some(self.class_name.to_string()),
@@ -1609,12 +1748,12 @@ impl std::string::ToString for Cat {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Cat value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Cat {
     type Err = String;
@@ -1678,8 +1817,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Cat>> for hyper::header::Head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Cat - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Cat - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -1694,18 +1832,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Cat as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Cat - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Cat - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Cat>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1716,13 +1852,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Cat>>> for hyper::header:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Cat>> {
     type Error = String;
 
@@ -1737,16 +1872,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Cat as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Cat - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Cat - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -1760,18 +1893,40 @@ impl Cat {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Category {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Category {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1786,10 +1941,10 @@ impl Category {
 }
 
 /// Converts the Category value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Category {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Category {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id.as_ref().map(|id| {
                 [
@@ -1805,12 +1960,12 @@ impl std::string::ToString for Category {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Category value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Category {
     type Err = String;
@@ -1870,8 +2025,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Category>> for hyper::header:
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Category - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Category - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -1886,18 +2040,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Category as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Category - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Category - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Category>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1908,13 +2060,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Category>>> for hyper::he
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Category>> {
     type Error = String;
 
@@ -1929,16 +2080,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Category as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Category - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Category - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -1953,13 +2102,34 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub _class: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ClassModel {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ClassModel {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1973,10 +2143,10 @@ impl ClassModel {
 }
 
 /// Converts the ClassModel value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ClassModel {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ClassModel {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self._class.as_ref().map(|_class| {
                 [
@@ -1986,12 +2156,12 @@ impl std::string::ToString for ClassModel {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ClassModel value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ClassModel {
     type Err = String;
@@ -2047,8 +2217,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ClassModel>> for hyper::heade
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ClassModel - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ClassModel - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -2063,18 +2232,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ClassModel as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ClassModel - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ClassModel - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ClassModel>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2085,13 +2252,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ClassModel>>> for hyper::
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ClassModel>> {
     type Error = String;
 
@@ -2106,16 +2272,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ClassModel as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ClassModel - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ClassModel - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -2129,13 +2293,34 @@ impl ClassModel {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub client: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Client {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Client {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2149,10 +2334,10 @@ impl Client {
 }
 
 /// Converts the Client value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Client {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Client {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.client.as_ref().map(|client| {
                 [
@@ -2162,12 +2347,12 @@ impl std::string::ToString for Client {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Client value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Client {
     type Err = String;
@@ -2223,8 +2408,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Client>> for hyper::header::H
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Client - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Client - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -2239,18 +2423,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Client as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Client - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Client - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Client>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2261,13 +2443,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Client>>> for hyper::head
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Client>> {
     type Error = String;
 
@@ -2282,16 +2463,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Client as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Client - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Client - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -2305,20 +2484,43 @@ impl Client {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "breed")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Dog {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Dog {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2334,10 +2536,10 @@ impl Dog {
 }
 
 /// Converts the Dog value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Dog {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Dog {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("className".to_string()),
             Some(self.class_name.to_string()),
@@ -2355,12 +2557,12 @@ impl std::string::ToString for Dog {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Dog value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Dog {
     type Err = String;
@@ -2424,8 +2626,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Dog>> for hyper::header::Head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Dog - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Dog - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -2440,18 +2641,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Dog as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Dog - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Dog - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Dog>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2462,13 +2661,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Dog>>> for hyper::header:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Dog>> {
     type Error = String;
 
@@ -2483,16 +2681,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Dog as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Dog - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Dog - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -2506,48 +2702,69 @@ impl Dog {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
-pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+pub struct DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[serde(rename = "$special[property.name]")]
+
     #[serde(skip_serializing_if="Option::is_none")]
-    pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Option<i64>,
+    pub dollar_special_left_square_bracket_property_name_right_square_bracket: Option<i64>,
 
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
 
-impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+
+
+impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[allow(clippy::new_without_default)]
-    pub fn new() -> DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
-        DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
-            dollar_special_left_square_bracket_property_period_name_right_square_bracket: None,
+    pub fn new() -> DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+        DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_name_right_square_bracket: None,
         }
     }
 }
 
-/// Converts the DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// Converts the DollarSpecialLeftSquareBracketModelNameRightSquareBracket value to the Query Parameters representation (style=form, explode=false)
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.dollar_special_left_square_bracket_property_period_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_period_name_right_square_bracket| {
+            self.dollar_special_left_square_bracket_property_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_name_right_square_bracket| {
                 [
                     "$special[property.name]".to_string(),
-                    dollar_special_left_square_bracket_property_period_name_right_square_bracket.to_string(),
+                    dollar_special_left_square_bracket_property_name_right_square_bracket.to_string(),
                 ].join(",")
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
-/// Converts Query Parameters representation (style=form, explode=false) to a DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// Converts Query Parameters representation (style=form, explode=false) to a DollarSpecialLeftSquareBracketModelNameRightSquareBracket value
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
-impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+impl std::str::FromStr for DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
@@ -2555,7 +2772,7 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSqu
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Vec<i64>,
+            pub dollar_special_left_square_bracket_property_name_right_square_bracket: Vec<i64>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -2567,15 +2784,15 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSqu
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
+                None => return std::result::Result::Err("Missing value while parsing DollarSpecialLeftSquareBracketModelNameRightSquareBracket".to_string())
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
+                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing DollarSpecialLeftSquareBracketModelNameRightSquareBracket".to_string())
                 }
             }
 
@@ -2584,97 +2801,91 @@ impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSqu
         }
 
         // Use the intermediate representation to return the struct
-        std::result::Result::Ok(DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
-            dollar_special_left_square_bracket_property_period_name_right_square_bracket: intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.into_iter().next(),
+        std::result::Result::Ok(DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_name_right_square_bracket: intermediate_rep.dollar_special_left_square_bracket_property_name_right_square_bracket.into_iter().next(),
         })
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for DollarSpecialLeftSquareBracketModelNameRightSquareBracket - value: {hdr_value} is invalid {e}"))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket as std::str::FromStr>::from_str(value) {
+                    match <DollarSpecialLeftSquareBracketModelNameRightSquareBracket as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into DollarSpecialLeftSquareBracketModelNameRightSquareBracket - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
-impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>>> for hyper::header::HeaderValue {
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_values: header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>>) -> std::result::Result<Self, Self::Error> {
         let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
             hdr_value.to_string()
         }).collect();
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>> {
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket>> {
     type Error = String;
 
     fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
-                let hdr_values : std::vec::Vec<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> = hdr_values
+                let hdr_values : std::vec::Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> = hdr_values
                 .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
-                        match <DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket as std::str::FromStr>::from_str(hdr_value) {
+                        match <DollarSpecialLeftSquareBracketModelNameRightSquareBracket as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into DollarSpecialLeftSquareBracketModelNameRightSquareBracket - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
 
-impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -2683,21 +2894,47 @@ impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     #[serde(rename = "just_symbol")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_symbol: Option<models::EnumArraysJustSymbol>,
 
     #[serde(rename = "array_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<models::EnumArraysArrayEnumInner>>,
 
     #[serde(rename = "array_array_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_enum: Option<Vec<Vec<models::EnumArraysArrayArrayEnumInnerInner>>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for EnumArrays {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for EnumArrays {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -2713,22 +2950,22 @@ impl EnumArrays {
 }
 
 /// Converts the EnumArrays value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for EnumArrays {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for EnumArrays {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type just_symbol in query parameter serialization
             // Skipping non-primitive type array_enum in query parameter serialization
             // Skipping non-primitive type array_array_enum in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a EnumArrays value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for EnumArrays {
     type Err = String;
@@ -2790,8 +3027,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumArrays>> for hyper::heade
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumArrays - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumArrays - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -2806,18 +3042,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumArrays as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumArrays - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumArrays - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArrays>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2828,13 +3062,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArrays>>> for hyper::
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArrays>> {
     type Error = String;
 
@@ -2849,16 +3082,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumArrays as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumArrays - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumArrays - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -2878,6 +3109,7 @@ impl EnumArrays {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayArrayEnumInnerInner {
     #[serde(rename = "Cat")]
@@ -2902,7 +3134,7 @@ impl std::str::FromStr for EnumArraysArrayArrayEnumInnerInner {
         match s {
             "Cat" => std::result::Result::Ok(EnumArraysArrayArrayEnumInnerInner::Cat),
             "Dog" => std::result::Result::Ok(EnumArraysArrayArrayEnumInnerInner::Dog),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -2918,8 +3150,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumArraysArrayArrayEnumInner
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumArraysArrayArrayEnumInnerInner - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumArraysArrayArrayEnumInnerInner - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -2934,18 +3165,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumArraysArrayArrayEnumInnerInner as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumArraysArrayArrayEnumInnerInner - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumArraysArrayArrayEnumInnerInner - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayArrayEnumInnerInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2956,13 +3185,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayArrayEnumI
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArraysArrayArrayEnumInnerInner>> {
     type Error = String;
 
@@ -2977,16 +3205,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumArraysArrayArrayEnumInnerInner as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumArraysArrayArrayEnumInnerInner - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumArraysArrayArrayEnumInnerInner - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3006,6 +3232,7 @@ impl EnumArraysArrayArrayEnumInnerInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayEnumInner {
     #[serde(rename = "fish")]
@@ -3030,7 +3257,7 @@ impl std::str::FromStr for EnumArraysArrayEnumInner {
         match s {
             "fish" => std::result::Result::Ok(EnumArraysArrayEnumInner::Fish),
             "crab" => std::result::Result::Ok(EnumArraysArrayEnumInner::Crab),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -3046,8 +3273,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumArraysArrayEnumInner>> fo
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumArraysArrayEnumInner - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumArraysArrayEnumInner - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -3062,18 +3288,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumArraysArrayEnumInner as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumArraysArrayEnumInner - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumArraysArrayEnumInner - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayEnumInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3084,13 +3308,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysArrayEnumInner>
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArraysArrayEnumInner>> {
     type Error = String;
 
@@ -3105,16 +3328,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumArraysArrayEnumInner as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumArraysArrayEnumInner - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumArraysArrayEnumInner - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3134,6 +3355,7 @@ impl EnumArraysArrayEnumInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysJustSymbol {
     #[serde(rename = ">=")]
@@ -3158,7 +3380,7 @@ impl std::str::FromStr for EnumArraysJustSymbol {
         match s {
             ">=" => std::result::Result::Ok(EnumArraysJustSymbol::GreaterThanEqual),
             "$" => std::result::Result::Ok(EnumArraysJustSymbol::Dollar),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -3174,8 +3396,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumArraysJustSymbol>> for hy
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumArraysJustSymbol - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumArraysJustSymbol - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -3190,18 +3411,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumArraysJustSymbol as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumArraysJustSymbol - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumArraysJustSymbol - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysJustSymbol>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3212,13 +3431,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumArraysJustSymbol>>> f
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumArraysJustSymbol>> {
     type Error = String;
 
@@ -3233,16 +3451,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumArraysJustSymbol as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumArraysJustSymbol - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumArraysJustSymbol - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3262,6 +3478,7 @@ impl EnumArraysJustSymbol {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumClass {
     #[serde(rename = "_abc")]
@@ -3290,7 +3507,7 @@ impl std::str::FromStr for EnumClass {
             "_abc" => std::result::Result::Ok(EnumClass::Abc),
             "-efg" => std::result::Result::Ok(EnumClass::Efg),
             "(xyz)" => std::result::Result::Ok(EnumClass::LeftParenthesisXyzRightParenthesis),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -3306,8 +3523,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumClass>> for hyper::header
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumClass - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumClass - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -3322,18 +3538,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumClass as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumClass - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumClass - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumClass>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3344,13 +3558,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumClass>>> for hyper::h
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumClass>> {
     type Error = String;
 
@@ -3365,16 +3578,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumClass as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumClass - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumClass - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3388,28 +3599,58 @@ impl EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     #[serde(rename = "enum_string")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_string: Option<models::EnumTestEnumString>,
 
     #[serde(rename = "enum_string_required")]
+
+    #[cfg_attr(feature = "validate", validate)]
     pub enum_string_required: models::EnumTestEnumString,
 
     #[serde(rename = "enum_integer")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<models::EnumTestEnumInteger>,
 
     #[serde(rename = "enum_number")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_number: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
 
     #[serde(rename = "outerEnum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub outer_enum: Option<models::OuterEnum>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for EnumTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for EnumTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -3427,10 +3668,10 @@ impl EnumTest {
 }
 
 /// Converts the EnumTest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for EnumTest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for EnumTest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type enum_string in query parameter serialization
             // Skipping non-primitive type enum_string_required in query parameter serialization
@@ -3439,12 +3680,12 @@ impl std::string::ToString for EnumTest {
             // Skipping non-primitive type outerEnum in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a EnumTest value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for EnumTest {
     type Err = String;
@@ -3516,8 +3757,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumTest>> for hyper::header:
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumTest - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumTest - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -3532,18 +3772,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumTest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumTest - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumTest - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3554,13 +3792,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTest>>> for hyper::he
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumTest>> {
     type Error = String;
 
@@ -3575,16 +3812,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumTest as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumTest - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumTest - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3602,22 +3837,18 @@ impl EnumTest {
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[repr(i32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde_repr::Serialize_repr, serde_repr::Deserialize_repr, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumInteger {
-    #[serde(rename = "1")]
-    Variant1,
-    #[serde(rename = "-1")]
-    Variant12,
+    Variant1 = 1,
+    Variant12 = -1,
 }
 
 impl std::fmt::Display for EnumTestEnumInteger {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            EnumTestEnumInteger::Variant1 => write!(f, "1"),
-            EnumTestEnumInteger::Variant12 => write!(f, "-1"),
-        }
+        write!(f, "{}", *self as i32)
     }
 }
 
@@ -3625,10 +3856,10 @@ impl std::str::FromStr for EnumTestEnumInteger {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "1" => std::result::Result::Ok(EnumTestEnumInteger::Variant1),
-            "-1" => std::result::Result::Ok(EnumTestEnumInteger::Variant12),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+        match s.parse::<i32>() {
+            std::result::Result::Ok(1) => std::result::Result::Ok(EnumTestEnumInteger::Variant1),
+            std::result::Result::Ok(-1) => std::result::Result::Ok(EnumTestEnumInteger::Variant12),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -3644,8 +3875,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumTestEnumInteger>> for hyp
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumTestEnumInteger - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumTestEnumInteger - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -3660,18 +3890,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumTestEnumInteger as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumTestEnumInteger - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumTestEnumInteger - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumInteger>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3682,13 +3910,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumInteger>>> fo
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumTestEnumInteger>> {
     type Error = String;
 
@@ -3703,16 +3930,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumTestEnumInteger as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumTestEnumInteger - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumTestEnumInteger - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3732,6 +3957,7 @@ impl EnumTestEnumInteger {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumString {
     #[serde(rename = "UPPER")]
@@ -3760,7 +3986,7 @@ impl std::str::FromStr for EnumTestEnumString {
             "UPPER" => std::result::Result::Ok(EnumTestEnumString::Upper),
             "lower" => std::result::Result::Ok(EnumTestEnumString::Lower),
             "" => std::result::Result::Ok(EnumTestEnumString::Empty),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -3776,8 +4002,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<EnumTestEnumString>> for hype
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EnumTestEnumString - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for EnumTestEnumString - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -3792,18 +4017,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <EnumTestEnumString as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EnumTestEnumString - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into EnumTestEnumString - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumString>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3814,13 +4037,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumTestEnumString>>> for
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumTestEnumString>> {
     type Error = String;
 
@@ -3835,16 +4057,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <EnumTestEnumString as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into EnumTestEnumString - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into EnumTestEnumString - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3864,6 +4084,7 @@ impl EnumTestEnumString {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum FindPetsByStatusStatusParameterInner {
     #[serde(rename = "available")]
@@ -3892,7 +4113,7 @@ impl std::str::FromStr for FindPetsByStatusStatusParameterInner {
             "available" => std::result::Result::Ok(FindPetsByStatusStatusParameterInner::Available),
             "pending" => std::result::Result::Ok(FindPetsByStatusStatusParameterInner::Pending),
             "sold" => std::result::Result::Ok(FindPetsByStatusStatusParameterInner::Sold),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -3908,8 +4129,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<FindPetsByStatusStatusParamet
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for FindPetsByStatusStatusParameterInner - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for FindPetsByStatusStatusParameterInner - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -3924,18 +4144,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <FindPetsByStatusStatusParameterInner as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into FindPetsByStatusStatusParameterInner - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into FindPetsByStatusStatusParameterInner - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByStatusStatusParameterInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3946,13 +4164,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByStatusStatusPar
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FindPetsByStatusStatusParameterInner>> {
     type Error = String;
 
@@ -3967,16 +4184,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <FindPetsByStatusStatusParameterInner as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into FindPetsByStatusStatusParameterInner - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into FindPetsByStatusStatusParameterInner - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -3990,81 +4205,127 @@ impl FindPetsByStatusStatusParameterInner {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
-    #[validate(
-            range(min = 10, max = 100),
-        )]
+    #[cfg_attr(not(feature = "validate"), validate(
+            range(min = 10u8, max = 100u8),
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 10u8))]
+    #[cfg_attr(feature = "validate", validate(maximum = 100u8))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
-    #[validate(
-            range(min = 20, max = 200),
-        )]
+    #[cfg_attr(not(feature = "validate"), validate(
+            range(min = 20u32, max = 200u32),
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 20u32))]
+    #[cfg_attr(feature = "validate", validate(maximum = 200u32))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
     #[serde(rename = "int64")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
-    #[validate(
-            range(min = 32.1, max = 543.2),
-        )]
+    #[cfg_attr(not(feature = "validate"), validate(
+            range(min = 32.1f64, max = 543.2f64),
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 32.1f64))]
+    #[cfg_attr(feature = "validate", validate(maximum = 543.2f64))]
+
     pub number: f64,
 
     #[serde(rename = "float")]
-    #[validate(
-            range(min = 54.3, max = 987.6),
-        )]
+    #[cfg_attr(not(feature = "validate"), validate(
+            range(min = 54.3f32, max = 987.6f32),
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 54.3f32))]
+    #[cfg_attr(feature = "validate", validate(maximum = 987.6f32))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
-    #[validate(
-            range(min = 67.8, max = 123.4),
-        )]
+    #[cfg_attr(not(feature = "validate"), validate(
+            range(min = 67.8f64, max = 123.4f64),
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 67.8f64))]
+    #[cfg_attr(feature = "validate", validate(maximum = 123.4f64))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
-    #[validate(
-           regex = "RE_FORMATTEST_STRING",
-        )]
+    #[cfg_attr(not(feature = "validate"), validate(
+           regex(path = *RE_FORMATTEST_STRING),
+        ))]
+    #[cfg_attr(feature = "validate", validate(pattern = r"/[a-z]/i"))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
-    #[validate(
-           custom ="validate_byte_formattest_byte"
-        )]
+    #[cfg_attr(not(feature = "validate"), validate(
+           custom(function = "validate_byte_formattest_byte")
+        ))]
+
     pub byte: swagger::ByteArray,
 
     #[serde(rename = "binary")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub binary: Option<swagger::ByteArray>,
 
     #[serde(rename = "date")]
+
     pub date: chrono::naive::NaiveDate,
 
     #[serde(rename = "dateTime")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "uuid")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             length(min = 10, max = 64),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(min_length = 10))]
+    #[cfg_attr(feature = "validate", validate(max_length = 64))]
+
     pub password: String,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for FormatTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for FormatTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 lazy_static::lazy_static! {
@@ -4073,6 +4334,7 @@ lazy_static::lazy_static! {
 lazy_static::lazy_static! {
     static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
 }
+#[cfg(not(feature = "validate"))]
 fn validate_byte_formattest_byte(
     b: &swagger::ByteArray
 ) -> Result<(), validator::ValidationError> {
@@ -4104,10 +4366,10 @@ impl FormatTest {
 }
 
 /// Converts the FormatTest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for FormatTest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for FormatTest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.integer.as_ref().map(|integer| {
                 [
@@ -4156,12 +4418,12 @@ impl std::string::ToString for FormatTest {
             Some(self.password.to_string()),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a FormatTest value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for FormatTest {
     type Err = String;
@@ -4263,8 +4525,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<FormatTest>> for hyper::heade
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for FormatTest - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for FormatTest - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -4279,18 +4540,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <FormatTest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into FormatTest - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into FormatTest - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FormatTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4301,13 +4560,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FormatTest>>> for hyper::
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FormatTest>> {
     type Error = String;
 
@@ -4322,16 +4580,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <FormatTest as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into FormatTest - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into FormatTest - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -4345,17 +4601,39 @@ impl FormatTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "foo")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub foo: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for HasOnlyReadOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for HasOnlyReadOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -4370,10 +4648,10 @@ impl HasOnlyReadOnly {
 }
 
 /// Converts the HasOnlyReadOnly value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for HasOnlyReadOnly {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for HasOnlyReadOnly {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.bar.as_ref().map(|bar| {
                 [
@@ -4389,12 +4667,12 @@ impl std::string::ToString for HasOnlyReadOnly {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a HasOnlyReadOnly value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for HasOnlyReadOnly {
     type Err = String;
@@ -4454,8 +4732,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<HasOnlyReadOnly>> for hyper::
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for HasOnlyReadOnly - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for HasOnlyReadOnly - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -4470,18 +4747,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <HasOnlyReadOnly as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into HasOnlyReadOnly - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into HasOnlyReadOnly - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<HasOnlyReadOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4492,13 +4767,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<HasOnlyReadOnly>>> for hy
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<HasOnlyReadOnly>> {
     type Error = String;
 
@@ -4513,16 +4787,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <HasOnlyReadOnly as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into HasOnlyReadOnly - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into HasOnlyReadOnly - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -4536,13 +4808,34 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_list: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for List {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for List {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -4556,10 +4849,10 @@ impl List {
 }
 
 /// Converts the List value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for List {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for List {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.param_123_list.as_ref().map(|param_123_list| {
                 [
@@ -4569,12 +4862,12 @@ impl std::string::ToString for List {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a List value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for List {
     type Err = String;
@@ -4630,8 +4923,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<List>> for hyper::header::Hea
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for List - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for List - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -4646,18 +4938,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <List as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into List - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into List - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<List>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4668,13 +4958,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<List>>> for hyper::header
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<List>> {
     type Error = String;
 
@@ -4689,16 +4978,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <List as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into List - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into List - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -4712,21 +4999,46 @@ impl List {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     #[serde(rename = "map_map_of_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>>,
 
     #[serde(rename = "map_of_enum_string")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for MapTest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for MapTest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -4742,22 +5054,22 @@ impl MapTest {
 }
 
 /// Converts the MapTest value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MapTest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MapTest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping map map_map_of_string in query parameter serialization
             // Skipping map map_map_of_enum in query parameter serialization
             // Skipping map map_of_enum_string in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MapTest value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MapTest {
     type Err = String;
@@ -4818,8 +5130,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MapTest>> for hyper::header::
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MapTest - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for MapTest - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -4834,18 +5145,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <MapTest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MapTest - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into MapTest - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4856,13 +5165,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTest>>> for hyper::hea
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MapTest>> {
     type Error = String;
 
@@ -4877,16 +5185,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <MapTest as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into MapTest - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into MapTest - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -4906,6 +5212,7 @@ impl MapTest {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum MapTestMapMapOfEnumValueValue {
     #[serde(rename = "UPPER")]
@@ -4930,7 +5237,7 @@ impl std::str::FromStr for MapTestMapMapOfEnumValueValue {
         match s {
             "UPPER" => std::result::Result::Ok(MapTestMapMapOfEnumValueValue::Upper),
             "lower" => std::result::Result::Ok(MapTestMapMapOfEnumValueValue::Lower),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -4946,8 +5253,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MapTestMapMapOfEnumValueValue
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MapTestMapMapOfEnumValueValue - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for MapTestMapMapOfEnumValueValue - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -4962,18 +5268,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <MapTestMapMapOfEnumValueValue as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MapTestMapMapOfEnumValueValue - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into MapTestMapMapOfEnumValueValue - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTestMapMapOfEnumValueValue>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4984,13 +5288,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MapTestMapMapOfEnumValueV
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MapTestMapMapOfEnumValueValue>> {
     type Error = String;
 
@@ -5005,16 +5308,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <MapTestMapMapOfEnumValueValue as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into MapTestMapMapOfEnumValueValue - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into MapTestMapMapOfEnumValueValue - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -5028,21 +5329,45 @@ impl MapTestMapMapOfEnumValueValue {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "dateTime")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "map")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for MixedPropertiesAndAdditionalPropertiesClass {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for MixedPropertiesAndAdditionalPropertiesClass {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5058,22 +5383,22 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Converts the MixedPropertiesAndAdditionalPropertiesClass value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for MixedPropertiesAndAdditionalPropertiesClass {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type uuid in query parameter serialization
             // Skipping non-primitive type dateTime in query parameter serialization
             // Skipping map map in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a MixedPropertiesAndAdditionalPropertiesClass value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
     type Err = String;
@@ -5136,8 +5461,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<MixedPropertiesAndAdditionalP
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MixedPropertiesAndAdditionalPropertiesClass - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for MixedPropertiesAndAdditionalPropertiesClass - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -5152,18 +5476,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <MixedPropertiesAndAdditionalPropertiesClass as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MixedPropertiesAndAdditionalPropertiesClass - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into MixedPropertiesAndAdditionalPropertiesClass - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MixedPropertiesAndAdditionalPropertiesClass>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5174,13 +5496,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MixedPropertiesAndAdditio
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MixedPropertiesAndAdditionalPropertiesClass>> {
     type Error = String;
 
@@ -5195,16 +5516,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <MixedPropertiesAndAdditionalPropertiesClass as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into MixedPropertiesAndAdditionalPropertiesClass - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into MixedPropertiesAndAdditionalPropertiesClass - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -5219,18 +5538,40 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<i32>,
 
     #[serde(rename = "class")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub class: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Model200Response {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Model200Response {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5245,10 +5586,10 @@ impl Model200Response {
 }
 
 /// Converts the Model200Response value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Model200Response {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Model200Response {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.name.as_ref().map(|name| {
                 [
@@ -5264,12 +5605,12 @@ impl std::string::ToString for Model200Response {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Model200Response value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Model200Response {
     type Err = String;
@@ -5329,8 +5670,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Model200Response>> for hyper:
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Model200Response - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Model200Response - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -5345,18 +5685,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Model200Response as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Model200Response - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Model200Response - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model200Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5367,13 +5705,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model200Response>>> for h
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Model200Response>> {
     type Error = String;
 
@@ -5388,16 +5725,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Model200Response as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Model200Response - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Model200Response - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -5412,25 +5747,49 @@ impl Model200Response {
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
     #[serde(rename = "name")]
+
     pub name: i32,
 
     #[serde(rename = "snake_case")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub snake_case: Option<i32>,
 
     #[serde(rename = "property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub property: Option<String>,
 
     #[serde(rename = "123Number")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_number: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Name {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Name {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5447,10 +5806,10 @@ impl Name {
 }
 
 /// Converts the Name value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Name {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Name {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("name".to_string()),
             Some(self.name.to_string()),
@@ -5474,12 +5833,12 @@ impl std::string::ToString for Name {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Name value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Name {
     type Err = String;
@@ -5547,8 +5906,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Name>> for hyper::header::Hea
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Name - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Name - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -5563,18 +5921,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Name as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Name - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Name - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Name>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5585,13 +5941,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Name>>> for hyper::header
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Name>> {
     type Error = String;
 
@@ -5606,16 +5961,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Name as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Name - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Name - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -5629,13 +5982,34 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_number: Option<f64>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for NumberOnly {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for NumberOnly {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5649,10 +6023,10 @@ impl NumberOnly {
 }
 
 /// Converts the NumberOnly value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for NumberOnly {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for NumberOnly {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.just_number.as_ref().map(|just_number| {
                 [
@@ -5662,12 +6036,12 @@ impl std::string::ToString for NumberOnly {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a NumberOnly value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for NumberOnly {
     type Err = String;
@@ -5723,8 +6097,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<NumberOnly>> for hyper::heade
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for NumberOnly - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for NumberOnly - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -5739,18 +6112,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <NumberOnly as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into NumberOnly - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into NumberOnly - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NumberOnly>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5761,13 +6132,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NumberOnly>>> for hyper::
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NumberOnly>> {
     type Error = String;
 
@@ -5782,16 +6152,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <NumberOnly as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into NumberOnly - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into NumberOnly - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -5805,13 +6173,35 @@ impl NumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectContainingObjectWithOnlyAdditionalProperties {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectContainingObjectWithOnlyAdditionalProperties {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -5825,20 +6215,20 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 }
 
 /// Converts the ObjectContainingObjectWithOnlyAdditionalProperties value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectContainingObjectWithOnlyAdditionalProperties {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectContainingObjectWithOnlyAdditionalProperties {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping non-primitive type inner in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectContainingObjectWithOnlyAdditionalProperties value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
     type Err = String;
@@ -5894,8 +6284,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ObjectContainingObjectWithOnl
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ObjectContainingObjectWithOnlyAdditionalProperties - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ObjectContainingObjectWithOnlyAdditionalProperties - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -5910,18 +6299,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ObjectContainingObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ObjectContainingObjectWithOnlyAdditionalProperties - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ObjectContainingObjectWithOnlyAdditionalProperties - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectContainingObjectWithOnlyAdditionalProperties>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5932,13 +6319,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectContainingObjectWit
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectContainingObjectWithOnlyAdditionalProperties>> {
     type Error = String;
 
@@ -5953,16 +6339,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ObjectContainingObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ObjectContainingObjectWithOnlyAdditionalProperties - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ObjectContainingObjectWithOnlyAdditionalProperties - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -5977,8 +6361,11 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct ObjectWithOnlyAdditionalProperties(std::collections::HashMap<String, String>);
+pub struct ObjectWithOnlyAdditionalProperties(
+    std::collections::HashMap<String, String>
+);
 
 impl std::convert::From<std::collections::HashMap<String, String>> for ObjectWithOnlyAdditionalProperties {
     fn from(x: std::collections::HashMap<String, String>) -> Self {
@@ -6005,18 +6392,37 @@ impl std::ops::DerefMut for ObjectWithOnlyAdditionalProperties {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectWithOnlyAdditionalProperties {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectWithOnlyAdditionalProperties {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the ObjectWithOnlyAdditionalProperties value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for ObjectWithOnlyAdditionalProperties {
-    fn to_string(&self) -> String {
-        // ToString for this model is not supported
-        "".to_string()
+impl std::fmt::Display for ObjectWithOnlyAdditionalProperties {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Display for this model is not supported
+        write!(f, "")
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ObjectWithOnlyAdditionalProperties value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for ObjectWithOnlyAdditionalProperties {
     type Err = &'static str;
@@ -6037,8 +6443,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ObjectWithOnlyAdditionalPrope
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ObjectWithOnlyAdditionalProperties - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ObjectWithOnlyAdditionalProperties - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -6053,18 +6458,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ObjectWithOnlyAdditionalProperties - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ObjectWithOnlyAdditionalProperties - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithOnlyAdditionalProperties>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6075,13 +6478,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithOnlyAdditionalP
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectWithOnlyAdditionalProperties>> {
     type Error = String;
 
@@ -6096,16 +6498,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ObjectWithOnlyAdditionalProperties - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ObjectWithOnlyAdditionalProperties - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -6119,34 +6519,61 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "petId")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub pet_id: Option<i64>,
 
     #[serde(rename = "quantity")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub quantity: Option<i32>,
 
     #[serde(rename = "shipDate")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub ship_date: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "status")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::OrderStatus>,
 
     #[serde(rename = "complete")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub complete: Option<bool>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Order {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Order {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -6165,10 +6592,10 @@ impl Order {
 }
 
 /// Converts the Order value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Order {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Order {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id.as_ref().map(|id| {
                 [
@@ -6198,12 +6625,12 @@ impl std::string::ToString for Order {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Order value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Order {
     type Err = String;
@@ -6279,8 +6706,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Order>> for hyper::header::He
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Order - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Order - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -6295,18 +6721,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Order as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Order - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Order - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Order>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6317,13 +6741,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Order>>> for hyper::heade
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Order>> {
     type Error = String;
 
@@ -6338,16 +6761,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Order as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Order - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Order - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -6368,6 +6789,7 @@ impl Order {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OrderStatus {
     #[serde(rename = "placed")]
@@ -6396,7 +6818,7 @@ impl std::str::FromStr for OrderStatus {
             "placed" => std::result::Result::Ok(OrderStatus::Placed),
             "approved" => std::result::Result::Ok(OrderStatus::Approved),
             "delivered" => std::result::Result::Ok(OrderStatus::Delivered),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -6412,8 +6834,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OrderStatus>> for hyper::head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for OrderStatus - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for OrderStatus - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -6428,18 +6849,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <OrderStatus as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into OrderStatus - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into OrderStatus - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OrderStatus>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6450,13 +6869,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OrderStatus>>> for hyper:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OrderStatus>> {
     type Error = String;
 
@@ -6471,16 +6889,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <OrderStatus as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into OrderStatus - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into OrderStatus - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -6495,8 +6911,11 @@ impl OrderStatus {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterBoolean(bool);
+pub struct OuterBoolean(
+    bool
+);
 
 impl std::convert::From<bool> for OuterBoolean {
     fn from(x: bool) -> Self {
@@ -6523,17 +6942,36 @@ impl std::ops::DerefMut for OuterBoolean {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterBoolean {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterBoolean {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the OuterBoolean value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for OuterBoolean {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for OuterBoolean {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a OuterBoolean value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for OuterBoolean {
     type Err = String;
@@ -6541,7 +6979,7 @@ impl ::std::str::FromStr for OuterBoolean {
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match std::str::FromStr::from_str(s) {
              std::result::Result::Ok(r) => std::result::Result::Ok(OuterBoolean(r)),
-             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to OuterBoolean: {:?}", s, e)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {s} to OuterBoolean: {e:?}")),
         }
     }
 }
@@ -6557,8 +6995,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OuterBoolean>> for hyper::hea
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for OuterBoolean - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for OuterBoolean - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -6573,18 +7010,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <OuterBoolean as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into OuterBoolean - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into OuterBoolean - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterBoolean>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6595,13 +7030,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterBoolean>>> for hyper
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterBoolean>> {
     type Error = String;
 
@@ -6616,16 +7050,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <OuterBoolean as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into OuterBoolean - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into OuterBoolean - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -6639,21 +7071,44 @@ impl OuterBoolean {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_number: Option<f64>,
 
     #[serde(rename = "my_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_string: Option<String>,
 
     #[serde(rename = "my_boolean")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_boolean: Option<bool>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterComposite {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterComposite {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -6669,10 +7124,10 @@ impl OuterComposite {
 }
 
 /// Converts the OuterComposite value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for OuterComposite {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for OuterComposite {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.my_number.as_ref().map(|my_number| {
                 [
@@ -6694,12 +7149,12 @@ impl std::string::ToString for OuterComposite {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a OuterComposite value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for OuterComposite {
     type Err = String;
@@ -6763,8 +7218,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OuterComposite>> for hyper::h
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for OuterComposite - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for OuterComposite - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -6779,18 +7233,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <OuterComposite as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into OuterComposite - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into OuterComposite - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterComposite>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6801,13 +7253,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterComposite>>> for hyp
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterComposite>> {
     type Error = String;
 
@@ -6822,16 +7273,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <OuterComposite as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into OuterComposite - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into OuterComposite - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -6851,6 +7300,7 @@ impl OuterComposite {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OuterEnum {
     #[serde(rename = "placed")]
@@ -6879,7 +7329,7 @@ impl std::str::FromStr for OuterEnum {
             "placed" => std::result::Result::Ok(OuterEnum::Placed),
             "approved" => std::result::Result::Ok(OuterEnum::Approved),
             "delivered" => std::result::Result::Ok(OuterEnum::Delivered),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -6895,8 +7345,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OuterEnum>> for hyper::header
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for OuterEnum - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for OuterEnum - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -6911,18 +7360,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <OuterEnum as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into OuterEnum - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into OuterEnum - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterEnum>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6933,13 +7380,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterEnum>>> for hyper::h
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterEnum>> {
     type Error = String;
 
@@ -6954,16 +7400,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <OuterEnum as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into OuterEnum - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into OuterEnum - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -6978,8 +7422,11 @@ impl OuterEnum {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterNumber(f64);
+pub struct OuterNumber(
+    f64
+);
 
 impl std::convert::From<f64> for OuterNumber {
     fn from(x: f64) -> Self {
@@ -7006,17 +7453,36 @@ impl std::ops::DerefMut for OuterNumber {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterNumber {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterNumber {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the OuterNumber value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for OuterNumber {
-    fn to_string(&self) -> String {
-        self.0.to_string()
+impl std::fmt::Display for OuterNumber {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a OuterNumber value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl ::std::str::FromStr for OuterNumber {
     type Err = String;
@@ -7024,7 +7490,7 @@ impl ::std::str::FromStr for OuterNumber {
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match std::str::FromStr::from_str(s) {
              std::result::Result::Ok(r) => std::result::Result::Ok(OuterNumber(r)),
-             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to OuterNumber: {:?}", s, e)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {s} to OuterNumber: {e:?}")),
         }
     }
 }
@@ -7040,8 +7506,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OuterNumber>> for hyper::head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for OuterNumber - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for OuterNumber - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -7056,18 +7521,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <OuterNumber as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into OuterNumber - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into OuterNumber - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterNumber>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7078,13 +7541,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterNumber>>> for hyper:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterNumber>> {
     type Error = String;
 
@@ -7099,16 +7561,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <OuterNumber as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into OuterNumber - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into OuterNumber - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -7123,8 +7583,11 @@ impl OuterNumber {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterString(String);
+pub struct OuterString(
+    String
+);
 
 impl std::convert::From<String> for OuterString {
     fn from(x: String) -> Self {
@@ -7151,9 +7614,28 @@ impl std::ops::DerefMut for OuterString {
     }
 }
 
-impl std::string::ToString for OuterString {
-    fn to_string(&self) -> String {
-       self.0.clone()
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterString {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for OuterString {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+impl std::fmt::Display for OuterString {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.clone())
     }
 }
 
@@ -7175,8 +7657,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<OuterString>> for hyper::head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for OuterString - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for OuterString - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -7191,18 +7672,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <OuterString as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into OuterString - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into OuterString - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterString>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7213,13 +7692,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OuterString>>> for hyper:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OuterString>> {
     type Error = String;
 
@@ -7234,16 +7712,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <OuterString as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into OuterString - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into OuterString - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -7257,32 +7733,61 @@ impl OuterString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
+
     pub name: String,
 
     #[serde(rename = "photoUrls")]
+
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     #[serde(rename = "status")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::PetStatus>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Pet {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Pet {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -7301,10 +7806,10 @@ impl Pet {
 }
 
 /// Converts the Pet value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Pet {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Pet {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id.as_ref().map(|id| {
                 [
@@ -7321,12 +7826,12 @@ impl std::string::ToString for Pet {
             // Skipping non-primitive type status in query parameter serialization
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Pet value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Pet {
     type Err = String;
@@ -7400,8 +7905,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Pet>> for hyper::header::Head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Pet - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Pet - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -7416,18 +7920,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Pet as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Pet - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Pet - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Pet>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7438,13 +7940,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Pet>>> for hyper::header:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Pet>> {
     type Error = String;
 
@@ -7459,16 +7960,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Pet as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Pet - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Pet - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -7489,6 +7988,7 @@ impl Pet {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum PetStatus {
     #[serde(rename = "available")]
@@ -7517,7 +8017,7 @@ impl std::str::FromStr for PetStatus {
             "available" => std::result::Result::Ok(PetStatus::Available),
             "pending" => std::result::Result::Ok(PetStatus::Pending),
             "sold" => std::result::Result::Ok(PetStatus::Sold),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -7533,8 +8033,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<PetStatus>> for hyper::header
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for PetStatus - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for PetStatus - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -7549,18 +8048,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <PetStatus as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into PetStatus - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into PetStatus - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<PetStatus>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7571,13 +8068,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<PetStatus>>> for hyper::h
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<PetStatus>> {
     type Error = String;
 
@@ -7592,16 +8088,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <PetStatus as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into PetStatus - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into PetStatus - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -7615,17 +8109,39 @@ impl PetStatus {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "baz")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub baz: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ReadOnlyFirst {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ReadOnlyFirst {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -7640,10 +8156,10 @@ impl ReadOnlyFirst {
 }
 
 /// Converts the ReadOnlyFirst value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ReadOnlyFirst {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ReadOnlyFirst {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.bar.as_ref().map(|bar| {
                 [
@@ -7659,12 +8175,12 @@ impl std::string::ToString for ReadOnlyFirst {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a ReadOnlyFirst value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for ReadOnlyFirst {
     type Err = String;
@@ -7724,8 +8240,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<ReadOnlyFirst>> for hyper::he
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ReadOnlyFirst - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for ReadOnlyFirst - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -7740,18 +8255,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <ReadOnlyFirst as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ReadOnlyFirst - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into ReadOnlyFirst - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ReadOnlyFirst>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7762,13 +8275,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ReadOnlyFirst>>> for hype
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ReadOnlyFirst>> {
     type Error = String;
 
@@ -7783,16 +8295,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <ReadOnlyFirst as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into ReadOnlyFirst - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into ReadOnlyFirst - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -7807,14 +8317,35 @@ impl ReadOnlyFirst {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct Return {
     #[serde(rename = "return")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#return: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Return {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Return {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -7828,10 +8359,10 @@ impl Return {
 }
 
 /// Converts the Return value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Return {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Return {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.r#return.as_ref().map(|r#return| {
                 [
@@ -7841,12 +8372,12 @@ impl std::string::ToString for Return {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Return value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Return {
     type Err = String;
@@ -7902,8 +8433,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Return>> for hyper::header::H
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Return - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Return - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -7918,18 +8448,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Return as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Return - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Return - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Return>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -7940,13 +8468,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Return>>> for hyper::head
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Return>> {
     type Error = String;
 
@@ -7961,16 +8488,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Return as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Return - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Return - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -7984,18 +8509,40 @@ impl Return {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for Tag {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for Tag {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -8010,10 +8557,10 @@ impl Tag {
 }
 
 /// Converts the Tag value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Tag {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Tag {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id.as_ref().map(|id| {
                 [
@@ -8029,12 +8576,12 @@ impl std::string::ToString for Tag {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Tag value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Tag {
     type Err = String;
@@ -8094,8 +8641,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Tag>> for hyper::header::Head
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for Tag - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for Tag - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -8110,18 +8656,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <Tag as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into Tag - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into Tag - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Tag>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8132,13 +8676,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Tag>>> for hyper::header:
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Tag>> {
     type Error = String;
 
@@ -8153,16 +8696,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <Tag as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into Tag - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into Tag - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -8182,6 +8723,7 @@ impl Tag {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringArrayParameterInner {
     #[serde(rename = ">")]
@@ -8206,7 +8748,7 @@ impl std::str::FromStr for TestEnumParametersEnumHeaderStringArrayParameterInner
         match s {
             ">" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringArrayParameterInner::GreaterThan),
             "$" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringArrayParameterInner::Dollar),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -8222,8 +8764,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersEnumHeaderS
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for TestEnumParametersEnumHeaderStringArrayParameterInner - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for TestEnumParametersEnumHeaderStringArrayParameterInner - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -8238,18 +8779,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <TestEnumParametersEnumHeaderStringArrayParameterInner as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into TestEnumParametersEnumHeaderStringArrayParameterInner - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into TestEnumParametersEnumHeaderStringArrayParameterInner - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringArrayParameterInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8260,13 +8799,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHea
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringArrayParameterInner>> {
     type Error = String;
 
@@ -8281,16 +8819,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <TestEnumParametersEnumHeaderStringArrayParameterInner as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into TestEnumParametersEnumHeaderStringArrayParameterInner - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into TestEnumParametersEnumHeaderStringArrayParameterInner - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -8310,6 +8846,7 @@ impl TestEnumParametersEnumHeaderStringArrayParameterInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringParameter {
     #[serde(rename = "_abc")]
@@ -8338,7 +8875,7 @@ impl std::str::FromStr for TestEnumParametersEnumHeaderStringParameter {
             "_abc" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringParameter::Abc),
             "-efg" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringParameter::Efg),
             "(xyz)" => std::result::Result::Ok(TestEnumParametersEnumHeaderStringParameter::LeftParenthesisXyzRightParenthesis),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -8354,8 +8891,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersEnumHeaderS
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for TestEnumParametersEnumHeaderStringParameter - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for TestEnumParametersEnumHeaderStringParameter - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -8370,18 +8906,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <TestEnumParametersEnumHeaderStringParameter as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into TestEnumParametersEnumHeaderStringParameter - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into TestEnumParametersEnumHeaderStringParameter - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringParameter>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8392,13 +8926,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumHea
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumHeaderStringParameter>> {
     type Error = String;
 
@@ -8413,16 +8946,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <TestEnumParametersEnumHeaderStringParameter as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into TestEnumParametersEnumHeaderStringParameter - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into TestEnumParametersEnumHeaderStringParameter - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -8442,19 +8973,20 @@ impl TestEnumParametersEnumHeaderStringParameter {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryDoubleParameter {
     #[serde(rename = "1.1")]
-    Variant1Period1,
+    Variant11,
     #[serde(rename = "-1.2")]
-    Variant1Period2,
+    Variant12,
 }
 
 impl std::fmt::Display for TestEnumParametersEnumQueryDoubleParameter {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            TestEnumParametersEnumQueryDoubleParameter::Variant1Period1 => write!(f, "1.1"),
-            TestEnumParametersEnumQueryDoubleParameter::Variant1Period2 => write!(f, "-1.2"),
+            TestEnumParametersEnumQueryDoubleParameter::Variant11 => write!(f, "1.1"),
+            TestEnumParametersEnumQueryDoubleParameter::Variant12 => write!(f, "-1.2"),
         }
     }
 }
@@ -8464,9 +8996,9 @@ impl std::str::FromStr for TestEnumParametersEnumQueryDoubleParameter {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "1.1" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant1Period1),
-            "-1.2" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant1Period2),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            "1.1" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant11),
+            "-1.2" => std::result::Result::Ok(TestEnumParametersEnumQueryDoubleParameter::Variant12),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -8482,8 +9014,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersEnumQueryDo
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for TestEnumParametersEnumQueryDoubleParameter - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for TestEnumParametersEnumQueryDoubleParameter - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -8498,18 +9029,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <TestEnumParametersEnumQueryDoubleParameter as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into TestEnumParametersEnumQueryDoubleParameter - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into TestEnumParametersEnumQueryDoubleParameter - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryDoubleParameter>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8520,13 +9049,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQue
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryDoubleParameter>> {
     type Error = String;
 
@@ -8541,16 +9069,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <TestEnumParametersEnumQueryDoubleParameter as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into TestEnumParametersEnumQueryDoubleParameter - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into TestEnumParametersEnumQueryDoubleParameter - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -8568,22 +9094,18 @@ impl TestEnumParametersEnumQueryDoubleParameter {
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[repr(i32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde_repr::Serialize_repr, serde_repr::Deserialize_repr, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryIntegerParameter {
-    #[serde(rename = "1")]
-    Variant1,
-    #[serde(rename = "-2")]
-    Variant2,
+    Variant1 = 1,
+    Variant2 = -2,
 }
 
 impl std::fmt::Display for TestEnumParametersEnumQueryIntegerParameter {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            TestEnumParametersEnumQueryIntegerParameter::Variant1 => write!(f, "1"),
-            TestEnumParametersEnumQueryIntegerParameter::Variant2 => write!(f, "-2"),
-        }
+        write!(f, "{}", *self as i32)
     }
 }
 
@@ -8591,10 +9113,10 @@ impl std::str::FromStr for TestEnumParametersEnumQueryIntegerParameter {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "1" => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant1),
-            "-2" => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant2),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+        match s.parse::<i32>() {
+            std::result::Result::Ok(1) => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant1),
+            std::result::Result::Ok(-2) => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant2),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -8610,8 +9132,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersEnumQueryIn
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for TestEnumParametersEnumQueryIntegerParameter - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for TestEnumParametersEnumQueryIntegerParameter - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -8626,18 +9147,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <TestEnumParametersEnumQueryIntegerParameter as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into TestEnumParametersEnumQueryIntegerParameter - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into TestEnumParametersEnumQueryIntegerParameter - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryIntegerParameter>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8648,13 +9167,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersEnumQue
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersEnumQueryIntegerParameter>> {
     type Error = String;
 
@@ -8669,16 +9187,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <TestEnumParametersEnumQueryIntegerParameter as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into TestEnumParametersEnumQueryIntegerParameter - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into TestEnumParametersEnumQueryIntegerParameter - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -8699,6 +9215,7 @@ impl TestEnumParametersEnumQueryIntegerParameter {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersRequestEnumFormString {
     #[serde(rename = "_abc")]
@@ -8727,7 +9244,7 @@ impl std::str::FromStr for TestEnumParametersRequestEnumFormString {
             "_abc" => std::result::Result::Ok(TestEnumParametersRequestEnumFormString::Abc),
             "-efg" => std::result::Result::Ok(TestEnumParametersRequestEnumFormString::Efg),
             "(xyz)" => std::result::Result::Ok(TestEnumParametersRequestEnumFormString::LeftParenthesisXyzRightParenthesis),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
 }
@@ -8743,8 +9260,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<TestEnumParametersRequestEnum
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for TestEnumParametersRequestEnumFormString - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for TestEnumParametersRequestEnumFormString - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -8759,18 +9275,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <TestEnumParametersRequestEnumFormString as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into TestEnumParametersRequestEnumFormString - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into TestEnumParametersRequestEnumFormString - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersRequestEnumFormString>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -8781,13 +9295,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<TestEnumParametersRequest
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<TestEnumParametersRequestEnumFormString>> {
     type Error = String;
 
@@ -8802,16 +9315,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <TestEnumParametersRequestEnumFormString as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into TestEnumParametersRequestEnumFormString - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into TestEnumParametersRequestEnumFormString - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }
@@ -8825,43 +9336,71 @@ impl TestEnumParametersRequestEnumFormString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub phone: Option<String>,
 
     /// User Status
     #[serde(rename = "userStatus")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub user_status: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for User {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for User {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -8882,10 +9421,10 @@ impl User {
 }
 
 /// Converts the User value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
+/// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
-impl std::string::ToString for User {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for User {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id.as_ref().map(|id| {
                 [
@@ -8937,12 +9476,12 @@ impl std::string::ToString for User {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 
 /// Converts Query Parameters representation (style=form, explode=false) to a User value
-/// as specified in https://swagger.io/docs/specification/serialization/
+/// as specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for User {
     type Err = String;
@@ -9026,8 +9565,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<User>> for hyper::header::Hea
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for User - value: {} is invalid {}",
-                     hdr_value, e))
+                 format!("Invalid header value for User - value: {hdr_value} is invalid {e}"))
         }
     }
 }
@@ -9042,18 +9580,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                     match <User as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into User - {}",
-                                value, err))
+                            format!("Unable to convert header value '{value}' into User - {err}"))
                     }
              },
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<User>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -9064,13 +9600,12 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<User>>> for hyper::header
 
         match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
            std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
-           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
-               hdr_values, e))
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
         }
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<User>> {
     type Error = String;
 
@@ -9085,16 +9620,14 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                         match <User as std::str::FromStr>::from_str(hdr_value) {
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
-                                format!("Unable to convert header value '{}' into User - {}",
-                                    hdr_value, err))
+                                format!("Unable to convert header value '{hdr_value}' into User - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
 
                 std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
             },
-            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
-                hdr_values, e)),
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
         }
     }
 }

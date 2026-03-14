@@ -151,6 +151,14 @@ data class ApiPet (
             require(jsonObj["photoUrls"].isJsonArray()) {
               String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj["photoUrls"].toString())
             }
+            // ensure the items in json array are primitive
+            if (jsonObj["photoUrls"] != null) {
+              for (i in 0 until jsonObj.getAsJsonArray("photoUrls").size()) {
+                require(jsonObj.getAsJsonArray("photoUrls").get(i).isJsonPrimitive) {
+                  String.format("Expected the property in array `photoUrls` to be primitive")
+                }
+              }
+            }
             // validate the optional field `category`
             if (jsonObj["category"] != null && !jsonObj["category"].isJsonNull) {
               ApiCategory.validateJsonElement(jsonObj["category"])
@@ -175,7 +183,7 @@ data class ApiPet (
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-                require(Status.values().any { it.value == jsonObj["status"].asString }) {
+                require(Status.entries.any { it.value == jsonObj["status"].asString }) {
                     String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
                 }
             }

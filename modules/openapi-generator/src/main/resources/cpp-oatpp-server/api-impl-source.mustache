@@ -1,0 +1,27 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include "{{classname}}Controller.hpp"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{#operation}}
+std::shared_ptr<oatpp::web::protocol::http::outgoing::Response> {{classname}}Controller::{{operationIdSnakeCase}}(const std::shared_ptr<IncomingRequest> &request{{#allParams}}{{#isPathParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isPathParam}}{{#isQueryParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isQueryParam}}{{#isBodyParam}}, const {{#isModel}}oatpp::Object<{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}>{{/isModel}}{{^isModel}}{{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}}{{/isModel}} &{{paramName}}{{/isBodyParam}}{{#isHeaderParam}}, const {{#isModel}}{{modelNamespace}}::{{/isModel}}{{{dataType}}} &{{paramName}}{{/isHeaderParam}}{{/allParams}}) {
+    (void)request;
+    {{#allParams}}
+    {{#isPathParam}}(void){{paramName}};{{/isPathParam}}
+    {{#isQueryParam}}(void){{paramName}};{{/isQueryParam}}
+    {{#isBodyParam}}(void){{paramName}};{{/isBodyParam}}
+    {{#isHeaderParam}}(void){{paramName}};{{/isHeaderParam}}
+    {{/allParams}}
+    return createResponse(Status::CODE_501, "TODO: Implement API Handler");
+}
+{{/operation}}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}

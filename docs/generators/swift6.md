@@ -7,7 +7,7 @@ title: Documentation for the swift6 Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | swift6 | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Swift | |
 | generator default templating engine | mustache | |
@@ -56,7 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useBacktickEscapes|Escape reserved words using backticks (default: false)| |false|
 |useClasses|Use final classes for models instead of structs (default: false)| |false|
 |useCustomDateWithoutTime|Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)| |false|
-|useJsonEncodable|Make models conform to JSONEncodable protocol (default: true)| |true|
+|useParameterConvertible|Make models conform to ParameterConvertible protocol (default: true)| |true|
 |useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: true).| |null|
 |validatable|Make validation rules and validator for model properties (default: true)| |true|
 

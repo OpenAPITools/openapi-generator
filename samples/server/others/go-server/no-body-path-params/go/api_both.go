@@ -52,12 +52,27 @@ func NewBothAPIController(s BothAPIServicer, opts ...BothAPIOption) *BothAPICont
 func (c *BothAPIController) Routes() Routes {
 	return Routes{
 		"Both": Route{
+			"Both",
 			strings.ToUpper("Post"),
 			"/both/endpoint/{pathParam}",
 			c.Both,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the BothAPIController
+func (c *BothAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"Both",
+			strings.ToUpper("Post"),
+			"/both/endpoint/{pathParam}",
+			c.Both,
+		},
+	}
+}
+
+
 
 // Both - summary
 func (c *BothAPIController) Both(w http.ResponseWriter, r *http.Request) {

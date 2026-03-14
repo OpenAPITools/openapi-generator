@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Cat extends Animal {
 
   private @Nullable Boolean declawed;
@@ -46,7 +46,7 @@ public class Cat extends Animal {
     super(className);
   }
 
-  public Cat declawed(Boolean declawed) {
+  public Cat declawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
@@ -57,11 +57,12 @@ public class Cat extends Animal {
    */
   
   @JsonProperty("declawed")
-  public Boolean getDeclawed() {
+  public @Nullable Boolean getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  @JsonProperty("declawed")
+  public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }
 
@@ -107,7 +108,7 @@ public class Cat extends Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

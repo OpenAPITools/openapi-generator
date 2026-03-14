@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -12,8 +12,6 @@
 
 package org.openapitools.server;
 
-import com.fasterxml.jackson.databind.util.StdDateFormat;
-
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
@@ -21,8 +19,9 @@ import java.util.Date;
 import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMicroprofileServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMicroprofileServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class RFC3339DateFormat extends DateFormat {
   private static final long serialVersionUID = 1L;
   private static final TimeZone TIMEZONE_Z = TimeZone.getTimeZone("UTC");

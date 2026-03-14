@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::CookieJar;
 use bytes::Bytes;
+use headers::Host;
 use http::Method;
 use serde::{Deserialize, Serialize};
 
@@ -58,6 +59,7 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// DeleteOrder - DELETE /v2/store/order/{orderId}
     async fn delete_order(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -69,6 +71,7 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// GetInventory - GET /v2/store/inventory
     async fn get_inventory(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -80,6 +83,7 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// GetOrderById - GET /v2/store/order/{orderId}
     async fn get_order_by_id(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -91,6 +95,7 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// PlaceOrder - POST /v2/store/order
     async fn place_order(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestResultCode testResultCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testResultCode.ToString());
+            writer.WriteStringValue(TestResultCodeValueConverter.ToJsonValue(testResultCode).ToString());
         }
     }
 
@@ -164,14 +164,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the TestResultCode to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="testResultCode"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestResultCode? testResultCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testResultCode?.ToString() ?? "null");
+            writer.WriteStringValue(testResultCode.HasValue ? TestResultCodeValueConverter.ToJsonValue(testResultCode.Value).ToString() : "null");
         }
     }
 }

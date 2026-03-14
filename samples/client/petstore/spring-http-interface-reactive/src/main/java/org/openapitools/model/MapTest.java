@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class MapTest {
 
   
@@ -34,7 +34,7 @@ public class MapTest {
     
     LOWER("lower");
 
-    private String value;
+    private final String value;
 
     InnerEnum(String value) {
       this.value = value;
@@ -93,6 +93,7 @@ public class MapTest {
     return mapMapOfString;
   }
 
+  @JsonProperty("map_map_of_string")
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
@@ -120,6 +121,7 @@ public class MapTest {
     return mapOfEnumString;
   }
 
+  @JsonProperty("map_of_enum_string")
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
@@ -147,6 +149,7 @@ public class MapTest {
     return directMap;
   }
 
+  @JsonProperty("direct_map")
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
@@ -174,6 +177,7 @@ public class MapTest {
     return indirectMap;
   }
 
+  @JsonProperty("indirect_map")
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
@@ -214,7 +218,7 @@ public class MapTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

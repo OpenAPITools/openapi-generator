@@ -102,10 +102,11 @@ test {
 
 ext {
     swagger_annotations_version = "1.6.11"
-    jackson_version = "2.17.1"
-    jackson_databind_version = "2.17.1"
+    jackson_version = "2.21.1"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.1"
     jakarta_annotation_version = "1.3.5"
-    feign_version = "10.12"
+    feign_version = "13.5"
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"
@@ -121,7 +122,7 @@ dependencies {
     implementation "io.github.openfeign:feign-okhttp:$feign_version"
     implementation "io.github.openfeign.form:feign-form:$feign_form_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "com.brsanthu:migbase64:2.2"

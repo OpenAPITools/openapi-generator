@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * Client
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Client {
 
   private @Nullable String client;
@@ -36,7 +36,7 @@ public class Client {
       this.client = client;
   }
 
-  public Client client(String client) {
+  public Client client(@Nullable String client) {
     this.client = client;
     return this;
   }
@@ -48,11 +48,12 @@ public class Client {
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")
-  public String getClient() {
+  public @Nullable String getClient() {
     return client;
   }
 
-  public void setClient(String client) {
+  @JsonProperty("client")
+  public void setClient(@Nullable String client) {
     this.client = client;
   }
 
@@ -86,7 +87,7 @@ public class Client {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

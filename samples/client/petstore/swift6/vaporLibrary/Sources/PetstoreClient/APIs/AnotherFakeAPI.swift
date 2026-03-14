@@ -18,7 +18,7 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func call123testSpecialTagsRaw(uuidTest: UUID, body: Client, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func call123testSpecialTagsRaw(uuidTest: UUID, body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/another-fake/dummy"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -26,8 +26,8 @@ open class AnotherFakeAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.PATCH, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.PATCH, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             localVariableRequest.headers.add(name: "uuid_test", value: uuidTest.description)
             
@@ -51,8 +51,8 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `Call123testSpecialTags` 
      */
-    open class func call123testSpecialTags(uuidTest: UUID, body: Client, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags> {
-        return call123testSpecialTagsRaw(uuidTest: uuidTest, body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> Call123testSpecialTags in
+    open class func call123testSpecialTags(uuidTest: UUID, body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags> {
+        return call123testSpecialTagsRaw(uuidTest: uuidTest, body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> Call123testSpecialTags in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(Client.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)

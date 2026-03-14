@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -33,13 +35,14 @@ import javax.json.bind.annotation.JsonbCreator;
 public class ModelApiResponse  {
   
   @JsonbProperty("code")
-  private Integer code;
+  protected Integer code;
 
   @JsonbProperty("type")
-  private String type;
+  protected String type;
 
   @JsonbProperty("message")
-  private String message;
+  protected String message;
+
 
   /**
    * Get code

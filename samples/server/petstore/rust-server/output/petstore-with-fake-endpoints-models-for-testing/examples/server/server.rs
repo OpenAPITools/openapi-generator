@@ -4,8 +4,9 @@
 
 use async_trait::async_trait;
 use futures::{future, Stream, StreamExt, TryFutureExt, TryStreamExt};
-use hyper::server::conn::Http;
-use hyper::service::Service;
+use hyper::server::conn::http1;
+use hyper_util::rt::TokioIo;
+use hyper::service::{service_fn, Service};
 use log::info;
 use std::future::Future;
 use std::marker::PhantomData;
@@ -24,12 +25,12 @@ use petstore_with_fake_endpoints_models_for_testing::models;
 
 /// Builds an SSL implementation for Simple HTTPS from some hard-coded file names
 pub async fn create(addr: &str, https: bool) {
-    let addr = addr.parse().expect("Failed to parse bind address");
+    let addr: SocketAddr = addr.parse().expect("Failed to parse bind address");
+    let listener = TcpListener::bind(&addr).await.unwrap();
 
     let server = Server::new();
 
     let service = MakeService::new(server);
-
     let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
     #[allow(unused_mut)]
@@ -54,21 +55,19 @@ pub async fn create(addr: &str, https: bool) {
             ssl.check_private_key().expect("Failed to check private key");
 
             let tls_acceptor = ssl.build();
-            let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
             info!("Starting a server (with https)");
             loop {
-                if let Ok((tcp, _)) = tcp_listener.accept().await {
+                if let Ok((tcp, addr)) = listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
-                    let addr = tcp.peer_addr().expect("Unable to get remote address");
                     let service = service.call(addr);
 
                     tokio::spawn(async move {
                         let tls = tokio_openssl::SslStream::new(ssl, tcp).map_err(|_| ())?;
                         let service = service.await.map_err(|_| ())?;
 
-                        Http::new()
-                            .serve_connection(tls, service)
+                        http1::Builder::new()
+                            .serve_connection(TokioIo::new(tls), service)
                             .await
                             .map_err(|_| ())
                     });
@@ -77,12 +76,40 @@ pub async fn create(addr: &str, https: bool) {
         }
     } else {
         info!("Starting a server (over http, so no TLS)");
-        // Using HTTP
-        hyper::server::Server::bind(&addr).serve(service).await.unwrap()
+        println!("Listening on http://{}", addr);
+
+        loop {
+            // When an incoming TCP connection is received grab a TCP stream for
+            // client<->server communication.
+            //
+            // Note, this is a .await point, this loop will loop forever but is not a busy loop. The
+            // .await point allows the Tokio runtime to pull the task off of the thread until the task
+            // has work to do. In this case, a connection arrives on the port we are listening on and
+            // the task is woken up, at which point the task is then put back on a thread, and is
+            // driven forward by the runtime, eventually yielding a TCP stream.
+            let (tcp_stream, addr) = listener.accept().await.expect("Failed to accept connection");
+
+            let service = service.call(addr).await.unwrap();
+            let io = TokioIo::new(tcp_stream);
+            // Spin up a new task in Tokio so we can continue to listen for new TCP connection on the
+            // current task without waiting for the processing of the HTTP1 connection we just received
+            // to finish
+            tokio::task::spawn(async move {
+                // Handle the connection from the client using HTTP1 and pass any
+                // HTTP requests received on that connection to the `hello` function
+                let result = http1::Builder::new()
+                    .serve_connection(io, service)
+                    .await;
+                if let Err(err) = result
+                {
+                    println!("Error serving connection: {err:?}");
+                }
+            });
+        }
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy)]
 pub struct Server<C> {
     marker: PhantomData<C>,
 }
@@ -90,6 +117,14 @@ pub struct Server<C> {
 impl<C> Server<C> {
     pub fn new() -> Self {
         Server{marker: PhantomData}
+    }
+}
+
+impl<C> Clone for Server<C> {
+    fn clone(&self) -> Self {
+        Self {
+            marker: PhantomData,
+        }
     }
 }
 
@@ -234,8 +269,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -251,11 +286,11 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// To test enum parameters
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -317,9 +352,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Finds Pets by status
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         info!("find_pets_by_status({:?}) - X-Span-ID: {:?}", status, context.get().0.clone());
@@ -327,9 +362,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Finds Pets by tags
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        tags: &Vec<String>,
+        tags: &'a Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>
     {
         info!("find_pets_by_tags({:?}) - X-Span-ID: {:?}", tags, context.get().0.clone());
@@ -423,7 +458,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         context: &C) -> Result<GetOrderByIdResponse, ApiError>
     {
         info!("get_order_by_id({}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
@@ -441,9 +476,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
         info!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -451,9 +486,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
         info!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());

@@ -19,12 +19,12 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class SpecialModelName {
 
   private @Nullable Long $specialPropertyName;
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -35,11 +35,12 @@ public class SpecialModelName {
    */
   
   @JsonProperty("$special[property.name]")
-  public Long get$SpecialPropertyName() {
+  public @Nullable Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  @JsonProperty("$special[property.name]")
+  public void set$SpecialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
@@ -73,7 +74,7 @@ public class SpecialModelName {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

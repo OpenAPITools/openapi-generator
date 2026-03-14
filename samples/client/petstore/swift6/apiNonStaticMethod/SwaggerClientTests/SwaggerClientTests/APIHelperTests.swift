@@ -23,28 +23,28 @@ class APIHelperTests: XCTestCase {
     }
 
     func testRejectNil() {
-        let source: [String: Any?] = ["a": 1, "b": nil, "c": ["1", nil, "2"], "d": true, "e": false]
-        let expected: [String: Any] = ["a": 1, "c": ["1", nil, "2"], "d": true, "e": false]
-        let actual: [String: Any] = APIHelper.rejectNil(source)!
+        let source: [String: (any Sendable)?] = ["a": 1, "b": nil, "c": ["1", nil, "2"], "d": true, "e": false]
+        let expected: [String: any Sendable] = ["a": 1, "c": ["1", nil, "2"], "d": true, "e": false]
+        let actual: [String: any Sendable] = APIHelper.rejectNil(source)!
         XCTAssert(NSDictionary(dictionary: actual).isEqual(to: expected))
     }
 
     func testRejectNilHeaders() {
-        let source: [String: Any?] = ["a": 1, "b": nil, "c": ["1", nil, "2"], "d": true, "e": false]
+        let source: [String: (any Sendable)?] = ["a": 1, "b": nil, "c": ["1", nil, "2"], "d": true, "e": false]
         let expected: [String: String] = ["a": "1", "c": "1,2", "d": "true", "e": "false"]
         let actual: [String: String] = APIHelper.rejectNilHeaders(source)
         XCTAssert(NSDictionary(dictionary: actual).isEqual(to: expected))
     }
 
     func testConvertBoolToString() {
-        let source: [String: Any] = ["a": 1, "c": ["1", nil, "2"], "d": true, "e": false]
-        let expected: [String: Any] = ["a": 1, "c": ["1", nil, "2"], "d": "true", "e": "false"]
-        let actual: [String: Any] = APIHelper.convertBoolToString(source)!
+        let source: [String: any Sendable] = ["a": 1, "c": ["1", nil, "2"], "d": true, "e": false]
+        let expected: [String: any Sendable] = ["a": 1, "c": ["1", nil, "2"], "d": "true", "e": "false"]
+        let actual: [String: any Sendable] = APIHelper.convertBoolToString(source)!
         XCTAssert(NSDictionary(dictionary: actual).isEqual(to: expected))
     }
 
     func testMapValuesToQueryItems() {
-        let source: [String: Any] = ["a": 1, "c": ["1", nil, "2"], "d": true, "e": false]
+        let source: [String: any Sendable] = ["a": 1, "c": ["1", nil, "2"], "d": true, "e": false]
         let expected: [URLQueryItem] = [URLQueryItem(name: "a", value: "1"),
                                       URLQueryItem(name: "c", value: "1"),
                                       URLQueryItem(name: "c", value: "2"),

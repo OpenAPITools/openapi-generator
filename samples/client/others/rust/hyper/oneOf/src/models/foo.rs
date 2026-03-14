@@ -13,10 +13,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Foo {
-    #[serde(rename = "fooPropA", skip_serializing_if = "Option::is_none")]
-    pub foo_prop_a: Option<String>,
-    #[serde(rename = "fooPropB", skip_serializing_if = "Option::is_none")]
-    pub foo_prop_b: Option<String>,
     /// Hyperlink reference
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,
@@ -32,18 +28,22 @@ pub struct Foo {
     /// When sub-classing, this defines the sub-class Extensible name
     #[serde(rename = "@type")]
     pub at_type: String,
+    #[serde(rename = "fooPropA", skip_serializing_if = "Option::is_none")]
+    pub foo_prop_a: Option<String>,
+    #[serde(rename = "fooPropB", skip_serializing_if = "Option::is_none")]
+    pub foo_prop_b: Option<String>,
 }
 
 impl Foo {
     pub fn new(at_type: String) -> Foo {
         Foo {
-            foo_prop_a: None,
-            foo_prop_b: None,
             href: None,
             id: None,
             at_schema_location: None,
             at_base_type: None,
             at_type,
+            foo_prop_a: None,
+            foo_prop_b: None,
         }
     }
 }

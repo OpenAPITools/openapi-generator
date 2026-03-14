@@ -47,15 +47,35 @@ import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AnotherFakeApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public AnotherFakeApi() {
     this(Configuration.getDefaultApiClient());
@@ -71,9 +91,20 @@ public class AnotherFakeApi {
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
 
-  private ApiException getApiException(String operationId, HttpResponse<String> response) {
-    String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
-    return new ApiException(response.statusCode(), message, response.headers(), response.body());
+
+  private ApiException getApiException(String operationId, HttpResponse<InputStream> response) {
+    try {
+      InputStream responseBody = ApiClient.getResponseBody(response);
+      String body = null;
+      if (responseBody != null) {
+        body = new String(responseBody.readAllBytes());
+        responseBody.close();
+      }
+      String message = formatExceptionMessage(operationId, response.statusCode(), body);
+      return new ApiException(response.statusCode(), message, response.headers(), body);
+    } catch (IOException e) {
+      return new ApiException(e);
+    }
   }
 
   private String formatExceptionMessage(String operationId, int statusCode, String body) {
@@ -84,30 +115,79 @@ public class AnotherFakeApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * To test special tags
    * To test special tags and operation ID starting with number
    * @param client client model (required)
    * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Client> call123testSpecialTags(Client client) throws ApiException {
+  public CompletableFuture<Client> call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
+    return call123testSpecialTags(client, null);
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<Client> call123testSpecialTags(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
-      return memberVarHttpClient.sendAsync(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-            if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(getApiException("call123testSpecialTags", localVarResponse));
-            }
-            try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {})
-              );
-            } catch (IOException e) {
-              return CompletableFuture.failedFuture(new ApiException(e));
-            }
-      });
+      return call123testSpecialTagsWithHttpInfo(client, headers)
+          .thenApply(ApiResponse::getData);
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -121,12 +201,24 @@ public class AnotherFakeApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
+    return call123testSpecialTagsWithHttpInfo(client, null);
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param headers Optional headers to include in the request
+   * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
+      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
               memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
@@ -134,13 +226,34 @@ public class AnotherFakeApi {
               return CompletableFuture.failedFuture(getApiException("call123testSpecialTags", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  new ApiResponse<Client>(
-                      localVarResponse.statusCode(),
-                      localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {}))
-              );
+              InputStream localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+              try {
+                if (localVarResponseBody == null) {
+                  return CompletableFuture.completedFuture(
+                      new ApiResponse<Client>(
+                          localVarResponse.statusCode(),
+                          localVarResponse.headers().map(),
+                          null
+                      )
+                  );
+                }
+                
+                
+                String responseBody = new String(localVarResponseBody.readAllBytes());
+                Client responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {});
+                
+                return CompletableFuture.completedFuture(
+                    new ApiResponse<Client>(
+                        localVarResponse.statusCode(),
+                        localVarResponse.headers().map(),
+                        responseValue
+                    )
+                );
+              } finally {
+                if (localVarResponseBody != null) {
+                  localVarResponseBody.close();
+                }
+              }
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
             }
@@ -152,7 +265,7 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client client) throws ApiException {
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
@@ -176,6 +289,8 @@ public class AnotherFakeApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

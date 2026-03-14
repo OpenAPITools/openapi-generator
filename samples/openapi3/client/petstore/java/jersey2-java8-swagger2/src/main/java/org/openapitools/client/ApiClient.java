@@ -85,15 +85,15 @@ import org.openapitools.client.auth.OAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
-  private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+  protected static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
   protected Map<String, String> defaultHeaderMap = new HashMap<>();
   protected Map<String, String> defaultCookieMap = new HashMap<>();
   protected String basePath = "http://petstore.swagger.io/v2";
   protected String userAgent;
-  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+  protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<>(Arrays.asList(
           new ServerConfiguration(
@@ -110,7 +110,7 @@ public class ApiClient extends JavaTimeFormatter {
   protected boolean debugging = false;
   protected ClientConfig clientConfig;
   protected int connectionTimeout = 0;
-  private int readTimeout = 0;
+  protected int readTimeout = 0;
 
   protected Client httpClient;
   protected JSON json;
@@ -281,13 +281,13 @@ public class ApiClient extends JavaTimeFormatter {
     return this;
   }
 
-  private void updateBasePath() {
+  protected void updateBasePath() {
     if (serverIndex != null) {
         setBasePath(servers.get(serverIndex).URL(serverVariables));
     }
   }
 
-  private void setOauthBasePath(String basePath) {
+  protected void setOauthBasePath(String basePath) {
     for(Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setBasePath(basePath);
@@ -598,6 +598,7 @@ public class ApiClient extends JavaTimeFormatter {
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
+    applyDebugSetting(this.clientConfig);
     // Rebuild HTTP Client according to the new "debugging" value.
     this.httpClient = buildHttpClient();
     return this;
@@ -924,7 +925,7 @@ public class ApiClient extends JavaTimeFormatter {
     return entity;
   }
 
-    /**
+  /**
    * Adds the object with the provided key to the MultiPart.
    * Based on the object type sets Content-Disposition and Content-Type.
    *
@@ -932,7 +933,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param key Key of the object
    * @param multiPart MultiPart to add the form param to
    */
-  private void addParamToMultipart(Object value, String key, MultiPart multiPart) {
+  protected void addParamToMultipart(Object value, String key, MultiPart multiPart) {
     if (value instanceof File) {
       File file = (File) value;
       FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key)
@@ -1125,6 +1126,7 @@ public class ApiClient extends JavaTimeFormatter {
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
+                java.util.Locale.ROOT,
                 "Invalid index %d when selecting the host settings. Must be less than %d",
                 index, serverConfigurations.size()));
       }
@@ -1135,6 +1137,22 @@ public class ApiClient extends JavaTimeFormatter {
     // Not using `.target(targetURL).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
+
+    // put all headers in one place
+    Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
+    allHeaderParams.putAll(headerParams);
+
+    if (authNames != null) {
+      // update different parameters (e.g. headers) for authentication
+      updateParamsForAuth(
+          authNames,
+          queryParams,
+          allHeaderParams,
+          cookieParams,
+          null,
+          method,
+          target.getUri());
+    }
 
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
@@ -1166,22 +1184,6 @@ public class ApiClient extends JavaTimeFormatter {
 
     Entity<?> entity = serialize(body, formParams, contentType, isBodyNullable);
 
-    // put all headers in one place
-    Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
-    allHeaderParams.putAll(headerParams);
-
-    if (authNames != null) {
-      // update different parameters (e.g. headers) for authentication
-      updateParamsForAuth(
-          authNames,
-          queryParams,
-          allHeaderParams,
-          cookieParams,
-          null,
-          method,
-          target.getUri());
-    }
-
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();
       if (value != null) {
@@ -1194,10 +1196,8 @@ public class ApiClient extends JavaTimeFormatter {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
-      final int statusCode = response.getStatusInfo().getStatusCode();
-
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
+      if (authNames != null && response.getStatusInfo().getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
         for (String authName : authNames) {
           Authentication authentication = authentications.get(authName);
           if (authentication instanceof OAuth) {
@@ -1211,6 +1211,8 @@ public class ApiClient extends JavaTimeFormatter {
           }
         }
       }
+      
+      final int statusCode = response.getStatusInfo().getStatusCode();
 
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
@@ -1246,7 +1248,7 @@ public class ApiClient extends JavaTimeFormatter {
     }
   }
 
-  private Response sendRequest(String method, Invocation.Builder invocationBuilder, Entity<?> entity) {
+  protected Response sendRequest(String method, Invocation.Builder invocationBuilder, Entity<?> entity) {
     Response response;
     if ("POST".equals(method)) {
       response = invocationBuilder.post(entity);
@@ -1280,8 +1282,10 @@ public class ApiClient extends JavaTimeFormatter {
    * @return Client
    */
   protected Client buildHttpClient() {
-    // recreate the client config to pickup changes
-    clientConfig = getDefaultClientConfig();
+    // Create ClientConfig if it has not been initialized yet
+    if (clientConfig == null) {
+      clientConfig = getDefaultClientConfig();
+    }
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
     clientBuilder = clientBuilder.withConfig(clientConfig);
@@ -1302,6 +1306,11 @@ public class ApiClient extends JavaTimeFormatter {
     clientConfig.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
     // turn off compliance validation to be able to send payloads with DELETE calls
     clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
+    applyDebugSetting(clientConfig);
+    return clientConfig;
+  }
+
+  protected void applyDebugSetting(ClientConfig clientConfig) {
     if (debugging) {
       clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024*50 /* Log payloads up to 50K */));
       clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
@@ -1311,8 +1320,6 @@ public class ApiClient extends JavaTimeFormatter {
       // suppress warnings for payloads with DELETE calls:
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
     }
-
-    return clientConfig;
   }
 
   /**

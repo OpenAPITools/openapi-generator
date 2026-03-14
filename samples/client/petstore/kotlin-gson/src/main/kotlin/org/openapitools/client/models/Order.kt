@@ -52,6 +52,7 @@ data class Order (
     val complete: kotlin.Boolean? = false
 
 ) {
+    companion object { }
 
     /**
      * Order Status

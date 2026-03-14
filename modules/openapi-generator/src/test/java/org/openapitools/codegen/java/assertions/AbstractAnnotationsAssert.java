@@ -1,5 +1,6 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
@@ -49,27 +50,72 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
         return myself();
     }
 
+    public ACTUAL containsWithNameAndDoesNotContainAttributes(final String name, final List<String> attributes) {
+        super
+                .withFailMessage("Should have annotation with name: " + name + " and no attributes: " + attributes + ", but was: " + actual)
+                .anyMatch(annotation -> annotation.getNameAsString().equals(name) && hasNotAttributes(annotation, attributes));
+        return myself();
+    }
+
+    private static boolean hasNotAttributes(final AnnotationExpr annotation, final List<String> attributes) {
+        final Map<String, String> actualAttributes = getAttributes(annotation);
+
+        return actualAttributes.keySet().stream()
+                .noneMatch(attribute -> attributes.contains(attribute));
+    }
+
     private static boolean hasAttributes(final AnnotationExpr annotation, final Map<String, String> expectedAttributesToContains) {
-        final Map<String, String> actualAttributes;
-        if (annotation instanceof SingleMemberAnnotationExpr) {
-            actualAttributes = ImmutableMap.of(
-                    "value", ((SingleMemberAnnotationExpr) annotation).getMemberValue().toString()
-            );
-        } else if (annotation instanceof NormalAnnotationExpr) {
-            actualAttributes = ((NormalAnnotationExpr) annotation).getPairs().stream()
-                    .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
-        } else if (annotation instanceof MarkerAnnotationExpr) {
-            actualAttributes = new HashMap<>();
-        } else {
-            throw new IllegalArgumentException("Unexpected annotation expression type for: " + annotation);
-        }
+        final Map<String, String> actualAttributes = getAttributes(annotation);
 
         return expectedAttributesToContains.entrySet().stream()
                 .allMatch(expected -> Objects.equals(actualAttributes.get(expected.getKey()), expected.getValue()));
     }
 
+    private static Map<String, String> getAttributes(final AnnotationExpr annotation) {
+        if (annotation instanceof SingleMemberAnnotationExpr) {
+            return ImmutableMap.of(
+                    "value", ((SingleMemberAnnotationExpr) annotation).getMemberValue().toString()
+            );
+        } else if (annotation instanceof NormalAnnotationExpr) {
+            return ((NormalAnnotationExpr) annotation).getPairs().stream()
+                    .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
+        } else if (annotation instanceof MarkerAnnotationExpr) {
+            return new HashMap<>();
+        } else {
+            throw new IllegalArgumentException("Unexpected annotation expression type for: " + annotation);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private ACTUAL myself() {
         return (ACTUAL) this;
+    }
+
+    public ACTUAL recursivelyContainsWithName(String name) {
+        super
+            .withFailMessage("Should have annotation with name: " + name)
+            .anyMatch(annotation -> containsSpecificAnnotationName(annotation, name));
+
+        return myself();
+    }
+
+    private boolean containsSpecificAnnotationName(Node node, String name) {
+        if (node == null || name == null)
+            return false;
+
+        if (node instanceof AnnotationExpr) {
+            AnnotationExpr annotation = (AnnotationExpr) node;
+
+            if(annotation.getNameAsString().equals(name))
+                return true;
+
+        }
+
+        for(Node child: node.getChildNodes()){
+            if(containsSpecificAnnotationName(child, name))
+                return true;
+        }
+
+        return false;
     }
 }

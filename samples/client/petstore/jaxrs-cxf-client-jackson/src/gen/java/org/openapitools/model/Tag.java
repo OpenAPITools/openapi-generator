@@ -1,22 +1,24 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * A tag for a pet
- **/
+ * A tag for a pet
+ */
 @ApiModel(description="A tag for a pet")
 
 public class Tag  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   private String name;
  /**
    * Get id

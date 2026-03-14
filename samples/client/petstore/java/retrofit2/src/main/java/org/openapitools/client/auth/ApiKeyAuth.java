@@ -77,7 +77,7 @@ public class ApiKeyAuth implements Interceptor {
                     .build();
         } else if ("cookie".equals(location)) {
             request = request.newBuilder()
-                    .addHeader("Cookie", String.format("%s=%s", paramName, apiKey))
+                    .addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", paramName, apiKey))
                     .build();
         }
         return chain.proceed(request);

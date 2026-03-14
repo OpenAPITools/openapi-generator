@@ -53,6 +53,14 @@ object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers
   implicit val {{classname}}Decoder: Decoder[{{classname}}.{{classname}}] = Decoder.decodeEnumeration({{classname}})
   implicit val {{classname}}Encoder: Encoder[{{classname}}.{{classname}}] = Encoder.encodeEnumeration({{classname}})
 {{/isEnum}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+  implicit val {{classname}}{{datatypeWithEnum}}Decoder: Decoder[{{classname}}Enums.{{datatypeWithEnum}}] = Decoder.decodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
+  implicit val {{classname}}{{datatypeWithEnum}}Encoder: Encoder[{{classname}}Enums.{{datatypeWithEnum}}] = Encoder.encodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
 {{/model}}
 {{/models}}
 }

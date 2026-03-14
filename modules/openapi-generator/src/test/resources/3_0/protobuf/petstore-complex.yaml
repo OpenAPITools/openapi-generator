@@ -1,0 +1,134 @@
+openapi: 3.1.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  description: >-
+    This is a sample server Petstore server. For this sample, you can use the api key
+    `special-key` to test the authorization filters.
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: pet
+    description: Everything about your Pets
+  - name: store
+    description: Access to Petstore orders
+  - name: user
+    description: Operations about user
+paths:
+  /pets:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cat"
+      responses:
+        "200":
+          description: Updated
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+components:
+  schemas:
+    Dog:
+      allOf:
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+        - type: object
+          propertyNames:
+            title: field
+            type: string
+          additionalProperties:
+            title: pet
+            $ref: '#/components/schemas/Pet'
+          minProperties: 1
+    Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer
+    Category:
+      title: Pet category
+      description: A category for a pet
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
+        document:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+      xml:
+        name: Category
+    Tag:
+      title: Pet Tag
+      description: A tag for a pet
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                  type: string
+            - type: object
+              title: map
+              additionalProperties:
+                type: string
+      xml:
+        name: Tag
+    Pet:
+      title: a Pet
+      description: A pet for sale in the pet store
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          type: string
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          deprecated: true
+          enum:
+            - available
+            - pending
+            - sold

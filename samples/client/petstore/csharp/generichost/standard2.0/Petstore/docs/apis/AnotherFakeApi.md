@@ -14,61 +14,6 @@ To test special tags
 
 To test special tags and operation ID starting with number
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class Call123TestSpecialTagsExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new AnotherFakeApi(config);
-            var modelClient = new ModelClient(); // ModelClient | client model
-
-            try
-            {
-                // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the Call123TestSpecialTagsWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // To test special tags
-    ApiResponse<ModelClient> response = apiInstance.Call123TestSpecialTagsWithHttpInfo(modelClient);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTagsWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 

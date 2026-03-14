@@ -29,6 +29,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
@@ -145,5 +146,34 @@ public class PhpNextgenClientCodegenTest {
 
         Assert.assertListNotContains(modelContent, a -> a.equals("$color = self::COLOR_UNKNOWN_DEFAULT_OPEN_API;"), "");
         Assert.assertListContains(modelContent, a -> a.equalsIgnoreCase("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
+    }
+
+    @Test
+    public void testDifferentResponseSchemasWithEmpty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_22817.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> modelContent = Files
+                .readAllLines(files.get("DefaultApi.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListContains(modelContent, a -> a.equals("): int|string|null"), "Expected to find nullable return type declaration.");
+        Assert.assertListNotContains(modelContent, a -> a.equals("): ?int|string"), "Expected to not find invalid union type with '?'.");
     }
 }

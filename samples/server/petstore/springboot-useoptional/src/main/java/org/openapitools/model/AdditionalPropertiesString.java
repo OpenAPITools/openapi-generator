@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesString
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesString {
 
   private Optional<String> name = Optional.empty();
@@ -45,6 +45,7 @@ public class AdditionalPropertiesString {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Optional<String> name) {
     this.name = name;
   }

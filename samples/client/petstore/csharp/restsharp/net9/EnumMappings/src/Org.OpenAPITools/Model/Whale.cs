@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="hasBaleen">hasBaleen.</param>
         /// <param name="hasTeeth">hasTeeth.</param>
         /// <param name="className">className (required).</param>
-        public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
+        public Whale(bool hasBaleen = default, bool hasTeeth = default, string className = default)
         {
             // to ensure "className" is required (not null)
             if (className == null)

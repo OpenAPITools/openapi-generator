@@ -401,6 +401,32 @@ or
 --import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
 ```
 
+## Default Values
+
+To customize the default values for containers, one can leverage the option `defaultToEmptyContainer` to customize what to initalize for array/set/map by respecting the default values in the spec
+
+Set optional array and map default value to an empty container
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer="array?|map?"
+```
+
+Set nullable array (required) default value to an empty container
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer="?array"
+```
+
+Set nullable array (optional) default value to an empty container
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer="?array?"
+```
+
+To simply enable this option to respect default values in the specification (basically null if not specified):
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/output --additional-properties defaultToEmptyContainer=""
+```
+
+Note: not all generators support this generator's option (e.g. --additional-properties defaultToEmptyContainer="?array" in CLI) so please test to confirm. Java generators are the first to implement this feature. We welcome PRs to support this option in other generators. Related PR: https://github.com/OpenAPITools/openapi-generator/pull/21269
+
 ## Name Mapping
 
 One can map the property name using `nameMappings` option and parameter name using `parameterNameMappings` option to something else. Consider the following schema:
@@ -512,6 +538,8 @@ OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectl
 
 - SIMPLIFY_ONEOF_ANYOF 
 - SIMPLIFY_BOOLEAN_ENUM
+- SIMPLIFY_ONEOF_ANYOF_ENUM
+- REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
 
 (One can use `DISABLE_ALL=true` to disable all the rules)
 
@@ -536,6 +564,14 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
+```
+
+- `SIMPLIFY_ONEOF_ANYOF_ENUM`: when set to true, oneOf/anyOf with only enum sub-schemas all containing enum values will be converted to a single enum. This is enabled by default.
+
+Example:
+
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfWithEnums_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF_ENUM=true
 ```
 
 - `SIMPLIFY_BOOLEAN_ENUM`: when set to `true`, convert boolean enum to just enum.
@@ -601,9 +637,23 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_X_INTERNAL=true
 ```
 
+- `NORMALIZER_CLASS`: Set to full classname of a class extending the default org.openapitools.codegen.OpenAPINormalizer. It allows customization of the default normalizer. 
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer NORMALIZER_CLASS=org.openapitools.codegen.OpenAPINormalizerTest$RemoveRequiredNormalizer
+```
+
+- `REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT`: When set to true, remove the "properties" of a schema with type other than "object".
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true
+```
+
 - `FILTER`
 
-The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated.
+The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
 
 ### Available Filters
 
@@ -616,6 +666,9 @@ The `FILTER` parameter allows selective inclusion of API operations based on spe
 - **`tag`**  
   When set to `tag:person|basic`, operations **not** tagged with `person` or `basic` will be marked as internal (`x-internal: true`), and will not be generated.
 
+- **`path`**  
+  When set to `path:/v1|/v2`, operations on paths **not** starting with `/v1` or with `/v2` will be marked as internal (`x-internal: true`), and will not be generated.
+
 ### Example Usage
 
 ```sh
@@ -623,7 +676,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
   -g java \
   -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -o /tmp/java-okhttp/ \
-  --openapi-normalizer FILTER="operationId:addPet|getPetById"
+  --openapi-normalizer FILTER="operationId:addPet|getPetById ; tag:store"
 ```
 
 - `SET_CONTAINER_TO_NULLABLE`: When set to `array|set|map` (or just `array`) for example, it will set `nullable` in array, set and map to true.
@@ -645,4 +698,35 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_1/java/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FIX_DUPLICATED_OPERATIONID=true
+```
+
+- `SET_BEARER_AUTH_FOR_NAME`: When set to the name of an openapi 2.0 securityDefinition, that securityDefinition will be converted to the openapi 3.0 bearerAuth securityScheme.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/2_0/globalSecurity.json -o /tmp/java-okhttp/ --openapi-normalizer SET_BEARER_AUTH_FOR_NAME=api_key
+```
+Transforms this securityDefinition:
+```
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    },
+  },
+```
+Into this securityScheme:
+```
+  securitySchemes:
+    api_key:
+      scheme: bearer
+      type: http
+```
+
+- `SORT_MODEL_PROPERTIES`: When set to true, model properties will be sorted alphabetically by name. This ensures deterministic code generation output regardless of property ordering in the source spec.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer SORT_MODEL_PROPERTIES=true
 ```

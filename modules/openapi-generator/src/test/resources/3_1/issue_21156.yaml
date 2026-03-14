@@ -1,0 +1,45 @@
+openapi: 3.1.1
+info:
+  title: Test Bug
+  version: 1.0.0
+servers:
+  - url: https://where.am.i
+paths:
+  /test/bug:
+    post:
+      operationId: testRequest
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TestRequest'
+      responses:
+        '200':
+          description: Test request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    TestRequest:
+      properties:
+        test:
+          type: string
+    TestResponse:
+      properties:
+        test:
+          type: string
+    ErrorResponse:
+      properties:
+        error:
+          type: string
+  responses:
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+      description: Internal server error

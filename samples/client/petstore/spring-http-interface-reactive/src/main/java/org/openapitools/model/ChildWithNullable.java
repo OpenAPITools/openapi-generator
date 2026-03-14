@@ -25,12 +25,12 @@ import jakarta.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable {
 
   private @Nullable String otherProperty;
 
-  public ChildWithNullable otherProperty(String otherProperty) {
+  public ChildWithNullable otherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
     return this;
   }
@@ -41,11 +41,12 @@ public class ChildWithNullable extends ParentWithNullable {
    */
   
   @JsonProperty("otherProperty")
-  public String getOtherProperty() {
+  public @Nullable String getOtherProperty() {
     return otherProperty;
   }
 
-  public void setOtherProperty(String otherProperty) {
+  @JsonProperty("otherProperty")
+  public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }
 
@@ -102,7 +103,7 @@ public class ChildWithNullable extends ParentWithNullable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,0 +1,8 @@
+generatorName: cpp-httplib-server
+outputDir: samples/server/petstore/cpp-httplib-server/feature-test
+inputSpec: modules/openapi-generator/src/test/resources/3_0/cpp-httplib-server/feature-test.json
+templateDir: modules/openapi-generator/src/main/resources/cpp-httplib-server
+additionalProperties:
+  apiNamespace: "api"
+  modelNamespace: "models"
+  projectName: "cpp-httplib-server-feature-test"

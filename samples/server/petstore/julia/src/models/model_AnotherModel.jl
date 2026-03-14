@@ -18,17 +18,22 @@ Base.@kwdef mutable struct AnotherModel <: OpenAPI.APIModel
     uuid_default_value::Union{Nothing, String} = nothing
 
     function AnotherModel(another_property, uuid_default_value, )
-        OpenAPI.validate_property(AnotherModel, Symbol("another_property"), another_property)
-        OpenAPI.validate_property(AnotherModel, Symbol("uuid_default_value"), uuid_default_value)
-        return new(another_property, uuid_default_value, )
+        o = new(another_property, uuid_default_value, )
+        OpenAPI.validate_properties(o)
+        return o
     end
 end # type AnotherModel
 
 const _property_types_AnotherModel = Dict{Symbol,String}(Symbol("another_property")=>"Int64", Symbol("uuid_default_value")=>"String", )
 OpenAPI.property_type(::Type{ AnotherModel }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_AnotherModel[name]))}
 
-function check_required(o::AnotherModel)
+function OpenAPI.check_required(o::AnotherModel)
     true
+end
+
+function OpenAPI.validate_properties(o::AnotherModel)
+    OpenAPI.validate_property(AnotherModel, Symbol("another_property"), o.another_property)
+    OpenAPI.validate_property(AnotherModel, Symbol("uuid_default_value"), o.uuid_default_value)
 end
 
 function OpenAPI.validate_property(::Type{ AnotherModel }, name::Symbol, val)

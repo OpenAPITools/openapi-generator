@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: test
+  version: 0.0.1
+paths:
+  /v1/test:
+    post:
+      operationId: test
+      parameters:
+        - in: query
+          name: test
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
+      responses:
+        "200":
+          description: test
+          content:
+            application/json:
+              schema:
+                type: string

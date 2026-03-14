@@ -28,15 +28,20 @@ pub trait TestingApi: Send + Sync {
     /// 
     async fn tests_all_of_with_one_model_get<'person>(&self, person: models::Person) -> Result<String, Error<TestsAllOfWithOneModelGetError>>;
 
-    /// GET /tests/discriminatorDuplicateEnums
-    ///
-    /// 
-    async fn tests_discriminator_duplicate_enums_get<>(&self, ) -> Result<models::TestsDiscriminatorDuplicateEnumsGet200Response, Error<TestsDiscriminatorDuplicateEnumsGetError>>;
-
     /// GET /tests/fileResponse
     ///
     /// 
     async fn tests_file_response_get<>(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>>;
+
+    /// GET /tests/inlineEnumBoxing
+    ///
+    /// Tests inline enum query parameters
+    async fn tests_inline_enum_boxing_get<'status>(&self, status: Option<&'status str>) -> Result<Vec<models::ModelWithInlineEnum>, Error<TestsInlineEnumBoxingGetError>>;
+
+    /// POST /tests/inlineEnumBoxing
+    ///
+    /// Regression test to ensure inline enum fields are not wrapped in Box::new() in model constructors
+    async fn tests_inline_enum_boxing_post<'model_with_inline_enum>(&self, model_with_inline_enum: models::ModelWithInlineEnum) -> Result<models::ModelWithInlineEnum, Error<TestsInlineEnumBoxingPostError>>;
 
     /// GET /tests/typeTesting
     ///
@@ -96,43 +101,6 @@ impl TestingApi for TestingApiClient {
         }
     }
 
-    async fn tests_discriminator_duplicate_enums_get<>(&self, ) -> Result<models::TestsDiscriminatorDuplicateEnumsGet200Response, Error<TestsDiscriminatorDuplicateEnumsGetError>> {
-        let local_var_configuration = &self.configuration;
-
-        let local_var_client = &local_var_configuration.client;
-
-        let local_var_uri_str = format!("{}/tests/discriminatorDuplicateEnums", local_var_configuration.base_path);
-        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
-
-        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-        }
-
-        let local_var_req = local_var_req_builder.build()?;
-        let local_var_resp = local_var_client.execute(local_var_req).await?;
-
-        let local_var_status = local_var_resp.status();
-        let local_var_content_type = local_var_resp
-            .headers()
-            .get("content-type")
-            .and_then(|v| v.to_str().ok())
-            .unwrap_or("application/octet-stream");
-        let local_var_content_type = super::ContentType::from(local_var_content_type);
-        let local_var_content = local_var_resp.text().await?;
-
-        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            match local_var_content_type {
-                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
-                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::TestsDiscriminatorDuplicateEnumsGet200Response`"))),
-                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::TestsDiscriminatorDuplicateEnumsGet200Response`")))),
-            }
-        } else {
-            let local_var_entity: Option<TestsDiscriminatorDuplicateEnumsGetError> = serde_json::from_str(&local_var_content).ok();
-            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-            Err(Error::ResponseError(local_var_error))
-        }
-    }
-
     async fn tests_file_response_get<>(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>> {
         let local_var_configuration = &self.configuration;
 
@@ -165,6 +133,86 @@ impl TestingApi for TestingApiClient {
             }
         } else {
             let local_var_entity: Option<TestsFileResponseGetError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// Tests inline enum query parameters
+    async fn tests_inline_enum_boxing_get<'status>(&self, status: Option<&'status str>) -> Result<Vec<models::ModelWithInlineEnum>, Error<TestsInlineEnumBoxingGetError>> {
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!("{}/tests/inlineEnumBoxing", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+        if let Some(ref param_value) = status {
+            local_var_req_builder = local_var_req_builder.query(&[("status", &param_value.to_string())]);
+        }
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::ModelWithInlineEnum&gt;`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `Vec&lt;models::ModelWithInlineEnum&gt;`")))),
+            }
+        } else {
+            let local_var_entity: Option<TestsInlineEnumBoxingGetError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// Regression test to ensure inline enum fields are not wrapped in Box::new() in model constructors
+    async fn tests_inline_enum_boxing_post<'model_with_inline_enum>(&self, model_with_inline_enum: models::ModelWithInlineEnum) -> Result<models::ModelWithInlineEnum, Error<TestsInlineEnumBoxingPostError>> {
+        let local_var_configuration = &self.configuration;
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!("{}/tests/inlineEnumBoxing", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        local_var_req_builder = local_var_req_builder.json(&model_with_inline_enum);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ModelWithInlineEnum`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::ModelWithInlineEnum`")))),
+            }
+        } else {
+            let local_var_entity: Option<TestsInlineEnumBoxingPostError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -209,28 +257,35 @@ impl TestingApi for TestingApiClient {
 
 }
 
-/// struct for typed errors of method [`tests_all_of_with_one_model_get`]
+/// struct for typed errors of method [`TestingApi::tests_all_of_with_one_model_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsAllOfWithOneModelGetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`tests_discriminator_duplicate_enums_get`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum TestsDiscriminatorDuplicateEnumsGetError {
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed errors of method [`tests_file_response_get`]
+/// struct for typed errors of method [`TestingApi::tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsFileResponseGetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`tests_type_testing_get`]
+/// struct for typed errors of method [`TestingApi::tests_inline_enum_boxing_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`TestingApi::tests_inline_enum_boxing_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingPostError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`TestingApi::tests_type_testing_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsTypeTestingGetError {

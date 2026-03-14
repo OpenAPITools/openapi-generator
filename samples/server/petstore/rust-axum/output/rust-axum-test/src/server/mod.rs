@@ -1,16 +1,24 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use headers::Host;
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
+use crate::{header, types::*};
+#[allow(unused_imports)]
+use crate::{
+    models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
+    models::check_xss_string, models::check_xss_vec_string,
+};
 
 /// Setup API Server.
 pub fn new<I, A, E>(api_impl: I) -> Router
@@ -43,7 +51,7 @@ fn all_of_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn all_of_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -74,13 +82,7 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("*/*").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -118,7 +120,7 @@ fn dummy_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn dummy_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -186,7 +188,7 @@ fn dummy_put_validation(
 #[tracing::instrument(skip_all)]
 async fn dummy_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::FooDummyPutRequest>,
@@ -246,7 +248,7 @@ fn file_response_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn file_response_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -280,13 +282,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -324,7 +321,7 @@ fn get_structured_yaml_validation() -> std::result::Result<(), ValidationErrors>
 #[tracing::instrument(skip_all)]
 async fn get_structured_yaml<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -358,13 +355,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/yaml").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/yaml"));
                 }
 
                 let body_content = body;
@@ -390,6 +382,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct HtmlPostBodyValidator<'a> {
+    #[validate(custom(function = "check_xss_string"))]
     body: &'a String,
 }
 
@@ -401,7 +394,7 @@ fn html_post_validation(body: String) -> std::result::Result<(String,), Validati
 #[tracing::instrument(skip_all)]
 async fn html_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: String,
@@ -436,13 +429,7 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("text/html").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/html"));
                 }
 
                 let body_content = body;
@@ -468,6 +455,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct PostYamlBodyValidator<'a> {
+    #[validate(custom(function = "check_xss_string"))]
     body: &'a String,
 }
 
@@ -479,7 +467,7 @@ fn post_yaml_validation(body: String) -> std::result::Result<(String,), Validati
 #[tracing::instrument(skip_all)]
 async fn post_yaml<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: String,
@@ -539,7 +527,7 @@ fn raw_json_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn raw_json_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -573,13 +561,7 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("*/*").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -628,7 +610,7 @@ fn solo_object_post_validation(
 #[tracing::instrument(skip_all)]
 async fn solo_object_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<crate::types::Object>,
@@ -678,4 +660,13 @@ where
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
     })
+}
+
+#[allow(dead_code)]
+#[inline]
+fn response_with_status_code_only(code: StatusCode) -> Result<Response, StatusCode> {
+    Response::builder()
+        .status(code)
+        .body(Body::empty())
+        .map_err(|_| code)
 }

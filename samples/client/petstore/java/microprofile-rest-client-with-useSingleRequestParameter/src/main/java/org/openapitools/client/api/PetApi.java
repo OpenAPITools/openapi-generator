@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -24,11 +24,12 @@ import java.util.Set;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
+
 
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
 
 /**
  * OpenAPI Petstore
@@ -218,8 +219,8 @@ public interface PetApi  {
     public class UpdatePetWithFormRequest {
 
         private @PathParam("petId") Long petId;
-        private @Multipart(value = "name", required = false)  String name;
-        private @Multipart(value = "status", required = false)  String status;
+        private @FormParam("name")  String name;
+        private @FormParam("status")  String status;
 
         private UpdatePetWithFormRequest() {
         }
@@ -271,8 +272,8 @@ public interface PetApi  {
     public class UploadFileRequest {
 
         private @PathParam("petId") Long petId;
-        private @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata;
-        private  @Multipart(value = "file" , required = false) Attachment _fileDetail;
+        private @FormParam("additionalMetadata")  String additionalMetadata;
+        private  @FormParam("file") File _fileDetail;
 
         private UploadFileRequest() {
         }
@@ -304,7 +305,7 @@ public interface PetApi  {
          * @param _fileDetail file to upload (optional)
          * @return UploadFileRequest
          */
-        public UploadFileRequest _fileDetail( Attachment _fileDetail) {
+        public UploadFileRequest _fileDetail( File _fileDetail) {
             this._fileDetail = _fileDetail;
             return this;
         }

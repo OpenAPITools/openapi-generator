@@ -17,6 +17,64 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pony'
+  /fake/null-request-body:
+    get:
+      summary: to ensure null request body wont' throw exception
+      operationId: null-request-body
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Generar Orden por External ID:
+                value: |-
+                  {
+                      "external_reference": "{{external_order_ref}}",
+                      "notification_url": "www.yourserver.com/yourendpoint",
+                      "sponsor_id": 446566691,
+                      "items": [
+                          {
+                              "title": "Papas frita",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 6000,
+                              "quantity": 1
+                          },
+                          {
+                              "title": "Gaseosa",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 3000,
+                              "quantity": 1
+                          }
+                      ]/*,
+                      "taxes": [
+                          {
+                              "value": 0,
+                              "type": "IVA"
+                          }
+                      ]*/
+                  }
+      responses:
+        '200':
+          description: ''
+  /myExample:
+    get:
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      "$ref": "#/components/schemas/OneOf1"
+                  - type: object
+                    "$ref": "#/components/schemas/OneOf1"
 components:
   schemas:
     Pony:
@@ -31,3 +89,8 @@ components:
         - Earth
         - Pegasi
         - Unicorn
+    OneOf1:
+      type: object
+      properties:
+        message1:
+          type: string

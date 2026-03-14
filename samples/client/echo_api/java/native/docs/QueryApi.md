@@ -24,6 +24,8 @@ All URIs are relative to *http://localhost:3000*
 | [**testQueryStyleFormExplodeTrueObjectWithHttpInfo**](QueryApi.md#testQueryStyleFormExplodeTrueObjectWithHttpInfo) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
+| [**testQueryStyleJsonSerializationObject**](QueryApi.md#testQueryStyleJsonSerializationObject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s) |
+| [**testQueryStyleJsonSerializationObjectWithHttpInfo**](QueryApi.md#testQueryStyleJsonSerializationObjectWithHttpInfo) | **GET** /query/style_jsonSerialization/object | Test query parameter(s) |
 
 
 
@@ -96,7 +98,7 @@ No authorization required
 
 ## testEnumRefStringWithHttpInfo
 
-> ApiResponse<String> testEnumRefString testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery)
+> ApiResponse<String> testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery)
 
 Test query parameter(s)
 
@@ -236,7 +238,7 @@ No authorization required
 
 ## testQueryDatetimeDateStringWithHttpInfo
 
-> ApiResponse<String> testQueryDatetimeDateString testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery)
+> ApiResponse<String> testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery)
 
 Test query parameter(s)
 
@@ -378,7 +380,7 @@ No authorization required
 
 ## testQueryIntegerBooleanStringWithHttpInfo
 
-> ApiResponse<String> testQueryIntegerBooleanString testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery)
+> ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery)
 
 Test query parameter(s)
 
@@ -516,7 +518,7 @@ No authorization required
 
 ## testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo
 
-> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObject testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -650,7 +652,7 @@ No authorization required
 
 ## testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo
 
-> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOf testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -784,7 +786,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeFalseArrayInteger testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -918,7 +920,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeFalseArrayStringWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeFalseArrayString testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1052,7 +1054,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeTrueArrayStringWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeTrueArrayString testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1186,7 +1188,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeTrueObjectWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeTrueObject testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1320,7 +1322,7 @@ No authorization required
 
 ## testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo
 
-> ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOf testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject)
+> ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject)
 
 Test query parameter(s)
 
@@ -1366,6 +1368,144 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **queryObject** | [**DataQuery**](.md)|  | [optional] |
+
+### Return type
+
+ApiResponse<**String**>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+
+## testQueryStyleJsonSerializationObject
+
+> String testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        Pet jsonSerializedObjectRefStringQuery = new Pet(); // Pet | 
+        List<Pet> jsonSerializedObjectArrayRefStringQuery = Arrays.asList(); // List<Pet> | 
+        try {
+            String result = apiInstance.testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryStyleJsonSerializationObject");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **jsonSerializedObjectRefStringQuery** | [**Pet**](.md)|  | [optional] |
+| **jsonSerializedObjectArrayRefStringQuery** | [**List&lt;Pet&gt;**](Pet.md)|  | [optional] |
+
+### Return type
+
+**String**
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+## testQueryStyleJsonSerializationObjectWithHttpInfo
+
+> ApiResponse<String> testQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        Pet jsonSerializedObjectRefStringQuery = new Pet(); // Pet | 
+        List<Pet> jsonSerializedObjectArrayRefStringQuery = Arrays.asList(); // List<Pet> | 
+        try {
+            ApiResponse<String> response = apiInstance.testQueryStyleJsonSerializationObjectWithHttpInfo(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryStyleJsonSerializationObject");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **jsonSerializedObjectRefStringQuery** | [**Pet**](.md)|  | [optional] |
+| **jsonSerializedObjectArrayRefStringQuery** | [**List&lt;Pet&gt;**](Pet.md)|  | [optional] |
 
 ### Return type
 

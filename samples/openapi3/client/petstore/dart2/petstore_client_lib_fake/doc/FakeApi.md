@@ -10,6 +10,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fakeBigDecimalMap**](FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
+[**fakeDuplicateInlineEnum**](FakeApi.md#fakeduplicateinlineenum) | **GET** /fake/duplicate-inline-enums | test objects with duplicate inline enums see issue# 21582
 [**fakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -69,6 +70,43 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fakeDuplicateInlineEnum**
+> ObjectThatReferencesObjectsWithDuplicateInlineEnums fakeDuplicateInlineEnum()
+
+test objects with duplicate inline enums see issue# 21582
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = FakeApi();
+
+try {
+    final result = api_instance.fakeDuplicateInlineEnum();
+    print(result);
+} catch (e) {
+    print('Exception when calling FakeApi->fakeDuplicateInlineEnum: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ObjectThatReferencesObjectsWithDuplicateInlineEnums**](ObjectThatReferencesObjectsWithDuplicateInlineEnums.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

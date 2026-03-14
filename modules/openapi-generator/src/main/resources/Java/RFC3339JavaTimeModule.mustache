@@ -5,16 +5,34 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import {{jacksonPackage}}.databind.module.SimpleModule;
+{{^useJackson3}}
+import com.fasterxml.jackson.databind.Module.SetupContext;
+{{/useJackson3}}
 
 {{>generatedAnnotation}}
+
 public class RFC3339JavaTimeModule extends SimpleModule {
+    private static final long serialVersionUID = 1L;
 
     public RFC3339JavaTimeModule() {
         super("RFC3339JavaTimeModule");
-
+        {{#useJackson3}}
         addDeserializer(Instant.class, RFC3339InstantDeserializer.INSTANT);
         addDeserializer(OffsetDateTime.class, RFC3339InstantDeserializer.OFFSET_DATE_TIME);
         addDeserializer(ZonedDateTime.class, RFC3339InstantDeserializer.ZONED_DATE_TIME);
+        {{/useJackson3}}
     }
+
+   {{^useJackson3}}
+   @Override
+   public void setupModule(SetupContext context) {
+       super.setupModule(context);
+
+       addDeserializer(Instant.class, RFC3339InstantDeserializer.INSTANT);
+       addDeserializer(OffsetDateTime.class, RFC3339InstantDeserializer.OFFSET_DATE_TIME);
+       addDeserializer(ZonedDateTime.class, RFC3339InstantDeserializer.ZONED_DATE_TIME);
+   }
+   {{/useJackson3}}
+
 }

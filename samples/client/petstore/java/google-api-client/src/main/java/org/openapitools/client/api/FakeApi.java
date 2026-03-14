@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -56,7 +56,7 @@ public class FakeApi {
     * @param xmlItem XmlItem Body
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createXmlItem(XmlItem xmlItem) throws IOException {
+    public void createXmlItem(@javax.annotation.Nonnull XmlItem xmlItem) throws IOException {
         createXmlItemForHttpResponse(xmlItem);
     }
 
@@ -68,11 +68,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createXmlItem(XmlItem xmlItem, Map<String, Object> params) throws IOException {
+    public void createXmlItem(@javax.annotation.Nonnull XmlItem xmlItem, Map<String, Object> params) throws IOException {
         createXmlItemForHttpResponse(xmlItem, params);
     }
 
-    public HttpResponse createXmlItemForHttpResponse(XmlItem xmlItem) throws IOException {
+    public HttpResponse createXmlItemForHttpResponse(@javax.annotation.Nonnull XmlItem xmlItem) throws IOException {
         // verify the required parameter 'xmlItem' is set
         if (xmlItem == null) {
             throw new IllegalArgumentException("Missing the required parameter 'xmlItem' when calling createXmlItem");
@@ -83,7 +83,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(xmlItem);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse createXmlItemForHttpResponse(java.io.InputStream xmlItem, String mediaType) throws IOException {
@@ -99,10 +100,11 @@ public class FakeApi {
               HttpContent content = xmlItem == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, xmlItem);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse createXmlItemForHttpResponse(XmlItem xmlItem, Map<String, Object> params) throws IOException {
+    public HttpResponse createXmlItemForHttpResponse(@javax.annotation.Nonnull XmlItem xmlItem, Map<String, Object> params) throws IOException {
         // verify the required parameter 'xmlItem' is set
         if (xmlItem == null) {
             throw new IllegalArgumentException("Missing the required parameter 'xmlItem' when calling createXmlItem");
@@ -131,7 +133,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(xmlItem);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -142,7 +145,7 @@ public class FakeApi {
     * @return Boolean
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Boolean fakeOuterBooleanSerialize(Boolean body) throws IOException {
+    public Boolean fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body) throws IOException {
         HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(body);
         TypeReference<Boolean> typeRef = new TypeReference<Boolean>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -155,13 +158,13 @@ public class FakeApi {
     * @return Boolean
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Boolean fakeOuterBooleanSerialize(Boolean body, Map<String, Object> params) throws IOException {
+    public Boolean fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterBooleanSerializeForHttpResponse(body, params);
         TypeReference<Boolean> typeRef = new TypeReference<Boolean>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(Boolean body) throws IOException {
+    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(@javax.annotation.Nullable Boolean body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
@@ -169,7 +172,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse fakeOuterBooleanSerializeForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -182,10 +186,11 @@ public class FakeApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(Boolean body, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterBooleanSerializeForHttpResponse(@javax.annotation.Nullable Boolean body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
@@ -211,7 +216,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -222,7 +228,7 @@ public class FakeApi {
     * @return OuterComposite
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws IOException {
+    public OuterComposite fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite body) throws IOException {
         HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(body);
         TypeReference<OuterComposite> typeRef = new TypeReference<OuterComposite>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -235,13 +241,13 @@ public class FakeApi {
     * @return OuterComposite
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body, Map<String, Object> params) throws IOException {
+    public OuterComposite fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(body, params);
         TypeReference<OuterComposite> typeRef = new TypeReference<OuterComposite>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(OuterComposite body) throws IOException {
+    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(@javax.annotation.Nullable OuterComposite body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
@@ -249,7 +255,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse fakeOuterCompositeSerializeForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -262,10 +269,11 @@ public class FakeApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(OuterComposite body, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(@javax.annotation.Nullable OuterComposite body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
@@ -291,7 +299,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -302,7 +311,7 @@ public class FakeApi {
     * @return BigDecimal
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws IOException {
+    public BigDecimal fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body) throws IOException {
         HttpResponse response = fakeOuterNumberSerializeForHttpResponse(body);
         TypeReference<BigDecimal> typeRef = new TypeReference<BigDecimal>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -315,13 +324,13 @@ public class FakeApi {
     * @return BigDecimal
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body, Map<String, Object> params) throws IOException {
+    public BigDecimal fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterNumberSerializeForHttpResponse(body, params);
         TypeReference<BigDecimal> typeRef = new TypeReference<BigDecimal>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterNumberSerializeForHttpResponse(BigDecimal body) throws IOException {
+    public HttpResponse fakeOuterNumberSerializeForHttpResponse(@javax.annotation.Nullable BigDecimal body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/number");
 
@@ -329,7 +338,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse fakeOuterNumberSerializeForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -342,10 +352,11 @@ public class FakeApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse fakeOuterNumberSerializeForHttpResponse(BigDecimal body, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterNumberSerializeForHttpResponse(@javax.annotation.Nullable BigDecimal body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/number");
 
@@ -371,7 +382,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -382,7 +394,7 @@ public class FakeApi {
     * @return String
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public String fakeOuterStringSerialize(String body) throws IOException {
+    public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws IOException {
         HttpResponse response = fakeOuterStringSerializeForHttpResponse(body);
         TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -395,13 +407,13 @@ public class FakeApi {
     * @return String
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public String fakeOuterStringSerialize(String body, Map<String, Object> params) throws IOException {
+    public String fakeOuterStringSerialize(@javax.annotation.Nullable String body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterStringSerializeForHttpResponse(body, params);
         TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterStringSerializeForHttpResponse(String body) throws IOException {
+    public HttpResponse fakeOuterStringSerializeForHttpResponse(@javax.annotation.Nullable String body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/string");
 
@@ -409,7 +421,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse fakeOuterStringSerializeForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -422,10 +435,11 @@ public class FakeApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse fakeOuterStringSerializeForHttpResponse(String body, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterStringSerializeForHttpResponse(@javax.annotation.Nullable String body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/string");
 
@@ -451,7 +465,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -461,7 +476,7 @@ public class FakeApi {
     * @param body The body parameter
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testBodyWithFileSchema(FileSchemaTestClass body) throws IOException {
+    public void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass body) throws IOException {
         testBodyWithFileSchemaForHttpResponse(body);
     }
 
@@ -472,11 +487,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testBodyWithFileSchema(FileSchemaTestClass body, Map<String, Object> params) throws IOException {
+    public void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass body, Map<String, Object> params) throws IOException {
         testBodyWithFileSchemaForHttpResponse(body, params);
     }
 
-    public HttpResponse testBodyWithFileSchemaForHttpResponse(FileSchemaTestClass body) throws IOException {
+    public HttpResponse testBodyWithFileSchemaForHttpResponse(@javax.annotation.Nonnull FileSchemaTestClass body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithFileSchema");
@@ -487,7 +502,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse testBodyWithFileSchemaForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -503,10 +519,11 @@ public class FakeApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse testBodyWithFileSchemaForHttpResponse(FileSchemaTestClass body, Map<String, Object> params) throws IOException {
+    public HttpResponse testBodyWithFileSchemaForHttpResponse(@javax.annotation.Nonnull FileSchemaTestClass body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithFileSchema");
@@ -535,7 +552,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -545,7 +563,7 @@ public class FakeApi {
     * @param body The body parameter
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testBodyWithQueryParams(String query, User body) throws IOException {
+    public void testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User body) throws IOException {
         testBodyWithQueryParamsForHttpResponse(query, body);
     }
 
@@ -556,11 +574,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testBodyWithQueryParams(String query, User body, Map<String, Object> params) throws IOException {
+    public void testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
         testBodyWithQueryParamsForHttpResponse(query, body, params);
     }
 
-    public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, User body) throws IOException {
+    public HttpResponse testBodyWithQueryParamsForHttpResponse(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User body) throws IOException {
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new IllegalArgumentException("Missing the required parameter 'query' when calling testBodyWithQueryParams");
@@ -585,10 +603,11 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
-      public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, java.io.InputStream body, String mediaType) throws IOException {
+      public HttpResponse testBodyWithQueryParamsForHttpResponse(@javax.annotation.Nonnull String query, java.io.InputStream body, String mediaType) throws IOException {
           // verify the required parameter 'query' is set
               if (query == null) {
               throw new IllegalArgumentException("Missing the required parameter 'query' when calling testBodyWithQueryParams");
@@ -615,10 +634,11 @@ public class FakeApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, User body, Map<String, Object> params) throws IOException {
+    public HttpResponse testBodyWithQueryParamsForHttpResponse(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new IllegalArgumentException("Missing the required parameter 'query' when calling testBodyWithQueryParams");
@@ -652,7 +672,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -664,7 +685,7 @@ public class FakeApi {
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testClientModel(Client body) throws IOException {
+    public Client testClientModel(@javax.annotation.Nonnull Client body) throws IOException {
         HttpResponse response = testClientModelForHttpResponse(body);
         TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -679,13 +700,13 @@ public class FakeApi {
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testClientModel(Client body, Map<String, Object> params) throws IOException {
+    public Client testClientModel(@javax.annotation.Nonnull Client body, Map<String, Object> params) throws IOException {
         HttpResponse response = testClientModelForHttpResponse(body, params);
         TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse testClientModelForHttpResponse(Client body) throws IOException {
+    public HttpResponse testClientModelForHttpResponse(@javax.annotation.Nonnull Client body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClientModel");
@@ -696,7 +717,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse testClientModelForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -712,10 +734,11 @@ public class FakeApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse testClientModelForHttpResponse(Client body, Map<String, Object> params) throws IOException {
+    public HttpResponse testClientModelForHttpResponse(@javax.annotation.Nonnull Client body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClientModel");
@@ -744,7 +767,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -769,7 +793,7 @@ public class FakeApi {
     * @param paramCallback None
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
+    public void testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws IOException {
         testEndpointParametersForHttpResponse(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
@@ -785,11 +809,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Map<String, Object> params) throws IOException {
+    public void testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, Map<String, Object> params) throws IOException {
         testEndpointParametersForHttpResponse(number, _double, patternWithoutDelimiter, _byte, params);
     }
 
-    public HttpResponse testEndpointParametersForHttpResponse(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
+    public HttpResponse testEndpointParametersForHttpResponse(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws IOException {
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new IllegalArgumentException("Missing the required parameter 'number' when calling testEndpointParameters");
@@ -809,10 +833,11 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse testEndpointParametersForHttpResponse(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Map<String, Object> params) throws IOException {
+    public HttpResponse testEndpointParametersForHttpResponse(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, Map<String, Object> params) throws IOException {
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new IllegalArgumentException("Missing the required parameter 'number' when calling testEndpointParameters");
@@ -850,7 +875,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -869,7 +895,7 @@ public class FakeApi {
     * @param enumFormString Form parameter enum test (string)
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws IOException {
+    public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws IOException {
         testEnumParametersForHttpResponse(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     }
 
@@ -885,7 +911,7 @@ public class FakeApi {
         testEnumParametersForHttpResponse(params);
     }
 
-    public HttpResponse testEnumParametersForHttpResponse(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws IOException {
+    public HttpResponse testEnumParametersForHttpResponse(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
         if (enumQueryStringArray != null) {
@@ -934,7 +960,14 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        if (enumHeaderStringArray != null) {
+            httpRequest.getHeaders().set("enum_header_string_array", enumHeaderStringArray);
+        }
+        if (enumHeaderString != null) {
+            httpRequest.getHeaders().set("enum_header_string", enumHeaderString);
+        }
+        return httpRequest.execute();
     }
 
     public HttpResponse testEnumParametersForHttpResponse(Map<String, Object> params) throws IOException {
@@ -963,7 +996,20 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+            if ("enum_header_string_array".equals(key) && value != null) {
+                httpRequest.getHeaders().set(key, value);
+            }
+            if ("enum_header_string".equals(key) && value != null) {
+                httpRequest.getHeaders().set(key, value);
+            }
+        }
+        return httpRequest.execute();
     }
 
 
@@ -979,7 +1025,7 @@ public class FakeApi {
     * @param int64Group Integer in group parameters
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+    public void testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws IOException {
         testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
@@ -993,11 +1039,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+    public void testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, Map<String, Object> params) throws IOException {
         testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, params);
     }
 
-    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+    public HttpResponse testGroupParametersForHttpResponse(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws IOException {
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
             throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
@@ -1055,10 +1101,17 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        if (requiredBooleanGroup != null) {
+            httpRequest.getHeaders().set("required_boolean_group", requiredBooleanGroup);
+        }
+        if (booleanGroup != null) {
+            httpRequest.getHeaders().set("boolean_group", booleanGroup);
+        }
+        return httpRequest.execute();
     }
 
-    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+    public HttpResponse testGroupParametersForHttpResponse(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, Map<String, Object> params) throws IOException {
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
             throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
@@ -1097,7 +1150,20 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+            if ("required_boolean_group".equals(key) && value != null) {
+                httpRequest.getHeaders().set(key, value);
+            }
+            if ("boolean_group".equals(key) && value != null) {
+                httpRequest.getHeaders().set(key, value);
+            }
+        }
+        return httpRequest.execute();
     }
 
 
@@ -1107,7 +1173,7 @@ public class FakeApi {
     * @param param request body
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testInlineAdditionalProperties(Map<String, String> param) throws IOException {
+    public void testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> param) throws IOException {
         testInlineAdditionalPropertiesForHttpResponse(param);
     }
 
@@ -1118,11 +1184,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testInlineAdditionalProperties(Map<String, String> param, Map<String, Object> params) throws IOException {
+    public void testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> param, Map<String, Object> params) throws IOException {
         testInlineAdditionalPropertiesForHttpResponse(param, params);
     }
 
-    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> param) throws IOException {
+    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(@javax.annotation.Nonnull Map<String, String> param) throws IOException {
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new IllegalArgumentException("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
@@ -1133,7 +1199,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(param);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse testInlineAdditionalPropertiesForHttpResponse(java.io.InputStream param, String mediaType) throws IOException {
@@ -1149,10 +1216,11 @@ public class FakeApi {
               HttpContent content = param == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, param);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> param, Map<String, Object> params) throws IOException {
+    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(@javax.annotation.Nonnull Map<String, String> param, Map<String, Object> params) throws IOException {
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new IllegalArgumentException("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
@@ -1181,7 +1249,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(param);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -1192,7 +1261,7 @@ public class FakeApi {
     * @param param2 field2
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testJsonFormData(String param, String param2) throws IOException {
+    public void testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws IOException {
         testJsonFormDataForHttpResponse(param, param2);
     }
 
@@ -1204,11 +1273,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testJsonFormData(String param, String param2, Map<String, Object> params) throws IOException {
+    public void testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2, Map<String, Object> params) throws IOException {
         testJsonFormDataForHttpResponse(param, param2, params);
     }
 
-    public HttpResponse testJsonFormDataForHttpResponse(String param, String param2) throws IOException {
+    public HttpResponse testJsonFormDataForHttpResponse(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws IOException {
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new IllegalArgumentException("Missing the required parameter 'param' when calling testJsonFormData");
@@ -1222,10 +1291,11 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse testJsonFormDataForHttpResponse(String param, String param2, Map<String, Object> params) throws IOException {
+    public HttpResponse testJsonFormDataForHttpResponse(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2, Map<String, Object> params) throws IOException {
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new IllegalArgumentException("Missing the required parameter 'param' when calling testJsonFormData");
@@ -1257,7 +1327,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -1271,7 +1342,7 @@ public class FakeApi {
     * @param context The context parameter
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws IOException {
+    public void testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context) throws IOException {
         testQueryParameterCollectionFormatForHttpResponse(pipe, ioutil, http, url, context);
     }
 
@@ -1286,11 +1357,11 @@ public class FakeApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Map<String, Object> params) throws IOException {
+    public void testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, Map<String, Object> params) throws IOException {
         testQueryParameterCollectionFormatForHttpResponse(pipe, ioutil, http, url, context, params);
     }
 
-    public HttpResponse testQueryParameterCollectionFormatForHttpResponse(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws IOException {
+    public HttpResponse testQueryParameterCollectionFormatForHttpResponse(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context) throws IOException {
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
             throw new IllegalArgumentException("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
@@ -1364,10 +1435,11 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse testQueryParameterCollectionFormatForHttpResponse(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Map<String, Object> params) throws IOException {
+    public HttpResponse testQueryParameterCollectionFormatForHttpResponse(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, Map<String, Object> params) throws IOException {
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
             throw new IllegalArgumentException("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
@@ -1418,7 +1490,8 @@ public class FakeApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
 

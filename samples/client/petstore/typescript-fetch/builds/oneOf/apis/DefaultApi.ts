@@ -15,9 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  TestArrayResponse,
+  TestDiscriminatorResponse,
   TestResponse,
 } from '../models/index';
 import {
+    TestArrayResponseFromJSON,
+    TestArrayResponseToJSON,
+    TestDiscriminatorResponseFromJSON,
+    TestDiscriminatorResponseToJSON,
     TestResponseFromJSON,
     TestResponseToJSON,
 } from '../models/index';
@@ -28,18 +34,29 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
+     * Creates request options for test without sending the request
      */
-    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestResponse>> {
+    async testRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/test`,
+
+        let urlPath = `/test`;
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestResponse>> {
+        const requestOptions = await this.testRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestResponseFromJSON(jsonValue));
     }
@@ -48,6 +65,76 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async test(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestResponse> {
         const response = await this.testRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for testArray without sending the request
+     */
+    async testArrayRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/test-array`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     */
+    async testArrayRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestArrayResponse>> {
+        const requestOptions = await this.testArrayRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TestArrayResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async testArray(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestArrayResponse> {
+        const response = await this.testArrayRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for testDiscriminator without sending the request
+     */
+    async testDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/test-discriminator`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     */
+    async testDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDiscriminatorResponse>> {
+        const requestOptions = await this.testDiscriminatorRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TestDiscriminatorResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async testDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestDiscriminatorResponse> {
+        const response = await this.testDiscriminatorRaw(initOverrides);
         return await response.value();
     }
 

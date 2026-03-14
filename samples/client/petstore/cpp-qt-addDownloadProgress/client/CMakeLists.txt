@@ -13,11 +13,13 @@ include(CMakePackageConfigHelpers)
 add_library(${PROJECT_NAME}
   PFXApiResponse.h
   PFXCategory.h
+  PFXEnumStatus.h
   PFXOrder.h
   PFXPet.h
   PFXTag.h
   PFXTestAnyType.h
   PFXUser.h
+  PFXFakeApi.h
   PFXPetApi.h
   PFXPrimitivesApi.h
   PFXStoreApi.h
@@ -32,11 +34,13 @@ add_library(${PROJECT_NAME}
   PFXOauth.h
   PFXApiResponse.cpp
   PFXCategory.cpp
+  PFXEnumStatus.cpp
   PFXOrder.cpp
   PFXPet.cpp
   PFXTag.cpp
   PFXTestAnyType.cpp
   PFXUser.cpp
+  PFXFakeApi.cpp
   PFXPetApi.cpp
   PFXPrimitivesApi.cpp
   PFXStoreApi.cpp

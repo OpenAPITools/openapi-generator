@@ -125,8 +125,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "count":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                count = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                            count = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (decimal?)null : utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;

@@ -19,14 +19,14 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ReadOnlyFirst")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
 
   private @Nullable String bar;
 
   private @Nullable String baz;
 
-  public ReadOnlyFirstDto bar(String bar) {
+  public ReadOnlyFirstDto bar(@Nullable String bar) {
     this.bar = bar;
     return this;
   }
@@ -37,15 +37,16 @@ public class ReadOnlyFirstDto {
    */
   
   @JsonProperty("bar")
-  public String getBar() {
+  public @Nullable String getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  @JsonProperty("bar")
+  public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
 
-  public ReadOnlyFirstDto baz(String baz) {
+  public ReadOnlyFirstDto baz(@Nullable String baz) {
     this.baz = baz;
     return this;
   }
@@ -56,11 +57,12 @@ public class ReadOnlyFirstDto {
    */
   
   @JsonProperty("baz")
-  public String getBaz() {
+  public @Nullable String getBaz() {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  @JsonProperty("baz")
+  public void setBaz(@Nullable String baz) {
     this.baz = baz;
   }
 
@@ -96,7 +98,7 @@ public class ReadOnlyFirstDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

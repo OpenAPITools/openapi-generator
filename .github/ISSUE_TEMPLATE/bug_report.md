@@ -10,7 +10,7 @@ assignees: ''
 #### Bug Report Checklist
 
 - [ ] Have you provided a full/minimal spec to reproduce the issue?
-- [ ] Have you validated the input using an OpenAPI validator ([example](https://apitools.dev/swagger-parser/online/))?
+- [ ] Have you validated the input using an OpenAPI validator?
 - [ ] Have you [tested with the latest master](https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-to-test-with-the-latest-master-of-openapi-generator) to confirm the issue still exists?
 - [ ] Have you searched for related issues/PRs?
 - [ ] What's the actual output vs expected output?
@@ -18,7 +18,7 @@ assignees: ''
 
 <!--
 Please follow the issue template below for bug reports.
-Also please indicate in the issue title which language/library is concerned. Eg:  [BUG][JAVA] Bug generating foo with bar 
+Also please indicate in the issue title which language/library is concerned. E.g.:  [BUG][JAVA] Bug generating foo with bar 
 -->
 
 ##### Description

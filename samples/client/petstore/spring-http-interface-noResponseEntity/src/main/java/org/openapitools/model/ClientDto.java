@@ -19,12 +19,12 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Client")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ClientDto {
 
   private @Nullable String client;
 
-  public ClientDto client(String client) {
+  public ClientDto client(@Nullable String client) {
     this.client = client;
     return this;
   }
@@ -35,11 +35,12 @@ public class ClientDto {
    */
   
   @JsonProperty("client")
-  public String getClient() {
+  public @Nullable String getClient() {
     return client;
   }
 
-  public void setClient(String client) {
+  @JsonProperty("client")
+  public void setClient(@Nullable String client) {
     this.client = client;
   }
 
@@ -73,7 +74,7 @@ public class ClientDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

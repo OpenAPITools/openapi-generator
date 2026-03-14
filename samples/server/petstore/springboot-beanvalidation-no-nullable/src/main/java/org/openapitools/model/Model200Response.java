@@ -22,14 +22,14 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Model200Response {
 
   private @Nullable Integer name;
 
   private @Nullable String propertyClass;
 
-  public Model200Response name(Integer name) {
+  public Model200Response name(@Nullable Integer name) {
     this.name = name;
     return this;
   }
@@ -41,15 +41,16 @@ public class Model200Response {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public Integer getName() {
+  public @Nullable Integer getName() {
     return name;
   }
 
-  public void setName(Integer name) {
+  @JsonProperty("name")
+  public void setName(@Nullable Integer name) {
     this.name = name;
   }
 
-  public Model200Response propertyClass(String propertyClass) {
+  public Model200Response propertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
     return this;
   }
@@ -61,11 +62,12 @@ public class Model200Response {
   
   @ApiModelProperty(value = "")
   @JsonProperty("class")
-  public String getPropertyClass() {
+  public @Nullable String getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
+  @JsonProperty("class")
+  public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
 
@@ -101,7 +103,7 @@ public class Model200Response {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

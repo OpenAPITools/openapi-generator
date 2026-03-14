@@ -1,0 +1,75 @@
+{{>License}}
+
+#pragma once
+
+#include <string>
+#include <vector>
+#include <memory>
+
+namespace {{apiNamespace}} {
+
+/**
+ * @brief Authentication Manager Interface
+ *
+ * This interface defines the contract for authentication validation.
+ * Users must implement this interface to provide their own authentication logic.
+ *
+ * Example implementation:
+ * @code
+ * class MyAuthManager : public AuthenticationManager {
+ * public:
+ *     bool validateApiKey(const std::string& key) override {
+ *         return database.checkApiKey(key);
+ *     }
+ *
+ *     bool validateBearerToken(const std::string& token) override {
+ *         return jwt::verify(token, secret);
+ *     }
+ *
+ *     bool validateBasicAuth(const std::string& username, const std::string& password) override {
+ *         return bcrypt::verify(password, database.getPasswordHash(username));
+ *     }
+ *
+ *     bool validateOAuth2(const std::string& token, const std::vector<std::string>& scopes) override {
+ *         auto introspection = oauthProvider.introspect(token);
+ *         return introspection.active && hasRequiredScopes(introspection, scopes);
+ *     }
+ * };
+ * @endcode
+ */
+class AuthenticationManager {
+public:
+    virtual ~AuthenticationManager() = default;
+
+    /**
+     * @brief Validate an API key
+     * @param key The API key to validate
+     * @return true if the API key is valid, false otherwise
+     */
+    virtual bool validateApiKey(const std::string& key) = 0;
+
+    /**
+     * @brief Validate a Bearer token (e.g., JWT)
+     * @param token The bearer token to validate
+     * @return true if the token is valid, false otherwise
+     */
+    virtual bool validateBearerToken(const std::string& token) = 0;
+
+    /**
+     * @brief Validate Basic authentication credentials
+     * @param username The username
+     * @param password The password
+     * @return true if the credentials are valid, false otherwise
+     */
+    virtual bool validateBasicAuth(const std::string& username, const std::string& password) = 0;
+
+    /**
+     * @brief Validate an OAuth2 token with required scopes
+     * @param token The OAuth2 access token
+     * @param scopes The required scopes for this operation
+     * @return true if the token is valid and has required scopes, false otherwise
+     */
+    virtual bool validateOAuth2(const std::string& token, const std::vector<std::string>& scopes) = 0;
+};
+
+} // namespace {{apiNamespace}}

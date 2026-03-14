@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+components:
+  schemas:
+    ColorEnum:
+      type: string
+      oneOf:
+        - title: PrimaryColors
+          enum: ["red", "green"]
+        - title: SecondaryColors
+          enum: ["blue", "yellow"]
+        - title: purple
+          enum: ["purple"]
+    StatusEnum:
+      type: number
+      oneOf:
+        - title: active
+          enum: [1]
+        - title: inactive_pending
+          enum: [2, 3]
+    enum1:
+      type: string
+      enum:
+        - A
+        - B
+    enum2:
+      type: string
+      enum:
+        - C
+        - D
+    combinedRefsEnum:
+      oneOf:
+        - $ref: '#/components/schemas/enum1'
+        - $ref: '#/components/schemas/enum2'
+paths:
+  /test:
+    get:
+      parameters:
+        - name: color
+          in: query
+          schema:
+            oneOf:
+              - type: string
+                enum: ["option1"]
+              - type: string
+                enum: ["option2"]
+        - name: anyOfEnum
+          in: query
+          schema:
+            type: string
+            anyOf:
+              - title: title 1
+                enum: [ "anyof 1" ]
+              - title: title 2
+                enum: [ "anyof 2" ]
+      responses:
+        '200':
+          description: Success

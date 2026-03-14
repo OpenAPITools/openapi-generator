@@ -45,9 +45,12 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user"]
+        // "/user"
+        value = [PATH_CREATE_USER]
     )
-    fun createUser(@ApiParam(value = "Created user object", required = true) @Valid @RequestBody body: User): ResponseEntity<Unit> {
+    fun createUser(
+        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody body: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUser(body), HttpStatus.valueOf(200))
     }
 
@@ -60,9 +63,12 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithArray"]
+        // "/user/createWithArray"
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT]
     )
-    fun createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
     }
 
@@ -75,9 +81,12 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithList"]
+        // "/user/createWithList"
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT]
     )
-    fun createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
     }
 
@@ -90,9 +99,12 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/user/{username}"]
+        // "/user/{username}"
+        value = [PATH_DELETE_USER]
     )
-    fun deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser(
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteUser(username), HttpStatus.valueOf(400))
     }
 
@@ -106,10 +118,13 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/{username}"],
+        // "/user/{username}"
+        value = [PATH_GET_USER_BY_NAME],
         produces = ["application/xml", "application/json"]
     )
-    fun getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName(
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<User> {
         return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
     }
 
@@ -123,10 +138,14 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/login"],
+        // "/user/login"
+        value = [PATH_LOGIN_USER],
         produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser(
+        @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+    ): ResponseEntity<kotlin.String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
     }
 
@@ -139,7 +158,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/logout"]
+        // "/user/logout"
+        value = [PATH_LOGOUT_USER]
     )
     fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(service.logoutUser(), HttpStatus.valueOf(200))
@@ -154,9 +174,26 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 400, message = "Invalid user supplied"),ApiResponse(code = 404, message = "User not found")])
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/user/{username}"]
+        // "/user/{username}"
+        value = [PATH_UPDATE_USER]
     )
-    fun updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody body: User): ResponseEntity<Unit> {
+    fun updateUser(
+        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,
+        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody body: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_CREATE_USER: String = "/user"
+        const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
+        const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"
+        const val PATH_DELETE_USER: String = "/user/{username}"
+        const val PATH_GET_USER_BY_NAME: String = "/user/{username}"
+        const val PATH_LOGIN_USER: String = "/user/login"
+        const val PATH_LOGOUT_USER: String = "/user/logout"
+        const val PATH_UPDATE_USER: String = "/user/{username}"
     }
 }

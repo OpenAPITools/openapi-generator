@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -52,73 +54,74 @@ public class FormatTest  {
   
   public static final String JSON_PROPERTY_INTEGER = "integer";
   
-  private Integer integer;
+  protected Integer integer;
 
   public static final String JSON_PROPERTY_INT32 = "int32";
   
-  private Integer int32;
+  protected Integer int32;
 
   public static final String JSON_PROPERTY_INT64 = "int64";
   
-  private Long int64;
+  protected Long int64;
 
   public static final String JSON_PROPERTY_NUMBER = "number";
   
-  private BigDecimal number;
+  protected BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   
-  private Float _float;
+  protected Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
   
-  private Double _double;
+  protected Double _double;
 
   public static final String JSON_PROPERTY_DECIMAL = "decimal";
   
-  private BigDecimal decimal;
+  protected BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
   
-  private String string;
+  protected String string;
 
   public static final String JSON_PROPERTY_BYTE = "byte";
   
-  private byte[] _byte;
+  protected byte[] _byte;
 
   public static final String JSON_PROPERTY_BINARY = "binary";
   
-  private File binary;
+  protected File binary;
 
   public static final String JSON_PROPERTY_DATE = "date";
   
-  private Date date;
+  protected Date date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   
-  private Date dateTime;
+  protected Date dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
   
-  private UUID uuid;
+  protected UUID uuid;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   
-  private String password;
+  protected String password;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
  /**
   * A string that is a 10 digit number. Can have leading zeros.
   */
   
-  private String patternWithDigits;
+  protected String patternWithDigits;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
  /**
   * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   */
   
-  private String patternWithDigitsAndDelimiter;
+  protected String patternWithDigitsAndDelimiter;
+
 
   /**
    * Get integer
@@ -126,7 +129,7 @@ public class FormatTest  {
    * maximum: 100
    * @return integer
    **/
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getInteger() {
     return integer;
@@ -135,7 +138,7 @@ public class FormatTest  {
   /**
    * Set integer
    */
-  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInteger(Integer integer) {
     this.integer = integer;
@@ -152,7 +155,7 @@ public class FormatTest  {
    * maximum: 200
    * @return int32
    **/
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getInt32() {
     return int32;
@@ -161,7 +164,7 @@ public class FormatTest  {
   /**
    * Set int32
    */
-  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt32(Integer int32) {
     this.int32 = int32;
@@ -176,7 +179,7 @@ public class FormatTest  {
    * Get int64
    * @return int64
    **/
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getInt64() {
     return int64;
@@ -185,7 +188,7 @@ public class FormatTest  {
   /**
    * Set int64
    */
-  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt64(Long int64) {
     this.int64 = int64;
@@ -202,7 +205,7 @@ public class FormatTest  {
    * maximum: 543.2
    * @return number
    **/
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public BigDecimal getNumber() {
     return number;
@@ -211,7 +214,7 @@ public class FormatTest  {
   /**
    * Set number
    */
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNumber(BigDecimal number) {
     this.number = number;
@@ -228,7 +231,7 @@ public class FormatTest  {
    * maximum: 987.6
    * @return _float
    **/
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Float getFloat() {
     return _float;
@@ -237,7 +240,7 @@ public class FormatTest  {
   /**
    * Set _float
    */
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFloat(Float _float) {
     this._float = _float;
@@ -254,7 +257,7 @@ public class FormatTest  {
    * maximum: 123.4
    * @return _double
    **/
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Double getDouble() {
     return _double;
@@ -263,7 +266,7 @@ public class FormatTest  {
   /**
    * Set _double
    */
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDouble(Double _double) {
     this._double = _double;
@@ -278,7 +281,7 @@ public class FormatTest  {
    * Get decimal
    * @return decimal
    **/
-  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonProperty(value = JSON_PROPERTY_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getDecimal() {
     return decimal;
@@ -287,7 +290,7 @@ public class FormatTest  {
   /**
    * Set decimal
    */
-  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonProperty(value = JSON_PROPERTY_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDecimal(BigDecimal decimal) {
     this.decimal = decimal;
@@ -302,7 +305,7 @@ public class FormatTest  {
    * Get string
    * @return string
    **/
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getString() {
     return string;
@@ -311,7 +314,7 @@ public class FormatTest  {
   /**
    * Set string
    */
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setString(String string) {
     this.string = string;
@@ -326,7 +329,7 @@ public class FormatTest  {
    * Get _byte
    * @return _byte
    **/
-  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public byte[] getByte() {
     return _byte;
@@ -335,7 +338,7 @@ public class FormatTest  {
   /**
    * Set _byte
    */
-  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setByte(byte[] _byte) {
     this._byte = _byte;
@@ -350,7 +353,7 @@ public class FormatTest  {
    * Get binary
    * @return binary
    **/
-  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public File getBinary() {
     return binary;
@@ -359,7 +362,7 @@ public class FormatTest  {
   /**
    * Set binary
    */
-  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBinary(File binary) {
     this.binary = binary;
@@ -374,7 +377,7 @@ public class FormatTest  {
    * Get date
    * @return date
    **/
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public Date getDate() {
     return date;
@@ -383,7 +386,7 @@ public class FormatTest  {
   /**
    * Set date
    */
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setDate(Date date) {
     this.date = date;
@@ -398,7 +401,7 @@ public class FormatTest  {
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Date getDateTime() {
     return dateTime;
@@ -407,7 +410,7 @@ public class FormatTest  {
   /**
    * Set dateTime
    */
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -422,7 +425,7 @@ public class FormatTest  {
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public UUID getUuid() {
     return uuid;
@@ -431,7 +434,7 @@ public class FormatTest  {
   /**
    * Set uuid
    */
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
@@ -446,7 +449,7 @@ public class FormatTest  {
    * Get password
    * @return password
    **/
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getPassword() {
     return password;
@@ -455,7 +458,7 @@ public class FormatTest  {
   /**
    * Set password
    */
-  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPassword(String password) {
     this.password = password;
@@ -470,7 +473,7 @@ public class FormatTest  {
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
    **/
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPatternWithDigits() {
     return patternWithDigits;
@@ -479,7 +482,7 @@ public class FormatTest  {
   /**
    * Set patternWithDigits
    */
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPatternWithDigits(String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
@@ -494,7 +497,7 @@ public class FormatTest  {
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
    **/
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
@@ -503,7 +506,7 @@ public class FormatTest  {
   /**
    * Set patternWithDigitsAndDelimiter
    */
-  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;

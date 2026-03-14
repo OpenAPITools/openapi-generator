@@ -70,7 +70,7 @@ trait MultipartDirectives {
 
 object MultipartDirectives extends MultipartDirectives with FileUploadDirectives {
   val tempFileFromFileInfo: FileInfo => File = {
-    file: FileInfo => Files.createTempFile(file.fileName, ".tmp").toFile()
+    (file: FileInfo) => Files.createTempFile(file.fileName, ".tmp").toFile()
   }
 }
 

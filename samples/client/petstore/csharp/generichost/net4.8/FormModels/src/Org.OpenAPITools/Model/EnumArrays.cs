@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public EnumArraysJustSymbol? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<EnumArraysJustSymbol?>(value); } }
+        public EnumArraysJustSymbol? JustSymbol { get { return this.JustSymbolOption.Value; } set { this.JustSymbolOption = new Option<EnumArraysJustSymbol?>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayEnum
@@ -143,8 +143,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "array_enum":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayEnum = new Option<List<EnumArraysArrayEnumInner>>(JsonSerializer.Deserialize<List<EnumArraysArrayEnumInner>>(ref utf8JsonReader, jsonSerializerOptions));
+                            arrayEnum = new Option<List<EnumArraysArrayEnumInner>>(JsonSerializer.Deserialize<List<EnumArraysArrayEnumInner>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "just_symbol":
                             string justSymbolRawValue = utf8JsonReader.GetString();

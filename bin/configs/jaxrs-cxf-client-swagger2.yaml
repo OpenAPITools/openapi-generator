@@ -1,0 +1,8 @@
+generatorName: jaxrs-cxf-client
+outputDir: samples/client/petstore/jaxrs-cxf-client-swagger2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/cxf
+additionalProperties:
+  artifactId: jaxrs-cxf-petstore-swagger2
+  documentationProvider: swagger2
+  annotationLibrary: swagger2

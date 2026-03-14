@@ -20,7 +20,7 @@ import org.springframework.http.MediaType
 import {{packageName}}.infrastructure.*
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class {{classname}}(client: RestClient) : ApiClient(client) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}open {{/nonPublicApi}}class {{classname}}(client: RestClient) : ApiClient(client) {
 
     {{#jackson}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(RestClient.builder()

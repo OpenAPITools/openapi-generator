@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * ArrayOfArrayOfNumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
 
   @Valid
@@ -53,6 +53,7 @@ public class ArrayOfArrayOfNumberOnly {
     return arrayArrayNumber;
   }
 
+  @JsonProperty("ArrayArrayNumber")
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
@@ -87,7 +88,7 @@ public class ArrayOfArrayOfNumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

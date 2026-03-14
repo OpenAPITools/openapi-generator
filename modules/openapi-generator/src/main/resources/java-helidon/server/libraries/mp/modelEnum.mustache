@@ -1,6 +1,9 @@
   /**
    * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
    */
+{{#isDeprecated}}
+  @Deprecated
+{{/isDeprecated}}
 {{#jsonb}}
   @JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
   @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)

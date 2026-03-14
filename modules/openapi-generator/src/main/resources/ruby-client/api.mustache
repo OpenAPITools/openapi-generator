@@ -1,5 +1,6 @@
 =begin
 {{> api_info}}
+
 =end
 
 require 'cgi'
@@ -131,7 +132,7 @@ module {{moduleName}}
       {{/maxLength}}
       {{#minLength}}
       if @api_client.config.client_side_validation && {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}.to_s.length < {{{minLength}}}
-        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, the character length must be great than or equal to {{{minLength}}}.'
+        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, the character length must be greater than or equal to {{{minLength}}}.'
       end
 
       {{/minLength}}

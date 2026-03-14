@@ -1,11 +1,12 @@
 use super::Service;
 use crate::{Api, AuthenticationApi};
+use headers::authorization::{Basic, Bearer};
 use swagger::{
     ApiError,
-    Authorization, 
-    auth::{Basic, Bearer}, 
-    Has, 
-    XSpanIdString};
+    Authorization,
+    Has,
+    XSpanIdString
+};
 
 impl<T,C> AuthenticationApi for Service<T, C> where
 T: Api<C> + Clone + Send + 'static + AuthenticationApi,

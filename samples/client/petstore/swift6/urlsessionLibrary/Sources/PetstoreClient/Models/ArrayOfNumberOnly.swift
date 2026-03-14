@@ -12,7 +12,7 @@ public typealias ArrayOfNumberOnly = PetstoreClientAPI.ArrayOfNumberOnly
 
 extension PetstoreClientAPI {
 
-public final class ArrayOfNumberOnly: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class ArrayOfNumberOnly: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var arrayNumber: [Double]?
 

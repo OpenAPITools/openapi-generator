@@ -124,7 +124,7 @@ public class FakeClassnameTags123Api {
          * @param body (Client) client model (required)
          * @return operation
          */
-        public TestClassnameOper body(Client body) {
+        public TestClassnameOper body(@javax.annotation.Nonnull Client body) {
             reqSpec.setBody(body);
             return this;
         }

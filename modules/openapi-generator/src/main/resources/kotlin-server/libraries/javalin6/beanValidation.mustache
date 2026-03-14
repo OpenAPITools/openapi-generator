@@ -1,0 +1,4 @@
+{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
+    @field:jakarta.validation.Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{!
+}}{{^isContainer}}{{^isPrimitiveType}}{{^isNumber}}{{^isUuid}}{{^isDateTime}}
+    @field:jakarta.validation.Valid{{/isDateTime}}{{/isUuid}}{{/isNumber}}{{/isPrimitiveType}}{{/isContainer}}
