@@ -77,9 +77,21 @@ public class PostmanCollectionCodegenTest {
         assertFileContains(path, "\"name\": \"Get User\"");
         // verify request endpoint
         TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
-        // verify folder name and description
-        TestUtils.assertFileContains(path, "\"name\": \"basic\"");
-        TestUtils.assertFileContains(path, "\"description\": \"Basic tag\"");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode root = objectMapper.readTree(new File(output + "/postman.json"));
+        JsonNode folders = root.get("item");
+
+        JsonNode basicFolder = null;
+        for (JsonNode folder : folders) {
+            if ("basic".equals(folder.get("name").asText())) {
+                basicFolder = folder;
+                break;
+            }
+        }
+
+        assertNotNull(basicFolder);
+        assertEquals("Basic tag", basicFolder.get("description").asText());
 
     }
 
@@ -104,6 +116,38 @@ public class PostmanCollectionCodegenTest {
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
         assertFileContains(path, "\"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"");
+    }
+
+    @Test
+    public void testTagDescriptionIsJsonEscaped() throws IOException {
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/TagDescriptionEscaping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode root = objectMapper.readTree(new File(output + "/postman.json"));
+        JsonNode folders = root.get("item");
+
+        JsonNode basicFolder = null;
+        for (JsonNode folder : folders) {
+            if ("basic".equals(folder.get("name").asText())) {
+                basicFolder = folder;
+                break;
+            }
+        }
+
+        assertNotNull(basicFolder);
+        assertEquals("Basic \"quoted\" tag\nsecond line", basicFolder.get("description").asText());
     }
 
     @Test

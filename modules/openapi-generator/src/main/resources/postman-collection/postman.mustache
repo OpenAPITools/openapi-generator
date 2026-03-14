@@ -12,8 +12,8 @@
 	{{#codegenOperationsByTag}}
 	{{#entrySet}}
 	        {
-	            "name": "{{key.name}}",
-	            "description": "{{key.description}}",
+	            "name": "{{{key.name}}}",
+	            "description": "{{{key.description}}}",
 	            "item": [{{#value}}
 	                        {{>item}}{{^-last}},{{/-last}}{{/value}}
 	                    ]

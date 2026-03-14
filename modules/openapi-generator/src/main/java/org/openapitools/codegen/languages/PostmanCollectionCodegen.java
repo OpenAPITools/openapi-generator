@@ -332,6 +332,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             }
         }
 
+        tagName = formatDescription(tagName);
+        tagDescription = formatDescription(tagDescription);
+
         PostmanRequestFolder folder = new PostmanRequestFolder(tagName, tagDescription);
         List<CodegenOperation> list = codegenOperationsByTag.get(folder);
 
