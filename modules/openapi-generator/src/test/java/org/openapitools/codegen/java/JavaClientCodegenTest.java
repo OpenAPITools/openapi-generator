@@ -2375,7 +2375,7 @@ public class JavaClientCodegenTest {
 
         assertThat(files.get("EnumTest.java"))
                 .content()
-                .contains("toLowerCase(Locale.ROOT)");
+                .contains("cacheByValue.get(value.toLowerCase(java.util.Locale.ROOT))");
     }
 
     @Test

@@ -12,8 +12,7 @@ import com.google.gson.stream.JsonWriter;
 {{#isUri}}
 import java.net.URI;
 {{/isUri}}
-{{#useEnumCaseInsensitive}}import java.util.Locale;
-{{/useEnumCaseInsensitive}}import java.util.HashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -48,7 +47,7 @@ import java.util.Map;
 
   static {
     for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} e: values()) {
-      {{{dataType}}} key = {{#useEnumCaseInsensitive}}{{#isString}}e.value == null ? null : e.value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}e.value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}e.value{{/useEnumCaseInsensitive}};
+      {{{dataType}}} key = {{#useEnumCaseInsensitive}}{{#isString}}e.value == null ? null : e.value.toLowerCase(java.util.Locale.ROOT){{/isString}}{{^isString}}e.value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}e.value{{/useEnumCaseInsensitive}};
       if (!cacheByValue.containsKey(key)) {
         cacheByValue.put(key, e);
       }
@@ -75,7 +74,7 @@ import java.util.Map;
   @JsonCreator
 {{/jackson}}
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = {{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : {{/isString}}{{/useEnumCaseInsensitive}}cacheByValue.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = {{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : {{/isString}}{{/useEnumCaseInsensitive}}cacheByValue.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(java.util.Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
     if (result != null) {
       return result;
     }
