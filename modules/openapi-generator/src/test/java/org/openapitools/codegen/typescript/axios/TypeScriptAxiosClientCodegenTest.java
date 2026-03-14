@@ -210,6 +210,7 @@ public class TypeScriptAxiosClientCodegenTest {
                 TestUtils.assertFileContains(baseTsPath, "this.field = field;");
                 // Should NOT contain parameter properties
                 TestUtils.assertFileNotContains(baseTsPath, "protected basePath: string = BASE_PATH,");
+                TestUtils.assertFileNotContains(baseTsPath, "protected axios: AxiosInstance = globalAxios");
                 TestUtils.assertFileNotContains(baseTsPath, "public field: string,");
             } else {
                 // Non-erasable syntax: uses parameter properties
