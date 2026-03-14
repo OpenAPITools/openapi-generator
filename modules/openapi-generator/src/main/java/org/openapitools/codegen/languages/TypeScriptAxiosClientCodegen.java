@@ -22,6 +22,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -38,6 +40,8 @@ import java.util.Map;
 import java.util.TreeSet;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -184,6 +188,13 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         if (additionalProperties.containsKey(USE_ERASABLE_SYNTAX)) {
             this.useErasableSyntax = Boolean.parseBoolean(additionalProperties.get(USE_ERASABLE_SYNTAX).toString());
             additionalProperties.put(USE_ERASABLE_SYNTAX, this.useErasableSyntax);
+        }
+
+        if (this.useErasableSyntax && this.stringEnums) {
+            LOGGER.warn("useErasableSyntax and stringEnums are both enabled. "
+                    + "TypeScript 'enum' declarations are not erasable syntax and will fail with "
+                    + "erasableSyntaxOnly. Consider disabling stringEnums (the default generates "
+                    + "erasable-compatible const objects instead).");
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
