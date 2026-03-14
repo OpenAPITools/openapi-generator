@@ -327,7 +327,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
-        supportedLibraries.put(SPRING_HTTP_INTERFACE, "Spring 6 HTTP interfaces (testing)");
+        supportedLibraries.put(SPRING_HTTP_INTERFACE, "Spring 6 HTTP interfaces (testing). Requires Spring Boot 3 or 4.");
         setLibrary(SPRING_BOOT);
         final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
                 .defaultValue(SPRING_BOOT);
@@ -644,6 +644,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 }
             } else if (SPRING_HTTP_INTERFACE.equals(library)) {
+                if (!(isUseSpringBoot3() || isUseSpringBoot4())) {
+                    throw new IllegalArgumentException("Library '" + SPRING_HTTP_INTERFACE + "' is only supported with Spring Boot 3 or 4");
+                }
+
                 String httpInterfacesAbstractConfiguratorFile = useHttpServiceProxyFactoryInterfacesConfigurator ?
                     "httpServiceProxyFactoryInterfacesConfigurator.mustache" :
                     "httpInterfacesConfiguration.mustache";
