@@ -41,7 +41,7 @@ import java.util.TreeSet;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
