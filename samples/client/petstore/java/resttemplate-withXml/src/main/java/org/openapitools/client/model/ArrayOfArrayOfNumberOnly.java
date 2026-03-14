@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.*;
@@ -37,7 +38,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @XmlRootElement(name = "ArrayOfArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfArrayOfNumberOnly")
@@ -69,7 +70,7 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ArrayArrayNumber")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -79,7 +80,7 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ArrayArrayNumber")
   @JacksonXmlElementWrapper(useWrapping = false)

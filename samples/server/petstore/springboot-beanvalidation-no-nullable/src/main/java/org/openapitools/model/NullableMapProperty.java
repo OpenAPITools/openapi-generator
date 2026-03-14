@@ -21,13 +21,13 @@ import javax.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NullableMapProperty {
 
   @Valid
   private @Nullable Map<String, String> languageValues;
 
-  public NullableMapProperty languageValues(Map<String, String> languageValues) {
+  public NullableMapProperty languageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
     return this;
   }
@@ -47,11 +47,12 @@ public class NullableMapProperty {
   
   @ApiModelProperty(value = "")
   @JsonProperty("languageValues")
-  public Map<String, String> getLanguageValues() {
+  public @Nullable Map<String, String> getLanguageValues() {
     return languageValues;
   }
 
-  public void setLanguageValues(Map<String, String> languageValues) {
+  @JsonProperty("languageValues")
+  public void setLanguageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
   }
 
@@ -85,7 +86,7 @@ public class NullableMapProperty {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

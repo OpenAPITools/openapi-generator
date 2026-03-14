@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * DeprecatedObject
@@ -31,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
@@ -58,7 +59,7 @@ public class DeprecatedObject {
    * @return name
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -66,7 +67,7 @@ public class DeprecatedObject {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;

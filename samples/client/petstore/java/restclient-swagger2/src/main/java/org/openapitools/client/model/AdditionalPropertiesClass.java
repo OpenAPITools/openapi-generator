@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * AdditionalPropertiesClass
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @jakarta.annotation.Nullable
@@ -66,7 +67,7 @@ public class AdditionalPropertiesClass {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, String> getMapProperty() {
@@ -74,7 +75,7 @@ public class AdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapProperty(@jakarta.annotation.Nullable Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -100,7 +101,7 @@ public class AdditionalPropertiesClass {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
@@ -108,11 +109,12 @@ public class AdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_MAP_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfMapProperty(@jakarta.annotation.Nullable Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
+
 
   @Override
   public boolean equals(Object o) {

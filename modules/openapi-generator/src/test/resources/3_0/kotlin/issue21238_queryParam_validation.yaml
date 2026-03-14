@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  description: "Example to test fix for issue 21238, queryParam validation"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: OpenAPI Query Param VAlidation
+  version: 1.0.0
+paths:
+  /pet/findByStatus:
+    get:
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPetsByStatus
+      parameters:
+      - deprecated: true
+        description: Status values that need to be considered for filter
+        explode: false
+        in: query
+        name: status
+        required: true
+        schema:
+          items:
+            default: available
+            enum:
+            - available
+            - pending
+            - sold
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+      summary: Finds Pets by status
+      tags:
+      - pet
+  /user/login:
+    get:
+      operationId: loginUser
+      parameters:
+      - description: The user name for login
+        explode: true
+        in: query
+        name: username
+        required: true
+        schema:
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
+          type: string
+        style: form
+      - description: The password for login in clear text
+        explode: true
+        in: query
+        name: password
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+      summary: Logs user into the system
+      tags:
+      - user

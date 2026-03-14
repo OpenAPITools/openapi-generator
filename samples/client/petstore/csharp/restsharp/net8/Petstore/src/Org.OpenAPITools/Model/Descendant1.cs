@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="descendantName">descendantName (required).</param>
         /// <param name="alternativeName">alternativeName (required).</param>
         /// <param name="objectType">objectType (required) (default to ObjectTypeEnum.Descendant1).</param>
-        public Descendant1(string descendantName = default(string), string alternativeName = default(string), ObjectTypeEnum objectType = ObjectTypeEnum.Descendant1) : base(alternativeName, objectType)
+        public Descendant1(string descendantName = default, string alternativeName = default, ObjectTypeEnum objectType = ObjectTypeEnum.Descendant1) : base(alternativeName, objectType)
         {
             // to ensure "descendantName" is required (not null)
             if (descendantName == null)

@@ -99,6 +99,23 @@ interface PetApiInterface
     ): void;
 
     /**
+     * Operation downloadFile
+     *
+     * downloads an image
+     *
+     * @param  int $petId  ID of pet to download an image from (required)
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return mixed
+     */
+    public function downloadFile(
+        int $petId,
+        int &$responseCode,
+        array &$responseHeaders
+    ): mixed;
+
+    /**
      * Operation findPetsByStatus
      *
      * Finds Pets by status
@@ -149,6 +166,40 @@ interface PetApiInterface
         int &$responseCode,
         array &$responseHeaders
     ): array|object|null;
+
+    /**
+     * Operation petAge
+     *
+     * Get the age of the pet
+     *
+     * @param  int $petId  ID of pet (required)
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return int
+     */
+    public function petAge(
+        int $petId,
+        int &$responseCode,
+        array &$responseHeaders
+    ): int;
+
+    /**
+     * Operation petAvailableForSale
+     *
+     * Whether the pet can currently be bought
+     *
+     * @param  int $petId  ID of pet (required)
+     * @param  int     &$responseCode    The HTTP Response Code
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return bool
+     */
+    public function petAvailableForSale(
+        int $petId,
+        int &$responseCode,
+        array &$responseHeaders
+    ): bool;
 
     /**
      * Operation updatePet

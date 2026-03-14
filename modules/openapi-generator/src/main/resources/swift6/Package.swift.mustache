@@ -9,10 +9,10 @@ let package = Package(
         .macOS(.v10_15),
         {{/useVapor}}
         {{^useVapor}}
-        .iOS(.v12),
-        .macOS(.v10_13),
-        .tvOS(.v12),
-        .watchOS(.v4),
+        .iOS(.v13),
+        .macOS(.v10_15),
+        .tvOS(.v13),
+        .watchOS(.v6),
         {{/useVapor}}
     ],
     products: [
@@ -25,8 +25,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         {{#useAlamofire}}
-        // TODO: Alamofire versions 5.10.0 and above are not currently supported. If you need a newer version, please consider submitting a Pull Request with the required changes.
-        .package(url: "https://github.com/Alamofire/Alamofire", exact: "5.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.10.2")),
         {{/useAlamofire}}
         {{#usePromiseKit}}
         .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "8.1.2")),
@@ -35,7 +34,7 @@ let package = Package(
         .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.8.0")),
         {{/useRxSwift}}
         {{#useVapor}}
-        .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
+        .package(url: "https://github.com/vapor/vapor", from: "4.99.0"),
         {{/useVapor}}
     ],
     targets: [
@@ -43,7 +42,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "{{projectName}}",
-            dependencies: [{{#useVapor}}"Vapor", {{/useVapor}}{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
+            dependencies: [{{#useVapor}}.product(name: "Vapor", package: "vapor"){{/useVapor}}{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
             path: "{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}"
         ),
     ],

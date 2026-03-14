@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.*;
@@ -34,7 +35,7 @@ import io.github.threetenjaxb.core.*;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
 @JsonTypeName("_special_model.name_")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @XmlRootElement(name = "$special[model.name]")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "$special[model.name]")
@@ -58,7 +59,7 @@ public class SpecialModelName {
    * @return $specialPropertyName
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "$special[property.name]")
 
@@ -67,7 +68,7 @@ public class SpecialModelName {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "$special[property.name]")
   public void set$SpecialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {

@@ -21,6 +21,7 @@ import io.swagger.v3.parser.core.models.ParseOptions
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.logging.Logging
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
@@ -51,14 +52,19 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
  *
  * @author Jim Schubert
  */
+@CacheableTask
 open class ValidateTask : DefaultTask() {
     @get:InputFile
-    @PathSensitive(PathSensitivity.RELATIVE)
+    @get:PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
 
-    @Optional
-    @Input
+    @get:Optional
+    @get:Input
     val recommend = project.objects.property<Boolean>().convention(true)
+
+    @get:Optional
+    @get:Input
+    val treatWarningsAsErrors = project.objects.property<Boolean>().convention(false)
 
     @get:Internal
     @set:Option(option = "input", description = "The input specification.")
@@ -73,6 +79,7 @@ open class ValidateTask : DefaultTask() {
 
         val spec = inputSpec.get()
         val recommendations = recommend.get()
+        val failOnWarnings = treatWarningsAsErrors.get()
 
         logger.quiet("Validating spec $spec")
 
@@ -117,10 +124,16 @@ open class ValidateTask : DefaultTask() {
             }
 
             throw GradleException("Validation failed.")
-        } else {
-            out.withStyle(StyledTextOutput.Style.Success)
-            logger.debug("No error validations from swagger-parser or internal validations.")
-            out.println("Spec is valid.")
         }
+
+        if (failOnWarnings && validationResult.warnings.isNotEmpty()) {
+            out.withStyle(StyledTextOutput.Style.Error)
+            out.println("\nWarnings found in the spec and 'treatWarningsAsErrors' is enabled.\nFailing validation.\n")
+            throw GradleException("Validation failed due to warnings (treatWarningsAsErrors = true).")
+        }
+
+        out.withStyle(StyledTextOutput.Style.Success)
+        logger.debug("No error validations from swagger-parser or internal validations.")
+        out.println("Spec is valid.")
     }
 }

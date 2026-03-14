@@ -1,3 +1,4 @@
+.ocamlformat
 README.md
 dune
 dune-project

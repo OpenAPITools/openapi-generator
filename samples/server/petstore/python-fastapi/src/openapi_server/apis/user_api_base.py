@@ -38,22 +38,6 @@ class BaseUserApi:
         ...
 
 
-    async def delete_user(
-        self,
-        username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
-    ) -> None:
-        """This can only be done by the logged in user."""
-        ...
-
-
-    async def get_user_by_name(
-        self,
-        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
-    ) -> User:
-        """"""
-        ...
-
-
     async def login_user(
         self,
         username: Annotated[str, Field(strict=True, description="The user name for login")],
@@ -70,10 +54,26 @@ class BaseUserApi:
         ...
 
 
+    async def get_user_by_name(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
+    ) -> User:
+        """"""
+        ...
+
+
     async def update_user(
         self,
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],
         user: Annotated[User, Field(description="Updated user object")],
+    ) -> None:
+        """This can only be done by the logged in user."""
+        ...
+
+
+    async def delete_user(
+        self,
+        username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
     ) -> None:
         """This can only be done by the logged in user."""
         ...

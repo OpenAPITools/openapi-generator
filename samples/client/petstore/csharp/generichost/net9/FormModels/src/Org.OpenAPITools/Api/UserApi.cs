@@ -10,8 +10,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -630,7 +632,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterCreateUser(ref suppressDefaultLog, apiResponseLocalVar, user);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -706,7 +708,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user");
 
                     httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
@@ -729,11 +733,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<CreateUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<CreateUserApiResponse>();
+                        CreateUserApiResponse apiResponseLocalVar;
 
-                        CreateUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterCreateUserDefaultImplementation(apiResponseLocalVar, user);
 
@@ -772,6 +782,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public CreateUserApiResponse(ILogger<CreateUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="CreateUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public CreateUserApiResponse(ILogger<CreateUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -819,7 +845,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterCreateUsersWithArrayInput(ref suppressDefaultLog, apiResponseLocalVar, user);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -895,7 +921,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/createWithArray";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user/createWithArray"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user/createWithArray");
 
                     httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
@@ -918,11 +946,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<CreateUsersWithArrayInputApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<CreateUsersWithArrayInputApiResponse>();
+                        CreateUsersWithArrayInputApiResponse apiResponseLocalVar;
 
-                        CreateUsersWithArrayInputApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithArray", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithArray", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterCreateUsersWithArrayInputDefaultImplementation(apiResponseLocalVar, user);
 
@@ -961,6 +995,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public CreateUsersWithArrayInputApiResponse(ILogger<CreateUsersWithArrayInputApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithArrayInputApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public CreateUsersWithArrayInputApiResponse(ILogger<CreateUsersWithArrayInputApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1008,7 +1058,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterCreateUsersWithListInput(ref suppressDefaultLog, apiResponseLocalVar, user);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1084,7 +1134,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/createWithList";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user/createWithList"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user/createWithList");
 
                     httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
@@ -1107,11 +1159,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<CreateUsersWithListInputApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<CreateUsersWithListInputApiResponse>();
+                        CreateUsersWithListInputApiResponse apiResponseLocalVar;
 
-                        CreateUsersWithListInputApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithList", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithList", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterCreateUsersWithListInputDefaultImplementation(apiResponseLocalVar, user);
 
@@ -1150,6 +1208,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public CreateUsersWithListInputApiResponse(ILogger<CreateUsersWithListInputApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="CreateUsersWithListInputApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public CreateUsersWithListInputApiResponse(ILogger<CreateUsersWithListInputApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1197,7 +1271,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterDeleteUser(ref suppressDefaultLog, apiResponseLocalVar, username);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1273,7 +1347,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user/{username}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user/{username}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -1284,11 +1360,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<DeleteUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<DeleteUserApiResponse>();
+                        DeleteUserApiResponse apiResponseLocalVar;
 
-                        DeleteUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterDeleteUserDefaultImplementation(apiResponseLocalVar, username);
 
@@ -1327,6 +1409,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public DeleteUserApiResponse(ILogger<DeleteUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="DeleteUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public DeleteUserApiResponse(ILogger<DeleteUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1380,7 +1478,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterGetUserByName(ref suppressDefaultLog, apiResponseLocalVar, username);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1456,7 +1554,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user/{username}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user/{username}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -1466,10 +1566,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1477,11 +1577,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<GetUserByNameApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetUserByNameApiResponse>();
+                        GetUserByNameApiResponse apiResponseLocalVar;
 
-                        GetUserByNameApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
 
@@ -1520,6 +1626,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public GetUserByNameApiResponse(ILogger<GetUserByNameApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="GetUserByNameApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetUserByNameApiResponse(ILogger<GetUserByNameApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1660,7 +1782,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterLoginUser(ref suppressDefaultLog, apiResponseLocalVar, password, username);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1741,7 +1863,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/login";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user/login"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user/login");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -1757,10 +1881,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1768,11 +1892,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<LoginUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<LoginUserApiResponse>();
+                        LoginUserApiResponse apiResponseLocalVar;
 
-                        LoginUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterLoginUserDefaultImplementation(apiResponseLocalVar, password, username);
 
@@ -1838,6 +1968,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public LoginUserApiResponse(ILogger<LoginUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="LoginUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public LoginUserApiResponse(ILogger<LoginUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1909,7 +2055,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterLogoutUser(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1976,7 +2122,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/logout";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user/logout"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user/logout");
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -1986,11 +2134,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<LogoutUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<LogoutUserApiResponse>();
+                        LogoutUserApiResponse apiResponseLocalVar;
 
-                        LogoutUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/logout", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/logout", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterLogoutUserDefaultImplementation(apiResponseLocalVar);
 
@@ -2029,6 +2183,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public LogoutUserApiResponse(ILogger<LogoutUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="LogoutUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public LogoutUserApiResponse(ILogger<LogoutUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -2081,7 +2251,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterUpdateUser(ref suppressDefaultLog, apiResponseLocalVar, user, username);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2162,7 +2332,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/user/{username}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/user/{username}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
@@ -2186,11 +2358,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<UpdateUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UpdateUserApiResponse>();
+                        UpdateUserApiResponse apiResponseLocalVar;
 
-                        UpdateUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterUpdateUserDefaultImplementation(apiResponseLocalVar, user, username);
 
@@ -2229,6 +2407,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public UpdateUserApiResponse(ILogger<UpdateUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="UpdateUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public UpdateUserApiResponse(ILogger<UpdateUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);

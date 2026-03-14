@@ -21,14 +21,14 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "A tag for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Tag {
 
   private @Nullable Long id;
 
   private @Nullable String name;
 
-  public Tag id(Long id) {
+  public Tag id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -40,15 +40,16 @@ public class Tag {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Tag name(String name) {
+  public Tag name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -60,11 +61,12 @@ public class Tag {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  @JsonProperty("name")
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
@@ -100,7 +102,7 @@ public class Tag {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

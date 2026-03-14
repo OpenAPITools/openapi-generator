@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -77,17 +79,18 @@ public class ParentWithNullable  {
 
   public static final String JSON_PROPERTY_TYPE = "type";
   
-  private TypeEnum type;
+  protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
   
-  private String nullableProperty;
+  protected String nullableProperty;
+
 
   /**
    * Get type
    * @return type
    **/
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public TypeEnum getType() {
     return type;
@@ -96,7 +99,7 @@ public class ParentWithNullable  {
   /**
    * Set type
    */
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(TypeEnum type) {
     this.type = type;
@@ -111,7 +114,7 @@ public class ParentWithNullable  {
    * Get nullableProperty
    * @return nullableProperty
    **/
-  @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getNullableProperty() {
     return nullableProperty;
@@ -120,7 +123,7 @@ public class ParentWithNullable  {
   /**
    * Set nullableProperty
    */
-  @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNullableProperty(String nullableProperty) {
     this.nullableProperty = nullableProperty;

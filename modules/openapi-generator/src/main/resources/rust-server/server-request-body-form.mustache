@@ -1,13 +1,13 @@
-{{#vendorExtensions}}
+{{#exts}}
   {{#formParams}}
     {{#-first}}
                                 // Form parameters
     {{/-first}}
                                 let param_{{{paramName}}} =
       {{^isContainer}}
-        {{#vendorExtensions}}
+        {{#exts}}
                                     {{{x-example}}};
-        {{/vendorExtensions}}
+        {{/exts}}
       {{/isContainer}}
       {{#isArray}}
         {{#required}}
@@ -21,4 +21,4 @@
                                     None;
       {{/isMap}}
   {{/formParams}}
-{{/vendorExtensions}}
+{{/exts}}

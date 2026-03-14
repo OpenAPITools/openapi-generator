@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * HasOnlyReadOnly
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
 @JsonTypeName("hasOnlyReadOnly")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
   @jakarta.annotation.Nullable
@@ -63,7 +64,7 @@ public class HasOnlyReadOnly {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -78,12 +79,13 @@ public class HasOnlyReadOnly {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFoo() {
     return foo;
   }
+
 
 
 

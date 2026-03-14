@@ -141,14 +141,14 @@ bourne::json
 }
 
 {{#vars}}
-{{dataType}}{{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}}
+{{#isMap}}{{{dataType}}}{{/isMap}}{{^isMap}}{{dataType}}{{#isArray}}<{{#items}}{{dataType}}{{/items}}>{{/isArray}}{{/isMap}}
 {{classname}}::{{getter}}()
 {
 	return {{name}};
 }
 
 void
-{{classname}}::{{setter}}({{dataType}} {{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{name}})
+{{classname}}::{{setter}}({{#isMap}}{{{dataType}}}{{/isMap}}{{^isMap}}{{dataType}}{{#isArray}}<{{#items}}{{dataType}}{{/items}}>{{/isArray}}{{/isMap}} {{name}})
 {
 	this->{{name}} = {{name}};
 }

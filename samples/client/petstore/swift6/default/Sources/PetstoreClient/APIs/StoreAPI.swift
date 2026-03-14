@@ -16,7 +16,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteOrderWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration).execute().body
     }
@@ -35,11 +34,11 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -56,7 +55,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: [String: Int]
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> [String: Int] {
         return try await getInventoryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
@@ -74,11 +72,11 @@ open class StoreAPI {
     open class func getInventoryWithRequestBuilder(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<[String: Int]> {
         let localVariablePath = "/store/inventory"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -96,7 +94,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Order
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Order {
         return try await getOrderByIdWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration).execute().body
     }
@@ -115,11 +112,11 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -137,7 +134,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Order
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Order {
         return try await placeOrderWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
@@ -156,7 +152,7 @@ open class StoreAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 

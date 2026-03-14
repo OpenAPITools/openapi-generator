@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private @Nullable Integer code;
@@ -30,7 +30,7 @@ public class ModelApiResponse {
 
   private @Nullable String message;
 
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(@Nullable Integer code) {
     this.code = code;
     return this;
   }
@@ -42,15 +42,16 @@ public class ModelApiResponse {
   
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
-  public Integer getCode() {
+  public @Nullable Integer getCode() {
     return code;
   }
 
-  public void setCode(Integer code) {
+  @JsonProperty("code")
+  public void setCode(@Nullable Integer code) {
     this.code = code;
   }
 
-  public ModelApiResponse type(String type) {
+  public ModelApiResponse type(@Nullable String type) {
     this.type = type;
     return this;
   }
@@ -62,15 +63,16 @@ public class ModelApiResponse {
   
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
-  public String getType() {
+  public @Nullable String getType() {
     return type;
   }
 
-  public void setType(String type) {
+  @JsonProperty("type")
+  public void setType(@Nullable String type) {
     this.type = type;
   }
 
-  public ModelApiResponse message(String message) {
+  public ModelApiResponse message(@Nullable String message) {
     this.message = message;
     return this;
   }
@@ -82,11 +84,12 @@ public class ModelApiResponse {
   
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
-  public String getMessage() {
+  public @Nullable String getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
+  @JsonProperty("message")
+  public void setMessage(@Nullable String message) {
     this.message = message;
   }
 
@@ -124,7 +127,7 @@ public class ModelApiResponse {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

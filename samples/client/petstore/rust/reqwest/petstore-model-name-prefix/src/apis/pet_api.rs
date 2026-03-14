@@ -56,6 +56,22 @@ pub enum GetPetByIdError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`pets_explode_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsExplodePostError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`pets_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PetsPostError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -85,7 +101,7 @@ pub enum UploadFileError {
 /// This is the description for the addPet operation
 pub fn add_pet(configuration: &configuration::Configuration, foo_pet: models::FooPet) -> Result<models::FooPet, Error<AddPetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_foo_pet = foo_pet;
+    let p_body_foo_pet = foo_pet;
 
     let uri_str = format!("{}/pet", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -96,7 +112,7 @@ pub fn add_pet(configuration: &configuration::Configuration, foo_pet: models::Fo
     if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_foo_pet);
+    req_builder = req_builder.json(&p_body_foo_pet);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
@@ -126,16 +142,16 @@ pub fn add_pet(configuration: &configuration::Configuration, foo_pet: models::Fo
 /// 
 pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_pet_id = pet_id;
-    let p_api_key = api_key;
+    let p_path_pet_id = pet_id;
+    let p_header_api_key = api_key;
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=p_pet_id);
+    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=p_path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(param_value) = p_api_key {
+    if let Some(param_value) = p_header_api_key {
         req_builder = req_builder.header("api_key", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
@@ -159,17 +175,17 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
 /// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::FooPet>, Error<FindPetsByStatusError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_status = status;
-    let p_type = r#type;
+    let p_query_status = status;
+    let p_query_type = r#type;
 
     let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = match "csv" {
-        "multi" => req_builder.query(&p_status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => req_builder.query(&[("status", &p_status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        "multi" => req_builder.query(&p_query_status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => req_builder.query(&[("status", &p_query_status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
-    if let Some(ref param_value) = p_type {
+    if let Some(ref param_value) = p_query_type {
         req_builder = match "csv" {
             "multi" => req_builder.query(&param_value.into_iter().map(|p| ("type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
             _ => req_builder.query(&[("type", &param_value.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
@@ -208,16 +224,17 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
 }
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+#[deprecated]
 pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<models::FooPet>, Error<FindPetsByTagsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_tags = tags;
+    let p_query_tags = tags;
 
     let uri_str = format!("{}/pet/findByTags", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     req_builder = match "csv" {
-        "multi" => req_builder.query(&p_tags.into_iter().map(|p| ("tags".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => req_builder.query(&[("tags", &p_tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        "multi" => req_builder.query(&p_query_tags.into_iter().map(|p| ("tags".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => req_builder.query(&[("tags", &p_query_tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -254,9 +271,9 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
 /// Returns a single pet
 pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<models::FooPet, Error<GetPetByIdError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_pet_id = pet_id;
+    let p_path_pet_id = pet_id;
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=p_pet_id);
+    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=p_path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -296,10 +313,90 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
     }
 }
 
+/// Returns a list of pets
+pub fn pets_explode_post(configuration: &configuration::Configuration, page_explode: Option<models::FooPage>) -> Result<Vec<models::FooPet>, Error<PetsExplodePostError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_query_page_explode = page_explode;
+
+    let uri_str = format!("{}/pets/explode", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref param_value) = p_query_page_explode {
+        req_builder = req_builder.query(&param_value);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req)?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text()?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::FooPet&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::FooPet&gt;`")))),
+        }
+    } else {
+        let content = resp.text()?;
+        let entity: Option<PetsExplodePostError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Returns a list of pets
+pub fn pets_post(configuration: &configuration::Configuration, page: Option<models::FooPage>) -> Result<Vec<models::FooPet>, Error<PetsPostError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_query_page = page;
+
+    let uri_str = format!("{}/pets", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref param_value) = p_query_page {
+        req_builder = req_builder.query(&[("page", &serde_json::to_string(param_value)?)]);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req)?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text()?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::FooPet&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::FooPet&gt;`")))),
+        }
+    } else {
+        let content = resp.text()?;
+        let entity: Option<PetsPostError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
 /// 
 pub fn update_pet(configuration: &configuration::Configuration, foo_pet: models::FooPet) -> Result<models::FooPet, Error<UpdatePetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_foo_pet = foo_pet;
+    let p_body_foo_pet = foo_pet;
 
     let uri_str = format!("{}/pet", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::PUT, &uri_str);
@@ -310,7 +407,7 @@ pub fn update_pet(configuration: &configuration::Configuration, foo_pet: models:
     if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_foo_pet);
+    req_builder = req_builder.json(&p_body_foo_pet);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
@@ -340,11 +437,11 @@ pub fn update_pet(configuration: &configuration::Configuration, foo_pet: models:
 /// 
 pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_pet_id = pet_id;
-    let p_name = name;
-    let p_status = status;
+    let p_path_pet_id = pet_id;
+    let p_form_name = name;
+    let p_form_status = status;
 
-    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=p_pet_id);
+    let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=p_path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -354,10 +451,10 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
     let mut multipart_form_params = std::collections::HashMap::new();
-    if let Some(param_value) = p_name {
+    if let Some(param_value) = p_form_name {
         multipart_form_params.insert("name", param_value.to_string());
     }
-    if let Some(param_value) = p_status {
+    if let Some(param_value) = p_form_status {
         multipart_form_params.insert("status", param_value.to_string());
     }
     req_builder = req_builder.form(&multipart_form_params);
@@ -379,11 +476,11 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
 /// 
 pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<models::FooApiResponse, Error<UploadFileError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_pet_id = pet_id;
-    let p_additional_metadata = additional_metadata;
-    let p_file = file;
+    let p_path_pet_id = pet_id;
+    let p_form_additional_metadata = additional_metadata;
+    let p_form_file = file;
 
-    let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=p_pet_id);
+    let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=p_path_pet_id);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -393,10 +490,10 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
     let mut multipart_form = reqwest::blocking::multipart::Form::new();
-    if let Some(param_value) = p_additional_metadata {
+    if let Some(param_value) = p_form_additional_metadata {
         multipart_form = multipart_form.text("additionalMetadata", param_value.to_string());
     }
-    if let Some(param_value) = p_file {
+    if let Some(ref param_value) = p_form_file {
         multipart_form = multipart_form.file("file", param_value)?;
     }
     req_builder = req_builder.multipart(multipart_form);

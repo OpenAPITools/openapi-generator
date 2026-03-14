@@ -1,0 +1,147 @@
+# Slightly modified from the original
+openapi: 3.1.0
+
+info:
+  version: 5.0.5
+  title: Internal Users SCIM
+  description: ...
+tags:
+  - name: Groups
+    description: ...
+
+paths:
+  /v3/internal/scim/Groups/{id}:
+    get:
+      summary: 'Get group by id'
+      description: ...
+      externalDocs:
+        url: 'https://datatracker.ietf.org/doc/html/rfc7644#section-3.2'
+        description: 'RFC 7644, Section 3.2'
+      operationId: getGroup
+      tags:
+        - Groups
+      parameters:
+        - $ref: '#/components/parameters/GroupIdInPath'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/Group'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+
+components:
+  parameters:
+    GroupIdInPath:
+      name: id
+      in: path
+      description: |
+        The unique identifier of a group
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Meta:
+      type: object
+      description: ...
+      externalDocs:
+        url: 'https://datatracker.ietf.org/doc/html/rfc7643#section-3.1'
+        description: 'RFC 7643, Section 3.1'
+      properties:
+        resourceType:
+          type: string
+          description: ...
+          examples:
+            - 'ResourceType'
+        created:
+          type: string
+          format: date-time
+          description: ...
+          examples:
+            - '2024-07-21T17:32:28Z'
+        lastModified:
+          type: string
+          format: date-time
+          description: ...
+        location:
+          type: string
+          description: ...
+        version:
+          type: string
+          description: ...
+    BaseGroup:
+      type: object
+      description: ...
+      externalDocs:
+        url: 'https://datatracker.ietf.org/doc/html/rfc7643#section-4'
+        description: 'RFC 7643, Section 4'
+      required:
+        - members
+      properties:
+        members:
+          type: array
+          description: ...
+          items:
+            type: object
+            required:
+              - value
+              - $refRequired
+            properties:
+              value:
+                type: string
+                format: uuid
+                description: ...
+              $ref:
+                type:
+                  - "string"
+                  - "null"
+                description: ...
+              $refRequired:
+                type:
+                  - "string"
+                  - "null"
+                description: ...
+              $refOneOf:
+                type: object
+                oneOf: [
+                  {
+                    "type": integer
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+          default: [ ] # default is for `PUT` request
+    Group:
+      type: object
+      description: ...
+      externalDocs:
+        url: 'https://datatracker.ietf.org/doc/html/rfc7643#section-4'
+        description: 'RFC 7643, Section 4'
+      required:
+        - schemas
+        - id
+        - displayName
+        - members
+      allOf:
+        - type: object
+          properties:
+            schemas:
+              type: array
+              description: ...
+              items:
+                type: string
+            id:
+              type: string
+              format: uuid
+              readOnly: true
+              description: ...
+            displayName:
+              type: string
+              readOnly: true
+              description: ...
+        - $ref: '#/components/schemas/BaseGroup'

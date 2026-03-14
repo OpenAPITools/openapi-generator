@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   private @Nullable UUID uuid;
@@ -36,7 +36,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   
   private Map<String, AnimalDto> map = new HashMap<>();
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -47,15 +47,16 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    */
   
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  @JsonProperty("uuid")
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClassDto dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClassDto dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -66,11 +67,12 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    */
   
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  @JsonProperty("dateTime")
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -97,6 +99,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return map;
   }
 
+  @JsonProperty("map")
   public void setMap(Map<String, AnimalDto> map) {
     this.map = map;
   }
@@ -135,7 +138,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,0 +1,42 @@
+openapi: 3.1.0
+
+info:
+  title: fruity
+  version: 0.0.1
+
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: desc
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fruit'
+
+components:
+  schemas:
+    fruit:
+      oneOf:
+        - title: appleList
+          $ref: '#/components/schemas/appleArray'
+        - title: bananaMap
+          $ref: '#/components/schemas/bananaMap'
+        - title: orangeChoice
+          $ref: '#/components/schemas/orange'
+    appleArray:
+      type: array
+      items:
+        title: appleaArray
+        type: string
+    bananaMap:
+      type: object
+      additionalProperties:
+        type: number
+    orange:
+      title: orange
+      type: object
+      properties:
+        sweet:
+          type: boolean

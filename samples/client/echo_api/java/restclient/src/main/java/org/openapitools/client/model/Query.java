@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Query
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Query.JSON_PROPERTY_ID,
   Query.JSON_PROPERTY_OUTCOMES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -94,7 +95,7 @@ public class Query {
    * @return id
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -102,7 +103,7 @@ public class Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@jakarta.annotation.Nullable Long id) {
     this.id = id;
@@ -127,7 +128,7 @@ public class Query {
    * @return outcomes
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonProperty(value = JSON_PROPERTY_OUTCOMES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<OutcomesEnum> getOutcomes() {
@@ -135,11 +136,12 @@ public class Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonProperty(value = JSON_PROPERTY_OUTCOMES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOutcomes(@jakarta.annotation.Nullable List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }
+
 
   @Override
   public boolean equals(Object o) {

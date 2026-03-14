@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   @Valid
@@ -49,7 +49,7 @@ public class ContainerDefaultValue {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValue nullableArray(List<String> nullableArray) {
+  public ContainerDefaultValue nullableArray(@Nullable List<String> nullableArray) {
     this.nullableArray = nullableArray;
     return this;
   }
@@ -69,11 +69,12 @@ public class ContainerDefaultValue {
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
-  public List<String> getNullableArray() {
+  public @Nullable List<String> getNullableArray() {
     return nullableArray;
   }
 
-  public void setNullableArray(List<String> nullableArray) {
+  @JsonProperty("nullable_array")
+  public void setNullableArray(@Nullable List<String> nullableArray) {
     this.nullableArray = nullableArray;
   }
 
@@ -101,6 +102,7 @@ public class ContainerDefaultValue {
     return nullableRequiredArray;
   }
 
+  @JsonProperty("nullable_required_array")
   public void setNullableRequiredArray(List<String> nullableRequiredArray) {
     this.nullableRequiredArray = nullableRequiredArray;
   }
@@ -129,11 +131,12 @@ public class ContainerDefaultValue {
     return requiredArray;
   }
 
+  @JsonProperty("required_array")
   public void setRequiredArray(List<String> requiredArray) {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValue nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+  public ContainerDefaultValue nullableArrayWithDefault(@Nullable List<String> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
     return this;
   }
@@ -153,11 +156,12 @@ public class ContainerDefaultValue {
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")
-  public List<String> getNullableArrayWithDefault() {
+  public @Nullable List<String> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
   }
 
-  public void setNullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+  @JsonProperty("nullable_array_with_default")
+  public void setNullableArrayWithDefault(@Nullable List<String> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
   }
 
@@ -197,7 +201,7 @@ public class ContainerDefaultValue {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

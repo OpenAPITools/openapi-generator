@@ -47,6 +47,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
 |validationAttributes|Setting this property to true will generate the validation attributes of model properties.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|withRequestOptsInInterface|Setting this property to true will include *RequestOpts methods in the API interface declarations. Set to false to keep them only on the class.| |true|
 |withoutRuntimeChecks|Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.| |false|
 
 ## IMPORT MAPPING
@@ -66,19 +67,41 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Array</li>
+<li>Awaited</li>
 <li>Boolean</li>
+<li>Capitalize</li>
+<li>ConstructorParameters</li>
 <li>Date</li>
 <li>Double</li>
 <li>Error</li>
+<li>Exclude</li>
+<li>Extract</li>
 <li>File</li>
 <li>Float</li>
+<li>InstanceType</li>
 <li>Integer</li>
 <li>Long</li>
+<li>Lowercase</li>
 <li>Map</li>
+<li>NoInfer</li>
+<li>NonNullable</li>
 <li>Object</li>
+<li>Omit</li>
+<li>OmitThisParameter</li>
+<li>Parameters</li>
+<li>Partial</li>
+<li>Pick</li>
+<li>Readonly</li>
 <li>ReadonlyArray</li>
+<li>Record</li>
+<li>Required</li>
+<li>ReturnType</li>
 <li>Set</li>
 <li>String</li>
+<li>ThisParameterType</li>
+<li>ThisType</li>
+<li>Uncapitalize</li>
+<li>Uppercase</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>

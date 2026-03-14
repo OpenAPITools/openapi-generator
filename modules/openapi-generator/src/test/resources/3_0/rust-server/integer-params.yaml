@@ -1,0 +1,82 @@
+
+# Test that integer parameters are generated into the right
+# primitives in Rust code.
+openapi: 3.1.1
+info:
+  title: Integer Parameter Type Fitting Test
+  description: Test spec to verify that integer parameters with minimum/maximum constraints get appropriate Rust types
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /test/integers:
+    get:
+      operationId: testIntegerParameters
+      summary: Test integer parameter type fitting
+      parameters:
+        # age: 0-150 should fit in u8 (unsigned, 8-bit)
+        - name: age
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 150
+        # temperature: -50 to 50 should fit in i8 (signed, 8-bit)
+        - name: temperature
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: -50
+            maximum: 50
+        # count: 0-65535 should fit in u16 (unsigned, 16-bit)
+        - name: count
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 65535
+        # offset: -32768 to 32767 should fit in i16 (signed, 16-bit)
+        - name: offset
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: -32768
+            maximum: 32767
+        # large_unsigned: 0-4294967295 should be u32
+        - name: large_unsigned
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 4294967295
+        # positive_int32: format int32 with min >= 0 should become u32
+        - name: positive_int32
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        # positive_int64: format int64 with min >= 0 should become u64
+        - name: positive_int64
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean

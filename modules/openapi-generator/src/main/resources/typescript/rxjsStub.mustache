@@ -1,5 +1,13 @@
 export class Observable<T> {
+  {{#useErasableSyntax}}
+  private promise: Promise<T>;
+  constructor(promise: Promise<T>) {
+    this.promise = promise;
+  }
+  {{/useErasableSyntax}}
+  {{^useErasableSyntax}}
   constructor(private promise: Promise<T>) {}
+  {{/useErasableSyntax}}
 
   toPromise() {
     return this.promise;

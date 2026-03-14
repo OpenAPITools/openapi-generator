@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,25 +42,26 @@ public class ObjectWithDeprecatedFields  {
   
   public static final String JSON_PROPERTY_UUID = "uuid";
   
-  private String uuid;
+  protected String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   
-  private BigDecimal id;
+  protected BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   
-  private DeprecatedObject deprecatedRef;
+  protected DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
   
-  private List<String> bars = null;
+  protected List<String> bars = null;
+
 
   /**
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getUuid() {
     return uuid;
@@ -67,7 +70,7 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set uuid
    */
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(String uuid) {
     this.uuid = uuid;
@@ -84,7 +87,7 @@ public class ObjectWithDeprecatedFields  {
    * @deprecated
    **/
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getId() {
     return id;
@@ -93,7 +96,7 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set id
    */
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(BigDecimal id) {
     this.id = id;
@@ -110,7 +113,7 @@ public class ObjectWithDeprecatedFields  {
    * @deprecated
    **/
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
+  @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
@@ -119,7 +122,7 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set deprecatedRef
    */
-  @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
+  @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
@@ -136,7 +139,7 @@ public class ObjectWithDeprecatedFields  {
    * @deprecated
    **/
   @Deprecated
-  @JsonProperty(JSON_PROPERTY_BARS)
+  @JsonProperty(value = JSON_PROPERTY_BARS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<String> getBars() {
     return bars;
@@ -145,7 +148,7 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set bars
    */
-  @JsonProperty(JSON_PROPERTY_BARS)
+  @JsonProperty(value = JSON_PROPERTY_BARS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBars(List<String> bars) {
     this.bars = bars;

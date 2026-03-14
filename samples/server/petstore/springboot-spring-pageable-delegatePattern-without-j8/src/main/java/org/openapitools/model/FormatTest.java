@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class FormatTest {
 
   private @Nullable Integer integer;
@@ -75,7 +75,7 @@ public class FormatTest {
     this.password = password;
   }
 
-  public FormatTest integer(Integer integer) {
+  public FormatTest integer(@Nullable Integer integer) {
     this.integer = integer;
     return this;
   }
@@ -86,18 +86,19 @@ public class FormatTest {
    * maximum: 100
    * @return integer
    */
-  @Min(10) @Max(100) 
+  @Min(value = 10) @Max(value = 100) 
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
-  public Integer getInteger() {
+  public @Nullable Integer getInteger() {
     return integer;
   }
 
-  public void setInteger(Integer integer) {
+  @JsonProperty("integer")
+  public void setInteger(@Nullable Integer integer) {
     this.integer = integer;
   }
 
-  public FormatTest int32(Integer int32) {
+  public FormatTest int32(@Nullable Integer int32) {
     this.int32 = int32;
     return this;
   }
@@ -108,18 +109,19 @@ public class FormatTest {
    * maximum: 200
    * @return int32
    */
-  @Min(20) @Max(200) 
+  @Min(value = 20) @Max(value = 200) 
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
-  public Integer getInt32() {
+  public @Nullable Integer getInt32() {
     return int32;
   }
 
-  public void setInt32(Integer int32) {
+  @JsonProperty("int32")
+  public void setInt32(@Nullable Integer int32) {
     this.int32 = int32;
   }
 
-  public FormatTest int64(Long int64) {
+  public FormatTest int64(@Nullable Long int64) {
     this.int64 = int64;
     return this;
   }
@@ -131,11 +133,12 @@ public class FormatTest {
   
   @ApiModelProperty(value = "")
   @JsonProperty("int64")
-  public Long getInt64() {
+  public @Nullable Long getInt64() {
     return int64;
   }
 
-  public void setInt64(Long int64) {
+  @JsonProperty("int64")
+  public void setInt64(@Nullable Long int64) {
     this.int64 = int64;
   }
 
@@ -150,18 +153,19 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
-  @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
+  @NotNull @Valid @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
   }
 
+  @JsonProperty("number")
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
-  public FormatTest _float(Float _float) {
+  public FormatTest _float(@Nullable Float _float) {
     this._float = _float;
     return this;
   }
@@ -172,18 +176,19 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
    */
-  @DecimalMin("54.3") @DecimalMax("987.6") 
+  @DecimalMin(value = "54.3") @DecimalMax(value = "987.6") 
   @ApiModelProperty(value = "")
   @JsonProperty("float")
-  public Float getFloat() {
+  public @Nullable Float getFloat() {
     return _float;
   }
 
-  public void setFloat(Float _float) {
+  @JsonProperty("float")
+  public void setFloat(@Nullable Float _float) {
     this._float = _float;
   }
 
-  public FormatTest _double(Double _double) {
+  public FormatTest _double(@Nullable Double _double) {
     this._double = _double;
     return this;
   }
@@ -194,18 +199,19 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
    */
-  @DecimalMin("67.8") @DecimalMax("123.4") 
+  @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") 
   @ApiModelProperty(value = "")
   @JsonProperty("double")
-  public Double getDouble() {
+  public @Nullable Double getDouble() {
     return _double;
   }
 
-  public void setDouble(Double _double) {
+  @JsonProperty("double")
+  public void setDouble(@Nullable Double _double) {
     this._double = _double;
   }
 
-  public FormatTest string(String string) {
+  public FormatTest string(@Nullable String string) {
     this.string = string;
     return this;
   }
@@ -217,11 +223,12 @@ public class FormatTest {
   @Pattern(regexp = "/[a-z]/i") 
   @ApiModelProperty(value = "")
   @JsonProperty("string")
-  public String getString() {
+  public @Nullable String getString() {
     return string;
   }
 
-  public void setString(String string) {
+  @JsonProperty("string")
+  public void setString(@Nullable String string) {
     this.string = string;
   }
 
@@ -241,11 +248,12 @@ public class FormatTest {
     return _byte;
   }
 
+  @JsonProperty("byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
 
-  public FormatTest binary(org.springframework.core.io.Resource binary) {
+  public FormatTest binary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -257,11 +265,12 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
-  public org.springframework.core.io.Resource getBinary() {
+  public @Nullable org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
-  public void setBinary(org.springframework.core.io.Resource binary) {
+  @JsonProperty("binary")
+  public void setBinary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
 
@@ -281,11 +290,12 @@ public class FormatTest {
     return date;
   }
 
+  @JsonProperty("date")
   public void setDate(LocalDate date) {
     this.date = date;
   }
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -297,15 +307,16 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  @JsonProperty("dateTime")
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
-  public FormatTest uuid(UUID uuid) {
+  public FormatTest uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -317,11 +328,12 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  @JsonProperty("uuid")
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -341,11 +353,12 @@ public class FormatTest {
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
   }
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+  public FormatTest bigDecimal(@Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
     return this;
   }
@@ -357,11 +370,12 @@ public class FormatTest {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("BigDecimal")
-  public BigDecimal getBigDecimal() {
+  public @Nullable BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
+  @JsonProperty("BigDecimal")
+  public void setBigDecimal(@Nullable BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 
@@ -421,7 +435,7 @@ public class FormatTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

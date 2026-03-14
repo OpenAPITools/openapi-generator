@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
@@ -36,16 +38,17 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Name  {
   
   @JsonbProperty("name")
-  private Integer name;
+  protected Integer name;
 
   @JsonbProperty("snake_case")
-  private Integer snakeCase;
+  protected Integer snakeCase;
 
   @JsonbProperty("property")
-  private String property;
+  protected String property;
 
   @JsonbProperty("123Number")
-  private Integer _123number;
+  protected Integer _123number;
+
 
   public Name() {
   }

@@ -4,12 +4,14 @@ HEADERS += \
 # Models
     $${PWD}/PFXApiResponse.h \
     $${PWD}/PFXCategory.h \
+    $${PWD}/PFXEnumStatus.h \
     $${PWD}/PFXOrder.h \
     $${PWD}/PFXPet.h \
     $${PWD}/PFXTag.h \
     $${PWD}/PFXTestAnyType.h \
     $${PWD}/PFXUser.h \
 # APIs
+    $${PWD}/PFXFakeApi.h \
     $${PWD}/PFXPetApi.h \
     $${PWD}/PFXPrimitivesApi.h \
     $${PWD}/PFXStoreApi.h \
@@ -28,12 +30,14 @@ SOURCES += \
 # Models
     $${PWD}/PFXApiResponse.cpp \
     $${PWD}/PFXCategory.cpp \
+    $${PWD}/PFXEnumStatus.cpp \
     $${PWD}/PFXOrder.cpp \
     $${PWD}/PFXPet.cpp \
     $${PWD}/PFXTag.cpp \
     $${PWD}/PFXTestAnyType.cpp \
     $${PWD}/PFXUser.cpp \
 # APIs
+    $${PWD}/PFXFakeApi.cpp \
     $${PWD}/PFXPetApi.cpp \
     $${PWD}/PFXPrimitivesApi.cpp \
     $${PWD}/PFXStoreApi.cpp \

@@ -27,6 +27,7 @@ import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * FileSchemaTestClass
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   @jakarta.annotation.Nullable
@@ -60,7 +61,7 @@ public class FileSchemaTestClass {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public ModelFile getFile() {
@@ -68,7 +69,7 @@ public class FileSchemaTestClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFile(@jakarta.annotation.Nullable ModelFile _file) {
     this._file = _file;
@@ -94,7 +95,7 @@ public class FileSchemaTestClass {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ModelFile> getFiles() {
@@ -102,11 +103,12 @@ public class FileSchemaTestClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFiles(@jakarta.annotation.Nullable List<ModelFile> files) {
     this.files = files;
   }
+
 
   @Override
   public boolean equals(Object o) {

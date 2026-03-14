@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * SimpleQuadrilateral
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class SimpleQuadrilateral {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -193,14 +193,10 @@ public class SimpleQuadrilateral {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("shapeType");
-    openapiFields.add("quadrilateralType");
+    openapiFields = new HashSet<String>(Arrays.asList("shapeType", "quadrilateralType"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("shapeType");
-    openapiRequiredFields.add("quadrilateralType");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("shapeType", "quadrilateralType"));
   }
 
   /**
@@ -212,22 +208,22 @@ public class SimpleQuadrilateral {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!SimpleQuadrilateral.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in SimpleQuadrilateral is not found in the empty JSON string", SimpleQuadrilateral.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in SimpleQuadrilateral is not found in the empty JSON string", SimpleQuadrilateral.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : SimpleQuadrilateral.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("shapeType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
       }
       if (!jsonObj.get("quadrilateralType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `quadrilateralType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quadrilateralType").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `quadrilateralType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quadrilateralType").toString()));
       }
   }
 
@@ -288,7 +284,7 @@ public class SimpleQuadrilateral {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

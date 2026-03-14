@@ -25,25 +25,28 @@ import feign.RequestInterceptor;
 import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ApiClient {
-  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+  protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   public interface Api {}
 
-  private String basePath = "http://localhost:3000";
-  private Map<String, RequestInterceptor> apiAuthorizations;
-  private Feign.Builder feignBuilder;
+  protected String basePath = "http://localhost:3000";
+  protected Map<String, RequestInterceptor> apiAuthorizations;
+  protected Feign.Builder feignBuilder;
+  private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
     feignBuilder = Feign.builder()
+        .client(OK_HTTP_CLIENT)
         .encoder(new FormEncoder(new GsonEncoder()))
         .decoder(new GsonDecoder())
         .logger(new Slf4jLogger());
@@ -219,7 +222,7 @@ public class ApiClient {
     feignBuilder.requestInterceptor(authorization);
   }
 
-  private <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
+  protected <T extends RequestInterceptor> T getAuthorization(Class<T> type) {
     return (T) apiAuthorizations.values()
                                 .stream()
                                 .filter(requestInterceptor -> type.isAssignableFrom(requestInterceptor.getClass()))

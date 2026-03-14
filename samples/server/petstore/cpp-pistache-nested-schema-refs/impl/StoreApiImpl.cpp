@@ -22,6 +22,7 @@ using namespace org::openapitools::server::model;
 StoreApiImpl::StoreApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : StoreApi(rtr)
 {
+    
 }
 
 void StoreApiImpl::get_nested_object(Pistache::Http::ResponseWriter &response) {

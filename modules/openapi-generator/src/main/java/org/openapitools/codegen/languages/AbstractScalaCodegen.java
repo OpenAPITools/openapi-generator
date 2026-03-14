@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +46,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
+
+    // https://spec.openapis.org/registry/format/date-time-local.html
+    protected static final String DATE_TIME_LOCAL_FORMAT = "date-time-local";
 
     @Getter protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
     @Setter protected String invokerPackage = "org.openapitools.client";
@@ -138,6 +140,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // Scala specific openApi types mapping
         typeMapping.put("ByteArray", "Array[Byte]");
+        typeMapping.put(DATE_TIME_LOCAL_FORMAT, "LocalDateTime");
 
 
         importMapping = new HashMap<String, String>();
@@ -227,8 +230,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
             this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString(), false);
         }
+        this.typeMapping.put(DATE_TIME_LOCAL_FORMAT, "LocalDateTime");
         if (DateLibraries.java8.name().equals(dateLibrary)) {
             this.importMapping.put("LocalDate", "java.time.LocalDate");
+            this.importMapping.put("LocalDateTime", "java.time.LocalDateTime");
             this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             this.typeMapping.put("date", "LocalDate");
             this.typeMapping.put("DateTime", "OffsetDateTime");
@@ -529,6 +534,21 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !isReservedWord(identifier)) {
             return identifier;
         }
+
+        // below code block only for scala-sttp4-jsoniter for backward copmatibility
+        if (this instanceof ScalaSttp4JsoniterClientCodegen) {
+            if (identifier.matches("[0-9]*")) {
+                return escapeReservedWord(identifier);
+            }
+            if (!capitalized || StringUtils.isNumeric(name)) {
+                // starts with a small letter, could be a keyword or a number
+                return escapeReservedWord(identifier);
+            } else {
+                // no keywords start with large letter
+                return identifier;
+            }
+        }
+
         return escapeReservedWord(identifier);
     }
 

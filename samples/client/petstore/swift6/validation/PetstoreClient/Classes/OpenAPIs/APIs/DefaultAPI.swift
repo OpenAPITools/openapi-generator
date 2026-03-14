@@ -14,7 +14,6 @@ open class DefaultAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Banana
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func rootGet(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Banana {
         return try await rootGetWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
@@ -27,11 +26,11 @@ open class DefaultAPI {
     open class func rootGetWithRequestBuilder(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Banana> {
         let localVariablePath = "/"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 

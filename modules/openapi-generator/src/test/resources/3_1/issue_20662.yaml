@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: Security scheme test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    openId:
+      type: openIdConnect
+      openIdConnectUrl: https://localhost:8443
+security:
+  - openId:
+      - test

@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -51,7 +51,7 @@ public class PetApi {
     * @param body Pet object that needs to be added to the store
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void addPet(Pet body) throws IOException {
+    public void addPet(@javax.annotation.Nonnull Pet body) throws IOException {
         addPetForHttpResponse(body);
     }
 
@@ -63,11 +63,11 @@ public class PetApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void addPet(Pet body, Map<String, Object> params) throws IOException {
+    public void addPet(@javax.annotation.Nonnull Pet body, Map<String, Object> params) throws IOException {
         addPetForHttpResponse(body, params);
     }
 
-    public HttpResponse addPetForHttpResponse(Pet body) throws IOException {
+    public HttpResponse addPetForHttpResponse(@javax.annotation.Nonnull Pet body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
@@ -78,7 +78,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse addPetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -94,10 +95,11 @@ public class PetApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse addPetForHttpResponse(Pet body, Map<String, Object> params) throws IOException {
+    public HttpResponse addPetForHttpResponse(@javax.annotation.Nonnull Pet body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
@@ -126,7 +128,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -138,7 +141,7 @@ public class PetApi {
     * @param apiKey The apiKey parameter
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void deletePet(Long petId, String apiKey) throws IOException {
+    public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws IOException {
         deletePetForHttpResponse(petId, apiKey);
     }
 
@@ -150,11 +153,11 @@ public class PetApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void deletePet(Long petId, Map<String, Object> params) throws IOException {
+    public void deletePet(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         deletePetForHttpResponse(petId, params);
     }
 
-    public HttpResponse deletePetForHttpResponse(Long petId, String apiKey) throws IOException {
+    public HttpResponse deletePetForHttpResponse(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling deletePet");
@@ -168,10 +171,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        if (apiKey != null) {
+            httpRequest.getHeaders().set("api_key", apiKey);
+        }
+        return httpRequest.execute();
     }
 
-    public HttpResponse deletePetForHttpResponse(Long petId, Map<String, Object> params) throws IOException {
+    public HttpResponse deletePetForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling deletePet");
@@ -203,7 +210,17 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+            if ("api_key".equals(key) && value != null) {
+                httpRequest.getHeaders().set(key, value);
+            }
+        }
+        return httpRequest.execute();
     }
 
 
@@ -216,7 +233,7 @@ public class PetApi {
     * @return List&lt;Pet&gt;
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public List<Pet> findPetsByStatus(List<String> status) throws IOException {
+    public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws IOException {
         HttpResponse response = findPetsByStatusForHttpResponse(status);
         TypeReference<List<Pet>> typeRef = new TypeReference<List<Pet>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -232,13 +249,13 @@ public class PetApi {
     * @return List&lt;Pet&gt;
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public List<Pet> findPetsByStatus(List<String> status, Map<String, Object> params) throws IOException {
+    public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status, Map<String, Object> params) throws IOException {
         HttpResponse response = findPetsByStatusForHttpResponse(status, params);
         TypeReference<List<Pet>> typeRef = new TypeReference<List<Pet>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse findPetsByStatusForHttpResponse(List<String> status) throws IOException {
+    public HttpResponse findPetsByStatusForHttpResponse(@javax.annotation.Nonnull List<String> status) throws IOException {
         // verify the required parameter 'status' is set
         if (status == null) {
             throw new IllegalArgumentException("Missing the required parameter 'status' when calling findPetsByStatus");
@@ -260,10 +277,11 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse findPetsByStatusForHttpResponse(List<String> status, Map<String, Object> params) throws IOException {
+    public HttpResponse findPetsByStatusForHttpResponse(@javax.annotation.Nonnull List<String> status, Map<String, Object> params) throws IOException {
         // verify the required parameter 'status' is set
         if (status == null) {
             throw new IllegalArgumentException("Missing the required parameter 'status' when calling findPetsByStatus");
@@ -294,7 +312,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -310,7 +329,7 @@ public class PetApi {
 
     **/
     @Deprecated
-    public Set<Pet> findPetsByTags(Set<String> tags) throws IOException {
+    public Set<Pet> findPetsByTags(@javax.annotation.Nonnull Set<String> tags) throws IOException {
         HttpResponse response = findPetsByTagsForHttpResponse(tags);
         TypeReference<Set<Pet>> typeRef = new TypeReference<Set<Pet>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -329,14 +348,14 @@ public class PetApi {
 
     **/
     @Deprecated
-    public Set<Pet> findPetsByTags(Set<String> tags, Map<String, Object> params) throws IOException {
+    public Set<Pet> findPetsByTags(@javax.annotation.Nonnull Set<String> tags, Map<String, Object> params) throws IOException {
         HttpResponse response = findPetsByTagsForHttpResponse(tags, params);
         TypeReference<Set<Pet>> typeRef = new TypeReference<Set<Pet>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
     @Deprecated
-    public HttpResponse findPetsByTagsForHttpResponse(Set<String> tags) throws IOException {
+    public HttpResponse findPetsByTagsForHttpResponse(@javax.annotation.Nonnull Set<String> tags) throws IOException {
         // verify the required parameter 'tags' is set
         if (tags == null) {
             throw new IllegalArgumentException("Missing the required parameter 'tags' when calling findPetsByTags");
@@ -358,11 +377,12 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     @Deprecated
-    public HttpResponse findPetsByTagsForHttpResponse(Set<String> tags, Map<String, Object> params) throws IOException {
+    public HttpResponse findPetsByTagsForHttpResponse(@javax.annotation.Nonnull Set<String> tags, Map<String, Object> params) throws IOException {
         // verify the required parameter 'tags' is set
         if (tags == null) {
             throw new IllegalArgumentException("Missing the required parameter 'tags' when calling findPetsByTags");
@@ -393,7 +413,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -407,7 +428,7 @@ public class PetApi {
     * @return Pet
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Pet getPetById(Long petId) throws IOException {
+    public Pet getPetById(@javax.annotation.Nonnull Long petId) throws IOException {
         HttpResponse response = getPetByIdForHttpResponse(petId);
         TypeReference<Pet> typeRef = new TypeReference<Pet>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -424,13 +445,13 @@ public class PetApi {
     * @return Pet
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Pet getPetById(Long petId, Map<String, Object> params) throws IOException {
+    public Pet getPetById(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         HttpResponse response = getPetByIdForHttpResponse(petId, params);
         TypeReference<Pet> typeRef = new TypeReference<Pet>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse getPetByIdForHttpResponse(Long petId) throws IOException {
+    public HttpResponse getPetByIdForHttpResponse(@javax.annotation.Nonnull Long petId) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling getPetById");
@@ -444,10 +465,11 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse getPetByIdForHttpResponse(Long petId, Map<String, Object> params) throws IOException {
+    public HttpResponse getPetByIdForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling getPetById");
@@ -479,7 +501,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -492,7 +515,7 @@ public class PetApi {
     * @param body Pet object that needs to be added to the store
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePet(Pet body) throws IOException {
+    public void updatePet(@javax.annotation.Nonnull Pet body) throws IOException {
         updatePetForHttpResponse(body);
     }
 
@@ -506,11 +529,11 @@ public class PetApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePet(Pet body, Map<String, Object> params) throws IOException {
+    public void updatePet(@javax.annotation.Nonnull Pet body, Map<String, Object> params) throws IOException {
         updatePetForHttpResponse(body, params);
     }
 
-    public HttpResponse updatePetForHttpResponse(Pet body) throws IOException {
+    public HttpResponse updatePetForHttpResponse(@javax.annotation.Nonnull Pet body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
@@ -521,7 +544,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse updatePetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -537,10 +561,11 @@ public class PetApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+              return httpRequest.execute();
       }
 
-    public HttpResponse updatePetForHttpResponse(Pet body, Map<String, Object> params) throws IOException {
+    public HttpResponse updatePetForHttpResponse(@javax.annotation.Nonnull Pet body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
@@ -569,7 +594,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -581,7 +607,7 @@ public class PetApi {
     * @param status Updated status of the pet
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePetWithForm(Long petId, String name, String status) throws IOException {
+    public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws IOException {
         updatePetWithFormForHttpResponse(petId, name, status);
     }
 
@@ -592,11 +618,11 @@ public class PetApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePetWithForm(Long petId, Map<String, Object> params) throws IOException {
+    public void updatePetWithForm(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         updatePetWithFormForHttpResponse(petId, params);
     }
 
-    public HttpResponse updatePetWithFormForHttpResponse(Long petId, String name, String status) throws IOException {
+    public HttpResponse updatePetWithFormForHttpResponse(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling updatePetWithForm");
@@ -610,10 +636,11 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse updatePetWithFormForHttpResponse(Long petId, Map<String, Object> params) throws IOException {
+    public HttpResponse updatePetWithFormForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling updatePetWithForm");
@@ -645,7 +672,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -658,7 +686,7 @@ public class PetApi {
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws IOException {
+    public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws IOException {
         HttpResponse response = uploadFileForHttpResponse(petId, additionalMetadata, _file);
         TypeReference<ModelApiResponse> typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -672,13 +700,13 @@ public class PetApi {
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFile(Long petId, Map<String, Object> params) throws IOException {
+    public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         HttpResponse response = uploadFileForHttpResponse(petId, params);
         TypeReference<ModelApiResponse> typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse uploadFileForHttpResponse(Long petId, String additionalMetadata, File _file) throws IOException {
+    public HttpResponse uploadFileForHttpResponse(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFile");
@@ -692,10 +720,11 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse uploadFileForHttpResponse(Long petId, Map<String, Object> params) throws IOException {
+    public HttpResponse uploadFileForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFile");
@@ -727,7 +756,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -740,7 +770,7 @@ public class PetApi {
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws IOException {
+    public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws IOException {
         HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, additionalMetadata);
         TypeReference<ModelApiResponse> typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -755,13 +785,13 @@ public class PetApi {
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
+    public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, Map<String, Object> params) throws IOException {
         HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, params);
         TypeReference<ModelApiResponse> typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, String additionalMetadata) throws IOException {
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
@@ -778,10 +808,11 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
-    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, Map<String, Object> params) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
@@ -816,7 +847,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 

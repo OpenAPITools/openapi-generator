@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration, ConfigurationOptions } from '../configuration'
+import { Configuration, ConfigurationOptions, mergeConfiguration } from '../configuration'
 import type { Middleware } from '../middleware';
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
@@ -25,47 +25,19 @@ export class ObservableDefaultApi {
     /**
      */
     public listWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<ListPaged>> {
-    let _config = this.configuration;
-    let allMiddleware: Middleware[] = [];
-    if (_options && _options.middleware){
-      const middlewareMergeStrategy = _options.middlewareMergeStrategy || 'replace' // default to replace behavior
-      // call-time middleware provided
-      const calltimeMiddleware: Middleware[] = _options.middleware;
-
-      switch(middlewareMergeStrategy){
-      case 'append':
-        allMiddleware = this.configuration.middleware.concat(calltimeMiddleware);
-        break;
-      case 'prepend':
-        allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-        break;
-      case 'replace':
-        allMiddleware = calltimeMiddleware
-        break;
-      default: 
-        throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`)
-      }
-	}
-	if (_options){
-    _config = {
-      baseServer: _options.baseServer || this.configuration.baseServer,
-      httpApi: _options.httpApi || this.configuration.httpApi,
-      authMethods: _options.authMethods || this.configuration.authMethods,
-      middleware: allMiddleware || this.configuration.middleware
-		};
-	}
+        const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.list(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of allMiddleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of allMiddleware.reverse()) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.listWithHttpInfo(rsp)));

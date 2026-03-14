@@ -15,7 +15,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Example'
+                $ref: "#/components/schemas/Example"
           description: OK
       x-accepts:
       - application/json

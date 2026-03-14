@@ -19,8 +19,14 @@ package org.openapitools.server.models
  * @param message 
  */
 data class ModelApiResponse(
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("code")
     val code: kotlin.Int? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("type")
     val type: kotlin.String? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("message")
     val message: kotlin.String? = null
 )
 

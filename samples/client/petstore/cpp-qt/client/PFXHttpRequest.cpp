@@ -17,6 +17,9 @@
 #include <QUrl>
 #include <QUuid>
 #include <QtGlobal>
+#include <QtAlgorithms>
+
+#include <utility>
 
 
 #include "PFXHttpRequest.h"
@@ -27,7 +30,7 @@ PFXHttpRequestInput::PFXHttpRequestInput() {
     initialize();
 }
 
-PFXHttpRequestInput::PFXHttpRequestInput(QString v_url_str, QString v_http_method) {
+PFXHttpRequestInput::PFXHttpRequestInput(const QString &v_url_str, const QString &v_http_method) {
     initialize();
     url_str = v_url_str;
     http_method = v_http_method;
@@ -39,11 +42,11 @@ void PFXHttpRequestInput::initialize() {
     http_method = "GET";
 }
 
-void PFXHttpRequestInput::add_var(QString key, QString value) {
+void PFXHttpRequestInput::add_var(const QString &key, const QString &value) {
     vars[key] = value;
 }
 
-void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
+void PFXHttpRequestInput::add_file(const QString &variable_name, const QString &local_filename, const QString &request_filename, const QString &mime_type) {
     PFXHttpFileElement file;
     file.variable_name = variable_name;
     file.local_filename = local_filename;
@@ -54,7 +57,7 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
-    randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
+    randomGenerator = QRandomGenerator(QDateTime::currentSecsSinceEpoch());
     if (manager == nullptr) {
         manager = new QNetworkAccessManager(this);
     }
@@ -65,11 +68,7 @@ PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManage
 PFXHttpRequestWorker::~PFXHttpRequestWorker() {
     QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
     timeOutTimer.stop();
-    for (const auto &item : multiPartFields) {
-        if (item != nullptr) {
-            delete item;
-        }
-    }
+    qDeleteAll(multiPartFields);
 }
 
 QMap<QString, QString> PFXHttpRequestWorker::getResponseHeaders() const {
@@ -123,10 +122,10 @@ int  PFXHttpRequestWorker::getHttpResponseCode() const{
     return httpResponseCode;
 }
 
-QString PFXHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
+QString PFXHttpRequestWorker::http_attribute_encode(const QString &attribute_name, const QString &input) {
     // result structure follows RFC 5987
     bool need_utf_encoding = false;
-    QString result = "";
+    QString result;
     QByteArray input_c = input.toLocal8Bit();
     char c;
     for (int i = 0; i < input_c.length(); i++) {
@@ -150,7 +149,7 @@ QString PFXHttpRequestWorker::http_attribute_encode(QString attribute_name, QStr
         return QString("%1=\"%2\"").arg(attribute_name, result);
     }
 
-    QString result_utf8 = "";
+    QString result_utf8;
     for (int i = 0; i < input_c.length(); i++) {
         c = input_c.at(i);
         if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
@@ -185,7 +184,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
 
     // prepare request content
 
-    QString boundary = "";
+    QString boundary;
 
     if (input->var_layout == ADDRESS || input->var_layout == URL_ENCODED) {
         // variable layout is ADDRESS or URL_ENCODED
@@ -193,7 +192,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         if (input->vars.count() > 0) {
             bool first = true;
             isFormData = true;
-            for (QString key : input->vars.keys()) {
+            for (const QString &key : input->vars.keys()) {
                 if (!first) {
                     request_content.append("&");
                 }
@@ -213,13 +212,13 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                            .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
+                            .arg(QDateTime::currentSecsSinceEpoch())
                             .arg(randomGenerator.generate());
-        QString boundary_delimiter = "--";
-        QString new_line = "\r\n";
+        const QString boundary_delimiter = "--";
+        const QString new_line = "\r\n";
 
         // add variables
-        for (QString key : input->vars.keys()) {
+        for (const QString &key : input->vars.keys()) {
             // add boundary
             request_content.append(boundary_delimiter.toUtf8());
             request_content.append(boundary.toUtf8());
@@ -321,7 +320,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         request.setSslConfiguration(*PFXHttpRequestWorker::sslDefaultConfiguration);
     }
     request.setRawHeader("User-Agent", "OpenAPI-Generator/1.0.0/cpp-qt");
-    for (QString key : input->headers.keys()) { request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str()); }
+    for (const QString &key : input->headers.keys()) { request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str()); }
 
     if (request_content.size() > 0 && !isFormData && (input->var_layout != MULTIPART)) {
         if (!input->headers.contains("Content-Type")) {
@@ -411,7 +410,7 @@ void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
     QString contentTypeHdr;
     QString contentEncodingHdr;
 
-    for(auto hdr: getResponseHeaders().keys()){
+    for(const auto &hdr: getResponseHeaders().keys()){
         if(hdr.compare(QString("Content-Disposition"), Qt::CaseInsensitive) == 0){
             contentDispositionHdr = getResponseHeaders().value(hdr);
         }
@@ -429,7 +428,7 @@ void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
             !contentTypeHdr.isEmpty() ? contentTypeHdr.split(QString(";"), Qt::SkipEmptyParts).first() : QString();
         if ((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))) {
             QString filename = QUuid::createUuid().toString();
-            for (const auto &file : contentDisposition) {
+            for (const auto &file : std::as_const(contentDisposition)) {
                 if (file.contains(QString("filename"))) {
                     filename = file.split(QString("="), Qt::SkipEmptyParts).at(1);
                     break;

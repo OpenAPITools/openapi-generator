@@ -368,7 +368,7 @@ impl UserApi for UserApiClient {
 
 }
 
-/// struct for typed errors of method [`create_user`]
+/// struct for typed errors of method [`UserApi::create_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUserError {
@@ -376,7 +376,7 @@ pub enum CreateUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_users_with_array_input`]
+/// struct for typed errors of method [`UserApi::create_users_with_array_input`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithArrayInputError {
@@ -384,7 +384,7 @@ pub enum CreateUsersWithArrayInputError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`create_users_with_list_input`]
+/// struct for typed errors of method [`UserApi::create_users_with_list_input`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithListInputError {
@@ -392,7 +392,7 @@ pub enum CreateUsersWithListInputError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`delete_user`]
+/// struct for typed errors of method [`UserApi::delete_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserError {
@@ -401,7 +401,7 @@ pub enum DeleteUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_user_by_name`]
+/// struct for typed errors of method [`UserApi::get_user_by_name`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameError {
@@ -410,7 +410,7 @@ pub enum GetUserByNameError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`login_user`]
+/// struct for typed errors of method [`UserApi::login_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserError {
@@ -418,7 +418,7 @@ pub enum LoginUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`logout_user`]
+/// struct for typed errors of method [`UserApi::logout_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LogoutUserError {
@@ -426,7 +426,7 @@ pub enum LogoutUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`update_user`]
+/// struct for typed errors of method [`UserApi::update_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserError {

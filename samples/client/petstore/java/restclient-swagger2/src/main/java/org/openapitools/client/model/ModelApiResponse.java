@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ModelApiResponse
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @JsonTypeName("ApiResponse")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
   @jakarta.annotation.Nullable
@@ -62,7 +63,7 @@ public class ModelApiResponse {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonProperty(value = JSON_PROPERTY_CODE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getCode() {
@@ -70,7 +71,7 @@ public class ModelApiResponse {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonProperty(value = JSON_PROPERTY_CODE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCode(@jakarta.annotation.Nullable Integer code) {
     this.code = code;
@@ -88,7 +89,7 @@ public class ModelApiResponse {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getType() {
@@ -96,7 +97,7 @@ public class ModelApiResponse {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(@jakarta.annotation.Nullable String type) {
     this.type = type;
@@ -114,7 +115,7 @@ public class ModelApiResponse {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getMessage() {
@@ -122,11 +123,12 @@ public class ModelApiResponse {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMessage(@jakarta.annotation.Nullable String message) {
     this.message = message;
   }
+
 
   @Override
   public boolean equals(Object o) {

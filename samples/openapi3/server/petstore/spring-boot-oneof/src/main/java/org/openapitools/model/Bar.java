@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Bar extends Entity implements BarRefOrValue {
 
   private String id;
@@ -64,11 +64,12 @@ public class Bar extends Entity implements BarRefOrValue {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(String id) {
     this.id = id;
   }
 
-  public Bar barPropA(String barPropA) {
+  public Bar barPropA(@Nullable String barPropA) {
     this.barPropA = barPropA;
     return this;
   }
@@ -80,15 +81,16 @@ public class Bar extends Entity implements BarRefOrValue {
   
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
-  public String getBarPropA() {
+  public @Nullable String getBarPropA() {
     return barPropA;
   }
 
-  public void setBarPropA(String barPropA) {
+  @JsonProperty("barPropA")
+  public void setBarPropA(@Nullable String barPropA) {
     this.barPropA = barPropA;
   }
 
-  public Bar fooPropB(String fooPropB) {
+  public Bar fooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
     return this;
   }
@@ -100,15 +102,16 @@ public class Bar extends Entity implements BarRefOrValue {
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
-  public String getFooPropB() {
+  public @Nullable String getFooPropB() {
     return fooPropB;
   }
 
-  public void setFooPropB(String fooPropB) {
+  @JsonProperty("fooPropB")
+  public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
 
-  public Bar foo(FooRefOrValue foo) {
+  public Bar foo(@Nullable FooRefOrValue foo) {
     this.foo = foo;
     return this;
   }
@@ -120,11 +123,12 @@ public class Bar extends Entity implements BarRefOrValue {
   @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
-  public FooRefOrValue getFoo() {
+  public @Nullable FooRefOrValue getFoo() {
     return foo;
   }
 
-  public void setFoo(FooRefOrValue foo) {
+  @JsonProperty("foo")
+  public void setFoo(@Nullable FooRefOrValue foo) {
     this.foo = foo;
   }
 
@@ -186,7 +190,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

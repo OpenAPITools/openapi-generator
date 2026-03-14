@@ -1,6 +1,6 @@
 <!--
 Please follow the issue template below for bug reports and feature requests.
-Also please indicate in the issue title which language/library is concerned. Eg:  [JAVA] Bug generating foo with bar 
+Also please indicate in the issue title which language/library is concerned. E.g.:  [JAVA] Bug generating foo with bar 
 -->
 
 ##### Description

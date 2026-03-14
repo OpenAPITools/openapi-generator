@@ -31,6 +31,7 @@ paths:
                     $ref: "#/components/schemas/Foo"
   /pet:
     servers:
+      - url: "http://localhost/v2"
       - url: "http://petstore.swagger.io/v2"
       - url: "http://path-server-test.petstore.local/v2"
       - url: "http://{server}.swagger.io:{port}/v2"
@@ -1012,6 +1013,40 @@ paths:
               $ref: "#/components/schemas/FreeFormObject"
         description: request body
         required: true
+  /fake/implicitFreeFormObject:
+    post:
+      tags:
+        - fake
+      summary: test free form object with implicit additionalProperties
+      description: ""
+      operationId: testImplicitFreeFormObject
+      responses:
+        "200":
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImplicitFreeFormObject"
+        description: request body
+        required: true
+  /fake/anyTypeObject:
+    post:
+      tags:
+        - fake
+      summary: test any type object
+      description: ""
+      operationId: testAnyTypeObject
+      responses:
+        "200":
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnyTypeObject"
+        description: request body
+        required: true
   /fake/stringMap-reference:
     post:
       tags:
@@ -1303,7 +1338,32 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/all-of-with-local-single-ref:
+    get:
+      tags:
+        - fake
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Foo"
+  /fake/all-of-with-remote-single-ref:
+    get:
+      tags:
+        - fake
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllOfWithSingleRef"
 servers:
+  - url: "http://localhost/v2"
+  - url: "https://petstore.swagger.io/v2"
   - url: "http://{server}.swagger.io:{port}/v2"
     description: petstore server
     variables:
@@ -1859,6 +1919,19 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    ImplicitFreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties (implicit)
+    AnyTypeObject:
+      oneOf:
+        - type: string
+        - type: number
+        - type: integer
+        - type: boolean
+        - type: object
+        - type: array
+          items: {}
+      nullable: true
     MapOfString:
       type: object
       description: A schema consisting only of additional properties of type string
@@ -2061,6 +2134,7 @@ components:
       properties:
         "@type":
           type: string
+        any_type_property: {}
     SingleRefType:
       type: string
       title: SingleRefType

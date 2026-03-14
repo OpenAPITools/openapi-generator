@@ -1,0 +1,78 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  description: To test duplicates
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: pet
+    description: Everything about your Pets
+  - name: store
+    description: Access to Petstore orders
+  - name: user
+    description: Operations about user
+paths:
+  '/tests/discriminatorDuplicateEnums':
+    get:
+      tags:
+        - testing
+      summary: 'Test for duplicate enums when using discriminator. (One of the issues in #20500)'
+      responses:
+        '200':
+          description: test
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Person'
+                  - $ref: '#/components/schemas/Vehicle'
+                discriminator:
+                  propertyName: objectType
+                  mapping:
+                    student: '#/components/schemas/Person'
+                    teacher: '#/components/schemas/Person'
+                    car: '#/components/schemas/Vehicle'
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+components:
+  schemas:
+    DuplicateTest:
+      type: object
+      properties:
+        name:
+          type: string
+    Duplicatetest: # explicitly testing the same name with different casing
+      type: object
+      properties:
+        name:
+          type: string
+    DuplicateOneOf:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Person'
+        - $ref: '#/components/schemas/Person'
+    Person:
+      type: object
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+      required:
+       - type
+       - name
+    Vehicle:
+      type: object
+      properties:
+        type:
+          type: string
+        speed:
+          type: number
+      required:
+       - type
+       - speed

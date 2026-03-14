@@ -31,6 +31,7 @@ docs/models/ChildCatAllOfPetType.md
 docs/models/ClassModel.md
 docs/models/ComplexQuadrilateral.md
 docs/models/CopyActivity.md
+docs/models/CopyActivityAllOfSchema.md
 docs/models/DanishPig.md
 docs/models/DateOnlyClass.md
 docs/models/DeprecatedObject.md
@@ -198,6 +199,7 @@ src/Org.OpenAPITools/Model/ChildCatAllOfPetType.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/CopyActivity.cs
+src/Org.OpenAPITools/Model/CopyActivityAllOfSchema.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs

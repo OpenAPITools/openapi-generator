@@ -47,10 +47,10 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public static let shared = PetstoreClientAPIConfiguration()
 }
 
-open class RequestBuilder<T>: @unchecked Sendable {
+open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
     public var credential: URLCredential?
     public var headers: [String: String]
-    public let parameters: [String: Any]?
+    public let parameters: [String: any Sendable]?
     public let method: String
     public let URLString: String
     public let requestTask: RequestTask = RequestTask()
@@ -60,7 +60,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+    required public init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
@@ -83,9 +83,21 @@ open class RequestBuilder<T>: @unchecked Sendable {
         return requestTask
     }
 
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    #if compiler(>=6.2)
+    @concurrent
     @discardableResult
     open func execute() async throws(ErrorResponse) -> Response<T> {
+        try await _execute()
+    }
+    #else
+    @discardableResult
+    open func execute() async throws(ErrorResponse) -> Response<T> {
+        try await _execute()
+    }
+    #endif
+
+    @discardableResult
+    private func _execute() async throws(ErrorResponse) -> Response<T> {
         do {
             let requestTask = self.requestTask
             return try await withTaskCancellationHandler {
@@ -99,7 +111,6 @@ open class RequestBuilder<T>: @unchecked Sendable {
                     self.execute { result in
                         switch result {
                         case let .success(response):
-                            nonisolated(unsafe) let response = response
                             continuation.resume(returning: response)
                         case let .failure(error):
                             continuation.resume(throwing: error)
@@ -117,7 +128,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
             }
         }
     }
-    
+
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value
@@ -130,7 +141,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     }
 }
 
-public protocol RequestBuilderFactory {
+public protocol RequestBuilderFactory: Sendable {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }

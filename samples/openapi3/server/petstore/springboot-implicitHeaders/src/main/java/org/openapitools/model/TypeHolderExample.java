@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * TypeHolderExample
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class TypeHolderExample {
 
   private String stringItem;
@@ -71,6 +71,7 @@ public class TypeHolderExample {
     return stringItem;
   }
 
+  @JsonProperty("string_item")
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -91,6 +92,7 @@ public class TypeHolderExample {
     return numberItem;
   }
 
+  @JsonProperty("number_item")
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
@@ -111,6 +113,7 @@ public class TypeHolderExample {
     return floatItem;
   }
 
+  @JsonProperty("float_item")
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
   }
@@ -131,6 +134,7 @@ public class TypeHolderExample {
     return integerItem;
   }
 
+  @JsonProperty("integer_item")
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -151,6 +155,7 @@ public class TypeHolderExample {
     return boolItem;
   }
 
+  @JsonProperty("bool_item")
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
@@ -179,6 +184,7 @@ public class TypeHolderExample {
     return arrayItem;
   }
 
+  @JsonProperty("array_item")
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
@@ -223,7 +229,7 @@ public class TypeHolderExample {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

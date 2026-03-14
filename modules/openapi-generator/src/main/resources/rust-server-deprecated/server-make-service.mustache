@@ -1,0 +1,60 @@
+
+pub struct MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
+    api_impl: T,
+{{#apiUsesMultipartFormData}}
+    multipart_form_size_limit: Option<u64>,
+{{/apiUsesMultipartFormData}}
+    marker: PhantomData<C>,
+}
+
+impl<T, C> MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
+    pub fn new(api_impl: T) -> Self {
+        MakeService {
+            api_impl,
+{{#apiUsesMultipartFormData}}
+            multipart_form_size_limit: Some(8 * 1024 * 1024),
+{{/apiUsesMultipartFormData}}
+            marker: PhantomData
+        }
+    }
+{{#apiUsesMultipartFormData}}
+
+    /// Configure size limit when inspecting a multipart/form body.
+    ///
+    /// Default is 8 MiB.
+    ///
+    /// Set to None for no size limit, which presents a Denial of Service attack risk.
+    pub fn multipart_form_size_limit(mut self, multipart_form_size_limit: Option<u64>) -> Self {
+        self.multipart_form_size_limit = multipart_form_size_limit;
+        self
+    }
+{{/apiUsesMultipartFormData}}
+}
+
+impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static
+{
+    type Response = Service<T, C>;
+    type Error = crate::ServiceError;
+    type Future = future::Ready<Result<Self::Response, Self::Error>>;
+
+    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+        Poll::Ready(Ok(()))
+    }
+
+    fn call(&mut self, target: Target) -> Self::Future {
+        let service = Service::new(self.api_impl.clone()){{^apiUsesMultipartFormData}};{{/apiUsesMultipartFormData}}
+{{#apiUsesMultipartFormData}}
+            .multipart_form_size_limit(self.multipart_form_size_limit);
+{{/apiUsesMultipartFormData}}
+
+        future::ok(service)
+    }
+}

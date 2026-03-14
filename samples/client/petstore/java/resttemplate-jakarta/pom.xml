@@ -147,6 +147,7 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                
                 </configuration>
             </plugin>
             <plugin>
@@ -235,12 +236,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
+            <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
@@ -252,6 +253,7 @@
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -274,12 +276,14 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jackson-version>2.17.1</jackson-version>
-        <jackson-databind-version>2.17.1</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        <spring-web-version>6.1.14</spring-web-version>
+
+        <spring-web-version>6.2.8</spring-web-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
+        <jackson-version>2.21.1</jackson-version>
+
+        <jackson-annotations-version>2.21</jackson-annotations-version>
+        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <junit-version>5.10.2</junit-version>
     </properties>
 </project>

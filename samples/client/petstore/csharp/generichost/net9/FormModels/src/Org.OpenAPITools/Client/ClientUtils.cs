@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using KellermanSoftware.CompareNetObjects;
 using Org.OpenAPITools.Model;
 using System.Runtime.CompilerServices;
+using System.Net.Http.Headers;
 
 [assembly: InternalsVisibleTo("Org.OpenAPITools.Test")]
 
@@ -157,8 +158,8 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ChildCatAllOfPetType childCatAllOfPetType)
                 return ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCatAllOfPetType);
-            if (obj is CopyActivity.SchemaEnum copyActivitySchemaEnum)
-                return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
+            if (obj is CopyActivityAllOfSchema copyActivityAllOfSchema)
+                return CopyActivityAllOfSchemaValueConverter.ToJsonValue(copyActivityAllOfSchema);
             if (obj is EnumArraysArrayEnumInner enumArraysArrayEnumInner)
                 return EnumArraysArrayEnumInnerValueConverter.ToJsonValue(enumArraysArrayEnumInner);
             if (obj is EnumArraysJustSymbol enumArraysJustSymbol)
@@ -328,6 +329,26 @@ namespace Org.OpenAPITools.Client
                 return "application/json";
 
             return string.Join(",", accepts);
+        }
+
+        
+
+        /// <summary>
+        /// Select the Accept header's value from the given accepts array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use all of them.
+        /// </summary>
+        /// <param name="accepts">The accepts array to select from.</param>
+        /// <returns>The Accept header values to use.</returns>
+        public static IEnumerable<MediaTypeWithQualityHeaderValue> SelectHeaderAcceptArray(string[] accepts)
+        {
+            if (accepts.Length == 0)
+                    return [];
+
+            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                    return [MediaTypeWithQualityHeaderValue.Parse("application/json")];
+
+            return accepts.Select(MediaTypeWithQualityHeaderValue.Parse);
         }
 
         /// <summary>

@@ -250,8 +250,18 @@ class ApiClient {
           return NullableClass.fromJson(value);
         case 'NumberOnly':
           return NumberOnly.fromJson(value);
+        case 'ObjectThatReferencesObjectsWithDuplicateInlineEnums':
+          return ObjectThatReferencesObjectsWithDuplicateInlineEnums.fromJson(value);
         case 'ObjectWithDeprecatedFields':
           return ObjectWithDeprecatedFields.fromJson(value);
+        case 'ObjectWithDuplicateInlineEnum':
+          return ObjectWithDuplicateInlineEnum.fromJson(value);
+        case 'ObjectWithEnum':
+          return ObjectWithEnum.fromJson(value);
+        case 'ObjectWithInlineEnum':
+          return ObjectWithInlineEnum.fromJson(value);
+        case 'ObjectWithInlineEnumDefaultValue':
+          return ObjectWithInlineEnumDefaultValue.fromJson(value);
         case 'Order':
           return Order.fromJson(value);
         case 'OuterComposite':
@@ -278,6 +288,8 @@ class ApiClient {
           return SpecialModelName.fromJson(value);
         case 'Tag':
           return Tag.fromJson(value);
+        case 'TestEnum':
+          return TestEnumTypeTransformer().decode(value);
         case 'TestInlineFreeformAdditionalPropertiesRequest':
           return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value);
         case 'User':

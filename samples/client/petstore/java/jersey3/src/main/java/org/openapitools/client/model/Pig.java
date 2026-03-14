@@ -65,7 +65,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @JsonDeserialize(using = Pig.PigDeserializer.class)
 @JsonSerialize(using = Pig.PigSerializer.class)
 public class Pig extends AbstractOpenApiSchema {
@@ -97,7 +97,7 @@ public class Pig extends AbstractOpenApiSchema {
 
         @Override
         public Pig deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
             Pig newPig = new Pig();
             Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
@@ -112,7 +112,7 @@ public class Pig extends AbstractOpenApiSchema {
                     newPig.setActualInstance(deserialized);
                     return newPig;
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
+                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
             }
 
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
@@ -155,7 +155,7 @@ public class Pig extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Pig: %d classes match result, expected 1", match));
         }
 
         /**

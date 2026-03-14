@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::CookieJar;
 use bytes::Bytes;
+use headers::Host;
 use http::Method;
 use serde::{Deserialize, Serialize};
 
@@ -310,6 +311,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op10Get - GET /op10
     async fn op10_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -318,6 +320,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op11Get - GET /op11
     async fn op11_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -326,6 +329,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op12Get - GET /op12
     async fn op12_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -334,6 +338,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op13Get - GET /op13
     async fn op13_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -342,6 +347,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op14Get - GET /op14
     async fn op14_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -350,6 +356,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op15Get - GET /op15
     async fn op15_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -358,6 +365,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op16Get - GET /op16
     async fn op16_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -366,6 +374,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op17Get - GET /op17
     async fn op17_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -374,6 +383,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op18Get - GET /op18
     async fn op18_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -382,6 +392,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op19Get - GET /op19
     async fn op19_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -390,6 +401,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op1Get - GET /op1
     async fn op1_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -398,6 +410,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op20Get - GET /op20
     async fn op20_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -406,6 +419,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op21Get - GET /op21
     async fn op21_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -414,6 +428,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op22Get - GET /op22
     async fn op22_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -422,6 +437,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op23Get - GET /op23
     async fn op23_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -430,6 +446,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op24Get - GET /op24
     async fn op24_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -438,6 +455,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op25Get - GET /op25
     async fn op25_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -446,6 +464,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op26Get - GET /op26
     async fn op26_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -454,6 +473,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op27Get - GET /op27
     async fn op27_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -462,6 +482,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op28Get - GET /op28
     async fn op28_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -470,6 +491,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op29Get - GET /op29
     async fn op29_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -478,6 +500,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op2Get - GET /op2
     async fn op2_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -486,6 +509,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op30Get - GET /op30
     async fn op30_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -494,6 +518,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op31Get - GET /op31
     async fn op31_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -502,6 +527,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op32Get - GET /op32
     async fn op32_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -510,6 +536,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op33Get - GET /op33
     async fn op33_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -518,6 +545,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op34Get - GET /op34
     async fn op34_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -526,6 +554,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op35Get - GET /op35
     async fn op35_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -534,6 +563,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op36Get - GET /op36
     async fn op36_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -542,6 +572,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op37Get - GET /op37
     async fn op37_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -550,6 +581,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op3Get - GET /op3
     async fn op3_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -558,6 +590,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op4Get - GET /op4
     async fn op4_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -566,6 +599,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op5Get - GET /op5
     async fn op5_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -574,6 +608,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op6Get - GET /op6
     async fn op6_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -582,6 +617,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op7Get - GET /op7
     async fn op7_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -590,6 +626,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op8Get - GET /op8
     async fn op8_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -598,6 +635,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Op9Get - GET /op9
     async fn op9_get(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

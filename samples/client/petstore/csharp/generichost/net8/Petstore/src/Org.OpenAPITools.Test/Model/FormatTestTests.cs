@@ -90,6 +90,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'StringFormattedAsDecimalRequired'
+        /// </summary>
+        [Fact]
+        public void StringFormattedAsDecimalRequiredTest()
+        {
+            // TODO unit test for the property 'StringFormattedAsDecimalRequired'
+        }
+
+        /// <summary>
         /// Test the property 'Binary'
         /// </summary>
         [Fact]
@@ -123,6 +132,24 @@ namespace Org.OpenAPITools.Test.Model
         public void DoubleTest()
         {
             // TODO unit test for the property 'Double'
+        }
+
+        /// <summary>
+        /// Test the property 'DuplicatePropertyName2'
+        /// </summary>
+        [Fact]
+        public void DuplicatePropertyName2Test()
+        {
+            // TODO unit test for the property 'DuplicatePropertyName2'
+        }
+
+        /// <summary>
+        /// Test the property 'DuplicatePropertyName'
+        /// </summary>
+        [Fact]
+        public void DuplicatePropertyNameTest()
+        {
+            // TODO unit test for the property 'DuplicatePropertyName'
         }
 
         /// <summary>
@@ -240,6 +267,15 @@ namespace Org.OpenAPITools.Test.Model
         public void StringTest()
         {
             // TODO unit test for the property 'String'
+        }
+
+        /// <summary>
+        /// Test the property 'StringFormattedAsDecimal'
+        /// </summary>
+        [Fact]
+        public void StringFormattedAsDecimalTest()
+        {
+            // TODO unit test for the property 'StringFormattedAsDecimal'
         }
 
         /// <summary>

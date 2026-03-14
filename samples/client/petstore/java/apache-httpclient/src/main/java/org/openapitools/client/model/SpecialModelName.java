@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
 @JsonTypeName("_special_model.name_")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @javax.annotation.Nullable
@@ -53,7 +53,7 @@ public class SpecialModelName {
    * @return $specialPropertyName
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long get$SpecialPropertyName() {
@@ -61,11 +61,12 @@ public class SpecialModelName {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set$SpecialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -139,7 +140,7 @@ public class SpecialModelName {
     // add `$special[property.name]` to the URL query string
     if (get$SpecialPropertyName() != null) {
       try {
-        joiner.add(String.format("%s$special[property.name]%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get$SpecialPropertyName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%s$special[property.name]%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get$SpecialPropertyName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

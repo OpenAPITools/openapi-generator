@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,36 +39,37 @@ public class Capitalization  {
   
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   
-  private String smallCamel;
+  protected String smallCamel;
 
   public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
   
-  private String capitalCamel;
+  protected String capitalCamel;
 
   public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
   
-  private String smallSnake;
+  protected String smallSnake;
 
   public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
   
-  private String capitalSnake;
+  protected String capitalSnake;
 
   public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   
-  private String scAETHFlowPoints;
+  protected String scAETHFlowPoints;
 
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
  /**
   * Name of the pet 
   */
   
-  private String ATT_NAME;
+  protected String ATT_NAME;
+
 
   /**
    * Get smallCamel
    * @return smallCamel
    **/
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSmallCamel() {
     return smallCamel;
@@ -75,7 +78,7 @@ public class Capitalization  {
   /**
    * Set smallCamel
    */
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -90,7 +93,7 @@ public class Capitalization  {
    * Get capitalCamel
    * @return capitalCamel
    **/
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCapitalCamel() {
     return capitalCamel;
@@ -99,7 +102,7 @@ public class Capitalization  {
   /**
    * Set capitalCamel
    */
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -114,7 +117,7 @@ public class Capitalization  {
    * Get smallSnake
    * @return smallSnake
    **/
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSmallSnake() {
     return smallSnake;
@@ -123,7 +126,7 @@ public class Capitalization  {
   /**
    * Set smallSnake
    */
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -138,7 +141,7 @@ public class Capitalization  {
    * Get capitalSnake
    * @return capitalSnake
    **/
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCapitalSnake() {
     return capitalSnake;
@@ -147,7 +150,7 @@ public class Capitalization  {
   /**
    * Set capitalSnake
    */
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -162,7 +165,7 @@ public class Capitalization  {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    **/
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -171,7 +174,7 @@ public class Capitalization  {
   /**
    * Set scAETHFlowPoints
    */
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -186,7 +189,7 @@ public class Capitalization  {
    * Name of the pet 
    * @return ATT_NAME
    **/
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getATTNAME() {
     return ATT_NAME;
@@ -195,7 +198,7 @@ public class Capitalization  {
   /**
    * Set ATT_NAME
    */
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;

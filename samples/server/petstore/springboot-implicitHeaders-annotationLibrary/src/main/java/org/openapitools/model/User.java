@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class User {
 
   private @Nullable Long id;
@@ -37,7 +37,7 @@ public class User {
 
   private @Nullable Integer userStatus;
 
-  public User id(Long id) {
+  public User id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -48,15 +48,16 @@ public class User {
    */
   
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public User username(String username) {
+  public User username(@Nullable String username) {
     this.username = username;
     return this;
   }
@@ -67,15 +68,16 @@ public class User {
    */
   
   @JsonProperty("username")
-  public String getUsername() {
+  public @Nullable String getUsername() {
     return username;
   }
 
-  public void setUsername(String username) {
+  @JsonProperty("username")
+  public void setUsername(@Nullable String username) {
     this.username = username;
   }
 
-  public User firstName(String firstName) {
+  public User firstName(@Nullable String firstName) {
     this.firstName = firstName;
     return this;
   }
@@ -86,15 +88,16 @@ public class User {
    */
   
   @JsonProperty("firstName")
-  public String getFirstName() {
+  public @Nullable String getFirstName() {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
+  @JsonProperty("firstName")
+  public void setFirstName(@Nullable String firstName) {
     this.firstName = firstName;
   }
 
-  public User lastName(String lastName) {
+  public User lastName(@Nullable String lastName) {
     this.lastName = lastName;
     return this;
   }
@@ -105,15 +108,16 @@ public class User {
    */
   
   @JsonProperty("lastName")
-  public String getLastName() {
+  public @Nullable String getLastName() {
     return lastName;
   }
 
-  public void setLastName(String lastName) {
+  @JsonProperty("lastName")
+  public void setLastName(@Nullable String lastName) {
     this.lastName = lastName;
   }
 
-  public User email(String email) {
+  public User email(@Nullable String email) {
     this.email = email;
     return this;
   }
@@ -124,15 +128,16 @@ public class User {
    */
   
   @JsonProperty("email")
-  public String getEmail() {
+  public @Nullable String getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
+  @JsonProperty("email")
+  public void setEmail(@Nullable String email) {
     this.email = email;
   }
 
-  public User password(String password) {
+  public User password(@Nullable String password) {
     this.password = password;
     return this;
   }
@@ -143,15 +148,16 @@ public class User {
    */
   
   @JsonProperty("password")
-  public String getPassword() {
+  public @Nullable String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  @JsonProperty("password")
+  public void setPassword(@Nullable String password) {
     this.password = password;
   }
 
-  public User phone(String phone) {
+  public User phone(@Nullable String phone) {
     this.phone = phone;
     return this;
   }
@@ -162,15 +168,16 @@ public class User {
    */
   
   @JsonProperty("phone")
-  public String getPhone() {
+  public @Nullable String getPhone() {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  @JsonProperty("phone")
+  public void setPhone(@Nullable String phone) {
     this.phone = phone;
   }
 
-  public User userStatus(Integer userStatus) {
+  public User userStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
     return this;
   }
@@ -181,11 +188,12 @@ public class User {
    */
   
   @JsonProperty("userStatus")
-  public Integer getUserStatus() {
+  public @Nullable Integer getUserStatus() {
     return userStatus;
   }
 
-  public void setUserStatus(Integer userStatus) {
+  @JsonProperty("userStatus")
+  public void setUserStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
 
@@ -233,7 +241,7 @@ public class User {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

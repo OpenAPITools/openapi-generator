@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -859,6 +859,7 @@ public class XmlItem {
   public void setPrefixNsWrappedArray(@javax.annotation.Nullable List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
+
 
   @Override
   public boolean equals(Object o) {

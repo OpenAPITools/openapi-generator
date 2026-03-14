@@ -55,7 +55,7 @@ enum class ApiStringEnumRef(val value: kotlin.String) {
          */
         fun decode(data: kotlin.Any?): ApiStringEnumRef? = data?.let {
           val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
+          entries.firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }

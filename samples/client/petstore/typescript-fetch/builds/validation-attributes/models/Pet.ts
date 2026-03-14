@@ -66,7 +66,7 @@ export interface Pet {
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
+     * @type {PetStatusEnum}
      * @memberof Pet
      * @deprecated
      */
@@ -83,6 +83,28 @@ export const PetStatusEnum = {
     Sold: 'sold'
 } as const;
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
+
+export const PetPropertyValidationAttributesMap: {
+    [property: string]: {
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+    photoUrls: {
+        maxItems: 8,
+        minItems: 1,
+        uniqueItems: true,
+    },
+}
 
 
 /**
@@ -131,27 +153,5 @@ export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean 
         'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
         'status': value['status'],
     };
-}
-
-export const PetPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-    photoUrls: {
-        maxItems: 8,
-        minItems: 1,
-        uniqueItems: true,
-    },
 }
 

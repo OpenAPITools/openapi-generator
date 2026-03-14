@@ -191,7 +191,8 @@ public class KotlinReservedWordsTest {
         File resultSourcePath = new File(output, "src/main/kotlin");
 
         assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiController.kt"),
-                "fun annotationsPost(@Parameter(description = \"\", required = true) @Valid @RequestBody `annotation`: Annotation",
+                "fun annotationsPost("
+                + "        @Parameter(description = \"\", required = true) @Valid @RequestBody `annotation`: Annotation",
                 "return ResponseEntity(service.annotationsPost(`annotation`), HttpStatus.valueOf(200))"
         );
 

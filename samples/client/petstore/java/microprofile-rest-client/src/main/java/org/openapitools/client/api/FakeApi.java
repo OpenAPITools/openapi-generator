@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -35,11 +35,12 @@ import java.util.Set;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
+
 
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
 
 /**
  * OpenAPI Petstore
@@ -153,7 +154,7 @@ public interface FakeApi  {
     @POST
     
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testEndpointParameters(@Multipart(value = "number")  BigDecimal number, @Multipart(value = "double")  Double _double, @Multipart(value = "pattern_without_delimiter")  String patternWithoutDelimiter, @Multipart(value = "byte")  byte[] _byte, @Multipart(value = "integer", required = false)  Integer integer, @Multipart(value = "int32", required = false)  Integer int32, @Multipart(value = "int64", required = false)  Long int64, @Multipart(value = "float", required = false)  Float _float, @Multipart(value = "string", required = false)  String string,  @Multipart(value = "binary" , required = false) Attachment binaryDetail, @Multipart(value = "date", required = false)  Date date, @Multipart(value = "dateTime", required = false)  Date dateTime, @Multipart(value = "password", required = false)  String password, @Multipart(value = "callback", required = false)  String paramCallback) throws ApiException, ProcessingException;
+    void testEndpointParameters(@FormParam("number")  BigDecimal number, @FormParam("double")  Double _double, @FormParam("pattern_without_delimiter")  String patternWithoutDelimiter, @FormParam("byte")  byte[] _byte, @FormParam("integer")  Integer integer, @FormParam("int32")  Integer int32, @FormParam("int64")  Long int64, @FormParam("float")  Float _float, @FormParam("string")  String string,  @FormParam("binary") File binaryDetail, @FormParam("date")  Date date, @FormParam("dateTime")  Date dateTime, @FormParam("password")  String password, @FormParam("callback")  String paramCallback) throws ApiException, ProcessingException;
 
     /**
      * To test enum parameters
@@ -164,7 +165,7 @@ public interface FakeApi  {
     @GET
     
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString) throws ApiException, ProcessingException;
+    void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @FormParam("enum_form_string_array")  List<String> enumFormStringArray, @FormParam("enum_form_string")  String enumFormString) throws ApiException, ProcessingException;
 
     /**
      * Fake endpoint to test group parameters (optional)
@@ -207,7 +208,7 @@ public interface FakeApi  {
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2) throws ApiException, ProcessingException;
+    void testJsonFormData(@FormParam("param")  String param, @FormParam("param2")  String param2) throws ApiException, ProcessingException;
 
     /**
      * test nullable parent property

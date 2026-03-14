@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple Apple { get { return this.AppleOption; } set { this.AppleOption = new Option<Apple>(value); } }
+        public Apple Apple { get { return this.AppleOption.Value; } set { this.AppleOption = new Option<Apple>(value); } }
 
         /// <summary>
         /// Used to track the state of Banana
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana Banana { get { return this.BananaOption; } set { this.BananaOption = new Option<Banana>(value); } }
+        public Banana Banana { get { return this.BananaOption.Value; } set { this.BananaOption = new Option<Banana>(value); } }
 
         /// <summary>
         /// Used to track the state of Color
@@ -208,14 +208,14 @@ namespace Org.OpenAPITools.Model
 
             if (fruit.AppleOption.IsSet && fruit.AppleOption.Value != null)
             {
-                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.AppleOption.Value.GetType()));
-                AppleJsonConverter.WriteProperties(writer, fruit.AppleOption.Value, jsonSerializerOptions);
+                AppleJsonConverter appleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.AppleOption.Value.GetType()));
+                appleJsonConverter.WriteProperties(writer, fruit.AppleOption.Value, jsonSerializerOptions);
             }
 
             if (fruit.BananaOption.IsSet && fruit.BananaOption.Value != null)
             {
-                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.BananaOption.Value.GetType()));
-                BananaJsonConverter.WriteProperties(writer, fruit.BananaOption.Value, jsonSerializerOptions);
+                BananaJsonConverter bananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.BananaOption.Value.GetType()));
+                bananaJsonConverter.WriteProperties(writer, fruit.BananaOption.Value, jsonSerializerOptions);
             }
 
             WriteProperties(writer, fruit, jsonSerializerOptions);

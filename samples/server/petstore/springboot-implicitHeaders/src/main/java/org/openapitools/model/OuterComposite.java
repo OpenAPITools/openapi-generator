@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class OuterComposite {
 
   private @Nullable BigDecimal myNumber;
@@ -30,7 +30,7 @@ public class OuterComposite {
 
   private @Nullable Boolean myBoolean;
 
-  public OuterComposite myNumber(BigDecimal myNumber) {
+  public OuterComposite myNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;
   }
@@ -42,15 +42,16 @@ public class OuterComposite {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  public @Nullable BigDecimal getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(BigDecimal myNumber) {
+  @JsonProperty("my_number")
+  public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
-  public OuterComposite myString(String myString) {
+  public OuterComposite myString(@Nullable String myString) {
     this.myString = myString;
     return this;
   }
@@ -62,15 +63,16 @@ public class OuterComposite {
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
-  public String getMyString() {
+  public @Nullable String getMyString() {
     return myString;
   }
 
-  public void setMyString(String myString) {
+  @JsonProperty("my_string")
+  public void setMyString(@Nullable String myString) {
     this.myString = myString;
   }
 
-  public OuterComposite myBoolean(Boolean myBoolean) {
+  public OuterComposite myBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
     return this;
   }
@@ -82,11 +84,12 @@ public class OuterComposite {
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
-  public Boolean getMyBoolean() {
+  public @Nullable Boolean getMyBoolean() {
     return myBoolean;
   }
 
-  public void setMyBoolean(Boolean myBoolean) {
+  @JsonProperty("my_boolean")
+  public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 
@@ -124,7 +127,7 @@ public class OuterComposite {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

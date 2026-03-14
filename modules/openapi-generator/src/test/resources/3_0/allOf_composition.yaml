@@ -81,4 +81,8 @@ components:
           format: int64
         name:
           type: string
-          example: Tom 
+          example: Tom
+        nickname:
+          type: string
+          description: Previous short name for the human, replaced by `name`
+          deprecated: true

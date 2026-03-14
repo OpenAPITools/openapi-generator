@@ -391,10 +391,11 @@ PetApi <- R6::R6Class(
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    AddPet = function(pet, data_file = NULL, ...) {
-      local_var_response <- self$AddPetWithHttpInfo(pet, data_file = data_file, ...)
+    AddPet = function(pet, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$AddPetWithHttpInfo(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -412,9 +413,10 @@ PetApi <- R6::R6Class(
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    AddPetWithHttpInfo = function(pet, data_file = NULL, ...) {
+    AddPetWithHttpInfo = function(pet, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -431,6 +433,12 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet`."))
       }
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        rlang::abort(message = "Invalid value for `pet` when calling PetApi$AddPet, `pet` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet` when calling PetApi$AddPet, `pet` is not nullable"))
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -467,6 +475,10 @@ PetApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
@@ -553,7 +565,19 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
+        rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$DeletePet, `pet_id` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet_id` when calling PetApi$DeletePet, `pet_id` is not nullable"))
+      }
 
+      if (!missing(`api_key`) && is.null(`api_key`)) {
+        rlang::abort(message = "Invalid value for `api_key` when calling PetApi$DeletePet, `api_key` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `api_key` when calling PetApi$DeletePet, `api_key` is not nullable"))
+      }
 
       header_params["api_key"] <- `api_key`
 
@@ -622,10 +646,11 @@ PetApi <- R6::R6Class(
     #' @param status Status values that need to be considered for filter
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return array[Pet]
-    FindPetsByStatus = function(status, data_file = NULL, ...) {
-      local_var_response <- self$FindPetsByStatusWithHttpInfo(status, data_file = data_file, ...)
+    FindPetsByStatus = function(status, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$FindPetsByStatusWithHttpInfo(status, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -643,9 +668,10 @@ PetApi <- R6::R6Class(
     #' @param status Status values that need to be considered for filter
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (array[Pet]) with additional information such as HTTP status code, headers
-    FindPetsByStatusWithHttpInfo = function(status, data_file = NULL, ...) {
+    FindPetsByStatusWithHttpInfo = function(status, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -662,6 +688,12 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `status`."))
       }
 
+      if (!missing(`status`) && is.null(`status`)) {
+        rlang::abort(message = "Invalid value for `status` when calling PetApi$FindPetsByStatus, `status` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `status` when calling PetApi$FindPetsByStatus, `status` is not nullable"))
+      }
 
       # explore
       for (query_item in `status`) {
@@ -704,6 +736,10 @@ PetApi <- R6::R6Class(
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "array[Pet]"),
@@ -749,10 +785,11 @@ PetApi <- R6::R6Class(
     #' @param tags Tags to filter by
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return array[Pet]
-    FindPetsByTags = function(tags, data_file = NULL, ...) {
-      local_var_response <- self$FindPetsByTagsWithHttpInfo(tags, data_file = data_file, ...)
+    FindPetsByTags = function(tags, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$FindPetsByTagsWithHttpInfo(tags, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -770,9 +807,10 @@ PetApi <- R6::R6Class(
     #' @param tags Tags to filter by
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (array[Pet]) with additional information such as HTTP status code, headers
-    FindPetsByTagsWithHttpInfo = function(tags, data_file = NULL, ...) {
+    FindPetsByTagsWithHttpInfo = function(tags, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -789,6 +827,12 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `tags`."))
       }
 
+      if (!missing(`tags`) && is.null(`tags`)) {
+        rlang::abort(message = "Invalid value for `tags` when calling PetApi$FindPetsByTags, `tags` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `tags` when calling PetApi$FindPetsByTags, `tags` is not nullable"))
+      }
 
       # no explore
       query_params[["tags"]] <- I(paste(lapply(`tags`, URLencode, reserved = TRUE), collapse = ","))
@@ -819,6 +863,10 @@ PetApi <- R6::R6Class(
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "array[Pet]"),
@@ -864,10 +912,11 @@ PetApi <- R6::R6Class(
     #' @param pet_id ID of pet to return
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    GetPetById = function(pet_id, data_file = NULL, ...) {
-      local_var_response <- self$GetPetByIdWithHttpInfo(pet_id, data_file = data_file, ...)
+    GetPetById = function(pet_id, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$GetPetByIdWithHttpInfo(pet_id, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -885,9 +934,10 @@ PetApi <- R6::R6Class(
     #' @param pet_id ID of pet to return
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    GetPetByIdWithHttpInfo = function(pet_id, data_file = NULL, ...) {
+    GetPetByIdWithHttpInfo = function(pet_id, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -904,6 +954,12 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
+        rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$GetPetById, `pet_id` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet_id` when calling PetApi$GetPetById, `pet_id` is not nullable"))
+      }
 
       local_var_url_path <- "/pet/{petId}"
       if (!missing(`pet_id`)) {
@@ -938,6 +994,10 @@ PetApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
@@ -985,14 +1045,14 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    GetPetByIdStreaming = function(pet_id, stream_callback = NULL, data_file = NULL, ...) {
-      local_var_response <- self$GetPetByIdStreamingWithHttpInfo(pet_id, stream_callback = stream_callback, data_file = data_file, ...)
+    GetPetByIdStreaming = function(pet_id, stream_callback = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$GetPetByIdStreamingWithHttpInfo(pet_id, stream_callback = stream_callback, data_file = data_file, ..., .parse = .parse)
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
         return(invisible(NULL))
       }
-
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1011,9 +1071,10 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    GetPetByIdStreamingWithHttpInfo = function(pet_id, stream_callback = NULL, data_file = NULL, ...) {
+    GetPetByIdStreamingWithHttpInfo = function(pet_id, stream_callback = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1030,6 +1091,12 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
+        rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$GetPetByIdStreaming, `pet_id` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet_id` when calling PetApi$GetPetByIdStreaming, `pet_id` is not nullable"))
+      }
 
       local_var_url_path <- "/pet/{petId}?streaming"
       if (!missing(`pet_id`)) {
@@ -1070,6 +1137,10 @@ PetApi <- R6::R6Class(
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "Pet"),
@@ -1116,14 +1187,14 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    TestHeader = function(header_test_int, stream_callback = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestHeaderWithHttpInfo(header_test_int, stream_callback = stream_callback, data_file = data_file, ...)
+    TestHeader = function(header_test_int, stream_callback = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestHeaderWithHttpInfo(header_test_int, stream_callback = stream_callback, data_file = data_file, ..., .parse = .parse)
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
         return(invisible(NULL))
       }
-
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1142,9 +1213,10 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    TestHeaderWithHttpInfo = function(header_test_int, stream_callback = NULL, data_file = NULL, ...) {
+    TestHeaderWithHttpInfo = function(header_test_int, stream_callback = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1161,6 +1233,12 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `header_test_int`."))
       }
 
+      if (!missing(`header_test_int`) && is.null(`header_test_int`)) {
+        rlang::abort(message = "Invalid value for `header_test_int` when calling PetApi$TestHeader, `header_test_int` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `header_test_int` when calling PetApi$TestHeader, `header_test_int` is not nullable"))
+      }
 
       header_params["header_test_int"] <- `header_test_int`
 
@@ -1199,6 +1277,10 @@ PetApi <- R6::R6Class(
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "Pet"),
@@ -1244,10 +1326,11 @@ PetApi <- R6::R6Class(
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    UpdatePet = function(pet, data_file = NULL, ...) {
-      local_var_response <- self$UpdatePetWithHttpInfo(pet, data_file = data_file, ...)
+    UpdatePet = function(pet, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$UpdatePetWithHttpInfo(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1265,9 +1348,10 @@ PetApi <- R6::R6Class(
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    UpdatePetWithHttpInfo = function(pet, data_file = NULL, ...) {
+    UpdatePetWithHttpInfo = function(pet, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1284,6 +1368,12 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet`."))
       }
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        rlang::abort(message = "Invalid value for `pet` when calling PetApi$UpdatePet, `pet` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet` when calling PetApi$UpdatePet, `pet` is not nullable"))
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -1319,6 +1409,10 @@ PetApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
@@ -1407,8 +1501,26 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
+        rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$UpdatePetWithForm, `pet_id` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet_id` when calling PetApi$UpdatePetWithForm, `pet_id` is not nullable"))
+      }
 
+      if (!missing(`name`) && is.null(`name`)) {
+        rlang::abort(message = "Invalid value for `name` when calling PetApi$UpdatePetWithForm, `name` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `name` when calling PetApi$UpdatePetWithForm, `name` is not nullable"))
+      }
 
+      if (!missing(`status`) && is.null(`status`)) {
+        rlang::abort(message = "Invalid value for `status` when calling PetApi$UpdatePetWithForm, `status` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `status` when calling PetApi$UpdatePetWithForm, `status` is not nullable"))
+      }
 
       form_params["name"] <- `name`
       form_params["status"] <- `status`
@@ -1476,10 +1588,11 @@ PetApi <- R6::R6Class(
     #' @param file (optional) file to upload
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return ModelApiResponse
-    UploadFile = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
-      local_var_response <- self$UploadFileWithHttpInfo(pet_id, additional_metadata, file, data_file = data_file, ...)
+    UploadFile = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$UploadFileWithHttpInfo(pet_id, additional_metadata, file, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1499,9 +1612,10 @@ PetApi <- R6::R6Class(
     #' @param file (optional) file to upload
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (ModelApiResponse) with additional information such as HTTP status code, headers
-    UploadFileWithHttpInfo = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ...) {
+    UploadFileWithHttpInfo = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1518,8 +1632,26 @@ PetApi <- R6::R6Class(
                                                      reason = "Missing required parameter `pet_id`."))
       }
 
+      if (!missing(`pet_id`) && is.null(`pet_id`)) {
+        rlang::abort(message = "Invalid value for `pet_id` when calling PetApi$UploadFile, `pet_id` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet_id` when calling PetApi$UploadFile, `pet_id` is not nullable"))
+      }
 
+      if (!missing(`additional_metadata`) && is.null(`additional_metadata`)) {
+        rlang::abort(message = "Invalid value for `additional_metadata` when calling PetApi$UploadFile, `additional_metadata` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `additional_metadata` when calling PetApi$UploadFile, `additional_metadata` is not nullable"))
+      }
 
+      if (!missing(`file`) && is.null(`file`)) {
+        rlang::abort(message = "Invalid value for `file` when calling PetApi$UploadFile, `file` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `file` when calling PetApi$UploadFile, `file` is not nullable"))
+      }
 
       form_params["additionalMetadata"] <- `additional_metadata`
       file_params["file"] <- httr::upload_file(`file`)
@@ -1555,6 +1687,10 @@ PetApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(

@@ -36,11 +36,11 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://localhost:3000")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://localhost:3000")
         }
     }
 

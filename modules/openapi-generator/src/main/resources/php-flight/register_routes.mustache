@@ -2,6 +2,7 @@
 
 {{>licenseInfo}}
 
+
 namespace {{invokerPackage}};
 {{#apiInfo}}
 
@@ -22,7 +23,7 @@ class RegisterRoutes {
                 $r = \Flight::request();
                 {{^vendorExtensions.x-return-type-is-void}}$result = {{/vendorExtensions.x-return-type-is-void}}$handler->{{operationId}}(
                 {{#vendorExtensions.x-nonFormParams}}
-                    parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}}, {{/-last}}
+                    parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}},{{/-last}}
                 {{/vendorExtensions.x-nonFormParams}}
                 );
                 {{^vendorExtensions.x-return-type-is-void}}
@@ -42,7 +43,7 @@ class RegisterRoutes {
                 $r = \Flight::request();
                 $handler->{{operationId}}Stream(
                 {{#vendorExtensions.x-nonFormParams}}
-                    parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}}, {{/-last}}
+                    parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}},{{/-last}}
                 {{/vendorExtensions.x-nonFormParams}}
                 );
                 // ignore return value: streaming expected

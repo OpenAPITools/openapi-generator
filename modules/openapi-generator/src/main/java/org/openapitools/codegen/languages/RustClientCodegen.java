@@ -52,12 +52,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
     @Setter(AccessLevel.PRIVATE) private boolean supportAsync = true;
     @Setter(AccessLevel.PRIVATE) private boolean supportMiddleware = false;
+    @Setter(AccessLevel.PRIVATE) private boolean useSerdePathToError = false;
     @Setter(AccessLevel.PRIVATE) private boolean supportTokenSource = false;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
     @Setter private boolean preferUnsignedInt = false;
     @Setter private boolean bestFitInt = false;
     @Setter private boolean avoidBoxedModels = false;
+    private List<String> reqwestDefaultFeatures = Arrays.asList("native-tls");
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String EXTERN_CRATE_NAME = "externCrateName";
@@ -69,6 +71,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String REQWEST_TRAIT_LIBRARY_ATTR = "reqwestTrait";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
+    public static final String USE_SERDE_PATH_TO_ERROR = "useSerdePathToError";
     public static final String SUPPORT_TOKEN_SOURCE = "supportTokenSource";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
@@ -77,6 +80,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String TOP_LEVEL_API_CLIENT = "topLevelApiClient";
     public static final String MOCKALL = "mockall";
     public static final String BON_BUILDER = "useBonBuilder";
+    public static final String REQWEST_DEFAULT_FEATURES = "reqwestDefaultFeatures";
 
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
@@ -208,6 +212,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(USE_SERDE_PATH_TO_ERROR, "If set, use the serde_path_to_error library to enhance serde error messages. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_TOKEN_SOURCE, "If set, add support for google-cloud-token. This option is for 'reqwest' and 'reqwest-trait' library only and requires the 'supportAsync' option", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
@@ -227,6 +233,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BON_BUILDER, "Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(REQWEST_DEFAULT_FEATURES, "Default features for the reqwest dependency (comma-separated). Use empty for no defaults. This option is for 'reqwest' and 'reqwest-trait' library only.")
+                .defaultValue("native-tls"));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
@@ -288,7 +296,15 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         oneOf.setName(modelName);
                         oneOf.setBaseName(refName);
                     }
-                } else {
+                } else if (oneOf.isArray) {
+                    // If the type is an array, extend the name with the inner type to prevent name collisions
+                    // in case multiple arrays with different types are defined. If the user has manually specified
+                    // a name, use that name instead.
+                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.dataType;
+                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
+                    oneOf.setName(oneOfName);
+                }
+                else {
                     // In-placed type (primitive), because there is no mapping or ref for it.
                     // use camelized `title` if present, otherwise use `type`
                     String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
@@ -352,6 +368,45 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     break;
                 }
             }
+
+            // Compute documentation type for each property
+            // This matches the actual generated code type, including HashSet for uniqueItems
+            for (CodegenProperty cp : cm.vars) {
+                String docType;
+
+                if (cp.datatypeWithEnum != null && !cp.datatypeWithEnum.isEmpty()) {
+                    // Use enum type if available (e.g., Vec<UniqueItemArray> instead of Vec<String>)
+                    docType = cp.datatypeWithEnum;
+                } else {
+                    // Use regular dataType
+                    docType = cp.dataType;
+                }
+
+                // Apply uniqueItems logic (matching model.mustache lines 139, 161)
+                // Arrays with uniqueItems=true use HashSet instead of Vec in the generated code
+                if (Boolean.TRUE.equals(cp.getUniqueItems()) && docType.startsWith("Vec<")) {
+                    docType = docType.replace("Vec<", "HashSet<");
+                }
+
+                cp.vendorExtensions.put("x-doc-type", docType);
+
+                // Determine if this type should have a doc link
+                // Only local models should link, not external types from std lib or crates
+                boolean shouldLink = false;
+                if (cp.complexType != null && !cp.complexType.isEmpty()) {
+                    // Check if it's an external type by looking for known prefixes
+                    String[] externalPrefixes = {"std::", "serde_json::", "uuid::", "chrono::", "url::"};
+                    boolean isExternal = false;
+                    for (String prefix : externalPrefixes) {
+                        if (cp.complexType.startsWith(prefix)) {
+                            isExternal = true;
+                            break;
+                        }
+                    }
+                    shouldLink = !isExternal;
+                }
+                cp.vendorExtensions.put("x-should-link", shouldLink);
+            }
         }
         // process enum in models
         return postProcessModelsEnum(objs);
@@ -398,6 +453,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
         writePropertyBack(SUPPORT_MIDDLEWARE, getSupportMiddleware());
 
+        if (additionalProperties.containsKey(USE_SERDE_PATH_TO_ERROR)) {
+            this.setUseSerdePathToError(convertPropertyToBoolean(USE_SERDE_PATH_TO_ERROR));
+        }
+        writePropertyBack(USE_SERDE_PATH_TO_ERROR, getUseSerdePathToError());
+
         if (additionalProperties.containsKey(SUPPORT_TOKEN_SOURCE)) {
             this.setSupportTokenSource(convertPropertyToBoolean(SUPPORT_TOKEN_SOURCE));
         }
@@ -422,6 +482,21 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             this.setAvoidBoxedModels(convertPropertyToBoolean(AVOID_BOXED_MODELS));
         }
         writePropertyBack(AVOID_BOXED_MODELS, getAvoidBoxedModels());
+
+        if (additionalProperties.containsKey(REQWEST_DEFAULT_FEATURES)) {
+            Object value = additionalProperties.get(REQWEST_DEFAULT_FEATURES);
+            if (value instanceof List) {
+                reqwestDefaultFeatures = (List<String>) value;
+            } else if (value instanceof String) {
+                String str = (String) value;
+                if (str.isEmpty()) {
+                    reqwestDefaultFeatures = new ArrayList<>();
+                } else {
+                    reqwestDefaultFeatures = Arrays.asList(str.split(",\\s*"));
+                }
+            }
+        }
+        additionalProperties.put(REQWEST_DEFAULT_FEATURES, reqwestDefaultFeatures);
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -500,6 +575,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         return supportMiddleware;
     }
 
+    private boolean getUseSerdePathToError() {
+        return useSerdePathToError;
+    }
+
     private boolean getSupportTokenSource() {
         return supportTokenSource;
     }
@@ -536,6 +615,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public String modelFileFolder() {
         return (outputFolder + File.separator + modelFolder).replace("/", File.separator);
+    }
+
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
     }
 
     @Override
@@ -605,9 +690,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             additionalProperties.put("serdeWith", true);
         }
 
+        // Add a field for checking if a field is with optional or required in templates.
+        // This is useful in Mustache templates as it's not possible to do OR logic between variables.
+        property.vendorExtensions.put("isMandatory", !property.isNullable && property.required);
+
         // If a property is a base64-encoded byte array, use `serde_with` for deserialization.
         if (property.isByteArray) {
             additionalProperties.put("serdeWith", true);
+            // If a byte array is both nullable and not required we need to include our own
+            // custom double option as serde_as does not work with serde_with's double_option.
+            if (property.isNullable && !property.required) {
+                additionalProperties.put("serdeAsDoubleOption", true);
+            }
         }
     }
 
@@ -616,13 +710,29 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         super.postProcessParameter(parameter);
         // in order to avoid name conflicts, we map parameters inside the functions
         String inFunctionIdentifier = "";
+        String locationSuffix = "";
+
+        // Determine parameter location using the boolean flags in case of parameters with the same name but in different locations
+        if (parameter.isPathParam) {
+            locationSuffix = "path_";
+        } else if (parameter.isQueryParam) {
+            locationSuffix = "query_";
+        } else if (parameter.isHeaderParam) {
+            locationSuffix = "header_";
+        } else if (parameter.isBodyParam) {
+            locationSuffix = "body_";
+        } else if (parameter.isCookieParam) {
+            locationSuffix = "cookie_";
+        } else if (parameter.isFormParam) {
+            locationSuffix = "form_";
+        }
         if (this.useSingleRequestParameter) {
             inFunctionIdentifier = "params." + parameter.paramName;
         } else {
             if (parameter.paramName.startsWith("r#")) {
-                inFunctionIdentifier = "p_" + parameter.paramName.substring(2);
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName.substring(2);
             } else {
-                inFunctionIdentifier = "p_" + parameter.paramName;
+                inFunctionIdentifier = "p_" + locationSuffix + parameter.paramName;
             }
         }
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
@@ -633,6 +743,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
+        boolean useAsyncFileStream = false;
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
@@ -665,6 +776,29 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 if (!hasUUIDs && param.isUuid) {
                     hasUUIDs = true;
                     break;
+                }
+            }
+
+            // If we use a file body parameter, we need to include the imports and crates for it
+            // But they should be added only once per file
+            for (var param: operation.bodyParams) {
+                if (param.isFile && supportAsync && !useAsyncFileStream) {
+                    useAsyncFileStream = true;
+                    additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                    operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
+                    break;
+                }
+            }
+
+            // Also check form params for file uploads (multipart)
+            if (!useAsyncFileStream) {
+                for (var param: operation.formParams) {
+                    if (param.isFile && supportAsync) {
+                        useAsyncFileStream = true;
+                        additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                        operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
+                        break;
+                    }
                 }
             }
 

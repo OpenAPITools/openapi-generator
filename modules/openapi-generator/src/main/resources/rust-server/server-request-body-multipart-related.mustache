@@ -6,7 +6,7 @@
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(e))
+                                                .body(BoxBody::new(e.to_string()))
                                                 .expect("Unable to create Bad Request response due to unable to read content-type header for {{operationId}}"));
                                     }
                                 };
@@ -18,7 +18,7 @@
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Could not read multipart body for {{operationId}}: {}", e)))
+                                                .body(BoxBody::new(format!("Could not read multipart body for {{operationId}}: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read multipart body for {{operationId}}"));
                                     }
                                 };
@@ -29,7 +29,7 @@
 
                                 for node in nodes {
                                     if let Node::Part(part) = node {
-                                        let content_type = part.content_type().map(|x| format!("{}",x));
+                                        let content_type = part.content_type().map(|x| format!("{x}"));
                                         match content_type.as_deref() {
 {{#formParams}}
   {{^isBinary}}
@@ -37,13 +37,13 @@
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
                                                 let json_data: {{dataType}} = match serde_ignored::deserialize(deserializer, |path| {
-                                                    warn!("Ignoring unknown field in JSON part: {}", path);
+                                                    warn!("Ignoring unknown field in JSON part: {path}");
                                                     unused_elements.push(path.to_string());
                                                 }) {
                                                     Ok(json_data) => json_data,
                                                     Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {}", e)))
+                                                        .body(BoxBody::new(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{dataType}} due to schema"))
                                                 };
                                                 // Push JSON part to return object.
@@ -57,7 +57,7 @@
   {{/isBinary}}
 {{/formParams}}
                                             Some(content_type) => {
-                                                warn!("Ignoring unexpected content type: {}", content_type);
+                                                warn!("Ignoring unexpected content type: {content_type}");
                                                 unused_elements.push(content_type.to_string());
                                             },
                                             None => {
@@ -79,7 +79,7 @@
                                     Some(x) => x,
                                     None =>  return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required multipart/related parameter {{{paramName}}}".to_string()))
+                                        .body(BoxBody::new("Missing required multipart/related parameter {{{paramName}}}".to_string()))
                                         .expect("Unable to create Bad Request response for missing multipart/related parameter {{{paramName}}} due to schema"))
                                 };
   {{/required}}

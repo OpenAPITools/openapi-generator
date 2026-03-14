@@ -439,4 +439,79 @@ public class TypeScriptAngularClientCodegenTest {
         final String fileContents = Files.readString(Paths.get(output + "/api.base.service.ts"));
         assertThat(fileContents).containsOnlyOnce("basePath = '/relative/url'");
     }
+
+    @Test
+    public void testEnumAsConst() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_0/enum.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        // THEN
+        final String fileContents = Files.readString(Paths.get(output + "/model/type.ts"));
+        assertThat(fileContents).containsOnlyOnce("} as const;");
+        assertThat(fileContents).doesNotContain(" as Type");
+    }
+
+    @Test
+    public void testDeepObject() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_0/deepobject.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        // THEN
+        final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
+        assertThat(fileContents).containsSubsequence("'options',\n", "<any>options,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
+        assertThat(fileContents).containsSubsequence("'inputOptions',\n", "<any>inputOptions,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
+    }
+
+    @Test
+    public void testOpenIdCredentialsAreSet() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_1/issue_21245.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        //THEN
+        final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
+        String credentialsSet = "localVarHeaders = this.configuration.addCredentialToHeaders('oidc', 'Authorization', localVarHeaders, 'Bearer ');";
+        assertThat(fileContents).contains(credentialsSet);
+    }
 }

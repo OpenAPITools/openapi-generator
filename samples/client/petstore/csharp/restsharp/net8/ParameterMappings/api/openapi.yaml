@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Environment'
+                $ref: "#/components/schemas/Environment"
           description: OK
       summary: parameter name mapping test
       tags:

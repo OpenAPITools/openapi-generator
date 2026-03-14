@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ZeroBasedEnum
         /// </summary>
         [JsonPropertyName("ZeroBasedEnum")]
-        public ZeroBasedEnumEnum? ZeroBasedEnum { get { return this.ZeroBasedEnumOption; } set { this.ZeroBasedEnumOption = new Option<ZeroBasedEnumEnum?>(value); } }
+        public ZeroBasedEnumEnum? ZeroBasedEnum { get { return this.ZeroBasedEnumOption.Value; } set { this.ZeroBasedEnumOption = new Option<ZeroBasedEnumEnum?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -32,9 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
 import org.openapitools.client.model.Shape;
@@ -56,8 +54,8 @@ import org.openapitools.client.ApiClient;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
-public class Drawing extends HashMap<String, Fruit> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
   @javax.annotation.Nullable
   private Shape mainShape;
@@ -86,14 +84,14 @@ public class Drawing extends HashMap<String, Fruit> {
    * @return mainShape
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Shape getMainShape() {
     return mainShape;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMainShape(@javax.annotation.Nullable Shape mainShape) {
     this.mainShape = mainShape;
@@ -110,14 +108,14 @@ public class Drawing extends HashMap<String, Fruit> {
    * @return shapeOrNull
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_OR_NULL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_OR_NULL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapeOrNull(@javax.annotation.Nullable ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
@@ -139,7 +137,7 @@ public class Drawing extends HashMap<String, Fruit> {
         return nullableShape.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<NullableShape> getNullableShape_JsonNullable() {
@@ -174,14 +172,14 @@ public class Drawing extends HashMap<String, Fruit> {
    * @return shapes
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<Shape> getShapes() {
     return shapes;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPES)
+  @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShapes(@javax.annotation.Nullable List<Shape> shapes) {
     this.shapes = shapes;
@@ -259,7 +257,6 @@ public class Drawing extends HashMap<String, Fruit> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Drawing {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mainShape: ").append(toIndentedString(mainShape)).append("\n");
     sb.append("    shapeOrNull: ").append(toIndentedString(shapeOrNull)).append("\n");
     sb.append("    nullableShape: ").append(toIndentedString(nullableShape)).append("\n");
@@ -331,8 +328,8 @@ public class Drawing extends HashMap<String, Fruit> {
     if (getShapes() != null) {
       for (int i = 0; i < getShapes().size(); i++) {
         if (getShapes().get(i) != null) {
-          joiner.add(getShapes().get(i).toUrlQueryString(String.format("%sshapes%s%s", prefix, suffix,
-          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+          joiner.add(getShapes().get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%sshapes%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }

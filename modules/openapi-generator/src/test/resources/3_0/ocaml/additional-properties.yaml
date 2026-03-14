@@ -1,0 +1,52 @@
+# Test various flavors of additionalProperties
+openapi: 3.0.0
+info:
+  title: Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    SomeObject:
+      required:
+        - required_field1
+        - required_field2
+        - required_field3
+      properties:
+        required_field1:
+          type: object
+          description: Required, free-form
+          additionalProperties: {}
+        required_field2:
+          type: object
+          description: Required, dictionary of strings
+          additionalProperties:
+            type: string
+        required_field3:
+          type: object
+          description: Required, dictionary of objects
+          additionalProperties:
+            type: object
+            properties:
+              sub_field1:
+                type: number
+              sub_field2:
+                type: boolean
+        optional_field1:
+          type: object
+          description: Optional, free-form
+          additionalProperties: {}
+        optional_field2:
+          type: object
+          description: Optional, dictionary of strings
+          additionalProperties:
+            type: string
+        optional_field3:
+          type: object
+          description: Optional, dictionary of objects
+          additionalProperties:
+            type: object
+            properties:
+              sub_field1:
+                type: number
+              sub_field2:
+                type: boolean

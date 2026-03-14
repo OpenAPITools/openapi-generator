@@ -82,7 +82,7 @@ No authorization required
 
 ## testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo
 
-> ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+> ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 
 Test path parameter(s)
 

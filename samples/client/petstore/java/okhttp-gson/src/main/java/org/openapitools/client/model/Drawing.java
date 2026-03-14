@@ -55,7 +55,7 @@ import org.openapitools.client.JSON;
 /**
  * Drawing
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
@@ -271,14 +271,10 @@ public class Drawing {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("mainShape");
-    openapiFields.add("shapeOrNull");
-    openapiFields.add("nullableShape");
-    openapiFields.add("shapes");
+    openapiFields = new HashSet<String>(Arrays.asList("mainShape", "shapeOrNull", "nullableShape", "shapes"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -290,7 +286,7 @@ public class Drawing {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Drawing.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
@@ -311,7 +307,7 @@ public class Drawing {
         if (jsonArrayshapes != null) {
           // ensure the json data is an array
           if (!jsonObj.get("shapes").isJsonArray()) {
-            throw new IllegalArgumentException(String.format("Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `shapes` to be an array in the JSON string but got `%s`", jsonObj.get("shapes").toString()));
           }
 
           // validate the optional field `shapes` (array)
@@ -379,7 +375,7 @@ public class Drawing {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

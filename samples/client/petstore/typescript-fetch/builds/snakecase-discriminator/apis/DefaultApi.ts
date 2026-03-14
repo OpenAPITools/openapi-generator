@@ -28,18 +28,29 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
+     * Creates request options for fooGet without sending the request
      */
-    async fooGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FooGetDefaultResponse>> {
+    async fooGetRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/foo`,
+
+        let urlPath = `/foo`;
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async fooGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FooGetDefaultResponse>> {
+        const requestOptions = await this.fooGetRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FooGetDefaultResponseFromJSON(jsonValue));
     }

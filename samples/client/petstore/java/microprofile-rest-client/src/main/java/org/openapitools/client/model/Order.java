@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Date;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
@@ -31,16 +33,16 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Order  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("petId")
-  private Long petId;
+  protected Long petId;
 
   @JsonbProperty("quantity")
-  private Integer quantity;
+  protected Integer quantity;
 
   @JsonbProperty("shipDate")
-  private Date shipDate;
+  protected Date shipDate;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
@@ -88,10 +90,11 @@ public class Order  {
   * Order Status
   */
   @JsonbProperty("status")
-  private StatusEnum status;
+  protected StatusEnum status;
 
   @JsonbProperty("complete")
-  private Boolean complete = false;
+  protected Boolean complete = false;
+
 
   /**
    * Get id

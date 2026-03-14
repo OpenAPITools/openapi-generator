@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * OuterObjectWithEnumProperty
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   @jakarta.annotation.Nonnull
@@ -50,7 +51,7 @@ public class OuterObjectWithEnumProperty {
    * @return value
    */
   @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public OuterEnumInteger getValue() {
@@ -58,11 +59,12 @@ public class OuterObjectWithEnumProperty {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setValue(@jakarta.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
+
 
   @Override
   public boolean equals(Object o) {

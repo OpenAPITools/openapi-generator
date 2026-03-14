@@ -130,7 +130,7 @@ components:
           format: int64
           type: integer
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           example: doggie
           type: string
@@ -144,7 +144,7 @@ components:
             wrapped: true
         tags:
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
           type: array
           xml:
             wrapped: true

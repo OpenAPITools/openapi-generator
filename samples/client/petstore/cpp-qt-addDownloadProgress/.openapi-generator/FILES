@@ -6,6 +6,10 @@ client/PFXApiResponse.h
 client/PFXCategory.cpp
 client/PFXCategory.h
 client/PFXEnum.h
+client/PFXEnumStatus.cpp
+client/PFXEnumStatus.h
+client/PFXFakeApi.cpp
+client/PFXFakeApi.h
 client/PFXHelpers.cpp
 client/PFXHelpers.h
 client/PFXHttpFileElement.cpp

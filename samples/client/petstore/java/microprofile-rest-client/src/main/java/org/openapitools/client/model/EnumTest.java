@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.OuterEnumDefaultValue;
 import org.openapitools.client.model.OuterEnumInteger;
@@ -76,7 +78,7 @@ public class EnumTest  {
   }
 
   @JsonbProperty("enum_string")
-  private EnumStringEnum enumString;
+  protected EnumStringEnum enumString;
 
   @JsonbTypeSerializer(EnumStringRequiredEnum.Serializer.class)
   @JsonbTypeDeserializer(EnumStringRequiredEnum.Deserializer.class)
@@ -121,7 +123,7 @@ public class EnumTest  {
   }
 
   @JsonbProperty("enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired;
+  protected EnumStringRequiredEnum enumStringRequired;
 
   @JsonbTypeSerializer(EnumIntegerEnum.Serializer.class)
   @JsonbTypeDeserializer(EnumIntegerEnum.Deserializer.class)
@@ -166,7 +168,7 @@ public class EnumTest  {
   }
 
   @JsonbProperty("enum_integer")
-  private EnumIntegerEnum enumInteger;
+  protected EnumIntegerEnum enumInteger;
 
   @JsonbTypeSerializer(EnumNumberEnum.Serializer.class)
   @JsonbTypeDeserializer(EnumNumberEnum.Deserializer.class)
@@ -211,19 +213,20 @@ public class EnumTest  {
   }
 
   @JsonbProperty("enum_number")
-  private EnumNumberEnum enumNumber;
+  protected EnumNumberEnum enumNumber;
 
   @JsonbProperty("outerEnum")
-  private OuterEnum outerEnum;
+  protected OuterEnum outerEnum;
 
   @JsonbProperty("outerEnumInteger")
-  private OuterEnumInteger outerEnumInteger;
+  protected OuterEnumInteger outerEnumInteger;
 
   @JsonbProperty("outerEnumDefaultValue")
-  private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
+  protected OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   @JsonbProperty("outerEnumIntegerDefaultValue")
-  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
+  protected OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
+
 
   /**
    * Get enumString

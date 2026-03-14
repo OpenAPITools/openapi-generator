@@ -18,12 +18,12 @@ import jakarta.annotation.Generated;
  * NumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NumberOnly {
 
   private @Nullable BigDecimal justNumber;
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -34,11 +34,12 @@ public class NumberOnly {
    */
   
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  public @Nullable BigDecimal getJustNumber() {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  @JsonProperty("JustNumber")
+  public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 
@@ -72,7 +73,7 @@ public class NumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

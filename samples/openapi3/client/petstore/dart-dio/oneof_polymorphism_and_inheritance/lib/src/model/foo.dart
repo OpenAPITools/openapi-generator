@@ -12,13 +12,13 @@ part 'foo.g.dart';
 /// Foo
 ///
 /// Properties:
-/// * [fooPropA] 
-/// * [fooPropB] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [fooPropA] 
+/// * [fooPropB] 
 @BuiltValue()
 abstract class Foo implements Entity, Built<Foo, FooBuilder> {
   @BuiltValueField(wireName: r'fooPropA')

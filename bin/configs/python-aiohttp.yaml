@@ -6,6 +6,7 @@ library: asyncio
 additionalProperties:
   packageName: petstore_api
   mapNumberTo: float
+  poetry1: true
 nameMappings:
   _type: underscore_type
   type_: type_with_underscore

@@ -22,13 +22,13 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/getPing_request'
+              $ref: "#/components/schemas/getPing_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SomeObj'
+                $ref: "#/components/schemas/SomeObj"
           description: OK
       tags:
       - ping
@@ -43,13 +43,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SomeObj'
+              $ref: "#/components/schemas/SomeObj"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SomeObj'
+                $ref: "#/components/schemas/SomeObj"
           description: OK
       tags:
       - ping

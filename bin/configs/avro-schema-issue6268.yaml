@@ -1,0 +1,4 @@
+generatorName: avro-schema
+outputDir: samples/openapi3/schema/petstore/avro-schema-issue6268
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue6268.yaml
+templateDir: modules/openapi-generator/src/main/resources/avro-schema

@@ -46,7 +46,7 @@ export interface Order {
     shipDate?: Date;
     /**
      * Order Status
-     * @type {string}
+     * @type {OrderStatusEnum}
      * @memberof Order
      */
     status?: OrderStatusEnum;
@@ -68,6 +68,28 @@ export const OrderStatusEnum = {
     Delivered: 'delivered'
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
+
+export const OrderPropertyValidationAttributesMap: {
+    [property: string]: {
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+}
+
+export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
+    maxProperties: 10,
+    minProperties: 2,
+}
 
 
 /**
@@ -112,31 +134,9 @@ export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: bool
         'id': value['id'],
         'petId': value['petId'],
         'quantity': value['quantity'],
-        'shipDate': value['shipDate'] == null ? undefined : ((value['shipDate']).toISOString()),
+        'shipDate': value['shipDate'] == null ? value['shipDate'] : value['shipDate'].toISOString(),
         'status': value['status'],
         'complete': value['complete'],
     };
-}
-
-export const OrderPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-}
-
-export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
-    maxProperties: 10,
-    minProperties: 2,
 }
 

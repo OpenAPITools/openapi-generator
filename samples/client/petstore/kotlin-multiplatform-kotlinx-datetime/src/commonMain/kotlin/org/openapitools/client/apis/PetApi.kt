@@ -25,6 +25,10 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.content.PartData
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -324,14 +328,14 @@ open class PetApi : ApiClient {
      * @return ModelApiResponse
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: io.ktor.client.request.forms.InputProvider? = null): HttpResponse<ModelApiResponse> {
+    open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>? = null): HttpResponse<ModelApiResponse> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
         val localVariableBody = 
             formData {
                 additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                file?.apply { append("file", file) }
+                file?.apply { append(file) }
             }
 
         val localVariableQuery = mutableMapOf<String, List<String>>()

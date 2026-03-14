@@ -43,7 +43,7 @@ import Foundation
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 

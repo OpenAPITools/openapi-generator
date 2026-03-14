@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: OpenAPI Test API - Inherited Inner Enum
+  description: Test case for inner enum in child model with inheritance
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /employees:
+    get:
+      operationId: getEmployees
+      responses:
+        '200':
+          description: List of employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+components:
+  schemas:
+    # Parent model with discriminator - this is needed for cm.parent to be set
+    BaseEmployee:
+      type: object
+      discriminator:
+        propertyName: employeeType
+      properties:
+        employeeType:
+          type: string
+        name:
+          type: string
+    # Child model that has its OWN inner enum property (map of array of enums)
+    # This tests that when cm.parent != null, the child's own properties
+    # don't get double-prefixed (first in cm.vars loop, then in cm.allVars loop)
+    Employee:
+      allOf:
+        - $ref: '#/components/schemas/BaseEmployee'
+        - type: object
+          properties:
+            employeeId:
+              type: integer
+            projectRoles:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+                  enum:
+                    - DEVELOPER
+                    - TESTER
+                    - OWNER

@@ -48,6 +48,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(camelCase.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "longName");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1longName");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "longName");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1longName");
     }
 
@@ -56,6 +57,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(UPPERCASE.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "LONG_NAME");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1LONG_NAME");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "LONG_NAME");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "NOT1LONG_NAME");
     }
 
@@ -64,6 +66,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(snake_case.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "long_name");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_name");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "long_name");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_name");
     }
 
@@ -72,6 +75,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(original.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "long_Name");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_Name");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "longMinusName");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
         assertEquals(codegen.toEnumVarName("data/*", null), "dataSlashStar");
     }
@@ -81,6 +85,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setEnumPropertyNaming(PascalCase.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "LongName");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1longName");
+        assertEquals(codegen.toEnumVarName("long-Name", null), "LongName");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "Not1longName");
     }
 
@@ -376,6 +381,24 @@ public class AbstractKotlinCodegenTest {
         final CodegenModel mapSchemaModel = codegen
                 .fromModel("MapSchema", mapSchema);
         Assert.assertTrue(mapSchemaModel.isMap);
+    }
+
+    @Test(description = "Issue #16501")
+    public void testNullableMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue16501-nullable-map.yaml");
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("NullMapNotNullMap");
+        CodegenModel cm1 = codegen.fromModel("NullMapNotNullMap", test1);
+
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
+
+        // Assert the dataType properly generated
+        CodegenProperty nullableMap = cm1.vars.get(0);
+        CodegenProperty notNullableMap = cm1.vars.get(1);
+        CodegenProperty defaultMap = cm1.vars.get(2);
+        Assert.assertEquals(nullableMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String?>");
+        Assert.assertEquals(notNullableMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String>");
+        Assert.assertEquals(defaultMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String>");
     }
 
     @Test

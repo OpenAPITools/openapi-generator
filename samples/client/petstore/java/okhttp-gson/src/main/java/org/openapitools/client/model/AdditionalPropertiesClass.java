@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
   @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
@@ -395,18 +395,10 @@ public class AdditionalPropertiesClass {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("map_property");
-    openapiFields.add("map_of_map_property");
-    openapiFields.add("anytype_1");
-    openapiFields.add("map_with_undeclared_properties_anytype_1");
-    openapiFields.add("map_with_undeclared_properties_anytype_2");
-    openapiFields.add("map_with_undeclared_properties_anytype_3");
-    openapiFields.add("empty_map");
-    openapiFields.add("map_with_undeclared_properties_string");
+    openapiFields = new HashSet<String>(Arrays.asList("map_property", "map_of_map_property", "anytype_1", "map_with_undeclared_properties_anytype_1", "map_with_undeclared_properties_anytype_2", "map_with_undeclared_properties_anytype_3", "empty_map", "map_with_undeclared_properties_string"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -418,7 +410,7 @@ public class AdditionalPropertiesClass {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
@@ -481,7 +473,7 @@ public class AdditionalPropertiesClass {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

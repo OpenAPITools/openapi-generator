@@ -36,7 +36,7 @@ import java.util.StringJoiner;
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   @javax.annotation.Nullable
@@ -62,14 +62,14 @@ public class HealthCheckResult {
         return nullableMessage.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<String> getNullableMessage_JsonNullable() {
     return nullableMessage;
   }
   
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   public void setNullableMessage_JsonNullable(JsonNullable<String> nullableMessage) {
     this.nullableMessage = nullableMessage;
   }
@@ -77,6 +77,7 @@ public class HealthCheckResult {
   public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -161,7 +162,7 @@ public class HealthCheckResult {
     // add `NullableMessage` to the URL query string
     if (getNullableMessage() != null) {
       try {
-        joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNullableMessage()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sNullableMessage%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNullableMessage()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,17 +35,18 @@ public class Category  {
   
   public static final String JSON_PROPERTY_ID = "id";
   
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
   
-  private String name = "default-name";
+  protected String name = "default-name";
+
 
   /**
    * Get id
    * @return id
    **/
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
@@ -52,7 +55,7 @@ public class Category  {
   /**
    * Set id
    */
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
@@ -67,7 +70,7 @@ public class Category  {
    * Get name
    * @return name
    **/
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getName() {
     return name;
@@ -76,7 +79,7 @@ public class Category  {
   /**
    * Set name
    */
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;

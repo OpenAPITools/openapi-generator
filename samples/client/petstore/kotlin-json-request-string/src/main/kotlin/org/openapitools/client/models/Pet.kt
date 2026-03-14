@@ -83,7 +83,7 @@ data class Pet (
 
         override fun deserialize(decoder: Decoder): Status {
             val value = decoder.decodeSerializableValue(kotlin.String.serializer())
-            return Status.values().firstOrNull { it.value == value }
+            return Status.entries.firstOrNull { it.value == value }
                 ?: Status.unknown_default_open_api
         }
 

@@ -1,11 +1,11 @@
 use std::{mem, str::FromStr};
 
-use base64::{engine::general_purpose, Engine};
+use base64::{Engine, engine::general_purpose};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[allow(dead_code)]
-pub struct Object(serde_json::Value);
+pub struct Object(pub serde_json::Value);
 
 impl validator::Validate for Object {
     fn validate(&self) -> Result<(), validator::ValidationErrors> {
@@ -63,7 +63,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x: Nullable<u32> = Nullable::Present(2);
     /// assert_eq!(x.is_present(), true);
@@ -84,7 +84,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x: Nullable<u32> = Nullable::Present(2);
     /// assert_eq!(x.is_null(), false);
@@ -115,7 +115,7 @@ impl<T> Nullable<T> {
     /// [`usize`]: ../../std/primitive.usize.html
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let num_as_str: Nullable<String> = Nullable::Present("10".to_string());
     /// // First, cast `Nullable<String>` to `Nullable<&String>` with `as_ref`,
@@ -136,7 +136,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let mut x = Nullable::Present(2);
     /// match x.as_mut() {
@@ -169,14 +169,14 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present("value");
     /// assert_eq!(x.expect("the world is ending"), "value");
     /// ```
     ///
     /// ```should_panic
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
     /// x.expect("the world is ending"); // panics with `the world is ending`
@@ -204,14 +204,14 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present("air");
     /// assert_eq!(x.unwrap(), "air");
     /// ```
     ///
     /// ```should_panic
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
     /// assert_eq!(x.unwrap(), "air"); // fails
@@ -229,7 +229,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// assert_eq!(Nullable::Present("car").unwrap_or("bike"), "car");
     /// assert_eq!(Nullable::Null.unwrap_or("bike"), "bike");
@@ -247,7 +247,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let k = 10;
     /// assert_eq!(Nullable::Present(4).unwrap_or_else(|| 2 * k), 4);
@@ -275,7 +275,7 @@ impl<T> Nullable<T> {
     /// [`usize`]: ../../std/primitive.usize.html
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let maybe_some_string = Nullable::Present(String::from("Hello, World!"));
     /// // `Nullable::map` takes self *by value*, consuming `maybe_some_string`
@@ -297,7 +297,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present("foo");
     /// assert_eq!(x.map_or(42, |v| v.len()), 3);
@@ -319,7 +319,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let k = 21;
     ///
@@ -347,7 +347,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present("foo");
     /// assert_eq!(x.ok_or(0), Ok("foo"));
@@ -373,7 +373,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present("foo");
     /// assert_eq!(x.ok_or_else(|| 0), Ok("foo"));
@@ -398,7 +398,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present(2);
     /// let y: Nullable<&str> = Nullable::Null;
@@ -432,7 +432,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// fn sq(x: u32) -> Nullable<u32> { Nullable::Present(x * x) }
     /// fn nope(_: u32) -> Nullable<u32> { Nullable::Null }
@@ -455,7 +455,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present(2);
     /// let y = Nullable::Null;
@@ -487,7 +487,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// fn nobody() -> Nullable<&'static str> { Nullable::Null }
     /// fn vikings() -> Nullable<&'static str> { Nullable::Present("vikings") }
@@ -514,7 +514,7 @@ impl<T> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let mut x = Nullable::Present(2);
     /// x.take();
@@ -537,7 +537,7 @@ impl<T: Clone> Nullable<&T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = 12;
     /// let opt_x = Nullable::Present(&x);
@@ -560,7 +560,7 @@ impl<T: Default> Nullable<T> {
     /// # Examples
     ///
     /// ```
-    /// # use rust_axum_header_uui::types::Nullable;
+    /// # use rust_axum_header_uuid::types::Nullable;
     ///
     /// let x = Nullable::Present(42);
     /// assert_eq!(42, x.unwrap_or_default());
@@ -661,7 +661,7 @@ impl<T> validator::ValidateEmail for Nullable<T>
 where
     T: validator::ValidateEmail,
 {
-    fn as_email_string(&self) -> Option<std::borrow::Cow<str>> {
+    fn as_email_string(&'_ self) -> Option<std::borrow::Cow<'_, str>> {
         match self {
             Self::Present(x) => x.as_email_string(),
             Self::Null => None,
@@ -673,7 +673,7 @@ impl<T> validator::ValidateUrl for Nullable<T>
 where
     T: validator::ValidateUrl,
 {
-    fn as_url_string(&self) -> Option<std::borrow::Cow<str>> {
+    fn as_url_string(&'_ self) -> Option<std::borrow::Cow<'_, str>> {
         match self {
             Self::Present(x) => x.as_url_string(),
             Self::Null => None,

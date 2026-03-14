@@ -261,6 +261,12 @@ export class ResponseError extends Error {
     override name: "ResponseError" = "ResponseError";
     constructor(public response: Response, msg?: string) {
         super(msg);
+
+        // restore prototype chain
+        const actualProto = new.target.prototype;
+        if (Object.setPrototypeOf) {
+            Object.setPrototypeOf(this, actualProto);
+        }
     }
 }
 
@@ -268,6 +274,12 @@ export class FetchError extends Error {
     override name: "FetchError" = "FetchError";
     constructor(public cause: Error, msg?: string) {
         super(msg);
+
+        // restore prototype chain
+        const actualProto = new.target.prototype;
+        if (Object.setPrototypeOf) {
+            Object.setPrototypeOf(this, actualProto);
+        }
     }
 }
 
@@ -275,6 +287,12 @@ export class RequiredError extends Error {
     override name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
+
+        // restore prototype chain
+        const actualProto = new.target.prototype;
+        if (Object.setPrototypeOf) {
+            Object.setPrototypeOf(this, actualProto);
+        }
     }
 }
 
@@ -343,10 +361,11 @@ export function exists(json: any, key: string) {
 }
 
 export function mapValues(data: any, fn: (item: any) => any) {
-  return Object.keys(data).reduce(
-    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
-    {}
-  );
+    const result: { [key: string]: any } = {};
+    for (const key of Object.keys(data)) {
+        result[key] = fn(data[key]);
+    }
+    return result;
 }
 
 export function canConsumeForm(consumes: Consume[]): boolean {

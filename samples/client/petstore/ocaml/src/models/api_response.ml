@@ -6,28 +6,35 @@
  * Schema Api_response.t : Describes the result of uploading an image resource
  *)
 
-type t = {
-      code: int32
-          
-           option [@default None]
-        
-        ; [@key "code"]
-      _type: string
-          
-           option [@default None]
-        
-        ; [@key "type"]
-      message: string
-          
-           option [@default None]
-        
-        ; [@key "message"]
-} [@@deriving yojson { strict = false }, show ];;
 
-(** Describes the result of uploading an image resource *)
-let create () : t = {
-    code = None;
-    _type = None;
-    message = None;
-}
+
+    
+        type t = {
+                              code: int32
+                  
+                   option [@default None]
+                
+                
+                ; [@key "code"]
+                                              _type: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "type"]
+                                              message: string
+                  
+                   option [@default None]
+                
+                
+                ; [@key "message"]
+                        } [@@deriving yojson { strict = false }, show, eq ];;
+        
+        (** Describes the result of uploading an image resource *)
+        let create () : t = {
+            code = None;
+            _type = None;
+            message = None;
+        }
+    
 

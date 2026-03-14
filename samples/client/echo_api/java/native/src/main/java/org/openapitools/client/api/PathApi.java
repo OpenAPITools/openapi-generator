@@ -51,15 +51,35 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class PathApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public PathApi() {
     this(Configuration.getDefaultApiClient());
@@ -75,8 +95,17 @@ public class PathApi {
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
 
+
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
-    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    InputStream responseBody = ApiClient.getResponseBody(response);
+    String body = null;
+    try {
+      body = responseBody == null ? null : new String(responseBody.readAllBytes());
+    } finally {
+      if (responseBody != null) {
+        responseBody.close();
+      }
+    }
     String message = formatExceptionMessage(operationId, response.statusCode(), body);
     return new ApiException(response.statusCode(), message, response.headers(), body);
   }
@@ -89,6 +118,57 @@ public class PathApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * Test path parameter(s)
    * Test path parameter(s)
    * @param pathString  (required)
@@ -98,8 +178,23 @@ public class PathApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
-    ApiResponse<String> localVarResponse = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath) throws ApiException {
+    return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, null);
+  }
+
+  /**
+   * Test path parameter(s)
+   * Test path parameter(s)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param enumNonrefStringPath  (required)
+   * @param enumRefStringPath  (required)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, headers);
     return localVarResponse.getData();
   }
 
@@ -113,8 +208,23 @@ public class PathApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+  public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath) throws ApiException {
+    return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, null);
+  }
+
+  /**
+   * Test path parameter(s)
+   * Test path parameter(s)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param enumNonrefStringPath  (required)
+   * @param enumRefStringPath  (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -122,6 +232,7 @@ public class PathApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", localVarResponse);
@@ -129,7 +240,8 @@ public class PathApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -140,6 +252,9 @@ public class PathApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -150,7 +265,7 @@ public class PathApi {
     }
   }
 
-  private HttpRequest.Builder testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+  private HttpRequest.Builder testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(@javax.annotation.Nonnull String pathString, @javax.annotation.Nonnull Integer pathInteger, @javax.annotation.Nonnull String enumNonrefStringPath, @javax.annotation.Nonnull StringEnumRef enumRefStringPath, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
       throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
@@ -184,6 +299,8 @@ public class PathApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

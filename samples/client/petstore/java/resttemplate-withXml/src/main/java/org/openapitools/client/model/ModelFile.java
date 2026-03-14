@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.*;
@@ -34,7 +35,7 @@ import io.github.threetenjaxb.core.*;
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
 @JsonTypeName("File")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @XmlRootElement(name = "ModelFile")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelFile")
@@ -58,7 +59,7 @@ public class ModelFile {
    * @return sourceURI
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "sourceURI")
 
@@ -67,7 +68,7 @@ public class ModelFile {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
+  @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "sourceURI")
   public void setSourceURI(@javax.annotation.Nullable String sourceURI) {

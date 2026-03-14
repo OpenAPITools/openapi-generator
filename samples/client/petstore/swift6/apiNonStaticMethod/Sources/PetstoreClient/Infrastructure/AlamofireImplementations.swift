@@ -7,7 +7,7 @@
 import Foundation
 import Alamofire
 
-public class AlamofireRequestBuilderFactory: RequestBuilderFactory {
+public final class AlamofireRequestBuilderFactory: RequestBuilderFactory, Sendable {
     public init() {}
 
     public func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
@@ -24,11 +24,11 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
     static let shared = AlamofireRequestBuilderConfiguration()
     
     // Store manager to retain its reference
-    var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
+    let managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 }
 
-open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+open class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked Sendable {
+    required public init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
 
@@ -86,7 +86,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
     }
 
     @discardableResult
-    override open func execute(completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override open func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -163,12 +163,12 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
         return requestTask
     }
 
-    fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    fileprivate func processRequest(request: DataRequest, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
 
-        let cleanupRequest = {
+        let cleanupRequest = { @Sendable in
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
@@ -255,14 +255,14 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
 }
 
-open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
+open class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
 
-    override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
 
-        let cleanupRequest = {
+        let cleanupRequest = { @Sendable in
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
@@ -415,6 +415,6 @@ extension JSONDataEncoding: ParameterEncoding {
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let urlRequest = try urlRequest.asURLRequest()
 
-        return encode(urlRequest, with: parameters)
+        return encode(request: urlRequest, with: parameters)
     }
 }

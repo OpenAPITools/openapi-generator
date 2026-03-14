@@ -10,7 +10,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -192,7 +194,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterCall123TestSpecialTags(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -268,7 +270,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/another-fake/dummy";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/another-fake/dummy"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/another-fake/dummy");
 
                     httpRequestMessageLocalVar.Content = (modelClient as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
@@ -289,21 +293,27 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("PATCH");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
-
                         ILogger<Call123TestSpecialTagsApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<Call123TestSpecialTagsApiResponse>();
+                        Call123TestSpecialTagsApiResponse apiResponseLocalVar;
 
-                        Call123TestSpecialTagsApiResponse apiResponseLocalVar = new Call123TestSpecialTagsApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                apiResponseLocalVar = new Call123TestSpecialTagsApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterCall123TestSpecialTagsDefaultImplementation(apiResponseLocalVar, modelClient);
 
@@ -342,6 +352,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public Call123TestSpecialTagsApiResponse(ILogger<Call123TestSpecialTagsApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="Call123TestSpecialTagsApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public Call123TestSpecialTagsApiResponse(ILogger<Call123TestSpecialTagsApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);

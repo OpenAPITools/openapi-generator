@@ -1,0 +1,114 @@
+# Modified from the original
+openapi: 3.1.0
+info:
+  title: Petstore API
+  description: Petstore API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost'
+components:
+  schemas:
+    # Not generated - free-form object
+    EmptyReferenceObject:
+      type: object
+      default: {}
+    ComplexReferenceObject:
+      type: object
+      default:
+        foo: bar
+      properties:
+        foo:
+          type: string
+          nullable: true
+    NullableEmptyReferenceObject:
+      type: object
+      default: {}
+      nullable: true
+    NullableComplexReferenceObject:
+      type: object
+      default:
+        foo: bar
+      properties:
+        foo:
+          type: string
+          nullable: true
+      nullable: true
+    TestCase:
+      type: object
+      properties:
+        testEmptyInlineObject:
+          type: object
+          default: {}
+        testComplexInlineObject:
+          type: object
+          default:
+            foo: bar
+            fooInt: 28
+            fooLong: 5000000000
+            fooBool: true
+            fooFloat: 32.5
+            fooDouble: 3332.555
+            fooNumber: 120.6
+            fooDateTime: "2000-01-01T20:20:20+00:00"
+            fooUUID: "a0ed70ec-5fe5-415a-be97-a7bf13db9fb6"
+            void: empty
+            nonExistentDefault: 27
+          properties:
+            foo:
+              type: string
+              nullable: true
+            fooInt:
+              type: integer
+              nullable: true
+            fooLong:
+              type: integer
+              format: int64
+              nullable: true
+            fooBool:
+              type: boolean
+            fooFloat:
+              type: number
+              format: float
+              nullable: true
+            fooDouble:
+              type: number
+              format: double
+              nullable: true
+            fooNumber:
+              type: number
+              nullable: true
+            fooDateTime:
+              type: string
+              format: date-time
+              nullable: true
+            fooUUID:
+              type: string
+              format: uuid
+              nullable: true
+            void: # Java keyword
+              type: string
+              nullable: true
+            nonDefaultedProperty:
+              type: string
+              nullable: true
+        testNullableEmptyInlineObject:
+          type: object
+          default: {}
+          nullable: true
+        testNullableComplexInlineObject:
+          type: object
+          default:
+            foo: bar
+          properties:
+            foo:
+              type: string
+              nullable: true
+          nullable: true
+        testEmptyReference:
+          $ref: '#/components/schemas/EmptyReferenceObject'
+        testComplexReference:
+          $ref: '#/components/schemas/ComplexReferenceObject'
+        testNullableEmptyReference:
+          $ref: '#/components/schemas/NullableEmptyReferenceObject'
+        testNullableComplexReference:
+          $ref: '#/components/schemas/NullableComplexReferenceObject'

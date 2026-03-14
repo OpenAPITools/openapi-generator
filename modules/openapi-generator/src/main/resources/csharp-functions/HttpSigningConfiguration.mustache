@@ -128,12 +128,12 @@ namespace {{packageName}}.Client
                 { // array
                     foreach (var value in parameter.Value)
                     {
-                        httpValues.Add(HttpUtility.UrlEncode(parameter.Key) + "[]", value);
+                        httpValues.Add({{#net90OrLater}}HttpUtility.UrlEncode({{/net90OrLater}}parameter.Key{{#net90OrLater}}){{/net90OrLater}} + "[]", value);
                     }
                 }
                 else
                 {
-                httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
+                httpValues.Add({{#net90OrLater}}HttpUtility.UrlEncode({{/net90OrLater}}parameter.Key{{#net90OrLater}}){{/net90OrLater}}, parameter.Value[0]);
                 }
 #else
                 if (parameter.Value.Count > 1)

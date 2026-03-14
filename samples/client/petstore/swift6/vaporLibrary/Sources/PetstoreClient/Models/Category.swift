@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Category: Content, Hashable {
+public struct Category: Sendable, Content, Hashable {
 
     public var id: Int64?
     public var name: String = "default-name"
@@ -30,20 +30,7 @@ public final class Category: Content, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encode(name, forKey: .name)
     }
-
-    public static func == (lhs: Category, rhs: Category) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.name == rhs.name
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id?.hashValue)
-        hasher.combine(name.hashValue)
-        
-    }
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension Category: Identifiable {}

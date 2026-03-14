@@ -27,7 +27,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid
@@ -105,6 +105,7 @@ public class AdditionalPropertiesClass {
     return mapString;
   }
 
+  @JsonProperty("map_string")
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
@@ -133,6 +134,7 @@ public class AdditionalPropertiesClass {
     return mapNumber;
   }
 
+  @JsonProperty("map_number")
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
@@ -161,6 +163,7 @@ public class AdditionalPropertiesClass {
     return mapInteger;
   }
 
+  @JsonProperty("map_integer")
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
@@ -189,6 +192,7 @@ public class AdditionalPropertiesClass {
     return mapBoolean;
   }
 
+  @JsonProperty("map_boolean")
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
@@ -217,6 +221,7 @@ public class AdditionalPropertiesClass {
     return mapArrayInteger;
   }
 
+  @JsonProperty("map_array_integer")
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
@@ -245,6 +250,7 @@ public class AdditionalPropertiesClass {
     return mapArrayAnytype;
   }
 
+  @JsonProperty("map_array_anytype")
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
@@ -273,6 +279,7 @@ public class AdditionalPropertiesClass {
     return mapMapString;
   }
 
+  @JsonProperty("map_map_string")
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
@@ -301,11 +308,12 @@ public class AdditionalPropertiesClass {
     return mapMapAnytype;
   }
 
+  @JsonProperty("map_map_anytype")
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
 
-  public AdditionalPropertiesClass anytype1(Object anytype1) {
+  public AdditionalPropertiesClass anytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
     return this;
   }
@@ -317,11 +325,12 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
-  public Object getAnytype1() {
+  public @Nullable Object getAnytype1() {
     return anytype1;
   }
 
-  public void setAnytype1(Object anytype1) {
+  @JsonProperty("anytype_1")
+  public void setAnytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
   }
 
@@ -345,7 +354,7 @@ public class AdditionalPropertiesClass {
     this.anytype2 = anytype2;
   }
 
-  public AdditionalPropertiesClass anytype3(Object anytype3) {
+  public AdditionalPropertiesClass anytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
     return this;
   }
@@ -357,11 +366,12 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_3")
-  public Object getAnytype3() {
+  public @Nullable Object getAnytype3() {
     return anytype3;
   }
 
-  public void setAnytype3(Object anytype3) {
+  @JsonProperty("anytype_3")
+  public void setAnytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
 
@@ -426,7 +436,7 @@ public class AdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

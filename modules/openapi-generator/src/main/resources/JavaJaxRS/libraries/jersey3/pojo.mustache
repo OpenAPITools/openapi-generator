@@ -18,10 +18,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{#isEnum}}
     {{^isContainer}}
 {{>enumClass}}
+
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
 {{>enumClass}}
+
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
@@ -34,7 +36,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#vendorExtensions.x-field-extra-annotation}}
-  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 

@@ -11,8 +11,11 @@ import {{invokerPackage}}.Pair;
 import {{import}};
 {{/imports}}
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+{{/useJackson3}}
+import {{jacksonPackage}}.core.type.TypeReference;
+import {{jacksonPackage}}.databind.ObjectMapper;
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;
@@ -47,22 +50,55 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+{{#useUnaryInterceptor}}
+import java.util.function.UnaryOperator;
+{{/useUnaryInterceptor}}
 import java.util.function.Consumer;
+{{#useGzipFeature}}
+import java.util.function.Supplier;
+{{/useGzipFeature}}
 {{#asyncNative}}
 
 import java.util.concurrent.CompletableFuture;
 {{/asyncNative}}
 
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}} {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
+{{#useUnaryInterceptor}}
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
+{{/useUnaryInterceptor}}
+{{^useUnaryInterceptor}}
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
+{{/useUnaryInterceptor}}
 
   public {{classname}}() {
     this(Configuration.getDefaultApiClient());
@@ -77,17 +113,36 @@ public class {{classname}} {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
+
   {{#asyncNative}}
 
-  private ApiException getApiException(String operationId, HttpResponse<String> response) {
-    String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
-    return new ApiException(response.statusCode(), message, response.headers(), response.body());
+  private ApiException getApiException(String operationId, HttpResponse<InputStream> response) {
+    try {
+      InputStream responseBody = ApiClient.getResponseBody(response);
+      String body = null;
+      if (responseBody != null) {
+        body = new String(responseBody.readAllBytes());
+        responseBody.close();
+      }
+      String message = formatExceptionMessage(operationId, response.statusCode(), body);
+      return new ApiException(response.statusCode(), message, response.headers(), body);
+    } catch (IOException e) {
+      return new ApiException(e);
+    }
   }
   {{/asyncNative}}
   {{^asyncNative}}
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
-    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    InputStream responseBody = ApiClient.getResponseBody(response);
+    String body = null;
+    try {
+      body = responseBody == null ? null : new String(responseBody.readAllBytes());
+    } finally {
+      if (responseBody != null) {
+        responseBody.close();
+      }
+    }
     String message = formatExceptionMessage(operationId, response.statusCode(), body);
     return new ApiException(response.statusCode(), message, response.headers(), body);
   }
@@ -100,13 +155,64 @@ public class {{classname}} {
     return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
+  /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
   {{#operation}}
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
   /**
    * {{summary}}
    * {{notes}}
-   * @param apiRequest {@link API{{operationId}}Request}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
    {{/returnType}}
@@ -127,17 +233,47 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{operationId}}Request apiRequest) throws ApiException {
-    {{#allParams}}
-    {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
-    {{/allParams}}
-    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
+    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}(apiRequest, null);
   }
 
   /**
    * {{summary}}
    * {{notes}}
-   * @param apiRequest {@link API{{operationId}}Request}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
+   * @param headers Optional headers to include in the request
+   {{#returnType}}
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
+   {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest, Map<String, String> headers) throws ApiException {
+    {{#allParams}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
+    {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
+    {{/allParams}}
+    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
@@ -151,11 +287,33 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{operationId}}Request apiRequest) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest) throws ApiException {
+    return {{operationId}}WithHttpInfo(apiRequest, null);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   * @param apiRequest {@link API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request}
+   * @param headers Optional headers to include in the request
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request apiRequest, Map<String, String> headers) throws ApiException {
     {{#allParams}}
     {{{dataType}}} {{paramName}} = apiRequest.{{paramName}}();
     {{/allParams}}
-    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
   }
 
   {{/hasParams}}
@@ -186,36 +344,48 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+   {{/allParams}}
+   * @param headers Optional headers to include in the request
+   {{#returnType}}
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
+   {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{^asyncNative}}
-    {{#returnType}}ApiResponse<{{{.}}}> localVarResponse = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#returnType}}ApiResponse<{{{.}}}> localVarResponse = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
     {{#returnType}}
     return localVarResponse.getData();
     {{/returnType}}
     {{/asyncNative}}
     {{#asyncNative}}
     try {
-      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-      return memberVarHttpClient.sendAsync(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-            if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
-            }
-            {{#returnType}}
-            try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
-              );
-            } catch (IOException e) {
-              return CompletableFuture.failedFuture(new ApiException(e));
-            }
-            {{/returnType}}
-            {{^returnType}}
-            return CompletableFuture.completedFuture(null);
-            {{/returnType}}
-      });
+      return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers)
+          .thenApply(ApiResponse::getData);
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -242,16 +412,46 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+   {{/allParams}}
+   * @param headers Optional headers to include in the request
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{^asyncNative}}
-    HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
+        {{#useUnaryInterceptor}}
+        localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
+        {{/useUnaryInterceptor}}
+        {{^useUnaryInterceptor}}
         memberVarResponseInterceptor.accept(localVarResponse);
+        {{/useUnaryInterceptor}}
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("{{operationId}}", localVarResponse);
@@ -260,7 +460,8 @@ public class {{classname}} {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -282,7 +483,8 @@ public class {{classname}} {
         {{! A fix for that problem is to read it into a string and remove those characters, but if we need to read it before giving it to jackson to fix the string then just reading it into a string as is to do an emptiness check is the cleaner solution. }}
         {{! We could also manipulate the inputstream to remove that bad character, but string manipulation is easier to read and this codepath is not asyncronus so we do not gain anything by reading the stream later. }}
         {{! This fix does make it unsuitable for large amounts of data because `InputStream.readAllbytes` is not meant for it, but a synchronous client is already not the right tool for that.}}
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<{{{returnType}}}>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -290,16 +492,29 @@ public class {{classname}} {
           );
         }
 
-        String responseBody = new String(localVarResponse.body().readAllBytes());
-        localVarResponse.body().close();
+        {{^isResponseFile}}{{#isResponseBinary}}
+        Byte[] responseValue = localVarResponseBody.readAllBytes();
+        {{/isResponseBinary}}{{/isResponseFile}}
+        {{#isResponseFile}}
+        // Handle file downloading.
+        File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);
+        {{/isResponseFile}}
+        {{^isResponseBinary}}{{^isResponseFile}}
+        String responseBody = new String(localVarResponseBody.readAllBytes());
+        {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
+        {{/isResponseFile}}{{/isResponseBinary}}
 
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
+            responseValue
         );
         {{/returnType}}
         {{^returnType}}
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
+        }
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
@@ -308,15 +523,11 @@ public class {{classname}} {
         {{/returnType}}
         {{/vendorExtensions.x-java-text-plain-string}}
       } finally {
-        {{^returnType}}
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
-        {{/returnType}}
       }
-    } catch (IOException e) {
+    } catch (IOException {{#returnType}}{{#useJackson3}}| JacksonException {{/useJackson3}}{{/returnType}}e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -326,34 +537,86 @@ public class {{classname}} {
     {{/asyncNative}}
     {{#asyncNative}}
     try {
-      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
+              {{#useUnaryInterceptor}}
+              localVarResponse = memberVarAsyncResponseInterceptor.apply(localVarResponse);
+              {{/useUnaryInterceptor}}
+              {{^useUnaryInterceptor}}
               memberVarAsyncResponseInterceptor.accept(localVarResponse);
+              {{/useUnaryInterceptor}}
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
             }
-            {{#returnType}}
             try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  new ApiResponse<{{{returnType}}}>(
-                      localVarResponse.statusCode(),
-                      localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}))
-              );
-            } catch (IOException e) {
+              InputStream localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+              try {
+                {{#vendorExtensions.x-java-text-plain-string}}
+                if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                        "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
+                  java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
+                  String responseBodyText = s.hasNext() ? s.next() : "";
+                  return CompletableFuture.completedFuture(
+                      new ApiResponse<String>(
+                          localVarResponse.statusCode(),
+                          localVarResponse.headers().map(),
+                          responseBodyText
+                      )
+                  );
+                } else {
+                  return CompletableFuture.failedFuture(new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse));
+                }
+                {{/vendorExtensions.x-java-text-plain-string}}
+                {{^vendorExtensions.x-java-text-plain-string}}
+                {{#returnType}}
+                if (localVarResponseBody == null) {
+                  return CompletableFuture.completedFuture(
+                      new ApiResponse<{{{returnType}}}>(
+                          localVarResponse.statusCode(),
+                          localVarResponse.headers().map(),
+                          null
+                      )
+                  );
+                }
+                {{^isResponseFile}}{{#isResponseBinary}}
+                Byte[] responseValue = localVarResponseBody.readAllBytes();
+                {{/isResponseBinary}}{{/isResponseFile}}
+                {{#isResponseFile}}
+                File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);
+                {{/isResponseFile}}
+                {{^isResponseBinary}}{{^isResponseFile}}
+                String responseBody = new String(localVarResponseBody.readAllBytes());
+                {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
+                {{/isResponseFile}}{{/isResponseBinary}}
+                return CompletableFuture.completedFuture(
+                    new ApiResponse<{{{returnType}}}>(
+                        localVarResponse.statusCode(),
+                        localVarResponse.headers().map(),
+                        responseValue
+                    )
+                );
+                {{/returnType}}
+                {{^returnType}}
+                if (localVarResponseBody != null) {
+                  localVarResponseBody.readAllBytes();
+                }
+                return CompletableFuture.completedFuture(
+                    new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+                );
+                {{/returnType}}
+                {{/vendorExtensions.x-java-text-plain-string}}
+              } finally {
+                if (localVarResponseBody != null) {
+                  localVarResponseBody.close();
+                }
+              }
+            } catch (IOException {{#returnType}}{{#useJackson3}}| JacksonException {{/useJackson3}}{{/returnType}}e) {
               return CompletableFuture.failedFuture(new ApiException(e));
             }
-            {{/returnType}}
-            {{^returnType}}
-            return CompletableFuture.completedFuture(
-                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
-            );
-            {{/returnType}}
         }
       );
     }
@@ -363,7 +626,7 @@ public class {{classname}} {
     {{/asyncNative}}
   }
 
-  private HttpRequest.Builder {{operationId}}RequestBuilder({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  private HttpRequest.Builder {{operationId}}RequestBuilder({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> headers) throws ApiException {
     {{#allParams}}
     {{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -393,7 +656,7 @@ public class {{classname}} {
     if ({{paramName}} != null) {
             {{#isArray}}
       for (int i=0; i < {{paramName}}.size(); i++) {
-        localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+        localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "{{baseName}}[%d]", i)));
       }
             {{/isArray}}
             {{^isArray}}
@@ -456,16 +719,33 @@ public class {{classname}} {
     localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
     {{/bodyParam}}
     localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
+    {{#useGzipFeature}}
+    localVarRequestBuilder.header("Accept-Encoding", "gzip");
+    {{/useGzipFeature}}
 
     {{#bodyParam}}
     {{#isString}}
+    {{#useGzipFeature}}
+    Supplier<InputStream> localVarRequestBodySupplier = () -> new ByteArrayInputStream({{paramName}}.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    localVarRequestBuilder.header("Content-Encoding", "gzip");
+    localVarRequestBuilder.method("{{httpMethod}}", ApiClient.gzipRequestBody(localVarRequestBodySupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
     localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofString({{paramName}}));
+    {{/useGzipFeature}}
     {{/isString}}
     {{^isString}}
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes({{paramName}});
+      {{#useGzipFeature}}
+      Supplier<InputStream> localVarRequestBodySupplier = () -> new ByteArrayInputStream(localVarPostBody);
+      localVarRequestBuilder.header("Content-Encoding", "gzip");
+      localVarRequestBuilder.method("{{httpMethod}}", ApiClient.gzipRequestBody(localVarRequestBodySupplier));
+      {{/useGzipFeature}}
+      {{^useGzipFeature}}
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+      {{/useGzipFeature}}
+    } catch ({{^useJackson3}}IOException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} e) {
       throw new ApiException(e);
     }
     {{/isString}}
@@ -483,7 +763,9 @@ public class {{classname}} {
         hasFiles = true;
         {{/isFile}}
         {{^isFile}}
-        multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+        if ({{paramName}}.get(i) != null) {
+            multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+        }
         {{/isFile}}
     }
     {{/isArray}}
@@ -493,11 +775,46 @@ public class {{classname}} {
     hasFiles = true;
     {{/isFile}}
     {{^isFile}}
-    multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.toString());
+    if ({{paramName}} != null) {
+        multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.toString());
+    }
     {{/isFile}}
     {{/isArray}}
     {{/formParams}}
     HttpEntity entity = multiPartBuilder.build();
+    {{#useGzipFeature}}
+    Supplier<InputStream> formDataSupplier;
+    if (hasFiles) {
+        Pipe pipe;
+        try {
+            pipe = Pipe.open();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Thread(() -> {
+            try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
+                entity.writeTo(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        formDataSupplier = () -> Channels.newInputStream(pipe.source());
+    } else {
+        ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+        try {
+            entity.writeTo(formOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] formBytes = formOutputStream.toByteArray();
+        formDataSupplier = () -> new ByteArrayInputStream(formBytes);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .header("Content-Encoding", "gzip")
+        .method("{{httpMethod}}", ApiClient.gzipRequestBody(formDataSupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
     HttpRequest.BodyPublisher formDataPublisher;
     if (hasFiles) {
         Pipe pipe;
@@ -521,12 +838,14 @@ public class {{classname}} {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        byte[] formBytes = formOutputStream.toByteArray();
         formDataPublisher = HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
+            .ofInputStream(() -> new ByteArrayInputStream(formBytes));
     }
     localVarRequestBuilder
         .header("Content-Type", entity.getContentType().getValue())
         .method("{{httpMethod}}", formDataPublisher);
+    {{/useGzipFeature}}
     {{/isMultipart}}
     {{^isMultipart}}
     List<NameValuePair> formValues = new ArrayList<>();
@@ -551,10 +870,20 @@ public class {{classname}} {
     } catch (IOException e) {
         throw new RuntimeException(e);
     }
+    byte[] formBytes = formOutputStream.toByteArray();
+    {{#useGzipFeature}}
+    Supplier<InputStream> formDataSupplier = () -> new ByteArrayInputStream(formBytes);
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .header("Content-Encoding", "gzip")
+        .method("{{httpMethod}}", ApiClient.gzipRequestBody(formDataSupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
     localVarRequestBuilder
         .header("Content-Type", entity.getContentType().getValue())
         .method("{{httpMethod}}", HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
+            .ofInputStream(() -> new ByteArrayInputStream(formBytes)));
+    {{/useGzipFeature}}
     {{/isMultipart}}
     {{/hasFormParams}}
     {{^hasFormParams}}
@@ -564,6 +893,8 @@ public class {{classname}} {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -573,15 +904,17 @@ public class {{classname}} {
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
 
-  public static final class API{{operationId}}Request {
+  public static final class API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#requiredParams}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (required)
     {{/requiredParams}}
     {{#optionalParams}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
-    private API{{operationId}}Request(Builder builder) {
+    private API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(Builder builder) {
       {{#requiredParams}}
       this.{{paramName}} = builder.{{paramName}};
       {{/requiredParams}}
@@ -590,6 +923,7 @@ public class {{classname}} {
       {{/optionalParams}}
     }
     {{#allParams}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     public {{{dataType}}} {{paramName}}() {
       return {{paramName}};
     }
@@ -607,13 +941,13 @@ public class {{classname}} {
       {{/optionalParams}}
 
       {{#allParams}}
-      public Builder {{paramName}}({{{dataType}}} {{paramName}}) {
+      public Builder {{paramName}}({{>nullable_var_annotations}} {{{dataType}}} {{paramName}}) {
         this.{{paramName}} = {{paramName}};
         return this;
       }
       {{/allParams}}
-      public API{{operationId}}Request build() {
-        return new API{{operationId}}Request(this);
+      public API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request build() {
+        return new API{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request(this);
       }
     }
   }

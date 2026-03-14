@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,19 +43,19 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Pet  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("category")
-  private Category category;
+  protected Category category;
 
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
   @JsonbProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<>();
+  protected List<String> photoUrls = new ArrayList<>();
 
   @JsonbProperty("tags")
-  private List<Tag> tags = null;
+  protected List<Tag> tags = null;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
@@ -101,7 +103,8 @@ public class Pet  {
   * pet status in the store
   */
   @JsonbProperty("status")
-  private StatusEnum status;
+  protected StatusEnum status;
+
 
   /**
    * Get id

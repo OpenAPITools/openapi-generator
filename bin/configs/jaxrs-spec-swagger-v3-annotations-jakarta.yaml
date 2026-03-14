@@ -1,0 +1,12 @@
+generatorName: jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec-swagger-v3-annotations-jakarta
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jaxrs-spec/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
+additionalProperties:
+  artifactId: jaxrs-spec-petstore-server-jakarta-swagger-v3
+  serializableModel: "true"
+  hideGenerationTimestamp: "true"
+  implicitHeadersRegex: (api_key|enum_header_string)
+  generateBuilders: "true"
+  useSwaggerV3Annotations: "true"
+  useJakartaEe: "true"

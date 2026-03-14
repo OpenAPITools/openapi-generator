@@ -40,10 +40,9 @@ export interface StoreApiPlaceOrderRequest {
 export class StoreApi extends runtime.BaseAPI {
 
     /**
-     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     * Delete purchase order by ID
+     * Creates request options for deleteOrder without sending the request
      */
-    async deleteOrderRaw(requestParameters: StoreApiDeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteOrderRequestOpts(requestParameters: StoreApiDeleteOrderRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -55,12 +54,25 @@ export class StoreApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId']))),
+
+        let urlPath = `/store/order/{orderId}`;
+        urlPath = urlPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * Delete purchase order by ID
+     */
+    async deleteOrderRaw(requestParameters: StoreApiDeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteOrderRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -74,10 +86,9 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a map of status codes to quantities
-     * Returns pet inventories by status
+     * Creates request options for getInventory without sending the request
      */
-    async getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
+    async getInventoryRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -86,12 +97,24 @@ export class StoreApi extends runtime.BaseAPI {
             headerParameters["api_key"] = await this.configuration.apiKey("api_key"); // api_key authentication
         }
 
-        const response = await this.request({
-            path: `/store/inventory`,
+
+        let urlPath = `/store/inventory`;
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a map of status codes to quantities
+     * Returns pet inventories by status
+     */
+    async getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
+        const requestOptions = await this.getInventoryRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -106,10 +129,9 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
-     * Find purchase order by ID
+     * Creates request options for getOrderById without sending the request
      */
-    async getOrderByIdRaw(requestParameters: StoreApiGetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
+    async getOrderByIdRequestOpts(requestParameters: StoreApiGetOrderByIdRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -121,12 +143,25 @@ export class StoreApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId']))),
+
+        let urlPath = `/store/order/{orderId}`;
+        urlPath = urlPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+     * Find purchase order by ID
+     */
+    async getOrderByIdRaw(requestParameters: StoreApiGetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
+        const requestOptions = await this.getOrderByIdRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
     }
@@ -141,9 +176,9 @@ export class StoreApi extends runtime.BaseAPI {
     }
 
     /**
-     * Place an order for a pet
+     * Creates request options for placeOrder without sending the request
      */
-    async placeOrderRaw(requestParameters: StoreApiPlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
+    async placeOrderRequestOpts(requestParameters: StoreApiPlaceOrderRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -157,13 +192,24 @@ export class StoreApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/store/order`,
+
+        let urlPath = `/store/order`;
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: OrderToJSON(requestParameters['body']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Place an order for a pet
+     */
+    async placeOrderRaw(requestParameters: StoreApiPlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
+        const requestOptions = await this.placeOrderRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
     }

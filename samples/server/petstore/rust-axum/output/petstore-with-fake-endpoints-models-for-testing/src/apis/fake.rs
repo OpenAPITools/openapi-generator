@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::CookieJar;
 use bytes::Bytes;
+use headers::Host;
 use http::Method;
 use serde::{Deserialize, Serialize};
 
@@ -124,6 +125,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// Call123example - GET /v2/fake/operation-with-numeric-id
     async fn call123example(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -132,6 +134,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// FakeOuterBooleanSerialize - POST /v2/fake/outer/boolean
     async fn fake_outer_boolean_serialize(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -141,6 +144,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// FakeOuterCompositeSerialize - POST /v2/fake/outer/composite
     async fn fake_outer_composite_serialize(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -150,6 +154,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// FakeOuterNumberSerialize - POST /v2/fake/outer/number
     async fn fake_outer_number_serialize(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -159,6 +164,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// FakeOuterStringSerialize - POST /v2/fake/outer/string
     async fn fake_outer_string_serialize(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -168,6 +174,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// FakeResponseWithNumericalDescription - GET /v2/fake/response-with-numerical-description
     async fn fake_response_with_numerical_description(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -176,6 +183,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// HyphenParam - GET /v2/fake/hyphenParam/{hyphen-param}
     async fn hyphen_param(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -185,6 +193,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// TestBodyWithQueryParams - PUT /v2/fake/body-with-query-params
     async fn test_body_with_query_params(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -197,6 +206,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// TestClientModel - PATCH /v2/fake
     async fn test_client_model(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -208,6 +218,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// TestEndpointParameters - POST /v2/fake
     async fn test_endpoint_parameters(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -220,6 +231,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// TestEnumParameters - GET /v2/fake
     async fn test_enum_parameters(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -233,6 +245,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// TestInlineAdditionalProperties - POST /v2/fake/inline-additionalProperties
     async fn test_inline_additional_properties(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -244,6 +257,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// TestJsonFormData - GET /v2/fake/jsonFormData
     async fn test_json_form_data(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

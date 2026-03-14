@@ -49,11 +49,11 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -101,11 +101,11 @@ open class StoreAPI {
     open class func getInventoryWithRequestBuilder(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<[String: Int]> {
         let localVariablePath = "/store/inventory"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -155,11 +155,11 @@ open class StoreAPI {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -209,7 +209,7 @@ open class StoreAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 

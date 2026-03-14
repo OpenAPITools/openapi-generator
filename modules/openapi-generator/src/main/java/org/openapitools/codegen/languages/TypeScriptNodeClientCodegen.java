@@ -184,6 +184,11 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             for (ModelMap mo : entry.getModels()) {
                 CodegenModel cm = mo.getModel();
 
+                // Filter out primitive types from parent property
+                if (cm.parent != null && isPrimitiveType(cm.parent)) {
+                    cm.parent = null;
+                }
+
                 // Add additional filename information for imports
                 mo.put("tsImports", toTsImports(cm, cm.imports));
             }
@@ -289,6 +294,26 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return languageSpecificPrimitives.contains(type);
     }
 
+    /**
+     * Check if a type is a primitive TypeScript type (string, boolean, number).
+     * This is used to filter out primitive types from the parent property.
+     *
+     * @param type the type to check
+     * @return true if the type is a primitive type
+     */
+    private boolean isPrimitiveType(String type) {
+        if (type == null) {
+            return false;
+        }
+        // Check for primitive types (case-insensitive)
+        String lowerType = type.toLowerCase(Locale.ROOT);
+        return "string".equals(lowerType) || 
+               "boolean".equals(lowerType) || 
+               "number".equals(lowerType) ||
+               "any".equals(lowerType) ||
+               "array".equals(lowerType);
+    }
+
     // Determines if the given type is a generic/templated type (ie. ArrayList<String>)
     private boolean isLanguageGenericType(String type) {
         for (String genericType : languageGenericTypes) {
@@ -321,6 +346,15 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             result = result.substring(0, result.length() - suffix.length());
         }
         return result;
+    }
+
+    @Override
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        super.addParentFromContainer(model, schema);
+        // Filter out primitive types from parent property
+        if (model.parent != null && isPrimitiveType(model.parent)) {
+            model.parent = null;
+        }
     }
 
     @Override

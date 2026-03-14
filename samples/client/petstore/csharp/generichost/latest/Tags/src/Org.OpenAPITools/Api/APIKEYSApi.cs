@@ -13,7 +13,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -156,7 +158,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterGetApiKeysId(ref suppressDefaultLog, apiResponseLocalVar, id);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -230,7 +232,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/api_keys/{id}";
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/api_keys/{id}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/api_keys/{id}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Bid%7D", Uri.EscapeDataString(id.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -241,11 +245,17 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
                         ILogger<GetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetApiKeysIdApiResponse>();
+                        GetApiKeysIdApiResponse apiResponseLocalVar;
 
-                        GetApiKeysIdApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
 
                         AfterGetApiKeysIdDefaultImplementation(apiResponseLocalVar, id);
 
@@ -284,6 +294,22 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public GetApiKeysIdApiResponse(ILogger<GetApiKeysIdApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="GetApiKeysIdApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetApiKeysIdApiResponse(ILogger<GetApiKeysIdApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);

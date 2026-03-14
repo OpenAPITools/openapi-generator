@@ -25,9 +25,9 @@ class TestParameters(unittest.TestCase):
     def test_request_from_inline_examples(self):
         # item
         item = self.json_data['item'][0]['item'][0]['item'][0]
-        self.assertEqual(item['name'], 'Update First Name')
+        self.assertEqual(item['name'], 'Example patch user')
         self.assertEqual(item['request']["method"], 'PATCH')
-        self.assertEqual(item['request']["body"]["raw"], '{\n  "firstName" : "Rebecca"\n}')
+        self.assertEqual(item['request']["body"]["raw"], '{\n  "firstName" : "John",\n  "tags" : [ "user" ]\n}')
 
     def test_request_with_array_strings(self):
         # item
@@ -42,9 +42,9 @@ class TestParameters(unittest.TestCase):
     def test_request_boolean_field(self):
         # item
         item = self.json_data['item'][0]['item'][0]['item'][1]
-        self.assertEqual(item['name'], 'Update Email')
+        self.assertEqual(item['name'], 'Example patch another user')
         self.assertEqual(item['request']["method"], 'PATCH')
-        self.assertEqual(item['request']["body"]["raw"], '{\n  "email" : "rebecca@gmail.com",\n  "verified" : true\n}')
+        self.assertEqual(item['request']["body"]["raw"], '{\n  "firstName" : "Bill",\n  "tags" : [ "admin" ]\n}')
 
 
 if __name__ == '__main__':

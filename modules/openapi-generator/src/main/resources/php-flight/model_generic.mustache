@@ -21,31 +21,31 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}} impl
         return new self(
         {{#vars}}
         {{#isDateTime}}
-            isset($data['{{baseName}}']) ? new \DateTime($data['{{baseName}}']) : null{{^last}}, {{/last}}
+            isset($data['{{baseName}}']) ? new \DateTime($data['{{baseName}}']) : null{{^last}},{{/last}}
         {{/isDateTime}}
         {{#isEnum}}
-            isset($data['{{baseName}}']) ? {{enumName}}::tryFrom($data['{{baseName}}']) : null{{^last}}, {{/last}}
+            isset($data['{{baseName}}']) ? {{enumName}}::tryFrom($data['{{baseName}}']) : null{{^last}},{{/last}}
         {{/isEnum}}
         {{#isEnumRef}}
-            isset($data['{{baseName}}']) ? {{complexType}}::tryFrom($data['{{baseName}}']) : null{{^last}}, {{/last}}
+            isset($data['{{baseName}}']) ? {{complexType}}::tryFrom($data['{{baseName}}']) : null{{^last}},{{/last}}
         {{/isEnumRef}}
         {{#isModel}}
-            isset($data['{{baseName}}']) ? {{complexType}}::fromArray($data['{{baseName}}']) : null{{^last}}, {{/last}}
+            isset($data['{{baseName}}']) ? {{complexType}}::fromArray($data['{{baseName}}']) : null{{^last}},{{/last}}
         {{/isModel}}
         {{#isArray}}
         {{#items.isEnumRef}}
-            isset($data['{{baseName}}']) ? array_map(fn($item) => {{items.complexType}}::tryFrom($item), $data['{{baseName}}']) : null{{^last}}, {{/last}}
+            isset($data['{{baseName}}']) ? array_map(fn($item) => {{items.complexType}}::tryFrom($item), $data['{{baseName}}']) : null{{^last}},{{/last}}
         {{/items.isEnumRef}}
         {{#items.isModel}}
-            isset($data['{{baseName}}']) ? array_map(fn($item) => {{items.complexType}}::fromArray($item), $data['{{baseName}}']) : null{{^last}}, {{/last}}
+            isset($data['{{baseName}}']) ? array_map(fn($item) => {{items.complexType}}::fromArray($item), $data['{{baseName}}']) : null{{^last}},{{/last}}
         {{/items.isModel}}
         {{#items.isDateTime}}
-            isset($data['{{baseName}}']) ? array_map(fn($item) => new \DateTime($item), $data['{{baseName}}']) : null{{^last}}, {{/last}}
+            isset($data['{{baseName}}']) ? array_map(fn($item) => new \DateTime($item), $data['{{baseName}}']) : null{{^last}},{{/last}}
         {{/items.isDateTime}}
         {{^items.isEnumRef}}
         {{^items.isModel}}
         {{^items.isDateTime}}
-            $data['{{baseName}}'] ?? null{{^last}}, {{/last}}
+            $data['{{baseName}}'] ?? null{{^last}},{{/last}}
         {{/items.isDateTime}}
         {{/items.isModel}}
         {{/items.isEnumRef}}
@@ -55,7 +55,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}} impl
         {{^isModel}}
         {{^isArray}}
         {{^isDateTime}}
-            $data['{{baseName}}'] ?? null{{^last}}, {{/last}}
+            $data['{{baseName}}'] ?? null{{^last}},{{/last}}
         {{/isDateTime}}
         {{/isArray}}
         {{/isModel}}
@@ -69,19 +69,19 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}} impl
         return [
         {{#vars}}
         {{#isDateTime}}
-            '{{baseName}}' => $this->{{name}}?->format('c'){{^last}}, {{/last}}
+            '{{baseName}}' => $this->{{name}}?->format('c'){{^last}},{{/last}}
         {{/isDateTime}}
         {{#isArray}}
         {{#items.isDateTime}}
-            '{{baseName}}' => $this->{{name}} ? array_map(fn($item) => $item->format('c'), $this->{{name}}) : null{{^last}}, {{/last}}
+            '{{baseName}}' => $this->{{name}} ? array_map(fn($item) => $item->format('c'), $this->{{name}}) : null{{^last}},{{/last}}
         {{/items.isDateTime}}
         {{^items.isDateTime}}
-            '{{baseName}}' => $this->{{name}}{{^last}}, {{/last}}
+            '{{baseName}}' => $this->{{name}}{{^last}},{{/last}}
         {{/items.isDateTime}}
         {{/isArray}}
         {{^isDateTime}}
         {{^isArray}}
-            '{{baseName}}' => $this->{{name}}{{^last}}, {{/last}}
+            '{{baseName}}' => $this->{{name}}{{^last}},{{/last}}
         {{/isArray}}
         {{/isDateTime}}
         {{/vars}}

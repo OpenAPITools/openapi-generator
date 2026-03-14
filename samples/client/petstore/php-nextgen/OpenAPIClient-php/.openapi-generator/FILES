@@ -30,6 +30,8 @@ docs/Model/EnumArrays.md
 docs/Model/EnumClass.md
 docs/Model/EnumTest.md
 docs/Model/EnumWithNameAndDescription.md
+docs/Model/Error.md
+docs/Model/ErrorResponse.md
 docs/Model/FakeBigDecimalMap200Response.md
 docs/Model/File.md
 docs/Model/FileSchemaTestClass.md
@@ -73,6 +75,7 @@ src/Api/StoreApi.php
 src/Api/UserApi.php
 src/ApiException.php
 src/Configuration.php
+src/FormDataProcessor.php
 src/HeaderSelector.php
 src/Model/AdditionalPropertiesClass.php
 src/Model/AllOfWithSingleRef.php
@@ -93,6 +96,8 @@ src/Model/EnumArrays.php
 src/Model/EnumClass.php
 src/Model/EnumTest.php
 src/Model/EnumWithNameAndDescription.php
+src/Model/Error.php
+src/Model/ErrorResponse.php
 src/Model/FakeBigDecimalMap200Response.php
 src/Model/File.php
 src/Model/FileSchemaTestClass.php

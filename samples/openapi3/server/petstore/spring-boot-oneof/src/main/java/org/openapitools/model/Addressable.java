@@ -20,14 +20,14 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Addressable", description = "Base schema for addressable entities")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Addressable {
 
   private @Nullable String href;
 
   private @Nullable String id;
 
-  public Addressable href(String href) {
+  public Addressable href(@Nullable String href) {
     this.href = href;
     return this;
   }
@@ -39,15 +39,16 @@ public class Addressable {
   
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
-  public String getHref() {
+  public @Nullable String getHref() {
     return href;
   }
 
-  public void setHref(String href) {
+  @JsonProperty("href")
+  public void setHref(@Nullable String href) {
     this.href = href;
   }
 
-  public Addressable id(String id) {
+  public Addressable id(@Nullable String id) {
     this.id = id;
     return this;
   }
@@ -59,11 +60,12 @@ public class Addressable {
   
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public String getId() {
+  public @Nullable String getId() {
     return id;
   }
 
-  public void setId(String id) {
+  @JsonProperty("id")
+  public void setId(@Nullable String id) {
     this.id = id;
   }
 
@@ -99,7 +101,7 @@ public class Addressable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

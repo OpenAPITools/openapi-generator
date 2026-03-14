@@ -16,7 +16,6 @@ open class FakeClassnameTags123API {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Client
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClassname(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Client {
         return try await testClassnameWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
     }
@@ -39,7 +38,7 @@ open class FakeClassnameTags123API {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 

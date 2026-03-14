@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * TestFormObjectMultipartRequestMarker
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestFormObjectMultipartRequestMarker.JSON_PROPERTY_NAME
 })
 @JsonTypeName("test_form_object_multipart_request_marker")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class TestFormObjectMultipartRequestMarker {
   public static final String JSON_PROPERTY_NAME = "name";
   @jakarta.annotation.Nullable
@@ -50,7 +51,7 @@ public class TestFormObjectMultipartRequestMarker {
    * @return name
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -58,11 +59,12 @@ public class TestFormObjectMultipartRequestMarker {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(Object o) {

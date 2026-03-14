@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   @javax.annotation.Nullable
@@ -55,7 +55,7 @@ public class NumberOnly {
   @javax.annotation.Nullable
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getJustNumber() {
@@ -63,11 +63,12 @@ public class NumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: sample spec
+  version: 1.0.0
+paths:
+  /test/{groupObj}:
+    post:
+      summary: Post to test
+      description: ''
+      operationId: postToTest
+      parameters:
+        - in: path
+          name: groupObj
+          required: true
+          schema:
+            $ref: '#/components/schemas/OnlyLetters'
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: string
+            pattern: "[0-9a-fA-F]"
+            x-pattern-message: "Only numbers and letters a-f"
+      responses:
+        201:
+          description: success
+components:
+  schemas:
+    OnlyLetters:
+      type: string
+      pattern: "[a-zA-Z]"
+      x-pattern-message: "Only letters"

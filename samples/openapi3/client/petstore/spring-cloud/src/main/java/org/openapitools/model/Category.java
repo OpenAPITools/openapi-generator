@@ -20,14 +20,14 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Category", description = "A category for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Category {
 
   private @Nullable Long id;
 
   private @Nullable String name;
 
-  public Category id(Long id) {
+  public Category id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -39,15 +39,16 @@ public class Category {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public Category name(String name) {
+  public Category name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -59,11 +60,12 @@ public class Category {
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  @JsonProperty("name")
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
@@ -99,7 +101,7 @@ public class Category {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

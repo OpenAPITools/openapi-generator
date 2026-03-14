@@ -46,6 +46,7 @@ LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(Strin
 }
 
   @ApiModelProperty(value = "")
+
   private KindEnum kind;
  /**
    * Get kind

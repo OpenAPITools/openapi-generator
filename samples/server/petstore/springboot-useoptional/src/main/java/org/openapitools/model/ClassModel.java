@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ClassModel {
 
   private Optional<String> propertyClass = Optional.empty();
@@ -42,6 +42,7 @@ public class ClassModel {
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }

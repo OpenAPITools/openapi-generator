@@ -18,6 +18,29 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /pets:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Updated
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Updated
   /pet:
     post:
       tags:
@@ -36,7 +59,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
         '405':
-          description: Invalid input
+          $ref: '#/components/responses/ErrorResponse'
       security:
         - petstore_auth:
             - 'write:pets'
@@ -60,11 +83,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
         '400':
-          description: Invalid ID supplied
+          $ref: '#/components/responses/ErrorResponse'
         '404':
-          description: Pet not found
+          $ref: '#/components/responses/ErrorResponse'
         '405':
-          description: Validation exception
+          $ref: '#/components/responses/ErrorResponse'
       security:
         - petstore_auth:
             - 'write:pets'
@@ -570,6 +593,13 @@ externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
 components:
+  responses:
+    ErrorResponse:
+      description: An error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   requestBodies:
     UserArray:
       content:
@@ -604,6 +634,21 @@ components:
       name: api_key
       in: header
   schemas:
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+        breed:
+          type: string
+          enum: [ Dingo, Husky, Retriever, Shepherd ]
+    Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer
     Order:
       title: Pet Order
       description: An order for a pets from the pet store
@@ -631,6 +676,8 @@ components:
         complete:
           type: boolean
           default: false
+        meta:
+          type: object
       xml:
         name: Order
     Category:
@@ -746,3 +793,16 @@ components:
           uniqueItems: true
           items:
             type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code.
+        message:
+          type: string
+          description: Detailed error message.

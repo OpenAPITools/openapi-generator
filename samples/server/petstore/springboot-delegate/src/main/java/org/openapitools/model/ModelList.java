@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelList {
 
   private @Nullable String _123list;
@@ -38,7 +38,7 @@ public class ModelList {
       this._123list = _123list;
   }
 
-  public ModelList _123list(String _123list) {
+  public ModelList _123list(@Nullable String _123list) {
     this._123list = _123list;
     return this;
   }
@@ -50,11 +50,12 @@ public class ModelList {
   
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")
-  public String get123list() {
+  public @Nullable String get123list() {
     return _123list;
   }
 
-  public void set123list(String _123list) {
+  @JsonProperty("123-list")
+  public void set123list(@Nullable String _123list) {
     this._123list = _123list;
   }
 
@@ -88,7 +89,7 @@ public class ModelList {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

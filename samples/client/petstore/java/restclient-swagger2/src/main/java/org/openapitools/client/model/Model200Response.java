@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Model for testing model name starting with number
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("200_response")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
   @jakarta.annotation.Nullable
@@ -58,7 +59,7 @@ public class Model200Response {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getName() {
@@ -66,7 +67,7 @@ public class Model200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@jakarta.annotation.Nullable Integer name) {
     this.name = name;
@@ -84,7 +85,7 @@ public class Model200Response {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {
@@ -92,11 +93,12 @@ public class Model200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPropertyClass(@jakarta.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.13.0-SNAPSHOT
+  - Generator version: 7.21.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -166,6 +166,7 @@ Class | Method | HTTP request | Description
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [PetWithTypesObjectNullAndRef](docs/PetWithTypesObjectNullAndRef.md)
  - [RefRefToPathLevelParameterOneofRefToOneofParameter](docs/RefRefToPathLevelParameterOneofRefToOneofParameter.md)
  - [RefToRefParameterAnyofRefToAnyofParameter](docs/RefToRefParameterAnyofRefToAnyofParameter.md)
  - [SelfReferenceAdditionalProperties](docs/SelfReferenceAdditionalProperties.md)

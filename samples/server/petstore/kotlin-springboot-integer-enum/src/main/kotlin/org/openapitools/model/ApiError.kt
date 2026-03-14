@@ -26,7 +26,7 @@ data class ApiError(
 
     @field:Valid
     @get:JsonProperty("reasonCode") val reasonCode: ReasonCode? = null
-    ) {
+) {
 
     /**
     * 
@@ -41,7 +41,8 @@ data class ApiError(
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.Int): ErrorCode {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'ApiError'")
             }
         }
     }

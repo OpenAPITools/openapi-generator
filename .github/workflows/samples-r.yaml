@@ -1,42 +1,69 @@
-name: Samples R
+name: Samples R clients
 
 on:
   push:
     paths:
-      - 'samples/client/echo_api/r/**'
+      - samples/client/petstore/R/**
+      - samples/client/petstore/R-httr2/**
+      - samples/client/petstore/R-httr2-wrapper/**
   pull_request:
     paths:
-      - 'samples/client/echo_api/r/**'
-
+      - samples/client/petstore/R/**
+      - samples/client/petstore/R-httr2/**
+      - samples/client/petstore/R-httr2-wrapper/**
 jobs:
   build:
-    name: Build R
+    name: Build R projects
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
-          - 'samples/client/echo_api/r/'
+          # clients
+          - samples/client/petstore/R/
+          - samples/client/petstore/R-httr2/
+          - samples/client/petstore/R-httr2-wrapper/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup node.js
-        uses: actions/setup-node@v4
-      - name: Run echo server
+      - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
         run: |
-          git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
-          (cd http-echo-server && npm install && npm start &)
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - uses: r-lib/actions/setup-r@v2
         with:
-          r-version: 3.6.1
+          use-public-rspm: true
+
+      - name: Install devtools
+        run: install.packages("devtools")
+        shell: Rscript {0}
+        working-directory: ${{ matrix.sample }}
+
+      - name: Build 
+        run: devtools::build()
+        shell: Rscript {0}
+        working-directory: ${{ matrix.sample }}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
-        working-directory: ${{ matrix.sample }}
         with:
-          cache-version: 2
-      - name: Install curl
-        run: sudo apt-get install -y r-cran-curl
-      - name: build and test
+          working-directory: ${{ matrix.sample }}
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          working-directory: ${{ matrix.sample }}
+          upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          error-on: '"error"'
+
+      - name: Install local package
+        run: R CMD INSTALL .
+        shell: bash # Ensure correct shell for command execution
         working-directory: ${{ matrix.sample }}
-        run: |
-          # export _R_CHECK_FORCE_SUGGESTS_=false
-          /bin/bash build_and_test.bash
-        shell: bash

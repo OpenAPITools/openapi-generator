@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Model for testing model name same as property name
@@ -34,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   @jakarta.annotation.Nonnull
@@ -79,7 +80,7 @@ public class Name {
    */
   @jakarta.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public Integer getName() {
@@ -87,7 +88,7 @@ public class Name {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@jakarta.annotation.Nonnull Integer name) {
     this.name = name;
@@ -99,7 +100,7 @@ public class Name {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
+  @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getSnakeCase() {
@@ -120,7 +121,7 @@ public class Name {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getProperty() {
@@ -128,7 +129,7 @@ public class Name {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProperty(@jakarta.annotation.Nullable String property) {
     this.property = property;
@@ -140,12 +141,13 @@ public class Name {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer get123number() {
     return _123number;
   }
+
 
 
 

@@ -17,7 +17,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func deleteOrderRaw(orderId: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func deleteOrderRaw(orderId: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -28,8 +28,8 @@ open class StoreAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.DELETE, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             
@@ -50,8 +50,8 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: `EventLoopFuture` of `DeleteOrder` 
      */
-    open class func deleteOrder(orderId: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteOrder> {
-        return deleteOrderRaw(orderId: orderId, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> DeleteOrder in
+    open class func deleteOrder(orderId: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteOrder> {
+        return deleteOrderRaw(orderId: orderId, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> DeleteOrder in
             switch response.status.code {
             case 400:
                 return .http400(raw: response)
@@ -72,7 +72,7 @@ open class StoreAPI {
        - name: api_key
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func getInventoryRaw(headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func getInventoryRaw(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/store/inventory"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -80,8 +80,8 @@ open class StoreAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             
@@ -103,8 +103,8 @@ open class StoreAPI {
        - name: api_key
      - returns: `EventLoopFuture` of `GetInventory` 
      */
-    open class func getInventory(headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetInventory> {
-        return getInventoryRaw(headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> GetInventory in
+    open class func getInventory(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetInventory> {
+        return getInventoryRaw(headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> GetInventory in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode([String: Int].self, using: apiConfiguration.contentConfiguration.requireDecoder(for: [String: Int].defaultContentType)), raw: response)
@@ -121,7 +121,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func getOrderByIdRaw(orderId: Int64, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func getOrderByIdRaw(orderId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -132,8 +132,8 @@ open class StoreAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             
@@ -155,8 +155,8 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: `EventLoopFuture` of `GetOrderById` 
      */
-    open class func getOrderById(orderId: Int64, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetOrderById> {
-        return getOrderByIdRaw(orderId: orderId, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> GetOrderById in
+    open class func getOrderById(orderId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetOrderById> {
+        return getOrderByIdRaw(orderId: orderId, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> GetOrderById in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(Order.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)
@@ -176,7 +176,7 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func placeOrderRaw(body: Order, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func placeOrderRaw(body: Order, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/store/order"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -184,8 +184,8 @@ open class StoreAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             try localVariableRequest.content.encode(body, using: apiConfiguration.contentConfiguration.requireEncoder(for: Order.defaultContentType))
@@ -206,8 +206,8 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: `EventLoopFuture` of `PlaceOrder` 
      */
-    open class func placeOrder(body: Order, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<PlaceOrder> {
-        return placeOrderRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> PlaceOrder in
+    open class func placeOrder(body: Order, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<PlaceOrder> {
+        return placeOrderRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> PlaceOrder in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(Order.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: Order.defaultContentType)), raw: response)

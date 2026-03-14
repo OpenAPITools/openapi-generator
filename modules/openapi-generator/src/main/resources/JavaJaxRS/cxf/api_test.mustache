@@ -8,7 +8,9 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
+{{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
 import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;

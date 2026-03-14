@@ -3,25 +3,31 @@ name: Samples Kotlin server (jdk17)
 on:
   push:
     paths:
+      - 'samples/server/others/kotlin-server/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
       - 'samples/server/petstore/kotlin-springboot-*/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
+      - 'samples/server/petstore/kotlin-spring-declarative*/**'
+      - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
+      - 'samples/server/others/kotlin-server/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
       - 'samples/server/petstore/kotlin-springboot-*/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
+      - 'samples/server/petstore/kotlin-spring-declarative*/**'
+      - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
 env:
-  GRADLE_VERSION: '8.10'
+  GRADLE_VERSION: '8.14'
 
 jobs:
   build:
@@ -32,26 +38,41 @@ jobs:
       matrix:
         sample:
           # server
+          - samples/server/others/kotlin-server/polymorphism-allof-and-discriminator
+          - samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
+          - samples/server/others/kotlin-server/polymorphism-and-discriminator
+          - samples/server/others/kotlin-server/polymorphism
           - samples/server/petstore/kotlin-server-required-and-nullable-properties
           - samples/server/petstore/kotlin-springboot-3
+          - samples/server/petstore/kotlin-springboot-3-no-response-entity
+          - samples/server/petstore/kotlin-springboot-additionalproperties
           - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-request-cookie
+          - samples/server/petstore/kotlin-springboot-4
           - samples/server/petstore/kotlin-server/jaxrs-spec
           - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
           - samples/server/petstore/kotlin-server/javalin
           - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
+          - samples/server/petstore/kotlin-server-modelMutable
+          - samples/server/petstore/kotlin-misk
+          - samples/server/petstore/kotlin-spring-declarative-interface
+          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines
+          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped
+          - samples/server/petstore/kotlin-spring-declarative-interface-wrapped
+          - samples/server/petstore/kotlin-spring-sealed-interfaces
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 17
+          cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: maven-repository
         with:

@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  * ArrayTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ArrayTest {
 
   @Valid
@@ -73,6 +73,7 @@ public class ArrayTest {
     return arrayOfString;
   }
 
+  @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
@@ -101,6 +102,7 @@ public class ArrayTest {
     return arrayArrayOfInteger;
   }
 
+  @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
@@ -129,6 +131,7 @@ public class ArrayTest {
     return arrayArrayOfModel;
   }
 
+  @JsonProperty("array_array_of_model")
   public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
@@ -167,7 +170,7 @@ public class ArrayTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

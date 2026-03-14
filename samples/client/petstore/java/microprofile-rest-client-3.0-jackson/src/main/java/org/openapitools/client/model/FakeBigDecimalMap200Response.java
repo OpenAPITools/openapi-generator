@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -16,6 +16,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,17 +39,18 @@ public class FakeBigDecimalMap200Response  {
   
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   
-  private BigDecimal someId;
+  protected BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
   
-  private Map<String, BigDecimal> someMap = null;
+  protected Map<String, BigDecimal> someMap = null;
+
 
   /**
    * Get someId
    * @return someId
    **/
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getSomeId() {
     return someId;
@@ -56,7 +59,7 @@ public class FakeBigDecimalMap200Response  {
   /**
    * Set someId
    */
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeId(BigDecimal someId) {
     this.someId = someId;
@@ -71,7 +74,7 @@ public class FakeBigDecimalMap200Response  {
    * Get someMap
    * @return someMap
    **/
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
@@ -80,7 +83,7 @@ public class FakeBigDecimalMap200Response  {
   /**
    * Set someMap
    */
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeMap(Map<String, BigDecimal> someMap) {
     this.someMap = someMap;

@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: openapi-dubbo-server-petstore-provider
+
+dubbo:
+  application:
+    name: openapi-dubbo-server-petstore
+    logger: slf4j
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  # 协议配置
+  protocol:
+    name: tri
+    port: -1 # auto-increment port
+
+logging:
+  level:
+    root: INFO
+    org.apache.dubbo: INFO
+    org.openapitools.example: DEBUG

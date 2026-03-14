@@ -25,23 +25,23 @@ pub enum GetParameterNameMappingError {
 
 pub fn get_parameter_name_mapping(configuration: &configuration::Configuration, underscore_type: i64, r#type: &str, type_with_underscore: &str, dash_type: &str, http_debug_option: &str) -> Result<(), Error<GetParameterNameMappingError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_underscore_type = underscore_type;
-    let p_type = r#type;
-    let p_type_with_underscore = type_with_underscore;
-    let p_dash_type = dash_type;
-    let p_http_debug_option = http_debug_option;
+    let p_header_underscore_type = underscore_type;
+    let p_query_type = r#type;
+    let p_header_type_with_underscore = type_with_underscore;
+    let p_header_dash_type = dash_type;
+    let p_query_http_debug_option = http_debug_option;
 
     let uri_str = format!("{}/fake/parameter-name-mapping", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("type", &p_type.to_string())]);
-    req_builder = req_builder.query(&[("http_debug_option", &p_http_debug_option.to_string())]);
+    req_builder = req_builder.query(&[("type", &p_query_type.to_string())]);
+    req_builder = req_builder.query(&[("http_debug_option", &p_query_http_debug_option.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.header("_type", p_underscore_type.to_string());
-    req_builder = req_builder.header("type_", p_type_with_underscore.to_string());
-    req_builder = req_builder.header("-type", p_dash_type.to_string());
+    req_builder = req_builder.header("_type", p_header_underscore_type.to_string());
+    req_builder = req_builder.header("type_", p_header_type_with_underscore.to_string());
+    req_builder = req_builder.header("-type", p_header_dash_type.to_string());
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;

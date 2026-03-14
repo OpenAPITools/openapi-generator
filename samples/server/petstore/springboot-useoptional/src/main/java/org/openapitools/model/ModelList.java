@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelList {
 
   private Optional<String> _123list = Optional.empty();
@@ -43,6 +43,7 @@ public class ModelList {
     return _123list;
   }
 
+  @JsonProperty("123-list")
   public void set123list(Optional<String> _123list) {
     this._123list = _123list;
   }

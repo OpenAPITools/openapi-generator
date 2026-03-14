@@ -20,7 +20,7 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func testClassnameRaw(body: Client, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func testClassnameRaw(body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/fake_classname_test"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -28,8 +28,8 @@ open class FakeClassnameTags123API {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.PATCH, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
-            try Configuration.apiWrapper(&localVariableRequest)
+        return localVariableApiClient.send(.PATCH, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
             try localVariableRequest.content.encode(body, using: apiConfiguration.contentConfiguration.requireEncoder(for: Client.defaultContentType))
@@ -53,8 +53,8 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `TestClassname` 
      */
-    open class func testClassname(body: Client, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestClassname> {
-        return testClassnameRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> TestClassname in
+    open class func testClassname(body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestClassname> {
+        return testClassnameRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> TestClassname in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode(Client.self, using: apiConfiguration.contentConfiguration.requireDecoder(for: Client.defaultContentType)), raw: response)

@@ -44,7 +44,7 @@
                     <compilerPlugins>
                         <plugin>spring</plugin>
                     </compilerPlugins>
-                    <jvmTarget>1.8</jvmTarget>
+                    <jvmTarget>11</jvmTarget>
                 </configuration>
                 <executions>
                     <execution>
@@ -96,6 +96,10 @@
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-reactor</artifactId>
             <version>${kotlinx-coroutines.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
         </dependency>
 
         <!--SpringDoc dependencies -->

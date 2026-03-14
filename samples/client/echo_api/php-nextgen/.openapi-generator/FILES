@@ -32,6 +32,7 @@ src/Api/PathApi.php
 src/Api/QueryApi.php
 src/ApiException.php
 src/Configuration.php
+src/FormDataProcessor.php
 src/HeaderSelector.php
 src/Model/Bird.php
 src/Model/Category.php

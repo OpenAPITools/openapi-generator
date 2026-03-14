@@ -28,7 +28,7 @@ import org.springframework.http.MediaType
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 
-class UserApi(client: RestClient) : ApiClient(client) {
+open class UserApi(client: RestClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)

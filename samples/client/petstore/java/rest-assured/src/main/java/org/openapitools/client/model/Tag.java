@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Tag
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Tag {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -86,6 +86,7 @@ public class Tag {
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(Object o) {

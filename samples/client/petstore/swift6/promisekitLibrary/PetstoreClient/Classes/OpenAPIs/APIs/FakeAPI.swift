@@ -16,6 +16,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Bool>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Bool> {
         let deferred = Promise<Bool>.pending()
         fakeOuterBooleanSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -43,7 +44,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -60,6 +61,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<OuterComposite>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<OuterComposite> {
         let deferred = Promise<OuterComposite>.pending()
         fakeOuterCompositeSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -87,7 +89,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -104,6 +106,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Double>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterNumberSerialize(body: Double? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Double> {
         let deferred = Promise<Double>.pending()
         fakeOuterNumberSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -131,7 +134,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -148,6 +151,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<String>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterStringSerialize(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<String> {
         let deferred = Promise<String>.pending()
         fakeOuterStringSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -175,7 +179,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
@@ -192,6 +196,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testBodyWithFileSchemaWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -219,7 +224,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
@@ -237,6 +242,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testBodyWithQueryParams(query: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -264,10 +270,10 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "query": (wrappedValue: query.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
@@ -285,6 +291,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Client>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testClientModel(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
         testClientModelWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -313,7 +320,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
@@ -344,6 +351,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, apiConfiguration: apiConfiguration).execute { result in
@@ -384,21 +392,21 @@ open class FakeAPI {
     open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "integer": integer?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "int32": int32?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "int64": int64?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "number": number.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "float": float?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "double": double.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "string": string?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "byte": byte.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "binary": binary?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "date": date?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "dateTime": dateTime?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "password": password?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "callback": callback?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+        let localVariableFormParams: [String: (any Sendable)?] = [
+            "integer": integer?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "int32": int32?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "int64": int64?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "number": number.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "float": float?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "double": double.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "string": string?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "pattern_without_delimiter": patternWithoutDelimiter.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "byte": byte.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "binary": binary?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "date": date?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "dateTime": dateTime?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "password": password?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "callback": callback?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -406,7 +414,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/x-www-form-urlencoded",
         ]
 
@@ -498,6 +506,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, apiConfiguration: apiConfiguration).execute { result in
@@ -529,9 +538,9 @@ open class FakeAPI {
     open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "enum_form_string_array": enumFormStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "enum_form_string": enumFormString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+        let localVariableFormParams: [String: (any Sendable)?] = [
+            "enum_form_string_array": enumFormStringArray?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "enum_form_string": enumFormString?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -539,16 +548,16 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_string": (wrappedValue: enumQueryString?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_integer": (wrappedValue: enumQueryInteger?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_double": (wrappedValue: enumQueryDouble?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/x-www-form-urlencoded",
-            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "enum_header_string": enumHeaderString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "enum_header_string_array": enumHeaderStringArray?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "enum_header_string": enumHeaderString?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -570,6 +579,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, apiConfiguration: apiConfiguration).execute { result in
@@ -599,19 +609,19 @@ open class FakeAPI {
     open class func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "required_string_group": (wrappedValue: requiredStringGroup.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "required_int64_group": (wrappedValue: requiredInt64Group.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "string_group": (wrappedValue: stringGroup?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "int64_group": (wrappedValue: int64Group?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "required_boolean_group": requiredBooleanGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "boolean_group": booleanGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "required_boolean_group": requiredBooleanGroup.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "boolean_group": booleanGroup?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -628,6 +638,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testInlineAdditionalProperties(param: [String: String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testInlineAdditionalPropertiesWithRequestBuilder(param: param, apiConfiguration: apiConfiguration).execute { result in
@@ -655,7 +666,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
@@ -674,6 +685,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testJsonFormData(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testJsonFormDataWithRequestBuilder(param: param, param2: param2, apiConfiguration: apiConfiguration).execute { result in
@@ -698,9 +710,9 @@ open class FakeAPI {
     open class func testJsonFormDataWithRequestBuilder(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/fake/jsonFormData"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "param": param.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
-            "param2": param2.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+        let localVariableFormParams: [String: (any Sendable)?] = [
+            "param": param.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "param2": param2.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -708,7 +720,7 @@ open class FakeAPI {
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/x-www-form-urlencoded",
         ]
 

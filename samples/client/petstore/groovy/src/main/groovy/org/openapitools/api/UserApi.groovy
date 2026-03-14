@@ -4,7 +4,7 @@ import org.openapitools.api.ApiUtils
 import org.openapitools.model.User
 
 class UserApi {
-    String basePath = "http://petstore.swagger.io/v2"
+    String basePath = "http://localhost/v2"
     String versionPath = ""
     ApiUtils apiUtils = new ApiUtils();
 
@@ -15,6 +15,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
         // verify required params are set
@@ -28,7 +29,9 @@ class UserApi {
         bodyParams = user
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept([])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "POST", "",
                     null )
 
@@ -41,6 +44,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
         // verify required params are set
@@ -54,7 +58,9 @@ class UserApi {
         bodyParams = user
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept([])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "POST", "",
                     null )
 
@@ -67,6 +73,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
         // verify required params are set
@@ -80,7 +87,9 @@ class UserApi {
         bodyParams = user
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept([])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "POST", "",
                     null )
 
@@ -93,6 +102,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
         // verify required params are set
@@ -104,7 +114,9 @@ class UserApi {
 
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept([])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "DELETE", "",
                     null )
 
@@ -117,6 +129,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
         // verify required params are set
@@ -128,7 +141,9 @@ class UserApi {
 
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept(["application/xml", "application/json"])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "GET", "",
                     User.class )
 
@@ -141,6 +156,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
         // verify required params are set
@@ -162,7 +178,9 @@ class UserApi {
 
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept(["application/xml", "application/json"])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "GET", "",
                     String.class )
 
@@ -175,6 +193,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
 
@@ -182,7 +201,9 @@ class UserApi {
 
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept([])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "GET", "",
                     null )
 
@@ -195,6 +216,7 @@ class UserApi {
         def queryParams = [:]
         def headerParams = [:]
         def bodyParams
+        def accept
         def contentType
 
         // verify required params are set
@@ -212,7 +234,9 @@ class UserApi {
         bodyParams = user
 
 
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+        accept = apiUtils.selectHeaderAccept([])
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType,
                     "PUT", "",
                     null )
 

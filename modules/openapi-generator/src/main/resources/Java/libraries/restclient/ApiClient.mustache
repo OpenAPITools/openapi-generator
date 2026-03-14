@@ -3,12 +3,31 @@
 package {{invokerPackage}};
 
 {{#withXml}}
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import {{jacksonPackage}}.dataformat.xml.XmlMapper;
+import {{jacksonPackage}}.dataformat.xml.ser.ToXmlGenerator;
 {{/withXml}}
-import com.fasterxml.jackson.databind.DeserializationFeature;
+
+import {{jacksonPackage}}.databind.DeserializationFeature;
+
+{{#useJackson3}}
+import {{jacksonPackage}}.core.JacksonException;
+import {{jacksonPackage}}.databind.json.JsonMapper;
+import org.springframework.http.converter.HttpMessageConverters;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
+{{#withXml}}
+import org.springframework.http.converter.xml.JacksonXmlHttpMessageConverter;
+{{/withXml}}
+{{/useJackson3}}
+{{^useJackson3}}
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+{{#withXml}}
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
+{{/withXml}}
+{{/useJackson3}}
+
 import java.util.function.Consumer;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
@@ -22,10 +41,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-{{#withXml}}
-  import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
-{{/withXml}}
 {{#generateClientAsBean}}
 import org.springframework.stereotype.Component;
 {{/generateClientAsBean}}
@@ -42,10 +57,12 @@ import java.util.Optional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -67,6 +84,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
+
 {{#generateClientAsBean}}
 @Component("{{invokerPackage}}.ApiClient")
 {{/generateClientAsBean}}
@@ -74,26 +92,57 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
-        private final String separator;
+        protected final String separator;
         CollectionFormat(String separator) {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<?> collection) {
+        protected String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
 
-    private final HttpHeaders defaultHeaders = new HttpHeaders();
-    private final MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<>();
+    protected final HttpHeaders defaultHeaders = new HttpHeaders();
+    protected final MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<>();
 
-    private String basePath = "{{basePath}}";
+    protected String basePath = "{{basePath}}";
+    protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>({{#servers}}{{#-first}}Arrays.asList(
+{{/-first}}        new ServerConfiguration(
+            "{{{url}}}",
+            "{{{description}}}{{^description}}No description provided{{/description}}",
+            new HashMap<String, ServerVariable>(){{#variables}}{{#-first}} {{
+{{/-first}}                put("{{{name}}}", new ServerVariable(
+                    "{{{description}}}{{^description}}No description provided{{/description}}",
+                    "{{{defaultValue}}}",
+                    new HashSet<String>(
+                    {{#enumValues}}
+                    {{#-first}}
+                        Arrays.asList(
+                    {{/-first}}
+                            "{{{.}}}"{{^-last}},{{/-last}}
+                    {{#-last}}
+                        )
+                    {{/-last}}
+                    {{/enumValues}}
+                    )
+                ));
+            {{#-last}}
+            }}{{/-last}}{{/variables}}
+        ){{^-last}},{{/-last}}
+    {{#-last}}
+    ){{/-last}}{{/servers}});
+    protected Integer serverIndex = 0;
+    protected Map<String, String> serverVariables = null;
 
-    private final RestClient restClient;
-    private final DateFormat dateFormat;
-    private final ObjectMapper objectMapper;
-
-    private Map<String, Authentication> authentications;
+    protected final RestClient restClient;
+    protected final DateFormat dateFormat;
+    {{^useJackson3}}
+    protected final ObjectMapper mapper;
+    {{/useJackson3}}
+    {{#useJackson3}}
+    protected final JsonMapper mapper;
+    {{/useJackson3}}
+    protected Map<String, Authentication> authentications;
 
 
     public ApiClient() {
@@ -107,19 +156,24 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this(restClient, createDefaultDateFormat());
     }
 
-    public ApiClient(ObjectMapper mapper, DateFormat format) {
+    public ApiClient({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
         this(null, mapper, format);
     }
 
-    public ApiClient(RestClient restClient, ObjectMapper mapper, DateFormat format) {
-        this.objectMapper = mapper.copy();
-        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.objectMapper));
+    public ApiClient(RestClient restClient, {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
+        {{#useJackson3}}
+        this.mapper = mapper;
+        {{/useJackson3}}
+        {{^useJackson3}}
+        this.mapper = mapper.copy();
+        {{/useJackson3}}
+        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.mapper));
         this.dateFormat = format;
         this.init();
     }
 
-    private ApiClient(RestClient restClient, DateFormat format) {
-        this(restClient, createDefaultObjectMapper(format), format);
+    protected ApiClient(RestClient restClient, DateFormat format) {
+        this(restClient, createDefaultMapper(format), format);
     }
 
     public static DateFormat createDefaultDateFormat() {
@@ -128,7 +182,21 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         return dateFormat;
     }
 
-    public static ObjectMapper createDefaultObjectMapper(@Nullable DateFormat dateFormat) {
+    {{#useJackson3}}
+    public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
+        return JsonMapper.builder()
+            .defaultDateFormat(dateFormat)
+            {{#failOnUnknownProperties}}
+            .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            {{^failOnUnknownProperties}}
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            .build();
+    }
+    {{/useJackson3}}
+    {{^useJackson3}}
+    public static ObjectMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
         if (null == dateFormat) {
             dateFormat = createDefaultDateFormat();
         }
@@ -142,6 +210,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         {{/openApiNullable}}
         return mapper;
     }
+    {{/useJackson3}}
 
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
@@ -156,18 +225,29 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     /**
     * Build the RestClientBuilder used to make RestClient.
-    * @param mapper ObjectMapper used for serialize/deserialize
+    * @param mapper {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} used for serialize/deserialize
     * @return RestClient
     */
-    public static RestClient.Builder buildRestClientBuilder(ObjectMapper mapper) {
+    public static RestClient.Builder buildRestClientBuilder({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper) {
         {{#withXml}}
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         {{#openApiNullable}}
-          xmlMapper.registerModule(new JsonNullableModule());
+        xmlMapper.registerModule(new JsonNullableModule());
         {{/openApiNullable}}
-
         {{/withXml}}
+
+        {{#useJackson3}}
+        Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {
+            builder.withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));
+            {{#withXml}}
+            builder.withXmlConverter(new JacksonXmlHttpMessageConverter(xmlMapper));
+            {{/withXml}}
+        };
+
+        return RestClient.builder().configureMessageConverters(messageConverters);
+        {{/useJackson3}}
+        {{^useJackson3}}
         Consumer<List<HttpMessageConverter<?>>> messageConverters = converters -> {
             converters.add(0, new MappingJackson2HttpMessageConverter(mapper));
             {{#withXml}}
@@ -176,6 +256,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         };
 
         return RestClient.builder().messageConverters(messageConverters);
+        {{/useJackson3}}
     }
 
     /**
@@ -183,15 +264,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return RestClient
      */
     public static RestClient.Builder buildRestClientBuilder() {
-        return buildRestClientBuilder(createDefaultObjectMapper(null));
+        return buildRestClientBuilder(createDefaultMapper(null));
     }
 
     /**
      * Build the RestClient used to make HTTP requests.
-     * @param mapper ObjectMapper used for serialize/deserialize
+     * @param mapper {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} used for serialize/deserialize
      * @return RestClient
      */
-    public static RestClient buildRestClient(ObjectMapper mapper) {
+    public static RestClient buildRestClient({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper) {
         return buildRestClientBuilder(mapper).build();
     }
 
@@ -200,7 +281,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return RestClient
      */
     public static RestClient buildRestClient() {
-        return buildRestClientBuilder(createDefaultObjectMapper(null)).build();
+        return buildRestClientBuilder(createDefaultMapper(null)).build();
     }
 
     /**
@@ -218,6 +299,34 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        this.serverIndex = null;
+        return this;
+    }
+
+    public List<ServerConfiguration> getServers() {
+        return servers;
+    }
+
+    public ApiClient setServers(List<ServerConfiguration> servers) {
+        this.servers = servers;
+        return this;
+    }
+
+    public Integer getServerIndex() {
+        return serverIndex;
+    }
+
+    public ApiClient setServerIndex(Integer serverIndex) {
+        this.serverIndex = serverIndex;
+        return this;
+    }
+
+    public Map<String, String> getServerVariables() {
+        return serverVariables;
+    }
+
+    public ApiClient setServerVariables(Map<String, String> serverVariables) {
+        this.serverVariables = serverVariables;
         return this;
     }
 
@@ -330,10 +439,20 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param accessToken the access token
      */
     public void setAccessToken(String accessToken) {
+        setAccessToken(() -> accessToken);
+    }
+
+    /**
+     * Helper method to set the supplier of access tokens for OAuth2 authentication.
+     *
+     * @param tokenSupplier The supplier of access tokens
+     * @return ApiClient this client
+     */
+    public ApiClient setAccessToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof OAuth) {
-                ((OAuth) auth).setAccessToken(accessToken);
-                return;
+                ((OAuth) auth).setAccessToken(tokenSupplier);
+                return this;
             }
         }
         throw new RuntimeException("No OAuth2 authentication configured!");
@@ -358,10 +477,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return ApiClient this client
      */
     public ApiClient addDefaultHeader(String name, String value) {
-        if (defaultHeaders.containsKey(name)) {
-            defaultHeaders.remove(name);
-        }
-        defaultHeaders.add(name, value);
+        defaultHeaders.set(name, value);
         return this;
     }
 
@@ -407,11 +523,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
-     * Get the ObjectMapper used to make HTTP requests.
-     * @return ObjectMapper objectMapper
+     * Get the {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} used to make HTTP requests.
+     * @return {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper
      */
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
+    public {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} get{{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}}() {
+        return mapper;
     }
 
     /**
@@ -446,6 +562,36 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         } else {
             return String.valueOf(param);
         }
+    }
+
+    /**
+    * Converts a parameter to a {@link MultiValueMap} containing Json-serialized values for use in REST requests
+    * @param collectionFormat The format to convert to
+    * @param name The name of the parameter
+    * @param value The parameter's value
+    * @return a Map containing the Json-serialized String value(s) of the input parameter
+    */
+    public MultiValueMap<String, String> parameterToMultiValueMapJson(CollectionFormat collectionFormat, String name, Object value) {
+        Collection<?> valueCollection;
+        if (value instanceof Collection) {
+            valueCollection = (Collection<?>) value;
+        } else {
+            try {
+                return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
+            } catch ({{#useJackson3}}JacksonException{{/useJackson3}}{{^useJackson3}}JsonProcessingException{{/useJackson3}} e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        List<String> values = new ArrayList<>();
+        for(Object o : valueCollection) {
+            try {
+                values.add(mapper.writeValueAsString(o));
+            } catch ({{#useJackson3}}JacksonException{{/useJackson3}}{{^useJackson3}}JsonProcessingException{{/useJackson3}} e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return parameterToMultiValueMap(collectionFormat, name, "[" + StringUtils.collectionToDelimitedString(values, collectionFormat.separator) + "]");
     }
 
     /**
@@ -626,7 +772,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param uriParams The path parameters
      * return templatized query string
      */
-    private String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
+    protected String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
         StringBuilder queryBuilder = new StringBuilder();
         queryParams.forEach((name, values) -> {
             if (CollectionUtils.isEmpty(values)) {
@@ -652,13 +798,26 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         return queryBuilder.toString();
     }
 
-    private RestClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams,
+    protected RestClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams,
         MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams,
         MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept,
         MediaType contentType, String[] authNames) {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
+        String baseUrl = basePath;
+        if (serverIndex != null) {
+            if (serverIndex < 0 || serverIndex >= servers.size()) {
+                throw new ArrayIndexOutOfBoundsException(String.format(
+                    java.util.Locale.ROOT,
+                    "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
+                ));
+            }
+            baseUrl = servers.get(serverIndex).URL(serverVariables);
+        }
+
+        final UriComponentsBuilder builder = UriComponentsBuilder
+                    .fromUriString(baseUrl)
+                    .path(path);
 
         String finalUri = builder.build(false).toUriString();
         Map<String, Object> uriParams = new HashMap<>();
@@ -685,6 +844,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         addCookiesToRequest(cookieParams, requestBuilder);
         addCookiesToRequest(defaultCookies, requestBuilder);
 
+        if (MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType)) {
+            formParams.forEach(
+                    (k, v) -> {
+                        if (v instanceof java.util.ArrayList) {
+                            Object o = v.get(0);
+                            if (o != null && o.getClass().getEnumConstants() != null) {
+                                v.set(0, o.toString());
+                            }
+                        }
+                    });
+        }
+
         var selectedBody = selectBody(body, formParams, contentType);
         if (selectedBody != null) {
           requestBuilder.body(selectedBody);
@@ -699,7 +870,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param requestBuilder The current request
      */
     protected void addHeadersToRequest(HttpHeaders headers, RestClient.RequestBodySpec requestBuilder) {
-        for (Entry<String, List<String>> entry : headers.entrySet()) {
+        for (Entry<String, List<String>> entry : headers.headerSet()) {
             List<String> values = entry.getValue();
             for(String value : values) {
                 if (value != null) {
@@ -728,12 +899,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param cookies map all cookies
      * @return header string for cookies.
      */
-    private String buildCookieHeader(MultiValueMap<String, String> cookies) {
+    protected String buildCookieHeader(MultiValueMap<String, String> cookies) {
         final StringBuilder cookieValue = new StringBuilder();
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
             final String value = entry.getValue().get(entry.getValue().size() - 1);
-            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            cookieValue.append(String.format(java.util.Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
             delimiter = "; ";
         }
         return cookieValue.toString();

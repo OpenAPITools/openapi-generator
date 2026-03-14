@@ -9,6 +9,8 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type Status* {.pure.} = enum
@@ -18,23 +20,35 @@ type Status* {.pure.} = enum
 
 type Order* = object
   ## An order for a pets from the pet store
-  id*: int64
-  petId*: int64
-  quantity*: int
-  shipDate*: string
-  status*: Status ## Order Status
-  complete*: bool
+  id*: Option[int64]
+  petId*: Option[int64]
+  quantity*: Option[int]
+  shipDate*: Option[string]
+  status*: Option[Status] ## Order Status
+  complete*: Option[bool]
 
 func `%`*(v: Status): JsonNode =
-  let str = case v:
-    of Status.Placed: "placed"
-    of Status.Approved: "approved"
-    of Status.Delivered: "delivered"
-
-  JsonNode(kind: JString, str: str)
-
+  result = case v:
+    of Status.Placed: %"placed"
+    of Status.Approved: %"approved"
+    of Status.Delivered: %"delivered"
 func `$`*(v: Status): string =
   result = case v:
-    of Status.Placed: "placed"
-    of Status.Approved: "approved"
-    of Status.Delivered: "delivered"
+    of Status.Placed: $("placed")
+    of Status.Approved: $("approved")
+    of Status.Delivered: $("delivered")
+
+proc to*(node: JsonNode, T: typedesc[Status]): Status =
+  if node.kind != JString:
+    raise newException(ValueError, "Expected string for enum Status, got " & $node.kind)
+  let strVal = node.getStr()
+  case strVal:
+  of $("placed"):
+    return Status.Placed
+  of $("approved"):
+    return Status.Approved
+  of $("delivered"):
+    return Status.Delivered
+  else:
+    raise newException(ValueError, "Invalid enum value for Status: " & strVal)
+

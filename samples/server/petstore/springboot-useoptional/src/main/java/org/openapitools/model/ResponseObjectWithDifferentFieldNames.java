@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
   private Optional<String> normalPropertyName = Optional.empty();
@@ -47,6 +47,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return normalPropertyName;
   }
 
+  @JsonProperty("normalPropertyName")
   public void setNormalPropertyName(Optional<String> normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
   }
@@ -67,6 +68,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return UPPER_CASE_PROPERTY_SNAKE;
   }
 
+  @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public void setUPPERCASEPROPERTYSNAKE(Optional<String> UPPER_CASE_PROPERTY_SNAKE) {
     this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
   }
@@ -87,6 +89,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return lowerCasePropertyDashes;
   }
 
+  @JsonProperty("lower-case-property-dashes")
   public void setLowerCasePropertyDashes(Optional<String> lowerCasePropertyDashes) {
     this.lowerCasePropertyDashes = lowerCasePropertyDashes;
   }
@@ -107,6 +110,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return propertyNameWithSpaces;
   }
 
+  @JsonProperty("property name with spaces")
   public void setPropertyNameWithSpaces(Optional<String> propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;
   }

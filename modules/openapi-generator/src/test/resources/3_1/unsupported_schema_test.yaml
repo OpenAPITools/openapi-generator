@@ -24,6 +24,11 @@ paths:
                 $ref: "#/components/schemas/Dummy"
 components:
   schemas:
+    RefSchema:
+      description: reference schema
+      properties:
+        id:
+          type: string
     Dummy:
       type: object
       properties:
@@ -62,3 +67,6 @@ components:
                   - FIRST
                   - SECOND
                   - THIRD
+        property3:
+          $ref: "#/components/schemas/RefSchema"
+          description: Override description in $ref schema

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ArrayOfArrayOfNumberOnly: NSObject, Codable, JSONEncodable {
+@objcMembers public final class ArrayOfArrayOfNumberOnly: NSObject, Codable, @unchecked Sendable {
 
     public var arrayArrayNumber: [[Double]]?
 

@@ -1,0 +1,6 @@
+generatorName: kotlin
+outputDir: samples/client/others/kotlin-integer-enum
+inputSpec: modules/openapi-generator/src/test/resources/3_0/pr_21746.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-integer-enum

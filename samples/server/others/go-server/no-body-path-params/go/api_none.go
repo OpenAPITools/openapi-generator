@@ -49,12 +49,27 @@ func NewNoneAPIController(s NoneAPIServicer, opts ...NoneAPIOption) *NoneAPICont
 func (c *NoneAPIController) Routes() Routes {
 	return Routes{
 		"One": Route{
+			"One",
 			strings.ToUpper("Get"),
 			"/none/endpoint",
 			c.One,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the NoneAPIController
+func (c *NoneAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"One",
+			strings.ToUpper("Get"),
+			"/none/endpoint",
+			c.One,
+		},
+	}
+}
+
+
 
 // One - summary
 func (c *NoneAPIController) One(w http.ResponseWriter, r *http.Request) {

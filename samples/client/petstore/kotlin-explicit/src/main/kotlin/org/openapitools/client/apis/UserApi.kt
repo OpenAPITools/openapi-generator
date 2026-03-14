@@ -37,11 +37,11 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-public class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
+public open class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     public companion object {
         @JvmStatic
         public val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://petstore.swagger.io/v2")
         }
     }
 

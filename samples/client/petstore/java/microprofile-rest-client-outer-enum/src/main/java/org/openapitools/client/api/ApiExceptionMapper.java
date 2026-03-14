@@ -1,4 +1,4 @@
-/**
+/*
  * Petstore API
  * API for managing pets in a pet store
  *

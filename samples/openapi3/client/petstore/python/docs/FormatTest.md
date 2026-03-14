@@ -14,11 +14,11 @@ Name | Type | Description | Notes
 **decimal** | **decimal.Decimal** |  | [optional] 
 **string** | **str** |  | [optional] 
 **string_with_double_quote_pattern** | **str** |  | [optional] 
-**byte** | **bytearray** |  | [optional] 
-**binary** | **bytearray** |  | [optional] 
+**byte** | **bytes** |  | [optional] 
+**binary** | **bytes** |  | [optional] 
 **var_date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
-**uuid** | **str** |  | [optional] 
+**uuid** | **UUID** |  | [optional] 
 **password** | **str** |  | 
 **pattern_with_digits** | **str** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **pattern_with_digits_and_delimiter** | **str** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 

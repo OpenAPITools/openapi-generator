@@ -24,6 +24,7 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
+
 /**
  * An enum with complex-ish naming
  *
@@ -61,7 +62,7 @@ enum class PetEnum(val value: kotlin.String) {
          */
         fun decode(data: kotlin.Any?): PetEnum? = data?.let {
           val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
+          entries.firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }
@@ -73,7 +74,7 @@ internal object PetEnumSerializer : KSerializer<PetEnum> {
 
     override fun deserialize(decoder: Decoder): PetEnum {
         val value = decoder.decodeSerializableValue(kotlin.String.serializer())
-        return PetEnum.values().firstOrNull { it.value == value }
+        return PetEnum.entries.firstOrNull { it.value == value }
             ?: PetEnum.UNKNOWN_DEFAULT_OPEN_API
     }
 
@@ -81,4 +82,5 @@ internal object PetEnumSerializer : KSerializer<PetEnum> {
         encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
     }
 }
+
 

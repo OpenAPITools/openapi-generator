@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: Issue 18345
+  description: ''
+  version: 1.0.0
+paths:
+  /dummy:
+    post:
+      description: ''
+      operationId: uploadFile
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: successful operation
+components:
+  schemas:
+    SampleModelToTestAvroDefaultValues:
+      type: object
+      required:
+        - tagsRequired
+        - tagsRequiredWithDefault
+      properties:
+        name:
+          type: string
+          default: 'defaultName'
+        age:
+          type: integer
+          default: 25
+        isActive:
+          type: boolean
+          default: true
+        createdAt:
+          type: string
+          format: date-time
+          default: '2023-01-01T00:00:00Z'
+        tagsNotRequired:
+          type: array
+          items:
+            type: string
+        tagsNotRequiredWithDefault:
+          type: array
+          default: ['defaultTag']
+          items:
+            type: string
+        tagsRequired:
+          type: array
+          items:
+            type: string
+        tagsRequiredWithDefault:
+          type: array
+          default: ['defaultTag']
+          items:
+            type: string

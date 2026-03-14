@@ -54,15 +54,35 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class BodyApi {
+  /**
+   * Utility class for extending HttpRequest.Builder functionality.
+   */
+  private static class HttpRequestBuilderExtensions {
+    /**
+     * Adds additional headers to the provided HttpRequest.Builder. Useful for adding method/endpoint specific headers.
+     *
+     * @param builder the HttpRequest.Builder to which headers will be added
+     * @param headers a map of header names and values to add; may be null
+     * @return the same HttpRequest.Builder instance with the additional headers set
+     */
+    static HttpRequest.Builder withAdditionalHeaders(HttpRequest.Builder builder, Map<String, String> headers) {
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        return builder;
+    }
+  }
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public BodyApi() {
     this(Configuration.getDefaultApiClient());
@@ -78,8 +98,17 @@ public class BodyApi {
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
 
+
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
-    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    InputStream responseBody = ApiClient.getResponseBody(response);
+    String body = null;
+    try {
+      body = responseBody == null ? null : new String(responseBody.readAllBytes());
+    } finally {
+      if (responseBody != null) {
+        responseBody.close();
+      }
+    }
     String message = formatExceptionMessage(operationId, response.statusCode(), body);
     return new ApiException(response.statusCode(), message, response.headers(), body);
   }
@@ -92,13 +121,75 @@ public class BodyApi {
   }
 
   /**
+   * Download file from the given response.
+   *
+   * @param response Response
+   * @return File
+   * @throws ApiException If fail to read file content from response and write to disk
+   */
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
+    try {
+      File file = prepareDownloadFile(response);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      return file;
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+  }
+
+  /**
+   * <p>Prepare the file for download from the response.</p>
+   *
+   * @param response a {@link java.net.http.HttpResponse} object.
+   * @return a {@link java.io.File} object.
+   * @throws java.io.IOException if any.
+   */
+  private File prepareDownloadFile(HttpResponse<InputStream> response) throws IOException {
+    String filename = null;
+    java.util.Optional<String> contentDisposition = response.headers().firstValue("Content-Disposition");
+    if (contentDisposition.isPresent() && !"".equals(contentDisposition.get())) {
+      // Get filename from the Content-Disposition header.
+      java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      java.util.regex.Matcher matcher = pattern.matcher(contentDisposition.get());
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+    File file = null;
+    if (filename != null) {
+      java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("swagger-gen-native");
+      java.nio.file.Path filePath = java.nio.file.Files.createFile(tempDir.resolve(filename));
+      file = filePath.toFile();
+      tempDir.toFile().deleteOnExit();   // best effort cleanup
+      file.deleteOnExit(); // best effort cleanup
+    } else {
+      file = java.nio.file.Files.createTempFile("download-", "").toFile();
+      file.deleteOnExit(); // best effort cleanup
+    }
+    return file;
+  }
+
+  /**
    * Test binary (gif) response body
    * Test binary (gif) response body
    * @return File
    * @throws ApiException if fails to make API call
    */
   public File testBinaryGif() throws ApiException {
-    ApiResponse<File> localVarResponse = testBinaryGifWithHttpInfo();
+    return testBinaryGif(null);
+  }
+
+  /**
+   * Test binary (gif) response body
+   * Test binary (gif) response body
+   * @param headers Optional headers to include in the request
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File testBinaryGif(Map<String, String> headers) throws ApiException {
+    ApiResponse<File> localVarResponse = testBinaryGifWithHttpInfo(headers);
     return localVarResponse.getData();
   }
 
@@ -109,7 +200,18 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<File> testBinaryGifWithHttpInfo() throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testBinaryGifRequestBuilder();
+    return testBinaryGifWithHttpInfo(null);
+  }
+
+  /**
+   * Test binary (gif) response body
+   * Test binary (gif) response body
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;File&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<File> testBinaryGifWithHttpInfo(Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testBinaryGifRequestBuilder(headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -117,11 +219,13 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testBinaryGif", localVarResponse);
         }
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<File>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -129,15 +233,20 @@ public class BodyApi {
           );
         }
 
-        String responseBody = new String(localVarResponse.body().readAllBytes());
-        localVarResponse.body().close();
+        
+        // Handle file downloading.
+        File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);
+        
 
         return new ApiResponse<File>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<File>() {})
+            responseValue
         );
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -148,7 +257,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testBinaryGifRequestBuilder() throws ApiException {
+  private HttpRequest.Builder testBinaryGifRequestBuilder(Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -162,6 +271,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -175,8 +286,20 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyApplicationOctetstreamBinary(File body) throws ApiException {
-    ApiResponse<String> localVarResponse = testBodyApplicationOctetstreamBinaryWithHttpInfo(body);
+  public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body) throws ApiException {
+    return testBodyApplicationOctetstreamBinary(body, null);
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param body  (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testBodyApplicationOctetstreamBinaryWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -187,8 +310,20 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testBodyApplicationOctetstreamBinaryRequestBuilder(body);
+  public ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(@javax.annotation.Nullable File body) throws ApiException {
+    return testBodyApplicationOctetstreamBinaryWithHttpInfo(body, null);
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param body  (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(@javax.annotation.Nullable File body, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testBodyApplicationOctetstreamBinaryRequestBuilder(body, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -196,6 +331,7 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testBodyApplicationOctetstreamBinary", localVarResponse);
@@ -203,7 +339,8 @@ public class BodyApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -214,6 +351,9 @@ public class BodyApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -224,7 +364,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testBodyApplicationOctetstreamBinaryRequestBuilder(File body) throws ApiException {
+  private HttpRequest.Builder testBodyApplicationOctetstreamBinaryRequestBuilder(@javax.annotation.Nullable File body, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -244,6 +384,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -257,8 +399,20 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws ApiException {
-    ApiResponse<String> localVarResponse = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files);
+  public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files) throws ApiException {
+    return testBodyMultipartFormdataArrayOfBinary(files, null);
+  }
+
+  /**
+   * Test array of binary in multipart mime
+   * Test array of binary in multipart mime
+   * @param files  (required)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, headers);
     return localVarResponse.getData();
   }
 
@@ -269,8 +423,20 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<File> files) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testBodyMultipartFormdataArrayOfBinaryRequestBuilder(files);
+  public ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@javax.annotation.Nonnull List<File> files) throws ApiException {
+    return testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, null);
+  }
+
+  /**
+   * Test array of binary in multipart mime
+   * Test array of binary in multipart mime
+   * @param files  (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@javax.annotation.Nonnull List<File> files, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testBodyMultipartFormdataArrayOfBinaryRequestBuilder(files, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -278,6 +444,7 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testBodyMultipartFormdataArrayOfBinary", localVarResponse);
@@ -285,7 +452,8 @@ public class BodyApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -296,6 +464,9 @@ public class BodyApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -306,7 +477,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testBodyMultipartFormdataArrayOfBinaryRequestBuilder(List<File> files) throws ApiException {
+  private HttpRequest.Builder testBodyMultipartFormdataArrayOfBinaryRequestBuilder(@javax.annotation.Nonnull List<File> files, Map<String, String> headers) throws ApiException {
     // verify the required parameter 'files' is set
     if (files == null) {
       throw new ApiException(400, "Missing the required parameter 'files' when calling testBodyMultipartFormdataArrayOfBinary");
@@ -350,8 +521,9 @@ public class BodyApi {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        byte[] formBytes = formOutputStream.toByteArray();
         formDataPublisher = HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
+            .ofInputStream(() -> new ByteArrayInputStream(formBytes));
     }
     localVarRequestBuilder
         .header("Content-Type", entity.getContentType().getValue())
@@ -359,6 +531,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -372,8 +546,20 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataSingleBinary(File myFile) throws ApiException {
-    ApiResponse<String> localVarResponse = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile);
+  public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile) throws ApiException {
+    return testBodyMultipartFormdataSingleBinary(myFile, null);
+  }
+
+  /**
+   * Test single binary in multipart mime
+   * Test single binary in multipart mime
+   * @param myFile  (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile, headers);
     return localVarResponse.getData();
   }
 
@@ -384,8 +570,20 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(File myFile) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testBodyMultipartFormdataSingleBinaryRequestBuilder(myFile);
+  public ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@javax.annotation.Nullable File myFile) throws ApiException {
+    return testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile, null);
+  }
+
+  /**
+   * Test single binary in multipart mime
+   * Test single binary in multipart mime
+   * @param myFile  (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@javax.annotation.Nullable File myFile, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testBodyMultipartFormdataSingleBinaryRequestBuilder(myFile, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -393,6 +591,7 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testBodyMultipartFormdataSingleBinary", localVarResponse);
@@ -400,7 +599,8 @@ public class BodyApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -411,6 +611,9 @@ public class BodyApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -421,7 +624,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testBodyMultipartFormdataSingleBinaryRequestBuilder(File myFile) throws ApiException {
+  private HttpRequest.Builder testBodyMultipartFormdataSingleBinaryRequestBuilder(@javax.annotation.Nullable File myFile, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -459,8 +662,9 @@ public class BodyApi {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        byte[] formBytes = formOutputStream.toByteArray();
         formDataPublisher = HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
+            .ofInputStream(() -> new ByteArrayInputStream(formBytes));
     }
     localVarRequestBuilder
         .header("Content-Type", entity.getContentType().getValue())
@@ -468,6 +672,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -481,8 +687,20 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyAllOfPet(Pet pet) throws ApiException {
-    ApiResponse<Pet> localVarResponse = testEchoBodyAllOfPetWithHttpInfo(pet);
+  public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet) throws ApiException {
+    return testEchoBodyAllOfPet(pet, null);
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param headers Optional headers to include in the request
+   * @return Pet
+   * @throws ApiException if fails to make API call
+   */
+  public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
+    ApiResponse<Pet> localVarResponse = testEchoBodyAllOfPetWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -493,8 +711,20 @@ public class BodyApi {
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyAllOfPetRequestBuilder(pet);
+  public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
+    return testEchoBodyAllOfPetWithHttpInfo(pet, null);
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;Pet&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyAllOfPetRequestBuilder(pet, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -502,11 +732,13 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testEchoBodyAllOfPet", localVarResponse);
         }
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<Pet>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -514,15 +746,21 @@ public class BodyApi {
           );
         }
 
-        String responseBody = new String(localVarResponse.body().readAllBytes());
-        localVarResponse.body().close();
+        
+        
+        String responseBody = new String(localVarResponseBody.readAllBytes());
+        Pet responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {});
+        
 
         return new ApiResponse<Pet>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {})
+            responseValue
         );
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -533,7 +771,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyAllOfPetRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder testEchoBodyAllOfPetRequestBuilder(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -553,6 +791,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -566,8 +806,20 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyFreeFormObjectResponseString(Object body) throws ApiException {
-    ApiResponse<String> localVarResponse = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body);
+  public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body) throws ApiException {
+    return testEchoBodyFreeFormObjectResponseString(body, null);
+  }
+
+  /**
+   * Test free form object
+   * Test free form object
+   * @param body Free form object (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -578,8 +830,20 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object body) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyFreeFormObjectResponseStringRequestBuilder(body);
+  public ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(@javax.annotation.Nullable Object body) throws ApiException {
+    return testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, null);
+  }
+
+  /**
+   * Test free form object
+   * Test free form object
+   * @param body Free form object (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(@javax.annotation.Nullable Object body, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyFreeFormObjectResponseStringRequestBuilder(body, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -587,6 +851,7 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testEchoBodyFreeFormObjectResponseString", localVarResponse);
@@ -594,7 +859,8 @@ public class BodyApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -605,6 +871,9 @@ public class BodyApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -615,7 +884,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyFreeFormObjectResponseStringRequestBuilder(Object body) throws ApiException {
+  private HttpRequest.Builder testEchoBodyFreeFormObjectResponseStringRequestBuilder(@javax.annotation.Nullable Object body, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -635,6 +904,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -648,8 +919,20 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyPet(Pet pet) throws ApiException {
-    ApiResponse<Pet> localVarResponse = testEchoBodyPetWithHttpInfo(pet);
+  public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet) throws ApiException {
+    return testEchoBodyPet(pet, null);
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param headers Optional headers to include in the request
+   * @return Pet
+   * @throws ApiException if fails to make API call
+   */
+  public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
+    ApiResponse<Pet> localVarResponse = testEchoBodyPetWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -660,8 +943,20 @@ public class BodyApi {
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(Pet pet) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetRequestBuilder(pet);
+  public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
+    return testEchoBodyPetWithHttpInfo(pet, null);
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;Pet&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetRequestBuilder(pet, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -669,11 +964,13 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testEchoBodyPet", localVarResponse);
         }
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<Pet>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -681,15 +978,21 @@ public class BodyApi {
           );
         }
 
-        String responseBody = new String(localVarResponse.body().readAllBytes());
-        localVarResponse.body().close();
+        
+        
+        String responseBody = new String(localVarResponseBody.readAllBytes());
+        Pet responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {});
+        
 
         return new ApiResponse<Pet>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Pet>() {})
+            responseValue
         );
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -700,7 +1003,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyPetRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder testEchoBodyPetRequestBuilder(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -720,6 +1023,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -733,8 +1038,20 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
-    ApiResponse<String> localVarResponse = testEchoBodyPetResponseStringWithHttpInfo(pet);
+  public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet) throws ApiException {
+    return testEchoBodyPetResponseString(pet, null);
+  }
+
+  /**
+   * Test empty response body
+   * Test empty response body
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testEchoBodyPetResponseStringWithHttpInfo(pet, headers);
     return localVarResponse.getData();
   }
 
@@ -745,8 +1062,20 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetResponseStringRequestBuilder(pet);
+  public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
+    return testEchoBodyPetResponseStringWithHttpInfo(pet, null);
+  }
+
+  /**
+   * Test empty response body
+   * Test empty response body
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetResponseStringRequestBuilder(pet, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -754,6 +1083,7 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testEchoBodyPetResponseString", localVarResponse);
@@ -761,7 +1091,8 @@ public class BodyApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -772,6 +1103,9 @@ public class BodyApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -782,7 +1116,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyPetResponseStringRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder testEchoBodyPetResponseStringRequestBuilder(@javax.annotation.Nullable Pet pet, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -802,6 +1136,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -815,8 +1151,20 @@ public class BodyApi {
    * @return StringEnumRef
    * @throws ApiException if fails to make API call
    */
-  public StringEnumRef testEchoBodyStringEnum(String body) throws ApiException {
-    ApiResponse<StringEnumRef> localVarResponse = testEchoBodyStringEnumWithHttpInfo(body);
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
+    return testEchoBodyStringEnum(body, null);
+  }
+
+  /**
+   * Test string enum response body
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @param headers Optional headers to include in the request
+   * @return StringEnumRef
+   * @throws ApiException if fails to make API call
+   */
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
+    ApiResponse<StringEnumRef> localVarResponse = testEchoBodyStringEnumWithHttpInfo(body, headers);
     return localVarResponse.getData();
   }
 
@@ -827,8 +1175,20 @@ public class BodyApi {
    * @return ApiResponse&lt;StringEnumRef&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyStringEnumRequestBuilder(body);
+  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
+    return testEchoBodyStringEnumWithHttpInfo(body, null);
+  }
+
+  /**
+   * Test string enum response body
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;StringEnumRef&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyStringEnumRequestBuilder(body, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -836,11 +1196,13 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testEchoBodyStringEnum", localVarResponse);
         }
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<StringEnumRef>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -848,15 +1210,21 @@ public class BodyApi {
           );
         }
 
-        String responseBody = new String(localVarResponse.body().readAllBytes());
-        localVarResponse.body().close();
+        
+        
+        String responseBody = new String(localVarResponseBody.readAllBytes());
+        StringEnumRef responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<StringEnumRef>() {});
+        
 
         return new ApiResponse<StringEnumRef>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<StringEnumRef>() {})
+            responseValue
         );
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -867,7 +1235,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyStringEnumRequestBuilder(String body) throws ApiException {
+  private HttpRequest.Builder testEchoBodyStringEnumRequestBuilder(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -887,6 +1255,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }
@@ -900,8 +1270,20 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyTagResponseString(Tag tag) throws ApiException {
-    ApiResponse<String> localVarResponse = testEchoBodyTagResponseStringWithHttpInfo(tag);
+  public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag) throws ApiException {
+    return testEchoBodyTagResponseString(tag, null);
+  }
+
+  /**
+   * Test empty json (request body)
+   * Test empty json (request body)
+   * @param tag Tag object (optional)
+   * @param headers Optional headers to include in the request
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = testEchoBodyTagResponseStringWithHttpInfo(tag, headers);
     return localVarResponse.getData();
   }
 
@@ -912,8 +1294,20 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyTagResponseStringRequestBuilder(tag);
+  public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(@javax.annotation.Nullable Tag tag) throws ApiException {
+    return testEchoBodyTagResponseStringWithHttpInfo(tag, null);
+  }
+
+  /**
+   * Test empty json (request body)
+   * Test empty json (request body)
+   * @param tag Tag object (optional)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(@javax.annotation.Nullable Tag tag, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyTagResponseStringRequestBuilder(tag, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -921,6 +1315,7 @@ public class BodyApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testEchoBodyTagResponseString", localVarResponse);
@@ -928,7 +1323,8 @@ public class BodyApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -939,6 +1335,9 @@ public class BodyApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -949,7 +1348,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyTagResponseStringRequestBuilder(Tag tag) throws ApiException {
+  private HttpRequest.Builder testEchoBodyTagResponseStringRequestBuilder(@javax.annotation.Nullable Tag tag, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -969,6 +1368,8 @@ public class BodyApi {
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
     if (memberVarInterceptor != null) {
       memberVarInterceptor.accept(localVarRequestBuilder);
     }

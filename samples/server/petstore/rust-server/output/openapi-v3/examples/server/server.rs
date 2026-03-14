@@ -4,8 +4,9 @@
 
 use async_trait::async_trait;
 use futures::{future, Stream, StreamExt, TryFutureExt, TryStreamExt};
-use hyper::server::conn::Http;
-use hyper::service::Service;
+use hyper::server::conn::http1;
+use hyper_util::rt::TokioIo;
+use hyper::service::{service_fn, Service};
 use log::info;
 use std::future::Future;
 use std::marker::PhantomData;
@@ -24,12 +25,12 @@ use openapi_v3::models;
 
 /// Builds an SSL implementation for Simple HTTPS from some hard-coded file names
 pub async fn create(addr: &str, https: bool) {
-    let addr = addr.parse().expect("Failed to parse bind address");
+    let addr: SocketAddr = addr.parse().expect("Failed to parse bind address");
+    let listener = TcpListener::bind(&addr).await.unwrap();
 
     let server = Server::new();
 
     let service = MakeService::new(server);
-
     let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
     #[allow(unused_mut)]
@@ -54,21 +55,19 @@ pub async fn create(addr: &str, https: bool) {
             ssl.check_private_key().expect("Failed to check private key");
 
             let tls_acceptor = ssl.build();
-            let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
             info!("Starting a server (with https)");
             loop {
-                if let Ok((tcp, _)) = tcp_listener.accept().await {
+                if let Ok((tcp, addr)) = listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
-                    let addr = tcp.peer_addr().expect("Unable to get remote address");
                     let service = service.call(addr);
 
                     tokio::spawn(async move {
                         let tls = tokio_openssl::SslStream::new(ssl, tcp).map_err(|_| ())?;
                         let service = service.await.map_err(|_| ())?;
 
-                        Http::new()
-                            .serve_connection(tls, service)
+                        http1::Builder::new()
+                            .serve_connection(TokioIo::new(tls), service)
                             .await
                             .map_err(|_| ())
                     });
@@ -77,12 +76,40 @@ pub async fn create(addr: &str, https: bool) {
         }
     } else {
         info!("Starting a server (over http, so no TLS)");
-        // Using HTTP
-        hyper::server::Server::bind(&addr).serve(service).await.unwrap()
+        println!("Listening on http://{}", addr);
+
+        loop {
+            // When an incoming TCP connection is received grab a TCP stream for
+            // client<->server communication.
+            //
+            // Note, this is a .await point, this loop will loop forever but is not a busy loop. The
+            // .await point allows the Tokio runtime to pull the task off of the thread until the task
+            // has work to do. In this case, a connection arrives on the port we are listening on and
+            // the task is woken up, at which point the task is then put back on a thread, and is
+            // driven forward by the runtime, eventually yielding a TCP stream.
+            let (tcp_stream, addr) = listener.accept().await.expect("Failed to accept connection");
+
+            let service = service.call(addr).await.unwrap();
+            let io = TokioIo::new(tcp_stream);
+            // Spin up a new task in Tokio so we can continue to listen for new TCP connection on the
+            // current task without waiting for the processing of the HTTP1 connection we just received
+            // to finish
+            tokio::task::spawn(async move {
+                // Handle the connection from the client using HTTP1 and pass any
+                // HTTP requests received on that connection to the `hello` function
+                let result = http1::Builder::new()
+                    .serve_connection(io, service)
+                    .await;
+                if let Err(err) = result
+                {
+                    println!("Error serving connection: {err:?}");
+                }
+            });
+        }
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy)]
 pub struct Server<C> {
     marker: PhantomData<C>,
 }
@@ -90,6 +117,14 @@ pub struct Server<C> {
 impl<C> Server<C> {
     pub fn new() -> Self {
         Server{marker: PhantomData}
+    }
+}
+
+impl<C> Clone for Server<C> {
+    fn clone(&self) -> Self {
+        Self {
+            marker: PhantomData,
+        }
     }
 }
 
@@ -105,6 +140,7 @@ use openapi_v3::{
     AnyOfGetResponse,
     CallbackWithHeaderPostResponse,
     ComplexQueryParamGetResponse,
+    ExamplesTestResponse,
     FormTestResponse,
     GetWithBooleanParameterResponse,
     JsonComplexQueryParamGetResponse,
@@ -115,6 +151,7 @@ use openapi_v3::{
     OneOfGetResponse,
     OverrideServerGetResponse,
     ParamgetGetResponse,
+    QueryExampleGetResponse,
     ReadonlyAuthSchemeGetResponse,
     RegisterCallbackPostResponse,
     RequiredOctetStreamPutResponse,
@@ -140,9 +177,9 @@ use swagger::ApiError;
 #[async_trait]
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 {
-    async fn any_of_get(
+    async fn any_of_get<'a>(
         &self,
-        any_of: Option<&Vec<models::AnyOfObject>>,
+        any_of: Option<&'a Vec<models::AnyOfObject>>,
         context: &C) -> Result<AnyOfGetResponse, ApiError>
     {
         info!("any_of_get({:?}) - X-Span-ID: {:?}", any_of, context.get().0.clone());
@@ -158,22 +195,33 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    async fn complex_query_param_get(
+    async fn complex_query_param_get<'a>(
         &self,
-        list_of_strings: Option<&Vec<models::StringObject>>,
+        list_of_strings: Option<&'a Vec<models::StringObject>>,
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>
     {
         info!("complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    /// Test a Form Post
-    async fn form_test(
+    /// Test examples
+    async fn examples_test<'a>(
         &self,
-        required_array: Option<&Vec<String>>,
+        ids: Option<&'a Vec<String>>,
+        context: &C) -> Result<ExamplesTestResponse, ApiError>
+    {
+        info!("examples_test({:?}) - X-Span-ID: {:?}", ids, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Test a Form Post
+    async fn form_test<'a>(
+        &self,
+        required_array: &'a Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>
     {
-        info!("form_test({:?}) - X-Span-ID: {:?}", required_array, context.get().0.clone());
+        info!("form_test({:?}, {:?}) - X-Span-ID: {:?}", required_array, enum_field, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -186,9 +234,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    async fn json_complex_query_param_get(
+    async fn json_complex_query_param_get<'a>(
         &self,
-        list_of_strings: Option<&Vec<models::StringObject>>,
+        list_of_strings: Option<&'a Vec<models::StringObject>>,
         context: &C) -> Result<JsonComplexQueryParamGetResponse, ApiError>
     {
         info!("json_complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
@@ -254,6 +302,17 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<ParamgetGetResponse, ApiError>
     {
         info!("paramget_get({:?}, {:?}, {:?}) - X-Span-ID: {:?}", uuid, some_object, some_list, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        context: &C) -> Result<QueryExampleGetResponse, ApiError>
+    {
+        info!("query_example_get(\"{}\", {}) - X-Span-ID: {:?}", required_no_example, required_with_example, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 

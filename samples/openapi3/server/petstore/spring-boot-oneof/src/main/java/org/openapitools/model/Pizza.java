@@ -33,7 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Pizza extends Entity {
 
   private @Nullable BigDecimal pizzaSize;
@@ -49,7 +49,7 @@ public class Pizza extends Entity {
     super(atType);
   }
 
-  public Pizza pizzaSize(BigDecimal pizzaSize) {
+  public Pizza pizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
     return this;
   }
@@ -61,11 +61,12 @@ public class Pizza extends Entity {
   @Valid 
   @Schema(name = "pizzaSize", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pizzaSize")
-  public BigDecimal getPizzaSize() {
+  public @Nullable BigDecimal getPizzaSize() {
     return pizzaSize;
   }
 
-  public void setPizzaSize(BigDecimal pizzaSize) {
+  @JsonProperty("pizzaSize")
+  public void setPizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
   }
 
@@ -126,7 +127,7 @@ public class Pizza extends Entity {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

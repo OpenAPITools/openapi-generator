@@ -1,7 +1,13 @@
+{{^skipCopyWith}}
+import 'package:copy_with_extension/copy_with_extension.dart';
+{{/skipCopyWith}}
 import 'package:json_annotation/json_annotation.dart';
 {{#useEquatable}}
 import 'package:equatable/src/equatable_utils.dart';
 {{/useEquatable}}
+{{#useOptional}}
+import 'package:{{pubName}}/src/optional.dart';
+{{/useOptional}}
 
 part '{{classFilename}}.g.dart';
 
@@ -17,6 +23,9 @@ part '{{classFilename}}.g.dart';
 {{#isDeprecated}}
 @Deprecated('{{{classname}}} has been deprecated')
 {{/isDeprecated}}
+{{^skipCopyWith}}
+@CopyWith()
+{{/skipCopyWith}}
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -25,6 +34,7 @@ part '{{classFilename}}.g.dart';
 )
 class {{{classname}}} {
 {{>serialization/json_serializable/dart_constructor}}
+
 
 {{#vars}}
   {{#description}}
@@ -42,11 +52,13 @@ class {{{classname}}} {
   @Deprecated('{{{name}}} has been deprecated')
   {{/deprecated}}
   {{^isBinary}}
-  @JsonKey(
+{{^required}}{{#useOptional}}  @OptionalConverter()
+{{/useOptional}}{{/required}}  @JsonKey(
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
-    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},
+    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},{{^required}}{{#useOptional}}
+    readValue: readOptionalValue,{{/useOptional}}{{/required}}
   {{#isEnumOrRef}}
   {{#enumUnknownDefaultCase}}
   unknownEnumValue: {{{datatypeWithEnum}}}.unknownDefaultOpenApi,
@@ -63,7 +75,7 @@ class {{{classname}}} {
   {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
   {{/required}}
   {{^required}}
-  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}? {{{name}}};
+  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{^useOptional}}?{{/useOptional}} {{{name}}};
   {{/required}}
 
 
@@ -129,11 +141,13 @@ class {{{classname}}} {
         {{^isContainer}}
 
 {{>serialization/json_serializable/enum_inline}}
+
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 
 {{>serialization/json_serializable/enum_inline}}
+
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}

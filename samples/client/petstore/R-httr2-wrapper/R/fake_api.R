@@ -188,10 +188,11 @@ FakeApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    add_pet_optional = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ...)
+    add_pet_optional = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -209,9 +210,10 @@ FakeApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, ...) {
+    add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -221,6 +223,12 @@ FakeApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        rlang::abort(message = "Invalid value for `pet` when calling FakeApi$add_pet_optional, `pet` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `pet` when calling FakeApi$add_pet_optional, `pet` is not nullable"))
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -257,6 +265,10 @@ FakeApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
@@ -304,10 +316,11 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return User
-    fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
-      local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ...)
+    fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -326,9 +339,10 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (User) with additional information such as HTTP status code, headers
-    fake_data_file_with_http_info = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
+    fake_data_file_with_http_info = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -345,7 +359,19 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `dummy`."))
       }
 
+      if (!missing(`dummy`) && is.null(`dummy`)) {
+        rlang::abort(message = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `dummy` when calling FakeApi$fake_data_file, `dummy` is not nullable"))
+      }
 
+      if (!missing(`var_data_file`) && is.null(`var_data_file`)) {
+        rlang::abort(message = "Invalid value for `var_data_file` when calling FakeApi$fake_data_file, `var_data_file` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `var_data_file` when calling FakeApi$fake_data_file, `var_data_file` is not nullable"))
+      }
 
       header_params["dummy"] <- `dummy`
 
@@ -376,6 +402,10 @@ FakeApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
@@ -460,6 +490,12 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `path_array`."))
       }
 
+      if (!missing(`path_array`) && is.null(`path_array`)) {
+        rlang::abort(message = "Invalid value for `path_array` when calling FakeApi$fake_path_array, `path_array` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `path_array` when calling FakeApi$fake_path_array, `path_array` is not nullable"))
+      }
 
       local_var_url_path <- "/fake/path_array/{path_array}/testing"
       if (!missing(`path_array`)) {
@@ -561,7 +597,13 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `reg_exp_test`."))
       }
 
-      if (!str_detect(`reg_exp_test`, "^[A-Za-z0-9_]{1,15}$")) {
+      if (!missing(`reg_exp_test`) && is.null(`reg_exp_test`)) {
+        rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, `reg_exp_test` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, `reg_exp_test` is not nullable"))
+      }
+      if (!is.null(`reg_exp_test`) && !stringr::str_detect(`reg_exp_test`, "^[A-Za-z0-9_]{1,15}$")) {
         rlang::abort(message = "Invalid value for `reg_exp_test` when calling FakeApi$fake_regular_expression, must conform to the pattern ^[A-Za-z0-9_]{1,15}$.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
@@ -675,10 +717,22 @@ FakeApi <- R6::R6Class(
                                                      reason = "Missing required parameter `array_dummy`."))
       }
 
+      if (!missing(`set_dummy`) && is.null(`set_dummy`)) {
+        rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query, `set_dummy` is not nullable"))
+      }
 
+      if (!missing(`array_dummy`) && is.null(`array_dummy`)) {
+        rlang::abort(message = "Invalid value for `array_dummy` when calling FakeApi$fake_set_query, `array_dummy` is not nullable",
+                     .subclass = "ApiException",
+                      ApiException = ApiException$new(status = 0,
+                      reason = "Invalid value for `array_dummy` when calling FakeApi$fake_set_query, `array_dummy` is not nullable"))
+      }
 
       # check if items are unique
-      if (!identical(`set_dummy`, unique(`set_dummy`))) {
+      if (!is.null(`set_dummy`) && !identical(`set_dummy`, unique(`set_dummy`))) {
         rlang::abort(message = "Invalid value for `set_dummy` when calling FakeApi$fake_set_query. Items must be unique.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,

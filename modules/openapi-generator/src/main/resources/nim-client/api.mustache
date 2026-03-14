@@ -18,10 +18,7 @@ const basepath = "{{{basePath}}}"
 template constructResult[T](response: Response): untyped =
   if response.code in {Http200, Http201, Http202, Http204, Http206}:
     try:
-      when name(stripGenericParams(T.typedesc).typedesc) == name(Table):
-        (some(json.to(parseJson(response.body), T.typedesc)), response)
-      else:
-        (some(marshal.to[T](response.body)), response)
+      (some(to(parseJson(response.body), T)), response)
     except JsonParsingError:
       # The server returned a malformed response though the response code is 2XX
       # TODO: need better error handling
@@ -37,9 +34,11 @@ proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {
   httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/isMultipart}}{{#isMultipart}}
   httpClient.headers["Content-Type"] = "multipart/form-data"{{/isMultipart}}{{/hasFormParams}}{{#hasHeaderParams}}{{#headerParams}}
   httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isArray}}.join(","){{/isArray}}{{/headerParams}}{{#description}} ## {{{.}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
-  let url_encoded_query_params = encodeQuery([{{#queryParams}}
-    ("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}), # {{{description}}}{{/queryParams}}
-  ]){{/hasQueryParams}}{{#hasFormParams}}{{^isMultipart}}
+  var query_params_list: seq[(string, string)] = @[]{{#queryParams}}{{#required}}
+  query_params_list.add(("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}})){{/required}}{{^required}}
+  if {{#isArray}}{{{paramName}}}.len > 0{{/isArray}}{{^isArray}}${{{paramName}}} != ""{{/isArray}}:
+    query_params_list.add(("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}})){{/required}}{{/queryParams}}
+  let url_encoded_query_params = encodeQuery(query_params_list){{/hasQueryParams}}{{#hasFormParams}}{{^isMultipart}}
   let form_data = encodeQuery([{{#formParams}}
     ("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}), # {{{description}}}{{/formParams}}
   ]){{/isMultipart}}{{#isMultipart}}
@@ -47,9 +46,15 @@ proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {
 {{#formParams}}    "{{{baseName}}}": ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}, # {{{description}}}
 {{/formParams}}
   }){{/isMultipart}}{{/hasFormParams}}{{#returnType}}
-
+{{#vendorExtensions.x-nim-delete-with-body}}
+  let response = httpClient.request(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}, httpMethod = HttpDelete{{#bodyParams}}, body = $(%{{{paramName}}}){{/bodyParams}})
+{{/vendorExtensions.x-nim-delete-with-body}}{{^vendorExtensions.x-nim-delete-with-body}}
   let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}})
-  constructResult[{{{returnType}}}](response){{/returnType}}{{^returnType}}
-  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}}){{/returnType}}
+{{/vendorExtensions.x-nim-delete-with-body}}
+  constructResult[{{{returnType}}}](response){{/returnType}}{{^returnType}}{{#vendorExtensions.x-nim-delete-with-body}}
+  httpClient.request(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}, httpMethod = HttpDelete{{#bodyParams}}, body = $(%{{{paramName}}}){{/bodyParams}})
+{{/vendorExtensions.x-nim-delete-with-body}}{{^vendorExtensions.x-nim-delete-with-body}}
+  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}})
+{{/vendorExtensions.x-nim-delete-with-body}}{{/returnType}}
 
 {{/operation}}{{/operations}}

@@ -29,7 +29,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Pet {
 
   private Optional<Long> id = Optional.empty();
@@ -54,7 +54,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -112,6 +112,7 @@ public class Pet {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Optional<Long> id) {
     this.id = id;
   }
@@ -132,6 +133,7 @@ public class Pet {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(Optional<Category> category) {
     this.category = category;
   }
@@ -152,6 +154,7 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -181,6 +184,7 @@ public class Pet {
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -209,6 +213,7 @@ public class Pet {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
@@ -225,8 +230,8 @@ public class Pet {
    */
   
   @ApiModelProperty(value = "pet status in the store")
-  @JsonProperty("status")
   @Deprecated
+  @JsonProperty("status")
   public Optional<StatusEnum> getStatus() {
     return status;
   }
@@ -235,6 +240,7 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
   public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }

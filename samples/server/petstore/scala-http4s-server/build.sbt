@@ -1,4 +1,4 @@
-scalaVersion := "2.13.11"
+scalaVersion := "2.13.16"
 scalacOptions += "-Ymacro-annotations"
 
 val circeVersion = "0.14.5"
@@ -18,7 +18,7 @@ val cats = Seq("org.typelevel" %% "cats-core" % catsVersion)
 
 lazy val compilerPlugins = Seq(
   compilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.3.1"),
-  compilerPlugin("org.typelevel"   %% "kind-projector"     % "0.13.2" cross CrossVersion.full)
+  compilerPlugin("org.typelevel"   %% "kind-projector"     % "0.13.3" cross CrossVersion.full)
 )
 
 libraryDependencies ++= (Seq(
