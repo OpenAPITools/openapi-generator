@@ -7,20 +7,24 @@ on:
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
+      - samples/client/petstore/java/native-jackson3/**
       - samples/client/others/java/webclient-sealedInterface/**
       - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
+      - samples/client/others/java/restclient-sealedInterface/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
+      - samples/client/petstore/java/native-jackson3/**
       - samples/client/others/java/webclient-sealedInterface/**
       - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
+      - samples/client/others/java/restclient-sealedInterface/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -41,11 +45,13 @@ jobs:
           - samples/client/petstore/java/restclient-swagger2
           - samples/client/petstore/java/restclient-useSingleRequestParameter
           - samples/client/petstore/java/restclient-useSingleRequestParameter-static
+          - samples/client/petstore/java/native-jackson3
           - samples/client/others/java/webclient-sealedInterface
           - samples/client/others/java/webclient-sealedInterface_3_1
           - samples/client/petstore/java/webclient-springBoot4-jackson3
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/others/java/restclient-enum-in-multipart
+          - samples/client/others/java/restclient-sealedInterface
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

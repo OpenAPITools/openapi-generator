@@ -86,6 +86,11 @@ dependencies {
     implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
     implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // Use spotless plugin to automatically format code, remove unused import, etc
