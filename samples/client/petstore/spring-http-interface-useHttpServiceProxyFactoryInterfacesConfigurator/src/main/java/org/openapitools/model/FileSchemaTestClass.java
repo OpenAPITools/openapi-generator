@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private @Nullable File file;
@@ -29,7 +29,7 @@ public class FileSchemaTestClass {
   
   private List<File> files = new ArrayList<>();
 
-  public FileSchemaTestClass file(File file) {
+  public FileSchemaTestClass file(@Nullable File file) {
     this.file = file;
     return this;
   }
@@ -40,11 +40,12 @@ public class FileSchemaTestClass {
    */
   
   @JsonProperty("file")
-  public File getFile() {
+  public @Nullable File getFile() {
     return file;
   }
 
-  public void setFile(File file) {
+  @JsonProperty("file")
+  public void setFile(@Nullable File file) {
     this.file = file;
   }
 
@@ -71,6 +72,7 @@ public class FileSchemaTestClass {
     return files;
   }
 
+  @JsonProperty("files")
   public void setFiles(List<File> files) {
     this.files = files;
   }
@@ -107,7 +109,7 @@ public class FileSchemaTestClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }

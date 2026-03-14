@@ -31,7 +31,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Animal {
 
   private String className;
@@ -64,6 +64,7 @@ public class Animal {
     return className;
   }
 
+  @JsonProperty("className")
   public void setClassName(String className) {
     this.className = className;
   }
@@ -83,6 +84,7 @@ public class Animal {
     return color;
   }
 
+  @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;
   }
@@ -119,7 +121,7 @@ public class Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }
