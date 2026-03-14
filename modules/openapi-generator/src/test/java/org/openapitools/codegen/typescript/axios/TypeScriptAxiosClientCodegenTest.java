@@ -11,6 +11,7 @@ import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -177,5 +178,45 @@ public class TypeScriptAxiosClientCodegenTest {
 
         // Verify the non-deprecated array property 'nicknames' is also present
         TestUtils.assertFileContains(file, "'nicknames'?: Array<string>");
+    }
+
+    @Test(description = "Verify useErasableSyntax generates erasable code in base.ts")
+    public void testUseErasableSyntaxConfig() throws IOException {
+        boolean[] options = {true, false};
+        for (boolean useErasableSyntax : options) {
+            final File output = Files.createTempDirectory("typescript_axios_erasable_").toFile();
+            output.deleteOnExit();
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-axios")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .addAdditionalProperty("useErasableSyntax", useErasableSyntax)
+                    .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            final DefaultGenerator generator = new DefaultGenerator();
+            final List<File> files = generator.opts(clientOptInput).generate();
+            files.forEach(File::deleteOnExit);
+
+            Path baseTsPath = Paths.get(output + "/base.ts");
+            TestUtils.assertFileExists(baseTsPath);
+            if (useErasableSyntax) {
+                // Erasable syntax: no parameter properties, explicit field declarations and assignments
+                TestUtils.assertFileContains(baseTsPath, "protected basePath: string;");
+                TestUtils.assertFileContains(baseTsPath, "protected axios: AxiosInstance;");
+                TestUtils.assertFileContains(baseTsPath, "this.basePath = basePath;");
+                TestUtils.assertFileContains(baseTsPath, "this.axios = axios;");
+                TestUtils.assertFileContains(baseTsPath, "public field: string;");
+                TestUtils.assertFileContains(baseTsPath, "this.field = field;");
+                // Should NOT contain parameter properties
+                TestUtils.assertFileNotContains(baseTsPath, "protected basePath: string = BASE_PATH,");
+                TestUtils.assertFileNotContains(baseTsPath, "public field: string,");
+            } else {
+                // Non-erasable syntax: uses parameter properties
+                TestUtils.assertFileContains(baseTsPath, "protected basePath: string = BASE_PATH,");
+                TestUtils.assertFileContains(baseTsPath, "protected axios: AxiosInstance = globalAxios");
+                TestUtils.assertFileContains(baseTsPath, "constructor(public field: string,");
+            }
+        }
     }
 }
