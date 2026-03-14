@@ -17,8 +17,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.openapitools.codegen.TestUtils.*;
@@ -75,6 +77,9 @@ public class PostmanCollectionCodegenTest {
         assertFileContains(path, "\"name\": \"Get User\"");
         // verify request endpoint
         TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify folder name and description
+        TestUtils.assertFileContains(path, "\"name\": \"basic\"");
+        TestUtils.assertFileContains(path, "\"description\": \"Basic tag\"");
 
     }
 
@@ -702,24 +707,26 @@ public class PostmanCollectionCodegenTest {
 
         CodegenOperation operationUsers = new CodegenOperation();
         operationUsers.path = "/users";
-        operationUsers.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        operationUsers.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic").description("Basic tag")));
         postmanV2Generator.addToMap(operationUsers);
 
         CodegenOperation operationGroups = new CodegenOperation();
         operationGroups.path = "/groups";
-        operationGroups.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        operationGroups.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic").description("Basic tag")));
         postmanV2Generator.addToMap(operationGroups);
 
         CodegenOperation operationUserId = new CodegenOperation();
         operationUserId.path = "/users/{id}";
-        operationUserId.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        operationUserId.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic").description("Basic tag")));
         postmanV2Generator.addToMap(operationUserId);
+
+        PostmanCollectionCodegen.PostmanRequestFolder folder = new PostmanCollectionCodegen.PostmanRequestFolder("basic", "Basic tag");
 
         // verify tag 'basic'
         assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
-        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("basic"));
+        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey(folder));
 
-        List<CodegenOperation> operations = postmanV2Generator.codegenOperationsByTag.get("basic");
+        List<CodegenOperation> operations = postmanV2Generator.codegenOperationsByTag.get(folder);
         // verify order
         assertEquals("/groups", operations.get(0).path);
         assertEquals("/users", operations.get(1).path);
@@ -737,7 +744,18 @@ public class PostmanCollectionCodegenTest {
 
         // verify tag 'default' is used
         assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
-        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("default"));
+        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey(new PostmanCollectionCodegen.PostmanRequestFolder("Default", "Default tag")));
+    }
+
+    @Test
+    public void testPostmanRequestFolderInMap() {
+        PostmanCollectionCodegen.PostmanRequestFolder folder1 = new PostmanCollectionCodegen.PostmanRequestFolder("test", "descr");
+        Map<PostmanCollectionCodegen.PostmanRequestFolder, String> map = new HashMap<>();
+        map.put(folder1, "folder1");
+        PostmanCollectionCodegen.PostmanRequestFolder folder2 = new PostmanCollectionCodegen.PostmanRequestFolder("test", "descr");
+
+        assertTrue(map.containsKey(folder2));
+        assertEquals("folder1", map.get(folder2));
     }
 
     @Test
