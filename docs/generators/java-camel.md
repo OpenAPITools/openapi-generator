@@ -73,7 +73,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|false|
-|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-http-interface**</dt><dd>Spring 6 HTTP interfaces (testing)</dd></dl>|spring-boot|
+|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-http-interface**</dt><dd>Spring 6 HTTP interfaces (testing). Requires Spring Boot 3 or 4.</dd></dl>|spring-boot|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
@@ -109,6 +109,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
+|useHttpServiceProxyFactoryInterfacesConfigurator|Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.| |false|
 |useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `useSpringBoot4` is set and incompatible with `openApiNullable`).| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |true|
