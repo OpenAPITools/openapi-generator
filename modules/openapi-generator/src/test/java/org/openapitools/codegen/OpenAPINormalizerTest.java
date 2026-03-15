@@ -796,57 +796,57 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
-    static OpenAPINormalizer.Filter parseFilter(String filters) {
-        OpenAPINormalizer.Filter filter = new OpenAPINormalizer.Filter(filters);
+    static OpenAPINormalizer.OperationsFilter parseOperationsFilter(String filters) {
+        OpenAPINormalizer.OperationsFilter filter = new OpenAPINormalizer.OperationsFilter(filters);
         filter.parse();
         return filter;
     }
 
     @Test
-    public void testFilterParsing() {
-        OpenAPINormalizer.Filter filter;
+    public void testOperationsFilterParsing() {
+        OpenAPINormalizer.OperationsFilter filter;
 
         // no filter
-        filter = parseFilter(" ");
+        filter = parseOperationsFilter(" ");
         assertFalse(filter.hasFilter());
 
         // invalid filter
         assertThrows(IllegalArgumentException.class, () ->
-                parseFilter("operationId:"));
+                parseOperationsFilter("operationId:"));
 
         assertThrows(IllegalArgumentException.class, () ->
-                parseFilter("invalid:invalid:"));
+                parseOperationsFilter("invalid:invalid:"));
 
         // extra spaces are trimmed
-        filter = parseFilter("method:\n\t\t\t\tget");
+        filter = parseOperationsFilter("method:\n\t\t\t\tget");
         assertTrue(filter.hasFilter());
-        assertEquals(filter.methodFilters, Set.of("get"));
-        assertTrue(filter.operationIdFilters.isEmpty());
-        assertTrue(filter.tagFilters.isEmpty());
-        assertTrue(filter.pathStartingWithFilters.isEmpty());
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.METHOD), Set.of("get"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.OPERATION_ID));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.TAG));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.PATH));
 
         // multiple values separated by pipe
-        filter = parseFilter("operationId:\n\t\t\t\tdelete|\n\t\tlist\t");
+        filter = parseOperationsFilter("operationId:\n\t\t\t\tdelete|\n\t\tlist\t");
         assertTrue(filter.hasFilter());
-        assertTrue(filter.methodFilters.isEmpty());
-        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
-        assertTrue(filter.tagFilters.isEmpty());
-        assertTrue(filter.pathStartingWithFilters.isEmpty());
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.METHOD));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.OPERATION_ID), Set.of("delete", "list"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.TAG));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.PATH));
 
         // multiple filters
-        filter = parseFilter("operationId:delete|list;path:/v1");
+        filter = parseOperationsFilter("operationId:delete|list;path:/v1");
         assertTrue(filter.hasFilter());
-        assertTrue(filter.methodFilters.isEmpty());
-        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
-        assertTrue(filter.tagFilters.isEmpty());
-        assertEquals(filter.pathStartingWithFilters, Set.of("/v1"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.METHOD));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.OPERATION_ID), Set.of("delete", "list"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.TAG));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.PATH), Set.of("/v1"));
     }
 
     @Test
     public void testMultiFilterParsing() {
-        OpenAPINormalizer.Filter filter = parseFilter("operationId: delete| list ;  tag : testA |testB ");
-        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
-        assertEquals(filter.tagFilters, Set.of("testA", "testB"));
+        OpenAPINormalizer.OperationsFilter filter = parseOperationsFilter("operationId: delete| list ;  tag : testA |testB ");
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.OPERATION_ID), Set.of("delete", "list"));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.TAG), Set.of("testA", "testB"));
     }
 
     @Test
@@ -872,7 +872,7 @@ public class OpenAPINormalizerTest {
         Map<String, String> options = Map.of("FILTER", "role:admin");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options) {
             @Override
-            protected Filter createFilter(OpenAPI openApi, String filters) {
+            protected OperationsFilter createOperationsFilter(OpenAPI openApi, String filters) {
                 return new CustomRoleFilter(filters);
             }
         };
@@ -883,7 +883,7 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), false);
     }
 
-    private class CustomRoleFilter extends OpenAPINormalizer.Filter {
+    private class CustomRoleFilter extends OpenAPINormalizer.OperationsFilter {
         private Set<String> filteredRoles;
 
         public CustomRoleFilter(String filters) {
@@ -914,7 +914,7 @@ public class OpenAPINormalizerTest {
             new OpenAPINormalizer(openAPI, options).normalize();
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "FILTER rule [tag ; invalid] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter with no value not supported :[tag]");
+            assertEquals(e.getMessage(), "FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Input: `tag ; invalid`. Error: filter with no value not supported :[tag]");
         }
     }
 
@@ -927,10 +927,61 @@ public class OpenAPINormalizerTest {
             new OpenAPINormalizer(openAPI, options).normalize();
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "FILTER rule [method:get ; unknown:test] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter not supported :[unknown:test]");
+            assertEquals(e.getMessage(), "FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Input: `method:get ; unknown:test`. Error: filter not supported :[unknown:test]");
         }
     }
 
+    @Test
+    public void testSecuritySchemesFilter() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/all_security_schemes.yaml");
+        Map<String, String> options = Map.of("SECURITY_SCHEMES_FILTER", "key:api_key1 ; type:oauth2");
+
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().get(X_INTERNAL),
+                false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key2").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_1").getExtensions().get(X_INTERNAL),
+                false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_2").getExtensions().get(X_INTERNAL),
+                false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect2").getExtensions().get(X_INTERNAL), true);
+    }
+
+    @Test
+    public void testSecuritySchemesFilterAndBearerAuthName() {
+        // We expect that api_key1 scheme will converted to bearer auth at first and then the filter will be applied
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/all_security_schemes.yaml");
+        Map<String, String> options = Map.of("SECURITY_SCHEMES_FILTER", "key:api_key1",
+                    "SET_BEARER_AUTH_FOR_NAME", "api_key1"
+        );
+
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().get(X_INTERNAL),
+                false);
+        SecurityScheme scheme = openAPI.getComponents().getSecuritySchemes().get("api_key1");
+        assertEquals(scheme.getType(), SecurityScheme.Type.HTTP);
+        assertEquals(scheme.getScheme(), "bearer");
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key2").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_1").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_2").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect2").getExtensions().get(X_INTERNAL), true);
+    }
 
     @Test
     public void testComposedSchemaDoesNotThrow() {
@@ -1403,30 +1454,30 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_x_internal_test.yaml");
         Schema parentSchema = openAPI.getComponents().getSchemas().get("ParentSchema");
         Schema inlineProperty = (Schema) parentSchema.getProperties().get("inlineXInternalProperty");
-        
+
         // Before normalization: x-internal should be present on inline property
         assertNotNull(inlineProperty.getExtensions());
         assertEquals(inlineProperty.getExtensions().get("x-internal"), true);
-        
+
         // Run normalizer with REMOVE_X_INTERNAL=true
         Map<String, String> options = new HashMap<>();
         options.put("REMOVE_X_INTERNAL", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
-        
+
         // After normalization: x-internal should be removed from inline property
         Schema parentSchemaAfter = openAPI.getComponents().getSchemas().get("ParentSchema");
         Schema inlinePropertyAfter = (Schema) parentSchemaAfter.getProperties().get("inlineXInternalProperty");
-        
+
         // x-internal extension should be removed (null or not present in map)
         if (inlinePropertyAfter.getExtensions() != null) {
             assertNull(inlinePropertyAfter.getExtensions().get("x-internal"));
         }
-        
+
         // The property itself should still exist (we're removing the flag, not the property)
         assertNotNull(inlinePropertyAfter);
         assertEquals(inlinePropertyAfter.getType(), "object");
-        
+
         // Nested properties should still exist
         assertNotNull(inlinePropertyAfter.getProperties());
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedField"));

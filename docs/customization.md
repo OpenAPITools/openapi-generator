@@ -724,6 +724,28 @@ Into this securityScheme:
       type: http
 ```
 
+- `SECURITY_SCHEMES_FILTER`
+
+The `SECURITY_SCHEMES_FILTER` parameter allows selective inclusion of API security schemes based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
+
+### Available Filters
+
+- **`key`**
+  When set to `key:api_key|http_bearer`, security schemes **not** matching `api_key` or `http_bearer` will be marked as internal (`x-internal: true`), and excluded from generation. Matching operations will have `x-internal: false`.
+
+- **`type`**
+  When set to `type:apiKey|http`, security schemes **not** using `apiKey` or `http` types will be marked as internal (`x-internal: true`), preventing their generation.
+
+### Example Usage
+
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+  -g java \
+  -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
+  -o /tmp/java-okhttp/ \
+  --openapi-normalizer SECURITY_SCHEMES_FILTER="key:api_key|http_bearer ; type:oauth2"
+```
+
 - `SORT_MODEL_PROPERTIES`: When set to true, model properties will be sorted alphabetically by name. This ensures deterministic code generation output regardless of property ordering in the source spec.
 
 Example:
