@@ -791,27 +791,6 @@ namespace Org.OpenAPITools.Model
             if (enumStringRequired.IsSet && enumStringRequired.Value == null)
                 throw new ArgumentNullException(nameof(enumStringRequired), "Property is not nullable for class EnumTest.");
 
-            if (enumInteger.IsSet && enumInteger.Value == null)
-                throw new ArgumentNullException(nameof(enumInteger), "Property is not nullable for class EnumTest.");
-
-            if (enumIntegerOnly.IsSet && enumIntegerOnly.Value == null)
-                throw new ArgumentNullException(nameof(enumIntegerOnly), "Property is not nullable for class EnumTest.");
-
-            if (enumNumber.IsSet && enumNumber.Value == null)
-                throw new ArgumentNullException(nameof(enumNumber), "Property is not nullable for class EnumTest.");
-
-            if (enumString.IsSet && enumString.Value == null)
-                throw new ArgumentNullException(nameof(enumString), "Property is not nullable for class EnumTest.");
-
-            if (outerEnumDefaultValue.IsSet && outerEnumDefaultValue.Value == null)
-                throw new ArgumentNullException(nameof(outerEnumDefaultValue), "Property is not nullable for class EnumTest.");
-
-            if (outerEnumInteger.IsSet && outerEnumInteger.Value == null)
-                throw new ArgumentNullException(nameof(outerEnumInteger), "Property is not nullable for class EnumTest.");
-
-            if (outerEnumIntegerDefaultValue.IsSet && outerEnumIntegerDefaultValue.Value == null)
-                throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is not nullable for class EnumTest.");
-
             return new EnumTest(enumStringRequired.Value!.Value!, enumInteger, enumIntegerOnly, enumNumber, enumString, outerEnum, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue);
         }
 
@@ -842,13 +821,22 @@ namespace Org.OpenAPITools.Model
             var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
             writer.WriteString("enum_string_required", enumStringRequiredRawValue);
             if (enumTest.EnumIntegerOption.IsSet)
-                writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumIntegerOption.Value!.Value));
+                if (enumTest.EnumIntegerOption.Value != null)
+                    writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumIntegerOption.Value!.Value));
+                else
+                    writer.WriteNull("enum_integer");
 
             if (enumTest.EnumIntegerOnlyOption.IsSet)
-                writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnlyOption.Value!.Value));
+                if (enumTest.EnumIntegerOnlyOption.Value != null)
+                    writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnlyOption.Value!.Value));
+                else
+                    writer.WriteNull("enum_integer_only");
 
             if (enumTest.EnumNumberOption.IsSet)
-                writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value!.Value));
+                if (enumTest.EnumNumberOption.Value != null)
+                    writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value!.Value));
+                else
+                    writer.WriteNull("enum_number");
 
             var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumStringOption.Value!.Value);
             writer.WriteString("enum_string", enumStringRawValue);

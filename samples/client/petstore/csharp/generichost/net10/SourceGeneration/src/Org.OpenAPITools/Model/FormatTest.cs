@@ -848,75 +848,6 @@ namespace Org.OpenAPITools.Model
             if (stringFormattedAsDecimalRequired.IsSet && stringFormattedAsDecimalRequired.Value == null)
                 throw new ArgumentNullException(nameof(stringFormattedAsDecimalRequired), "Property is not nullable for class FormatTest.");
 
-            if (binary.IsSet && binary.Value == null)
-                throw new ArgumentNullException(nameof(binary), "Property is not nullable for class FormatTest.");
-
-            if (dateTime.IsSet && dateTime.Value == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is not nullable for class FormatTest.");
-
-            if (varDecimal.IsSet && varDecimal.Value == null)
-                throw new ArgumentNullException(nameof(varDecimal), "Property is not nullable for class FormatTest.");
-
-            if (varDouble.IsSet && varDouble.Value == null)
-                throw new ArgumentNullException(nameof(varDouble), "Property is not nullable for class FormatTest.");
-
-            if (duplicatePropertyName2.IsSet && duplicatePropertyName2.Value == null)
-                throw new ArgumentNullException(nameof(duplicatePropertyName2), "Property is not nullable for class FormatTest.");
-
-            if (duplicatePropertyName.IsSet && duplicatePropertyName.Value == null)
-                throw new ArgumentNullException(nameof(duplicatePropertyName), "Property is not nullable for class FormatTest.");
-
-            if (varFloat.IsSet && varFloat.Value == null)
-                throw new ArgumentNullException(nameof(varFloat), "Property is not nullable for class FormatTest.");
-
-            if (int32.IsSet && int32.Value == null)
-                throw new ArgumentNullException(nameof(int32), "Property is not nullable for class FormatTest.");
-
-            if (int32Range.IsSet && int32Range.Value == null)
-                throw new ArgumentNullException(nameof(int32Range), "Property is not nullable for class FormatTest.");
-
-            if (int64.IsSet && int64.Value == null)
-                throw new ArgumentNullException(nameof(int64), "Property is not nullable for class FormatTest.");
-
-            if (int64Negative.IsSet && int64Negative.Value == null)
-                throw new ArgumentNullException(nameof(int64Negative), "Property is not nullable for class FormatTest.");
-
-            if (int64NegativeExclusive.IsSet && int64NegativeExclusive.Value == null)
-                throw new ArgumentNullException(nameof(int64NegativeExclusive), "Property is not nullable for class FormatTest.");
-
-            if (int64Positive.IsSet && int64Positive.Value == null)
-                throw new ArgumentNullException(nameof(int64Positive), "Property is not nullable for class FormatTest.");
-
-            if (int64PositiveExclusive.IsSet && int64PositiveExclusive.Value == null)
-                throw new ArgumentNullException(nameof(int64PositiveExclusive), "Property is not nullable for class FormatTest.");
-
-            if (integer.IsSet && integer.Value == null)
-                throw new ArgumentNullException(nameof(integer), "Property is not nullable for class FormatTest.");
-
-            if (patternWithBackslash.IsSet && patternWithBackslash.Value == null)
-                throw new ArgumentNullException(nameof(patternWithBackslash), "Property is not nullable for class FormatTest.");
-
-            if (patternWithDigits.IsSet && patternWithDigits.Value == null)
-                throw new ArgumentNullException(nameof(patternWithDigits), "Property is not nullable for class FormatTest.");
-
-            if (patternWithDigitsAndDelimiter.IsSet && patternWithDigitsAndDelimiter.Value == null)
-                throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is not nullable for class FormatTest.");
-
-            if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FormatTest.");
-
-            if (stringFormattedAsDecimal.IsSet && stringFormattedAsDecimal.Value == null)
-                throw new ArgumentNullException(nameof(stringFormattedAsDecimal), "Property is not nullable for class FormatTest.");
-
-            if (unsignedInteger.IsSet && unsignedInteger.Value == null)
-                throw new ArgumentNullException(nameof(unsignedInteger), "Property is not nullable for class FormatTest.");
-
-            if (unsignedLong.IsSet && unsignedLong.Value == null)
-                throw new ArgumentNullException(nameof(unsignedLong), "Property is not nullable for class FormatTest.");
-
-            if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
-
             return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, stringFormattedAsDecimalRequired.Value!.Value!, binary, dateTime, varDecimal, varDouble, duplicatePropertyName2, duplicatePropertyName, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, stringFormattedAsDecimal, unsignedInteger, unsignedLong, uuid);
         }
 
@@ -950,27 +881,6 @@ namespace Org.OpenAPITools.Model
             if (formatTest.Password == null)
                 throw new ArgumentNullException(nameof(formatTest.Password), "Property is required for class FormatTest.");
 
-            if (formatTest.BinaryOption.IsSet && formatTest.Binary == null)
-                throw new ArgumentNullException(nameof(formatTest.Binary), "Property is required for class FormatTest.");
-
-            if (formatTest.DuplicatePropertyName2Option.IsSet && formatTest.DuplicatePropertyName2 == null)
-                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName2), "Property is required for class FormatTest.");
-
-            if (formatTest.DuplicatePropertyNameOption.IsSet && formatTest.DuplicatePropertyName == null)
-                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName), "Property is required for class FormatTest.");
-
-            if (formatTest.PatternWithBackslashOption.IsSet && formatTest.PatternWithBackslash == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithBackslash), "Property is required for class FormatTest.");
-
-            if (formatTest.PatternWithDigitsOption.IsSet && formatTest.PatternWithDigits == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithDigits), "Property is required for class FormatTest.");
-
-            if (formatTest.PatternWithDigitsAndDelimiterOption.IsSet && formatTest.PatternWithDigitsAndDelimiter == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
-
-            if (formatTest.StringOption.IsSet && formatTest.String == null)
-                throw new ArgumentNullException(nameof(formatTest.String), "Property is required for class FormatTest.");
-
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);
             writer.WriteString("date", formatTest.Date.ToString(DateFormat));
@@ -987,7 +897,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             }
             if (formatTest.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", formatTest.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                if (formatTest.DateTimeOption.Value != null)
+                    writer.WriteString("dateTime", formatTest.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                else
+                    writer.WriteNull("dateTime");
 
             if (formatTest.DecimalOption.IsSet)
             {
@@ -995,7 +908,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, formatTest.Decimal, jsonSerializerOptions);
             }
             if (formatTest.DoubleOption.IsSet)
-                writer.WriteNumber("double", formatTest.DoubleOption.Value!.Value);
+                if (formatTest.DoubleOption.Value != null)
+                    writer.WriteNumber("double", formatTest.DoubleOption.Value!.Value);
+                else
+                    writer.WriteNull("double");
 
             if (formatTest.DuplicatePropertyName2Option.IsSet)
                 writer.WriteString("duplicate_property_name", formatTest.DuplicatePropertyName2);
@@ -1004,31 +920,58 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("@duplicate_property_name", formatTest.DuplicatePropertyName);
 
             if (formatTest.FloatOption.IsSet)
-                writer.WriteNumber("float", formatTest.FloatOption.Value!.Value);
+                if (formatTest.FloatOption.Value != null)
+                    writer.WriteNumber("float", formatTest.FloatOption.Value!.Value);
+                else
+                    writer.WriteNull("float");
 
             if (formatTest.Int32Option.IsSet)
-                writer.WriteNumber("int32", formatTest.Int32Option.Value!.Value);
+                if (formatTest.Int32Option.Value != null)
+                    writer.WriteNumber("int32", formatTest.Int32Option.Value!.Value);
+                else
+                    writer.WriteNull("int32");
 
             if (formatTest.Int32RangeOption.IsSet)
-                writer.WriteNumber("int32Range", formatTest.Int32RangeOption.Value!.Value);
+                if (formatTest.Int32RangeOption.Value != null)
+                    writer.WriteNumber("int32Range", formatTest.Int32RangeOption.Value!.Value);
+                else
+                    writer.WriteNull("int32Range");
 
             if (formatTest.Int64Option.IsSet)
-                writer.WriteNumber("int64", formatTest.Int64Option.Value!.Value);
+                if (formatTest.Int64Option.Value != null)
+                    writer.WriteNumber("int64", formatTest.Int64Option.Value!.Value);
+                else
+                    writer.WriteNull("int64");
 
             if (formatTest.Int64NegativeOption.IsSet)
-                writer.WriteNumber("int64Negative", formatTest.Int64NegativeOption.Value!.Value);
+                if (formatTest.Int64NegativeOption.Value != null)
+                    writer.WriteNumber("int64Negative", formatTest.Int64NegativeOption.Value!.Value);
+                else
+                    writer.WriteNull("int64Negative");
 
             if (formatTest.Int64NegativeExclusiveOption.IsSet)
-                writer.WriteNumber("int64NegativeExclusive", formatTest.Int64NegativeExclusiveOption.Value!.Value);
+                if (formatTest.Int64NegativeExclusiveOption.Value != null)
+                    writer.WriteNumber("int64NegativeExclusive", formatTest.Int64NegativeExclusiveOption.Value!.Value);
+                else
+                    writer.WriteNull("int64NegativeExclusive");
 
             if (formatTest.Int64PositiveOption.IsSet)
-                writer.WriteNumber("int64Positive", formatTest.Int64PositiveOption.Value!.Value);
+                if (formatTest.Int64PositiveOption.Value != null)
+                    writer.WriteNumber("int64Positive", formatTest.Int64PositiveOption.Value!.Value);
+                else
+                    writer.WriteNull("int64Positive");
 
             if (formatTest.Int64PositiveExclusiveOption.IsSet)
-                writer.WriteNumber("int64PositiveExclusive", formatTest.Int64PositiveExclusiveOption.Value!.Value);
+                if (formatTest.Int64PositiveExclusiveOption.Value != null)
+                    writer.WriteNumber("int64PositiveExclusive", formatTest.Int64PositiveExclusiveOption.Value!.Value);
+                else
+                    writer.WriteNull("int64PositiveExclusive");
 
             if (formatTest.IntegerOption.IsSet)
-                writer.WriteNumber("integer", formatTest.IntegerOption.Value!.Value);
+                if (formatTest.IntegerOption.Value != null)
+                    writer.WriteNumber("integer", formatTest.IntegerOption.Value!.Value);
+                else
+                    writer.WriteNull("integer");
 
             if (formatTest.PatternWithBackslashOption.IsSet)
                 writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash);
@@ -1043,16 +986,28 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("string", formatTest.String);
 
             if (formatTest.StringFormattedAsDecimalOption.IsSet)
-                writer.WriteString("string_formatted_as_decimal", formatTest.StringFormattedAsDecimal.ToString());
+                if (formatTest.StringFormattedAsDecimalOption.Value != null)
+                    writer.WriteString("string_formatted_as_decimal", formatTest.StringFormattedAsDecimal.ToString());
+                else
+                    writer.WriteNull("string_formatted_as_decimal");
 
             if (formatTest.UnsignedIntegerOption.IsSet)
-                writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value!.Value);
+                if (formatTest.UnsignedIntegerOption.Value != null)
+                    writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value!.Value);
+                else
+                    writer.WriteNull("unsigned_integer");
 
             if (formatTest.UnsignedLongOption.IsSet)
-                writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value!.Value);
+                if (formatTest.UnsignedLongOption.Value != null)
+                    writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value!.Value);
+                else
+                    writer.WriteNull("unsigned_long");
 
             if (formatTest.UuidOption.IsSet)
-                writer.WriteString("uuid", formatTest.UuidOption.Value!.Value);
+                if (formatTest.UuidOption.Value != null)
+                    writer.WriteString("uuid", formatTest.UuidOption.Value!.Value);
+                else
+                    writer.WriteNull("uuid");
         }
     }
 

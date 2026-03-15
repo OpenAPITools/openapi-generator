@@ -135,12 +135,6 @@ namespace Org.OpenAPITools.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Dog.");
 
-            if (breed.IsSet && breed.Value == null)
-                throw new ArgumentNullException(nameof(breed), "Property is not nullable for class Dog.");
-
-            if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Dog.");
-
             return new Dog(breed, color);
         }
 
@@ -168,12 +162,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (dog.BreedOption.IsSet && dog.Breed == null)
-                throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");
-
-            if (dog.ColorOption.IsSet && dog.Color == null)
-                throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
-
             writer.WriteString("className", dog.ClassName);
 
             if (dog.BreedOption.IsSet)

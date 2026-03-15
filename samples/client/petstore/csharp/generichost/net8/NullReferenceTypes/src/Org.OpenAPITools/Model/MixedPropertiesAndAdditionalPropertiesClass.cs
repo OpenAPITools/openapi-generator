@@ -208,18 +208,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (dateTime.IsSet && dateTime.Value == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (map.IsSet && map.Value == null)
-                throw new ArgumentNullException(nameof(map), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (uuidWithPattern.IsSet && uuidWithPattern.Value == null)
-                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is not nullable for class MixedPropertiesAndAdditionalPropertiesClass.");
-
             return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
         }
 
@@ -247,11 +235,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet && mixedPropertiesAndAdditionalPropertiesClass.Map == null)
-                throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value != null)
+                    writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                else
+                    writer.WriteNull("dateTime");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
             {
@@ -259,10 +247,16 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             }
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet)
-                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value);
+                if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value != null)
+                    writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value);
+                else
+                    writer.WriteNull("uuid");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.IsSet)
-                writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value);
+                if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value != null)
+                    writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value);
+                else
+                    writer.WriteNull("uuid_with_pattern");
         }
     }
 }

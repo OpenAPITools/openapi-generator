@@ -189,9 +189,6 @@ namespace Org.OpenAPITools.Model
             if (!petType.IsSet)
                 throw new ArgumentException("Property is required for class ChildCat.", nameof(petType));
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
-
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
 
@@ -222,9 +219,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (childCat.NameOption.IsSet && childCat.Name == null)
-                throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
-
             if (childCat.NameOption.IsSet)
                 writer.WriteString("name", childCat.Name);
 

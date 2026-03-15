@@ -137,9 +137,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (someProperty.IsSet && someProperty.Value == null)
-                throw new ArgumentNullException(nameof(someProperty), "Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest.");
-
             return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
         }
 
@@ -167,9 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet && testInlineFreeformAdditionalPropertiesRequest.SomeProperty == null)
-                throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
-
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet)
                 writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
         }

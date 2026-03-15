@@ -367,12 +367,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayItemsNullable.IsSet && arrayItemsNullable.Value == null)
-                throw new ArgumentNullException(nameof(arrayItemsNullable), "Property is not nullable for class NullableClass.");
-
-            if (objectItemsNullable.IsSet && objectItemsNullable.Value == null)
-                throw new ArgumentNullException(nameof(objectItemsNullable), "Property is not nullable for class NullableClass.");
-
             return new NullableClass(arrayAndItemsNullableProp, arrayItemsNullable, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectItemsNullable, objectNullableProp, stringProp);
         }
 
@@ -400,12 +394,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (nullableClass.ArrayItemsNullableOption.IsSet && nullableClass.ArrayItemsNullable == null)
-                throw new ArgumentNullException(nameof(nullableClass.ArrayItemsNullable), "Property is required for class NullableClass.");
-
-            if (nullableClass.ObjectItemsNullableOption.IsSet && nullableClass.ObjectItemsNullable == null)
-                throw new ArgumentNullException(nameof(nullableClass.ObjectItemsNullable), "Property is required for class NullableClass.");
-
             if (nullableClass.ArrayAndItemsNullablePropOption.IsSet)
                 if (nullableClass.ArrayAndItemsNullablePropOption.Value != null)
                 {

@@ -205,9 +205,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (zeroBasedEnum.IsSet && zeroBasedEnum.Value == null)
-                throw new ArgumentNullException(nameof(zeroBasedEnum), "Property is not nullable for class ZeroBasedEnumClass.");
-
             return new ZeroBasedEnumClass(zeroBasedEnum);
         }
 

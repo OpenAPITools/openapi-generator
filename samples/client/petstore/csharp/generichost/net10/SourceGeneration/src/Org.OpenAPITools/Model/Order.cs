@@ -327,24 +327,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (complete.IsSet && complete.Value == null)
-                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
-
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Order.");
-
-            if (petId.IsSet && petId.Value == null)
-                throw new ArgumentNullException(nameof(petId), "Property is not nullable for class Order.");
-
-            if (quantity.IsSet && quantity.Value == null)
-                throw new ArgumentNullException(nameof(quantity), "Property is not nullable for class Order.");
-
-            if (shipDate.IsSet && shipDate.Value == null)
-                throw new ArgumentNullException(nameof(shipDate), "Property is not nullable for class Order.");
-
-            if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Order.");
-
             return new Order(complete, id, petId, quantity, shipDate, status);
         }
 
@@ -373,19 +355,34 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             if (order.CompleteOption.IsSet)
-                writer.WriteBoolean("complete", order.CompleteOption.Value!.Value);
+                if (order.CompleteOption.Value != null)
+                    writer.WriteBoolean("complete", order.CompleteOption.Value!.Value);
+                else
+                    writer.WriteNull("complete");
 
             if (order.IdOption.IsSet)
-                writer.WriteNumber("id", order.IdOption.Value!.Value);
+                if (order.IdOption.Value != null)
+                    writer.WriteNumber("id", order.IdOption.Value!.Value);
+                else
+                    writer.WriteNull("id");
 
             if (order.PetIdOption.IsSet)
-                writer.WriteNumber("petId", order.PetIdOption.Value!.Value);
+                if (order.PetIdOption.Value != null)
+                    writer.WriteNumber("petId", order.PetIdOption.Value!.Value);
+                else
+                    writer.WriteNull("petId");
 
             if (order.QuantityOption.IsSet)
-                writer.WriteNumber("quantity", order.QuantityOption.Value!.Value);
+                if (order.QuantityOption.Value != null)
+                    writer.WriteNumber("quantity", order.QuantityOption.Value!.Value);
+                else
+                    writer.WriteNull("quantity");
 
             if (order.ShipDateOption.IsSet)
-                writer.WriteString("shipDate", order.ShipDateOption.Value!.Value.ToString(ShipDateFormat));
+                if (order.ShipDateOption.Value != null)
+                    writer.WriteString("shipDate", order.ShipDateOption.Value!.Value.ToString(ShipDateFormat));
+                else
+                    writer.WriteNull("shipDate");
 
             var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value);
             writer.WriteString("status", statusRawValue);

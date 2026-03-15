@@ -128,9 +128,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class TestObject.");
-
             return new TestObject(name);
         }
 
@@ -158,9 +155,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestObject testObject, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (testObject.NameOption.IsSet && testObject.Name == null)
-                throw new ArgumentNullException(nameof(testObject.Name), "Property is required for class TestObject.");
-
             if (testObject.NameOption.IsSet)
                 writer.WriteString("name", testObject.Name);
         }

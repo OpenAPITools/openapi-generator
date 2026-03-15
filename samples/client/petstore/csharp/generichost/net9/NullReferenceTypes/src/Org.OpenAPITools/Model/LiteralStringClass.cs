@@ -156,12 +156,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (escapedLiteralString.IsSet && escapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(escapedLiteralString), "Property is not nullable for class LiteralStringClass.");
-
-            if (unescapedLiteralString.IsSet && unescapedLiteralString.Value == null)
-                throw new ArgumentNullException(nameof(unescapedLiteralString), "Property is not nullable for class LiteralStringClass.");
-
             return new LiteralStringClass(escapedLiteralString, unescapedLiteralString);
         }
 
@@ -189,12 +183,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (literalStringClass.EscapedLiteralStringOption.IsSet && literalStringClass.EscapedLiteralString == null)
-                throw new ArgumentNullException(nameof(literalStringClass.EscapedLiteralString), "Property is required for class LiteralStringClass.");
-
-            if (literalStringClass.UnescapedLiteralStringOption.IsSet && literalStringClass.UnescapedLiteralString == null)
-                throw new ArgumentNullException(nameof(literalStringClass.UnescapedLiteralString), "Property is required for class LiteralStringClass.");
-
             if (literalStringClass.EscapedLiteralStringOption.IsSet)
                 writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
 

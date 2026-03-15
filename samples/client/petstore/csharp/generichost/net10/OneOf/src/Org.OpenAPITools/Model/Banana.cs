@@ -136,9 +136,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (count.IsSet && count.Value == null)
-                throw new ArgumentNullException(nameof(count), "Property is not nullable for class Banana.");
-
             return new Banana(count);
         }
 
@@ -167,7 +164,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             if (banana.CountOption.IsSet)
-                writer.WriteNumber("count", banana.CountOption.Value!.Value);
+                if (banana.CountOption.Value != null)
+                    writer.WriteNumber("count", banana.CountOption.Value!.Value);
+                else
+                    writer.WriteNull("count");
         }
     }
 }

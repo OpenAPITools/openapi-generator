@@ -154,21 +154,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (age.IsSet && age.Value == null)
-                throw new ArgumentNullException(nameof(age), "Property is not nullable for class Child.");
-
-            if (boosterSeat.IsSet && boosterSeat.Value == null)
-                throw new ArgumentNullException(nameof(boosterSeat), "Property is not nullable for class Child.");
-
-            if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Child.");
-
-            if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Child.");
-
-            if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Child.");
-
             return new Child(age, boosterSeat, firstName, lastName);
         }
 
@@ -196,17 +181,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Child child, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (child.FirstNameOption.IsSet && child.FirstName == null)
-                throw new ArgumentNullException(nameof(child.FirstName), "Property is required for class Child.");
-
-            if (child.LastNameOption.IsSet && child.LastName == null)
-                throw new ArgumentNullException(nameof(child.LastName), "Property is required for class Child.");
-
             if (child.AgeOption.IsSet)
-                writer.WriteNumber("age", child.AgeOption.Value!.Value);
+                if (child.AgeOption.Value != null)
+                    writer.WriteNumber("age", child.AgeOption.Value!.Value);
+                else
+                    writer.WriteNull("age");
 
             if (child.BoosterSeatOption.IsSet)
-                writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);
+                if (child.BoosterSeatOption.Value != null)
+                    writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);
+                else
+                    writer.WriteNull("boosterSeat");
 
             if (child.FirstNameOption.IsSet)
                 writer.WriteString("firstName", child.FirstName);

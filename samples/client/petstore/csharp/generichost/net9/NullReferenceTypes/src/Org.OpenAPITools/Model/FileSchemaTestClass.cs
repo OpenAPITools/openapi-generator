@@ -156,12 +156,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (file.IsSet && file.Value == null)
-                throw new ArgumentNullException(nameof(file), "Property is not nullable for class FileSchemaTestClass.");
-
-            if (files.IsSet && files.Value == null)
-                throw new ArgumentNullException(nameof(files), "Property is not nullable for class FileSchemaTestClass.");
-
             return new FileSchemaTestClass(file, files);
         }
 
@@ -189,12 +183,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (fileSchemaTestClass.FileOption.IsSet && fileSchemaTestClass.File == null)
-                throw new ArgumentNullException(nameof(fileSchemaTestClass.File), "Property is required for class FileSchemaTestClass.");
-
-            if (fileSchemaTestClass.FilesOption.IsSet && fileSchemaTestClass.Files == null)
-                throw new ArgumentNullException(nameof(fileSchemaTestClass.Files), "Property is required for class FileSchemaTestClass.");
-
             if (fileSchemaTestClass.FileOption.IsSet)
             {
                 writer.WritePropertyName("file");

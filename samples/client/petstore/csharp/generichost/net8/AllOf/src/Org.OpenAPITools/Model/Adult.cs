@@ -134,18 +134,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (children.IsSet && children.Value == null)
-                throw new ArgumentNullException(nameof(children), "Property is not nullable for class Adult.");
-
-            if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Adult.");
-
-            if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Adult.");
-
-            if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
-
             return new Adult(children, firstName, lastName);
         }
 
@@ -173,15 +161,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (adult.ChildrenOption.IsSet && adult.Children == null)
-                throw new ArgumentNullException(nameof(adult.Children), "Property is required for class Adult.");
-
-            if (adult.FirstNameOption.IsSet && adult.FirstName == null)
-                throw new ArgumentNullException(nameof(adult.FirstName), "Property is required for class Adult.");
-
-            if (adult.LastNameOption.IsSet && adult.LastName == null)
-                throw new ArgumentNullException(nameof(adult.LastName), "Property is required for class Adult.");
-
             if (adult.ChildrenOption.IsSet)
             {
                 writer.WritePropertyName("children");

@@ -152,9 +152,6 @@ namespace Org.OpenAPITools.Model
             if (!name.IsSet)
                 throw new ArgumentException("Property is required for class Category.", nameof(name));
 
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
-
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
 
@@ -189,7 +186,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
 
             if (category.IdOption.IsSet)
-                writer.WriteNumber("id", category.IdOption.Value!.Value);
+                if (category.IdOption.Value != null)
+                    writer.WriteNumber("id", category.IdOption.Value!.Value);
+                else
+                    writer.WriteNull("id");
 
             writer.WriteString("name", category.Name);
         }

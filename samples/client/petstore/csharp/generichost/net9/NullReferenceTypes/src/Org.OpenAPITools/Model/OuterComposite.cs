@@ -176,15 +176,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (myBoolean.IsSet && myBoolean.Value == null)
-                throw new ArgumentNullException(nameof(myBoolean), "Property is not nullable for class OuterComposite.");
-
-            if (myNumber.IsSet && myNumber.Value == null)
-                throw new ArgumentNullException(nameof(myNumber), "Property is not nullable for class OuterComposite.");
-
-            if (myString.IsSet && myString.Value == null)
-                throw new ArgumentNullException(nameof(myString), "Property is not nullable for class OuterComposite.");
-
             return new OuterComposite(myBoolean, myNumber, myString);
         }
 
@@ -212,14 +203,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (outerComposite.MyStringOption.IsSet && outerComposite.MyString == null)
-                throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");
-
             if (outerComposite.MyBooleanOption.IsSet)
-                writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
+                if (outerComposite.MyBooleanOption.Value != null)
+                    writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
+                else
+                    writer.WriteNull("my_boolean");
 
             if (outerComposite.MyNumberOption.IsSet)
-                writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value);
+                if (outerComposite.MyNumberOption.Value != null)
+                    writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value);
+                else
+                    writer.WriteNull("my_number");
 
             if (outerComposite.MyStringOption.IsSet)
                 writer.WriteString("my_string", outerComposite.MyString);

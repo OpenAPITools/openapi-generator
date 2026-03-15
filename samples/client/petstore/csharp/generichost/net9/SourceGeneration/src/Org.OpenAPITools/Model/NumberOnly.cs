@@ -137,9 +137,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (justNumber.IsSet && justNumber.Value == null)
-                throw new ArgumentNullException(nameof(justNumber), "Property is not nullable for class NumberOnly.");
-
             return new NumberOnly(justNumber);
         }
 
@@ -168,7 +165,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (numberOnly.JustNumberOption.IsSet)
-                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
+                if (numberOnly.JustNumberOption.Value != null)
+                    writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
+                else
+                    writer.WriteNull("JustNumber");
         }
     }
 

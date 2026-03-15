@@ -136,9 +136,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (lengthCm.IsSet && lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class Banana.");
-
             return new Banana(lengthCm);
         }
 
@@ -167,7 +164,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             if (banana.LengthCmOption.IsSet)
-                writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);
+                if (banana.LengthCmOption.Value != null)
+                    writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);
+                else
+                    writer.WriteNull("lengthCm");
         }
     }
 }

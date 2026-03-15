@@ -137,9 +137,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class DeprecatedObject.");
-
             return new DeprecatedObject(name);
         }
 
@@ -167,9 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, DeprecatedObject deprecatedObject, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (deprecatedObject.NameOption.IsSet && deprecatedObject.Name == null)
-                throw new ArgumentNullException(nameof(deprecatedObject.Name), "Property is required for class DeprecatedObject.");
-
             if (deprecatedObject.NameOption.IsSet)
                 writer.WriteString("name", deprecatedObject.Name);
         }

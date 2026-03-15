@@ -207,15 +207,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (colorCode.IsSet && colorCode.Value == null)
-                throw new ArgumentNullException(nameof(colorCode), "Property is not nullable for class Apple.");
-
-            if (cultivar.IsSet && cultivar.Value == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class Apple.");
-
-            if (origin.IsSet && origin.Value == null)
-                throw new ArgumentNullException(nameof(origin), "Property is not nullable for class Apple.");
-
             return new Apple(colorCode, cultivar, origin);
         }
 
@@ -243,15 +234,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (apple.ColorCodeOption.IsSet && apple.ColorCode == null)
-                throw new ArgumentNullException(nameof(apple.ColorCode), "Property is required for class Apple.");
-
-            if (apple.CultivarOption.IsSet && apple.Cultivar == null)
-                throw new ArgumentNullException(nameof(apple.Cultivar), "Property is required for class Apple.");
-
-            if (apple.OriginOption.IsSet && apple.Origin == null)
-                throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
-
             if (apple.ColorCodeOption.IsSet)
                 writer.WriteString("color_code", apple.ColorCode);
 

@@ -194,12 +194,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
-
-            if (baz.IsSet && baz.Value == null)
-                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
-
             return new ReadOnlyFirst(bar, baz);
         }
 
@@ -227,12 +221,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (readOnlyFirst.BarOption.IsSet && readOnlyFirst.Bar == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");
-
-            if (readOnlyFirst.BazOption.IsSet && readOnlyFirst.Baz == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
-
             if (readOnlyFirst.BarOption.IsSet)
                 writer.WriteString("bar", readOnlyFirst.Bar);
 

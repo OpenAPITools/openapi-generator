@@ -263,18 +263,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (directMap.IsSet && directMap.Value == null)
-                throw new ArgumentNullException(nameof(directMap), "Property is not nullable for class MapTest.");
-
-            if (indirectMap.IsSet && indirectMap.Value == null)
-                throw new ArgumentNullException(nameof(indirectMap), "Property is not nullable for class MapTest.");
-
-            if (mapMapOfString.IsSet && mapMapOfString.Value == null)
-                throw new ArgumentNullException(nameof(mapMapOfString), "Property is not nullable for class MapTest.");
-
-            if (mapOfEnumString.IsSet && mapOfEnumString.Value == null)
-                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is not nullable for class MapTest.");
-
             return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }
 
@@ -302,18 +290,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (mapTest.DirectMapOption.IsSet && mapTest.DirectMap == null)
-                throw new ArgumentNullException(nameof(mapTest.DirectMap), "Property is required for class MapTest.");
-
-            if (mapTest.IndirectMapOption.IsSet && mapTest.IndirectMap == null)
-                throw new ArgumentNullException(nameof(mapTest.IndirectMap), "Property is required for class MapTest.");
-
-            if (mapTest.MapMapOfStringOption.IsSet && mapTest.MapMapOfString == null)
-                throw new ArgumentNullException(nameof(mapTest.MapMapOfString), "Property is required for class MapTest.");
-
-            if (mapTest.MapOfEnumStringOption.IsSet && mapTest.MapOfEnumString == null)
-                throw new ArgumentNullException(nameof(mapTest.MapOfEnumString), "Property is required for class MapTest.");
-
             if (mapTest.DirectMapOption.IsSet)
             {
                 writer.WritePropertyName("direct_map");

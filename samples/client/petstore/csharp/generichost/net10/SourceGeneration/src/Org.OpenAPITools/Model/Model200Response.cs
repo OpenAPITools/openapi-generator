@@ -157,12 +157,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varClass.IsSet && varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class Model200Response.");
-
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Model200Response.");
-
             return new Model200Response(varClass, name);
         }
 
@@ -190,14 +184,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (model200Response.ClassOption.IsSet && model200Response.Class == null)
-                throw new ArgumentNullException(nameof(model200Response.Class), "Property is required for class Model200Response.");
-
             if (model200Response.ClassOption.IsSet)
                 writer.WriteString("class", model200Response.Class);
 
             if (model200Response.NameOption.IsSet)
-                writer.WriteNumber("name", model200Response.NameOption.Value!.Value);
+                if (model200Response.NameOption.Value != null)
+                    writer.WriteNumber("name", model200Response.NameOption.Value!.Value);
+                else
+                    writer.WriteNull("name");
         }
     }
 

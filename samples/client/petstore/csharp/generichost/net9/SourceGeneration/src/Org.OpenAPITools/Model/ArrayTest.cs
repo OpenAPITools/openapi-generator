@@ -177,15 +177,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayArrayOfInteger.IsSet && arrayArrayOfInteger.Value == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is not nullable for class ArrayTest.");
-
-            if (arrayArrayOfModel.IsSet && arrayArrayOfModel.Value == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is not nullable for class ArrayTest.");
-
-            if (arrayOfString.IsSet && arrayOfString.Value == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is not nullable for class ArrayTest.");
-
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }
 
@@ -213,15 +204,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (arrayTest.ArrayArrayOfIntegerOption.IsSet && arrayTest.ArrayArrayOfInteger == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfInteger), "Property is required for class ArrayTest.");
-
-            if (arrayTest.ArrayArrayOfModelOption.IsSet && arrayTest.ArrayArrayOfModel == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfModel), "Property is required for class ArrayTest.");
-
-            if (arrayTest.ArrayOfStringOption.IsSet && arrayTest.ArrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayOfString), "Property is required for class ArrayTest.");
-
             if (arrayTest.ArrayArrayOfIntegerOption.IsSet)
             {
                 writer.WritePropertyName("array_array_of_integer");

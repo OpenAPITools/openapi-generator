@@ -179,15 +179,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class Result.");
-
-            if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class Result.");
-
-            if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class Result.");
-
             return new Result(code, data, uuid);
         }
 
@@ -215,15 +206,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Result result, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (result.CodeOption.IsSet && result.Code == null)
-                throw new ArgumentNullException(nameof(result.Code), "Property is required for class Result.");
-
-            if (result.DataOption.IsSet && result.Data == null)
-                throw new ArgumentNullException(nameof(result.Data), "Property is required for class Result.");
-
-            if (result.UuidOption.IsSet && result.Uuid == null)
-                throw new ArgumentNullException(nameof(result.Uuid), "Property is required for class Result.");
-
             if (result.CodeOption.IsSet)
                 writer.WriteString("code", result.Code);
 

@@ -158,12 +158,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (now.IsSet && now.Value == null)
-                throw new ArgumentNullException(nameof(now), "Property is not nullable for class NowGet200Response.");
-
-            if (today.IsSet && today.Value == null)
-                throw new ArgumentNullException(nameof(today), "Property is not nullable for class NowGet200Response.");
-
             return new NowGet200Response(now, today);
         }
 
@@ -192,10 +186,16 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, NowGet200Response nowGet200Response, JsonSerializerOptions jsonSerializerOptions)
         {
             if (nowGet200Response.NowOption.IsSet)
-                writer.WriteString("now", nowGet200Response.NowOption.Value!.Value.ToString(NowFormat));
+                if (nowGet200Response.NowOption.Value != null)
+                    writer.WriteString("now", nowGet200Response.NowOption.Value!.Value.ToString(NowFormat));
+                else
+                    writer.WriteNull("now");
 
             if (nowGet200Response.TodayOption.IsSet)
-                writer.WriteString("today", nowGet200Response.TodayOption.Value!.Value.ToString(TodayFormat));
+                if (nowGet200Response.TodayOption.Value != null)
+                    writer.WriteString("today", nowGet200Response.TodayOption.Value!.Value.ToString(TodayFormat));
+                else
+                    writer.WriteNull("today");
         }
     }
 }

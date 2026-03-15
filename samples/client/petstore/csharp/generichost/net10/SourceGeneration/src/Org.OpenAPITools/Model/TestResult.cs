@@ -181,15 +181,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class TestResult.");
-
-            if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class TestResult.");
-
-            if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class TestResult.");
-
             return new TestResult(code, data, uuid);
         }
 
@@ -217,12 +208,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestResult testResult, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (testResult.DataOption.IsSet && testResult.Data == null)
-                throw new ArgumentNullException(nameof(testResult.Data), "Property is required for class TestResult.");
-
-            if (testResult.UuidOption.IsSet && testResult.Uuid == null)
-                throw new ArgumentNullException(nameof(testResult.Uuid), "Property is required for class TestResult.");
-
             if (testResult.CodeOption.IsSet)
             {
                 var codeRawValue = TestResultCodeValueConverter.ToJsonValue(testResult.Code!.Value);

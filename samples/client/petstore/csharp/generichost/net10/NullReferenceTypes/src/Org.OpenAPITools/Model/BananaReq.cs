@@ -148,9 +148,6 @@ namespace Org.OpenAPITools.Model
             if (lengthCm.IsSet && lengthCm.Value == null)
                 throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class BananaReq.");
 
-            if (sweet.IsSet && sweet.Value == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class BananaReq.");
-
             return new BananaReq(lengthCm.Value!.Value!, sweet);
         }
 
@@ -181,7 +178,10 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
 
             if (bananaReq.SweetOption.IsSet)
-                writer.WriteBoolean("sweet", bananaReq.SweetOption.Value!.Value);
+                if (bananaReq.SweetOption.Value != null)
+                    writer.WriteBoolean("sweet", bananaReq.SweetOption.Value!.Value);
+                else
+                    writer.WriteNull("sweet");
         }
     }
 }
