@@ -16,4 +16,5 @@ additionalProperties:
   useBeanValidation: "true"
   performBeanValidation: "true"
   useResponseEntity: "false"
+  useSpringBoot3: "true"
 

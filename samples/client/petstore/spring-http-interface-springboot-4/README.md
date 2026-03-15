@@ -1,6 +1,6 @@
 # OpenAPI generated API stub
 
-[Spring Framework 6.1 HTTP Interface](https://docs.spring.io/spring-framework/docs/6.1.0/reference/html/integration.html#rest-http-interface)
+[Spring Framework 6.1 HTTP Interface](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface)
 
 
 ## Overview
@@ -14,8 +14,8 @@ To use auto-generated interfaces you have to create your own configuration which
 @Configuration
 public class MyConfiguration extends org.openapitools.configuration.HttpInterfacesAbstractConfigurator {
 
-    public MyConfiguration(RestClient client) {
-        super(client);
+    public MyConfiguration(RestClient myRestClient) { // separately created RestClient instance
+        super(myRestClient);
     }
 }
 ```
