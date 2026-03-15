@@ -464,6 +464,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        // OAS 3.1: the 'null' type replaces the nullable flag. Convert null-typed properties
+        // to a nullable Object so that C# code generation remains consistent.
+        if ("null".equals(property.openApiType)) {
+            property.dataType = typeMapping.get("object");
+            property.datatypeWithEnum = property.dataType;
+            property.baseType = typeMapping.get("object");
+            property.isNullable = true;
+        }
+
         if (property.isInnerEnum && property.items != null) {
             // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
             property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
@@ -538,6 +548,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
+
+            // OAS 3.1: if oneOf or anyOf contains the 'null' type, mark the model as nullable
+            // and remove the 'Null' pseudo-type from the composed schema lists.
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.remove("Null")) {
+                cm.isNullable = true;
+            }
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.remove("Null")) {
+                cm.isNullable = true;
+            }
+            if (cm.getComposedSchemas() != null) {
+                if (cm.getComposedSchemas().getOneOf() != null) {
+                    cm.getComposedSchemas().getOneOf().removeIf(o -> "Null".equals(o.dataType));
+                }
+                if (cm.getComposedSchemas().getAnyOf() != null) {
+                    cm.getComposedSchemas().getAnyOf().removeIf(o -> "Null".equals(o.dataType));
+                }
+            }
 
             if (cm.getComposedSchemas() != null) {
                 List<CodegenProperty> oneOf = cm.getComposedSchemas().getOneOf();

@@ -1,0 +1,116 @@
+openapi: 3.1.0
+info:
+  description: |
+    Tests OAS 3.1 null type handling for C# codegen.
+    In OAS 3.1, `nullable: true` was deprecated in favour of adding `null` to
+    the list of allowed types.  The C# generator must convert any occurrence of
+    the bare `null` type to a nullable `Object`, and must strip `null` out of
+    oneOf / anyOf composed schemas while marking the parent model as nullable.
+  title: OAS 3.1 Null Type Test
+  version: 1.0.0
+servers:
+- url: http://api.example.com/v1
+paths:
+  /widgets/{id}:
+    get:
+      operationId: getWidget
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Widget"
+          description: A widget
+        "404":
+          description: Not found
+      summary: Retrieve a widget
+components:
+  schemas:
+    NullTypeDirect:
+      description: |
+        Model with a property whose type is the bare 'null' type (OAS 3.1). The generator should treat this as a nullable Object.
+      properties:
+        id:
+          format: int64
+          type: integer
+        alwaysNull:
+          description: |
+            This property can only ever be null.  In OAS 3.1 you express that with `type: null`.  The C# generator must map this to a nullable Object.
+    ShapeOrNull:
+      allOf:
+      - $ref: "#/components/schemas/Shape"
+      nullable: true
+    ColorOrNull:
+      anyOf:
+      - type: string
+      - $ref: "#/components/schemas/Color"
+      description: |
+        A value that is either a Color, a string, or null. Demonstrates nullable anyOf in OAS 3.1.
+      nullable: true
+    Widget:
+      description: |
+        A Widget demonstrating every OAS 3.1 null-type pattern that the C# generator must handle correctly.
+      example:
+        shape: ""
+        color: color
+        name: name
+        id: 0
+        debugInfo: ""
+      properties:
+        id:
+          description: Unique identifier.
+          format: int64
+          type: integer
+        name:
+          description: Widget name.
+          type: string
+        debugInfo:
+          description: |
+            Always null in production. Maps to nullable Object in C#.
+        shape:
+          allOf:
+          - $ref: "#/components/schemas/Shape"
+          nullable: true
+        color:
+          nullable: true
+          type: string
+      required:
+      - id
+      - name
+    Shape:
+      description: A geometric shape.
+      properties:
+        shapeType:
+          description: Discriminator value.
+          type: string
+        area:
+          description: Area in square units.
+          format: double
+          type: number
+      required:
+      - shapeType
+    Color:
+      description: An RGB color triplet.
+      properties:
+        r:
+          maximum: 255
+          minimum: 0
+          type: integer
+        g:
+          maximum: 255
+          minimum: 0
+          type: integer
+        b:
+          maximum: 255
+          minimum: 0
+          type: integer
+
