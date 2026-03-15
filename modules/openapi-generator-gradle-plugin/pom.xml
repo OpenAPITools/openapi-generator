@@ -161,6 +161,36 @@
             </build>
         </profile>
         <profile>
+            <id>skip-gradle-tests-skipTests</id>
+            <activation>
+                <property>
+                    <name>skipTests</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.fortasoft</groupId>
+                        <artifactId>gradle-maven-plugin</artifactId>
+                        <executions>
+                            <!-- Override the gradle-build execution: swap `build` (assemble + test)
+                                 for `assemble` (no tests) when -DskipTests is set. -->
+                            <execution>
+                                <id>gradle-build</id>
+                                <configuration>
+                                    <tasks>
+                                        <task>clean</task>
+                                        <task>assemble</task>
+                                        <task>publishToMavenLocal</task>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>static-analysis</id>
             <build>
                 <plugins>
