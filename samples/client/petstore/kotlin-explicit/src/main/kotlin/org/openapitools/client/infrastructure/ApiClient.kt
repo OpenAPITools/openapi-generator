@@ -271,10 +271,10 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
                 }
             mediaType == XML_MEDIA_TYPE -> throw UnsupportedOperationException("xml not currently supported.")
             mediaType == TEXT_MEDIA_TYPE -> {
-                val textualContent = when {
-                    content is CharSequence -> content.toString()
-                    content is Number -> content.toString()
-                    content is Boolean -> content.toString()
+                val textualContent = when (content) {
+                    is Char, is CharSequence -> content.toString()
+                    is Number -> content.toString()
+                    is Boolean -> content.toString()
                     else -> throw UnsupportedOperationException("requestBody currently only supports text body containing primitive types: characters, numbers, or booleans.")
                 }
                 textualContent.toRequestBody(mediaType.toMediaTypeOrNull())
