@@ -4665,13 +4665,13 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void testSkipDefaultValues() throws IOException {
+    public void testOmmitDefaultNullValues() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SKIP_DEFAULT_VALUES, true);
+        codegen.additionalProperties().put(OMMIT_DEFAULT_NULL_VALUES, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"))
