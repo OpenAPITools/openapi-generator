@@ -143,14 +143,20 @@
                         <groupId>org.fortasoft</groupId>
                         <artifactId>gradle-maven-plugin</artifactId>
                         <executions>
-                            <!-- Override the gradle-build execution: swap `build` (assemble + test)
-                                 for `assemble` (no tests) when -Dmaven.test.skip=true is set. -->
+                            <!-- Override the gradle-build execution: keep `build` (so checkstyle,
+                                 spotbugs, and other check-lifecycle tasks still run) but add
+                                 `-x test` to exclude only the Gradle test task, mirroring
+                                 Maven's maven.test.skip behaviour which does not skip quality checks. -->
                             <execution>
                                 <id>gradle-build</id>
                                 <configuration>
+                                    <args combine.children="append">
+                                        <arg>-x</arg>
+                                        <arg>test</arg>
+                                    </args>
                                     <tasks>
                                         <task>clean</task>
-                                        <task>assemble</task>
+                                        <task>build</task>
                                         <task>publishToMavenLocal</task>
                                     </tasks>
                                 </configuration>
@@ -165,6 +171,9 @@
             <activation>
                 <property>
                     <name>skipTests</name>
+                    <!-- Maven maps bare -DskipTests to the string "true", so this matches
+                         both -DskipTests and -DskipTests=true but NOT -DskipTests=false. -->
+                    <value>true</value>
                 </property>
             </activation>
             <build>
@@ -173,14 +182,21 @@
                         <groupId>org.fortasoft</groupId>
                         <artifactId>gradle-maven-plugin</artifactId>
                         <executions>
-                            <!-- Override the gradle-build execution: swap `build` (assemble + test)
-                                 for `assemble` (no tests) when -DskipTests is set. -->
+                            <!-- Override the gradle-build execution: keep `build` (so checkstyle,
+                                 spotbugs, and other check-lifecycle tasks still run) but add
+                                 `-x test` to exclude only the Gradle test task.
+                                 combine.children="append" appends to the plugin-level <args>
+                                 instead of replacing them, preserving -P openApiGeneratorVersion. -->
                             <execution>
                                 <id>gradle-build</id>
                                 <configuration>
+                                    <args combine.children="append">
+                                        <arg>-x</arg>
+                                        <arg>test</arg>
+                                    </args>
                                     <tasks>
                                         <task>clean</task>
-                                        <task>assemble</task>
+                                        <task>build</task>
                                         <task>publishToMavenLocal</task>
                                     </tasks>
                                 </configuration>
