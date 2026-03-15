@@ -99,9 +99,16 @@
                         <arg>-Psigning.secretKeyRingFile=${env.TRAVIS_BUILD_DIR}/sec.gpg</arg>
                         -->
                     </args>
+                    <!-- Force the Gradle daemon to use the same JVM Maven is running with.
+                         This prevents Gradle from picking up a system-level JDK (e.g. JDK 25)
+                         when Maven is configured to run on a different JDK (e.g. JDK 21). -->
+                    <jvmArgs>
+                        <jvmArg>-Dorg.gradle.java.home=${java.home}</jvmArg>
+                    </jvmArgs>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>gradle-build</id>
                         <phase>install</phase>
                         <goals>
                             <!-- goal must be "invoke" -->
@@ -109,7 +116,7 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <!-- calls "clean assemble install" -->
+                                <!-- calls "clean build publishToMavenLocal" (build includes tests) -->
                                 <task>clean</task>
                                 <task>build</task>
                                 <task>publishToMavenLocal</task>
@@ -122,6 +129,83 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>skip-gradle-tests</id>
+            <activation>
+                <property>
+                    <name>maven.test.skip</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.fortasoft</groupId>
+                        <artifactId>gradle-maven-plugin</artifactId>
+                        <executions>
+                            <!-- Override the gradle-build execution: keep `build` (so checkstyle,
+                                 spotbugs, and other check-lifecycle tasks still run) but add
+                                 `-x test` to exclude only the Gradle test task, mirroring
+                                 Maven's maven.test.skip behaviour which does not skip quality checks. -->
+                            <execution>
+                                <id>gradle-build</id>
+                                <configuration>
+                                    <args combine.children="append">
+                                        <arg>-x</arg>
+                                        <arg>test</arg>
+                                    </args>
+                                    <tasks>
+                                        <task>clean</task>
+                                        <task>build</task>
+                                        <task>publishToMavenLocal</task>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>skip-gradle-tests-skipTests</id>
+            <activation>
+                <property>
+                    <name>skipTests</name>
+                    <!-- Maven maps bare -DskipTests to the string "true", so this matches
+                         both -DskipTests and -DskipTests=true but NOT -DskipTests=false. -->
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.fortasoft</groupId>
+                        <artifactId>gradle-maven-plugin</artifactId>
+                        <executions>
+                            <!-- Override the gradle-build execution: keep `build` (so checkstyle,
+                                 spotbugs, and other check-lifecycle tasks still run) but add
+                                 `-x test` to exclude only the Gradle test task.
+                                 combine.children="append" appends to the plugin-level <args>
+                                 instead of replacing them, preserving -P openApiGeneratorVersion. -->
+                            <execution>
+                                <id>gradle-build</id>
+                                <configuration>
+                                    <args combine.children="append">
+                                        <arg>-x</arg>
+                                        <arg>test</arg>
+                                    </args>
+                                    <tasks>
+                                        <task>clean</task>
+                                        <task>build</task>
+                                        <task>publishToMavenLocal</task>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>static-analysis</id>
             <build>
