@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +48,6 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
-import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -176,6 +176,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Setter protected int maxAttemptsForRetry = 1;
     @Setter protected long waitTimeMillis = 10l;
+    private final Set<String> JSPECIFY_SUPPORTED_LIBRARIES = Set.of(RESTCLIENT, WEBCLIENT, NATIVE, RESTTEMPLATE);
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -320,6 +321,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         mpRestClientVersions.put("1.4.1", new MpRestClientVersion("javax", "pom.mustache"));
         mpRestClientVersions.put("2.0", new MpRestClientVersion("javax", "pom.mustache"));
         mpRestClientVersions.put("3.0", new MpRestClientVersion("jakarta", "pom_3.0.mustache"));
+    }
+
+    @Override
+    public void setUseJspecify(boolean useJspecify) {
+        // currently only available for a limited set of libraries
+        if (useJspecify && !JSPECIFY_SUPPORTED_LIBRARIES.contains(library)) {
+            throw new IllegalArgumentException("useJspecify is only suppored in these libraries: " + JSPECIFY_SUPPORTED_LIBRARIES);
+        }
+        super.setUseJspecify(useJspecify);
     }
 
     @Override
@@ -788,6 +798,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
+        if (useJspecify) {
+            applyJspecify();
+        }
 
         if (usePlayWS) {
             // remove unsupported auth
@@ -1007,6 +1020,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        if (useJspecify) {
+            addNullableImportForOperation(op);
+        }
+        return op;
+    }
+
+    @Override
     public String apiFilename(String templateName, String tag) {
         if (isLibrary(VERTX)) {
             String suffix = apiTemplateFiles().get(templateName);
@@ -1135,6 +1157,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (!AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
             codegenModel.imports.remove("Schema");
+        }
+        if (useJspecify) {
+            codegenModel.imports.add("Nullable");
         }
 
         return codegenModel;
@@ -1344,5 +1369,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_WEBCLIENT_BLOCKING);
         return extensions;
+    }
+
+    @Override
+    protected void applyJspecify() {
+        super.applyJspecify();
+        addPackagInfoSupportingFiles();
+        importMapping.put("Nullable", "org.jspecify.annotations.Nullable");
+        jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
+    }
+
+    @Override
+    protected void addPackagInfoSupportingFiles() {
+        super.addPackagInfoSupportingFiles();
+        if (useJspecify) {
+            supportingFiles.add(new SupportingFile("invokerPackageInfo.mustache",
+                    (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
     }
 }

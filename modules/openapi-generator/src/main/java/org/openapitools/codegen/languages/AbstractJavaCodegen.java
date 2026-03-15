@@ -22,8 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -58,6 +60,8 @@ import org.slf4j.LoggerFactory;
 import javax.lang.model.SourceVersion;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -104,6 +108,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String USE_JSPECIFY = "useJspecify";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
     public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
 
@@ -216,6 +221,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     @Getter @Setter
     protected boolean useBeanValidation = false;
+    @Getter
+    @Setter
+    protected boolean useJspecify;
+    protected JSpecifyNullableLambda jSpecifyNullableLambda;
+
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -390,6 +400,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
         cliOptions.add(CliOption.newString(CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER, CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER_DESC));
+        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks. Ony available for Spring, RestClient, WebClient", useJspecify));
     }
 
     @Override
@@ -597,6 +608,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
+        convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -841,10 +853,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     protected void applyJavaxPackage() {
         writePropertyBack(JAVAX_PACKAGE, "javax");
+        writePropertyBack("nullableAnnotation", "@javax.annotation.Nullable");
+        writePropertyBack("nonNullAnnotation", "@javax.annotation.Nonnull");
     }
 
     protected void applyJakartaPackage() {
         writePropertyBack(JAVAX_PACKAGE, "jakarta");
+        writePropertyBack("nullableAnnotation", "@jakarta.annotation.Nullable");
+        writePropertyBack("nonNullAnnotation", "@jakarta.annotation.Nonnull");
+    }
+
+    protected void applyJspecify() {
+        writePropertyBack("nullableAnnotation", "@org.jspecify.annotations.Nullable");
+        writePropertyBack("nonNullAnnotation", "@NonNull");
     }
 
     @Override
@@ -2652,5 +2673,83 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             throw new RuntimeException(sb.toString());
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        this.jSpecifyNullableLambda = new JSpecifyNullableLambda();
+        return super.addMustacheLambdas()
+                .put("jSpecifyDatatype",(fragment, writer) -> {
+                    String dataType = fragment.execute();
+                    if (jSpecifyNullableLambda.keptNullable) {
+                        jSpecifyNullableLambda.keptNullable = false;
+                        int idx = dataType.lastIndexOf('.');
+                        if (idx > 0) {
+                            // generate declareation like java.time.@Nullable Timestamp
+                            writer.write(dataType.substring(0, idx + 1));
+                            writer.write("@Nullable ");
+                            writer.write(dataType.substring(idx + 1));
+                        } else {
+                            writer.write("@Nullable ");
+                            writer.write(dataType);
+                        }
+                    } else {
+                        writer.write(dataType);
+                    }
+                })
+                .put("jSpecifyNullable", jSpecifyNullableLambda);
+
+    }
+
+    /**
+     * for Jspecify, remove @Nullable before the datatype.
+     */
+    class JSpecifyNullableLambda implements Mustache.Lambda {
+        private String nullableAnnotation = "@Nullable";
+        // remember if @Nullable is needed
+        boolean keptNullable = false;
+
+        public void setNullableAnnotation(String nullableAnnotation) {
+            this.nullableAnnotation = nullableAnnotation;
+        }
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            keptNullable = false;
+            String value = fragment.execute();
+            if (useJspecify) {
+                if (value.startsWith(nullableAnnotation)) {
+                    keptNullable = true;
+                    int idx = nullableAnnotation.length();
+                    // trim left
+                    while (idx < value.length() && value.charAt(idx) == ' ') {
+                        idx ++;
+                    }
+                    value = value.substring(idx);
+                }
+            }
+            writer.write(value);
+        }
+    }
+
+    protected void addPackagInfoSupportingFiles() {
+        if (useJspecify) {
+            supportingFiles.add(new SupportingFile("modelPackageInfo.mustache",
+                    (sourceFolder + File.separator + modelPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+            supportingFiles.add(new SupportingFile("apiPackageInfo.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
+    }
+
+    /**
+     * Adds Nullable import if any parameter is nullable or optional.
+     */
+    protected void addNullableImportForOperation(CodegenOperation codegenOperation) {
+        codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
     }
 }

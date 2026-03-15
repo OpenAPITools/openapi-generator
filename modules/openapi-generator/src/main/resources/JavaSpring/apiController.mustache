@@ -81,10 +81,11 @@ public class {{classname}}Controller implements {{classname}} {
 {{^isDelegate}}
     {{^reactive}}
 
+    @Nullable
     private final NativeWebRequest request;
 
     @Autowired
-    public {{classname}}Controller(NativeWebRequest request) {
+    public {{classname}}Controller(@Nullable NativeWebRequest request) {
         this.request = request;
     }
 
