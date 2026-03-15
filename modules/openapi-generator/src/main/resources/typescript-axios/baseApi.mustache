@@ -25,6 +25,7 @@ export interface RequestArgs {
 
 export class BaseAPI {
     protected configuration: Configuration | undefined;
+{{^useErasableSyntax}}
 
     constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected axios: AxiosInstance = globalAxios) {
         if (configuration) {
@@ -32,13 +33,37 @@ export class BaseAPI {
             this.basePath = configuration.basePath ?? basePath;
         }
     }
+{{/useErasableSyntax}}
+{{#useErasableSyntax}}
+    protected basePath: string;
+    protected axios: AxiosInstance;
+
+    constructor(configuration?: Configuration, basePath: string = BASE_PATH, axios: AxiosInstance = globalAxios) {
+        this.basePath = basePath;
+        this.axios = axios;
+        if (configuration) {
+            this.configuration = configuration;
+            this.basePath = configuration.basePath ?? basePath;
+        }
+    }
+{{/useErasableSyntax}}
 };
 
 export class RequiredError extends Error {
+{{^useErasableSyntax}}
     constructor(public field: string, msg?: string) {
         super(msg);
         this.name = "RequiredError"
     }
+{{/useErasableSyntax}}
+{{#useErasableSyntax}}
+    public field: string;
+    constructor(field: string, msg?: string) {
+        super(msg);
+        this.name = "RequiredError"
+        this.field = field;
+    }
+{{/useErasableSyntax}}
 }
 
 interface ServerMap {
