@@ -125,9 +125,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    public static final String OPEN_BRACE = "{";
-    public static final String CLOSE_BRACE = "}";
-
     @Setter protected String title = "OpenAPI Spring";
     @Getter @Setter
     protected String configPackage = "org.openapitools.configuration";
@@ -225,8 +222,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         // spring uses the jackson lib
         jackson = true;
-        additionalProperties.put("openbrace", OPEN_BRACE);
-        additionalProperties.put("closebrace", CLOSE_BRACE);
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code")
