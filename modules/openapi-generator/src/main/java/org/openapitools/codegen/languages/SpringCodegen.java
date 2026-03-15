@@ -324,6 +324,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
             .defaultValue("false")
         );
+        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");

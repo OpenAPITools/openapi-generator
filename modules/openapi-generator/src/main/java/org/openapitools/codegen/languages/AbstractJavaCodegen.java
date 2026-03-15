@@ -400,7 +400,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
         cliOptions.add(CliOption.newString(CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER, CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER_DESC));
-        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks. Ony available for Spring, RestClient, WebClient", useJspecify));
     }
 
     @Override

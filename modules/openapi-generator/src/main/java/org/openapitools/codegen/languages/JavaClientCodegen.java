@@ -275,6 +275,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
         cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.", this.useSealedOneOfInterfaces));
         cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
+        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks. Ony supported for " + JSPECIFY_SUPPORTED_LIBRARIES, useJspecify));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");

@@ -69,7 +69,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useAbstractClass|Whether to generate abstract classes for REST API instead of interfaces.| |false|
 |useBeanValidation|Use Bean Validation| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
-|useJspecify|Use Jspecify for null checks. Ony available for Spring, RestClient, WebClient| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |x-helidon-groupBy|Selects how to group operations into APIs|<dl><dt>**tags**</dt><dd>Use the 'tags' settings on each operation</dd><dt>**first-path-segment**</dt><dd>Use the first segment of the path</dd></dl>|tags|
