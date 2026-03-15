@@ -9,7 +9,7 @@ import java.io.InputStream
 
 
 
-@Path("/")
+@Path("/test/parameters/{path_default}/{path_nullable}")
 @javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.21.0-SNAPSHOT")
 class DefaultApi {
 
