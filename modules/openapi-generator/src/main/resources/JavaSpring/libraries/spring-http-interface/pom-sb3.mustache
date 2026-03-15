@@ -89,13 +89,6 @@
             <version>0.2.9</version>
         </dependency>
         {{/openApiNullable}}
-        {{#lombok}}
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <optional>true</optional>
-            </dependency>
-        {{/lombok}}
         {{#useJspecify}}
         <dependency>
             <groupId>org.jspecify</groupId>
@@ -103,6 +96,13 @@
             <version>1.0.0</version>
         </dependency>
         {{/useJspecify}}
+        {{#lombok}}
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <optional>true</optional>
+            </dependency>
+        {{/lombok}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
