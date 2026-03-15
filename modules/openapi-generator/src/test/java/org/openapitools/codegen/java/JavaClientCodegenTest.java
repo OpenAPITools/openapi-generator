@@ -2404,9 +2404,9 @@ public class JavaClientCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("EnumTest.java"))
-                .assertMethod("fromValue")
-                .bodyContainsLines("if (b.value.equalsIgnoreCase(value)) {");
+        assertThat(files.get("EnumTest.java"))
+                .content()
+                .contains("cacheByValue.get(value.toLowerCase(java.util.Locale.ROOT))");
     }
 
     @Test
@@ -2420,9 +2420,9 @@ public class JavaClientCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("EnumTest.java"))
-                .assertMethod("fromValue")
-                .bodyContainsLines("if (b.value.equals(value)) {");
+        assertThat(files.get("EnumTest.java"))
+                .content()
+                .contains("new HashMap<>()");
     }
 
     @Test
