@@ -850,7 +850,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put("feign-okhttp", "true");
         } else if (isLibrary(FEIGN_HC5)) {
             additionalProperties.put("feign-hc5", "true");
-            setTemplateDir(FEIGN);
+            // Only fall back to the built-in "feign" template directory when the user has not
+            // provided a custom template directory.  super.processOpts() already wrote any
+            // user-supplied templateDir back into additionalProperties, so checking for the
+            // key's presence reliably distinguishes "user provided" from "not provided".
+            if (!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
+                setTemplateDir(FEIGN);
+            }
             setLibrary(FEIGN);
         }
 

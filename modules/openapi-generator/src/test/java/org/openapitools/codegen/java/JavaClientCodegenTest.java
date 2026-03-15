@@ -4180,4 +4180,35 @@ public class JavaClientCodegenTest {
                 .fileContains("public FruitType getFruitType()");
     }
 
+    /**
+     * Regression: without a user-provided template dir, feign-hc5 should still resolve
+     * built-in templates from the "feign" folder (same behaviour as before the fix).
+     */
+    @Test
+    public void testFeignHc5TemplateDirDefaultsToFeign() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(FEIGN_HC5);
+        codegen.processOpts();
+
+        assertEquals(codegen.templateDir(), FEIGN,
+                "feign-hc5 without a custom templateDir should use the 'feign' built-in template directory");
+    }
+
+    /**
+     * Bug fix: a user-provided templateDir must not be overwritten when library=feign-hc5.
+     * Previously setTemplateDir(FEIGN) was called unconditionally and silently replaced the
+     * user's path.
+     */
+    @Test
+    public void testFeignHc5CustomTemplateDirIsPreserved() {
+        final String customTemplateDir = "/custom/templates";
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(FEIGN_HC5);
+        codegen.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, customTemplateDir);
+        codegen.processOpts();
+
+        assertEquals(codegen.templateDir(), customTemplateDir,
+                "feign-hc5 must preserve a user-provided templateDir and not overwrite it with 'feign'");
+    }
+
 }
