@@ -158,7 +158,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         supportedLibraries.put("asyncio", "asyncio-based client");
         supportedLibraries.put("tornado", "tornado-based client (deprecated)");
         supportedLibraries.put("httpx", "httpx-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3, httpx");
+        supportedLibraries.put("httpx-sync", "httpx-based sync client");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3, httpx, httpx-sync");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -326,7 +327,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("__init__.mustache", testFolder, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         supportingFiles.add(new SupportingFile("api_response.mustache", packagePath(), "api_response.py"));
 
         if ("asyncio".equals(getLibrary())) {
@@ -338,10 +338,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             additionalProperties.put("tornado", "true");
         } else if ("httpx".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("httpx/rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("httpx/api_client.mustache", packagePath(), "api_client.py"));
             additionalProperties.put("async", "true");
+            additionalProperties.put("httpx", "true");
+        } else if ("httpx-sync".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("httpx/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("httpx", "true");
         } else {
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         }
 
         modelPackage = this.packageName + "." + modelPackage;
