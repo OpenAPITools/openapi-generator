@@ -76,8 +76,8 @@ namespace {{packageName}}.Test.{{apiPackage}}
 
                 {{/httpSignatureMethods}}
                 {{#oauthMethods}}
-                OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(oauthToken);
+                OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken{{-index}});
 
                 {{/oauthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}

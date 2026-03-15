@@ -76,6 +76,9 @@ namespace Org.OpenAPITools.Test.Api
                 string oauthTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
                 OAuthToken oauthToken1 = new OAuthToken(oauthTokenValue1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken1);
+                string oauthTokenValue2 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                OAuthToken oauthToken2 = new OAuthToken(oauthTokenValue2, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken2);
             });
     }
 }

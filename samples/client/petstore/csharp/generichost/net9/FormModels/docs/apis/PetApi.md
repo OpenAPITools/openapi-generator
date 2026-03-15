@@ -34,7 +34,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth), [petstore_auth2](../README.md#petstore_auth2), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 

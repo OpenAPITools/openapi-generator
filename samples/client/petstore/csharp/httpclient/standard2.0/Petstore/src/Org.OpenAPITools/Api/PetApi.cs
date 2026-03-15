@@ -752,6 +752,12 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
+            // authentication (petstore_auth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -828,6 +834,12 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+            // authentication (petstore_auth2) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
