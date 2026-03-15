@@ -549,23 +549,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            // OAS 3.1: if oneOf or anyOf contains the 'null' type, mark the model as nullable
-            // and remove the 'Null' pseudo-type from the composed schema lists.
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.remove("Null")) {
-                cm.isNullable = true;
-            }
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.remove("Null")) {
-                cm.isNullable = true;
-            }
-            if (cm.getComposedSchemas() != null) {
-                if (cm.getComposedSchemas().getOneOf() != null) {
-                    cm.getComposedSchemas().getOneOf().removeIf(o -> "Null".equals(o.dataType));
-                }
-                if (cm.getComposedSchemas().getAnyOf() != null) {
-                    cm.getComposedSchemas().getAnyOf().removeIf(o -> "Null".equals(o.dataType));
-                }
-            }
-
             if (cm.getComposedSchemas() != null) {
                 List<CodegenProperty> oneOf = cm.getComposedSchemas().getOneOf();
                 if (oneOf != null) {
