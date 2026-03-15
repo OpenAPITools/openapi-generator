@@ -133,10 +133,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 ))
         );
 
-        // Set additional properties
-        additionalProperties.put("openbrace", "{");
-        additionalProperties.put("closebrace", "}");
-
         // Set client options that will be presented to user
         updateOption(INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());

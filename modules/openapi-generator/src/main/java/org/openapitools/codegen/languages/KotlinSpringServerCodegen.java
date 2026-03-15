@@ -63,9 +63,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     "ApiResponse"
             ));
 
-    public static final String OPEN_BRACE = "{";
-    public static final String CLOSE_BRACE = "}";
-
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -221,9 +218,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
-
-        additionalProperties.put("openbrace", OPEN_BRACE);
-        additionalProperties.put("closebrace", CLOSE_BRACE);
 
         // Use lists instead of arrays
         typeMapping.put("array", "kotlin.collections.List");
