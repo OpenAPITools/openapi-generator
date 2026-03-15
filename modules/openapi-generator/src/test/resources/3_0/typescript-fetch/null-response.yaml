@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: testing null response type conversion to void
+paths:
+  /items/{itemId}:
+    delete:
+      tags:
+        - items
+      operationId: deleteItem
+      summary: Delete an item
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Item deleted successfully
+          content:
+            application/json:
+              schema:
+                type: 'null'
+    get:
+      tags:
+        - items
+      operationId: getItem
+      summary: Get an item by ID
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
