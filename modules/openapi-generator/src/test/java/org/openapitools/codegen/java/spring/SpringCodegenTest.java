@@ -6629,6 +6629,7 @@ public class SpringCodegenTest {
         codegen.setOpenAPI(openAPI);
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
         codegen.setAnnotationLibrary(AnnotationLibrary.SWAGGER2);
         codegen.setDocumentationProvider(DocumentationProvider.SPRINGDOC);
 
