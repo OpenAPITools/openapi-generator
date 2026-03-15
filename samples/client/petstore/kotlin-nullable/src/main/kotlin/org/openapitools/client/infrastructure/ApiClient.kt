@@ -270,8 +270,15 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                         .toRequestBody((mediaType ?: JSON_MEDIA_TYPE).toMediaTypeOrNull())
                 }
             mediaType == XML_MEDIA_TYPE -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == TEXT_MEDIA_TYPE && content is String ->
-                content.toRequestBody(TEXT_MEDIA_TYPE.toMediaTypeOrNull())
+            mediaType == TEXT_MEDIA_TYPE -> {
+                val textualContent = when {
+                    content is CharSequence -> content.toString()
+                    content is Number -> content.toString()
+                    content is Boolean -> content.toString()
+                    else -> throw UnsupportedOperationException("requestBody currently only supports text body containing primitive types: characters, numbers, or booleans.")
+                }
+                textualContent.toRequestBody(mediaType.toMediaTypeOrNull())
+            }
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
