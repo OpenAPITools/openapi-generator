@@ -300,6 +300,13 @@
             <version>${commons-lang3-version}</version>
         </dependency>
         {{/useReflectionEqualsHashCode}}
+        {{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        {{/useJspecify}}
 
         <!-- test dependencies -->
         <dependency>

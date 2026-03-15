@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  description: test fully qualified name and jspecify
+  title: jspecify
+  version: 1.0.0
+paths:
+  /foo/{dtParam}:
+    get:
+      parameters:
+        - in: path
+          name: dtParam
+          # the Spring generator accepts nullable path param!
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: dtQuery
+          schema:
+            type: string
+            format: date-time
+        - in: cookie
+          name: dtCookie
+          schema:
+            type: string
+            format: date-time
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo'
+  /upload:
+    post:
+      requestBody:
+        description: file
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        default:
+          description: ok
+
+components:
+  schemas:
+    Foo:
+      required:
+        - requiredDt
+      properties:
+        dt:
+          type: string
+          format: date-time
+        binary:
+          type: string
+          format: binary
+        listOfDt:
+          type: array
+          items:
+            type: string
+            format: date-time
+        listMinIntems:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: date-time
+        requiredDt:
+          type: string
+          format: date-time
+        number:
+          type: number

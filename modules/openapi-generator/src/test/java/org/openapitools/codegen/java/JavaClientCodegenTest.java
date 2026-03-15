@@ -48,6 +48,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -2075,7 +2076,15 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString());
         consumer.accept(configurator);
         return new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .stream().collect(Collectors.toMap(JavaClientCodegenTest::getUniqueName, Function.identity()));
+    }
+
+    private static String getUniqueName(File file) {
+        String name = file.getName();
+        if ("package-info.java".equals(name)) {
+            return file.getParentFile().getName() + "/" + name;
+        }
+        return name;
     }
 
     @Test
@@ -4180,4 +4189,52 @@ public class JavaClientCodegenTest {
                 .fileContains("public FruitType getFruitType()");
     }
 
+    @DataProvider(name = "jspecifyLibraries")
+    public Object[][] jspecifyLibraries() {
+        return new Object[][]{
+                {"restclient"},
+                {"webclient"},
+                {"resttemplate"},
+                {"native"}
+        };
+    }
+
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify(String library) throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        "containerDefaultToNull", true
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .setValidateSpec(false)
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant")
+                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
+
+        assertThat(files.get("pom.xml")).content()
+                .contains(
+                        "<groupId>org.jspecify</groupId>",
+                        "<artifactId>jspecify</artifactId>",
+                        "<version>1.0.0</version>");
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "private java.time.@Nullable Instant dt;"
+                );
+        if (!RESTTEMPLATE.equals(library)) {
+            JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                    .fileContains(
+                            "import org.jspecify.annotations.Nullable;",
+                            "java.time.@Nullable Instant dtParam",
+                            "java.time.@Nullable Instant dtQuery",
+                            "java.time.@Nullable Instant dtCookie"
+                    );
+        }
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("client/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+    }
 }

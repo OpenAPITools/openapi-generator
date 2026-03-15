@@ -324,6 +324,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
             .defaultValue("false")
         );
+        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -559,7 +560,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
-        importMapping.put("Nullable", "org.springframework.lang.Nullable");
+        importMapping.put("Nullable", useJspecify? "org.jspecify.annotations.Nullable": "org.springframework.lang.Nullable");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
@@ -753,6 +754,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
+        addPackagInfoSupportingFiles();
     }
 
     protected void applyJackson2Package() {
@@ -1160,7 +1162,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
 
-        addSpringNullableImportForOperation(codegenOperation);
+        if (isSpringCodegen()) {
+            addNullableImportForOperation(codegenOperation);
+        }
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && includeHttpRequestContext != null && includeHttpRequestContext) {
             codegenOperation.imports.add("ApiIgnore");
@@ -1329,18 +1333,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     private void addSpringNullableImport(Set<String> imports) {
         if (isSpringCodegen()) {
             imports.add("Nullable");
-        }
-    }
-
-    /**
-     * Adds Spring Nullable import if any parameter is nullable or optional.
-     */
-    private void addSpringNullableImportForOperation(CodegenOperation codegenOperation) {
-        if (isSpringCodegen()) {
-            codegenOperation.allParams.stream()
-                .filter(CodegenParameter::notRequiredOrIsNullable)
-                .findAny()
-                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
         }
     }
 }
