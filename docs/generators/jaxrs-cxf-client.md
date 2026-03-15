@@ -70,13 +70,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sourceFolder|source folder for generated code| |src/gen/java|
+|sourceFolder|source folder for generated code| |src\gen\java|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk.| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGenericResponse|Use generic response| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useJspecify|Use Jspecify for null checks. Ony available for Spring, RestClient, WebClient| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
