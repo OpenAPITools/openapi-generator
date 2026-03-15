@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: OAS 3.1 Null Type Test
+  version: 1.0.0
+  description: |
+    Tests OAS 3.1 null type handling for C# codegen.
+    In OAS 3.1, `nullable: true` was deprecated in favour of adding `null` to
+    the list of allowed types.  The C# generator must convert any occurrence of
+    the bare `null` type to a nullable `Object`, and must strip `null` out of
+    oneOf / anyOf composed schemas while marking the parent model as nullable.
+servers:
+  - url: http://api.example.com/v1
+paths:
+  /widgets/{id}:
+    get:
+      operationId: getWidget
+      summary: Retrieve a widget
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A widget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Widget'
+        '404':
+          description: Not found
+components:
+  schemas:
+
+    # ------------------------------------------------------------------
+    # Case 1: a direct property with type 'null'.
+    # Before the fix: this produced an unresolvable type and broken code.
+    # After the fix: dataType => "Object", isNullable => true.
+    # ------------------------------------------------------------------
+    NullTypeDirect:
+      type: object
+      description: >
+        Model with a property whose type is the bare 'null' type (OAS 3.1).
+        The generator should treat this as a nullable Object.
+      properties:
+        id:
+          type: integer
+          format: int64
+        alwaysNull:
+          type: "null"
+          description: >
+            This property can only ever be null.  In OAS 3.1 you express that
+            with `type: null`.  The C# generator must map this to a nullable
+            Object.
+
+    # ------------------------------------------------------------------
+    # Case 2: oneOf that includes the null type.
+    # This is the idiomatic OAS 3.1 replacement for `nullable: true`.
+    # The generator must mark the model as isNullable and drop the
+    # phantom "Null" entry from the composed-schema lists.
+    # ------------------------------------------------------------------
+    ShapeOrNull:
+      description: >
+        A value that is either a Shape or null.
+        OAS 3.1 expresses nullable via oneOf with a null member instead of
+        the deprecated `nullable: true` attribute.
+      oneOf:
+        - type: "null"
+        - $ref: '#/components/schemas/Shape'
+
+    # ------------------------------------------------------------------
+    # Case 3: anyOf that includes the null type.
+    # Same semantics as case 2 but using anyOf.
+    # ------------------------------------------------------------------
+    ColorOrNull:
+      description: >
+        A value that is either a Color, a string, or null.
+        Demonstrates nullable anyOf in OAS 3.1.
+      anyOf:
+        - type: "null"
+        - type: string
+        - $ref: '#/components/schemas/Color'
+
+    # ------------------------------------------------------------------
+    # Case 4: a well-rounded model that exercises all three patterns at
+    # once, to serve as an end-to-end code-generation regression target.
+    # ------------------------------------------------------------------
+    Widget:
+      type: object
+      description: >
+        A Widget demonstrating every OAS 3.1 null-type pattern that the
+        C# generator must handle correctly.
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier.
+        name:
+          type: string
+          description: Widget name.
+        # Case 1 inline: property typed as bare null
+        debugInfo:
+          type: "null"
+          description: >
+            Always null in production. Maps to nullable Object in C#.
+        # Case 2 inline: nullable via oneOf [ null, SomeRef ]
+        shape:
+          oneOf:
+            - type: "null"
+            - $ref: '#/components/schemas/Shape'
+          description: Optional shape; null when no shape is assigned.
+        # Case 3 inline: nullable via anyOf [ null, string ]
+        color:
+          anyOf:
+            - type: "null"
+            - type: string
+          description: Optional CSS color string; null when not set.
+
+    Shape:
+      type: object
+      description: A geometric shape.
+      required:
+        - shapeType
+      properties:
+        shapeType:
+          type: string
+          description: Discriminator value.
+        area:
+          type: number
+          format: double
+          description: Area in square units.
+
+    Color:
+      type: object
+      description: An RGB color triplet.
+      properties:
+        r:
+          type: integer
+          minimum: 0
+          maximum: 255
+        g:
+          type: integer
+          minimum: 0
+          maximum: 255
+        b:
+          type: integer
+          minimum: 0
+          maximum: 255
