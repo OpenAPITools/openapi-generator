@@ -24,10 +24,5 @@ call.respond(HttpStatusCode.NotImplemented)
 {{/hasAuthMethods}}
 {{/delegatePattern}}
 {{#delegatePattern}}
-{{#hasAuthMethods}}
-{{#lambda.indented}}{{>_api_delegate_body}}{{/lambda.indented}}
-{{/hasAuthMethods}}
-{{#hasAuthMethods}}
-{{>_api_delegate_body}}
-{{/hasAuthMethods}}
+{{>libraries/ktor/_api_delegate_body}}
 {{/delegatePattern}}

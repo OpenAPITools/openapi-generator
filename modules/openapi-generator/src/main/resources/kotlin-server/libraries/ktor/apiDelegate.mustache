@@ -3,6 +3,7 @@ package {{apiPackage}}
 
 import io.ktor.server.routing.RoutingCall
 import {{packageName}}.infrastructure.ApiPrincipal
+import {{packageName}}.infrastructure.APINotImplementedException
 {{#imports}}import {{import}}
 {{/imports}}
 
@@ -10,7 +11,14 @@ import {{packageName}}.infrastructure.ApiPrincipal
 interface {{classname}}Delegate {
 
 {{#operation}}
-    suspend fun {{operationId}}({{#allParams}} {{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/allParams}}call:RoutingCall) : {{{returnType}}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}* @param call The Ktor [RoutingCall]
+     * @return {{{returnType}}}
+     */
+    suspend fun {{operationId}}({{#allParams}} {{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/allParams}}call:RoutingCall) : {{{returnType}}} = throw APINotImplementedException("API operation {{operationId}} has not been implemented yet.")
 {{/operation}}
 }
 {{/operations}}

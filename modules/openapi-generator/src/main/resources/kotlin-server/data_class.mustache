@@ -1,5 +1,8 @@
 {{#isKtor}}
 import kotlinx.serialization.Serializable
+import io.ktor.http.Url
+import kotlin.uuid.Uuid
+import {{packageName}}.infrastructure.BadRequestException
 {{/isKtor}}
 {{^isKtor}}
     {{#parcelizeModels}}
@@ -65,7 +68,18 @@ import java.io.Serializable
 {{/vars}}
 {{/hasEnums}}
 {{#vendorExtensions.x-has-data-class-body}}
+    {{#delegatePattern}}
+        {{>_data_class_validate}}
+    {{/delegatePattern}}
 }
+
+{{/vendorExtensions.x-has-data-class-body}}
+{{^vendorExtensions.x-has-data-class-body}}
+    {{#delegatePattern}}
+{
+        {{>_data_class_validate}}
+}
+    {{/delegatePattern}}
 {{/vendorExtensions.x-has-data-class-body}}
 {{/isKtor}}
 {{^isKtor}}
@@ -113,7 +127,18 @@ sealed class {{classname}}
 {{/vars}}
 {{/hasEnums}}
 {{#vendorExtensions.x-has-data-class-body}}
+    {{#delegatePattern}}
+    {{>_data_class_validate}}
+    {{/delegatePattern}}
 }
+
+{{/vendorExtensions.x-has-data-class-body}}
+{{^vendorExtensions.x-has-data-class-body}}
+{{#delegatePattern}}
+{
+    {{>_data_class_validate}}
+}
+{{/delegatePattern}}
 {{/vendorExtensions.x-has-data-class-body}}
 {{/discriminator}}
 {{/isKtor}}

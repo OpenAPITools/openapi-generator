@@ -1,0 +1,129 @@
+{{#delegatePattern}}
+val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate: {{classname}}Delegate? by call.delegates
+{{/delegatePattern}}
+{{#hasFormParams}}
+{{^isMultipart}}
+val formParameters = call.receiveParameters()
+{{/isMultipart}}
+{{/hasFormParams}}
+{{#allParams}}
+{{#isQueryParam}}
+{{#featureResources}}
+val {{paramName}} = {{operationId}}.{{paramName}}
+{{/featureResources}}
+{{^featureResources}}
+val {{paramName}} = call.request.queryParameters["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/featureResources}}
+{{/isQueryParam}}
+{{#isHeaderParam}}
+val {{paramName}} = call.request.headers["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/isHeaderParam}}
+{{#isCookieParam}}
+val {{paramName}} = call.request.cookies["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/isCookieParam}}
+{{#isBodyParam}}
+val {{paramName}} = call.receive<{{{dataType}}}>()
+{{#hasValidation}}
+{{>libraries/ktor/_param_validation}}
+{{/hasValidation}}
+{{/isBodyParam}}
+{{#isFormParam}}
+{{^isMultipart}}
+val {{paramName}} = formParameters["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/isMultipart}}
+{{/isFormParam}}
+{{#isPathParam}}
+{{#featureResources}}
+val {{paramName}} = {{operationId}}.{{paramName}}
+{{/featureResources}}
+{{^featureResources}}
+val {{paramName}} = call.parameters["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/featureResources}}
+{{/isPathParam}}
+{{#hasValidation}}
+{{>libraries/ktor/_param_validation}}
+{{/hasValidation}}
+{{/allParams}}
+
+{{#isMultipart}}
+{{#allParams}}
+{{#isFormParam}}
+{{#isArray}}
+val {{paramName}} = mutableListOf<{{{dataType}}}>()
+{{/isArray}}
+{{^isArray}}
+var {{paramName}}: {{{dataType}}}? = null
+{{/isArray}}
+{{/isFormParam}}
+{{/allParams}}
+call.receiveMultipart().forEachPart { part ->
+    when (part.name) {
+        {{#allParams}}
+        {{#isFormParam}}
+        "{{baseName}}" -> {
+            {{#isFile}}
+            if(part is PartData.FileItem) {
+                {{#isArray}}
+                    {{paramName}}.add(part)
+                {{/isArray}}
+                {{^isArray}}
+                    {{paramName}} = part
+                {{/isArray}}
+            }
+            {{/isFile}}
+            {{^isFile}}
+            if(part is PartData.FormItem) {
+                {{paramName}} = part.value{{>libraries/ktor/_extract_param_value}}
+                part.dispose()
+            }
+            {{/isFile}}
+        }
+        {{/isFormParam}}
+        {{/allParams}}
+    }
+}
+{{#allParams}}
+{{#isFormParam}}
+{{#required}}
+{{#isArray}}
+if ({{paramName}}.isEmpty()) {
+    throw BadRequestException(message = "Missing form parameter: {{baseName}}", parameterName = "{{baseName}}", validationType = "required")
+}
+{{/isArray}}
+{{^isArray}}
+if ({{paramName}} == null) {
+    throw BadRequestException(message = "Missing form parameter: {{baseName}}", parameterName = "{{baseName}}", validationType = "required")
+}
+{{/isArray}}
+{{/required}}
+{{^required}}
+{{#isArray}}
+// No default value for arrays
+{{/isArray}}
+{{^isArray}}
+{{#defaultValue}}
+if ({{paramName}} == null) {
+    {{paramName}} = {{{defaultValue}}}
+}
+{{/defaultValue}}
+{{/isArray}}
+{{/required}}
+{{#hasValidation}}
+    {{>libraries/ktor/_param_validation}}
+{{/hasValidation}}
+{{/isFormParam}}
+{{/allParams}}
+{{/isMultipart}}
+
+try {
+    val delegate = {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate ?: throw APINotImplementedException("API operation {{operationId}} has not been implemented yet.")
+    val result = delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}call)
+    {{#returnType}}
+    call.respond(result)
+    {{/returnType}}
+    {{^returnType}}
+    call.respond(HttpStatusCode.OK)
+    {{/returnType}}
+} catch (e: APINotImplementedException) {
+    call.respond(e.statusCode, e.message ?: "Not Implemented")
+}
