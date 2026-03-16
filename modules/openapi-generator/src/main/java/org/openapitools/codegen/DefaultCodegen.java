@@ -391,10 +391,6 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public void processOpts() {
-        // add open brace {{openbrace}} and close brace {{closebrace}} to additionalProperties for all mustache templates
-        // to use when needed to use them where mustache would prevent plaintext
-        additionalProperties.put("openbrace", "{");
-        additionalProperties.put("closebrace", "}");
 
         if (!additionalProperties.containsKey(CodegenConstants.MUSTACHE_PARENT_CONTEXT)) {
             // by default empty parent context
@@ -1865,6 +1861,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         // Register common Mustache lambdas.
         registerMustacheLambdas();
+
+        // Initialize mustache braces placeholders for all generators
+        additionalProperties.putIfAbsent("openbrace", "{");
+        additionalProperties.putIfAbsent("closebrace", "}");
     }
 
     /**
