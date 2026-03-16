@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class Sttp4CodegenTest {
 
@@ -207,6 +208,76 @@ public class Sttp4CodegenTest {
         // ClickEvent and ViewEvent should have NO properties at all
         assertFileContains(eventPath, "case class ClickEvent(\n) extends Event");
         assertFileContains(eventPath, "case class ViewEvent(\n) extends Event");
+    }
+
+    @Test
+    public void verifyOneOfWithParentProperties() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/sttp4-oneOf-with-parent-props.yaml", null,
+                        new ParseOptions())
+                .getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("jsonLibrary", "circe");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        Path parentPath = Paths.get(
+                outputPath + "/src/main/scala/org/openapitools/client/model/Parent.scala");
+        String content = Files.readString(parentPath);
+
+        // Sealed trait exists with abstract member for parent property
+        assertFileContains(parentPath, "sealed trait Parent {");
+        assertFileContains(parentPath, "def createdAt: OffsetDateTime");
+
+        // ChildOne exists (empty child is NOT dropped) and extends Parent
+        assertFileContains(parentPath, "case class ChildOne(");
+        assertFileContains(parentPath, ") extends Parent");
+
+        // ChildOne has parent property propagated
+        int childOneStart = content.indexOf("case class ChildOne(");
+        int childOneEnd = content.indexOf(") extends Parent", childOneStart);
+        Assert.assertTrue(childOneStart >= 0 && childOneEnd >= 0,
+                "ChildOne case class should exist");
+        String childOneBlock = content.substring(childOneStart, childOneEnd);
+        Assert.assertTrue(childOneBlock.contains("createdAt: OffsetDateTime"),
+                "ChildOne should have parent property 'createdAt'");
+
+        // ChildOne does NOT have sibling properties
+        Assert.assertFalse(childOneBlock.contains("status"),
+                "ChildOne should NOT contain sibling property 'status'");
+        Assert.assertFalse(childOneBlock.contains("detail"),
+                "ChildOne should NOT contain sibling property 'detail'");
+
+        // ChildTwo has parent property + its own properties
+        assertFileContains(parentPath, "case class ChildTwo(");
+        int childTwoStart = content.indexOf("case class ChildTwo(");
+        int childTwoEnd = content.indexOf(") extends Parent", childTwoStart);
+        Assert.assertTrue(childTwoStart >= 0 && childTwoEnd >= 0,
+                "ChildTwo case class should exist");
+        String childTwoBlock = content.substring(childTwoStart, childTwoEnd);
+        Assert.assertTrue(childTwoBlock.contains("createdAt: OffsetDateTime"),
+                "ChildTwo should have parent property 'createdAt'");
+        Assert.assertTrue(childTwoBlock.contains("status: String"),
+                "ChildTwo should have its own property 'status'");
+        Assert.assertTrue(childTwoBlock.contains("detail: Option[Nested]"),
+                "ChildTwo should have its own property 'detail'");
     }
 
     @Test

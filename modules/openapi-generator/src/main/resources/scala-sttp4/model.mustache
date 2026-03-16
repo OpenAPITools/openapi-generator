@@ -21,7 +21,16 @@ import {{import}}
 {{/javadocRenderer}}
 {{/description}}
 {{#vendorExtensions.x-isSealedTrait}}
+{{#vendorExtensions.x-hasParentProps}}
+sealed trait {{classname}} {
+  {{#vendorExtensions.x-parentProps}}
+  def {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}
+  {{/vendorExtensions.x-parentProps}}
+}
+{{/vendorExtensions.x-hasParentProps}}
+{{^vendorExtensions.x-hasParentProps}}
 sealed trait {{classname}}
+{{/vendorExtensions.x-hasParentProps}}
 
 {{! Generate inline case classes for oneOf members }}
 {{#vendorExtensions.x-oneOfMembers}}

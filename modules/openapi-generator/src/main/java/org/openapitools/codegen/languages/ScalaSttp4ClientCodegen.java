@@ -251,6 +251,38 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
+        // Pre-pass: fix aliased oneOf children.
+        // When a oneOf child schema has no type and no properties (e.g. just title + description),
+        // DefaultCodegen's unaliasSchema treats it as a type alias and replaces the model name
+        // in cModel.oneOf with the language type (e.g. "io.circe.Json" instead of "CancellationInfoHotel").
+        // We fix this by looking at the original OpenAPI schema's oneOf $refs to get the real model names.
+        Map<String, Schema> allSchemas = this.openAPI.getComponents() != null
+                ? this.openAPI.getComponents().getSchemas()
+                : Collections.emptyMap();
+
+        for (ModelsMap mm : processed.values()) {
+            for (ModelMap model : mm.getModels()) {
+                CodegenModel cModel = model.getModel();
+                if (!cModel.oneOf.isEmpty() && allSchemas != null) {
+                    Schema parentSchema = allSchemas.get(cModel.name);
+                    if (parentSchema != null && parentSchema.getOneOf() != null) {
+                        Set<String> resolvedOneOf = new LinkedHashSet<>();
+                        for (Object o : parentSchema.getOneOf()) {
+                            Schema childSchema = (Schema) o;
+                            if (childSchema.get$ref() != null) {
+                                String refName = toModelName(org.openapitools.codegen.utils.ModelUtils.getSimpleRef(childSchema.get$ref()));
+                                resolvedOneOf.add(refName);
+                            }
+                        }
+                        if (!resolvedOneOf.isEmpty()) {
+                            cModel.oneOf.clear();
+                            cModel.oneOf.addAll(resolvedOneOf);
+                        }
+                    }
+                }
+            }
+        }
+
         // First pass: count how many oneOf parents each model has
         Map<String, Integer> oneOfMemberCount = new HashMap<>();
         for (ModelsMap mm : processed.values()) {
@@ -272,6 +304,14 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                 if (!cModel.oneOf.isEmpty()) {
                     cModel.getVendorExtensions().put("x-isSealedTrait", true);
 
+                    // Identify the parent schema's own properties (not inherited from oneOf children).
+                    // These need to be propagated to all children and rendered as abstract members on the sealed trait.
+                    List<CodegenProperty> parentOwnProps = getParentOwnProperties(cModel, allSchemas);
+                    if (!parentOwnProps.isEmpty()) {
+                        cModel.getVendorExtensions().put("x-parentProps", parentOwnProps);
+                        cModel.getVendorExtensions().put("x-hasParentProps", true);
+                    }
+
                     // Collect child models for inline generation
                     // Only inline if they are used exclusively by this oneOf parent
                     List<CodegenModel> childModels = new ArrayList<>();
@@ -282,6 +322,10 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                             // This child is only used by this parent - can be inlined
                             childModel.getVendorExtensions().put("x-isOneOfMember", true);
                             childModel.getVendorExtensions().put("x-oneOfParent", cModel.classname);
+
+                            // Propagate parent's own properties to child's allVars
+                            // so they appear in the generated case class fields
+                            propagateParentProperties(childModel, parentOwnProps);
 
                             // Add discriminator mapping value if present
                             if (cModel.discriminator != null) {
@@ -350,6 +394,64 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
 
         postProcessUpdateImports(processed);
         return processed;
+    }
+
+    /**
+     * Identifies properties that are defined directly on a oneOf parent schema
+     * (not inherited from oneOf children). These are the parent's "own" properties
+     * that need to be propagated to all children.
+     */
+    private List<CodegenProperty> getParentOwnProperties(CodegenModel parentModel, Map<String, Schema> allSchemas) {
+        List<CodegenProperty> parentOwnProps = new ArrayList<>();
+        if (allSchemas == null) return parentOwnProps;
+
+        Schema parentSchema = allSchemas.get(parentModel.name);
+        if (parentSchema == null || parentSchema.getProperties() == null) return parentOwnProps;
+
+        Set<String> parentPropNames = parentSchema.getProperties().keySet();
+        Set<String> parentRequired = parentSchema.getRequired() != null
+                ? new HashSet<>(parentSchema.getRequired())
+                : Collections.emptySet();
+
+        for (String propName : parentPropNames) {
+            // Find matching CodegenProperty in the parent model's vars
+            for (CodegenProperty cp : parentModel.vars) {
+                if (cp.baseName.equals(propName)) {
+                    CodegenProperty cloned = cp.clone();
+                    // Ensure required flag reflects the parent schema's required list
+                    cloned.required = parentRequired.contains(propName);
+                    parentOwnProps.add(cloned);
+                    break;
+                }
+            }
+        }
+        return parentOwnProps;
+    }
+
+    /**
+     * Propagates parent-owned properties to a child model's allVars.
+     * Parent properties are prepended so they appear first in the generated case class.
+     * Properties already present on the child (by baseName) are not duplicated.
+     */
+    private void propagateParentProperties(CodegenModel childModel, List<CodegenProperty> parentOwnProps) {
+        if (parentOwnProps.isEmpty()) return;
+
+        Set<String> existingPropNames = new HashSet<>();
+        for (CodegenProperty cp : childModel.allVars) {
+            existingPropNames.add(cp.baseName);
+        }
+
+        List<CodegenProperty> toAdd = new ArrayList<>();
+        for (CodegenProperty parentProp : parentOwnProps) {
+            if (!existingPropNames.contains(parentProp.baseName)) {
+                toAdd.add(parentProp.clone());
+            }
+        }
+
+        if (!toAdd.isEmpty()) {
+            toAdd.addAll(childModel.allVars);
+            childModel.allVars = toAdd;
+        }
     }
 
     /**
