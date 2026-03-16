@@ -44,7 +44,7 @@ public class ChildWithNullable extends ParentWithNullable {
   
   public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
   
-  private String otherProperty;
+  protected String otherProperty;
 
 
   /**

@@ -40,19 +40,19 @@ public class Name  {
   
   public static final String JSON_PROPERTY_NAME = "name";
   
-  private Integer name;
+  protected Integer name;
 
   public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
   
-  private Integer snakeCase;
+  protected Integer snakeCase;
 
   public static final String JSON_PROPERTY_PROPERTY = "property";
   
-  private String property;
+  protected String property;
 
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
   
-  private Integer _123number;
+  protected Integer _123number;
 
 
   public Name() {

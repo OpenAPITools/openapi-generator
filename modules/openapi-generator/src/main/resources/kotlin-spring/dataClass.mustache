@@ -64,4 +64,5 @@
         private const val serialVersionUID: kotlin.Long = 1
     }
 {{/serializableModel}}
-}
+{{^serializableModel}}{{#companionObject}}    companion object { }
+{{/companionObject}}{{/serializableModel}}}

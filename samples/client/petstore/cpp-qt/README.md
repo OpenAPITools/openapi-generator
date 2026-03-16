@@ -63,7 +63,7 @@ void Example::exampleFunction1(){
       connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignal, [&]() {
           loop.quit();
       });
-      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, const QString &error_str) {
           qDebug() << "Error happened while issuing request : " << error_str;
           loop.quit();
       });
@@ -74,7 +74,7 @@ void Example::exampleFunction1(){
       connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignal, [&]() {
           loop.quit();
       });
-      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, const QString &error_str) {
           qDebug() << "Error happened while issuing request : " << error_str;
           loop.quit();
       });

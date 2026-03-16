@@ -286,32 +286,6 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT createUserSignal();
         Q_EMIT createUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT createUserSignalE(error_type, error_str);
-        Q_EMIT createUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT createUserSignalError(error_type, error_str);
         Q_EMIT createUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -359,32 +333,6 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
         Q_EMIT createUsersWithArrayInputSignal();
         Q_EMIT createUsersWithArrayInputSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT createUsersWithArrayInputSignalE(error_type, error_str);
-        Q_EMIT createUsersWithArrayInputSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT createUsersWithArrayInputSignalError(error_type, error_str);
         Q_EMIT createUsersWithArrayInputSignalErrorFull(worker, error_type, error_str);
     }
@@ -432,32 +380,6 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
         Q_EMIT createUsersWithListInputSignal();
         Q_EMIT createUsersWithListInputSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT createUsersWithListInputSignalE(error_type, error_str);
-        Q_EMIT createUsersWithListInputSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT createUsersWithListInputSignalError(error_type, error_str);
         Q_EMIT createUsersWithListInputSignalErrorFull(worker, error_type, error_str);
     }
@@ -515,32 +437,6 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT deleteUserSignal();
         Q_EMIT deleteUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT deleteUserSignalE(error_type, error_str);
-        Q_EMIT deleteUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT deleteUserSignalError(error_type, error_str);
         Q_EMIT deleteUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -599,32 +495,6 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT getUserByNameSignal(output);
         Q_EMIT getUserByNameSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT getUserByNameSignalE(output, error_type, error_str);
-        Q_EMIT getUserByNameSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT getUserByNameSignalError(output, error_type, error_str);
         Q_EMIT getUserByNameSignalErrorFull(worker, error_type, error_str);
     }
@@ -701,32 +571,6 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT loginUserSignal(output);
         Q_EMIT loginUserSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT loginUserSignalE(output, error_type, error_str);
-        Q_EMIT loginUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT loginUserSignalError(output, error_type, error_str);
         Q_EMIT loginUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -770,32 +614,6 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT logoutUserSignal();
         Q_EMIT logoutUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT logoutUserSignalE(error_type, error_str);
-        Q_EMIT logoutUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT logoutUserSignalError(error_type, error_str);
         Q_EMIT logoutUserSignalErrorFull(worker, error_type, error_str);
     }
@@ -858,42 +676,16 @@ void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT updateUserSignal();
         Q_EMIT updateUserSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT updateUserSignalE(error_type, error_str);
-        Q_EMIT updateUserSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT updateUserSignalError(error_type, error_str);
         Q_EMIT updateUserSignalErrorFull(worker, error_type, error_str);
     }
 }
 
-void PFXUserApi::tokenAvailable(){
+void PFXUserApi::tokenAvailable() {
 
     oauthToken token;
     switch (_OauthMethod) {
-    case 1: //implicit flow
+    case OauthMethod::ImplicitFlow:
         token = _implicitFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -903,7 +695,7 @@ void PFXUserApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 2: //authorization flow
+    case OauthMethod::AuthorizationFlow:
         token = _authFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -913,7 +705,7 @@ void PFXUserApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 3: //client credentials flow
+    case OauthMethod::ClientCredentialsFlow:
         token = _credentialFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -923,7 +715,7 @@ void PFXUserApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 4: //resource owner password flow
+    case OauthMethod::ResourceOwnerPasswordFlow:
         token = _passwordFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());

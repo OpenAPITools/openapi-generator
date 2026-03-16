@@ -15,4 +15,5 @@ additionalProperties:
   #  useBeanValidation should default to "false" when not specified
   #  performBeanValidation should default to "false" when not specified
   useResponseEntity: "false"
+  useSpringBoot3: "true"
 

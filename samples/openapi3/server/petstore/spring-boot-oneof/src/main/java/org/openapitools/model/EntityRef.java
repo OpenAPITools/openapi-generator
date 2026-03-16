@@ -76,6 +76,7 @@ public class EntityRef {
     return href;
   }
 
+  @JsonProperty("href")
   public void setHref(@Nullable String href) {
     this.href = href;
   }
@@ -96,6 +97,7 @@ public class EntityRef {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable String id) {
     this.id = id;
   }
@@ -116,6 +118,7 @@ public class EntityRef {
     return atSchemaLocation;
   }
 
+  @JsonProperty("@schemaLocation")
   public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
@@ -136,6 +139,7 @@ public class EntityRef {
     return atBaseType;
   }
 
+  @JsonProperty("@baseType")
   public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
@@ -156,6 +160,7 @@ public class EntityRef {
     return atType;
   }
 
+  @JsonProperty("@type")
   public void setAtType(String atType) {
     this.atType = atType;
   }
@@ -176,6 +181,7 @@ public class EntityRef {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;
   }
@@ -196,6 +202,7 @@ public class EntityRef {
     return atReferredType;
   }
 
+  @JsonProperty("@referredType")
   public void setAtReferredType(@Nullable String atReferredType) {
     this.atReferredType = atReferredType;
   }

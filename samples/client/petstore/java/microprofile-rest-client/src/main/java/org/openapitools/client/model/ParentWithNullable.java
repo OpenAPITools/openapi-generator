@@ -74,10 +74,10 @@ public class ParentWithNullable  {
   }
 
   @JsonbProperty("type")
-  private TypeEnum type;
+  protected TypeEnum type;
 
   @JsonbProperty("nullableProperty")
-  private String nullableProperty;
+  protected String nullableProperty;
 
 
   /**

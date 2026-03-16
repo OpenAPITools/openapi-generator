@@ -63,6 +63,7 @@ public final class BarCreate extends Entity {
     return barPropA;
   }
 
+  @JsonProperty("barPropA")
   public void setBarPropA(@Nullable String barPropA) {
     this.barPropA = barPropA;
   }
@@ -83,6 +84,7 @@ public final class BarCreate extends Entity {
     return fooPropB;
   }
 
+  @JsonProperty("fooPropB")
   public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
@@ -103,6 +105,7 @@ public final class BarCreate extends Entity {
     return foo;
   }
 
+  @JsonProperty("foo")
   public void setFoo(@Nullable FooRefOrValue foo) {
     this.foo = foo;
   }

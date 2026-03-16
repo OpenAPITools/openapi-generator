@@ -42,6 +42,7 @@ public class ReadOnlyFirstDto {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -61,6 +62,7 @@ public class ReadOnlyFirstDto {
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(@Nullable String baz) {
     this.baz = baz;
   }

@@ -13,5 +13,6 @@ additionalProperties:
   documentationProvider: "springdoc"
   # annotation provider should be ignored
   annotationLibrary: "swagger2"
-#  useBeanValidation should default to "false" when not specified
-#  performBeanValidation should default to "false" when not specified
+  #  useBeanValidation should default to "false" when not specified
+  #  performBeanValidation should default to "false" when not specified
+  useSpringBoot3: "true"

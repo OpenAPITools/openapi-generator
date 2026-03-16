@@ -46,6 +46,7 @@ public class Model200Response {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Optional<Integer> name) {
     this.name = name;
   }
@@ -66,6 +67,7 @@ public class Model200Response {
     return propertyClass;
   }
 
+  @JsonProperty("class")
   public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }

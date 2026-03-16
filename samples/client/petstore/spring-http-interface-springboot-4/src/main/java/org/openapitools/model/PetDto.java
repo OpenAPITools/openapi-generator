@@ -16,9 +16,7 @@ import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -38,11 +36,11 @@ public class PetDto {
 
   private String name;
 
-  @Valid
+  
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @Valid
-  private List<@Valid TagDto> tags = new ArrayList<>();
+  
+  private List<TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -103,6 +101,7 @@ public class PetDto {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -116,12 +115,13 @@ public class PetDto {
    * Get category
    * @return category
    */
-  @Valid 
+  
   @JsonProperty("category")
   public @Nullable CategoryDto getCategory() {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
   }
@@ -135,12 +135,13 @@ public class PetDto {
    * Get name
    * @return name
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("name")
   public String getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -162,18 +163,19 @@ public class PetDto {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<@Valid TagDto> tags) {
+  public PetDto tags(List<TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -190,13 +192,14 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  @Valid 
+  
   @JsonProperty("tags")
-  public List<@Valid TagDto> getTags() {
+  public List<TagDto> getTags() {
     return tags;
   }
 
-  public void setTags(List<@Valid TagDto> tags) {
+  @JsonProperty("tags")
+  public void setTags(List<TagDto> tags) {
     this.tags = tags;
   }
 
@@ -211,8 +214,8 @@ public class PetDto {
    * @deprecated
    */
   
-  @JsonProperty("status")
   @Deprecated
+  @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {
     return status;
   }
@@ -221,6 +224,7 @@ public class PetDto {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }

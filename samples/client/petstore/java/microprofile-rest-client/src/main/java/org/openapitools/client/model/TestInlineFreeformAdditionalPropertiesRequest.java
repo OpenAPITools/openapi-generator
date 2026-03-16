@@ -34,7 +34,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   
   @JsonbProperty("someProperty")
-  private String someProperty;
+  protected String someProperty;
   /**
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with

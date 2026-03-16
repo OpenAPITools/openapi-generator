@@ -56,6 +56,7 @@ public final class FooRef extends EntityRef implements FooRefOrValue {
     return foorefPropA;
   }
 
+  @JsonProperty("foorefPropA")
   public void setFoorefPropA(@Nullable String foorefPropA) {
     this.foorefPropA = foorefPropA;
   }

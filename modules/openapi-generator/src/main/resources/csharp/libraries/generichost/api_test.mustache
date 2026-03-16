@@ -35,7 +35,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
         public async Task {{operationId}}AsyncTest()
         {
             {{#allParams}}
-            {{^required}}Client.Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}} = default{{nrt!}};
+            {{^required}}Client.Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}} = default{{nrt!}};
             {{/allParams}}
             {{#responses}}
             {{#-first}}

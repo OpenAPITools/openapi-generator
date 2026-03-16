@@ -38,7 +38,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class HealthCheckResult  {
   
   @JsonbProperty("NullableMessage")
-  private String nullableMessage;
+  protected String nullableMessage;
 
 
   /**

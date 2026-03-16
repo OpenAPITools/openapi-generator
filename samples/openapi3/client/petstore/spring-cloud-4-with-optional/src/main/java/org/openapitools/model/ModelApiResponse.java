@@ -43,6 +43,7 @@ public class ModelApiResponse {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -62,6 +63,7 @@ public class ModelApiResponse {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(String type) {
     this.type = type;
   }
@@ -81,6 +83,7 @@ public class ModelApiResponse {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(String message) {
     this.message = message;
   }

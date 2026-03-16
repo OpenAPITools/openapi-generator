@@ -35,7 +35,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class SpecialModelName  {
   
   @JsonbProperty("$special[property.name]")
-  private Long $specialPropertyName;
+  protected Long $specialPropertyName;
 
 
   /**

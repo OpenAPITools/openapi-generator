@@ -40,6 +40,7 @@ public class Dog implements Animal {
     return bark;
   }
 
+  @JsonProperty("bark")
   public void setBark(@Nullable Boolean bark) {
     this.bark = bark;
   }

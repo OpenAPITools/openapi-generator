@@ -35,7 +35,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class ModelReturn  {
   
   @JsonbProperty("return")
-  private Integer _return;
+  protected Integer _return;
 
 
   /**

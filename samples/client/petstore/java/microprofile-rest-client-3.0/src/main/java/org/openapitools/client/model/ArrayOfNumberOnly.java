@@ -39,7 +39,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class ArrayOfNumberOnly  {
   
   @JsonbProperty("ArrayNumber")
-  private List<BigDecimal> arrayNumber = null;
+  protected List<BigDecimal> arrayNumber = null;
 
 
   /**

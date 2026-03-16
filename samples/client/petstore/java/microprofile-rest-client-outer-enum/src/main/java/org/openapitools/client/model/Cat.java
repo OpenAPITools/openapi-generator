@@ -33,13 +33,13 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Cat  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
   @JsonbProperty("status")
-  private Status status;
+  protected Status status;
 
 
   /**

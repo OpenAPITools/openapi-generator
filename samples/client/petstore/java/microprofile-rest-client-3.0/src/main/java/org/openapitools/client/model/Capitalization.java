@@ -35,25 +35,25 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Capitalization  {
   
   @JsonbProperty("smallCamel")
-  private String smallCamel;
+  protected String smallCamel;
 
   @JsonbProperty("CapitalCamel")
-  private String capitalCamel;
+  protected String capitalCamel;
 
   @JsonbProperty("small_Snake")
-  private String smallSnake;
+  protected String smallSnake;
 
   @JsonbProperty("Capital_Snake")
-  private String capitalSnake;
+  protected String capitalSnake;
 
   @JsonbProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints;
+  protected String scAETHFlowPoints;
 
  /**
   * Name of the pet 
   */
   @JsonbProperty("ATT_NAME")
-  private String ATT_NAME;
+  protected String ATT_NAME;
 
 
   /**

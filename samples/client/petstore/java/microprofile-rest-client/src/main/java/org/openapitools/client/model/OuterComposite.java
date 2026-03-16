@@ -33,13 +33,13 @@ import javax.json.bind.annotation.JsonbCreator;
 public class OuterComposite  {
   
   @JsonbProperty("my_number")
-  private BigDecimal myNumber;
+  protected BigDecimal myNumber;
 
   @JsonbProperty("my_string")
-  private String myString;
+  protected String myString;
 
   @JsonbProperty("my_boolean")
-  private Boolean myBoolean;
+  protected Boolean myBoolean;
 
 
   /**

@@ -54,73 +54,73 @@ public class FormatTest  {
   
   public static final String JSON_PROPERTY_INTEGER = "integer";
   
-  private Integer integer;
+  protected Integer integer;
 
   public static final String JSON_PROPERTY_INT32 = "int32";
   
-  private Integer int32;
+  protected Integer int32;
 
   public static final String JSON_PROPERTY_INT64 = "int64";
   
-  private Long int64;
+  protected Long int64;
 
   public static final String JSON_PROPERTY_NUMBER = "number";
   
-  private BigDecimal number;
+  protected BigDecimal number;
 
   public static final String JSON_PROPERTY_FLOAT = "float";
   
-  private Float _float;
+  protected Float _float;
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
   
-  private Double _double;
+  protected Double _double;
 
   public static final String JSON_PROPERTY_DECIMAL = "decimal";
   
-  private BigDecimal decimal;
+  protected BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
   
-  private String string;
+  protected String string;
 
   public static final String JSON_PROPERTY_BYTE = "byte";
   
-  private byte[] _byte;
+  protected byte[] _byte;
 
   public static final String JSON_PROPERTY_BINARY = "binary";
   
-  private File binary;
+  protected File binary;
 
   public static final String JSON_PROPERTY_DATE = "date";
   
-  private Date date;
+  protected Date date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   
-  private Date dateTime;
+  protected Date dateTime;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
   
-  private UUID uuid;
+  protected UUID uuid;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   
-  private String password;
+  protected String password;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
  /**
   * A string that is a 10 digit number. Can have leading zeros.
   */
   
-  private String patternWithDigits;
+  protected String patternWithDigits;
 
   public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
  /**
   * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   */
   
-  private String patternWithDigitsAndDelimiter;
+  protected String patternWithDigitsAndDelimiter;
 
 
   /**

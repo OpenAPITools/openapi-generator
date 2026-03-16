@@ -25,6 +25,7 @@ src/Org.OpenAPITools/Client/DateOnlyNullableJsonConverter.cs
 src/Org.OpenAPITools/Client/DateTimeJsonConverter.cs
 src/Org.OpenAPITools/Client/DateTimeNullableJsonConverter.cs
 src/Org.OpenAPITools/Client/ExceptionEventArgs.cs
+src/Org.OpenAPITools/Client/FileParameter.cs
 src/Org.OpenAPITools/Client/HostConfiguration.cs
 src/Org.OpenAPITools/Client/JsonSerializerOptionsProvider.cs
 src/Org.OpenAPITools/Client/Option.cs

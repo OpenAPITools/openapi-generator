@@ -38,10 +38,10 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Animal  {
   
   @JsonbTransient
-  private String className;
+  protected String className;
 
   @JsonbProperty("color")
-  private String color = "red";
+  protected String color = "red";
 
 
   /**

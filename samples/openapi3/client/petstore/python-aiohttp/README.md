@@ -162,6 +162,7 @@ Class | Method | HTTP request | Description
  - [AnyOfPig](docs/AnyOfPig.md)
  - [ArrayOfArrayOfModel](docs/ArrayOfArrayOfModel.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [ArrayOfMapModel](docs/ArrayOfMapModel.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [BaseDiscriminator](docs/BaseDiscriminator.md)

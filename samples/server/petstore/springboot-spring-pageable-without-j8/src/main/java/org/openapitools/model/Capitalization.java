@@ -51,6 +51,7 @@ public class Capitalization {
     return smallCamel;
   }
 
+  @JsonProperty("smallCamel")
   public void setSmallCamel(@Nullable String smallCamel) {
     this.smallCamel = smallCamel;
   }
@@ -71,6 +72,7 @@ public class Capitalization {
     return capitalCamel;
   }
 
+  @JsonProperty("CapitalCamel")
   public void setCapitalCamel(@Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
@@ -91,6 +93,7 @@ public class Capitalization {
     return smallSnake;
   }
 
+  @JsonProperty("small_Snake")
   public void setSmallSnake(@Nullable String smallSnake) {
     this.smallSnake = smallSnake;
   }
@@ -111,6 +114,7 @@ public class Capitalization {
     return capitalSnake;
   }
 
+  @JsonProperty("Capital_Snake")
   public void setCapitalSnake(@Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
@@ -131,6 +135,7 @@ public class Capitalization {
     return scAETHFlowPoints;
   }
 
+  @JsonProperty("SCA_ETH_Flow_Points")
   public void setScAETHFlowPoints(@Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
@@ -151,6 +156,7 @@ public class Capitalization {
     return ATT_NAME;
   }
 
+  @JsonProperty("ATT_NAME")
   public void setATTNAME(@Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }

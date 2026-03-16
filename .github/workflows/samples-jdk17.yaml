@@ -12,6 +12,7 @@ on:
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
@@ -33,6 +34,7 @@ on:
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
@@ -60,6 +62,7 @@ jobs:
           - samples/client/petstore/spring-http-interface
           - samples/client/petstore/spring-http-interface-reactive-noResponseEntity
           - samples/client/petstore/spring-http-interface-noResponseEntity
+          - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator
           - samples/client/petstore/java/webclient-jakarta
           - samples/client/petstore/java/microprofile-rest-client-outer-enum
           # servers

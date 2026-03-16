@@ -49,6 +49,7 @@ public class DogDto extends AnimalDto {
     return breed;
   }
 
+  @JsonProperty("breed")
   public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }

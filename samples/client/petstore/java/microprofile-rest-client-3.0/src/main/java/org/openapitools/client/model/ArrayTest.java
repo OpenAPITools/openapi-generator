@@ -39,13 +39,13 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class ArrayTest  {
   
   @JsonbProperty("array_of_string")
-  private List<String> arrayOfString = null;
+  protected List<String> arrayOfString = null;
 
   @JsonbProperty("array_array_of_integer")
-  private List<List<Long>> arrayArrayOfInteger = null;
+  protected List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonbProperty("array_array_of_model")
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  protected List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
 
   /**

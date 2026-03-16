@@ -32,13 +32,13 @@ import javax.json.bind.annotation.JsonbCreator;
 public class ModelApiResponse  {
   
   @JsonbProperty("code")
-  private Integer code;
+  protected Integer code;
 
   @JsonbProperty("type")
-  private String type;
+  protected String type;
 
   @JsonbProperty("message")
-  private String message;
+  protected String message;
 
 
   /**

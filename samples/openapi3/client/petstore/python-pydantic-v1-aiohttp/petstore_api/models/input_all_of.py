@@ -72,10 +72,9 @@ class InputAllOf(BaseModel):
             return InputAllOf.parse_obj(obj)
 
         _obj = InputAllOf.parse_obj({
-            "some_data": dict(
-                (_k, Tag.from_dict(_v))
-                for _k, _v in obj.get("some_data").items()
-            )
+            "some_data": {
+                _k: Tag.from_dict(_v) for _k, _v in obj["some_data"].items()
+            }
             if obj.get("some_data") is not None
             else None
         })

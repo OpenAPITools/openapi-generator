@@ -635,6 +635,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpClientWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JSON.java")).content()
+                .contains("import com.fasterxml.jackson.annotation.*;")
+                .contains("import tools.jackson.databind.*;")
+                .doesNotContain("import com.fasterxml.jackson.databind");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("import tools.jackson.databind.ObjectMapper;")
+                .doesNotContain("import com.fasterxml.jackson.databind");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
+                .contains("import tools.jackson.core.type.TypeReference;")
+                .doesNotContain("import com.fasterxml.jackson.core.type.TypeReference");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson.core</groupId>")
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>");
+    }
+
+    @Test
     public void testReferencedHeader() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
@@ -2845,6 +2876,11 @@ public class JavaClientCodegenTest {
         return new JavaClientCodegen().supportedLibraries().keySet().iterator();
     }
 
+    @DataProvider
+    Iterator<String> springBoot4Jackson3Libraries() {
+        return Arrays.asList(JavaClientCodegen.RESTTEMPLATE, JavaClientCodegen.WEBCLIENT, JavaClientCodegen.RESTCLIENT).iterator();
+    }
+
     @Test(dataProvider = "serializationLibraries")
     void setsDefaultSerializationLibrary(String library) {
         var codegen = new JavaClientCodegen();
@@ -2857,6 +2893,31 @@ public class JavaClientCodegenTest {
                         entry(SERIALIZATION_LIBRARY_JACKSON, "true"),
                         entry(SERIALIZATION_LIBRARY_JSONB, "true")
                 );
+    }
+
+    @Test(dataProvider = "springBoot4Jackson3Libraries")
+    void supportsJackson3ForSpringBoot4Libraries(String library) {
+        String outputDir = newTempFolder().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(USE_JACKSON_3, true)
+                .addAdditionalProperty(USE_SPRING_BOOT4, true)
+                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
+                .setOutputDir(outputDir);
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).isNotEmpty();
+        if (library.equals(JavaClientCodegen.RESTTEMPLATE) || library.equals(JavaClientCodegen.WEBCLIENT)) {
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339DateFormat.java"))
+                    .content().contains("tools.jackson.databind.util.StdDateFormat");
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java"))
+                    .content().contains("tools.jackson.databind.cfg.DateTimeFeature");
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java"))
+                    .content().contains("tools.jackson.databind.module.SimpleModule");
+        }
     }
 
     /**
@@ -4117,6 +4178,37 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("Fruit.java"))
                 .isInterface()
                 .fileContains("public FruitType getFruitType()");
+    }
+
+    /**
+     * Regression: without a user-provided template dir, feign-hc5 should still resolve
+     * built-in templates from the "feign" folder (same behaviour as before the fix).
+     */
+    @Test
+    public void testFeignHc5TemplateDirDefaultsToFeign() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(FEIGN_HC5);
+        codegen.processOpts();
+
+        assertEquals(codegen.templateDir(), FEIGN,
+                "feign-hc5 without a custom templateDir should use the 'feign' built-in template directory");
+    }
+
+    /**
+     * Bug fix: a user-provided templateDir must not be overwritten when library=feign-hc5.
+     * Previously setTemplateDir(FEIGN) was called unconditionally and silently replaced the
+     * user's path.
+     */
+    @Test
+    public void testFeignHc5CustomTemplateDirIsPreserved() {
+        final String customTemplateDir = "/custom/templates";
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(FEIGN_HC5);
+        codegen.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, customTemplateDir);
+        codegen.processOpts();
+
+        assertEquals(codegen.templateDir(), customTemplateDir,
+                "feign-hc5 must preserve a user-provided templateDir and not overwrite it with 'feign'");
     }
 
 }

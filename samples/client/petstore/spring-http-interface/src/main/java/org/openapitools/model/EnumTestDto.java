@@ -197,6 +197,7 @@ public class EnumTestDto {
     return enumString;
   }
 
+  @JsonProperty("enum_string")
   public void setEnumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
   }
@@ -216,6 +217,7 @@ public class EnumTestDto {
     return enumStringRequired;
   }
 
+  @JsonProperty("enum_string_required")
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
@@ -235,6 +237,7 @@ public class EnumTestDto {
     return enumInteger;
   }
 
+  @JsonProperty("enum_integer")
   public void setEnumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
@@ -254,6 +257,7 @@ public class EnumTestDto {
     return enumNumber;
   }
 
+  @JsonProperty("enum_number")
   public void setEnumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
@@ -273,6 +277,7 @@ public class EnumTestDto {
     return outerEnum;
   }
 
+  @JsonProperty("outerEnum")
   public void setOuterEnum(@Nullable OuterEnumDto outerEnum) {
     this.outerEnum = outerEnum;
   }

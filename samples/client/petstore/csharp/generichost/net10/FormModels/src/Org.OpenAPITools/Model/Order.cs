@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Status
         /// </summary>
         [JsonPropertyName("status")]
-        public OrderStatus? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public OrderStatus? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Complete

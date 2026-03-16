@@ -47,11 +47,11 @@ public class Category  {
   
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
-  private String name;
+  protected String name;
 
 
   /**

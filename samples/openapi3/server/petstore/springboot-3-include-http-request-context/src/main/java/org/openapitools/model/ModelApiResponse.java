@@ -69,6 +69,8 @@ public class ModelApiResponse {
     return code;
   }
 
+  @JsonProperty("code")
+  @JacksonXmlProperty(localName = "code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
   }
@@ -91,6 +93,8 @@ public class ModelApiResponse {
     return type;
   }
 
+  @JsonProperty("type")
+  @JacksonXmlProperty(localName = "type")
   public void setType(@Nullable String type) {
     this.type = type;
   }
@@ -113,6 +117,8 @@ public class ModelApiResponse {
     return message;
   }
 
+  @JsonProperty("message")
+  @JacksonXmlProperty(localName = "message")
   public void setMessage(@Nullable String message) {
     this.message = message;
   }

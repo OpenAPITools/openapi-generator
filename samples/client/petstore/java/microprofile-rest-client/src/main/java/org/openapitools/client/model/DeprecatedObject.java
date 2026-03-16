@@ -32,7 +32,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class DeprecatedObject  {
   
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
 
   /**

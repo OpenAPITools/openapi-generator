@@ -15,6 +15,7 @@ docs/AnyOfColor.md
 docs/AnyOfPig.md
 docs/ArrayOfArrayOfModel.md
 docs/ArrayOfArrayOfNumberOnly.md
+docs/ArrayOfMapModel.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/BaseDiscriminator.md
@@ -151,6 +152,7 @@ petstore_api/models/any_of_color.py
 petstore_api/models/any_of_pig.py
 petstore_api/models/array_of_array_of_model.py
 petstore_api/models/array_of_array_of_number_only.py
+petstore_api/models/array_of_map_model.py
 petstore_api/models/array_of_number_only.py
 petstore_api/models/array_test.py
 petstore_api/models/base_discriminator.py

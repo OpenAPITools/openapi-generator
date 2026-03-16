@@ -37,6 +37,7 @@ public class Client {
     return client;
   }
 
+  @JsonProperty("client")
   public void setClient(@Nullable String client) {
     this.client = client;
   }

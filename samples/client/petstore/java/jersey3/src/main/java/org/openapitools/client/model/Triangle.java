@@ -98,7 +98,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
         @Override
         public Triangle deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
             Triangle newTriangle = new Triangle();
             Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});

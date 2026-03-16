@@ -70,7 +70,7 @@ public class EnumArrays  {
 
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   
-  private JustSymbolEnum justSymbol;
+  protected JustSymbolEnum justSymbol;
 
   public enum ArrayEnumEnum {
 
@@ -106,7 +106,7 @@ public class EnumArrays  {
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   
-  private List<ArrayEnumEnum> arrayEnum = null;
+  protected List<ArrayEnumEnum> arrayEnum = null;
 
 
   /**

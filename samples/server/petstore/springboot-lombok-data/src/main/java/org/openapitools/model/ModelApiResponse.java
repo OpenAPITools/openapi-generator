@@ -32,16 +32,19 @@ public class ModelApiResponse {
   
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
+
   private @Nullable Integer code;
 
   
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
+
   private @Nullable String type;
 
   
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
+
   private @Nullable String message;
 
 }

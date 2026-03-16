@@ -40,6 +40,7 @@ public final class Cat implements Animal {
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }

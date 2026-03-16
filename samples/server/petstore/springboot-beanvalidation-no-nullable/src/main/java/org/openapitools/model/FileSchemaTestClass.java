@@ -47,6 +47,7 @@ public class FileSchemaTestClass {
     return file;
   }
 
+  @JsonProperty("file")
   public void setFile(@Nullable File file) {
     this.file = file;
   }
@@ -75,6 +76,7 @@ public class FileSchemaTestClass {
     return files;
   }
 
+  @JsonProperty("files")
   public void setFiles(List<@Valid File> files) {
     this.files = files;
   }

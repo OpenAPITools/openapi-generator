@@ -63,6 +63,8 @@ public class Tag {
     return id;
   }
 
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -85,6 +87,8 @@ public class Tag {
     return name;
   }
 
+  @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public void setName(@Nullable String name) {
     this.name = name;
   }

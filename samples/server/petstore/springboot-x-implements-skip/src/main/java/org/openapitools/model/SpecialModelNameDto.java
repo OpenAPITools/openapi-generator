@@ -43,6 +43,7 @@ public class SpecialModelNameDto {
     return $SpecialPropertyName;
   }
 
+  @JsonProperty("$special[property.name]")
   public void set$SpecialPropertyName(@Nullable Long $SpecialPropertyName) {
     this.$SpecialPropertyName = $SpecialPropertyName;
   }
