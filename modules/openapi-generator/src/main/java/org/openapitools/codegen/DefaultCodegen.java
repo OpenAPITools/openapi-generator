@@ -79,6 +79,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -248,6 +249,14 @@ public class DefaultCodegen implements CodegenConfig {
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application/json(;.*)?");
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application/vnd.(.*)+json(;.*)?");
     private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
+    /** Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}. */
+    private static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
+    /**
+     * Cache of removeCharRegEx string → compiled {@link Pattern} with {@link Pattern#UNICODE_CHARACTER_CLASS}.
+     * {@code sanitizeName} is called once per unique (name, regex, exceptions) tuple, so the regex string
+     * (almost always {@code "\\W"}) would otherwise be recompiled for every unique property/model name.
+     */
+    private static final ConcurrentHashMap<String, Pattern> REMOVE_CHAR_UNICODE_PATTERN_CACHE = new ConcurrentHashMap<>();
 
     /**
      * True if the code generator supports multiple class inheritance.
@@ -6009,8 +6018,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return The next name for the base name
      */
     private static String generateNextName(String name) {
-        Pattern pattern = Pattern.compile("\\d+\\z");
-        Matcher matcher = pattern.matcher(name);
+        Matcher matcher = TRAILING_DIGITS.matcher(name);
         if (matcher.find()) {
             String numStr = matcher.group();
             int num = Integer.parseInt(numStr) + 1;
@@ -6755,7 +6763,10 @@ public class DefaultCodegen implements CodegenConfig {
             // remove everything else other than word, number and _
             // $php_variable => php_variable
             if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
-                modifiable = Pattern.compile(sanitizeNameOptions.getRemoveCharRegEx(), Pattern.UNICODE_CHARACTER_CLASS).matcher(modifiable).replaceAll("");
+                modifiable = REMOVE_CHAR_UNICODE_PATTERN_CACHE
+                        .computeIfAbsent(sanitizeNameOptions.getRemoveCharRegEx(),
+                                regex -> Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS))
+                        .matcher(modifiable).replaceAll("");
             } else {
                 modifiable = modifiable.replaceAll(sanitizeNameOptions.getRemoveCharRegEx(), "");
             }
