@@ -6341,12 +6341,15 @@ public class DefaultCodegen implements CodegenConfig {
             return seenValues.get(value);
         }
 
-        Optional<Entry<String, String>> foundEntry = seenValues.entrySet().stream().filter(v -> v.getValue().toLowerCase(Locale.ROOT).equals(value.toLowerCase(Locale.ROOT))).findAny();
-        if (foundEntry.isPresent()) {
+        // Build the set of already-used lowercase values once, to avoid O(n) re-collection per loop iteration.
+        Set<String> lowercaseValues = seenValues.values().stream()
+                .map(v -> v.toLowerCase(Locale.ROOT))
+                .collect(Collectors.toSet());
+
+        if (lowercaseValues.contains(value.toLowerCase(Locale.ROOT))) {
             int counter = 0;
             String uniqueValue = value + "_" + counter;
-
-            while (seenValues.values().stream().map(v -> v.toLowerCase(Locale.ROOT)).collect(Collectors.toList()).contains(uniqueValue.toLowerCase(Locale.ROOT))) {
+            while (lowercaseValues.contains(uniqueValue.toLowerCase(Locale.ROOT))) {
                 counter++;
                 uniqueValue = value + "_" + counter;
             }

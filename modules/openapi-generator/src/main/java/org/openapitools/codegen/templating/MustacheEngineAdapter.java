@@ -31,6 +31,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class MustacheEngineAdapter implements TemplatingEngineAdapter {
@@ -52,6 +53,12 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     Mustache.Compiler compiler = Mustache.compiler();
 
     /**
+     * Cache of template file name -> compiled Template object.
+     * Templates are stateless after compilation and safe to reuse across invocations.
+     */
+    private final Map<String, Template> compiledTemplateCache = new ConcurrentHashMap<>();
+
+    /**
      * Compiles a template into a string
      *
      * @param executor     From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
@@ -62,10 +69,12 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      */
     @Override
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
-        Template tmpl = compiler
-                .withLoader(name -> findTemplate(executor, name))
-                .defaultValue("")
-                .compile(executor.getFullTemplateContents(templateFile));
+        // Compile once and cache; the compiled Template is stateless and reusable.
+        Template tmpl = compiledTemplateCache.computeIfAbsent(templateFile, tf ->
+                compiler
+                        .withLoader(name -> findTemplate(executor, name))
+                        .defaultValue("")
+                        .compile(executor.getFullTemplateContents(tf)));
         StringWriter out = new StringWriter();
 
         // the value of bundle[MUSTACHE_PARENT_CONTEXT] is used a parent content in mustache.

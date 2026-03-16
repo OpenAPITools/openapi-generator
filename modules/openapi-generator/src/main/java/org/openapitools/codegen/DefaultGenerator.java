@@ -1430,7 +1430,8 @@ public class DefaultGenerator implements Generator {
         return processTemplateToFile(templateData, templateName, outputFilename, shouldGenerate, skippedByOption, this.config.getOutputDir());
     }
 
-    private final Set<String> seenFiles = new HashSet<>();
+    /** Stores lowercased absolute paths for O(1) case-insensitive duplicate detection. */
+    private final Set<String> seenFilesLower = new HashSet<>();
 
     private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption, String intendedOutputDir) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
@@ -1443,10 +1444,10 @@ public class DefaultGenerator implements Generator {
                     throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
                 }
 
-                if (seenFiles.stream().filter(f -> f.toLowerCase(Locale.ROOT).equals(absoluteTarget.toString().toLowerCase(Locale.ROOT))).findAny().isPresent()) {
-                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths. path={}", absoluteTarget.toString());
+                // O(1) case-insensitive duplicate check via a pre-lowercased shadow set
+                if (!seenFilesLower.add(absoluteTarget.toString().toLowerCase(Locale.ROOT))) {
+                    LOGGER.warn("Duplicate file path detected. Not all operating systems can handle case sensitive file paths. path={}", absoluteTarget);
                 }
-                seenFiles.add(absoluteTarget.toString());
                 return this.templateProcessor.write(templateData, templateName, target);
             } else {
                 this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));

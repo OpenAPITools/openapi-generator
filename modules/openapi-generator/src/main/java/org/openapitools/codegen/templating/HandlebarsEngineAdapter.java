@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
@@ -49,6 +50,19 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     private final String[] canCompileFromExtensions = {".handlebars", ".hbs", ".mustache"};
     private boolean infiniteLoops = false;
     @Setter private boolean prettyPrint = false;
+
+    /**
+     * Cache of (templateFile -> compiled Template). Compiled Handlebars templates are stateless after
+     * compilation and safe to reuse across multiple data-bundle invocations within the same run.
+     */
+    private final Map<String, Template> compiledTemplateCache = new ConcurrentHashMap<>();
+
+    /**
+     * Cached Handlebars engine instance with all helpers pre-registered.
+     * Re-created lazily whenever the TemplatingExecutor changes (different template paths).
+     */
+    private volatile Handlebars cachedHandlebars;
+    private volatile TemplatingExecutor cachedExecutor;
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -63,13 +77,6 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     @Override
     public String compileTemplate(TemplatingExecutor executor,
                                   Map<String, Object> bundle, String templateFile) throws IOException {
-        TemplateLoader loader = new AbstractTemplateLoader() {
-            @Override
-            public TemplateSource sourceAt(String location) {
-                return findTemplate(executor, location);
-            }
-        };
-
         Context context = Context
                 .newBuilder(bundle)
                 .resolver(
@@ -79,18 +86,38 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
                         AccessAwareFieldValueResolver.INSTANCE)
                 .build();
 
-        Handlebars handlebars = new Handlebars(loader);
-        handlebars.registerHelperMissing((obj, options) -> {
-            LOGGER.warn(String.format(Locale.ROOT, "Unregistered helper name '%s', processing template:%n%s", options.helperName, options.fn.text()));
-            return "";
+        // Reuse the Handlebars engine when the executor hasn't changed; rebuild otherwise.
+        if (cachedHandlebars == null || cachedExecutor != executor) {
+            TemplateLoader loader = new AbstractTemplateLoader() {
+                @Override
+                public TemplateSource sourceAt(String location) {
+                    return findTemplate(executor, location);
+                }
+            };
+            Handlebars handlebars = new Handlebars(loader);
+            handlebars.registerHelperMissing((obj, options) -> {
+                LOGGER.warn(String.format(Locale.ROOT, "Unregistered helper name '%s', processing template:%n%s", options.helperName, options.fn.text()));
+                return "";
+            });
+            handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
+            StringHelpers.register(handlebars);
+            handlebars.registerHelpers(ConditionalHelpers.class);
+            handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
+            handlebars.setInfiniteLoops(infiniteLoops);
+            handlebars.setPrettyPrint(prettyPrint);
+            // Changing the executor means template content may differ; clear stale entries.
+            compiledTemplateCache.clear();
+            cachedHandlebars = handlebars;
+            cachedExecutor = executor;
+        }
+
+        Template tmpl = compiledTemplateCache.computeIfAbsent(templateFile, tf -> {
+            try {
+                return cachedHandlebars.compile(tf);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to compile Handlebars template: " + tf, e);
+            }
         });
-        handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
-        StringHelpers.register(handlebars);
-        handlebars.registerHelpers(ConditionalHelpers.class);
-        handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
-        handlebars.setInfiniteLoops(infiniteLoops);
-        handlebars.setPrettyPrint(prettyPrint);
-        Template tmpl = handlebars.compile(templateFile);
         return tmpl.apply(context);
     }
 

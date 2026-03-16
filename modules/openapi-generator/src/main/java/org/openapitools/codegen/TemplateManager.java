@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -32,6 +33,9 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     private final TemplatePathLocator[] templateLoaders;
 
     private final Logger LOGGER = LoggerFactory.getLogger(TemplateManager.class);
+
+    /** Cache of resolved template path -> raw template content, populated on first read per run. */
+    private final Map<String, String> templateContentCache = new ConcurrentHashMap<>();
 
     /**
      * Constructs a new instance of a {@link TemplateManager}
@@ -75,7 +79,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      */
     @Override
     public String getFullTemplateContents(String name) {
-        return readTemplate(getFullTemplateFile(name));
+        String fullPath = getFullTemplateFile(name);
+        return templateContentCache.computeIfAbsent(fullPath, this::readTemplate);
     }
 
     /**
@@ -262,6 +267,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     }
 
     private boolean filesEqual(File file1, File file2) throws IOException {
-        return file1.exists() && file2.exists() && Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
+        if (!file1.exists() || !file2.exists()) return false;
+        if (file1.length() != file2.length()) return false;
+        return Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
     }
 }
