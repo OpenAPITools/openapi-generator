@@ -754,7 +754,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
-        addPackagInfoSupportingFiles();
+        if (useJspecify) {
+            applyJspecify();
+        }
     }
 
     protected void applyJackson2Package() {

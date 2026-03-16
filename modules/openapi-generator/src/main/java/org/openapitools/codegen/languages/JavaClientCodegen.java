@@ -1375,18 +1375,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     protected void applyJspecify() {
         super.applyJspecify();
-        addPackagInfoSupportingFiles();
-        importMapping.put("Nullable", "org.jspecify.annotations.Nullable");
-        jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
-    }
-
-    @Override
-    protected void addPackagInfoSupportingFiles() {
-        super.addPackagInfoSupportingFiles();
-        if (useJspecify) {
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_APIS))) {
             supportingFiles.add(new SupportingFile("invokerPackageInfo.mustache",
                     (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
                     "package-info.java"));
         }
+        //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
+        // override the default pattern for the "find and replace"
+        jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
     }
 }

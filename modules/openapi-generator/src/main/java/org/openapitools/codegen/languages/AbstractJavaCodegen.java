@@ -852,19 +852,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     protected void applyJavaxPackage() {
         writePropertyBack(JAVAX_PACKAGE, "javax");
-        writePropertyBack("nullableAnnotation", "@javax.annotation.Nullable");
-        writePropertyBack("nonNullAnnotation", "@javax.annotation.Nonnull");
     }
 
     protected void applyJakartaPackage() {
         writePropertyBack(JAVAX_PACKAGE, "jakarta");
-        writePropertyBack("nullableAnnotation", "@jakarta.annotation.Nullable");
-        writePropertyBack("nonNullAnnotation", "@jakarta.annotation.Nonnull");
     }
 
     protected void applyJspecify() {
-        writePropertyBack("nullableAnnotation", "@org.jspecify.annotations.Nullable");
-        writePropertyBack("nonNullAnnotation", "@NonNull");
+        importMapping.put("Nullable", "org.jspecify.annotations.Nullable");
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODELS))) {
+            supportingFiles.add(new SupportingFile("modelPackageInfo.mustache",
+                    (sourceFolder + File.separator + modelPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_APIS))) {
+            supportingFiles.add(new SupportingFile("apiPackageInfo.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
     }
 
     @Override
@@ -2677,31 +2682,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         this.jSpecifyNullableLambda = new JSpecifyNullableLambda();
+        // Add jSpecify nullable annotation in the correct location before or inside a declartion
+        Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
+            String dataType = fragment.execute();
+            if (jSpecifyNullableLambda.keptNullable) {
+                jSpecifyNullableLambda.keptNullable = false;
+                int idx = dataType.lastIndexOf('.');
+                if (idx > 0) {
+                    // generate declaration like java.time.@Nullable Timestamp
+                    writer.write(dataType.substring(0, idx + 1));
+                    writer.write("@Nullable ");
+                    writer.write(dataType.substring(idx + 1));
+                } else {
+                    writer.write("@Nullable ");
+                    writer.write(dataType);
+                }
+            } else {
+                writer.write(dataType);
+            }
+        };
         return super.addMustacheLambdas()
-                .put("jSpecifyDatatype",(fragment, writer) -> {
-                    String dataType = fragment.execute();
-                    if (jSpecifyNullableLambda.keptNullable) {
-                        jSpecifyNullableLambda.keptNullable = false;
-                        int idx = dataType.lastIndexOf('.');
-                        if (idx > 0) {
-                            // generate declareation like java.time.@Nullable Timestamp
-                            writer.write(dataType.substring(0, idx + 1));
-                            writer.write("@Nullable ");
-                            writer.write(dataType.substring(idx + 1));
-                        } else {
-                            writer.write("@Nullable ");
-                            writer.write(dataType);
-                        }
-                    } else {
-                        writer.write(dataType);
-                    }
-                })
+                .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda);
 
     }
 
     /**
-     * for Jspecify, remove @Nullable before the datatype.
+     * for Jspecify, remove @Nullable before the datatype and set keptNullable to true if done.
      */
     class JSpecifyNullableLambda implements Mustache.Lambda {
         private String nullableAnnotation = "@Nullable";
@@ -2728,17 +2735,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             writer.write(value);
-        }
-    }
-
-    protected void addPackagInfoSupportingFiles() {
-        if (useJspecify) {
-            supportingFiles.add(new SupportingFile("modelPackageInfo.mustache",
-                    (sourceFolder + File.separator + modelPackage).replace(".", java.io.File.separator),
-                    "package-info.java"));
-            supportingFiles.add(new SupportingFile("apiPackageInfo.mustache",
-                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
-                    "package-info.java"));
         }
     }
 
