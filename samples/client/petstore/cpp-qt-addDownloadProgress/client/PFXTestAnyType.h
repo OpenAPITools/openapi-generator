@@ -31,13 +31,13 @@ namespace test_namespace {
 class PFXTestAnyType : public PFXObject {
 public:
     PFXTestAnyType();
-    PFXTestAnyType(QString json);
+    PFXTestAnyType(const QString &json);
     ~PFXTestAnyType() override;
 
     QString asJson() const override;
     QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    void fromJson(QString jsonString) override;
+    void fromJson(const QString &jsonString) override;
 
     QJsonValue getCode() const;
     void setCode(const QJsonValue &code);

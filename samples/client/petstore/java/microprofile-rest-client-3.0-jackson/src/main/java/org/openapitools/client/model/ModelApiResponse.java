@@ -37,15 +37,15 @@ public class ModelApiResponse  {
   
   public static final String JSON_PROPERTY_CODE = "code";
   
-  private Integer code;
+  protected Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
   
-  private String type;
+  protected String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
   
-  private String message;
+  protected String message;
 
 
   /**

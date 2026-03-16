@@ -58,6 +58,7 @@ public class Foo extends Entity implements FooRefOrValue {
     return fooPropA;
   }
 
+  @JsonProperty("fooPropA")
   public void setFooPropA(@Nullable String fooPropA) {
     this.fooPropA = fooPropA;
   }
@@ -78,6 +79,7 @@ public class Foo extends Entity implements FooRefOrValue {
     return fooPropB;
   }
 
+  @JsonProperty("fooPropB")
   public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }

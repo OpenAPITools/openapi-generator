@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<JustSymbolEnum?>(value); } }
+        public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption.Value; } set { this.JustSymbolOption = new Option<JustSymbolEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayEnum

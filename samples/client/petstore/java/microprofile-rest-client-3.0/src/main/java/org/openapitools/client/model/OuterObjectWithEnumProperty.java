@@ -36,7 +36,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class OuterObjectWithEnumProperty  {
   
   @JsonbProperty("value")
-  private OuterEnumInteger value;
+  protected OuterEnumInteger value;
 
 
   /**

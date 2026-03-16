@@ -47,23 +47,23 @@ public class Pet  {
   
   public static final String JSON_PROPERTY_ID = "id";
   
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
   
-  private Category category;
+  protected Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
   
-  private String name;
+  protected String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  protected Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   
-  private List<Tag> tags = null;
+  protected List<Tag> tags = null;
 
   public enum StatusEnum {
 
@@ -102,7 +102,7 @@ public class Pet  {
   * pet status in the store
   */
   
-  private StatusEnum status;
+  protected StatusEnum status;
 
 
   /**

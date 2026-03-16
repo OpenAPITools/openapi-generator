@@ -30,11 +30,13 @@ public class Tag {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+
   private @Nullable Long id;
 
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
+
   private @Nullable String name;
 
 }

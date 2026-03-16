@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple? Apple { get { return this.AppleOption; } set { this.AppleOption = new(value); } }
+        public Apple? Apple { get { return this.AppleOption.Value; } set { this.AppleOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Banana
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get { return this.BananaOption; } set { this.BananaOption = new(value); } }
+        public Banana? Banana { get { return this.BananaOption.Value; } set { this.BananaOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Color

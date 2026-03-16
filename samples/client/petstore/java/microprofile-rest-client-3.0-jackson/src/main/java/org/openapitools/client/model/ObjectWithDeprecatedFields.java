@@ -42,19 +42,19 @@ public class ObjectWithDeprecatedFields  {
   
   public static final String JSON_PROPERTY_UUID = "uuid";
   
-  private String uuid;
+  protected String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   
-  private BigDecimal id;
+  protected BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   
-  private DeprecatedObject deprecatedRef;
+  protected DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
   
-  private List<String> bars = null;
+  protected List<String> bars = null;
 
 
   /**

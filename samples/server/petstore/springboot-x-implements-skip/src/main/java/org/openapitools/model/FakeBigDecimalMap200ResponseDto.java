@@ -49,6 +49,7 @@ public class FakeBigDecimalMap200ResponseDto {
     return someId;
   }
 
+  @JsonProperty("someId")
   public void setSomeId(@Nullable BigDecimal someId) {
     this.someId = someId;
   }
@@ -77,6 +78,7 @@ public class FakeBigDecimalMap200ResponseDto {
     return someMap;
   }
 
+  @JsonProperty("someMap")
   public void setSomeMap(Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
   }

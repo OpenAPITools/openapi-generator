@@ -36,7 +36,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class ChildWithNullable extends ParentWithNullable {
   
   @JsonbProperty("otherProperty")
-  private String otherProperty;
+  protected String otherProperty;
 
 
   /**

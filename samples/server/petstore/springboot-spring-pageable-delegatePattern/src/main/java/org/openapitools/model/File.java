@@ -42,6 +42,7 @@ public class File {
     return sourceURI;
   }
 
+  @JsonProperty("sourceURI")
   public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }

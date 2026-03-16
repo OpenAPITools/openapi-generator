@@ -52,51 +52,51 @@ public class NullableClass  {
   
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   
-  private Integer integerProp;
+  protected Integer integerProp;
 
   public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
   
-  private BigDecimal numberProp;
+  protected BigDecimal numberProp;
 
   public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
   
-  private Boolean booleanProp;
+  protected Boolean booleanProp;
 
   public static final String JSON_PROPERTY_STRING_PROP = "string_prop";
   
-  private String stringProp;
+  protected String stringProp;
 
   public static final String JSON_PROPERTY_DATE_PROP = "date_prop";
   
-  private Date dateProp;
+  protected Date dateProp;
 
   public static final String JSON_PROPERTY_DATETIME_PROP = "datetime_prop";
   
-  private Date datetimeProp;
+  protected Date datetimeProp;
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   
-  private List<Object> arrayNullableProp = null;
+  protected List<Object> arrayNullableProp = null;
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   
-  private List<Object> arrayAndItemsNullableProp = null;
+  protected List<Object> arrayAndItemsNullableProp = null;
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   
-  private List<Object> arrayItemsNullable = null;
+  protected List<Object> arrayItemsNullable = null;
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   
-  private Map<String, Object> objectNullableProp = null;
+  protected Map<String, Object> objectNullableProp = null;
 
   public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   
-  private Map<String, Object> objectAndItemsNullableProp = null;
+  protected Map<String, Object> objectAndItemsNullableProp = null;
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   
-  private Map<String, Object> objectItemsNullable = null;
+  protected Map<String, Object> objectItemsNullable = null;
   /**
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with

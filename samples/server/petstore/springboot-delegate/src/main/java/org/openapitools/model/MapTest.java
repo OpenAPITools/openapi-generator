@@ -111,6 +111,7 @@ public class MapTest {
     return mapMapOfString;
   }
 
+  @JsonProperty("map_map_of_string")
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
@@ -139,6 +140,7 @@ public class MapTest {
     return mapOfEnumString;
   }
 
+  @JsonProperty("map_of_enum_string")
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
@@ -167,6 +169,7 @@ public class MapTest {
     return directMap;
   }
 
+  @JsonProperty("direct_map")
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
@@ -195,6 +198,7 @@ public class MapTest {
     return indirectMap;
   }
 
+  @JsonProperty("indirect_map")
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }

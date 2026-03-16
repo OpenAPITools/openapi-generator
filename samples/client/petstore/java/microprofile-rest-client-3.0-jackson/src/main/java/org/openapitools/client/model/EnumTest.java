@@ -78,7 +78,7 @@ public class EnumTest  {
 
   public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
   
-  private EnumStringEnum enumString;
+  protected EnumStringEnum enumString;
 
   public enum EnumStringRequiredEnum {
 
@@ -114,7 +114,7 @@ public class EnumTest  {
 
   public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
   
-  private EnumStringRequiredEnum enumStringRequired;
+  protected EnumStringRequiredEnum enumStringRequired;
 
   public enum EnumIntegerEnum {
 
@@ -150,7 +150,7 @@ public class EnumTest  {
 
   public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
   
-  private EnumIntegerEnum enumInteger;
+  protected EnumIntegerEnum enumInteger;
 
   public enum EnumNumberEnum {
 
@@ -186,23 +186,23 @@ public class EnumTest  {
 
   public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
   
-  private EnumNumberEnum enumNumber;
+  protected EnumNumberEnum enumNumber;
 
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
   
-  private OuterEnum outerEnum;
+  protected OuterEnum outerEnum;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER = "outerEnumInteger";
   
-  private OuterEnumInteger outerEnumInteger;
+  protected OuterEnumInteger outerEnumInteger;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE = "outerEnumDefaultValue";
   
-  private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
+  protected OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE = "outerEnumIntegerDefaultValue";
   
-  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
+  protected OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
 
   /**

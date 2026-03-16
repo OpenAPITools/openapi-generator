@@ -42,6 +42,7 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
  */
 export interface {{classname}}Interface {
 {{#operation}}
+    {{#withRequestOptsInInterface}}
     /**
      * Creates request options for {{nickname}} without sending the request
      {{#allParams}}
@@ -55,6 +56,7 @@ export interface {{classname}}Interface {
      */
     {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts>;
 
+    {{/withRequestOptsInInterface}}
     /**
      * {{&notes}}
      {{#summary}}

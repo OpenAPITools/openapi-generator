@@ -57,6 +57,7 @@ public class HasOnlyReadOnly {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -77,6 +78,7 @@ public class HasOnlyReadOnly {
     return foo;
   }
 
+  @JsonProperty("foo")
   public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }

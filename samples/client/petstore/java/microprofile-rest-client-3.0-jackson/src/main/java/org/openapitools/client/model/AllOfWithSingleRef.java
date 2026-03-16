@@ -36,11 +36,11 @@ public class AllOfWithSingleRef  {
   
   public static final String JSON_PROPERTY_USERNAME = "username";
   
-  private String username;
+  protected String username;
 
   public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
   
-  private SingleRefType singleRefType;
+  protected SingleRefType singleRefType;
 
 
   /**

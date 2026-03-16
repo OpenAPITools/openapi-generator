@@ -39,11 +39,11 @@ public class FileSchemaTestClass  {
   
   public static final String JSON_PROPERTY_FILE = "file";
   
-  private ModelFile _file;
+  protected ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
   
-  private List<ModelFile> files = null;
+  protected List<ModelFile> files = null;
 
 
   /**

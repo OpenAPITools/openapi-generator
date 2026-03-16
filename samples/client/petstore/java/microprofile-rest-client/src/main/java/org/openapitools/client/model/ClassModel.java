@@ -35,7 +35,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class ClassModel  {
   
   @JsonbProperty("_class")
-  private String propertyClass;
+  protected String propertyClass;
 
 
   /**

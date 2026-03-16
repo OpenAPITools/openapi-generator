@@ -53,6 +53,7 @@ public class Dog extends Animal {
     return breed;
   }
 
+  @JsonProperty("breed")
   public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }

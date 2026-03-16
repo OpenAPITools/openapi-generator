@@ -40,19 +40,19 @@ public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
   
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
   
-  private Long petId;
+  protected Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   
-  private Integer quantity;
+  protected Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   
-  private Date shipDate;
+  protected Date shipDate;
 
   public enum StatusEnum {
 
@@ -91,11 +91,11 @@ public class Order  {
   * Order Status
   */
   
-  private StatusEnum status;
+  protected StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   
-  private Boolean complete = false;
+  protected Boolean complete = false;
 
 
   /**

@@ -35,11 +35,11 @@ public class ReadOnlyFirst  {
   
   public static final String JSON_PROPERTY_BAR = "bar";
   
-  private String bar;
+  protected String bar;
 
   public static final String JSON_PROPERTY_BAZ = "baz";
   
-  private String baz;
+  protected String baz;
 
 
   public ReadOnlyFirst() {

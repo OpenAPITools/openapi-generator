@@ -33,10 +33,10 @@ import javax.json.bind.annotation.JsonbCreator;
 public class AllOfWithSingleRef  {
   
   @JsonbProperty("username")
-  private String username;
+  protected String username;
 
   @JsonbProperty("SingleRefType")
-  private SingleRefType singleRefType;
+  protected SingleRefType singleRefType;
 
 
   /**

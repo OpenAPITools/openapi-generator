@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Test.Api
             string patternWithoutDelimiter = default;
             byte[] varByte = default;
             double varDouble = default;
-            Client.Option<System.IO.Stream> binary = default;
+            Client.Option<Org.OpenAPITools.Client.FileParameter> binary = default;
             Client.Option<string> callback = default;
             Client.Option<DateTime> date = default;
             Client.Option<DateTime> dateTime = default;

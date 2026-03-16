@@ -114,7 +114,7 @@ class {{controllerName}} extends Controller
 
         // Read out all input parameter values into variables
         {{#queryParams}}
-        ${{paramName}} = $request->query->get('{{paramName}}'{{#defaultValue}}, {{{.}}}{{/defaultValue}});
+        ${{paramName}} = $request->query->get('{{baseName}}'{{#defaultValue}}, {{{.}}}{{/defaultValue}});
         {{/queryParams}}
         {{#headerParams}}
         ${{paramName}} = $request->headers->get('{{baseName}}'{{#defaultValue}}, {{{.}}}{{/defaultValue}});

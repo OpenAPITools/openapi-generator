@@ -42,6 +42,7 @@ public class ApiResponseDto {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
   }
@@ -61,6 +62,7 @@ public class ApiResponseDto {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(@Nullable String type) {
     this.type = type;
   }
@@ -80,6 +82,7 @@ public class ApiResponseDto {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(@Nullable String message) {
     this.message = message;
   }

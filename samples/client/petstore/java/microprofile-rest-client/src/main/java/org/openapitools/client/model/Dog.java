@@ -33,7 +33,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Dog extends Animal {
   
   @JsonbProperty("breed")
-  private String breed;
+  protected String breed;
 
 
   /**

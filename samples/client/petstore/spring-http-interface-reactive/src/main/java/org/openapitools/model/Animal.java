@@ -64,6 +64,7 @@ public class Animal {
     return className;
   }
 
+  @JsonProperty("className")
   public void setClassName(String className) {
     this.className = className;
   }
@@ -83,6 +84,7 @@ public class Animal {
     return color;
   }
 
+  @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;
   }

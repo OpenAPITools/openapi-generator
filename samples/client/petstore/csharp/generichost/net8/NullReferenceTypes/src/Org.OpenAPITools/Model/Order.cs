@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public StatusEnum? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Complete

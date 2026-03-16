@@ -326,6 +326,40 @@ paths:
       summary: uploads an image
       tags:
       - pet
+  /pet/{petId}/uploadImages:
+    post:
+      description: ""
+      operationId: uploadFiles
+      parameters:
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/uploadFiles_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+          description: successful operation
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: uploads an images
+      tags:
+      - pet
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -2747,6 +2781,16 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
+    uploadFiles_request:
+      properties:
+        files:
+          items:
+            format: binary
+            type: string
+          type: array
+      required:
+      - files
       type: object
     testEnumParameters_request_enum_form_string_array_inner:
       default: $

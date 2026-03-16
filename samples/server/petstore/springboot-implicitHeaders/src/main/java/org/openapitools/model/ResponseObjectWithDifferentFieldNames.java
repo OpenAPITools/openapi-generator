@@ -47,6 +47,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return normalPropertyName;
   }
 
+  @JsonProperty("normalPropertyName")
   public void setNormalPropertyName(@Nullable String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
   }
@@ -67,6 +68,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return UPPER_CASE_PROPERTY_SNAKE;
   }
 
+  @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public void setUPPERCASEPROPERTYSNAKE(@Nullable String UPPER_CASE_PROPERTY_SNAKE) {
     this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
   }
@@ -87,6 +89,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return lowerCasePropertyDashes;
   }
 
+  @JsonProperty("lower-case-property-dashes")
   public void setLowerCasePropertyDashes(@Nullable String lowerCasePropertyDashes) {
     this.lowerCasePropertyDashes = lowerCasePropertyDashes;
   }
@@ -107,6 +110,7 @@ public class ResponseObjectWithDifferentFieldNames {
     return propertyNameWithSpaces;
   }
 
+  @JsonProperty("property name with spaces")
   public void setPropertyNameWithSpaces(@Nullable String propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;
   }

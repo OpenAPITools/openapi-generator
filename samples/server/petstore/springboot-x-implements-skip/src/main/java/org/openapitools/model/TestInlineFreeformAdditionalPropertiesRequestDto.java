@@ -47,6 +47,7 @@ public class TestInlineFreeformAdditionalPropertiesRequestDto {
     return someProperty;
   }
 
+  @JsonProperty("someProperty")
   public void setSomeProperty(@Nullable String someProperty) {
     this.someProperty = someProperty;
   }

@@ -92,6 +92,7 @@ public class ParentWithNullable {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(Optional<TypeEnum> type) {
     this.type = type;
   }

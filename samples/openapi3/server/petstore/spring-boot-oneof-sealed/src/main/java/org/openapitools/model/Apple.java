@@ -58,6 +58,7 @@ public final class Apple implements Fruit {
     return seeds;
   }
 
+  @JsonProperty("seeds")
   public void setSeeds(Integer seeds) {
     this.seeds = seeds;
   }
@@ -78,6 +79,7 @@ public final class Apple implements Fruit {
     return fruitType;
   }
 
+  @JsonProperty("fruitType")
   public void setFruitType(FruitType fruitType) {
     this.fruitType = fruitType;
   }

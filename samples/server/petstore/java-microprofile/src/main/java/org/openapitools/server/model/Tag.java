@@ -36,11 +36,11 @@ public class Tag  {
   
   public static final String JSON_PROPERTY_ID = "id";
   
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
   
-  private String name;
+  protected String name;
 
 
   /**
