@@ -111,13 +111,12 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
             cachedExecutor = executor;
         }
 
-        Template tmpl = compiledTemplateCache.computeIfAbsent(templateFile, tf -> {
-            try {
-                return cachedHandlebars.compile(tf);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to compile Handlebars template: " + tf, e);
-            }
-        });
+        Template tmpl = compiledTemplateCache.get(templateFile);
+        if (tmpl == null) {
+            // compile() declares throws IOException — propagate it directly without wrapping.
+            tmpl = cachedHandlebars.compile(templateFile);
+            compiledTemplateCache.put(templateFile, tmpl);
+        }
         return tmpl.apply(context);
     }
 

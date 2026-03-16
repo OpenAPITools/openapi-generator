@@ -54,9 +54,17 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
 
     /**
      * Cache of template file name -> compiled Template object.
-     * Templates are stateless after compilation and safe to reuse across invocations.
+     * Templates are stateless after compilation and safe to reuse across invocations
+     * <em>for the same executor</em>. The cache is invalidated whenever the executor changes.
      */
     private final Map<String, Template> compiledTemplateCache = new ConcurrentHashMap<>();
+
+    /**
+     * Tracks the executor whose template sources were used to populate {@link #compiledTemplateCache}.
+     * A different executor may resolve the same template name to different content (e.g. user-defined
+     * templates vs. built-ins, or different test fixtures), so the cache must be cleared on change.
+     */
+    private volatile TemplatingExecutor cachedExecutor;
 
     /**
      * Compiles a template into a string
@@ -69,12 +77,23 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      */
     @Override
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
-        // Compile once and cache; the compiled Template is stateless and reusable.
-        Template tmpl = compiledTemplateCache.computeIfAbsent(templateFile, tf ->
-                compiler
-                        .withLoader(name -> findTemplate(executor, name))
-                        .defaultValue("")
-                        .compile(executor.getFullTemplateContents(tf)));
+        // If the executor changed, a different set of template sources may be in use; invalidate
+        // stale compiled templates so we don't return results built from the old executor.
+        if (cachedExecutor != executor) {
+            compiledTemplateCache.clear();
+            cachedExecutor = executor;
+        }
+
+        // Manual get → compile → put so the correct (current) executor is always captured in
+        // the partial loader, and so that any compile-time exception propagates naturally.
+        Template tmpl = compiledTemplateCache.get(templateFile);
+        if (tmpl == null) {
+            tmpl = compiler
+                    .withLoader(name -> findTemplate(executor, name))
+                    .defaultValue("")
+                    .compile(executor.getFullTemplateContents(templateFile));
+            compiledTemplateCache.put(templateFile, tmpl);
+        }
         StringWriter out = new StringWriter();
 
         // the value of bundle[MUSTACHE_PARENT_CONTEXT] is used a parent content in mustache.
