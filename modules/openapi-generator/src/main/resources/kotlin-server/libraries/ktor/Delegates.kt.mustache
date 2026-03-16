@@ -1,0 +1,49 @@
+{{>licenseInfo}}
+package {{packageName}}.infrastructure
+
+import io.ktor.server.application.*
+import io.ktor.server.routing.*
+import io.ktor.util.*
+import kotlin.reflect.KProperty
+{{#generateApis}}
+{{#apiInfo}}
+{{#apis}}
+import {{apiPackage}}.{{classname}}Delegate
+{{/apis}}
+{{/apiInfo}}
+{{/generateApis}}
+
+/**
+ * Extension for [Application] to register delegates.
+ */
+fun Application.delegates(appDelegates: AppDelegates) {
+    attributes.put(AppDelegates.AttributeKey, appDelegates)
+}
+
+/**
+ * Extension for [RoutingCall] to register delegates.
+ */
+fun RoutingCall.delegates(appDelegates: AppDelegates) {
+    attributes.put(AppDelegates.AttributeKey, appDelegates)
+}
+
+/**
+ * Extension for [RoutingContext] to support delegate injection.
+ */
+inline val RoutingCall.delegates: DelegateProvider
+    get() = DelegateProvider(this)
+
+@JvmInline
+value class DelegateProvider(val call: RoutingCall) {
+    @Suppress("UNCHECKED_CAST")
+    inline operator fun <reified T> getValue(thisRef: Any?, property: KProperty<*>): T? {
+        val appDelegates = call.application.attributes.getOrNull(AppDelegates.AttributeKey)
+            ?: call.attributes.getOrNull(AppDelegates.AttributeKey)
+
+        return when (T::class) {
+            {{#apiInfo}}{{#apis}}{{classname}}Delegate::class ->  appDelegates?.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate as T
+            {{/apis}}{{/apiInfo}}
+            else -> null as T
+        }
+    }
+}

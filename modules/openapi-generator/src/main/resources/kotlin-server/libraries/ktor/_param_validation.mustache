@@ -1,0 +1,12 @@
+try {
+    {{>_common_validation}}
+} catch (e: BadRequestException) {
+    call.respond(e.statusCode, mapOf(
+        "message" to (e.message ?: "Invalid parameter {{paramName}}"),
+        "parameter" to e.parameterName,
+        "validation" to e.validationType,
+        "expected" to e.expectedValue,
+        "actual" to e.actualValue
+    ).filterValues { it != null })
+    return@{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}
+}

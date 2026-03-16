@@ -1,0 +1,12 @@
+fun validate() {
+    {{#vars}}
+    {{#lambda.indented_4}}
+    {{#vendorExtensions}}
+    {{#-first}}
+    {{! use -first to only include once if vendorExtensions is a map, but it's better to just include it }}
+    {{/-first}}
+    {{/vendorExtensions}}
+    {{>_common_validation}}
+    {{/lambda.indented_4}}
+    {{/vars}}
+}

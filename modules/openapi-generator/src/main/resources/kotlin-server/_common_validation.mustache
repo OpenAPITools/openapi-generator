@@ -1,0 +1,356 @@
+{{#pattern}}
+if (!"{{{pattern}}}".toRegex().matches({{{name}}}{{{paramName}}}.toString())) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} does not match pattern {{{pattern}}}",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "pattern",
+        expectedValue = "{{{pattern}}}",
+        actualValue = {{{name}}}{{{paramName}}}
+    )
+}
+{{/pattern}}
+{{#minLength}}
+if (({{{name}}}{{{paramName}}}{{#isNullable}} ?: ""{{/isNullable}}).length < {{{minLength}}}) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} length should be >= {{{minLength}}}",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "minLength",
+        expectedValue = {{{minLength}}},
+        actualValue = ({{{name}}}{{{paramName}}}{{#isNullable}} ?: ""{{/isNullable}}).length
+    )
+}
+{{/minLength}}
+{{#maxLength}}
+if (({{{name}}}{{{paramName}}}{{#isNullable}} ?: ""{{/isNullable}}).length > {{{maxLength}}}) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} length should be <= {{{maxLength}}}",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "maxLength",
+        expectedValue = {{{maxLength}}},
+        actualValue = ({{{name}}}{{{paramName}}}{{#isNullable}} ?: ""{{/isNullable}}).length
+    )
+}
+{{/maxLength}}
+{{#minimum}}
+if ({{{name}}}{{{paramName}}} {{#exclusiveMinimum}}<={{/exclusiveMinimum}}{{^exclusiveMinimum}}<{{/exclusiveMinimum}} {{{minimum}}}) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should be {{#exclusiveMinimum}}>{{/exclusiveMinimum}}{{^exclusiveMinimum}}>={{/exclusiveMinimum}} {{{minimum}}}",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "{{#exclusiveMinimum}}exclusiveMinimum{{/exclusiveMinimum}}{{^exclusiveMinimum}}minimum{{/exclusiveMinimum}}",
+        expectedValue = {{{minimum}}},
+        actualValue = {{{name}}}{{{paramName}}}
+    )
+}
+{{/minimum}}
+{{#maximum}}
+if ({{{name}}}{{{paramName}}} {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} {{{maximum}}}) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should be {{#exclusiveMaximum}}<{{/exclusiveMaximum}}{{^exclusiveMaximum}}<={{/exclusiveMaximum}} {{{maximum}}}",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "{{#exclusiveMaximum}}exclusiveMaximum{{/exclusiveMaximum}}{{^exclusiveMaximum}}maximum{{/exclusiveMaximum}}",
+        expectedValue = {{{maximum}}},
+        actualValue = {{{name}}}{{{paramName}}}
+    )
+}
+{{/maximum}}
+{{#multipleOf}}
+if ({{{name}}}{{{paramName}}} % {{{multipleOf}}} != 0) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should be a multiple of {{{multipleOf}}}",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "multipleOf",
+        expectedValue = {{{multipleOf}}},
+        actualValue = {{{name}}}{{{paramName}}}
+    )
+}
+{{/multipleOf}}
+{{#minItems}}
+if (({{{name}}}{{{paramName}}}{{#isNullable}} ?: emptyList() {{/isNullable}}).size < {{{minItems}}}) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should have at least {{{minItems}}} items",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "minItems",
+        expectedValue = {{{minItems}}},
+        actualValue = ({{{name}}}{{{paramName}}}{{#isNullable}} ?: emptyList() {{/isNullable}}).size
+    )
+}
+{{/minItems}}
+{{#maxItems}}
+if (({{{name}}}{{{paramName}}}{{#isNullable}} ?: emptyList() {{/isNullable}}).size > {{{maxItems}}}) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should have at most {{{maxItems}}} items",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "maxItems",
+        expectedValue = {{{maxItems}}},
+        actualValue = ({{{name}}}{{{paramName}}}{{#isNullable}} ?: emptyList() {{/isNullable}}).size
+    )
+}
+{{/maxItems}}
+{{#uniqueItems}}
+if (({{{name}}}{{{paramName}}}{{#isNullable}} ?: emptyList() {{/isNullable}}).toSet().size != ({{{name}}}{{{paramName}}}{{#isNullable}} ?: emptyList() {{/isNullable}}).size) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should have unique items",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "uniqueItems"
+    )
+}
+{{/uniqueItems}}
+{{#isEmail}}
+if (!"^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$".toRegex().matches({{{name}}}{{{paramName}}}.toString())) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should be a valid email",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "email",
+        actualValue = {{{name}}}{{{paramName}}}
+    )
+}
+{{/isEmail}}
+{{#isUuid}}
+try {
+    kotlin.uuid.Uuid.parse({{{name}}}{{{paramName}}}.toString())
+} catch (e: IllegalArgumentException) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should be a valid UUID",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "uuid",
+        actualValue = {{{name}}}{{{paramName}}}
+    )
+}
+{{/isUuid}}
+{{#isUri}}
+try {
+    io.ktor.http.Url({{{name}}}{{{paramName}}}.toString())
+} catch (e: Exception) {
+    throw BadRequestException(
+        message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should be a valid URI",
+        parameterName = "{{{name}}}{{{paramName}}}",
+        validationType = "uri",
+        actualValue = {{{name}}}{{{paramName}}}
+    )
+}
+{{/isUri}}
+{{#isModel}}
+{{{name}}}{{{paramName}}}{{#isNullable}}?{{/isNullable}}.validate()
+{{/isModel}}
+{{#isArray}}
+{{#items.isModel}}
+{{{name}}}{{{paramName}}}{{#isNullable}}?{{/isNullable}}.forEach { it.validate() }
+{{/items.isModel}}
+{{^items.isModel}}
+{{{name}}}{{{paramName}}}{{#isNullable}}?{{/isNullable}}.forEach {
+{{#items}}
+{{#pattern}}
+    if (!"{{{pattern}}}".toRegex().matches(it.toString())) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it does not match pattern {{{pattern}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "pattern",
+            expectedValue = "{{{pattern}}}",
+            actualValue = it
+        )
+    }
+{{/pattern}}
+{{#minLength}}
+    if (it.toString().length < {{{minLength}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it length should be >= {{{minLength}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "minLength",
+            expectedValue = {{{minLength}}},
+            actualValue = it.toString().length
+        )
+    }
+{{/minLength}}
+{{#maxLength}}
+    if (it.toString().length > {{{maxLength}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it length should be <= {{{maxLength}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "maxLength",
+            expectedValue = {{{maxLength}}},
+            actualValue = it.toString().length
+        )
+    }
+{{/maxLength}}
+{{#minimum}}
+    if (it.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() {{#exclusiveMinimum}}<={{/exclusiveMinimum}}{{^exclusiveMinimum}}<{{/exclusiveMinimum}} {{{minimum}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it should be {{#exclusiveMinimum}}>{{/exclusiveMinimum}}{{^exclusiveMinimum}}>={{/exclusiveMinimum}} {{{minimum}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "{{#exclusiveMinimum}}exclusiveMinimum{{/exclusiveMinimum}}{{^exclusiveMinimum}}minimum{{/exclusiveMinimum}}",
+            expectedValue = {{{minimum}}},
+            actualValue = it
+        )
+    }
+{{/minimum}}
+{{#maximum}}
+    if (it.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} {{{maximum}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it should be {{#exclusiveMaximum}}<{{/exclusiveMaximum}}{{^exclusiveMaximum}}<={{/exclusiveMaximum}} {{{maximum}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "{{#exclusiveMaximum}}exclusiveMaximum{{/exclusiveMaximum}}{{^exclusiveMaximum}}maximum{{/exclusiveMaximum}}",
+            expectedValue = {{{maximum}}},
+            actualValue = it
+        )
+    }
+{{/maximum}}
+{{#multipleOf}}
+    if (it.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() % {{{multipleOf}}} != 0{{#isFloat}}.0{{/isFloat}}{{#isDouble}}.0{{/isDouble}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it should be a multiple of {{{multipleOf}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "multipleOf",
+            expectedValue = {{{multipleOf}}},
+            actualValue = it
+        )
+    }
+{{/multipleOf}}
+{{#isEmail}}
+    if (!"^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$".toRegex().matches(it.toString())) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it should be a valid email",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "email",
+            actualValue = it
+        )
+    }
+{{/isEmail}}
+{{#isUuid}}
+    try {
+        kotlin.uuid.Uuid.parse(it.toString())
+    } catch (e: IllegalArgumentException) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it should be a valid UUID",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "uuid",
+            actualValue = it
+        )
+    }
+{{/isUuid}}
+{{#isUri}}
+    try {
+        io.ktor.http.Url(it.toString())
+    } catch (e: Exception) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it should be a valid URI",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "uri",
+            actualValue = it
+        )
+    }
+{{/isUri}}
+{{/items}}
+}
+{{/items.isModel}}
+{{/isArray}}
+{{#isMap}}
+{{#items.isModel}}
+{{{name}}}{{{paramName}}}{{#isNullable}}?{{/isNullable}}.forEach { it.value.validate() }
+{{/items.isModel}}
+{{^items.isModel}}
+{{{name}}}{{{paramName}}}{{#isNullable}}?{{/isNullable}}.forEach { (key, value) ->
+{{#items}}
+{{#pattern}}
+    if (!"{{{pattern}}}".toRegex().matches(value.toString())) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key does not match pattern {{{pattern}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "pattern",
+            expectedValue = "{{{pattern}}}",
+            actualValue = value
+        )
+    }
+{{/pattern}}
+{{#minLength}}
+    if (value.toString().length < {{{minLength}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key length should be >= {{{minLength}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "minLength",
+            expectedValue = {{{minLength}}},
+            actualValue = value.toString().length
+        )
+    }
+{{/minLength}}
+{{#maxLength}}
+    if (value.toString().length > {{{maxLength}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key length should be <= {{{maxLength}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "maxLength",
+            expectedValue = {{{maxLength}}},
+            actualValue = value.toString().length
+        )
+    }
+{{/maxLength}}
+{{#minimum}}
+    if (value.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() {{#exclusiveMinimum}}<={{/exclusiveMinimum}}{{^exclusiveMinimum}}<{{/exclusiveMinimum}} {{{minimum}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key should be {{#exclusiveMinimum}}>{{/exclusiveMinimum}}{{^exclusiveMinimum}}>={{/exclusiveMinimum}} {{{minimum}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "{{#exclusiveMinimum}}exclusiveMinimum{{/exclusiveMinimum}}{{^exclusiveMinimum}}minimum{{/exclusiveMinimum}}",
+            expectedValue = {{{minimum}}},
+            actualValue = value
+        )
+    }
+{{/minimum}}
+{{#maximum}}
+    if (value.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} {{{maximum}}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key should be {{#exclusiveMaximum}}<{{/exclusiveMaximum}}{{^exclusiveMaximum}}<={{/exclusiveMaximum}} {{{maximum}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "{{#exclusiveMaximum}}exclusiveMaximum{{/exclusiveMaximum}}{{^exclusiveMaximum}}maximum{{/exclusiveMaximum}}",
+            expectedValue = {{{maximum}}},
+            actualValue = value
+        )
+    }
+{{/maximum}}
+{{#multipleOf}}
+    if (value.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() % {{{multipleOf}}} != 0{{#isFloat}}.0{{/isFloat}}{{#isDouble}}.0{{/isDouble}}) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key should be a multiple of {{{multipleOf}}}",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "multipleOf",
+            expectedValue = {{{multipleOf}}},
+            actualValue = value
+        )
+    }
+{{/multipleOf}}
+{{#isEmail}}
+    if (!"^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$".toRegex().matches(value.toString())) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key should be a valid email",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "email",
+            actualValue = value
+        )
+    }
+{{/isEmail}}
+{{#isUuid}}
+    try {
+        kotlin.uuid.Uuid.parse(value.toString())
+    } catch (e: IllegalArgumentException) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key should be a valid UUID",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "uuid",
+            actualValue = value
+        )
+    }
+{{/isUuid}}
+{{#isUri}}
+    try {
+        io.ktor.http.Url(value.toString())
+    } catch (e: Exception) {
+        throw BadRequestException(
+            message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key should be a valid URI",
+            parameterName = "{{{name}}}{{{paramName}}}",
+            validationType = "uri",
+            actualValue = value
+        )
+    }
+{{/isUri}}
+{{/items}}
+}
+{{/items.isModel}}
+{{/isMap}}
