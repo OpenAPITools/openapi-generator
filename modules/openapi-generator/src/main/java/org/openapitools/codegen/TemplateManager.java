@@ -95,14 +95,21 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     }
 
     /**
+     * Pre-compiled pattern for replacing the OS file separator with '/' in classpath resource paths.
+     * Only non-null on operating systems where {@link File#separator} is not already '/'.
+     */
+    private static final Pattern FILE_SEP_PATTERN =
+            "/".equals(File.separator) ? null : Pattern.compile(Pattern.quote(File.separator));
+
+    /**
      * Gets a normalized classpath resource location according to OS-specific file separator
      *
      * @param name The name of the resource file/directory to find
      * @return A normalized string according to OS-specific file separator
      */
     public static String getCPResourcePath(final String name) {
-        if (!"/".equals(File.separator)) {
-            return name.replaceAll(Pattern.quote(File.separator), "/");
+        if (FILE_SEP_PATTERN != null) {
+            return FILE_SEP_PATTERN.matcher(name).replaceAll("/");
         }
         return name;
     }

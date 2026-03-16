@@ -38,7 +38,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -49,20 +48,24 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
     private final String[] canCompileFromExtensions = {".handlebars", ".hbs", ".mustache"};
     private boolean infiniteLoops = false;
-    @Setter private boolean prettyPrint = false;
+    @Setter
+    private boolean prettyPrint = false;
 
     /**
-     * Cache of (templateFile -> compiled Template). Compiled Handlebars templates are stateless after
-     * compilation and safe to reuse across multiple data-bundle invocations within the same run.
+     * Per-executor cache of fully-configured {@link Handlebars} engine instances.
+     * Each executor gets its own engine because the engine's {@link TemplateLoader} closes over the
+     * executor; sharing an engine across executors would silently resolve templates from the wrong source.
+     * {@link ConcurrentHashMap#computeIfAbsent} ensures the engine is built at most once per executor.
      */
-    private final Map<String, Template> compiledTemplateCache = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<TemplatingExecutor, Handlebars> engineCache = new ConcurrentHashMap<>();
 
     /**
-     * Cached Handlebars engine instance with all helpers pre-registered.
-     * Re-created lazily whenever the TemplatingExecutor changes (different template paths).
+     * Per-executor cache of compiled {@link Template} objects.
+     * Keying on the executor instance eliminates the non-atomic check-clear-update invalidation
+     * that the previous single-cache approach required; no state ever needs to be cleared.
      */
-    private volatile Handlebars cachedHandlebars;
-    private volatile TemplatingExecutor cachedExecutor;
+    private final ConcurrentHashMap<TemplatingExecutor, ConcurrentHashMap<String, Template>> templateCaches =
+            new ConcurrentHashMap<>();
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -86,38 +89,42 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
                         AccessAwareFieldValueResolver.INSTANCE)
                 .build();
 
-        // Reuse the Handlebars engine when the executor hasn't changed; rebuild otherwise.
-        if (cachedHandlebars == null || cachedExecutor != executor) {
-            TemplateLoader loader = new AbstractTemplateLoader() {
-                @Override
-                public TemplateSource sourceAt(String location) {
-                    return findTemplate(executor, location);
-                }
-            };
-            Handlebars handlebars = new Handlebars(loader);
-            handlebars.registerHelperMissing((obj, options) -> {
-                LOGGER.warn(String.format(Locale.ROOT, "Unregistered helper name '%s', processing template:%n%s", options.helperName, options.fn.text()));
-                return "";
-            });
-            handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
-            StringHelpers.register(handlebars);
-            handlebars.registerHelpers(ConditionalHelpers.class);
-            handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
-            handlebars.setInfiniteLoops(infiniteLoops);
-            handlebars.setPrettyPrint(prettyPrint);
-            // Changing the executor means template content may differ; clear stale entries.
-            compiledTemplateCache.clear();
-            cachedHandlebars = handlebars;
-            cachedExecutor = executor;
-        }
+        // Each executor gets its own Handlebars engine (the loader closes over the executor) and its
+        // own compiled-template cache. computeIfAbsent is atomic, so concurrent calls with the same
+        // executor share one engine/cache rather than racing to create duplicates.
+        Handlebars handlebars = engineCache.computeIfAbsent(executor, this::buildHandlebars);
+        ConcurrentHashMap<String, Template> cache =
+                templateCaches.computeIfAbsent(executor, k -> new ConcurrentHashMap<>());
 
-        Template tmpl = compiledTemplateCache.get(templateFile);
+        // Manual get → compile → put so IOException propagates naturally.
+        Template tmpl = cache.get(templateFile);
         if (tmpl == null) {
-            // compile() declares throws IOException — propagate it directly without wrapping.
-            tmpl = cachedHandlebars.compile(templateFile);
-            compiledTemplateCache.put(templateFile, tmpl);
+            tmpl = handlebars.compile(templateFile);
+            cache.put(templateFile, tmpl);
         }
         return tmpl.apply(context);
+    }
+
+    /** Constructs and fully configures a {@link Handlebars} engine for the given executor. */
+    private Handlebars buildHandlebars(TemplatingExecutor executor) {
+        TemplateLoader loader = new AbstractTemplateLoader() {
+            @Override
+            public TemplateSource sourceAt(String location) {
+                return findTemplate(executor, location);
+            }
+        };
+        Handlebars handlebars = new Handlebars(loader);
+        handlebars.registerHelperMissing((obj, options) -> {
+            LOGGER.warn("Unregistered helper name '{}', processing template:\n{}", options.helperName, options.fn.text());
+            return "";
+        });
+        handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
+        StringHelpers.register(handlebars);
+        handlebars.registerHelpers(ConditionalHelpers.class);
+        handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
+        handlebars.setInfiniteLoops(infiniteLoops);
+        handlebars.setPrettyPrint(prettyPrint);
+        return handlebars;
     }
 
     @SuppressWarnings("java:S108")

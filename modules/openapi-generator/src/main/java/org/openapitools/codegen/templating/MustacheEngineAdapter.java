@@ -53,18 +53,18 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     Mustache.Compiler compiler = Mustache.compiler();
 
     /**
-     * Cache of template file name -> compiled Template object.
-     * Templates are stateless after compilation and safe to reuse across invocations
-     * <em>for the same executor</em>. The cache is invalidated whenever the executor changes.
+     * Per-executor cache of template file name → compiled {@link Template}.
+     * <p>
+     * Keying on the executor instance eliminates the non-atomic check-clear-update invalidation pattern
+     * that the previous single-cache approach required. Each executor gets its own independent inner
+     * map, so different executors (e.g. different generator runs, test fixtures) can never observe
+     * each other's compiled templates, and no state ever needs to be cleared.
+     * <p>
+     * {@link ConcurrentHashMap#computeIfAbsent} guarantees that the inner map for a given executor
+     * is created exactly once even under concurrent access.
      */
-    private final Map<String, Template> compiledTemplateCache = new ConcurrentHashMap<>();
-
-    /**
-     * Tracks the executor whose template sources were used to populate {@link #compiledTemplateCache}.
-     * A different executor may resolve the same template name to different content (e.g. user-defined
-     * templates vs. built-ins, or different test fixtures), so the cache must be cleared on change.
-     */
-    private volatile TemplatingExecutor cachedExecutor;
+    private final ConcurrentHashMap<TemplatingExecutor, ConcurrentHashMap<String, Template>> compiledTemplateCaches =
+            new ConcurrentHashMap<>();
 
     /**
      * Compiles a template into a string
@@ -77,22 +77,21 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      */
     @Override
     public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
-        // If the executor changed, a different set of template sources may be in use; invalidate
-        // stale compiled templates so we don't return results built from the old executor.
-        if (cachedExecutor != executor) {
-            compiledTemplateCache.clear();
-            cachedExecutor = executor;
-        }
+        // Each executor gets its own compiled-template cache. computeIfAbsent is atomic, so two threads
+        // racing on the same executor key will share one inner map rather than creating two separate ones.
+        ConcurrentHashMap<String, Template> cache =
+                compiledTemplateCaches.computeIfAbsent(executor, k -> new ConcurrentHashMap<>());
 
-        // Manual get → compile → put so the correct (current) executor is always captured in
-        // the partial loader, and so that any compile-time exception propagates naturally.
-        Template tmpl = compiledTemplateCache.get(templateFile);
+        // Manual get → compile → put so IOException propagates naturally.
+        // At worst, two threads compile the same template simultaneously; the last writer wins,
+        // which is harmless because compilation is pure/deterministic.
+        Template tmpl = cache.get(templateFile);
         if (tmpl == null) {
             tmpl = compiler
                     .withLoader(name -> findTemplate(executor, name))
                     .defaultValue("")
                     .compile(executor.getFullTemplateContents(templateFile));
-            compiledTemplateCache.put(templateFile, tmpl);
+            cache.put(templateFile, tmpl);
         }
         StringWriter out = new StringWriter();
 

@@ -31,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.openapitools.codegen.api.*;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
@@ -60,7 +61,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.StringUtils.removeStart;
 import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -86,16 +86,17 @@ public class DefaultGenerator implements Generator {
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
-    private Map<String, String> generatorPropertyDefaults = new HashMap<>();
+    private final Map<String, String> generatorPropertyDefaults = new HashMap<>();
     /**
      * Retrieves an instance to the configured template processor, available after user-defined options are
      * applied via
      */
-    @Getter protected TemplateProcessor templateProcessor = null;
+    @Getter
+    protected TemplateProcessor templateProcessor = null;
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
-    private String generatorCheck = "spring";
-    private String templateCheck = "apiController.mustache";
+    private final String generatorCheck = "spring";
+    private final String templateCheck = "apiController.mustache";
 
 
     public DefaultGenerator() {
@@ -266,8 +267,7 @@ public class DefaultGenerator implements Generator {
                 openapiNormalizer.normalize();
             }
         } catch (Exception e) {
-            LOGGER.error("An exception occurred in OpenAPI Normalizer. Please report the issue via https://github.com/openapitools/openapi-generator/issues/new/: ");
-            e.printStackTrace();
+            LOGGER.error("An exception occurred in OpenAPI Normalizer. Please report the issue via https://github.com/openapitools/openapi-generator/issues/new/: ", e);
         }
 
         // resolve inline models
@@ -607,10 +607,10 @@ public class DefaultGenerator implements Generator {
             if (!processedModels.contains(key) && allSchemas.containsKey(key)) {
                 generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(key));
             } else {
-                LOGGER.info("Type " + variable.getComplexType() + " of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
+                LOGGER.info("Type {} of variable {} could not be resolve because it is not declared as a model.", variable.getComplexType(), variable.getName());
             }
         } else {
-            LOGGER.info("Type " + variable.getOpenApiType() + " of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
+            LOGGER.info("Type {} of variable {} could not be resolve because it is not declared as a model.", variable.getOpenApiType(), variable.getName());
         }
     }
 
@@ -639,8 +639,8 @@ public class DefaultGenerator implements Generator {
         }
 
         return Arrays.stream(propertyRaw.split(","))
-            .map(String::trim)
-            .collect(Collectors.toSet());
+                .map(String::trim)
+                .collect(Collectors.toSet());
     }
 
     private Set<String> modelKeys() {
@@ -665,7 +665,6 @@ public class DefaultGenerator implements Generator {
         return modelKeys;
     }
 
-    @SuppressWarnings("unchecked")
     void generateApis(List<File> files, List<OperationsMap> allOperations, List<ModelMap> allModels) {
         if (!generateApis) {
             // TODO: Process these anyway and present info via dryRun?
@@ -1006,7 +1005,7 @@ public class DefaultGenerator implements Generator {
         File ignoreFile = new File(ignoreFileNameTarget);
         // use the entries provided by the users to pre-populate .openapi-generator-ignore
         try {
-            LOGGER.info("Writing file " + ignoreFileNameTarget + " (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)");
+            LOGGER.info("Writing file {} (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)", ignoreFileNameTarget);
             new File(config.outputFolder()).mkdirs();
             if (!ignoreFile.createNewFile()) {
                 // file may already exist, do nothing
@@ -1393,7 +1392,7 @@ public class DefaultGenerator implements Generator {
                             // hack: destination filename in this scenario might be a suffix like Impl.java
                             templateExt = userDefinedTemplate.getDestinationFilename();
                         } else {
-                            templateExt = StringUtils.prependIfMissing(templateExt, ".");
+                            templateExt = Strings.CS.prependIfMissing(templateExt, ".");
                         }
                         String templateOutputFolder = userDefinedTemplate.getFolder();
                         if (!templateOutputFolder.isEmpty()) {
@@ -1430,7 +1429,9 @@ public class DefaultGenerator implements Generator {
         return processTemplateToFile(templateData, templateName, outputFilename, shouldGenerate, skippedByOption, this.config.getOutputDir());
     }
 
-    /** Stores lowercased absolute paths for O(1) case-insensitive duplicate detection. */
+    /**
+     * Stores lowercased absolute paths for O(1) case-insensitive duplicate detection.
+     */
     private final Set<String> seenFilesLower = new HashSet<>();
 
     private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption, String intendedOutputDir) throws IOException {
@@ -1993,7 +1994,7 @@ public class DefaultGenerator implements Generator {
                     // Some implementations make the output ./c/d which seems to mix the logic
                     // as documented for symlinks. So we need to trim any / or ./ from the start,
                     // as nobody should be generating into system root and our expectation is no ./
-                    String relativePath = removeStart(removeStart(f.toString(), "." + File.separator), File.separator);
+                    String relativePath = Strings.CS.removeStart(Strings.CS.removeStart(f.toString(), "." + File.separator), File.separator);
                     if (File.separator.equals("\\")) {
                         // ensure that windows outputs same FILES format
                         relativePath = relativePath.replace(File.separator, "/");
@@ -2003,10 +2004,8 @@ public class DefaultGenerator implements Generator {
                     }
                 });
 
-                Collections.sort(relativePaths, (a, b) -> IOCase.SENSITIVE.checkCompareTo(a, b));
-                relativePaths.forEach(relativePath -> {
-                    sb.append(relativePath).append(System.lineSeparator());
-                });
+                relativePaths.sort(IOCase.SENSITIVE::checkCompareTo);
+                relativePaths.forEach(relativePath -> sb.append(relativePath).append(System.lineSeparator()));
 
                 String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + config.getFilesMetadataFilename();
 
@@ -2021,7 +2020,7 @@ public class DefaultGenerator implements Generator {
     }
 
     private String removeTrailingSlash(String value) {
-        return StringUtils.removeEnd(value, "/");
+        return Strings.CS.removeEnd(value, "/");
     }
 
 }
