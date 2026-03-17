@@ -181,7 +181,7 @@ public class DefaultApi {
    * @return Foo
    * @throws ApiException if fails to make API call
    */
-  public Foo fooDtParamGet( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws ApiException {
+  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws ApiException {
     return fooDtParamGet(dtParam, dtQuery, dtCookie, null);
   }
 
@@ -195,7 +195,7 @@ public class DefaultApi {
    * @return Foo
    * @throws ApiException if fails to make API call
    */
-  public Foo fooDtParamGet( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
+  public Foo fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
     ApiResponse<Foo> localVarResponse = fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, headers);
     return localVarResponse.getData();
   }
@@ -209,7 +209,7 @@ public class DefaultApi {
    * @return ApiResponse&lt;Foo&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Foo> fooDtParamGetWithHttpInfo( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws ApiException {
+  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws ApiException {
     return fooDtParamGetWithHttpInfo(dtParam, dtQuery, dtCookie, null);
   }
 
@@ -223,7 +223,7 @@ public class DefaultApi {
    * @return ApiResponse&lt;Foo&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Foo> fooDtParamGetWithHttpInfo( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Foo> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = fooDtParamGetRequestBuilder(dtParam, dtQuery, dtCookie, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -271,7 +271,7 @@ public class DefaultApi {
     }
   }
 
-  private HttpRequest.Builder fooDtParamGetRequestBuilder( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder fooDtParamGetRequestBuilder(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -315,7 +315,7 @@ public class DefaultApi {
    * @param _file  (optional)
    * @throws ApiException if fails to make API call
    */
-  public void uploadPost( @Nullable File _file) throws ApiException {
+  public void uploadPost(@Nullable File _file) throws ApiException {
     uploadPost(_file, null);
   }
 
@@ -326,7 +326,7 @@ public class DefaultApi {
    * @param headers Optional headers to include in the request
    * @throws ApiException if fails to make API call
    */
-  public void uploadPost( @Nullable File _file, Map<String, String> headers) throws ApiException {
+  public void uploadPost(@Nullable File _file, Map<String, String> headers) throws ApiException {
     uploadPostWithHttpInfo(_file, headers);
   }
 
@@ -337,7 +337,7 @@ public class DefaultApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> uploadPostWithHttpInfo( @Nullable File _file) throws ApiException {
+  public ApiResponse<Void> uploadPostWithHttpInfo(@Nullable File _file) throws ApiException {
     return uploadPostWithHttpInfo(_file, null);
   }
 
@@ -349,7 +349,7 @@ public class DefaultApi {
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> uploadPostWithHttpInfo( @Nullable File _file, Map<String, String> headers) throws ApiException {
+  public ApiResponse<Void> uploadPostWithHttpInfo(@Nullable File _file, Map<String, String> headers) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = uploadPostRequestBuilder(_file, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -386,7 +386,7 @@ public class DefaultApi {
     }
   }
 
-  private HttpRequest.Builder uploadPostRequestBuilder( @Nullable File _file, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder uploadPostRequestBuilder(@Nullable File _file, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

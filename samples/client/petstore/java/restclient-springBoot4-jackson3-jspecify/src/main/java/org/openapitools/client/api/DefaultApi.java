@@ -57,7 +57,7 @@ public class DefaultApi {
      * @return Foo
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fooDtParamGetRequestCreation( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
+    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -126,7 +126,7 @@ public class DefaultApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fooDtParamGetWithResponseSpec( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
+    public ResponseSpec fooDtParamGetWithResponseSpec(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie);
     }
 
@@ -137,7 +137,7 @@ public class DefaultApi {
      * @param _file The _file parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadPostRequestCreation( @Nullable File _file) throws RestClientResponseException {
+    private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -170,7 +170,7 @@ public class DefaultApi {
      * @param _file The _file parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void uploadPost( @Nullable File _file) throws RestClientResponseException {
+    public void uploadPost(@Nullable File _file) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         uploadPostRequestCreation(_file).body(localVarReturnType);
     }
@@ -182,7 +182,7 @@ public class DefaultApi {
      * @param _file The _file parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> uploadPostWithHttpInfo( @Nullable File _file) throws RestClientResponseException {
+    public ResponseEntity<Void> uploadPostWithHttpInfo(@Nullable File _file) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return uploadPostRequestCreation(_file).toEntity(localVarReturnType);
     }
@@ -195,7 +195,7 @@ public class DefaultApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadPostWithResponseSpec( @Nullable File _file) throws RestClientResponseException {
+    public ResponseSpec uploadPostWithResponseSpec(@Nullable File _file) throws RestClientResponseException {
         return uploadPostRequestCreation(_file);
     }
 }

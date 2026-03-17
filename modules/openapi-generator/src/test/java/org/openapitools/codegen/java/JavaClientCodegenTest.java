@@ -4219,15 +4219,19 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("Foo.java"))
                 .fileContains(
                         "import org.jspecify.annotations.Nullable;",
-                        "private java.time.@Nullable Instant dt;"
+                        "private java.time.@Nullable Instant dt;",
+                        "setDt(java.time.@Nullable Instant dt)",
+                        "dt(java.time.@Nullable Instant dt)",
+                        "setBinary(@Nullable File binary)",
+                        "public @Nullable File getBinary()",
+                        "List<java.time.@Nullable Instant> getListOfDt()",
+                        "setListOfDt(List<java.time.@Nullable Instant> listOfDt)"
                 );
         if (!RESTTEMPLATE.equals(library)) {
             JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                     .fileContains(
                             "import org.jspecify.annotations.Nullable;",
-                            "java.time.@Nullable Instant dtParam",
-                            "java.time.@Nullable Instant dtQuery",
-                            "java.time.@Nullable Instant dtCookie"
+                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie)"
                     );
         }
         JavaFileAssert.assertThat(files.get("api/package-info.java"))

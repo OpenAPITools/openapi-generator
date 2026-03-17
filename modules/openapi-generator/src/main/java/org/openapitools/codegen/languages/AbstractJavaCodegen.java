@@ -2694,8 +2694,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     writer.write("@Nullable ");
                     writer.write(dataType.substring(idx + 1));
                 } else {
-                    writer.write("@Nullable ");
-                    writer.write(dataType);
+                    if (dataType.startsWith(" ")) {
+                        writer.write(" @Nullable");
+                        writer.write(dataType);
+                    } else {
+                        writer.write("@Nullable ");
+                        writer.write(dataType);
+                    }
                 }
             } else {
                 writer.write(dataType);
@@ -2727,10 +2732,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (value.startsWith(nullableAnnotation)) {
                     keptNullable = true;
                     int idx = nullableAnnotation.length();
-                    // trim left
-                    while (idx < value.length() && value.charAt(idx) == ' ') {
-                        idx ++;
-                    }
                     value = value.substring(idx);
                 }
             }

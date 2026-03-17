@@ -59,7 +59,7 @@ public class DefaultApi {
      * @return Foo
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fooDtParamGetRequestCreation( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
+    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -98,7 +98,7 @@ public class DefaultApi {
      * @return Foo
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Foo> fooDtParamGet( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
+    public Mono<Foo> fooDtParamGet(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<Foo>() {};
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).bodyToMono(localVarReturnType);
     }
@@ -113,7 +113,7 @@ public class DefaultApi {
      * @return ResponseEntity&lt;Foo&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Foo>> fooDtParamGetWithHttpInfo( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
+    public Mono<ResponseEntity<Foo>> fooDtParamGetWithHttpInfo(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
         ParameterizedTypeReference<Foo> localVarReturnType = new ParameterizedTypeReference<Foo>() {};
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie).toEntity(localVarReturnType);
     }
@@ -128,7 +128,7 @@ public class DefaultApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fooDtParamGetWithResponseSpec( java.time.@Nullable Instant dtParam,  java.time.@Nullable Instant dtQuery,  java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
+    public ResponseSpec fooDtParamGetWithResponseSpec(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws WebClientResponseException {
         return fooDtParamGetRequestCreation(dtParam, dtQuery, dtCookie);
     }
 
@@ -139,7 +139,7 @@ public class DefaultApi {
      * @param _file The _file parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadPostRequestCreation( @Nullable File _file) throws WebClientResponseException {
+    private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -172,7 +172,7 @@ public class DefaultApi {
      * @param _file The _file parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> uploadPost( @Nullable File _file) throws WebClientResponseException {
+    public Mono<Void> uploadPost(@Nullable File _file) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return uploadPostRequestCreation(_file).bodyToMono(localVarReturnType);
     }
@@ -184,7 +184,7 @@ public class DefaultApi {
      * @param _file The _file parameter
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> uploadPostWithHttpInfo( @Nullable File _file) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> uploadPostWithHttpInfo(@Nullable File _file) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return uploadPostRequestCreation(_file).toEntity(localVarReturnType);
     }
@@ -197,7 +197,7 @@ public class DefaultApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadPostWithResponseSpec( @Nullable File _file) throws WebClientResponseException {
+    public ResponseSpec uploadPostWithResponseSpec(@Nullable File _file) throws WebClientResponseException {
         return uploadPostRequestCreation(_file);
     }
 }

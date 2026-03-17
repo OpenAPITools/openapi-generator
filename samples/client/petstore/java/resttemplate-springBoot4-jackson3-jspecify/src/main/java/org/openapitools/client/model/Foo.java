@@ -70,7 +70,7 @@ public class Foo {
   public Foo() {
   }
 
-  public Foo dt( java.time.@Nullable Instant dt) {
+  public Foo dt(java.time.@Nullable Instant dt) {
     
     this.dt = dt;
     return this;
@@ -91,11 +91,11 @@ public class Foo {
 
   @JsonProperty(value = JSON_PROPERTY_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDt( java.time.@Nullable Instant dt) {
+  public void setDt(java.time.@Nullable Instant dt) {
     this.dt = dt;
   }
 
-  public Foo binary( @Nullable File binary) {
+  public Foo binary(@Nullable File binary) {
     
     this.binary = binary;
     return this;
@@ -116,11 +116,11 @@ public class Foo {
 
   @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBinary( @Nullable File binary) {
+  public void setBinary(@Nullable File binary) {
     this.binary = binary;
   }
 
-  public Foo listOfDt( List<java.time.@Nullable Instant> listOfDt) {
+  public Foo listOfDt(List<java.time.@Nullable Instant> listOfDt) {
     
     this.listOfDt = listOfDt;
     return this;
@@ -149,11 +149,11 @@ public class Foo {
 
   @JsonProperty(value = JSON_PROPERTY_LIST_OF_DT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setListOfDt( List<java.time.@Nullable Instant> listOfDt) {
+  public void setListOfDt(List<java.time.@Nullable Instant> listOfDt) {
     this.listOfDt = listOfDt;
   }
 
-  public Foo listMinIntems( List<java.time.@Nullable Instant> listMinIntems) {
+  public Foo listMinIntems(List<java.time.@Nullable Instant> listMinIntems) {
     
     this.listMinIntems = listMinIntems;
     return this;
@@ -182,11 +182,11 @@ public class Foo {
 
   @JsonProperty(value = JSON_PROPERTY_LIST_MIN_INTEMS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setListMinIntems( List<java.time.@Nullable Instant> listMinIntems) {
+  public void setListMinIntems(List<java.time.@Nullable Instant> listMinIntems) {
     this.listMinIntems = listMinIntems;
   }
 
-  public Foo requiredDt( java.time.Instant requiredDt) {
+  public Foo requiredDt(java.time.Instant requiredDt) {
     
     this.requiredDt = requiredDt;
     return this;
@@ -207,11 +207,11 @@ public class Foo {
 
   @JsonProperty(value = JSON_PROPERTY_REQUIRED_DT, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setRequiredDt( java.time.Instant requiredDt) {
+  public void setRequiredDt(java.time.Instant requiredDt) {
     this.requiredDt = requiredDt;
   }
 
-  public Foo number( java.math.@Nullable BigDecimal number) {
+  public Foo number(java.math.@Nullable BigDecimal number) {
     
     this.number = number;
     return this;
@@ -232,7 +232,7 @@ public class Foo {
 
   @JsonProperty(value = JSON_PROPERTY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNumber( java.math.@Nullable BigDecimal number) {
+  public void setNumber(java.math.@Nullable BigDecimal number) {
     this.number = number;
   }
 
