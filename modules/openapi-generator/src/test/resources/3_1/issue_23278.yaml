@@ -12,10 +12,10 @@ components:
           oneOf:
             - type: array
               items:
-                type: TestObject
+                $ref: '#/components/schemas/TestObject'
             - type: array
               items:
-                type: TestArray
+                $ref: '#/components/schemas/TestArray'
     TestObject:
       type: object
       properties:
