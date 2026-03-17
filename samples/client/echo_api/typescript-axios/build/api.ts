@@ -64,7 +64,7 @@ export interface DefaultValue {
 export const DefaultValueArrayStringEnumDefaultEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 
 export type DefaultValueArrayStringEnumDefaultEnum = typeof DefaultValueArrayStringEnumDefaultEnum[keyof typeof DefaultValueArrayStringEnumDefaultEnum];
@@ -89,7 +89,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
@@ -105,7 +105,7 @@ export interface Query {
 export const QueryOutcomesEnum = {
     Success: 'SUCCESS',
     Failure: 'FAILURE',
-    Skipped: 'SKIPPED'
+    Skipped: 'SKIPPED',
 } as const;
 
 export type QueryOutcomesEnum = typeof QueryOutcomesEnum[keyof typeof QueryOutcomesEnum];
@@ -114,7 +114,7 @@ export type QueryOutcomesEnum = typeof QueryOutcomesEnum[keyof typeof QueryOutco
 export const StringEnumRef = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 
 export type StringEnumRef = typeof StringEnumRef[keyof typeof StringEnumRef];
@@ -1454,7 +1454,7 @@ export class HeaderApi extends BaseAPI {
 export const TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 export type TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = typeof TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum[keyof typeof TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum];
 
@@ -1582,7 +1582,7 @@ export class PathApi extends BaseAPI {
 export const TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 export type TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum[keyof typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum];
 
@@ -2442,7 +2442,7 @@ export class QueryApi extends BaseAPI {
 export const TestEnumRefStringEnumNonrefStringQueryEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 export type TestEnumRefStringEnumNonrefStringQueryEnum = typeof TestEnumRefStringEnumNonrefStringQueryEnum[keyof typeof TestEnumRefStringEnumNonrefStringQueryEnum];
 

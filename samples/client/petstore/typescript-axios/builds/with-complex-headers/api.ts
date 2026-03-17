@@ -41,7 +41,7 @@ export interface Category {
 
 export const MediaType = {
     ApplicationJson: 'application/json',
-    ApplicationXml: 'application/xml'
+    ApplicationXml: 'application/xml',
 } as const;
 
 export type MediaType = typeof MediaType[keyof typeof MediaType];
@@ -65,7 +65,7 @@ export interface Order {
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
@@ -88,7 +88,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
@@ -812,7 +812,7 @@ export class PetApi extends BaseAPI {
 export const FindPetsByStatusStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
