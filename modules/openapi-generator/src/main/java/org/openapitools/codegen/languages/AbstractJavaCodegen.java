@@ -2732,6 +2732,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (value.startsWith(nullableAnnotation)) {
                     keptNullable = true;
                     int idx = nullableAnnotation.length();
+                    // trim left
+                    while (idx < value.length() && value.charAt(idx) == ' ') {
+                        idx ++;
+                    }
                     value = value.substring(idx);
                 }
             }

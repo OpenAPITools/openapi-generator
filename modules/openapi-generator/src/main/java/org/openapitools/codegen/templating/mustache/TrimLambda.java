@@ -39,6 +39,7 @@ public class TrimLambda implements Mustache.Lambda {
 
     @Override
     public void execute(Fragment fragment, Writer writer) throws IOException {
-        writer.write(fragment.execute().trim());
+        String text = fragment.execute();
+        writer.write(text.trim());
     }
 }
