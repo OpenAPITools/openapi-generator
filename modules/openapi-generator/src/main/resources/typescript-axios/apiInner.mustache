@@ -451,7 +451,7 @@ export enum {{operationIdCamelCase}}{{enumName}} {
 export const {{operationIdCamelCase}}{{enumName}} = {
 {{#allowableValues}}
     {{#enumVars}}
-    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{{name}}}: {{{value}}},
     {{/enumVars}}
 {{/allowableValues}}
 } as const;

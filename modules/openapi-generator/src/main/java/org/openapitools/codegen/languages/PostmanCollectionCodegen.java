@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -332,8 +333,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             }
         }
 
-        tagName = formatDescription(tagName);
-        tagDescription = formatDescription(tagDescription);
+        tagName = escapeJsonString(tagName);
+        tagDescription = escapeJsonString(tagDescription);
 
         PostmanRequestFolder folder = new PostmanRequestFolder(tagName, tagDescription);
         List<CodegenOperation> list = codegenOperationsByTag.get(folder);
@@ -683,6 +684,13 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         }
 
         return description;
+    }
+
+    String escapeJsonString(String value) {
+        if (value == null) {
+            return null;
+        }
+        return new String(JsonStringEncoder.getInstance().quoteAsString(value));
     }
 
     /**
