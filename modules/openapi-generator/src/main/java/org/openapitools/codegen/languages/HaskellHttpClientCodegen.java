@@ -88,6 +88,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     // protected String MODEL_EXTENSIONS = "modelExtensions";
 
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
+    private static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
 
     static final String MEDIA_TYPE = "mediaType";
     static final String MIME_NO_CONTENT = "MimeNoContent";
@@ -1159,8 +1160,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     private static String generateNextName(String name) {
-        Pattern pattern = Pattern.compile("\\d+\\z");
-        Matcher matcher = pattern.matcher(name);
+        Matcher matcher = TRAILING_DIGITS.matcher(name);
         if (matcher.find()) {
             String numStr = matcher.group();
             int num = Integer.parseInt(numStr) + 1;

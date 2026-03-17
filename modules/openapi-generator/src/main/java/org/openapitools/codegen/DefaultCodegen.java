@@ -69,6 +69,7 @@ import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
+import org.openapitools.codegen.utils.PatternCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +80,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -251,12 +251,7 @@ public class DefaultCodegen implements CodegenConfig {
     private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
     /** Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}. */
     private static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
-    /**
-     * Cache of removeCharRegEx string → compiled {@link Pattern} with {@link Pattern#UNICODE_CHARACTER_CLASS}.
-     * {@code sanitizeName} is called once per unique (name, regex, exceptions) tuple, so the regex string
-     * (almost always {@code "\\W"}) would otherwise be recompiled for every unique property/model name.
-     */
-    private static final ConcurrentHashMap<String, Pattern> REMOVE_CHAR_UNICODE_PATTERN_CACHE = new ConcurrentHashMap<>();
+    // Dynamic patterns keyed by user-supplied removeCharRegEx strings are cached via PatternCache.
 
     /**
      * True if the code generator supports multiple class inheritance.
@@ -6763,9 +6758,7 @@ public class DefaultCodegen implements CodegenConfig {
             // remove everything else other than word, number and _
             // $php_variable => php_variable
             if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
-                modifiable = REMOVE_CHAR_UNICODE_PATTERN_CACHE
-                        .computeIfAbsent(sanitizeNameOptions.getRemoveCharRegEx(),
-                                regex -> Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS))
+                modifiable = PatternCache.get(sanitizeNameOptions.getRemoveCharRegEx(), Pattern.UNICODE_CHARACTER_CLASS)
                         .matcher(modifiable).replaceAll("");
             } else {
                 modifiable = modifiable.replaceAll(sanitizeNameOptions.getRemoveCharRegEx(), "");

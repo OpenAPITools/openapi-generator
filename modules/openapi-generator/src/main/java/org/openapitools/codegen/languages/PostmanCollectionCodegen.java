@@ -34,6 +34,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
     private final Logger LOGGER = LoggerFactory.getLogger(PostmanCollectionCodegen.class);
 
+    /** Matches Postman double-brace placeholders, e.g. {@code {{variable}}}. */
+    private static final Pattern POSTMAN_PLACEHOLDER_PATTERN = Pattern.compile("\\{\\{([^}]*)}}");
+
     protected String apiVersion = "1.0.0";
 
     // Select whether to create folders according to the spec’s paths or tags. Values: Paths | Tags
@@ -702,8 +705,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public Set<String> extractPlaceholders(String input) {
         Set<String> variables = new HashSet<>();
 
-        Pattern pattern = Pattern.compile("\\{\\{([^}]*)\\}\\}");
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = POSTMAN_PLACEHOLDER_PATTERN.matcher(input);
 
         while (matcher.find()) {
             if (postmanGuidPlaceholderName.equalsIgnoreCase(matcher.group(1))) {

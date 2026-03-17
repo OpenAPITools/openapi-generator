@@ -83,6 +83,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
     private static final ZoneId UTC = ZoneId.of("UTC");
+    private static final Pattern LOMBOK_ANNOTATION = Pattern.compile("@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?");
+    private static final Pattern JAVA_UTIL_IMPORT = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
 
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -2085,9 +2087,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // parse lombok additional model type annotations
         Map<String, Boolean> lombokOptions = new HashMap<>();
         String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
-        Pattern pattern = Pattern.compile(regexp);
         for (String annotation : additionalModelTypeAnnotations) {
-            Matcher matcher = pattern.matcher(annotation);
+            Matcher matcher = LOMBOK_ANNOTATION.matcher(annotation);
             if (matcher.find()) {
                 String className = matcher.group("ClassName");
                 lombokOptions.put(className, true);
@@ -2106,10 +2107,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // Remove imports of List, ArrayList, Map and HashMap as they are
         // imported in the template already.
         List<Map<String, String>> imports = objs.getImports();
-        Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
         for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
             String itrImport = itr.next().get("import");
-            if (pattern.matcher(itrImport).matches()) {
+            if (JAVA_UTIL_IMPORT.matcher(itrImport).matches()) {
                 itr.remove();
             }
         }

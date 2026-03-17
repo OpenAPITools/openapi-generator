@@ -62,6 +62,9 @@ import static org.openapitools.codegen.CodegenConstants.*;
 public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures {
 
+    private static final Pattern STATUS_PATTERN = Pattern.compile(
+            "public static final Status (\\w+)\\s*=\\s*new\\s*Status\\((\\d+)", Pattern.MULTILINE);
+
     static final String HELIDON_MP = "mp";
     static final String HELIDON_SE = "se";
 
@@ -488,10 +491,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
             if (is == null) {
                 throw new RuntimeException("Unable to locate /java-helidon/common/Status.java to discover known HTTP statuses");
             }
-            Pattern statusPattern = Pattern.compile("public static final Status (\\w+)\\s*=\\s*new\\s*Status\\((\\d+)",
-                    Pattern.MULTILINE);
             return new Scanner(is, StandardCharsets.UTF_8)
-                    .findAll(statusPattern)
+                    .findAll(STATUS_PATTERN)
                     .collect(HashMap::new,
                             (map, match) -> map.put(match.group(2), match.group(1)),
                             Map::putAll);
@@ -937,10 +938,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
             return Files.readAllLines(versionsFile.toPath());
         }
 
-        private static List<String> extractVersions(String xmlContent) {
-            Pattern versionPattern = Pattern.compile("<version[^>]*>([^>]+)</version>");
+        private static final Pattern VERSION_PATTERN = Pattern.compile("<version[^>]*>([^>]+)</version>");
 
-            Matcher matcher = versionPattern.matcher(xmlContent);
+        private static List<String> extractVersions(String xmlContent) {
+            Matcher matcher = VERSION_PATTERN.matcher(xmlContent);
             List<String> result = new ArrayList<>();
             while (matcher.find()) {
                 result.add(matcher.group(1));

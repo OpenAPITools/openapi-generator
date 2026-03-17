@@ -40,6 +40,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
+
+    private static final Pattern PATH_VARIABLE = Pattern.compile("\\{([^}]+)}");
+
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
@@ -245,8 +248,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                     }
                 }
 
-                Pattern pathVariableMatcher = Pattern.compile("\\{([^}]+)}");
-                Matcher match = pathVariableMatcher.matcher(operation.path);
+                Matcher match = PATH_VARIABLE.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
                     String replacement = ":" + camelize(match.group(1), LOWERCASE_FIRST_LETTER);

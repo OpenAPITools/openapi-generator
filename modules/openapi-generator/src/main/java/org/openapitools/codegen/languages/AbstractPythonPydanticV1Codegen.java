@@ -46,6 +46,9 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonPydanticV1Codegen.class);
 
+    private static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
+    private static final Pattern REGEX_VALUE_EXTRACTOR = Pattern.compile("^/\\^?(.+?)\\$?/.?$");
+
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageName = "openapi_client";
@@ -190,7 +193,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 if (defaultValue != null) {
                     defaultValue = defaultValue.replace("\\", "\\\\")
                             .replace("'", "\'");
-                    if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
+                    if (MULTILINE_STRING.matcher(defaultValue).find()) {
                         return "'''" + defaultValue + "'''";
                     } else {
                         return "'" + defaultValue + "'";
@@ -409,8 +412,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 Random random = new Random(18);
                 String sample = rgxGen.generate(random);
                 // omit leading / and trailing /, omit trailing /i
-                Pattern valueExtractor = Pattern.compile("^/\\^?(.+?)\\$?/.?$");
-                Matcher m = valueExtractor.matcher(sample);
+                Matcher m = REGEX_VALUE_EXTRACTOR.matcher(sample);
                 if (m.find()) {
                     example = m.group(m.groupCount());
                 } else {

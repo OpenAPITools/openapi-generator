@@ -48,6 +48,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ElixirClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
+    private static final Pattern PATH_TEMPLATE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}([^\\{]*)");
     private final Pattern simpleAtomPattern = Pattern.compile("\\A(?:(?:[_\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-|@)\\z");
 
     @Setter protected String packageVersion = "1.0.0";
@@ -348,10 +349,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
         OperationMap operations = super.postProcessOperationsWithModels(objs, allModels).getOperations();
         List<CodegenOperation> os = operations.getOperation();
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
-        Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}([^\\{]*)");
         for (CodegenOperation o : os) {
             ArrayList<String> pathTemplateNames = new ArrayList<>();
-            Matcher matcher = pattern.matcher(o.path);
+            Matcher matcher = PATH_TEMPLATE_PATTERN.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
                 String pathTemplateName = matcher.group(1);

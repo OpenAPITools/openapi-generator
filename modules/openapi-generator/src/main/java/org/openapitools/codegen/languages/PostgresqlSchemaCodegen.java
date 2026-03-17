@@ -39,6 +39,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class PostgresqlSchemaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PostgresqlSchemaCodegen.class);
 
+    /** Characters not allowed in an unquoted PostgreSQL identifier: outside [0-9,a-z,A-Z,$,_,U+0080..U+FFFF]. */
+    private static final Pattern UNSAFE_IDENTIFIER_CHARS = Pattern.compile("[^0-9a-zA-Z$_\\u0080-\\uFFFF]");
+
     public static final String VENDOR_EXTENSION_POSTGRESQL_SCHEMA = "x-postgresql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE = "jsonDataType";
@@ -1346,12 +1349,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     public String escapePostgresqlUnquotedIdentifier(String identifier) {
         // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore)
         // Extended: U+0080 .. U+FFFF
-        Pattern regexp = Pattern.compile("[^0-9a-zA-z$_\\u0080-\\uFFFF]");
-        Matcher matcher = regexp.matcher(identifier);
+        Matcher matcher = UNSAFE_IDENTIFIER_CHARS.matcher(identifier);
         if (matcher.find()) {
             LOGGER.warn("Identifier '{}' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range",
                     identifier);
-            identifier = identifier.replaceAll("[^0-9a-zA-z$_\\u0080-\\uFFFF]", "");
+            identifier = matcher.reset().replaceAll("");
         }
 
         // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not

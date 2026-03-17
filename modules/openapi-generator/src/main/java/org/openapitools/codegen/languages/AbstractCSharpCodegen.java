@@ -54,6 +54,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
+    /** Matches a regex literal that carries modifier flags after the closing slash, e.g. {@code /foo/i}. */
+    private static final Pattern HAS_MODIFIERS = Pattern.compile(".*/[gmiyuvsdlnx]+$");
+
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalEmitDefaultValuesFlag = false;
     protected boolean conditionalSerialization = false;
@@ -2039,9 +2042,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             // gmiyuvsd - ecma modifiers
             // l - legacy modifier provided by this library, provides a way to opt out of culture invariant
             // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
-            Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
-
-            int end = hasModifiers.matcher(pattern).find()
+            int end = HAS_MODIFIERS.matcher(pattern).find()
                     ? pattern.lastIndexOf('/')
                     : pattern.length() - 1;
 

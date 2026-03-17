@@ -44,6 +44,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
 
+    private static final Pattern PATH_TEMPLATE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}");
+
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
     protected String sourceFolder = "src";
@@ -328,7 +330,6 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> os = operations.getOperation();
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
-        Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
             o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
@@ -338,7 +339,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             }
 
             ArrayList<String> pathTemplateNames = new ArrayList<>();
-            Matcher matcher = pattern.matcher(o.path);
+            Matcher matcher = PATH_TEMPLATE_PATTERN.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
                 String pathTemplateName = matcher.group(1);

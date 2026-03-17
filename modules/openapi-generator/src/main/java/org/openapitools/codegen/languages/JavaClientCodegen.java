@@ -59,6 +59,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
+    /** Matches a Feign-style custom HTTP method suffix, e.g. {@code /path:customMethod}. */
+    private static final Pattern FEIGN_CUSTOM_METHOD = Pattern.compile("^(.*):([^:]*)$");
+
     public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String DO_NOT_USE_RX = "doNotUseRx";
@@ -942,13 +945,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (isLibrary(FEIGN) || isLibrary(FEIGN_HC5)) {
             OperationMap operations = objs.getOperations();
             List<CodegenOperation> operationList = operations.getOperation();
-            Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
             for (CodegenOperation op : operationList) {
                 String path = op.path;
                 String method = "";
 
                 // if a custom method is found at the end of the path, cut it off for later
-                Matcher m = methodPattern.matcher(path);
+                Matcher m = FEIGN_CUSTOM_METHOD.matcher(path);
                 if (m.find()) {
                     path = m.group(1);
                     method = m.group(2);

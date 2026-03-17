@@ -40,6 +40,9 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
+
+    private static final Pattern PATH_VARIABLE = Pattern.compile("\\{([^}]+)}");
+
     public static final String TITLE = "title";
     public static final String SKIP_STUBS = "skipStubs";
     public static final String SUPPORT_ASYNC = "supportAsync";
@@ -214,8 +217,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
-                Pattern pathVariableMatcher = Pattern.compile("\\{([^}]+)}");
-                Matcher match = pathVariableMatcher.matcher(operation.path);
+                Matcher match = PATH_VARIABLE.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
                     String replacement = ":" + camelize(match.group(1), LOWERCASE_FIRST_LETTER);

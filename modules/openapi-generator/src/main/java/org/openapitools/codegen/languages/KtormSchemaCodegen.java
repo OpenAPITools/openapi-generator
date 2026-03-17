@@ -44,6 +44,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
 
+    private static final Pattern UNSAFE_IDENTIFIER_CHARS = Pattern.compile("[^0-9a-zA-Z$_\\x0080-\\xFFFF]");
+
     public static final String VENDOR_EXTENSION_SCHEMA = "x-ktorm-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String IMPORT_MODEL_PACKAGE_NAME = "importModelPackageName";
@@ -1091,12 +1093,11 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore) Extended: U+0080 .. U+FFFF
         // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not permitted in quoted or unquoted identifiers.
         // This does in fact matches against >\xFFFF and against ^\x0000. works only on Java7+
-        Pattern regexp = Pattern.compile("[^0-9a-zA-z$_\\x0080-\\xFFFF]");
-        Matcher matcher = regexp.matcher(identifier);
+        Matcher matcher = UNSAFE_IDENTIFIER_CHARS.matcher(identifier);
         if (matcher.find()) {
             LOGGER.warn("Identifier '{}' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range",
                     identifier);
-            identifier = identifier.replaceAll("[^0-9a-zA-z$_\\x0080-\\xFFFF]", "");
+            identifier = matcher.reset().replaceAll("");
         }
         return identifier;
     }

@@ -37,6 +37,11 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
 
+    /** Unsafe characters for unquoted MySQL identifiers: outside [0-9,a-z,A-Z,$,_,U+0080..U+FFFF]. */
+    private static final Pattern UNSAFE_UNQUOTED_IDENTIFIER_CHARS = Pattern.compile("[^0-9a-zA-Z$_\\u0080-\\uFFFF]");
+    /** Unsafe characters for quoted MySQL identifiers: outside [U+0001..U+007F, U+0080..U+FFFF]. */
+    private static final Pattern UNSAFE_QUOTED_IDENTIFIER_CHARS = Pattern.compile("[^\\u0001-\\u007F\\u0080-\\uFFFF]");
+
     public static final String VENDOR_EXTENSION_MYSQL_SCHEMA = "x-mysql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
@@ -1108,12 +1113,11 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public String escapeMysqlUnquotedIdentifier(String identifier) {
         // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore) Extended: U+0080 .. U+FFFF
-        Pattern regexp = Pattern.compile("[^0-9a-zA-z$_\\u0080-\\uFFFF]");
-        Matcher matcher = regexp.matcher(identifier);
+        Matcher matcher = UNSAFE_UNQUOTED_IDENTIFIER_CHARS.matcher(identifier);
         if (matcher.find()) {
             LOGGER.warn("Identifier '{}' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range",
                     identifier);
-            identifier = identifier.replaceAll("[^0-9a-zA-z$_\\u0080-\\uFFFF]", "");
+            identifier = matcher.reset().replaceAll("");
         }
 
         // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not permitted in quoted or unquoted identifiers.
@@ -1131,12 +1135,11 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public String escapeMysqlQuotedIdentifier(String identifier) {
         // ASCII: U+0001 .. U+007F Extended: U+0080 .. U+FFFF
-        Pattern regexp = Pattern.compile("[^\\u0001-\\u007F\\u0080-\\uFFFF]");
-        Matcher matcher = regexp.matcher(identifier);
+        Matcher matcher = UNSAFE_QUOTED_IDENTIFIER_CHARS.matcher(identifier);
         if (matcher.find()) {
             LOGGER.warn("Identifier '{}' contains unsafe characters out of U+0001..U+007F and U+0080..U+FFFF range",
                     identifier);
-            identifier = identifier.replaceAll("[^\\u0001-\\u007F\\u0080-\\uFFFF]", "");
+            identifier = matcher.reset().replaceAll("");
         }
 
         // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not permitted in quoted or unquoted identifiers.

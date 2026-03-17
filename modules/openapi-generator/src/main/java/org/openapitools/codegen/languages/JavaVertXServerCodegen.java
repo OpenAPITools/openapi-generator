@@ -46,6 +46,9 @@ import java.util.regex.Pattern;
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaVertXServerCodegen.class);
 
+    private static final Pattern PATH_VARIABLE_PATTERN = Pattern.compile("\\{([^/]*)\\}");
+    private static final Pattern UNDERSCORE_CAPITALIZE_PATTERN = Pattern.compile("(_)(.)");
+
     protected String resourceFolder = "src/main/resources";
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
@@ -302,17 +305,15 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
     private String camelizePath(String path) {
         String word = path;
-        Pattern pattern = Pattern.compile("\\{([^/]*)\\}");
-        Matcher matcher = pattern.matcher(word);
+        Matcher matcher = PATH_VARIABLE_PATTERN.matcher(word);
         while (matcher.find()) {
             word = matcher.replaceFirst(":" + matcher.group(1));
-            matcher = pattern.matcher(word);
+            matcher = PATH_VARIABLE_PATTERN.matcher(word);
         }
-        pattern = Pattern.compile("(_)(.)");
-        matcher = pattern.matcher(word);
+        matcher = UNDERSCORE_CAPITALIZE_PATTERN.matcher(word);
         while (matcher.find()) {
             word = matcher.replaceFirst(matcher.group(2).toUpperCase(Locale.ROOT));
-            matcher = pattern.matcher(word);
+            matcher = UNDERSCORE_CAPITALIZE_PATTERN.matcher(word);
         }
         return word;
     }

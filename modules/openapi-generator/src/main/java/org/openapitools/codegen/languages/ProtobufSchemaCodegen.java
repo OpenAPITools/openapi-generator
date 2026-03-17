@@ -51,6 +51,8 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
+    private static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
+
     private static final String IMPORT = "import";
 
     private static final String IMPORTS = "imports";
@@ -1545,7 +1547,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher(String.valueOf(p.getDefault())).find())
+                if (MULTILINE_STRING.matcher(String.valueOf(p.getDefault())).find())
                     return "'''" + p.getDefault() + "'''";
                 else
                     return "'" + p.getDefault() + "'";
