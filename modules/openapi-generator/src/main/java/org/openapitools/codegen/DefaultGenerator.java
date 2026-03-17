@@ -86,7 +86,7 @@ public class DefaultGenerator implements Generator {
     private String basePath;
     private String basePathWithoutHost;
     private String contextPath;
-    private Map<String, String> generatorPropertyDefaults = new HashMap<>();
+    private final Map<String, String> generatorPropertyDefaults = new HashMap<>();
     /**
      * Retrieves an instance to the configured template processor, available after user-defined options are
      * applied via
@@ -95,8 +95,8 @@ public class DefaultGenerator implements Generator {
     protected TemplateProcessor templateProcessor = null;
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
-    private String generatorCheck = "spring";
-    private String templateCheck = "apiController.mustache";
+    private final String generatorCheck = "spring";
+    private final String templateCheck = "apiController.mustache";
 
 
     public DefaultGenerator() {
@@ -1392,7 +1392,7 @@ public class DefaultGenerator implements Generator {
                             // hack: destination filename in this scenario might be a suffix like Impl.java
                             templateExt = userDefinedTemplate.getDestinationFilename();
                         } else {
-                            templateExt = StringUtils.prependIfMissing(templateExt, ".");
+                            templateExt = Strings.CS.prependIfMissing(templateExt, ".");
                         }
                         String templateOutputFolder = userDefinedTemplate.getFolder();
                         if (!templateOutputFolder.isEmpty()) {
@@ -1994,7 +1994,7 @@ public class DefaultGenerator implements Generator {
                     // Some implementations make the output ./c/d which seems to mix the logic
                     // as documented for symlinks. So we need to trim any / or ./ from the start,
                     // as nobody should be generating into system root and our expectation is no ./
-                    String relativePath = removeStart(removeStart(f.toString(), "." + File.separator), File.separator);
+                    String relativePath = Strings.CS.removeStart(Strings.CS.removeStart(f.toString(), "." + File.separator), File.separator);
                     if (File.separator.equals("\\")) {
                         // ensure that windows outputs same FILES format
                         relativePath = relativePath.replace(File.separator, "/");
@@ -2004,10 +2004,8 @@ public class DefaultGenerator implements Generator {
                     }
                 });
 
-                Collections.sort(relativePaths, (a, b) -> IOCase.SENSITIVE.checkCompareTo(a, b));
-                relativePaths.forEach(relativePath -> {
-                    sb.append(relativePath).append(System.lineSeparator());
-                });
+                relativePaths.sort(IOCase.SENSITIVE::checkCompareTo);
+                relativePaths.forEach(relativePath -> sb.append(relativePath).append(System.lineSeparator()));
 
                 String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + config.getFilesMetadataFilename();
 
@@ -2022,7 +2020,7 @@ public class DefaultGenerator implements Generator {
     }
 
     private String removeTrailingSlash(String value) {
-        return StringUtils.removeEnd(value, "/");
+        return Strings.CS.removeEnd(value, "/");
     }
 
 }
