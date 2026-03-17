@@ -632,9 +632,13 @@ public class OpenAPINormalizer {
             }
         }
 
-        for (String schemeKey : schemes.keySet()) {
+        Iterator<Map.Entry<String, SecurityScheme>> it = schemes.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, SecurityScheme> entry = it.next();
+            String schemeKey = entry.getKey();
+            SecurityScheme scheme = entry.getValue();
+
             if (schemeKey.equals(bearerAuthSecuritySchemeName)) {
-                SecurityScheme scheme = schemes.get(schemeKey);
                 scheme.setType(SecurityScheme.Type.HTTP);
                 scheme.setScheme("bearer");
                 scheme.setIn(null);
@@ -651,8 +655,10 @@ public class OpenAPINormalizer {
             // It may happen that bearer scheme will be filtered out on this step.
             // To keep the scheme - change filter input.
             if (filter != null && filter.hasFilter()) {
-                SecurityScheme scheme = schemes.get(schemeKey);
-                filter.apply(schemeKey, scheme);
+                boolean keep = filter.apply(schemeKey, scheme);
+                if (!keep) {
+                    it.remove();
+                }
             }
         }
     }
@@ -2464,13 +2470,13 @@ public class OpenAPINormalizer {
             return false;
         }
 
-        public void apply(String schemeKey, SecurityScheme scheme) {
+        public boolean apply(String schemeKey, SecurityScheme scheme) {
             boolean found = false;
             found |= logIfMatch(KEY, schemeKey, hasKey(schemeKey));
             found |= logIfMatch(TYPE, schemeKey, hasType(scheme.getType().toString()));
             found |= hasCustomFilterMatch(schemeKey, scheme);
 
-            scheme.addExtension(X_INTERNAL, !found);
+            return found;
         }
 
         private boolean hasKey(String key) {

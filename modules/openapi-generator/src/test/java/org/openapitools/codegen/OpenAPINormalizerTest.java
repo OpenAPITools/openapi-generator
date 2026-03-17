@@ -937,20 +937,16 @@ public class OpenAPINormalizerTest {
 
         new OpenAPINormalizer(openAPI, options).normalize();
 
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().get(X_INTERNAL),
-                false);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key2").getExtensions().get(X_INTERNAL),
-                true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http1").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http2").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS1").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS2").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_1").getExtensions().get(X_INTERNAL),
-                false);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_2").getExtensions().get(X_INTERNAL),
-                false);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect1").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key1"), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_1"), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_2"), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect2"), false);
     }
 
     @Test
@@ -963,23 +959,19 @@ public class OpenAPINormalizerTest {
 
         new OpenAPINormalizer(openAPI, options).normalize();
 
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().get(X_INTERNAL),
-                false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key1"), true);
         SecurityScheme scheme = openAPI.getComponents().getSecuritySchemes().get("api_key1");
         assertEquals(scheme.getType(), SecurityScheme.Type.HTTP);
         assertEquals(scheme.getScheme(), "bearer");
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key2").getExtensions().get(X_INTERNAL),
-                true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http1").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http2").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS1").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS2").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_1").getExtensions().get(X_INTERNAL),
-                true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_2").getExtensions().get(X_INTERNAL),
-                true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect1").getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("api_key2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("http2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("mutualTLS2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_2"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect1"), false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect2"), false);
     }
 
     @Test
