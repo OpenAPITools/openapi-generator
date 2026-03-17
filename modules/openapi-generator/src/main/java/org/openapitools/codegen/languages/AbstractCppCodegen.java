@@ -38,9 +38,12 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Pattern;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
+
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
     protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
@@ -159,7 +162,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @SuppressWarnings("static-method")
     public String sanitizeName(String name) {
         String sanitizedName = super.sanitizeName(name);
-        sanitizedName = sanitizedName.replaceAll("-", "");
+        sanitizedName = sanitizedName.replace("-", "");
         return sanitizedName;
     }
 
@@ -220,7 +223,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return sanitizeName(name);
         }
 
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             return escapeReservedWord(name);
         }
 
@@ -262,7 +265,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return parameterNameMapping.get(name);
         }
 
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             return escapeReservedWord(name);
         }
 
@@ -279,7 +282,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         } else {
             nameInCamelCase = sanitizeName(nameInCamelCase);
         }
-        if (isReservedWord(nameInCamelCase) || nameInCamelCase.matches("^\\d.*")) {
+        if (isReservedWord(nameInCamelCase) || STARTS_WITH_DIGIT.matcher(nameInCamelCase).matches()) {
             nameInCamelCase = escapeReservedWord(nameInCamelCase);
         }
         property.nameInCamelCase = nameInCamelCase;

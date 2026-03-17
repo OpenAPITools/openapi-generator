@@ -51,6 +51,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     private static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
     private static final Pattern REGEX_VALUE_EXTRACTOR = Pattern.compile("^/\\^?(.+?)\\$?/.?$");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern LEADING_UNDERSCORES = Pattern.compile("^_*");
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern WHITESPACE = Pattern.compile("\\s+");
+    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
+    private static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
+    private static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)\\/");
 
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
@@ -255,7 +262,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         name = name.replace("$", "");
 
         // if it's all upper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             name = name.toLowerCase(Locale.ROOT);
         }
 
@@ -264,10 +271,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         name = underscore(name);
 
         // remove leading underscore
-        name = name.replaceAll("^_*", "");
+        name = LEADING_UNDERSCORES.matcher(name).replaceAll("");
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -309,7 +316,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -752,7 +759,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // remove dollar sign
         sanitizedName = sanitizedName.replace("$", "");
         // remove whitespace
-        sanitizedName = sanitizedName.replaceAll("\\s+", "");
+        sanitizedName = WHITESPACE.matcher(sanitizedName).replaceAll("");
 
         String nameWithPrefixSuffix = sanitizedName;
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -778,7 +785,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         // model name starts with number
-        if (camelizedName.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(camelizedName).matches()) {
             String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             schemaKeyToModelNameCache.put(origName, modelName);
@@ -823,7 +830,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     protected static String dropDots(String str) {
-        return str.replaceAll("\\.", "_");
+        return str.replace(".", "_");
     }
 
     @Override
@@ -1114,7 +1121,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         name = name.replaceFirst("^_", "");
         name = name.replaceFirst("_$", "");
 
-        if (name.matches("\\d.*")) {
+        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(name).matches()) {
             name = "ENUM_" + name.toUpperCase(Locale.ROOT);
         }
 
@@ -1383,9 +1390,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
+        if (!STARTS_WITH_SLASH.matcher(pattern).matches()) {
             // Perform a negative lookbehind on each `/` to ensure that it is escaped.
-            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+            return "/" + UNESCAPED_SLASH.matcher(pattern).replaceAll("\\\\/") + "/";
         }
 
         return pattern;

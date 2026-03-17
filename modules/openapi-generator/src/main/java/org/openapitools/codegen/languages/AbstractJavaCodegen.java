@@ -85,6 +85,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static final ZoneId UTC = ZoneId.of("UTC");
     private static final Pattern LOMBOK_ANNOTATION = Pattern.compile("@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?");
     private static final Pattern JAVA_UTIL_IMPORT = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
+    private static final Pattern STARTS_WITH_UNDERSCORE_CLASS = Pattern.compile("^_*class$");
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern ALL_UPPER_CASE_DIGITS_UNDERSCORE = Pattern.compile("^[A-Z0-9_]*$");
+    private static final Pattern TAB_NEWLINE_RETURN = Pattern.compile("[\\t\\n\\r]");
+    private static final Pattern ANNOTATION_IN_TYPE = Pattern.compile("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+");
+    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("\\P{Alnum}");
+    private static final Pattern NON_WORD_CHARS = Pattern.compile("\\W+");
+    private static final Pattern INVALID_PACKAGE_CHARS = Pattern.compile("[^a-zA-Z0-9_.]");
+    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
 
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -922,7 +931,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
+        if (STARTS_WITH_UNDERSCORE_CLASS.matcher(name.toLowerCase(Locale.ROOT)).matches()) {
             return "propertyClass";
         }
 
@@ -931,12 +940,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // numbers are not allowed at the beginning
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "_" + name;
         }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z0-9_]*$")) {
+        if (ALL_UPPER_CASE_DIGITS_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -961,7 +970,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -1037,7 +1046,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // model name starts with number
-        if (camelizedName.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(camelizedName).matches()) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             schemaKeyToModelNameCache.put(origName, modelName);
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
@@ -1211,10 +1220,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (StringUtils.isNotEmpty(items.getPattern())) {
             final String pattern = escapeUnsafeCharacters(
+                    TAB_NEWLINE_RETURN.matcher(
                     StringEscapeUtils.unescapeJava(
                                     StringEscapeUtils.escapeJava(items.getPattern())
-                                            .replace("\\/", "/"))
-                            .replaceAll("[\\t\\n\\r]", " ")
+                                            .replace("\\/", "/"))).replaceAll(" ")
                             .replace("\\", "\\\\")
                             .replace("\"", "\\\""));
 
@@ -1834,7 +1843,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + operationId), true);
             operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
@@ -1985,7 +1994,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String removeAnnotations(String dataType) {
         if (dataType != null && dataType.contains("@")) {
-            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+            return ANNOTATION_IN_TYPE.matcher(dataType).replaceAll("");
         }
         return dataType;
     }
@@ -1999,8 +2008,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String sanitizeDataType(String dataType) {
         String content = removeAnnotations(dataType);
-        if (content != null && content.matches(".*\\P{Alnum}.*")) {
-            content = content.replaceAll("\\P{Alnum}", "");
+        if (content != null && NON_ALPHANUMERIC.matcher(content).find()) {
+            content = NON_ALPHANUMERIC.matcher(content).replaceAll("");
         }
         return content;
     }
@@ -2253,9 +2262,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if ("Integer".equals(datatype) || "Long".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype) || "BigDecimal".equals(datatype)) {
             String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replace("-", "MINUS_");
+            varName = varName.replace("+", "PLUS_");
+            varName = varName.replace(".", "_DOT_");
             return varName;
         }
 
@@ -2264,7 +2273,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         switch (getEnumPropertyNaming()) {
             case legacy:
                 // legacy ,e.g. WITHNUMBER1
-                var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+                var = NON_WORD_CHARS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
                 break;
             case original:
                 // keep value as it is, if meets language naming convention
@@ -2277,10 +2286,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 break;
             default:
                 // default to MACRO_CASE, e.g. WITH_NUMBER1
-                var = underscore(value.replaceAll("\\W+", "_")).toUpperCase(Locale.ROOT);
+                var = underscore(NON_WORD_CHARS.matcher(value).replaceAll("_")).toUpperCase(Locale.ROOT);
                 break;
         }
-        if (var.matches("\\d.*")) {
+        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(var).matches()) {
             var = "_" + var;
         }
         return this.toVarName(var);
@@ -2357,7 +2366,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private static String sanitizePackageName(String packageName) {
         packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
+        packageName = INVALID_PACKAGE_CHARS.matcher(packageName).replaceAll("_");
         if (Strings.isNullOrEmpty(packageName)) {
             return "invalidPackageName";
         }
@@ -2366,7 +2375,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private String sanitizePath(String p) {
         //prefer replace a ", instead of a fuLL URL encode for readability
-        return p.replaceAll("\"", "%22");
+        return p.replace("\"", "%22");
     }
 
     @Override
@@ -2468,7 +2477,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         tag = camelize(underscore(sanitizeName(tag)));
 
         // tag starts with numbers
-        if (tag.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(tag).matches()) {
             tag = "Class" + tag;
         }
         return tag;

@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -34,6 +35,11 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
+
+    private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern STARTS_WITH_OPT_NEG_DIGIT = Pattern.compile("^-?\\d.*");
 
     protected static final List<String> DEFAULT_SUPPORTED_CONTENT_TYPES = Arrays.asList(
             "application/json", "application/x-www-form-urlencoded", "multipart/form-data");
@@ -413,10 +419,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (name.equals("_")) {
             return "underscore";
         }
-        name = name.replaceAll("^_", "");
+        name = LEADING_UNDERSCORE.matcher(name).replaceAll("");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -432,7 +438,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // pet_id => petId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "n" + name;
         }
 
@@ -496,7 +502,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
 
         // model name starts with number
-        if (camelizedName.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(camelizedName).matches()) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
@@ -874,7 +880,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (("number".equalsIgnoreCase(datatype) ||
                 "double".equalsIgnoreCase(datatype) ||
                 "int".equalsIgnoreCase(datatype)) &&
-                value.matches("^-?\\d.*")) {
+                STARTS_WITH_OPT_NEG_DIGIT.matcher(value).matches()) {
             // Only rename numeric values when the datatype is numeric
             // AND the name is not changed by enum extensions (matches a numeric value).
             boolean isNegative = value.startsWith("-");
@@ -907,7 +913,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             operationId = newOperationId;

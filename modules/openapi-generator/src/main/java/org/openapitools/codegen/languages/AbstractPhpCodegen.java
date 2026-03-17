@@ -46,6 +46,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
 
+    private static final Pattern TRAILING_SLASH_BACKSLASH = Pattern.compile("[\\\\/]?$");
+    private static final Pattern PATH_SEPARATOR_CHARS = Pattern.compile("[\\.\\\\/]");
+    private static final Pattern LEADING_AT = Pattern.compile("^@");
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern NON_WORD_BACKSLASH = Pattern.compile("[^\\w\\\\]+");
+    private static final Pattern STARTS_WITH_BACKSLASH = Pattern.compile("^\\\\.*");
+    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
+    private static final Pattern COMPOSER_PACKAGE_NAME = Pattern.compile("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$");
+
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
@@ -295,13 +304,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         String modifiedPackageName = packageName.replace(invokerPackage, "");
         String modifiedBasePath = basePath;
         if (basePath != null && !basePath.isEmpty()) {
-            modifiedBasePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator;
+            modifiedBasePath = TRAILING_SLASH_BACKSLASH.matcher(basePath).replaceAll("") + File.separator;
         }
 
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
                 // Replace period, backslash, forward slash with file separator in package name
-                modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                PATH_SEPARATOR_CHARS.matcher(modifiedPackageName).replaceAll(Matcher.quoteReplacement("/")),
                 File.separator
         );
 
@@ -444,7 +453,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // translate @ for properties (like @type) to at_.
         // Otherwise an additional "type" property will lead to duplicates
-        name = name.replaceAll("^@", "at_");
+        name = LEADING_AT.matcher(name).replaceAll("at_");
 
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
@@ -465,7 +474,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "_" + name;
         }
 
@@ -485,10 +494,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     private String toGenericName(String name) {
         // remove [
-        name = name.replaceAll("\\]", "");
+        name = name.replace("]", "");
 
         // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
-        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = NON_WORD_BACKSLASH.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replace("$", "");
@@ -500,7 +509,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -525,7 +534,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         name = toGenericName(name);
 
         // add prefix and/or suffix only if name does not start with \ (e.g. \DateTime)
-        if (!name.matches("^\\\\.*")) {
+        if (!STARTS_WITH_BACKSLASH.matcher(name).matches()) {
             if (!StringUtils.isEmpty(modelNamePrefix)) {
                 name = modelNamePrefix + "_" + name;
             }
@@ -598,7 +607,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
             operationId = "call_" + operationId;
         }
@@ -764,12 +773,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // number
         if ("int".equals(datatype) || "float".equals(datatype)) {
-            if (name.matches("\\d.*")) { // starts with number
+            if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(name).matches()) { // starts with number
                 name = "NUMBER_" + name;
             }
-            name = name.replaceAll("-", "MINUS_");
-            name = name.replaceAll("\\+", "PLUS_");
-            name = name.replaceAll("\\.", "_DOT_");
+            name = name.replace("-", "MINUS_");
+            name = name.replace("+", "PLUS_");
+            name = name.replace(".", "_DOT_");
         }
 
         // string
@@ -777,7 +786,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName) || STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -795,7 +804,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;
@@ -907,7 +916,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (
                 packageName.contentEquals("/")
                         || packageName.contentEquals("null/null")
-                        || !Pattern.matches("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$", packageName)
+                        || !COMPOSER_PACKAGE_NAME.matcher(packageName).matches()
         ) {
             return "";
         }

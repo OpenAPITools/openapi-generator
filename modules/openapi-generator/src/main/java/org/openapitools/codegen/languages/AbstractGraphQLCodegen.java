@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -37,6 +38,10 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGraphQLCodegen.class);
+
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
 
     protected String specFolder = "spec";
     @Setter protected String packageName = "openapi2graphql";
@@ -147,10 +152,10 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
+        name = sanitizeName(name.replace("-", "_"));
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches())
             return name;
 
         name = camelize(name, LOWERCASE_FIRST_LETTER);
@@ -160,7 +165,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
             name = escapeReservedWord(name);
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
+        if (STARTS_WITH_DIGIT.matcher(name).matches())
             name = camelize("var_" + name);
 
         return name;
@@ -195,7 +200,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -207,7 +212,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = name.replace("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.graphql => pet_api.graphql
         return underscore(name) + "_api";
@@ -371,9 +376,9 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         // number
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replace("-", "MINUS_");
+            varName = varName.replace("+", "PLUS_");
+            varName = varName.replace(".", "_DOT_");
             return varName;
         }
 
@@ -387,7 +392,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName) || STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -401,7 +406,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_BYTE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -43,6 +44,12 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractFSharpCodegen extends DefaultCodegen implements CodegenConfig {
+
+    // ...existing code...
+
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalProjectFileFlag = true;
@@ -627,7 +634,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -670,14 +677,14 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         name = sanitizeName(name);
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
         name = getNameUsingModelPropertyNaming(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
         return name;
@@ -689,10 +696,10 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         name = sanitizeName(name);
 
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replace("-", "_");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -701,7 +708,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -895,7 +902,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -964,7 +971,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         enumName = camelize(enumName) + "Enum";
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

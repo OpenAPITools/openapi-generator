@@ -40,11 +40,18 @@ import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected final Logger LOGGER = LoggerFactory.getLogger(AbstractJuliaCodegen.class);
+
+    private static final Pattern SANITIZE_NON_ALPHANUM_BRACE = Pattern.compile("[^a-zA-Z0-9_{}]");
+    private static final Pattern ALNUM_UNDERSCORE = Pattern.compile("[a-zA-Z0-9_]*");
+    private static final Pattern VAR_QUOTED = Pattern.compile("var\".*\"");
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern DOUBLE_BACKSLASH = Pattern.compile("\\\\\\\\");
 
     protected String srcPath = "src";
     protected String apiSrcPath = srcPath + "/apis/";
@@ -157,7 +164,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     protected static String dropDots(String str) {
-        return str.replaceAll("\\.", "_");
+        return str.replace(".", "_");
     }
 
     /**
@@ -213,7 +220,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        name = name.replaceAll("-", "_");
+        name = name.replace("-", "_");
         return "api_" + camelize(name) + "Api";
     }
 
@@ -278,20 +285,20 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
             return "value";
         }
 
-        name = name.replaceAll("\\[\\]", "");
-        name = name.replaceAll("\\[", "_");
-        name = name.replaceAll("\\]", "");
-        name = name.replaceAll("\\(", "_");
-        name = name.replaceAll("\\)", "");
-        name = name.replaceAll("\\.", "_");
-        name = name.replaceAll("-", "_");
-        name = name.replaceAll(" ", "_");
-        name = name.replaceAll("/", "_");
-        return name.replaceAll("[^a-zA-Z0-9_{}]", "");
+        name = name.replace("[]", "");
+        name = name.replace("[", "_");
+        name = name.replace("]", "");
+        name = name.replace("(", "_");
+        name = name.replace(")", "");
+        name = name.replace(".", "_");
+        name = name.replace("-", "_");
+        name = name.replace(" ", "_");
+        name = name.replace("/", "_");
+        return SANITIZE_NON_ALPHANUM_BRACE.matcher(name).replaceAll("");
     }
 
     protected boolean needsVarEscape(String name) {
-        return (!name.matches("[a-zA-Z0-9_]*") && !name.matches("var\".*\"")) || reservedWords.contains(name);
+        return (!ALNUM_UNDERSCORE.matcher(name).matches() && !VAR_QUOTED.matcher(name).matches()) || reservedWords.contains(name);
     }
 
     /**
@@ -310,7 +317,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         String result = sanitizeName(name);
 
         // remove dollar sign
-        result = result.replaceAll("$", "");
+        result = result.replace("$", "");
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(result)) {
@@ -319,7 +326,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         }
 
         // model name starts with number
-        if (result.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(result).matches()) {
             LOGGER.warn(result + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + result));
             result = "model_" + result; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -514,7 +521,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         pattern = escapeText(pattern);
         // escapeText unnecessarily escapes `\` such that `\.` in the regex ends up as `\\.` for example.
         // we need to restore it back by converting `\\` to `\`
-        pattern = pattern.replaceAll("\\\\\\\\", "\\\\");
+        pattern = DOUBLE_BACKSLASH.matcher(pattern).replaceAll("\\\\");
         return pattern;
     }
 

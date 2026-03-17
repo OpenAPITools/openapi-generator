@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,6 +40,10 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractEiffelCodegen.class);
+
+    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern UNCAMELIZE_UPPER = Pattern.compile("(.)(\\p{Upper})");
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
@@ -126,7 +131,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        if (name.matches("^\\d.*")) {// prepend var_
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {// prepend var_
             return "var_" + name;
         }
         return "var_" + name;
@@ -135,10 +140,10 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
+        name = sanitizeName(name.replace("-", "_"));
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -156,7 +161,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
 
         // for reserved word or word starting with number, append
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -201,7 +206,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response
@@ -221,7 +226,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be
+        name = name.replace("-", "_"); // FIXME: a parameter should not be
         // assigned. Also declare the
         // methods parameters as 'final'.
 
@@ -348,7 +353,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
             sanitizedOperationId = camelize("call_" + sanitizedOperationId, LOWERCASE_FIRST_LETTER);
         }
@@ -584,7 +589,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     public String unCamelize(String name) {
-        return name.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase(Locale.ROOT);
+        return UNCAMELIZE_UPPER.matcher(name).replaceAll("$1_$2").toLowerCase(Locale.ROOT);
     }
 
     public String toEiffelFeatureStyle(String operationId) {
