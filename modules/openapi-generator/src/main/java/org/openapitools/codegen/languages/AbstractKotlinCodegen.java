@@ -50,7 +50,12 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Pattern NON_WORD_UNICODE = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
+    private static final Pattern NON_WORD_UNICODE          = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
+    private static final Pattern LEADING_DIGIT              = Pattern.compile("^\\d");
+    private static final Pattern ALL_UPPER_ALPHANUMERIC_US  = Pattern.compile("^[A-Z0-9_]*$");
+    private static final Pattern ALL_UNDERSCORES            = Pattern.compile("^_*$");
+    private static final Pattern LEADING_DIGIT_OR_DOLLAR    = Pattern.compile("(^\\d.*)|(.*\\$.*)");
+    private static final Pattern UNDERSCORE_CLASS           = Pattern.compile("^_*class$");
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
@@ -622,7 +627,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (value.isEmpty()) {
             modified = "EMPTY";
         } else {
-            modified = value.replaceAll("-", "_");
+            modified = value.replace("-", "_");
             modified = sanitizeKotlinSpecificNames(modified);
         }
 
@@ -721,7 +726,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return importMapping.get(name);
         }
 
-        String modifiedName = name.replaceAll("\\.", "").replaceAll("-", "_");
+        String modifiedName = name.replace(".", "").replace("-", "_");
 
         String nameWithPrefixSuffix = sanitizeKotlinSpecificNames(modifiedName);
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -745,7 +750,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // model name starts with number
-        if (modifiedName.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(modifiedName).find()) {
             final String modelName = "Model" + modifiedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -778,7 +783,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(operationId).find()) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + operationId), LOWERCASE_FIRST_LETTER);
             operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
@@ -806,13 +811,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // Fallback, replace unknowns with underscore.
         word = NON_WORD_UNICODE.matcher(word).replaceAll("_");
-        if (word.matches("\\d.*")) {
+        if (LEADING_DIGIT.matcher(word).find()) {
             word = "_" + word;
         }
 
         // _, __, and ___ are reserved in Kotlin. Treat all names with only underscores consistently, regardless of count.
-        if (word.matches("^_*$")) {
-            word = word.replaceAll("\\Q_\\E", "Underscore");
+        if (ALL_UNDERSCORES.matcher(word).matches()) {
+            word = word.replace("_", "Underscore");
         }
 
         return word;
@@ -1019,7 +1024,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         name = sanitizeName(name, "\\W-[\\$]");
         name = sanitizeKotlinSpecificNames(name);
 
-        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
+        if (UNDERSCORE_CLASS.matcher(name.toLowerCase(Locale.ROOT)).matches()) {
             return "propertyClass";
         }
 
@@ -1028,7 +1033,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z0-9_]*$")) {
+        if (ALL_UPPER_ALPHANUMERIC_US.matcher(name).matches()) {
             return name;
         }
 
@@ -1049,7 +1054,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number or containing dollar symbol, escape it
-        if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)")) {
+        if (isReservedWord(name) || LEADING_DIGIT_OR_DOLLAR.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 

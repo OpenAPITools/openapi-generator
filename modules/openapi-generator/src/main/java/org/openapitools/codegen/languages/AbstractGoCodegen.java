@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -38,6 +39,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
+
+    private static final Pattern LEADING_DIGIT     = Pattern.compile("^\\d");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern LEADING_TRAILING_SLASH = Pattern.compile("^/|/$");
 
     @Setter
     protected boolean withGoCodegenComment = false;
@@ -213,7 +218,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         name = sanitizeName(name);
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches())
             return name;
 
         // camelize (lower first character) the variable name
@@ -227,7 +232,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
+        if (LEADING_DIGIT.matcher(name).find())
             name = "Var" + name;
 
         if ("AdditionalProperties".equals(name)) {
@@ -332,7 +337,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(name).find()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -348,7 +353,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String toApiFilename(String name) {
         final String apiName;
         // replace - with _ e.g. created-at => created_at
-        String api = name.replaceAll("-", "_");
+        String api = name.replace("-", "_");
         // e.g. PetApi.go => pet_api.go
         api = "api_" + underscore(api);
         if (isReservedFilename(api)) {
@@ -498,7 +503,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // operationId starts with a number
-        if (sanitizedOperationId.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(sanitizedOperationId).find()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
@@ -789,7 +794,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
                 if (cp.pattern != null) {
                     cp.vendorExtensions.put("x-go-custom-tag", "validate:\"regexp=" +
-                            cp.pattern.replace("\\", "\\\\").replaceAll("^/|/$", "") +
+                            LEADING_TRAILING_SLASH.matcher(cp.pattern.replace("\\", "\\\\")).replaceAll("") +
                             "\"");
                 }
 
@@ -931,9 +936,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // number
         if (isNumberType(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replace("-", "MINUS_");
+            varName = varName.replace("+", "PLUS_");
+            varName = varName.replace(".", "_DOT_");
             return NUMERIC_ENUM_PREFIX + varName;
         }
 
@@ -949,7 +954,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
-        } else if (enumName.matches("\\d.*")) { // starts with a number
+        } else if (LEADING_DIGIT.matcher(enumName).find()) { // starts with a number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
@@ -967,7 +972,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).find()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;

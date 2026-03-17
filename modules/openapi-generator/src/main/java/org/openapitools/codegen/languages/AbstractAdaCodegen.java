@@ -38,12 +38,16 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+
+    private static final Pattern LEADING_DIGIT = Pattern.compile("^\\d");
+    private static final Pattern NON_WORD_PLUS   = Pattern.compile("\\W+");
 
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
     public static final String OPENAPI_PACKAGE_NAME_OPTION = "openApiName";
@@ -398,7 +402,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         // model name starts with number
-        if (result.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(result).find()) {
             String modelName = "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -439,16 +443,16 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         else if ("Integer".equals(datatype) || "Long".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replace("-", "MINUS_");
+            varName = varName.replace("+", "PLUS_");
+            varName = varName.replace(".", "_DOT_");
             var = varName;
         }
 
         // string
         else {
-            var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
-            if (var.matches("\\d.*")) {
+            var = NON_WORD_PLUS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
+            if (LEADING_DIGIT.matcher(var).find()) {
                 var = "_" + var;
             } else {
                 var = sanitizeName(var);
@@ -1094,7 +1098,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                                 ident = name;
                             }
                             scopeIndex++;
-                            ident = toAdaIdentifier(sanitizeName(ident.replaceAll(":", "_")), "S_");
+                            ident = toAdaIdentifier(sanitizeName(ident.replace(":", "_")), "S_");
                             if (operationsScopes.containsValue(ident)) {
                                 ident = ident + "_" + scopeIndex;
                             }

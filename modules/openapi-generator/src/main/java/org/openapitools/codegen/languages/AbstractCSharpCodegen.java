@@ -56,6 +56,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
     /** Matches a regex literal that carries modifier flags after the closing slash, e.g. {@code /foo/i}. */
     private static final Pattern HAS_MODIFIERS = Pattern.compile(".*/[gmiyuvsdlnx]+$");
+    private static final Pattern LEADING_DIGIT = Pattern.compile("^\\d");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern UNESCAPED_DOUBLE_QUOTE = Pattern.compile("(?<!\\\\)\"");
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalEmitDefaultValuesFlag = false;
@@ -1423,7 +1426,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(operationId).find()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -1442,7 +1445,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         name = sanitizeName(name);
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -1451,7 +1454,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || LEADING_DIGIT.matcher(name).find()) {
             name = escapeReservedWord(name);
         }
 
@@ -1473,10 +1476,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         name = sanitizeName(name);
 
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replace("-", "_");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -1498,7 +1501,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     public String escapeReservedWord(String name) {
         if (isReservedWord(name) ||
-                name.matches("^\\d.*")) {
+                LEADING_DIGIT.matcher(name).find()) {
             name = AbstractCSharpCodegen.invalidParameterNamePrefix + camelize(name);
         }
         return name;
@@ -1676,7 +1679,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(name).find()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
@@ -1771,11 +1774,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             return value;
         }
 
-        final String partiallyEscaped = value
+        final String partiallyEscaped = UNESCAPED_DOUBLE_QUOTE.matcher(value
                 .replace("\n", "\\n")
                 .replace("\t", "\\t")
-                .replace("\r", "\\r")
-                .replaceAll("(?<!\\\\)\"", "\\\\\"");
+                .replace("\r", "\\r"))
+                .replaceAll("\\\\\"");
 
         return escapeUnsafeCharacters(partiallyEscaped);
     }
@@ -1802,7 +1805,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         enumName = adjustNamingStyle(enumName) + this.enumValueSuffix;
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).find()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;
@@ -2092,7 +2095,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
+        if (!pattern.startsWith("/")) {
             return "/" + pattern + "/";
         }
 

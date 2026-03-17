@@ -251,6 +251,14 @@ public class DefaultCodegen implements CodegenConfig {
     private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
     /** Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}. */
     private static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
+    /** Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}. */
+    private static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
+    /** Matches a string that starts with a digit; used in {@link #toEnumVarName}. */
+    private static final Pattern LEADING_DIGIT = Pattern.compile("\\d.*");
+    /** Matches tab, newline, or carriage-return; used in {@link #escapeText}. */
+    private static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
+    /** Matches a callback path-expression parameter like {@code {$request.body#/id}}. */
+    private static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
     // Dynamic patterns keyed by user-supplied removeCharRegEx strings are cached via PatternCache.
 
     /**
@@ -956,8 +964,8 @@ public class DefaultCodegen implements CodegenConfig {
             return "EMPTY";
         }
 
-        String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
+        String var = NON_WORD_PLUS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
+        if (LEADING_DIGIT.matcher(var).lookingAt()) {
             var = "_" + var;
         }
 
@@ -1167,11 +1175,10 @@ public class DefaultCodegen implements CodegenConfig {
         // replace " with \"
         // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
+        String unescaped = StringEscapeUtils.unescapeJava(
+                StringEscapeUtils.escapeJava(input).replace("\\/", "/"));
         return escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeJava(
-                                StringEscapeUtils.escapeJava(input)
-                                        .replace("\\/", "/"))
-                        .replaceAll("[\\t\\n\\r]", " ")
+                CONTROL_WHITESPACE.matcher(unescaped).replaceAll(" ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
     }
@@ -1211,7 +1218,7 @@ public class DefaultCodegen implements CodegenConfig {
                 StringEscapeUtils.unescapeJava(
                                 StringEscapeUtils.escapeJava(input)
                                         .replace("\\/", "/"))
-                        .replaceAll("\\t", " ")
+                        .replace("\t", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
     }
@@ -5256,7 +5263,7 @@ public class DefaultCodegen implements CodegenConfig {
                         } else {
                             boolean genId = op.getOperationId() == null;
                             if (genId) {
-                                op.setOperationId(getOrGenerateOperationId(op, c.name + "_" + expression.replaceAll("\\{\\$.*}", ""), method));
+                                op.setOperationId(getOrGenerateOperationId(op, c.name + "_" + CALLBACK_EXPRESSION_PARAM.matcher(expression).replaceAll(""), method));
                             }
 
                             if (op.getExtensions() == null) {
@@ -5828,8 +5835,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isBlank(operationId)) {
             String tmpPath = path;
-            tmpPath = tmpPath.replaceAll("\\{", "");
-            tmpPath = tmpPath.replaceAll("\\}", "");
+            tmpPath = tmpPath.replace("{", "");
+            tmpPath = tmpPath.replace("}", "");
             String[] parts = (tmpPath + "/" + httpMethod).split("/");
             StringBuilder builder = new StringBuilder();
             if ("/".equals(tmpPath)) {
@@ -6752,8 +6759,8 @@ public class DefaultCodegen implements CodegenConfig {
 
             // /api/films/get => _api_films_get
             // \api\films\get => _api_films_get
-            modifiable = modifiable.replaceAll("/", "_");
-            modifiable = modifiable.replaceAll("\\\\", "_");
+            modifiable = modifiable.replace("/", "_");
+            modifiable = modifiable.replace("\\", "_");
 
             // remove everything else other than word, number and _
             // $php_variable => php_variable
@@ -7046,8 +7053,8 @@ public class DefaultCodegen implements CodegenConfig {
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
-            return "/" + pattern.replaceAll("/", "\\\\/") + "/";
+        if (!pattern.startsWith("/")) {
+            return "/" + pattern.replace("/", "\\/") + "/";
         }
 
         return pattern;

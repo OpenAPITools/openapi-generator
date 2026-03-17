@@ -32,12 +32,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
+
+    private static final Pattern LEADING_DIGIT        = Pattern.compile("^\\d");
+    private static final Pattern LEADING_DIGITS_ONLY  = Pattern.compile("^\\d.*");
+    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    private static final Pattern NON_WORD_PLUS        = Pattern.compile("\\W+");
+    private static final Pattern DATE_FORMAT          = Pattern.compile("^\\d{4}(-\\d{2}){2}");
+    private static final Pattern DATETIME_FORMAT      = Pattern.compile("^\\d{4}([-T:]\\d{2}){5}.+");
+    private static final Pattern NON_NUMERIC          = Pattern.compile("[^-0-9.]");
+    private static final Pattern UNSAFE_PACKAGE_CHARS = Pattern.compile("[^a-zA-Z0-9_.]");
+    private static final Pattern INTEGER_PATTERN      = Pattern.compile("^-?\\d+$");
+    private static final Pattern UNDERSCORE_CLASS     = Pattern.compile("^_*class$");
+    private static final Pattern DATE_SEP_ZERO        = Pattern.compile("-0?");
+    private static final Pattern DATETIME_SEP_ZERO    = Pattern.compile("[-T:]0?");
 
     @Setter protected Boolean serializableModel = false;
 
@@ -77,10 +91,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     public String sanitizeName(String name) {
         name = super.sanitizeName(name);
         if (name.contains("__")) { // Preventing namespacing
-            name = name.replaceAll("__", "_");
+            name = name.replace("__", "_");
         }
-        if (name.matches("^\\d.*")) {  // Prevent named credentials with leading number
-            name = name.replaceAll("^\\d.*", "");
+        if (LEADING_DIGIT.matcher(name).find()) {  // Prevent named credentials with leading number
+            name = LEADING_DIGITS_ONLY.matcher(name).replaceAll("");
         }
         return name;
     }
@@ -90,7 +104,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
+        if (UNDERSCORE_CLASS.matcher(name.toLowerCase(Locale.ROOT)).matches()) {
             return "propertyClass";
         }
 
@@ -99,7 +113,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             if (isReservedWord(name)) {
                 name = escapeReservedWord(name);
             }
@@ -115,7 +129,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || LEADING_DIGIT.matcher(name).find()) {
             name = escapeReservedWord(name);
         }
 
@@ -169,7 +183,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         // model name starts with number
-        if (camelizedName.matches("^\\d.*")) {
+        if (LEADING_DIGIT.matcher(camelizedName).find()) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -318,8 +332,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             p.setExample(example);
             example = "EncodingUtil.base64Decode('" + example + "')";
         } else if (ModelUtils.isDateSchema(p)) {
-            if (example.matches("^\\d{4}(-\\d{2}){2}")) {
-                example = example.substring(0, 10).replaceAll("-0?", ", ");
+            if (DATE_FORMAT.matcher(example).find()) {
+                example = DATE_SEP_ZERO.matcher(example.substring(0, 10)).replaceAll(", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23";
             } else {
@@ -329,8 +343,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             example = "Date.newInstance(" + example + ")";
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            if (example.matches("^\\d{4}([-T:]\\d{2}){5}.+")) {
-                example = example.substring(0, 19).replaceAll("[-T:]0?", ", ");
+            if (DATETIME_FORMAT.matcher(example).find()) {
+                example = DATETIME_SEP_ZERO.matcher(example.substring(0, 19)).replaceAll(", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23, 4, 56, 7";
             } else {
@@ -340,7 +354,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             example = "Datetime.newInstanceGmt(" + example + ")";
         } else if (ModelUtils.isNumberSchema(p)) {
-            example = example.replaceAll("[^-0-9.]", "");
+            example = NON_NUMERIC.matcher(example).replaceAll("");
             example = example.isEmpty() ? "1.3579" : example;
         } else if (ModelUtils.isFileSchema(p)) {
             if (example.isEmpty()) {
@@ -380,7 +394,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                     ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
                     : "'" + escapeText(example) + "'";
         } else if (ModelUtils.isIntegerSchema(p)) {
-            example = example.matches("^-?\\d+$") ? example : "0";
+            example = INTEGER_PATTERN.matcher(example).matches() ? example : "0";
         } else if (ModelUtils.isObjectSchema(p)) {
             example = example.isEmpty() ? "null" : example;
         } else {
@@ -524,15 +538,15 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         if ("Integer".equals(datatype) || "Long".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replace("-", "MINUS_");
+            varName = varName.replace("+", "PLUS_");
+            varName = varName.replace(".", "_DOT_");
             return varName;
         }
 
         // string
-        String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
+        String var = NON_WORD_PLUS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
+        if (LEADING_DIGIT.matcher(var).find()) {
             return "_" + var;
         } else {
             return var;
@@ -618,7 +632,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     private static String sanitizePackageName(String packageName) {
         packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
+        packageName = UNSAFE_PACKAGE_CHARS.matcher(packageName).replaceAll("_");
         if (Strings.isNullOrEmpty(packageName)) {
             return "invalidPackageName";
         }
@@ -628,7 +642,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     private String sanitizePath(String p) {
         //prefer replace a ", instead of a fuLL URL encode for readability
-        return p.replaceAll("\"", "%22");
+        return p.replace("\"", "%22");
     }
 
     @Override

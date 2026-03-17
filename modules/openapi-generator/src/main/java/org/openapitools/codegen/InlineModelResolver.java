@@ -37,8 +37,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class InlineModelResolver {
+    private static final Pattern LEADING_DIGIT     = Pattern.compile("^[0-9]");
+    private static final Pattern NON_ALPHANUMERIC  = Pattern.compile("[^A-Za-z0-9]");
     private OpenAPI openAPI;
     private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> generatedSignature = new HashMap<>();
@@ -785,9 +788,9 @@ public class InlineModelResolver {
      * @param name name to be processed to make sure it's sanitized
      */
     private String sanitizeName(final String name) {
-        return name
-                .replaceAll("^[0-9]", "_$0") // e.g. 12object => _12object
-                .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
+        return NON_ALPHANUMERIC.matcher(
+                LEADING_DIGIT.matcher(name).replaceFirst("_$0")) // e.g. 12object => _12object
+                .replaceAll("_"); // e.g. io.schema.User name => io_schema_User_name
     }
 
     /**
