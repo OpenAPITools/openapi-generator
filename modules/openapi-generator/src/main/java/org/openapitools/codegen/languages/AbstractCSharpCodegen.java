@@ -57,7 +57,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     /** Matches a regex literal that carries modifier flags after the closing slash, e.g. {@code /foo/i}. */
     private static final Pattern HAS_MODIFIERS = Pattern.compile(".*/[gmiyuvsdlnx]+$");
     private static final Pattern LEADING_DIGIT = Pattern.compile("^\\d");
-    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
     private static final Pattern UNESCAPED_DOUBLE_QUOTE = Pattern.compile("(?<!\\\\)\"");
 
     protected boolean optionalAssemblyInfoFlag = true;

@@ -41,9 +41,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
     private static final Pattern LEADING_DIGIT        = Pattern.compile("^\\d");
-    private static final Pattern LEADING_DIGITS_ONLY  = Pattern.compile("^\\d.*");
-    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
-    private static final Pattern NON_WORD_PLUS        = Pattern.compile("\\W+");
     private static final Pattern DATE_FORMAT          = Pattern.compile("^\\d{4}(-\\d{2}){2}");
     private static final Pattern DATETIME_FORMAT      = Pattern.compile("^\\d{4}([-T:]\\d{2}){5}.+");
     private static final Pattern NON_NUMERIC          = Pattern.compile("[^-0-9.]");
@@ -94,7 +91,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             name = name.replace("__", "_");
         }
         if (LEADING_DIGIT.matcher(name).find()) {  // Prevent named credentials with leading number
-            name = LEADING_DIGITS_ONLY.matcher(name).replaceAll("");
+            name = STARTS_WITH_DIGIT.matcher(name).replaceAll("");
         }
         return name;
     }

@@ -37,8 +37,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
 
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_");
-    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
     private static final Pattern STARTS_WITH_OPT_NEG_DIGIT = Pattern.compile("^-?\\d.*");
 
     protected static final List<String> DEFAULT_SUPPORTED_CONTENT_TYPES = Arrays.asList(

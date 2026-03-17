@@ -38,12 +38,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
-import java.util.regex.Pattern;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
     protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";

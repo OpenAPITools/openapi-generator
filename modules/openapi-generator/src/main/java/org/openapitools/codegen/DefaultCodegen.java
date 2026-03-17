@@ -252,11 +252,16 @@ public class DefaultCodegen implements CodegenConfig {
     /** Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}. */
     private static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
     /** Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}. */
-    private static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
+    protected static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
     /** Matches a string that starts with a digit; used in {@link #toEnumVarName}. */
-    private static final Pattern LEADING_DIGIT = Pattern.compile("\\d.*");
+    protected static final Pattern LEADING_DIGIT = Pattern.compile("\\d.*");
+
+    /** Matches a string that starts with a digit (anchored); used across language generators. */
+    protected static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    /** Matches a string consisting entirely of uppercase letters and underscores. */
+    protected static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
     /** Matches tab, newline, or carriage-return; used in {@link #escapeText}. */
-    private static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
+    protected static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
     /** Matches a callback path-expression parameter like {@code {$request.body#/id}}. */
     private static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
     // Dynamic patterns keyed by user-supplied removeCharRegEx strings are cached via PatternCache.

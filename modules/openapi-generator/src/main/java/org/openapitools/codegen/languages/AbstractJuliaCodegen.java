@@ -50,7 +50,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     private static final Pattern SANITIZE_NON_ALPHANUM_BRACE = Pattern.compile("[^a-zA-Z0-9_{}]");
     private static final Pattern ALNUM_UNDERSCORE = Pattern.compile("[a-zA-Z0-9_]*");
     private static final Pattern VAR_QUOTED = Pattern.compile("var\".*\"");
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
     private static final Pattern DOUBLE_BACKSLASH = Pattern.compile("\\\\\\\\");
 
     protected String srcPath = "src";

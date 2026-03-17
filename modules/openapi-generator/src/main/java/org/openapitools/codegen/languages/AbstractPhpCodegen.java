@@ -49,10 +49,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     private static final Pattern TRAILING_SLASH_BACKSLASH = Pattern.compile("[\\\\/]?$");
     private static final Pattern PATH_SEPARATOR_CHARS = Pattern.compile("[\\.\\\\/]");
     private static final Pattern LEADING_AT = Pattern.compile("^@");
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
     private static final Pattern NON_WORD_BACKSLASH = Pattern.compile("[^\\w\\\\]+");
     private static final Pattern STARTS_WITH_BACKSLASH = Pattern.compile("^\\\\.*");
-    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
     private static final Pattern COMPOSER_PACKAGE_NAME = Pattern.compile("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$");
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
@@ -773,7 +771,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // number
         if ("int".equals(datatype) || "float".equals(datatype)) {
-            if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(name).matches()) { // starts with number
+            if (STARTS_WITH_DIGIT.matcher(name).matches()) { // starts with number
                 name = "NUMBER_" + name;
             }
             name = name.replace("-", "MINUS_");
@@ -786,7 +784,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // reserved word or starts with number
+        if (isReservedWord(enumName) || STARTS_WITH_DIGIT.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -804,7 +802,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

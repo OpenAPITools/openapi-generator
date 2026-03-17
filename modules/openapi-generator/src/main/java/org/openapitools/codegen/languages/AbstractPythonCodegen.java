@@ -51,11 +51,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     private static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
     private static final Pattern REGEX_VALUE_EXTRACTOR = Pattern.compile("^/\\^?(.+?)\\$?/.?$");
-    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
     private static final Pattern LEADING_UNDERSCORES = Pattern.compile("^_*");
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
     private static final Pattern WHITESPACE = Pattern.compile("\\s+");
-    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
     private static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
     private static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)\\/");
 
@@ -1121,7 +1118,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         name = name.replaceFirst("^_", "");
         name = name.replaceFirst("_$", "");
 
-        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(name).matches()) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "ENUM_" + name.toUpperCase(Locale.ROOT);
         }
 

@@ -41,8 +41,6 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractEiffelCodegen.class);
 
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
-    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
     private static final Pattern UNCAMELIZE_UPPER = Pattern.compile("(.)(\\p{Upper})");
 
     private final Set<String> parentModels = new HashSet<>();

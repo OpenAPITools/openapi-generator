@@ -86,14 +86,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static final Pattern LOMBOK_ANNOTATION = Pattern.compile("@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?");
     private static final Pattern JAVA_UTIL_IMPORT = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
     private static final Pattern STARTS_WITH_UNDERSCORE_CLASS = Pattern.compile("^_*class$");
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
     private static final Pattern ALL_UPPER_CASE_DIGITS_UNDERSCORE = Pattern.compile("^[A-Z0-9_]*$");
-    private static final Pattern TAB_NEWLINE_RETURN = Pattern.compile("[\\t\\n\\r]");
     private static final Pattern ANNOTATION_IN_TYPE = Pattern.compile("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+");
     private static final Pattern NON_ALPHANUMERIC = Pattern.compile("\\P{Alnum}");
-    private static final Pattern NON_WORD_CHARS = Pattern.compile("\\W+");
     private static final Pattern INVALID_PACKAGE_CHARS = Pattern.compile("[^a-zA-Z0-9_.]");
-    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
 
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -1220,7 +1216,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (StringUtils.isNotEmpty(items.getPattern())) {
             final String pattern = escapeUnsafeCharacters(
-                    TAB_NEWLINE_RETURN.matcher(
+                    CONTROL_WHITESPACE.matcher(
                     StringEscapeUtils.unescapeJava(
                                     StringEscapeUtils.escapeJava(items.getPattern())
                                             .replace("\\/", "/"))).replaceAll(" ")
@@ -2273,7 +2269,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         switch (getEnumPropertyNaming()) {
             case legacy:
                 // legacy ,e.g. WITHNUMBER1
-                var = NON_WORD_CHARS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
+                var = NON_WORD_PLUS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
                 break;
             case original:
                 // keep value as it is, if meets language naming convention
@@ -2286,10 +2282,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 break;
             default:
                 // default to MACRO_CASE, e.g. WITH_NUMBER1
-                var = underscore(NON_WORD_CHARS.matcher(value).replaceAll("_")).toUpperCase(Locale.ROOT);
+                var = underscore(NON_WORD_PLUS.matcher(value).replaceAll("_")).toUpperCase(Locale.ROOT);
                 break;
         }
-        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(var).matches()) {
+        if (STARTS_WITH_DIGIT.matcher(var).matches()) {
             var = "_" + var;
         }
         return this.toVarName(var);

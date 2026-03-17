@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,9 +38,6 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGraphQLCodegen.class);
 
-    private static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
-    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
-    private static final Pattern STARTS_WITH_DIGIT_NO_ANCHOR = Pattern.compile("\\d.*");
 
     protected String specFolder = "spec";
     @Setter protected String packageName = "openapi2graphql";
@@ -392,7 +388,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // reserved word or starts with number
+        if (isReservedWord(enumName) || STARTS_WITH_DIGIT.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -406,7 +402,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (STARTS_WITH_DIGIT_NO_ANCHOR.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

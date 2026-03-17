@@ -41,7 +41,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
     private static final Pattern LEADING_DIGIT     = Pattern.compile("^\\d");
-    private static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
     private static final Pattern LEADING_TRAILING_SLASH = Pattern.compile("^/|/$");
 
     @Setter
