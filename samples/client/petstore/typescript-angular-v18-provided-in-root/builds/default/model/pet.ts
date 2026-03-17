@@ -30,7 +30,7 @@ export namespace Pet {
     export const StatusEnum = {
         Available: 'available',
         Pending: 'pending',
-        Sold: 'sold'
+        Sold: 'sold',
     } as const;
     export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 }

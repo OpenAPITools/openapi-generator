@@ -32,7 +32,7 @@ export interface OptionTwo {
  * @export
  */
 export const OptionTwoDiscriminatorFieldEnum = {
-    OptionTwo: 'optionTwo'
+    OptionTwo: 'optionTwo',
 } as const;
 export type OptionTwoDiscriminatorFieldEnum = typeof OptionTwoDiscriminatorFieldEnum[keyof typeof OptionTwoDiscriminatorFieldEnum];
 

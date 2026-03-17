@@ -41,7 +41,7 @@ export enum {{classname}}{{enumName}} {
 export const {{classname}}{{enumName}} = {
 {{#allowableValues}}
     {{#enumVars}}
-    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{{name}}}: {{{value}}},
     {{/enumVars}}
 {{/allowableValues}}
 } as const;

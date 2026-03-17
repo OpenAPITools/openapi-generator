@@ -35,7 +35,7 @@ export const ErrorCode = {
     MaximumMessageGainHigherThanMaximum: 'Maximum_Message_Gain_Higher_Than_Maximum',
     MaximumMessageGainLowerThanMessageGain: 'Maximum_Message_Gain_Lower_Than_Message_Gain',
     MinimumVolumeBlocksMusicVolumeDecrease: 'Minimum_Volume_Blocks_Music_Volume_Decrease',
-    MaximumVolumeBlocksMusicVolumeIncrease: 'Maximum_Volume_Blocks_Music_Volume_Increase'
+    MaximumVolumeBlocksMusicVolumeIncrease: 'Maximum_Volume_Blocks_Music_Volume_Increase',
 } as const;
 export type ErrorCode = typeof ErrorCode[keyof typeof ErrorCode];
 

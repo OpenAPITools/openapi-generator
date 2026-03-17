@@ -18,7 +18,7 @@ export namespace {{classname}} {
   export const {{enumName}} = {
   {{#allowableValues}}
   {{#enumVars}}
-    {{name}}: {{{value}}}{{^-last}},{{/-last}}
+    {{name}}: {{{value}}},
   {{/enumVars}}
   {{/allowableValues}}
   } as const;

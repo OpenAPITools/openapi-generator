@@ -52,7 +52,7 @@ export interface FakeEnumRequestPostInlineRequest {
 export const FakeEnumRequestPostInlineRequestStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestPostInlineRequestStringEnumEnum = typeof FakeEnumRequestPostInlineRequestStringEnumEnum[keyof typeof FakeEnumRequestPostInlineRequestStringEnumEnum];
 
@@ -62,7 +62,7 @@ export type FakeEnumRequestPostInlineRequestStringEnumEnum = typeof FakeEnumRequ
 export const FakeEnumRequestPostInlineRequestNullableStringEnumEnum = {
     One: 'one',
     Two: 'two',
-    Three: 'three'
+    Three: 'three',
 } as const;
 export type FakeEnumRequestPostInlineRequestNullableStringEnumEnum = typeof FakeEnumRequestPostInlineRequestNullableStringEnumEnum[keyof typeof FakeEnumRequestPostInlineRequestNullableStringEnumEnum];
 
@@ -72,7 +72,7 @@ export type FakeEnumRequestPostInlineRequestNullableStringEnumEnum = typeof Fake
 export const FakeEnumRequestPostInlineRequestNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestPostInlineRequestNumberEnumEnum = typeof FakeEnumRequestPostInlineRequestNumberEnumEnum[keyof typeof FakeEnumRequestPostInlineRequestNumberEnumEnum];
 
@@ -82,7 +82,7 @@ export type FakeEnumRequestPostInlineRequestNumberEnumEnum = typeof FakeEnumRequ
 export const FakeEnumRequestPostInlineRequestNullableNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
-    NUMBER_3: 3
+    NUMBER_3: 3,
 } as const;
 export type FakeEnumRequestPostInlineRequestNullableNumberEnumEnum = typeof FakeEnumRequestPostInlineRequestNullableNumberEnumEnum[keyof typeof FakeEnumRequestPostInlineRequestNullableNumberEnumEnum];
 
