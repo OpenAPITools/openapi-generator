@@ -499,7 +499,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -508,7 +508,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         name = getNameUsingModelPropertyNaming(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -560,7 +560,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             String modelName = "Model" + name; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -847,7 +847,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;

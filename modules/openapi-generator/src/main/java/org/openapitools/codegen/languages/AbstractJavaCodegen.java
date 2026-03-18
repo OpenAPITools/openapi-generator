@@ -459,10 +459,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(BOOLEAN_GETTER_PREFIX, this::setBooleanGetterPrefix);
         convertPropertyToBooleanAndWriteBack(IGNORE_ANYOF_IN_ENUM, this::setIgnoreAnyOfInEnum);
         convertPropertyToTypeAndWriteBack(ADDITIONAL_MODEL_TYPE_ANNOTATIONS,
-                annotations -> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
+                annotations -> Arrays.asList(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(annotations.trim())),
                 this::setAdditionalModelTypeAnnotations);
         convertPropertyToTypeAndWriteBack(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS,
-                annotations -> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
+                annotations -> Arrays.asList(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(annotations.trim())),
                 this::setAdditionalOneOfTypeAnnotations);
         convertPropertyToTypeAndWriteBack(ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
                 annotations -> Arrays.asList(annotations.split(";")),

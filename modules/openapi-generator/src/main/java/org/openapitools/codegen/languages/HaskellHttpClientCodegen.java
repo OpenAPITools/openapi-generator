@@ -88,7 +88,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     // protected String MODEL_EXTENSIONS = "modelExtensions";
 
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
-    private static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
 
     static final String MEDIA_TYPE = "mediaType";
     static final String MIME_NO_CONTENT = "MimeNoContent";
@@ -1201,7 +1200,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (hasPrefix) {
             return prefix + name;
         } else {
-            if (name.matches("^\\d.*"))
+            if (STARTS_WITH_DIGIT.matcher(name).matches())
                 name = escapeReservedWord(name);
             if (isReservedWord(name))
                 name = escapeReservedWord(name);
@@ -1266,7 +1265,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (isReservedWord(name)) {
             name = prefix + name;
         }
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = prefix + name; // e.g. 200Response => Model200Response (after camelize)
         }
         if (languageSpecificPrimitives.contains(name)) {
@@ -1462,10 +1461,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeJava(
+                CONTROL_WHITESPACE.matcher(StringEscapeUtils.unescapeJava(
                                 StringEscapeUtils.escapeJava(input)
-                                        .replace("\\/", "/"))
-                        .replaceAll("[\\t\\n\\r]", " ")
+                                        .replace("\\/", "/")))
+                        .replaceAll(" ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
     }

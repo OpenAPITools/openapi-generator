@@ -49,12 +49,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonCodegen.class);
 
-    private static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
     private static final Pattern REGEX_VALUE_EXTRACTOR = Pattern.compile("^/\\^?(.+?)\\$?/.?$");
-    private static final Pattern LEADING_UNDERSCORES = Pattern.compile("^_*");
-    private static final Pattern WHITESPACE = Pattern.compile("\\s+");
-    private static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
-    private static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)\\/");
 
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 

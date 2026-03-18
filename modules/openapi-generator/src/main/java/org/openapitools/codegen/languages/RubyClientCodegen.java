@@ -442,7 +442,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
         // model name starts with number
-        if (modelName.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(modelName).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName,
                     camelize("model_" + modelName));
             modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
@@ -527,7 +527,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
@@ -544,7 +544,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
@@ -574,7 +574,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }

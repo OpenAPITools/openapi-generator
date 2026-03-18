@@ -798,10 +798,10 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeJava(
+                CONTROL_WHITESPACE.matcher(StringEscapeUtils.unescapeJava(
                                 StringEscapeUtils.escapeJava(input)
-                                        .replace("\\/", "/"))
-                        .replaceAll("[\\t\\n\\r]", " ")
+                                        .replace("\\/", "/")))
+                        .replaceAll(" ")
                         .replace("\"", "\"\""));
 
     }
@@ -909,7 +909,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
@@ -992,7 +992,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         name = camelize(sanitizeName(name));
 
         // for param name reserved word or word starting with number, append _
-        if (paramNameReservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (paramNameReservedWords.contains(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (reserved word or special variable name) cannot be used in naming. Renamed to {}", name,
                     escapeReservedWord(name));
             name = escapeReservedWord(name);
@@ -1127,7 +1127,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (reserved word or special variable name) cannot be used in naming. Renamed to {}", name,
                     escapeReservedWord(name));
             name = escapeReservedWord(name);

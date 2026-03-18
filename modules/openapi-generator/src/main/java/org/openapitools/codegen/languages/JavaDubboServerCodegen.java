@@ -401,8 +401,7 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
 
             if (isUserTitle) {
                 String titleName = (String) additionalProperties.get(TITLE);
-                mainClassName = (camelize(titleName.trim(), CamelizeOption.UPPERCASE_FIRST_CHAR) + "Application").replaceAll("\\s+", "");
-                ;
+                mainClassName = WHITESPACE.matcher(camelize(titleName.trim(), CamelizeOption.UPPERCASE_FIRST_CHAR) + "Application").replaceAll("");
             } else {
                 mainClassName = "OpenApiGeneratorApplication";
             }

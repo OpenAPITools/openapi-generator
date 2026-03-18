@@ -375,8 +375,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             return "EMPTY";
         }
 
-        String var = camelize(value.replaceAll("\\W+", "_"));
-        if (var.matches("\\d.*")) {
+        String var = camelize(NON_WORD_PLUS.matcher(value).replaceAll("_"));
+        if (LEADING_DIGIT.matcher(var).matches()) {
             return "_" + var;
         } else {
             return var;

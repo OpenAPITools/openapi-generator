@@ -148,6 +148,8 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
         ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
+        long startTime = System.currentTimeMillis();
+
         // Execute each configurator on a separate pooled thread.
         configurators.forEach(configurator -> {
             GenerationRunner runner = new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast), Boolean.TRUE.equals(clean));
@@ -163,12 +165,18 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
             executor.awaitTermination(awaitFor, TimeUnit.MINUTES);
 
+            long elapsedMs = System.currentTimeMillis() - startTime;
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMs);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMs) % 60;
+            long millis = elapsedMs % 1000;
+            String elapsed = String.format(Locale.ROOT, "%dm %ds %dms", minutes, seconds, millis);
+
             int failCount = failures.intValue();
             if (failCount > 0) {
-                System.err.println(String.format(Locale.ROOT, "[FAIL] Completed with %d failures, %d successes", failCount, successes.intValue()));
+                System.err.println(String.format(Locale.ROOT, "[FAIL] Completed with %d failures, %d successes in %s", failCount, successes.intValue(), elapsed));
                 System.exit(1);
             } else {
-                System.out.println(String.format(Locale.ROOT, "[SUCCESS] Batch generation finished %d generators successfully.", successes.intValue()));
+                System.out.println(String.format(Locale.ROOT, "[SUCCESS] Batch generation finished %d generators successfully in %s.", successes.intValue(), elapsed));
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

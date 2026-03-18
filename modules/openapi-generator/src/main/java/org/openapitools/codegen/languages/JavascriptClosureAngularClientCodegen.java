@@ -189,7 +189,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         name = name.replaceAll("-", "_");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches())
             return name;
 
         // camelize the variable name
@@ -197,7 +197,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*"))
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches())
             name = escapeReservedWord(name);
 
         return name;

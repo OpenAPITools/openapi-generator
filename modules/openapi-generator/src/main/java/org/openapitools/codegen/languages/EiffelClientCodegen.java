@@ -219,8 +219,8 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         }
 
         // string
-        String var = value.replaceAll("\\W+", "_").toLowerCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
+        String var = NON_WORD_PLUS.matcher(value).replaceAll("_").toLowerCase(Locale.ROOT);
+        if (LEADING_DIGIT.matcher(var).matches()) {
             return "val_" + var;
         } else if (var.startsWith("_")) {
             return "val" + var;

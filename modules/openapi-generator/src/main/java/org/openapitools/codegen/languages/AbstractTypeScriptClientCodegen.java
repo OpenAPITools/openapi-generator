@@ -601,7 +601,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     private String toSafeIdentifier(String name) {
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
         return name;
@@ -650,7 +650,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         // model name starts with number
-        if (sanName.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(sanName).matches()) {
             String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", sanName,
                     modelName);
@@ -979,7 +979,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         varName = getNameUsingEnumPropertyNaming(varName);
 
-        if (varName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(varName).matches()) { // starts with number
             return "_" + varName;
         } else {
             return varName;

@@ -61,7 +61,7 @@ public class PatternCacheTest {
     @Test
     public void testDifferentInstanceForDifferentRegex() {
         Pattern a = PatternCache.get("\\d+");
-        Pattern b = PatternCache.get("\\w+");
+        Pattern b = PatternCache.get("\\W+");
         Assert.assertNotSame(a, b,
                 "PatternCache must store separate entries for different regex strings");
     }

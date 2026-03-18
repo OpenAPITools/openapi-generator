@@ -407,7 +407,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
 
         // model name starts with number
-        if (modelName.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(modelName).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName, camelize("model_" + modelName));
             // e.g. 200Response => Model200Response (after camelize)
             modelName = "model_" + modelName;
@@ -505,7 +505,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
@@ -518,7 +518,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
@@ -548,7 +548,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -871,7 +871,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // sanitize name
         varName = sanitizeName(name);
         // if it's all upper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             varName = varName.toLowerCase(Locale.ROOT);
         }
 
@@ -880,7 +880,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         varName = underscore(varName);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+        if (isReservedWord(varName) || STARTS_WITH_DIGIT.matcher(varName).matches()) {
             varName = escapeReservedWord(varName);
         }
 

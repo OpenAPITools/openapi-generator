@@ -1325,9 +1325,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // string
         String var = value.replaceAll(" ", "_");
         var = camelize(var);
-        var = var.replaceAll("\\W+", "");
+        var = NON_WORD_PLUS.matcher(var).replaceAll("");
 
-        if (var.matches("\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(var).matches()) {
             return "_" + var;
         } else {
             return var;
@@ -1350,14 +1350,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         name = sanitizeName(name);
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
         name = getNameUsingModelPropertyNaming(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 

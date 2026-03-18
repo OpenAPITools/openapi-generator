@@ -605,14 +605,14 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // if it's all upper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             name = name.toLowerCase(Locale.ROOT);
         }
 
         name = underscore(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -627,7 +627,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // should be the same as variable name
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
         name = name.replaceAll("-", "_");
@@ -659,7 +659,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -722,7 +722,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            if (value.matches("\\d.*")) { // starts with number
+            if (LEADING_DIGIT.matcher(value).matches()) { // starts with number
                 return escapeReservedWord(escapeText(value));
             } else {
                 return escapeText(value);
@@ -750,7 +750,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -763,7 +763,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -793,7 +793,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             String newOperationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;

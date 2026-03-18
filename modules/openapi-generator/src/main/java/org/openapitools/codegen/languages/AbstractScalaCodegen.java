@@ -292,7 +292,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             varName = getNameUsingModelPropertyNaming(varName);
         }
 
-        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+        if (isReservedWord(varName) || STARTS_WITH_DIGIT.matcher(varName).matches()) {
             varName = escapeReservedWord(varName);
         }
 
@@ -502,7 +502,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -601,7 +601,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
             operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }

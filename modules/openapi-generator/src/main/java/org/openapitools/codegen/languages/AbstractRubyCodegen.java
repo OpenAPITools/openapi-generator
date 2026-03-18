@@ -180,7 +180,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
         String varName = sanitizeName(name);
         // if it's all upper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             varName = varName.toLowerCase(Locale.ROOT);
         }
 
@@ -189,7 +189,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         varName = underscore(varName);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+        if (isReservedWord(varName) || STARTS_WITH_DIGIT.matcher(varName).matches()) {
             varName = escapeReservedWord(varName);
         }
 
@@ -207,9 +207,9 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
+        if (!STARTS_WITH_SLASH.matcher(pattern).matches()) {
             // Perform a negative lookbehind on each `/` to ensure that it is escaped.
-            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+            return "/" + UNESCAPED_SLASH.matcher(pattern).replaceAll("\\\\/") + "/";
         }
 
         return pattern;

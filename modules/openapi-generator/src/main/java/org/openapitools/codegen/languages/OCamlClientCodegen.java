@@ -651,7 +651,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             name = escapeReservedWord(name);
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
+        if (STARTS_WITH_DIGIT.matcher(name).matches())
             name = "var_" + name;
 
         return name;

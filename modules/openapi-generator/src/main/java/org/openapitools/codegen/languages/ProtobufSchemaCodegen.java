@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
@@ -42,16 +43,12 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.google.common.base.CaseFormat;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
-
-    private static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
 
     private static final String IMPORT = "import";
 
@@ -1613,7 +1610,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all upper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             name = name.toLowerCase(Locale.ROOT);
         }
 
@@ -1622,10 +1619,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         name = underscore(name);
 
         // remove leading underscore
-        name = name.replaceAll("^_*", "");
+        name = LEADING_UNDERSCORES.matcher(name).replaceAll("");
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -1650,7 +1647,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -1811,7 +1808,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         // Max value from developers.google.com/protocol-buffers/docs/proto3#assigning_field_numbers
         int fieldNumber = Math.abs(name.hashCode() % 536870911);
         if (19000 <= fieldNumber && fieldNumber <= 19999) {
-            LOGGER.error("Generated field number is in reserved range (19000, 19999) for %s, %d", name, fieldNumber);
+            LOGGER.error("Generated field number is in reserved range (19000, 19999) for {}, {}", name, fieldNumber);
             throw new ProtoBufIndexComputationException("Generated field number is in reserved range (19000, 19999).");
         }
         return fieldNumber;

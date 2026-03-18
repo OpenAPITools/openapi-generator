@@ -46,14 +46,15 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonPydanticV1Codegen.class);
 
-    private static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
     private static final Pattern REGEX_VALUE_EXTRACTOR = Pattern.compile("^/\\^?(.+?)\\$?/.?$");
 
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageName = "openapi_client";
-    @Setter protected String packageVersion = "1.0.0";
-    @Setter protected String projectName; // for setup.py, e.g. petstore-api
+    @Setter
+    protected String packageVersion = "1.0.0";
+    @Setter
+    protected String projectName; // for setup.py, e.g. petstore-api
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
@@ -226,7 +227,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         name = name.replace("$", "");
 
         // if it's all upper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             name = name.toLowerCase(Locale.ROOT);
         }
 
@@ -235,10 +236,10 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         name = underscore(name);
 
         // remove leading underscore
-        name = name.replaceAll("^_*", "");
+        name = LEADING_UNDERSCORES.matcher(name).replaceAll("");
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -280,7 +281,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -704,7 +705,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         // remove dollar sign
         sanitizedName = sanitizedName.replace("$", "");
         // remove whitespace
-        sanitizedName = sanitizedName.replaceAll("\\s+", "");
+        sanitizedName = WHITESPACE.matcher(sanitizedName).replaceAll("");
 
         String nameWithPrefixSuffix = sanitizedName;
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -730,7 +731,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         }
 
         // model name starts with number
-        if (camelizedName.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(camelizedName).matches()) {
             String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", camelizedName, modelName);
             schemaKeyToModelNameCache.put(origName, modelName);
@@ -1630,7 +1631,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         name = name.replaceFirst("^_", "");
         name = name.replaceFirst("_$", "");
 
-        if (name.matches("\\d.*")) {
+        if (LEADING_DIGIT.matcher(name).matches()) {
             name = "ENUM_" + name.toUpperCase(Locale.ROOT);
         }
 
@@ -1931,9 +1932,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
+        if (!STARTS_WITH_SLASH.matcher(pattern).matches()) {
             // Perform a negative lookbehind on each `/` to ensure that it is escaped.
-            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+            return "/" + UNESCAPED_SLASH.matcher(pattern).replaceAll("\\\\/") + "/";
         }
 
         return pattern;

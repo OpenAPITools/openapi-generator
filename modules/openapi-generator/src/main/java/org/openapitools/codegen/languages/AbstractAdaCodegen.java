@@ -47,7 +47,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     private static final Pattern LEADING_DIGIT = Pattern.compile("^\\d");
-    private static final Pattern NON_WORD_PLUS   = Pattern.compile("\\W+");
 
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
     public static final String OPENAPI_PACKAGE_NAME_OPTION = "openApiName";

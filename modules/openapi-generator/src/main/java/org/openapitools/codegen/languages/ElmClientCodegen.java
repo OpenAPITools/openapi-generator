@@ -198,7 +198,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
             operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
@@ -490,7 +490,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static class RemoveWhitespaceLambda implements Mustache.Lambda {
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
-            writer.write(fragment.execute().replaceAll("\\s+", " ").trim());
+            writer.write(WHITESPACE.matcher(fragment.execute()).replaceAll(" ").trim());
         }
     }
 

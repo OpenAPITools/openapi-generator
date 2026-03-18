@@ -304,7 +304,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         varName = sanitizeName(name);
 
         // if it's all upper case, convert to lower case
-        if (varName.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(varName).matches()) {
             varName = varName.toLowerCase(Locale.ROOT);
         }
 
@@ -313,7 +313,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         varName = org.openapitools.codegen.utils.StringUtils.underscore(varName);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+        if (isReservedWord(varName) || STARTS_WITH_DIGIT.matcher(varName).matches()) {
             varName = escapeReservedWord(varName);
         }
 

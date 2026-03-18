@@ -403,7 +403,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name.replaceAll("-", "_"));
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches())
             return name;
 
         // convert variable name to snake case
@@ -415,7 +415,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "var_" + name;
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
+        if (STARTS_WITH_DIGIT.matcher(name).matches())
             name = "var_" + name;
 
         return name;
@@ -489,7 +489,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -726,7 +726,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName) || LEADING_DIGIT.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -740,7 +740,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;
@@ -859,7 +859,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String.valueOf(p.getDefault()))).find())
+                if (MULTILINE_STRING.matcher((String.valueOf(p.getDefault()))).find())
                     return "'''" + p.getDefault().toString() + "'''";
                 else
                     return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";

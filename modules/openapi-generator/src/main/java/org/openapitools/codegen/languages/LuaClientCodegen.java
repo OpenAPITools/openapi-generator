@@ -252,7 +252,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name.replaceAll("-", "_"));
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches())
             return name;
 
         // convert variable name to snake case
@@ -264,7 +264,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = escapeReservedWord(name);
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
+        if (STARTS_WITH_DIGIT.matcher(name).matches())
             name = "Var" + name;
 
         return name;
@@ -309,7 +309,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -561,7 +561,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName) || LEADING_DIGIT.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -575,7 +575,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

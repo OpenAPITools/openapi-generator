@@ -330,7 +330,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "_" + name;
         }
         return name;
@@ -375,7 +375,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -457,7 +457,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }

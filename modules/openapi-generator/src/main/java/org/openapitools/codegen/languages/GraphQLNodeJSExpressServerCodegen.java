@@ -159,7 +159,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
         enumName = enumName.replace("[]", "");
 
         // ENUM starts with a number
-        if (enumName.matches("\\d.*")) {
+        if (LEADING_DIGIT.matcher(enumName).matches()) {
             return StringUtils.capitalize("_" + enumName) + "Enum";
         } else {
             return StringUtils.capitalize(enumName) + "Enum";

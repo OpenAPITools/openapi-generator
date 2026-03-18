@@ -334,10 +334,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         input = super.escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeJava(
+                CONTROL_WHITESPACE.matcher(StringEscapeUtils.unescapeJava(
                                 StringEscapeUtils.escapeJava(input)
-                                        .replace("\\/", "/"))
-                        .replaceAll("[\\t\\n\\r]", " ")
+                                        .replace("\\/", "/")))
+                        .replaceAll(" ")
                         .replace("\\", "\\\\"));
         // .replace("\"", "\\\""));
 

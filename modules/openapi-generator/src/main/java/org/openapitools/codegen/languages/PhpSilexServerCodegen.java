@@ -217,7 +217,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "_" + name;
         }
 

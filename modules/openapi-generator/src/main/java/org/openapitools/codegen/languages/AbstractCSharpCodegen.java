@@ -56,7 +56,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
     /** Matches a regex literal that carries modifier flags after the closing slash, e.g. {@code /foo/i}. */
     private static final Pattern HAS_MODIFIERS = Pattern.compile(".*/[gmiyuvsdlnx]+$");
-    private static final Pattern LEADING_DIGIT = Pattern.compile("^\\d");
     private static final Pattern UNESCAPED_DOUBLE_QUOTE = Pattern.compile("(?<!\\\\)\"");
 
     protected boolean optionalAssemblyInfoFlag = true;
@@ -1425,7 +1424,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         // operationId starts with a number
-        if (LEADING_DIGIT.matcher(operationId).find()) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).find()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -1453,7 +1452,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || LEADING_DIGIT.matcher(name).find()) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).find()) {
             name = escapeReservedWord(name);
         }
 
@@ -1500,7 +1499,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     public String escapeReservedWord(String name) {
         if (isReservedWord(name) ||
-                LEADING_DIGIT.matcher(name).find()) {
+                STARTS_WITH_DIGIT.matcher(name).find()) {
             name = AbstractCSharpCodegen.invalidParameterNamePrefix + camelize(name);
         }
         return name;
@@ -1678,7 +1677,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         // model name starts with number
-        if (LEADING_DIGIT.matcher(name).find()) {
+        if (STARTS_WITH_DIGIT.matcher(name).find()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
@@ -1804,7 +1803,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         enumName = adjustNamingStyle(enumName) + this.enumValueSuffix;
 
-        if (LEADING_DIGIT.matcher(enumName).find()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).find()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

@@ -207,7 +207,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
         // If word starts with number add a prefix
         // Note: this must be done after casing since CamelCase will strip leading underscores
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             nameWasModified = true;
             name = casingFunction.apply(escapePrefix + '_' + name);
         }

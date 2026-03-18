@@ -250,11 +250,18 @@ public class DefaultCodegen implements CodegenConfig {
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application/vnd.(.*)+json(;.*)?");
     private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
     /** Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}. */
-    private static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
+    protected static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
     /** Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}. */
     protected static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
     /** Matches a string that starts with a digit; used in {@link #toEnumVarName}. */
     protected static final Pattern LEADING_DIGIT = Pattern.compile("\\d.*");
+    protected static final Pattern LEADING_UNDERSCORES = Pattern.compile("^_*");
+
+    protected static final Pattern WHITESPACE = Pattern.compile("\\s+");
+
+    protected static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
+
+    protected static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)/");
 
     /** Matches a string that starts with a digit (anchored); used across language generators. */
     protected static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
@@ -262,6 +269,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
     /** Matches tab, newline, or carriage-return; used in {@link #escapeText}. */
     protected static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
+
+    protected static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
     /** Matches a callback path-expression parameter like {@code {$request.body#/id}}. */
     private static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
     // Dynamic patterns keyed by user-supplied removeCharRegEx strings are cached via PatternCache.
@@ -6797,7 +6806,7 @@ public class DefaultCodegen implements CodegenConfig {
         tag = camelize(sanitizeName(tag));
 
         // tag starts with numbers
-        if (tag.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(tag).matches()) {
             tag = "Class" + tag;
         }
 

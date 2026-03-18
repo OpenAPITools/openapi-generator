@@ -114,7 +114,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String processOpenapiSpecDescription(String description) {
         if (description != null) {
-            return description.replaceAll("\\s+", " ");
+            return WHITESPACE.matcher(description).replaceAll(" ");
         } else {
             return "No description provided";
         }

@@ -811,7 +811,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             // e.g. 200Response => Model200Response (after camelize)
             String modelName = "Model" + name;
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
@@ -915,7 +915,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // operationId starts with a number
-        if (operationId.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
             operationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
         }
@@ -934,7 +934,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         name = sanitizeName(name);
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -948,7 +948,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // for words starting with number, append _
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "_" + name;
         }
 
@@ -969,7 +969,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -983,7 +983,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // for words starting with number, append _
-        if (name.matches("^\\d.*")) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "_" + name;
         }
 
@@ -1064,7 +1064,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // Prefix with underscore if name starts with number
-        if (name.matches("\\d.*")) {
+        if (LEADING_DIGIT.matcher(name).matches()) {
             return "_" + replaceSpecialCharacters(camelize(name, LOWERCASE_FIRST_LETTER));
         }
 
@@ -1125,7 +1125,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // Fallback, replace unknowns with underscore.
-        name = name.replaceAll("\\W+", "_");
+        name = NON_WORD_PLUS.matcher(name).replaceAll("_");
 
         return name;
     }
@@ -1174,7 +1174,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // TODO: toModelName already does something for names starting with number,
         // so this code is probably never called
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

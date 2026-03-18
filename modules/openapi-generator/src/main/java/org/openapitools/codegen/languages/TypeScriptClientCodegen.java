@@ -262,7 +262,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -279,7 +279,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
@@ -329,7 +329,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         enumName = getNameWithEnumPropertyNaming(enumName);
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         }
 
@@ -614,8 +614,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
      * @return quoted string
      */
     private String ensureQuotes(String in) {
-        Pattern pattern = Pattern.compile("\r\n|\r|\n");
-        Matcher matcher = pattern.matcher(in);
+        Matcher matcher = MULTILINE_STRING.matcher(in);
         if (matcher.find()) {
             // if a string has a new line in it add backticks to make it a typescript multiline string
             return "`" + in + "`";
