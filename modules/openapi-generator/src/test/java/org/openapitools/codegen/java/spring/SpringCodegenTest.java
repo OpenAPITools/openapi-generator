@@ -681,7 +681,6 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
         codegen.setDelegatePattern(true);
-        //codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
@@ -761,7 +760,6 @@ public class SpringCodegenTest {
         codegen.setReactive(true);
         codegen.setLibrary("spring-boot");
         codegen.setUseSpringBoot3(false);
-        //codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
         JavaFileAssert.assertThat(files.get("UserApi.java"))
@@ -803,7 +801,6 @@ public class SpringCodegenTest {
         codegen.setReactive(true);
         codegen.setLibrary("spring-boot");
         codegen.setUseSpringBoot3(false);
-        //codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "false");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
@@ -870,7 +867,6 @@ public class SpringCodegenTest {
         codegen.setReactive(false);
         codegen.setLibrary("spring-boot");
         codegen.setUseSpringBoot3(false);
-        //codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
@@ -896,7 +892,6 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
         codegen.setDelegatePattern(true);
-        //codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
