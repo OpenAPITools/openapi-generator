@@ -11,7 +11,7 @@ src/main/java/org/openapitools/api/StoreApi.java
 src/main/java/org/openapitools/api/UserApi.java
 src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
-src/main/java/org/openapitools/configuration/SpringFoxConfiguration.java
+src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/model/AdditionalPropertiesAnyTypeDto.java
 src/main/java/org/openapitools/model/AdditionalPropertiesArrayDto.java
 src/main/java/org/openapitools/model/AdditionalPropertiesBooleanDto.java
@@ -64,5 +64,4 @@ src/main/java/org/openapitools/model/UserDto.java
 src/main/java/org/openapitools/model/XmlItemDto.java
 src/main/resources/application.properties
 src/main/resources/openapi.yaml
-src/main/resources/static/swagger-ui.html
 src/test/java/org/openapitools/OpenApiGeneratorApplicationTests.java

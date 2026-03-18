@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.model.OuterEnumDefaultValueDto;
@@ -20,6 +18,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -214,7 +213,7 @@ public class EnumTestDto {
    * @return enumString
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_string")
   public @Nullable EnumStringEnum getEnumString() {
     return enumString;
@@ -235,7 +234,7 @@ public class EnumTestDto {
    * @return enumStringRequired
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "enum_string_required", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -256,7 +255,7 @@ public class EnumTestDto {
    * @return enumInteger
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "enum_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_integer")
   public @Nullable EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -277,7 +276,7 @@ public class EnumTestDto {
    * @return enumNumber
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "enum_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_number")
   public @Nullable EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -298,7 +297,7 @@ public class EnumTestDto {
    * @return outerEnum
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outerEnum")
   public JsonNullable<OuterEnumDto> getOuterEnum() {
     return outerEnum;
@@ -318,7 +317,7 @@ public class EnumTestDto {
    * @return outerEnumInteger
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "outerEnumInteger", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outerEnumInteger")
   public @Nullable OuterEnumIntegerDto getOuterEnumInteger() {
     return outerEnumInteger;
@@ -339,7 +338,7 @@ public class EnumTestDto {
    * @return outerEnumDefaultValue
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "outerEnumDefaultValue", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outerEnumDefaultValue")
   public OuterEnumDefaultValueDto getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
@@ -360,7 +359,7 @@ public class EnumTestDto {
    * @return outerEnumIntegerDefaultValue
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "outerEnumIntegerDefaultValue", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outerEnumIntegerDefaultValue")
   public OuterEnumIntegerDefaultValueDto getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;

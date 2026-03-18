@@ -5,13 +5,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -51,7 +50,7 @@ public class UserDto {
    * @return id
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -72,7 +71,7 @@ public class UserDto {
    * @return username
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
   public @Nullable String getUsername() {
     return username;
@@ -93,7 +92,7 @@ public class UserDto {
    * @return firstName
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
   public @Nullable String getFirstName() {
     return firstName;
@@ -114,7 +113,7 @@ public class UserDto {
    * @return lastName
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
   public @Nullable String getLastName() {
     return lastName;
@@ -135,7 +134,7 @@ public class UserDto {
    * @return email
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
   public @Nullable String getEmail() {
     return email;
@@ -156,7 +155,7 @@ public class UserDto {
    * @return password
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
   public @Nullable String getPassword() {
     return password;
@@ -177,7 +176,7 @@ public class UserDto {
    * @return phone
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
   public @Nullable String getPhone() {
     return phone;
@@ -198,7 +197,7 @@ public class UserDto {
    * @return userStatus
    */
   
-  @ApiModelProperty(value = "User Status")
+  @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
   public @Nullable Integer getUserStatus() {
     return userStatus;

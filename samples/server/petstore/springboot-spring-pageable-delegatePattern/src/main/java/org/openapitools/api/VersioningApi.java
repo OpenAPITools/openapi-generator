@@ -6,7 +6,18 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +31,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Validated
-@Api(value = "versioning", description = "the versioning API")
+@Tag(name = "versioning", description = "the versioning API")
 public interface VersioningApi {
 
     default VersioningApiDelegate getDelegate() {
@@ -34,19 +45,18 @@ public interface VersioningApi {
      * @param petId ID of pet to update (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "versioningHeaders",
         tags = { "versioning" },
-        value = "",
-        nickname = "versioningHeaders",
-        notes = "",
-        response = ModelApiResponse.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "*/*", schema = @Schema(implementation = ModelApiResponse.class))
+            })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
-    })
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "VersionWithDefaultValue", value = "", required = true, dataType = "String", paramType = "header"),
-        @ApiImplicitParam(name = "VersionNoDefaultValue", value = "", required = true, dataType = "String", paramType = "header")
+    @Parameters({
+        @Parameter(name = "VersionWithDefaultValue", description = "", required = true, in = ParameterIn.HEADER),
+        @Parameter(name = "VersionNoDefaultValue", description = "", required = true, in = ParameterIn.HEADER)
     })
     @RequestMapping(
         method = RequestMethod.POST,
@@ -55,7 +65,7 @@ public interface VersioningApi {
         headers = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
     )
     default ResponseEntity<ModelApiResponse> versioningHeaders(
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningHeaders(petId);
     }
@@ -70,19 +80,18 @@ public interface VersioningApi {
      * @param petId ID of pet to update (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "versioningMix",
         tags = { "versioning" },
-        value = "",
-        nickname = "versioningMix",
-        notes = "",
-        response = ModelApiResponse.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "*/*", schema = @Schema(implementation = ModelApiResponse.class))
+            })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
-    })
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "VersionWithDefaultValueHeader", value = "", required = true, dataType = "String", paramType = "header"),
-        @ApiImplicitParam(name = "VersionNoDefaultValueHeader", value = "", required = true, dataType = "String", paramType = "header")
+    @Parameters({
+        @Parameter(name = "VersionWithDefaultValueHeader", description = "", required = true, in = ParameterIn.HEADER),
+        @Parameter(name = "VersionNoDefaultValueHeader", description = "", required = true, in = ParameterIn.HEADER)
     })
     @RequestMapping(
         method = RequestMethod.POST,
@@ -92,9 +101,9 @@ public interface VersioningApi {
         params = { "VersionWithDefaultValueQuery=V1", "VersionNoDefaultValueQuery" } 
     )
     default ResponseEntity<ModelApiResponse> versioningMix(
-        @NotNull @ApiParam(value = "", required = true, defaultValue = "V1") @Valid @RequestParam(value = "VersionWithDefaultValueQuery", required = true, defaultValue = "V1") String versionWithDefaultValueQuery,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValueQuery", required = true) String versionNoDefaultValueQuery,
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @NotNull @Parameter(name = "VersionWithDefaultValueQuery", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionWithDefaultValueQuery", required = true, defaultValue = "V1") String versionWithDefaultValueQuery,
+        @NotNull @Parameter(name = "VersionNoDefaultValueQuery", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionNoDefaultValueQuery", required = true) String versionNoDefaultValueQuery,
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningMix(versionWithDefaultValueQuery, versionNoDefaultValueQuery, petId);
     }
@@ -109,16 +118,15 @@ public interface VersioningApi {
      * @param petId ID of pet to update (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "versioningQueryParams",
         tags = { "versioning" },
-        value = "",
-        nickname = "versioningQueryParams",
-        notes = "",
-        response = ModelApiResponse.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "*/*", schema = @Schema(implementation = ModelApiResponse.class))
+            })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = VersioningApi.PATH_VERSIONING_QUERY_PARAMS,
@@ -126,9 +134,9 @@ public interface VersioningApi {
         params = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
     )
     default ResponseEntity<ModelApiResponse> versioningQueryParams(
-        @NotNull @ApiParam(value = "", required = true, defaultValue = "V1") @Valid @RequestParam(value = "VersionWithDefaultValue", required = true, defaultValue = "V1") String versionWithDefaultValue,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
-        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @NotNull @Parameter(name = "VersionWithDefaultValue", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionWithDefaultValue", required = true, defaultValue = "V1") String versionWithDefaultValue,
+        @NotNull @Parameter(name = "VersionNoDefaultValue", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningQueryParams(versionWithDefaultValue, versionNoDefaultValue, petId);
     }

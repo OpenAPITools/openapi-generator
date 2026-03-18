@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +15,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -52,7 +51,7 @@ public class ObjectWithDeprecatedFieldsDto {
    * @return uuid
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "uuid", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public @Nullable String getUuid() {
     return uuid;
@@ -74,7 +73,7 @@ public class ObjectWithDeprecatedFieldsDto {
    * @deprecated
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @Deprecated
   @JsonProperty("id")
   public @Nullable BigDecimal getId() {
@@ -101,7 +100,7 @@ public class ObjectWithDeprecatedFieldsDto {
    * @deprecated
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "deprecatedRef", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @Deprecated
   @JsonProperty("deprecatedRef")
   public @Nullable DeprecatedObjectDto getDeprecatedRef() {
@@ -136,7 +135,7 @@ public class ObjectWithDeprecatedFieldsDto {
    * @deprecated
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "bars", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @Deprecated
   @JsonProperty("bars")
   public List<String> getBars() {

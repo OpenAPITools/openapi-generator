@@ -7,7 +7,18 @@ package org.openapitools.api;
 
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +32,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Validated
-@Api(value = "user", description = "Operations about user")
+@Tag(name = "user", description = "Operations about user")
 public interface UserApi {
 
     default UserApiDelegate getDelegate() {
@@ -36,18 +47,18 @@ public interface UserApi {
      * @param user Created user object (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "createUser",
+        summary = "Create user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
-        value = "Create user",
-        nickname = "createUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation")
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = UserApi.PATH_CREATE_USER,
@@ -55,7 +66,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUser(
-        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user
+        @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user
     ) {
         getDelegate().createUser(user);
     }
@@ -69,18 +80,18 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "createUsersWithArrayInput",
+        summary = "Creates list of users with given input array",
+        description = "",
         tags = { "user" },
-        value = "Creates list of users with given input array",
-        nickname = "createUsersWithArrayInput",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation")
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT,
@@ -88,7 +99,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
         getDelegate().createUsersWithArrayInput(user);
     }
@@ -102,18 +113,18 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "createUsersWithListInput",
+        summary = "Creates list of users with given input array",
+        description = "",
         tags = { "user" },
-        value = "Creates list of users with given input array",
-        nickname = "createUsersWithListInput",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation")
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT,
@@ -121,7 +132,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     ) {
         getDelegate().createUsersWithListInput(user);
     }
@@ -136,26 +147,26 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "deleteUser",
+        summary = "Delete user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
-        value = "Delete user",
-        nickname = "deleteUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 400, message = "Invalid username supplied"),
-        @ApiResponse(code = 404, message = "User not found")
-    })
     @RequestMapping(
         method = RequestMethod.DELETE,
         value = UserApi.PATH_DELETE_USER
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default void deleteUser(
-        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         getDelegate().deleteUser(username);
     }
@@ -171,18 +182,20 @@ public interface UserApi {
      *         or Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "getUserByName",
+        summary = "Get user by user name",
+        description = "",
         tags = { "user" },
-        value = "Get user by user name",
-        nickname = "getUserByName",
-        notes = "",
-        response = User.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = User.class),
-        @ApiResponse(code = 400, message = "Invalid username supplied"),
-        @ApiResponse(code = 404, message = "User not found")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = UserApi.PATH_GET_USER_BY_NAME,
@@ -190,7 +203,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default User getUserByName(
-        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         return getDelegate().getUserByName(username);
     }
@@ -206,17 +219,19 @@ public interface UserApi {
      * @return successful operation (status code 200)
      *         or Invalid username/password supplied (status code 400)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "loginUser",
+        summary = "Logs user into the system",
+        description = "",
         tags = { "user" },
-        value = "Logs user into the system",
-        nickname = "loginUser",
-        notes = "",
-        response = String.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = String.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = String.class),
-        @ApiResponse(code = 400, message = "Invalid username/password supplied")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = UserApi.PATH_LOGIN_USER,
@@ -224,8 +239,8 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default String loginUser(
-        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
     ) {
         return getDelegate().loginUser(username, password);
     }
@@ -238,18 +253,18 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "logoutUser",
+        summary = "Logs out current logged in user session",
+        description = "",
         tags = { "user" },
-        value = "Logs out current logged in user session",
-        nickname = "logoutUser",
-        notes = "",
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "default", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = UserApi.PATH_LOGOUT_USER
@@ -272,19 +287,19 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "updateUser",
+        summary = "Updated user",
+        description = "This can only be done by the logged in user.",
         tags = { "user" },
-        value = "Updated user",
-        nickname = "updateUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid user supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 400, message = "Invalid user supplied"),
-        @ApiResponse(code = 404, message = "User not found")
-    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = UserApi.PATH_UPDATE_USER,
@@ -292,8 +307,8 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default void updateUser(
-        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user
     ) {
         getDelegate().updateUser(username, user);
     }

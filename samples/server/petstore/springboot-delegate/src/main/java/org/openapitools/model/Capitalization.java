@@ -4,13 +4,12 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -61,7 +60,7 @@ public class Capitalization {
    * @return smallCamel
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "smallCamel", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("smallCamel")
   public @Nullable String getSmallCamel() {
     return smallCamel;
@@ -82,7 +81,7 @@ public class Capitalization {
    * @return capitalCamel
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "CapitalCamel", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("CapitalCamel")
   public @Nullable String getCapitalCamel() {
     return capitalCamel;
@@ -103,7 +102,7 @@ public class Capitalization {
    * @return smallSnake
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "small_Snake", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("small_Snake")
   public @Nullable String getSmallSnake() {
     return smallSnake;
@@ -124,7 +123,7 @@ public class Capitalization {
    * @return capitalSnake
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "Capital_Snake", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("Capital_Snake")
   public @Nullable String getCapitalSnake() {
     return capitalSnake;
@@ -145,7 +144,7 @@ public class Capitalization {
    * @return scAETHFlowPoints
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "SCA_ETH_Flow_Points", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("SCA_ETH_Flow_Points")
   public @Nullable String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -166,7 +165,7 @@ public class Capitalization {
    * @return ATT_NAME
    */
   
-  @ApiModelProperty(value = "Name of the pet ")
+  @Schema(name = "ATT_NAME", description = "Name of the pet ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ATT_NAME")
   public @Nullable String getATTNAME() {
     return ATT_NAME;

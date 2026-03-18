@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -18,6 +16,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -87,7 +86,7 @@ public class FormatTest {
    * @return integer
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("integer")
   public Optional<@Min(value = 10) @Max(value = 100) Integer> getInteger() {
     return integer;
@@ -110,7 +109,7 @@ public class FormatTest {
    * @return int32
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "int32", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int32")
   public Optional<@Min(value = 20) @Max(value = 200) Integer> getInt32() {
     return int32;
@@ -131,7 +130,7 @@ public class FormatTest {
    * @return int64
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "int64", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int64")
   public Optional<Long> getInt64() {
     return int64;
@@ -154,7 +153,7 @@ public class FormatTest {
    * @return number
    */
   @NotNull @Valid @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "number", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
@@ -177,7 +176,7 @@ public class FormatTest {
    * @return _float
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "float", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("float")
   public Optional<@DecimalMin(value = "54.3") @DecimalMax(value = "987.6") Float> getFloat() {
     return _float;
@@ -200,7 +199,7 @@ public class FormatTest {
    * @return _double
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "double", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("double")
   public Optional<@DecimalMin(value = "67.8") @DecimalMax(value = "123.4") Double> getDouble() {
     return _double;
@@ -221,7 +220,7 @@ public class FormatTest {
    * @return string
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
   public Optional<@Pattern(regexp = "/[a-z]/i") String> getString() {
     return string;
@@ -242,7 +241,7 @@ public class FormatTest {
    * @return _byte
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "byte", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
@@ -263,7 +262,7 @@ public class FormatTest {
    * @return binary
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "binary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("binary")
   public Optional<org.springframework.core.io.Resource> getBinary() {
     return binary;
@@ -284,7 +283,7 @@ public class FormatTest {
    * @return date
    */
   @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "date", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("date")
   public LocalDate getDate() {
     return date;
@@ -305,7 +304,7 @@ public class FormatTest {
    * @return dateTime
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
   public Optional<OffsetDateTime> getDateTime() {
     return dateTime;
@@ -326,7 +325,7 @@ public class FormatTest {
    * @return uuid
    */
   @Valid 
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public Optional<UUID> getUuid() {
     return uuid;
@@ -347,7 +346,7 @@ public class FormatTest {
    * @return password
    */
   @NotNull @Size(min = 10, max = 64) 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -368,7 +367,7 @@ public class FormatTest {
    * @return bigDecimal
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "BigDecimal", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("BigDecimal")
   public Optional<BigDecimal> getBigDecimal() {
     return bigDecimal;

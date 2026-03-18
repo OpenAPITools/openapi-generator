@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -18,6 +16,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -91,7 +90,7 @@ public class FormatTestDto {
    * @return integer
    */
   @Min(value = 10) @Max(value = 100) 
-  @ApiModelProperty(value = "")
+  @Schema(name = "integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("integer")
   public @Nullable Integer getInteger() {
     return integer;
@@ -114,7 +113,7 @@ public class FormatTestDto {
    * @return int32
    */
   @Min(value = 20) @Max(value = 200) 
-  @ApiModelProperty(value = "")
+  @Schema(name = "int32", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int32")
   public @Nullable Integer getInt32() {
     return int32;
@@ -135,7 +134,7 @@ public class FormatTestDto {
    * @return int64
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "int64", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int64")
   public @Nullable Long getInt64() {
     return int64;
@@ -158,7 +157,7 @@ public class FormatTestDto {
    * @return number
    */
   @NotNull @Valid @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "number", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
@@ -181,7 +180,7 @@ public class FormatTestDto {
    * @return _float
    */
   @DecimalMin(value = "54.3") @DecimalMax(value = "987.6") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "float", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("float")
   public @Nullable Float getFloat() {
     return _float;
@@ -204,7 +203,7 @@ public class FormatTestDto {
    * @return _double
    */
   @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "double", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("double")
   public @Nullable Double getDouble() {
     return _double;
@@ -225,7 +224,7 @@ public class FormatTestDto {
    * @return decimal
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "decimal", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("decimal")
   public @Nullable BigDecimal getDecimal() {
     return decimal;
@@ -246,7 +245,7 @@ public class FormatTestDto {
    * @return string
    */
   @Pattern(regexp = "/[a-z]/i") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
   public @Nullable String getString() {
     return string;
@@ -267,7 +266,7 @@ public class FormatTestDto {
    * @return _byte
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "byte", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
@@ -288,7 +287,7 @@ public class FormatTestDto {
    * @return binary
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "binary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("binary")
   public @Nullable org.springframework.core.io.Resource getBinary() {
     return binary;
@@ -309,7 +308,7 @@ public class FormatTestDto {
    * @return date
    */
   @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "date", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("date")
   public LocalDate getDate() {
     return date;
@@ -330,7 +329,7 @@ public class FormatTestDto {
    * @return dateTime
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
   public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
@@ -351,7 +350,7 @@ public class FormatTestDto {
    * @return uuid
    */
   @Valid 
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public @Nullable UUID getUuid() {
     return uuid;
@@ -372,7 +371,7 @@ public class FormatTestDto {
    * @return password
    */
   @NotNull @Size(min = 10, max = 64) 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -393,7 +392,7 @@ public class FormatTestDto {
    * @return patternWithDigits
    */
   @Pattern(regexp = "^\\d{10}$") 
-  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
+  @Schema(name = "pattern_with_digits", description = "A string that is a 10 digit number. Can have leading zeros.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pattern_with_digits")
   public @Nullable String getPatternWithDigits() {
     return patternWithDigits;
@@ -414,7 +413,7 @@ public class FormatTestDto {
    * @return patternWithDigitsAndDelimiter
    */
   @Pattern(regexp = "/^image_\\d{1,3}$/i") 
-  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+  @Schema(name = "pattern_with_digits_and_delimiter", description = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pattern_with_digits_and_delimiter")
   public @Nullable String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;

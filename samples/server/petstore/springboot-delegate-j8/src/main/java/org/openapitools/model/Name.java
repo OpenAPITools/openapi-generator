@@ -4,13 +4,12 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -20,7 +19,7 @@ import javax.annotation.Generated;
  * Model for testing model name same as property name
  */
 
-@ApiModel(description = "Model for testing model name same as property name")
+@Schema(name = "Name", description = "Model for testing model name same as property name")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Name {
 
@@ -53,7 +52,7 @@ public class Name {
    * @return name
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public Integer getName() {
     return name;
@@ -74,7 +73,7 @@ public class Name {
    * @return snakeCase
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("snake_case")
   public @Nullable Integer getSnakeCase() {
     return snakeCase;
@@ -95,7 +94,7 @@ public class Name {
    * @return property
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property")
   public @Nullable String getProperty() {
     return property;
@@ -116,7 +115,7 @@ public class Name {
    * @return _123number
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123Number")
   public @Nullable Integer get123number() {
     return _123number;

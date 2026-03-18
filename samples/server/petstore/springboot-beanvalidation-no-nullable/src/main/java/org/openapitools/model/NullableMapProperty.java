@@ -4,14 +4,13 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -45,7 +44,7 @@ public class NullableMapProperty {
    * @return languageValues
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "languageValues", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("languageValues")
   public @Nullable Map<String, String> getLanguageValues() {
     return languageValues;

@@ -5,13 +5,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -41,7 +40,7 @@ public class TestInlineFreeformAdditionalPropertiesRequestDto {
    * @return someProperty
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "someProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("someProperty")
   public @Nullable String getSomeProperty() {
     return someProperty;

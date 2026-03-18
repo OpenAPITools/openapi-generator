@@ -5,9 +5,19 @@
  */
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.Client;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +35,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Validated
-@Api(value = "$another-fake?", description = "the $another-fake? API")
+@Tag(name = "$another-fake?", description = "the $another-fake? API")
 public interface AnotherFakeApi {
 
     default AnotherFakeApiDelegate getDelegate() {
@@ -40,16 +50,17 @@ public interface AnotherFakeApi {
      * @param client client model (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "call123testSpecialTags",
+        summary = "To test special tags",
+        description = "To test special tags and operation ID starting with number",
         tags = { "$another-fake?" },
-        value = "To test special tags",
-        nickname = "call123testSpecialTags",
-        notes = "To test special tags and operation ID starting with number",
-        response = Client.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))
+            })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = AnotherFakeApi.PATH_CALL123TEST_SPECIAL_TAGS,
@@ -57,8 +68,8 @@ public interface AnotherFakeApi {
         consumes = { "application/json" }
     )
     default Mono<ResponseEntity<Client>> call123testSpecialTags(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client,
-        @ApiIgnore final ServerWebExchange exchange
+        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Mono<Client> client,
+        @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().call123testSpecialTags(client, exchange);
     }

@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
@@ -15,6 +13,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -24,7 +23,7 @@ import javax.annotation.Generated;
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
 
-@ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
+@Schema(name = "HealthCheckResult", description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @JsonTypeName("HealthCheckResult")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class HealthCheckResultDto {
@@ -41,7 +40,7 @@ public class HealthCheckResultDto {
    * @return nullableMessage
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "NullableMessage", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("NullableMessage")
   public JsonNullable<String> getNullableMessage() {
     return nullableMessage;

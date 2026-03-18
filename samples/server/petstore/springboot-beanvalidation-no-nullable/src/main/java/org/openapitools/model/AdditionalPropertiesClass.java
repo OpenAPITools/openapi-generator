@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +12,7 @@ import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -74,7 +73,7 @@ public class AdditionalPropertiesClass {
    * @return mapString
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_string")
   public Map<String, String> getMapString() {
     return mapString;
@@ -103,7 +102,7 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -132,7 +131,7 @@ public class AdditionalPropertiesClass {
    * @return mapInteger
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -161,7 +160,7 @@ public class AdditionalPropertiesClass {
    * @return mapBoolean
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -190,7 +189,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_array_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -219,7 +218,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_array_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -248,7 +247,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -277,7 +276,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_map_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -298,7 +297,7 @@ public class AdditionalPropertiesClass {
    * @return anytype1
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "anytype_1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_1")
   public @Nullable Object getAnytype1() {
     return anytype1;
@@ -319,7 +318,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_2")
   public @Nullable Object getAnytype2() {
     return anytype2;
@@ -340,7 +339,7 @@ public class AdditionalPropertiesClass {
    * @return anytype3
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "anytype_3", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_3")
   public @Nullable Object getAnytype3() {
     return anytype3;
