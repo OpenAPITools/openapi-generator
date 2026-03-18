@@ -108,11 +108,11 @@ class ObjectSerializer
                     }
                 }
             } else {
-                foreach($data as $property => $value) {
+                foreach ($data as $property => $value) {
                     $values[$property] = self::sanitizeForSerialization($value);
                 }
             }
-            return (object)$values;
+            return (object) $values;
         } else {
             return (string)$data;
         }
@@ -170,30 +170,30 @@ class ObjectSerializer
      */
     private static function isEmptyValue(mixed $value, string $openApiType): bool
     {
-        # If empty() returns false, it is not empty regardless of its type.
+        // If empty() returns false, it is not empty regardless of its type.
         if (!empty($value)) {
             return false;
         }
 
-        # Null is always empty, as we cannot send a real "null" value in a query parameter.
+        // Null is always empty, as we cannot send a real "null" value in a query parameter.
         if ($value === null) {
             return true;
         }
 
         return match ($openApiType) {
-            # For numeric values, false and '' are considered empty.
-            # This comparison is safe for floating point values, since the previous call to empty() will
-            # filter out values that don't match 0.
+            // For numeric values, false and '' are considered empty.
+            // This comparison is safe for floating point values, since the previous call to empty() will
+            // filter out values that don't match 0.
             'int','integer' => $value !== 0,
             'number'|'float' => $value !== 0 && $value !== 0.0,
 
-            # For boolean values, '' is considered empty
+            // For boolean values, '' is considered empty
             'bool','boolean' => !in_array($value, [false, 0], true),
 
-            # For string values, '' is considered empty.
+            // For string values, '' is considered empty.
             'string' => $value === '',
 
-            # For all the other types, any value at this point can be considered empty.
+            // For all the other types, any value at this point can be considered empty.
             default => true
         };
     }
@@ -220,10 +220,10 @@ class ObjectSerializer
         bool $required = true
     ): array {
 
-        # Check if we should omit this parameter from the query. This should only happen when:
-        #  - Parameter is NOT required; AND
-        #  - its value is set to a value that is equivalent to "empty", depending on its OpenAPI type. For
-        #    example, 0 as "int" or "boolean" is NOT an empty value.
+        // Check if we should omit this parameter from the query. This should only happen when:
+        //  - Parameter is NOT required; AND
+        //  - its value is set to a value that is equivalent to "empty", depending on its OpenAPI type. For
+        //    example, 0 as "int" or "boolean" is NOT an empty value.
         if (self::isEmptyValue($value, $openApiType)) {
             if ($required) {
                 return ["{$paramName}" => ''];
@@ -232,8 +232,8 @@ class ObjectSerializer
             }
         }
 
-        # Handle DateTime objects in query
-        if($openApiType === "\DateTime" && $value instanceof DateTime) {
+        // Handle DateTime objects in query
+        if ($openApiType === "\\DateTime" && $value instanceof DateTime) {
             return ["{$paramName}" => $value->format(self::$dateTimeFormat)];
         }
 
@@ -243,7 +243,9 @@ class ObjectSerializer
         // since \GuzzleHttp\Psr7\Query::build fails with nested arrays
         // need to flatten array first
         $flattenArray = function ($arr, $name, &$result = []) use (&$flattenArray, $style, $explode) {
-            if (!is_array($arr)) return $arr;
+            if (!is_array($arr)) {
+                return $arr;
+            }
 
             foreach ($arr as $k => $v) {
                 $prop = ($style === 'deepObject') ? "{$name}[{$k}]" : $k;
@@ -491,7 +493,7 @@ class ObjectSerializer
             $data = is_string($data) ? json_decode($data) : $data;
 
             if (is_array($data)) {
-                $data = (object)$data;
+                $data = (object) $data;
             }
 
             // If a discriminator is defined and points to a valid subclass, use it.
@@ -530,17 +532,17 @@ class ObjectSerializer
     }
 
     /**
-    * Build a query string from an array of key value pairs.
-    *
-    * This function can use the return value of `parse()` to build a query
-    * string. This function does not modify the provided keys when an array is
-    * encountered (like `http_build_query()` would).
-    *
-    * @param array     $params              Query string parameters.
-    * @param int|false $encoding            Set to false to not encode, PHP_QUERY_RFC3986
-    *                                       to encode using RFC3986, or PHP_QUERY_RFC1738
-    *                                       to encode using RFC1738.
-    */
+     * Build a query string from an array of key value pairs.
+     *
+     * This function can use the return value of `parse()` to build a query
+     * string. This function does not modify the provided keys when an array is
+     * encountered (like `http_build_query()` would).
+     *
+     * @param array     $params              Query string parameters.
+     * @param int|false $encoding            Set to false to not encode, PHP_QUERY_RFC3986
+     *                                       to encode using RFC3986, or PHP_QUERY_RFC1738
+     *                                       to encode using RFC1738.
+     */
     public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986): string
     {
         if (!$params) {

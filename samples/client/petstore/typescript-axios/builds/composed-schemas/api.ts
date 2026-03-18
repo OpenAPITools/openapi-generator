@@ -39,7 +39,7 @@ export const DogBreedEnum = {
     Dingo: 'Dingo',
     Husky: 'Husky',
     Retriever: 'Retriever',
-    Shepherd: 'Shepherd'
+    Shepherd: 'Shepherd',
 } as const;
 
 export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
@@ -58,7 +58,7 @@ export interface PetByType {
 
 export const PetByTypePetTypeEnum = {
     Cat: 'Cat',
-    Dog: 'Dog'
+    Dog: 'Dog',
 } as const;
 
 export type PetByTypePetTypeEnum = typeof PetByTypePetTypeEnum[keyof typeof PetByTypePetTypeEnum];
@@ -72,7 +72,7 @@ export interface PetsFilteredPatchRequest {
 
 export const PetsFilteredPatchRequestPetTypeEnum = {
     Cat: 'Cat',
-    Dog: 'Dog'
+    Dog: 'Dog',
 } as const;
 
 export type PetsFilteredPatchRequestPetTypeEnum = typeof PetsFilteredPatchRequestPetTypeEnum[keyof typeof PetsFilteredPatchRequestPetTypeEnum];
