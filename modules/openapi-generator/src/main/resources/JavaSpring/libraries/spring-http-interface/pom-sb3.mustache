@@ -102,6 +102,12 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         {{/useBeanValidation}}
+        {{^useBeanValidation}}{{#performBeanValidation}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        {{/performBeanValidation}}{{/useBeanValidation}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
