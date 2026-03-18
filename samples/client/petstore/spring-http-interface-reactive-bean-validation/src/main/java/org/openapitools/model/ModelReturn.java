@@ -40,6 +40,7 @@ public class ModelReturn {
     return _return;
   }
 
+  @JsonProperty("return")
   public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }
@@ -75,10 +76,7 @@ public class ModelReturn {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

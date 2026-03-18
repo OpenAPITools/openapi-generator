@@ -40,6 +40,7 @@ public class ReadOnlyFirst {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -59,6 +60,7 @@ public class ReadOnlyFirst {
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(@Nullable String baz) {
     this.baz = baz;
   }
@@ -96,10 +98,7 @@ public class ReadOnlyFirst {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

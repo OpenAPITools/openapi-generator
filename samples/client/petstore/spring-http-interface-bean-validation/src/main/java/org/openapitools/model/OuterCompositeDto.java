@@ -45,6 +45,7 @@ public class OuterCompositeDto {
     return myNumber;
   }
 
+  @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -64,6 +65,7 @@ public class OuterCompositeDto {
     return myString;
   }
 
+  @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
   }
@@ -83,6 +85,7 @@ public class OuterCompositeDto {
     return myBoolean;
   }
 
+  @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
@@ -122,10 +125,7 @@ public class OuterCompositeDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

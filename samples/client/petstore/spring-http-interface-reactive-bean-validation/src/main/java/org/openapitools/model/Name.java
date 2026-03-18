@@ -55,6 +55,7 @@ public class Name {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -74,6 +75,7 @@ public class Name {
     return snakeCase;
   }
 
+  @JsonProperty("snake_case")
   public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
@@ -93,6 +95,7 @@ public class Name {
     return property;
   }
 
+  @JsonProperty("property")
   public void setProperty(@Nullable String property) {
     this.property = property;
   }
@@ -112,6 +115,7 @@ public class Name {
     return _123number;
   }
 
+  @JsonProperty("123Number")
   public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;
   }
@@ -153,10 +157,7 @@ public class Name {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -53,6 +53,7 @@ public class ArrayOfNumberOnlyDto {
     return arrayNumber;
   }
 
+  @JsonProperty("ArrayNumber")
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
@@ -88,10 +89,7 @@ public class ArrayOfNumberOnlyDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

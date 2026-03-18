@@ -14,4 +14,4 @@ additionalProperties:
   documentationProvider: "springfox"
   # annotation provider should be ignored
   annotationLibrary: "swagger1"
-
+  useSpringBoot3: "true"

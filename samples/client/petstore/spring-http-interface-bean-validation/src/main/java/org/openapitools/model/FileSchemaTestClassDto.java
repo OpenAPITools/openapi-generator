@@ -47,6 +47,7 @@ public class FileSchemaTestClassDto {
     return file;
   }
 
+  @JsonProperty("file")
   public void setFile(@Nullable FileDto file) {
     this.file = file;
   }
@@ -74,6 +75,7 @@ public class FileSchemaTestClassDto {
     return files;
   }
 
+  @JsonProperty("files")
   public void setFiles(List<@Valid FileDto> files) {
     this.files = files;
   }
@@ -111,10 +113,7 @@ public class FileSchemaTestClassDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

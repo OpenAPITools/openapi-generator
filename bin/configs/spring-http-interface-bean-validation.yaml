@@ -15,3 +15,4 @@ additionalProperties:
   documentationProvider: "springdoc"
   # annotation provider should be ignored
   annotationLibrary: "swagger2"
+  useSpringBoot3: "true"
