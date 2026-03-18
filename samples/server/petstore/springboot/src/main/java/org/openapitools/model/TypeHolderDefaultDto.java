@@ -37,7 +37,6 @@ public class TypeHolderDefaultDto {
 
   private Boolean boolItem = true;
 
-  @Valid
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto() {

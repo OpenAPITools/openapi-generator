@@ -26,16 +26,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
-  @Valid
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
-  @Valid
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
-  @Valid
   private List<String> requiredArray = new ArrayList<>();
 
-  @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValue() {

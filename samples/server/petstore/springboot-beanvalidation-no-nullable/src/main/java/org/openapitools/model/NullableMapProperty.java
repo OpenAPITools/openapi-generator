@@ -24,7 +24,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NullableMapProperty {
 
-  @Valid
   private @Nullable Map<String, String> languageValues;
 
   public NullableMapProperty languageValues(@Nullable Map<String, String> languageValues) {

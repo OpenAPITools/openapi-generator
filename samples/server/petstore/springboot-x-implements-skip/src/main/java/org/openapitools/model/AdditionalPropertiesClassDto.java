@@ -27,10 +27,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
-  @Valid
   private Map<String, String> mapProperty = new HashMap<>();
 
-  @Valid
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClassDto mapProperty(Map<String, String> mapProperty) {

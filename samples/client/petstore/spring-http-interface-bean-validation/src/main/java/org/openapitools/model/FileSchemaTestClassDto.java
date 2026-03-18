@@ -29,7 +29,6 @@ public class FileSchemaTestClassDto {
 
   private @Nullable FileDto file;
 
-  @Valid
   private List<@Valid FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(@Nullable FileDto file) {

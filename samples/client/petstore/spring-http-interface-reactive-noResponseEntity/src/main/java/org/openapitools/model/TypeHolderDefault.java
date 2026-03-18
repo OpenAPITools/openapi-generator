@@ -32,7 +32,6 @@ public class TypeHolderDefault {
 
   private Boolean boolItem = true;
 
-  
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefault() {

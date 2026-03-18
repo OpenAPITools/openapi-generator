@@ -30,7 +30,6 @@ public class FakeBigDecimalMap200ResponseDto {
 
   private @Nullable BigDecimal someId;
 
-  @Valid
   private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200ResponseDto someId(@Nullable BigDecimal someId) {

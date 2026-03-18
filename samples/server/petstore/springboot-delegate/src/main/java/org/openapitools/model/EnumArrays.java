@@ -99,7 +99,6 @@ public class EnumArrays {
     }
   }
 
-  @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {

@@ -25,7 +25,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
-  @Valid
   private @Nullable Map<String, String> languageValues;
 
   public NullableMapPropertyDto languageValues(@Nullable Map<String, String> languageValues) {

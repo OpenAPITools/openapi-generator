@@ -32,28 +32,20 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
-  @Valid
   private Map<String, String> mapString = new HashMap<>();
 
-  @Valid
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
-  @Valid
   private Map<String, Integer> mapInteger = new HashMap<>();
 
-  @Valid
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
-  @Valid
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
-  @Valid
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
-  @Valid
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
-  @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   private @Nullable Object anytype1;

@@ -56,7 +56,6 @@ public class Pet {
   @JsonProperty("photoUrls")
 
   @lombok.Builder.Default
-  @Valid
   private List<String> photoUrls = new ArrayList<>();
 
   
@@ -64,7 +63,6 @@ public class Pet {
   @JsonProperty("tags")
 
   @lombok.Builder.Default
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**

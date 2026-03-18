@@ -38,10 +38,8 @@ public class Pet {
 
   private String name;
 
-  @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**

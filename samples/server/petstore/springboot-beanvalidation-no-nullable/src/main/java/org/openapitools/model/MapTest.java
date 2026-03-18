@@ -25,7 +25,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class MapTest {
 
-  @Valid
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -63,13 +62,10 @@ public class MapTest {
     }
   }
 
-  @Valid
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @Valid
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

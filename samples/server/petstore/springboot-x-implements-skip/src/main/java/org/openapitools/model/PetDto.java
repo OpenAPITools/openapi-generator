@@ -40,10 +40,8 @@ public class PetDto {
 
   private String name;
 
-  @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @Valid
   private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
