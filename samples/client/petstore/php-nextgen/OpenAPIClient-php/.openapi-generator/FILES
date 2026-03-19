@@ -25,6 +25,8 @@ docs/Model/ChildWithNullable.md
 docs/Model/ClassModel.md
 docs/Model/Client.md
 docs/Model/DeprecatedObject.md
+docs/Model/DiscriminatorBase.md
+docs/Model/DiscriminatorChild.md
 docs/Model/Dog.md
 docs/Model/EnumArrays.md
 docs/Model/EnumClass.md
@@ -91,6 +93,8 @@ src/Model/ChildWithNullable.php
 src/Model/ClassModel.php
 src/Model/Client.php
 src/Model/DeprecatedObject.php
+src/Model/DiscriminatorBase.php
+src/Model/DiscriminatorChild.php
 src/Model/Dog.php
 src/Model/EnumArrays.php
 src/Model/EnumClass.php

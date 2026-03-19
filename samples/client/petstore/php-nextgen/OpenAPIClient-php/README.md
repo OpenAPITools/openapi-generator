@@ -142,6 +142,8 @@ Class | Method | HTTP request | Description
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
 - [DeprecatedObject](docs/Model/DeprecatedObject.md)
+- [DiscriminatorBase](docs/Model/DiscriminatorBase.md)
+- [DiscriminatorChild](docs/Model/DiscriminatorChild.md)
 - [Dog](docs/Model/Dog.md)
 - [EnumArrays](docs/Model/EnumArrays.md)
 - [EnumClass](docs/Model/EnumClass.md)
