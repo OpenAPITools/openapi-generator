@@ -303,10 +303,10 @@ class DefaultValue implements ModelInterface, ArrayAccess, JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('array_string_enum_ref_default', $data ?? [], [["success","failure"]]);
-        $this->setIfExists('array_string_enum_default', $data ?? [], [["success","failure"]]);
-        $this->setIfExists('array_string_default', $data ?? [], [["failure","skipped"]]);
-        $this->setIfExists('array_integer_default', $data ?? [], [[1,3]]);
+        $this->setIfExists('array_string_enum_ref_default', $data ?? [], ["success","failure"]);
+        $this->setIfExists('array_string_enum_default', $data ?? [], ["success","failure"]);
+        $this->setIfExists('array_string_default', $data ?? [], ["failure","skipped"]);
+        $this->setIfExists('array_integer_default', $data ?? [], [1,3]);
         $this->setIfExists('array_string', $data ?? [], null);
         $this->setIfExists('array_string_nullable', $data ?? [], null);
         $this->setIfExists('array_string_extension_nullable', $data ?? [], null);

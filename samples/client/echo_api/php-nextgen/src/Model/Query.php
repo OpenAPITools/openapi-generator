@@ -267,7 +267,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('id', $data ?? [], null);
-        $this->setIfExists('outcomes', $data ?? [], [["SUCCESS","FAILURE"]]);
+        $this->setIfExists('outcomes', $data ?? [], ["SUCCESS","FAILURE"]);
     }
 
     /**
