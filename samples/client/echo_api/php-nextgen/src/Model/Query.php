@@ -353,7 +353,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return boolean
      */
@@ -365,7 +365,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets offset.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return mixed|null
      */
@@ -378,7 +378,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets value based on offset.
      *
-     * @param int|null $offset Offset
+     * @param int|string|null $offset Offset
      * @param mixed    $value  Value to be set
      *
      * @return void
@@ -395,7 +395,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Unsets offset.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return void
      */

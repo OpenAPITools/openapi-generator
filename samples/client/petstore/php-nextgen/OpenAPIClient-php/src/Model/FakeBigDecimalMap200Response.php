@@ -326,7 +326,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, JsonS
     /**
      * Returns true if offset exists. False otherwise.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return boolean
      */
@@ -338,7 +338,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, JsonS
     /**
      * Gets offset.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return mixed|null
      */
@@ -351,7 +351,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, JsonS
     /**
      * Sets value based on offset.
      *
-     * @param int|null $offset Offset
+     * @param int|string|null $offset Offset
      * @param mixed    $value  Value to be set
      *
      * @return void
@@ -368,7 +368,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, JsonS
     /**
      * Unsets offset.
      *
-     * @param integer $offset Offset
+     * @param int|string $offset Offset
      *
      * @return void
      */
