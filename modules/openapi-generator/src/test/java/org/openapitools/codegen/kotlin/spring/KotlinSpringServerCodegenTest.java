@@ -761,7 +761,7 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER1.toCliOptValue());
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, AnnotationLibrary.NONE.toCliOptValue());
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
 
 
         new DefaultGenerator().opts(new ClientOptInput()
