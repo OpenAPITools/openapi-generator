@@ -274,6 +274,8 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
         if (!excludeSbt) {
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
             supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+            supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+            supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         } else {
             supportingFiles.remove(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
             supportingFiles.remove(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
