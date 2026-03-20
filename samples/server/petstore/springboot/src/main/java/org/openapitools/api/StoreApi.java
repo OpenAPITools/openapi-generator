@@ -7,7 +7,18 @@ package org.openapitools.api;
 
 import java.util.Map;
 import org.openapitools.model.OrderDto;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +36,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Validated
-@Api(value = "store", description = "Access to Petstore orders")
+@Tag(name = "store", description = "Access to Petstore orders")
 public interface StoreApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -41,22 +52,22 @@ public interface StoreApi {
      * @return Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "deleteOrder",
+        summary = "Delete purchase order by ID",
+        description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
         tags = { "store" },
-        value = "Delete purchase order by ID",
-        nickname = "deleteOrder",
-        notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Order not found")
-    })
     @RequestMapping(
         method = RequestMethod.DELETE,
         value = StoreApi.PATH_DELETE_ORDER
     )
     default ResponseEntity<Void> deleteOrder(
-        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
+        @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -70,20 +81,20 @@ public interface StoreApi {
      *
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "getInventory",
+        summary = "Returns pet inventories by status",
+        description = "Returns a map of status codes to quantities",
         tags = { "store" },
-        value = "Returns pet inventories by status",
-        nickname = "getInventory",
-        notes = "Returns a map of status codes to quantities",
-        response = Integer.class,
-        responseContainer = "Map",
-        authorizations = {
-            @Authorization(value = "api_key")
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = StoreApi.PATH_GET_INVENTORY,
@@ -107,25 +118,27 @@ public interface StoreApi {
      *         or Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "getOrderById",
+        summary = "Find purchase order by ID",
+        description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         tags = { "store" },
-        value = "Find purchase order by ID",
-        nickname = "getOrderById",
-        notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
-        response = OrderDto.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = OrderDto.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = OrderDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = OrderDto.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Order not found")
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<OrderDto> getOrderById(
-        @Min(value = 1L) @Max(value = 5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
+        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -155,17 +168,19 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "placeOrder",
+        summary = "Place an order for a pet",
+        description = "",
         tags = { "store" },
-        value = "Place an order for a pet",
-        nickname = "placeOrder",
-        notes = "",
-        response = OrderDto.class
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = OrderDto.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = OrderDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid Order")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = OrderDto.class),
-        @ApiResponse(code = 400, message = "Invalid Order")
-    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = StoreApi.PATH_PLACE_ORDER,
@@ -173,7 +188,7 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<OrderDto> placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody OrderDto orderDto
+        @Parameter(name = "OrderDto", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody OrderDto orderDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

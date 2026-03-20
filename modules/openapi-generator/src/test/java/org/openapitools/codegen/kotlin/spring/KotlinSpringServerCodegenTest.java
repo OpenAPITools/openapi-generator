@@ -761,7 +761,8 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER1.toCliOptValue());
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGFOX.toCliOptValue());
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue3596-use-correct-get-annotation-target.yaml"))
@@ -3260,20 +3261,6 @@ public class KotlinSpringServerCodegenTest {
                                         "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
                                         "@PathVariable"
                                 )
-                },
-                { DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
-                                        "@PathVariable"
-                                ),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
-                                        "@PathVariable"
-                                )
                 }
         };
     }
@@ -3702,23 +3689,6 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void springPaginatedWithSpringFox() throws Exception {
-        Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(USE_TAGS, "true");
-        additionalProperties.put(DOCUMENTATION_PROVIDER, "springfox");
-        additionalProperties.put(INTERFACE_ONLY, "true");
-        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
-
-        File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
-        assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
-        assertFileContains(petApi.toPath(), "pageable: Pageable");
-        assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
-    }
-
-    @Test
     public void springPaginatedQueryParamsRemoved() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
@@ -3843,24 +3813,6 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(petApi.toPath(), "import org.springdoc.api.annotations.ParameterObject");
         assertFileNotContains(petApi.toPath(), "@ApiIgnore pageable");
         assertFileNotContains(petApi.toPath(), "@ParameterObject pageable");
-    }
-
-    @Test
-    public void springPaginatedWithSwagger1AnnotationLibrary() throws Exception {
-        Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(USE_TAGS, "true");
-        additionalProperties.put(DOCUMENTATION_PROVIDER, "springfox");
-        additionalProperties.put(ANNOTATION_LIBRARY, "swagger1");
-        additionalProperties.put(INTERFACE_ONLY, "true");
-        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
-
-        // Test with swagger1 annotations
-        File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
-        assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
-        assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
     }
 
     @Test

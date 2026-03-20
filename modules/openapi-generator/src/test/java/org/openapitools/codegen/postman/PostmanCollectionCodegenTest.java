@@ -151,6 +151,38 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
+    public void testTagDescriptionControlCharsAreJsonEscaped() throws IOException {
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/TagDescriptionControlCharsEscaping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode root = objectMapper.readTree(new File(output + "/postman.json"));
+        JsonNode folders = root.get("item");
+
+        JsonNode basicFolder = null;
+        for (JsonNode folder : folders) {
+            if ("basic".equals(folder.get("name").asText())) {
+                basicFolder = folder;
+                break;
+            }
+        }
+
+        assertNotNull(basicFolder);
+        assertEquals("desc with \\t tab, \\b backspace, \\f formfeed, \\r carriage-return, \\n line", basicFolder.get("description").asText());
+    }
+
+    @Test
     public void testValidatePostmanJson() throws IOException {
 
         File output = Files.createTempDirectory("postmantest_").toFile();

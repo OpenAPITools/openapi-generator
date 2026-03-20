@@ -6,7 +6,18 @@
 package org.openapitools.api;
 
 import org.openapitools.model.FooGetDefaultResponseDto;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +35,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Validated
-@Api(value = "foo", description = "the foo API")
+@Tag(name = "foo", description = "the foo API")
 public interface FooApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -37,15 +48,14 @@ public interface FooApi {
      *
      * @return response (status code 200)
      */
-    @ApiOperation(
-        value = "",
-        nickname = "fooGet",
-        notes = "",
-        response = FooGetDefaultResponseDto.class
+    @Operation(
+        operationId = "fooGet",
+        responses = {
+            @ApiResponse(responseCode = "default", description = "response", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = FooGetDefaultResponseDto.class))
+            })
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "response", response = FooGetDefaultResponseDto.class)
-    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = FooApi.PATH_FOO_GET,

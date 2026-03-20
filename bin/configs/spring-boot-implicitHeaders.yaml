@@ -4,6 +4,6 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   artifactId: springboot-implicitHeaders
-  documentationProvider: springfox
+  documentationProvider: springdoc
   hideGenerationTimestamp: "true"
   implicitHeadersRegex: .*

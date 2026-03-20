@@ -4,7 +4,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   additionalNotNullAnnotations: true
-  documentationProvider: springfox
+  documentationProvider: springdoc
   artifactId: springboot
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"

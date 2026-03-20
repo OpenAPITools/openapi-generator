@@ -5,9 +5,19 @@
  */
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ClientDto;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +36,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Validated
-@Api(value = "fake_classname_tags 123#$%^", description = "the fake_classname_tags 123#$%^ API")
+@Tag(name = "fake_classname_tags 123#$%^", description = "the fake_classname_tags 123#$%^ API")
 public interface FakeClassnameTestApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -41,19 +51,20 @@ public interface FakeClassnameTestApi {
      * @param clientDto client model (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(
+    @Operation(
+        operationId = "testClassname",
+        summary = "To test class name in snake case",
+        description = "To test class name in snake case",
         tags = { "fake_classname_tags 123#$%^" },
-        value = "To test class name in snake case",
-        nickname = "testClassname",
-        notes = "To test class name in snake case",
-        response = ClientDto.class,
-        authorizations = {
-            @Authorization(value = "api_key_query")
-         }
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ClientDto.class))
+            })
+        },
+        security = {
+            @SecurityRequirement(name = "api_key_query")
+        }
     )
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "successful operation", response = ClientDto.class)
-    })
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = FakeClassnameTestApi.PATH_TEST_CLASSNAME,
@@ -61,8 +72,8 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<ClientDto> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto,
-        @ApiIgnore final HttpServletRequest servletRequest
+        @Parameter(name = "ClientDto", description = "client model", required = true) @Valid @RequestBody ClientDto clientDto,
+        @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

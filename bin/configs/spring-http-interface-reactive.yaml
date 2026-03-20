@@ -9,7 +9,7 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   reactive: "true"
   # documentation provider should be ignored
-  documentationProvider: "springfox"
+  documentationProvider: "springdoc"
   # annotation provider should be ignored
   annotationLibrary: "swagger1"
   # validation should be ignored

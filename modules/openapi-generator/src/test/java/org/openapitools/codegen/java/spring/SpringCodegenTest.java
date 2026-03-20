@@ -681,7 +681,6 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
         codegen.setDelegatePattern(true);
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
@@ -695,7 +694,7 @@ public class SpringCodegenTest {
                 .assertMethod("multipartArray", "List<MultipartFile>")
                 .assertParameter("files").hasType("List<MultipartFile>")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"Many files\""))
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"files\"", "description", "\"Many files\""))
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"files\"", "required", "false"));
 
         // UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
@@ -710,7 +709,7 @@ public class SpringCodegenTest {
                 .assertMethod("multipartSingle", "MultipartFile")
                 .assertParameter("file").hasType("MultipartFile")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"One file\""))
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"file\"", "description", "\"One file\""))
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "false"));
 
         // Check that api validates mixed multipart request
@@ -719,7 +718,7 @@ public class SpringCodegenTest {
                 .assertParameter("status").hasType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
-                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\"", "description", "\"\"", "required", "true"))
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\"", "required", "true"))
                 .toParameter().toMethod()
                 .assertParameter("file").hasType("MultipartFile")
@@ -761,19 +760,19 @@ public class SpringCodegenTest {
         codegen.setReactive(true);
         codegen.setLibrary("spring-boot");
         codegen.setUseSpringBoot3(false);
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
         JavaFileAssert.assertThat(files.get("UserApi.java"))
                 .assertMethod("createUser", "Mono<User>", "ServerWebExchange")
                 .assertParameter("exchange").hasType("ServerWebExchange")
                 .assertParameterAnnotations()
-                .containsWithName("ApiIgnore")
-                .doesNotContainWithName("Parameter");
+                .containsWithName("Parameter");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest")
-                .hasImports("org.springframework.web.server.ServerWebExchange", "springfox.documentation.annotations.ApiIgnore");
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest",
+                        "springfox.documentation.annotations.ApiIgnore",
+                        "javax.servlet.http.HttpServletRequest")
+                .hasImports("org.springframework.web.server.ServerWebExchange");
     }
 
 
@@ -802,7 +801,6 @@ public class SpringCodegenTest {
         codegen.setReactive(true);
         codegen.setLibrary("spring-boot");
         codegen.setUseSpringBoot3(false);
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "false");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
@@ -813,7 +811,10 @@ public class SpringCodegenTest {
                 .hasNoMethod("createUser", "Mono<User>", "ServerWebExchange");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange", "springfox.documentation.annotations.ApiIgnore");
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest",
+                        "javax.servlet.http.HttpServletRequest",
+                        "org.springframework.web.server.ServerWebExchange",
+                        "springfox.documentation.annotations.ApiIgnore");
     }
 
     @Test
@@ -866,7 +867,6 @@ public class SpringCodegenTest {
         codegen.setReactive(false);
         codegen.setLibrary("spring-boot");
         codegen.setUseSpringBoot3(false);
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
@@ -874,15 +874,16 @@ public class SpringCodegenTest {
                 .hasNoMethod("createUser", "User");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .hasImports("javax.servlet.http.HttpServletRequest", "springfox.documentation.annotations.ApiIgnore")
-                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+                .hasImports("javax.servlet.http.HttpServletRequest")
+                .hasNoImports("springfox.documentation.annotations.ApiIgnore",
+                        "jakarta.servlet.http.HttpServletRequest",
+                        "org.springframework.web.server.ServerWebExchange");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
                 .assertMethod("createUser", "User", "HttpServletRequest")
                 .assertParameter("servletRequest").hasType("HttpServletRequest")
                 .assertParameterAnnotations()
-                .containsWithName("ApiIgnore")
-                .doesNotContainWithName("Parameter");
+                .containsWithName("Parameter");
     }
 
 
@@ -891,7 +892,6 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
         codegen.setDelegatePattern(true);
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
@@ -906,7 +906,7 @@ public class SpringCodegenTest {
             .assertMethod("multipartArray", "Flux<Part>", "ServerWebExchange")
             .assertParameter("files").hasType("Flux<Part>")
             .assertParameterAnnotations()
-            .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"Many files\""))
+            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"files\"", "description", "\"Many files\""))
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"files\"", "required", "false"));
 
         // UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
@@ -921,7 +921,7 @@ public class SpringCodegenTest {
             .assertMethod("multipartSingle", "Part", "ServerWebExchange")
             .assertParameter("file").hasType("Part")
             .assertParameterAnnotations()
-            .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"One file\""))
+            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"file\"", "description", "\"One file\""))
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "false"));
 
         // Check that api validates mixed multipart request
@@ -930,7 +930,7 @@ public class SpringCodegenTest {
             .assertParameter("status").hasType("MultipartMixedStatus")
             .assertParameterAnnotations()
             .containsWithName("Valid")
-            .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
+            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\"", "description", "\"\""))
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"status\"", "required", "true"))
             .toParameter().toMethod()
             .assertParameter("file").hasType("Part")
@@ -1785,7 +1785,6 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -1800,13 +1799,13 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
-                .fileContains("allowableValues = \"0, 1\"", "@PathVariable");
+                .fileContains("@PathVariable(\"status\")");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"))
-                .fileContains("allowableValues = \"sleeping, awake\"", "@PathVariable");
+                .fileContains("@PathVariable(\"refCondition\")");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"))
-                .fileContains("allowableValues = \"sleeping, awake\"", "@PathVariable");
+                .fileContains("@PathVariable(\"condition\")");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GiraffesApi.java"))
-                .fileContains("allowableValues = \"0, 1\"", "@PathVariable");
+                .fileContains("@PathVariable(\"refStatus\")");
     }
 
     @Test
@@ -1844,21 +1843,9 @@ public class SpringCodegenTest {
     /**
      * Define documentation providers to test
      */
-    private final static String SPRINGFOX = "springfox";
-    private final static String SPRINGFOX_DESTINATIONFILE = "SpringFoxConfiguration.java";
-    private final static String SPRINGFOX_TEMPLATEFILE = "openapiDocumentationConfig.mustache";
     private final static String SPRINGDOC = "springdoc";
     private final static String SPRINGDOC_DESTINATIONFILE = "SpringDocConfiguration.java";
     private final static String SPRINGDOC_TEMPLATEFILE = "springdocDocumentationConfig.mustache";
-
-    /**
-     * test whether OpenAPIDocumentationConfig.java is generated
-     * fix issue #10287
-     */
-    @Test
-    public void testConfigFileGeneration_springfox() {
-        testConfigFileCommon(SPRINGFOX, SPRINGFOX_DESTINATIONFILE, SPRINGFOX_TEMPLATEFILE);
-    }
 
     /**
      * test whether SpringDocDocumentationConfig.java is generated
@@ -2164,7 +2151,6 @@ public class SpringCodegenTest {
         codegen.processOpts();
         Assert.assertEquals(codegen.importMapping().get("org.springframework.core.io.Resource"), "org.springframework.core.io.Resource");
         Assert.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
-        Assert.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
         Assert.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
     }
 
@@ -2205,15 +2191,7 @@ public class SpringCodegenTest {
                             "@Operation( operationId = \"getSingleTag\", summary = \"Single Tag\", tags = { \"tag1\" }, responses = {");
                     assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
                             "@Operation( operationId = \"getMultipleTags\", summary = \"Multiple Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
-                }},
-                {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(), (Consumer<String>) outputPath -> {
-                    assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/NoneApi.java"),
-                            "@ApiOperation( value = \"No Tag\", nickname = \"getNone\", notes = \"\", response = ");
-                    assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SingleApi.java"),
-                            "@ApiOperation( tags = { \"tag1\" }, value = \"Single Tag\", nickname = \"getSingleTag\", notes = \"\", response = ");
-                    assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
-                            "@ApiOperation( tags = { \"tag1\", \"tag2\" }, value = \"Multiple Tags\", nickname = \"getMultipleTags\", notes = \"\", response = ");
-                }},
+                }}
         };
     }
 

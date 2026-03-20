@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 
@@ -26,7 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @RestController
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class UserApiController implements UserApi {
