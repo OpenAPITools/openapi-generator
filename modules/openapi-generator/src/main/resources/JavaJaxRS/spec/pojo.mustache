@@ -173,36 +173,84 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   {{#isArray}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
+    }
+    try {
+      this.{{name}}.get().add({{name}}Item);
+    } catch (java.util.NoSuchElementException e) {
+      // this can never happen, as we make sure above that the value is present
+    }
+    return this;
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
 
     this.{{name}}.add({{name}}Item);
     return this;
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
   public {{classname}} remove{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if ({{name}}Item != null && this.{{name}} != null && this.{{name}}.isPresent()) {
+      try {
+        this.{{name}}.get().remove({{name}}Item);
+      } catch (java.util.NoSuchElementException e) {
+        // this can never happen, as we make sure above that the value is present
+      }
+    }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if ({{name}}Item != null && this.{{name}} != null) {
       this.{{name}}.remove({{name}}Item);
     }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
     return this;
   }
   {{/isArray}}
   {{#isMap}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
+    }
+    try {
+      this.{{name}}.get().put(key, {{name}}Item);
+    } catch (java.util.NoSuchElementException e) {
+      // this can never happen, as we make sure above that the value is present
+    }
+    return this;
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
 
     this.{{name}}.put(key, {{name}}Item);
     return this;
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
   public {{classname}} remove{{nameInPascalCase}}Item(String key) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    if (this.{{name}} != null && this.{{name}}.isPresent()) {
+      try {
+        this.{{name}}.get().remove(key);
+      } catch (java.util.NoSuchElementException e) {
+        // this can never happen, as we make sure above that the value is present
+      }
+    }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} != null) {
       this.{{name}}.remove(key);
     }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
     return this;
   }
