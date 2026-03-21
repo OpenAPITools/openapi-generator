@@ -46,17 +46,17 @@ class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
     public const DISCRIMINATOR = null;
 
     /**
-      * The original name of the model.
-      *
-      * @var string
-      */
+     * The original name of the model.
+     *
+     * @var string
+     */
     protected static string $openAPIModelName = 'Capitalization';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization
-      *
-      * @var array<string, string>
-      */
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @var array<string, string>
+     */
     protected static array $openAPITypes = [
         'small_camel' => 'string',
         'capital_camel' => 'string',
@@ -67,10 +67,10 @@ class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
     ];
 
     /**
-      * Array of property to format mappings. Used for (de)serialization
-      *
-      * @var array<string, string|null>
-      */
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @var array<string, string|null>
+     */
     protected static array $openAPIFormats = [
         'small_camel' => null,
         'capital_camel' => null,
@@ -81,10 +81,10 @@ class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
     ];
 
     /**
-      * Array of nullable properties. Used for (de)serialization
-      *
-      * @var array<string, bool>
-      */
+     * Array of nullable properties. Used for (de)serialization
+     *
+     * @var array<string, bool>
+     */
     protected static array $openAPINullables = [
         'small_camel' => false,
         'capital_camel' => false,
@@ -95,10 +95,10 @@ class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
     ];
 
     /**
-      * If a nullable field gets set to null, insert it here
-      *
-      * @var array<string, bool>
-      */
+     * If a nullable field gets set to null, insert it here
+     *
+     * @var array<string, bool>
+     /
     protected array $openAPINullablesSetToNull = [];
 
     /**
@@ -281,14 +281,14 @@ class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-    * $this->openAPINullablesSetToNull array
-    *
-    * @param string $variableName
-    * @param array  $fields
-    * @param mixed  $defaultValue
-    */
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array
+     *
+     * @param string $variableName
+     * @param array  $fields
+     * @param mixed  $defaultValue
+     */
     private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
