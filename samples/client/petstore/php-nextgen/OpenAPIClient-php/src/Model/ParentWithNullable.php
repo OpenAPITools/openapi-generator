@@ -90,9 +90,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of property to type mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPITypes(): array
     {
@@ -100,9 +98,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPIFormats(): array
     {
@@ -140,10 +136,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * Checks if a property is nullable
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public static function isNullable(string $property): bool
     {
@@ -151,10 +144,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * Checks if a nullable property is set to null.
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -193,10 +183,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     ];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function attributeMap(): array
     {
@@ -204,9 +191,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function setters(): array
     {
@@ -214,9 +199,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function getters(): array
     {
@@ -224,9 +207,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * The original name of the model.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getModelName(): string
     {
@@ -287,9 +268,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * Show all the invalid properties with reasons.
-     *
-     * @return string[] invalid properties with reasons
+     * {@inheritdoc}
      */
     public function listInvalidProperties(): array
     {
@@ -308,10 +287,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     }
 
     /**
-     * Validate all the properties in the model
-     * return true if all passed
-     *
-     * @return bool True if all properties are valid
+     * {@inheritdoc}
      */
     public function valid(): bool
     {

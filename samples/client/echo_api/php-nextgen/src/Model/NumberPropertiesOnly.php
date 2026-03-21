@@ -94,9 +94,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of property to type mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPITypes(): array
     {
@@ -104,9 +102,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPIFormats(): array
     {
@@ -144,10 +140,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Checks if a property is nullable
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public static function isNullable(string $property): bool
     {
@@ -155,10 +148,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Checks if a nullable property is set to null.
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -200,10 +190,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     ];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function attributeMap(): array
     {
@@ -211,9 +198,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function setters(): array
     {
@@ -221,9 +206,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function getters(): array
     {
@@ -231,9 +214,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * The original name of the model.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getModelName(): string
     {
@@ -279,9 +260,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Show all the invalid properties with reasons.
-     *
-     * @return string[] invalid properties with reasons
+     * {@inheritdoc}
      */
     public function listInvalidProperties(): array
     {
@@ -299,10 +278,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
     }
 
     /**
-     * Validate all the properties in the model
-     * return true if all passed
-     *
-     * @return bool True if all properties are valid
+     * {@inheritdoc}
      */
     public function valid(): bool
     {

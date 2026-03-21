@@ -88,9 +88,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of property to type mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPITypes(): array
     {
@@ -98,9 +96,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPIFormats(): array
     {
@@ -138,10 +134,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Checks if a property is nullable
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public static function isNullable(string $property): bool
     {
@@ -149,10 +142,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Checks if a nullable property is set to null.
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -188,10 +178,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     ];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function attributeMap(): array
     {
@@ -199,9 +186,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function setters(): array
     {
@@ -209,9 +194,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function getters(): array
     {
@@ -219,9 +202,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * The original name of the model.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getModelName(): string
     {
@@ -265,9 +246,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Show all the invalid properties with reasons.
-     *
-     * @return string[] invalid properties with reasons
+     * {@inheritdoc}
      */
     public function listInvalidProperties(): array
     {
@@ -277,10 +256,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, JsonSerializable
     }
 
     /**
-     * Validate all the properties in the model
-     * return true if all passed
-     *
-     * @return bool True if all properties are valid
+     * {@inheritdoc}
      */
     public function valid(): bool
     {
