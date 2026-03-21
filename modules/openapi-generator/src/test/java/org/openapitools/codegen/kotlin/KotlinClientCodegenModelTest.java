@@ -933,6 +933,7 @@ public class KotlinClientCodegenModelTest {
                 .setLibrary("multiplatform")
                 .setAdditionalProperties(new HashMap<>() {{
                     put("dateLibrary", "kotlinx-datetime");
+                    put("useOneOfDiscriminatorSealedClass", true);
                 }})
                 .setInputSpec("src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator-simple.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));

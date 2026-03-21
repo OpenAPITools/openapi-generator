@@ -6,3 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   artifactId: kotlin-multiplatform-oneOf-discriminator
   dateLibrary: kotlinx-datetime
+  useOneOfDiscriminatorSealedClass: true
