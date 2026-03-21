@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: Example
+  description: OneOf with discriminator example
+  version: '0.1'
+  contact:
+    email: contact@example.org
+    url: 'https://example.org'
+servers:
+  - url: http://example.org
+tags:
+  - name: pet
+paths:
+  '/v1/pet/{id}':
+    get:
+      tags:
+        - pet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pet'
+      operationId: get-pet
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+components:
+  schemas:
+    pet:
+      title: A pet
+      oneOf:
+        - $ref: '#/components/schemas/dog'
+        - $ref: '#/components/schemas/cat'
+      discriminator:
+        propertyName: petType
+        mapping:
+          DOG: '#/components/schemas/dog'
+          CAT: '#/components/schemas/cat'
+    dog:
+      title: A dog
+      required:
+        - petType
+        - breed
+      properties:
+        petType:
+          type: string
+        breed:
+          type: string
+        bark:
+          type: boolean
+    cat:
+      title: A cat
+      required:
+        - petType
+        - color
+      properties:
+        petType:
+          type: string
+        color:
+          type: string
+        indoor:
+          type: boolean
