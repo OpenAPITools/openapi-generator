@@ -308,6 +308,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     // In-placed type (primitive), because there is no mapping or ref for it.
                     // use camelized `title` if present, otherwise use `type`
                     String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                    if (oneOfName == null) {
+                        oneOfName = "Variant" + i;
+                    }
                     oneOf.setName(toModelName(oneOfName));
                 }
             }

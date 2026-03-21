@@ -271,4 +271,22 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, enumSpec);
     }
+
+    @Test
+    public void testAnonymousOneOfGeneratesRustModel() throws IOException {
+        Path target = Files.createTempDirectory("test_anonymous_one_of");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/rust-anonymous-oneof-model.yaml")
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+
+        try {
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/models/custom_fields_attributes.rs");
+            TestUtils.assertFileExists(outputPath);
+        } finally {
+            target.toFile().deleteOnExit();
+        }
+    }
 }
