@@ -569,15 +569,15 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/exts.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-    * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
-    * if needed, use the 'variables' parameter to pass variables to the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#variables}}
 {{#-first}}
      *  Variables:
 {{/-first}}
-    *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
+     *    - {{{name}}}: {{{description}}}{{^description}} No description provided{{/description}}{{#enumValues}}
 {{#-first}}
      *      Allowed values:
 {{/-first}}
