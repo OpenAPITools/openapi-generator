@@ -99,7 +99,7 @@ class Pet implements ModelInterface, ArrayAccess, JsonSerializable
      * If a nullable field gets set to null, insert it here
      *
      * @var array<string, bool>
-     /
+     */
     protected array $openAPINullablesSetToNull = [];
 
     /**
