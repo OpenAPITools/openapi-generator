@@ -1,4 +1,4 @@
-# # Query
+# Query
 
 ## Properties
 

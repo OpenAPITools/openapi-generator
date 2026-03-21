@@ -1,4 +1,4 @@
-# # ArrayOfNumberOnly
+# ArrayOfNumberOnly
 
 ## Properties
 

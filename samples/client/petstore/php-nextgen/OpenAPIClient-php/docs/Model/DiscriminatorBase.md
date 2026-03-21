@@ -1,4 +1,4 @@
-# # DiscriminatorBase
+# DiscriminatorBase
 
 ## Properties
 
