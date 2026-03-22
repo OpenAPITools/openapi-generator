@@ -37,18 +37,18 @@ namespace OpenAPI\Client\Model;
 enum EnumWithNameAndDescription: int
 {
     /**
-    * The word one
-    */
+     * The word one
+     */
     case ONE = 1;
 
     /**
-    * The digit two
-    */
+     * The digit two
+     */
     case NUMBER_2 = 2;
 
     /**
-    * The digit three prefixed by a space
-    */
+     * The digit three prefixed by a space
+     */
     case _3 = 3;
 
     case NUMBER_4 = 4;

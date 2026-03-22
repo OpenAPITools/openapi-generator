@@ -375,19 +375,19 @@ class PetApi
     /**
      * Create request for operation 'addPet'
      *
-    * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
-    * if needed, use the 'variables' parameter to pass variables to the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
      * URL: http://localhost/v2
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
      *  Variables:
-    *    - server: target server
+     *    - server: target server
      *      Allowed values:
      *        - petstore
      *        - qa-petstore
      *        - dev-petstore
-    *    - port:  No description provided
+     *    - port:  No description provided
      *      Allowed values:
      *        - 80
      *        - 8080
@@ -1882,19 +1882,19 @@ class PetApi
     /**
      * Create request for operation 'updatePet'
      *
-    * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
-    * if needed, use the 'variables' parameter to pass variables to the host.
+     * This operation contains host(s) defined in the OpenAPI spec. Use 'hostIndex' to select the host.
+     * if needed, use the 'variables' parameter to pass variables to the host.
      * URL: http://localhost/v2
      * URL: http://petstore.swagger.io/v2
      * URL: http://path-server-test.petstore.local/v2
      * URL: http://{server}.swagger.io:{port}/v2
      *  Variables:
-    *    - server: target server
+     *    - server: target server
      *      Allowed values:
      *        - petstore
      *        - qa-petstore
      *        - dev-petstore
-    *    - port:  No description provided
+     *    - port:  No description provided
      *      Allowed values:
      *        - 80
      *        - 8080

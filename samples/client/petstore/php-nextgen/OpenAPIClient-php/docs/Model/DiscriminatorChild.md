@@ -1,4 +1,4 @@
-# # DiscriminatorChild
+# DiscriminatorChild
 
 ## Properties
 

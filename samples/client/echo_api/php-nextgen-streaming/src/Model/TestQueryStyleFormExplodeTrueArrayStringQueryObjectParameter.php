@@ -47,50 +47,48 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     public const DISCRIMINATOR = null;
 
     /**
-      * The original name of the model.
-      *
-      * @var string
-      */
+     * The original name of the model.
+     *
+     * @var string
+     */
     protected static string $openAPIModelName = 'test_query_style_form_explode_true_array_string_query_object_parameter';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization
-      *
-      * @var array<string, string>
-      */
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @var array<string, string>
+     */
     protected static array $openAPITypes = [
         'values' => 'string[]'
     ];
 
     /**
-      * Array of property to format mappings. Used for (de)serialization
-      *
-      * @var array<string, string|null>
-      */
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @var array<string, string|null>
+     */
     protected static array $openAPIFormats = [
         'values' => null
     ];
 
     /**
-      * Array of nullable properties. Used for (de)serialization
-      *
-      * @var array<string, bool>
-      */
+     * Array of nullable properties. Used for (de)serialization
+     *
+     * @var array<string, bool>
+     */
     protected static array $openAPINullables = [
         'values' => false
     ];
 
     /**
-      * If a nullable field gets set to null, insert it here
-      *
-      * @var array<string, bool>
-      */
+     * If a nullable field gets set to null, insert it here
+     *
+     * @var array<string, bool>
+     */
     protected array $openAPINullablesSetToNull = [];
 
     /**
-     * Array of property to type mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPITypes(): array
     {
@@ -98,9 +96,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * Array of property to format mappings. Used for (de)serialization
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function openAPIFormats(): array
     {
@@ -138,10 +134,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * Checks if a property is nullable
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public static function isNullable(string $property): bool
     {
@@ -149,10 +142,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * Checks if a nullable property is set to null.
-     *
-     * @param string $property
-     * @return bool
+     * {@inheritdoc}
      */
     public function isNullableSetToNull(string $property): bool
     {
@@ -188,10 +178,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     ];
 
     /**
-     * Array of attributes where the key is the local name,
-     * and the value is the original name
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function attributeMap(): array
     {
@@ -199,9 +186,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function setters(): array
     {
@@ -209,9 +194,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * Array of attributes to getter functions (for serialization of requests)
-     *
-     * @return array<string, string>
+     * {@inheritdoc}
      */
     public static function getters(): array
     {
@@ -219,9 +202,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * The original name of the model.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getModelName(): string
     {
@@ -247,14 +228,14 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-    * $this->openAPINullablesSetToNull array
-    *
-    * @param string $variableName
-    * @param array  $fields
-    * @param mixed  $defaultValue
-    */
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array
+     *
+     * @param string $variableName
+     * @param array  $fields
+     * @param mixed  $defaultValue
+     */
     private function setIfExists(string $variableName, array $fields, mixed $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
@@ -265,9 +246,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * Show all the invalid properties with reasons.
-     *
-     * @return string[] invalid properties with reasons
+     * {@inheritdoc}
      */
     public function listInvalidProperties(): array
     {
@@ -277,10 +256,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter implements Mo
     }
 
     /**
-     * Validate all the properties in the model
-     * return true if all passed
-     *
-     * @return bool True if all properties are valid
+     * {@inheritdoc}
      */
     public function valid(): bool
     {

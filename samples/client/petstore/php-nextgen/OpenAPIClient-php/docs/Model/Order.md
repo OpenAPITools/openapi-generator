@@ -1,4 +1,4 @@
-# # Order
+# Order
 
 ## Properties
 
