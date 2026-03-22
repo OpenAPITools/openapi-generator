@@ -748,14 +748,14 @@ public class ApiClient extends JavaTimeFormatter {
 
         if (MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType)) {
             formParams.forEach(
-                    (k, v) -> {
-                        if (v instanceof java.util.ArrayList) {
-                            Object o = v.get(0);
-                            if (o != null && o.getClass().getEnumConstants() != null) {
-                                v.set(0, o.toString());
-                            }
+                (k, v) -> {
+                    if (v instanceof java.util.ArrayList && !v.isEmpty()) {
+                        Object first = v.get(0);
+                        if (first != null && first.getClass().isEnum()) {
+                            v.set(0, first.toString());
                         }
-                    });
+                    }
+            });
         }
 
         var selectedBody = selectBody(body, formParams, contentType);

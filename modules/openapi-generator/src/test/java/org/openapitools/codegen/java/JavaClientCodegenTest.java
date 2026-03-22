@@ -4211,4 +4211,30 @@ public class JavaClientCodegenTest {
                 "feign-hc5 must preserve a user-provided templateDir and not overwrite it with 'feign'");
     }
 
+    @Test(description = "Regression test for multipart/form-data list handling in restclient ApiClient to avoid IndexOutOfBoundsException on empty lists")
+    public void testRestClientMultipartFormParamsGuardAgainstEmptyLists() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "if (v instanceof java.util.ArrayList && !v.isEmpty()) {",
+                "first.getClass().isEnum()"
+        );
+
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "if (v instanceof java.util.ArrayList) {",
+                "o.getClass().getEnumConstants() != null"
+        );
+    }
 }
