@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jspecify.annotations.Nullable;
 import org.openapitools.model.FileDto;
-import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 

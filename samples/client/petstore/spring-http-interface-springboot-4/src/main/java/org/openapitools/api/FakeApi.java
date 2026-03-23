@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClassDto;
 import java.time.LocalDate;
 import java.util.Map;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
 import org.openapitools.model.UserDto;

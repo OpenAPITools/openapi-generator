@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.jspecify.annotations.Nullable;
 import org.openapitools.model.AnimalDto;
-import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 

@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.jspecify.annotations.Nullable;
 import org.openapitools.model.OuterEnumDto;
-import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 
