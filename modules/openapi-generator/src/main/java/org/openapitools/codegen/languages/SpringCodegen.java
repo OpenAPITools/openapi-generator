@@ -524,9 +524,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (isUseSpringBoot4()) {
             setUseSpringBoot3(false);
         }
-        if(isUseSpringBoot3() && isUseSpringBoot4()){
-            throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
-        }
+
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
