@@ -2,7 +2,7 @@
 
 This generator creates TypeScript/JavaScript client that utilizes [axios](https://github.com/axios/axios). The generated Node module can be used in the following environments:
 
-> `typescript-axios-slim` intentionally differs from `typescript-axios`: it removes `AxiosParamCreator`, `Fp`, and `Factory` layers, always uses a single request-parameter object per operation, and emits direct class methods with request-parameter schema validation.
+> `typescript-axios-slim` intentionally differs from `typescript-axios`: it removes `AxiosParamCreator`, `Fp`, and `Factory` layers, always uses a single request-parameter object per operation, and emits direct class methods with request-parameter schema validation. By default methods resolve payload data directly; pass `observe: 'response'` to receive full `AxiosResponse` values when you need headers or status metadata.
 
 Environment
 * Node.js

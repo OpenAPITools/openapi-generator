@@ -5,7 +5,7 @@
 
 {{^withSeparateModelsAndApi}}
 import type { Configuration } from './configuration{{importFileExtension}}';
-import type { AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import type { AxiosInstance, RawAxiosRequestConfig, AxiosResponse } from 'axios';
 import globalAxios from 'axios';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
@@ -19,6 +19,7 @@ import * as v from 'valibot';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, validateRequestParameters, withParams, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, replaceWithSerializableTypeIfNeeded{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from './common{{importFileExtension}}';
+import type { ObserveOptions, ResponseObserveOptions } from './common{{importFileExtension}}';
 import type { RequestArgs } from './base{{importFileExtension}}';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base{{importFileExtension}}';

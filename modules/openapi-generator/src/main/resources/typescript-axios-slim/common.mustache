@@ -4,7 +4,7 @@
 
 import type { Configuration } from "./configuration{{importFileExtension}}";
 import type { RequestArgs } from "./base{{importFileExtension}}";
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosInstance, AxiosResponse, RawAxiosRequestConfig } from 'axios';
 import * as v from 'valibot';
 {{#withAWSV4Signature}}
 import { aws4Interceptor } from "aws4-axios";
@@ -15,6 +15,11 @@ import { URL, URLSearchParams } from 'url';
 {{/withNodeImports}}
 
 export const DUMMY_BASE_URL = 'https://example.com'
+
+export type Observe = 'body' | 'response';
+export type BodyObserveOptions = RawAxiosRequestConfig & { observe?: 'body' };
+export type ResponseObserveOptions = RawAxiosRequestConfig & { observe: 'response' };
+export type ObserveOptions = BodyObserveOptions | ResponseObserveOptions;
 
 /**
  *

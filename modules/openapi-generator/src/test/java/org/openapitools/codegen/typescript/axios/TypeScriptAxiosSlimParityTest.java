@@ -125,10 +125,24 @@ public class TypeScriptAxiosSlimParityTest {
         IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, NO_CUSTOMIZER);
         String apiSource = String.join(" ", slimSurface.apiFiles.values());
 
-        assertTrue(apiSource.contains("): Promise<"), "Slim API methods should return Promise payload types");
+        assertTrue(apiSource.contains("<TObserve extends ObserveOptions = ObserveOptions>"), "Slim API methods should expose observe-aware generics");
+        assertTrue(apiSource.contains("options: TObserve = {} as TObserve): Promise<TObserve extends ResponseObserveOptions ? AxiosResponse<"), "Slim API methods should return payload types by default through observe-aware generics");
         assertFalse(apiSource.contains("AxiosPromise<"), "Slim API interface should not expose AxiosPromise return wrappers");
-        assertFalse(apiSource.contains("Promise<AxiosResponse<"), "Slim API class should not return Promise<AxiosResponse<T>>");
-        assertTrue(apiSource.contains("return localVarResponse.data;"), "Slim API class should resolve axios response data directly");
+        assertTrue(apiSource.contains("options: ResponseObserveOptions): Promise<AxiosResponse<"), "Slim API methods should preserve explicit response overloads when observe=response");
+        assertTrue(apiSource.contains("const localVarObserve = options.observe ?? 'body';"), "Slim API class should default observe mode to body");
+        assertTrue(apiSource.contains("return localVarResponse as TObserve extends ResponseObserveOptions ? AxiosResponse<"), "Slim API class should return raw axios responses when observe=response");
+        assertTrue(apiSource.contains("return localVarResponse.data as TObserve extends ResponseObserveOptions ? AxiosResponse<"), "Slim API class should resolve axios response data directly");
+    }
+
+    @Test(description = "slim: observe options are exported for typed response access")
+    public void shouldExportObserveOptionsForTypedResponseAccess() throws Exception {
+        IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, NO_CUSTOMIZER);
+        String commonSource = slimSurface.supportingFiles.getOrDefault("common.ts", "");
+        String apiSource = String.join(" ", slimSurface.apiFiles.values());
+
+        assertTrue(commonSource.contains("export type Observe = 'body' | 'response';"), "Slim common runtime should export observe mode types");
+        assertTrue(commonSource.contains("export type ObserveOptions = BodyObserveOptions | ResponseObserveOptions;"), "Slim common runtime should export observe option union types");
+        assertTrue(apiSource.contains("const { observe, ...axiosOptions } = options;"), "Slim API class should strip observe before forwarding axios options");
     }
 
     @Test(description = "slim: useSingleRequestParameter remains enabled even if configured false")
@@ -181,6 +195,12 @@ public class TypeScriptAxiosSlimParityTest {
             surface.modelFiles.put(relativePath, normalize(Files.readString(modelFile)));
         }
 
+        List<Path> supportingFiles = collectSupportingFiles(outputDir);
+        for (Path supportingFile : supportingFiles) {
+            String relativePath = normalizePath(outputDir.relativize(supportingFile));
+            surface.supportingFiles.put(relativePath, normalize(Files.readString(supportingFile)));
+        }
+
         assertTrue(!surface.requestInterfaces.isEmpty() || !surface.apiInterfaceMethods.isEmpty(),
                 "No comparable request/response surface was extracted from generated sources under " + outputDir);
 
@@ -226,6 +246,18 @@ public class TypeScriptAxiosSlimParityTest {
         return sorted;
     }
 
+    private List<Path> collectSupportingFiles(Path outputDir) throws IOException {
+        LinkedHashSet<Path> files = new LinkedHashSet<>();
+        Path common = outputDir.resolve("common.ts");
+        if (Files.exists(common)) {
+            files.add(common);
+        }
+
+        List<Path> sorted = new ArrayList<>(files);
+        Collections.sort(sorted);
+        return sorted;
+    }
+
     private void extractRequestInterfaces(Map<String, String> target, String apiSource) {
         Matcher matcher = REQUEST_INTERFACE_PATTERN.matcher(apiSource);
         while (matcher.find()) {
@@ -241,12 +273,22 @@ public class TypeScriptAxiosSlimParityTest {
             Matcher methodMatcher = API_INTERFACE_METHOD_PATTERN.matcher(interfaceBody);
             while (methodMatcher.find()) {
                 String methodName = methodMatcher.group(1);
-                String params = normalize(methodMatcher.group(2));
+                String rawParams = methodMatcher.group(2);
+                if (rawParams.contains("ResponseObserveOptions")) {
+                    continue;
+                }
+                String params = normalizeComparableParams(rawParams);
                 String returnType = normalizeComparableReturnType(methodMatcher.group(3));
                 target.computeIfAbsent(interfaceName, ignored -> new TreeSet<>())
                         .add(methodName + "(" + params + "):" + returnType);
             }
         }
+    }
+
+    private String normalizeComparableParams(String params) {
+        return normalize(params)
+                .replace("<TObserve extends ObserveOptions = ObserveOptions>", "")
+                .replace("ObserveOptions", "RawAxiosRequestConfig");
     }
 
     private String normalizeComparableReturnType(String returnType) {
@@ -327,6 +369,7 @@ public class TypeScriptAxiosSlimParityTest {
         private final Map<String, String> operationEnums = new TreeMap<>();
         private final Map<String, String> modelFiles = new TreeMap<>();
         private final Map<String, String> apiFiles = new TreeMap<>();
+        private final Map<String, String> supportingFiles = new TreeMap<>();
 
         private Set<String> allMethodNames() {
             Set<String> names = new TreeSet<>();

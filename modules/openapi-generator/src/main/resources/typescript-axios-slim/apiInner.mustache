@@ -5,7 +5,7 @@
 
 
 import type { Configuration } from '{{apiRelativeToRoot}}configuration{{importFileExtension}}';
-import type { AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import type { AxiosInstance, RawAxiosRequestConfig, AxiosResponse } from 'axios';
 import globalAxios from 'axios';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
@@ -19,6 +19,7 @@ import * as v from 'valibot';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, validateRequestParameters, withParams, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, replaceWithSerializableTypeIfNeeded{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
+import type { ObserveOptions, ResponseObserveOptions } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base{{importFileExtension}}';
 {{#imports}}
@@ -59,7 +60,8 @@ export interface {{classname}}Interface {
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
-    {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: RawAxiosRequestConfig): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options: ResponseObserveOptions): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: ObserveOptions): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
 {{/operation}}
 }
@@ -105,14 +107,17 @@ export class {{classname}} extends BaseAPI {
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
-    public async {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: RawAxiosRequestConfig = {}): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    public async {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: ResponseObserveOptions): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    public async {{nickname}}<TObserve extends ObserveOptions = ObserveOptions>({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: TObserve = {} as TObserve): Promise<TObserve extends ResponseObserveOptions ? AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}> : {{{returnType}}}{{^returnType}}void{{/returnType}}> {
     {{#allParams.0}}
         validateRequestParameters('{{nickname}}', {{nickname}}RequestSchema, requestParameters);
     {{/allParams.0}}
         const localVarPath = {{#pathParams}}withParams(`{{{path}}}`, { {{#pathParams}}"{{baseName}}": requestParameters.{{paramName}}, {{/pathParams}} }){{/pathParams}}{{^pathParams}}`{{{path}}}`{{/pathParams}};
         const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
         const baseOptions = this.configuration ? this.configuration.baseOptions : undefined;
-        const localVarRequestOptions = { method: '{{httpMethod}}', ...baseOptions, ...options } as RawAxiosRequestConfig;
+        const localVarObserve = options.observe ?? 'body';
+        const { observe, ...axiosOptions } = options;
+        const localVarRequestOptions = { method: '{{httpMethod}}', ...baseOptions, ...axiosOptions } as RawAxiosRequestConfig;
         const localVarHeaderParameter = {} as any;
         const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
         const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((this.configuration && this.configuration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
@@ -299,8 +304,12 @@ export class {{classname}} extends BaseAPI {
         const effectiveBasePath = localVarOperationServerBasePath || this.basePath || BASE_PATH;
         localVarRequestOptions.url = (this.axios.defaults.baseURL ? '' : this.configuration?.basePath ?? effectiveBasePath) + toPathString(localVarUrlObj);
 
-        const localVarResponse = await this.axios.request<{{{returnType}}}{{^returnType}}void{{/returnType}}>(localVarRequestOptions);
-        return localVarResponse.data;
+        const localVarResponse = await this.axios.request<{{{returnType}}}{{^returnType}}void{{/returnType}}, AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>(localVarRequestOptions);
+        if (localVarObserve === 'response') {
+            return localVarResponse as TObserve extends ResponseObserveOptions ? AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}> : {{{returnType}}}{{^returnType}}void{{/returnType}};
+        }
+
+        return localVarResponse.data as TObserve extends ResponseObserveOptions ? AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}> : {{{returnType}}}{{^returnType}}void{{/returnType}};
     }
     {{^-last}}
 

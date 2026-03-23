@@ -49,6 +49,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes. This requires in addition a value for 'apiPackage' and 'modelPackage'| |false|
 |withoutPrefixEnums|Don't prefix enum names with class names| |false|
 
+Generated API methods default to resolving payload data. Pass `observe: 'response'` in the request config to receive `AxiosResponse<T>` when you need headers or status metadata.
+
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |
