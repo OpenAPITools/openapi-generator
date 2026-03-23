@@ -27,6 +27,10 @@
 
 namespace OpenAPI\Client\Model;
 
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
+
 /**
  * DiscriminatorChild Class Doc Comment
  *

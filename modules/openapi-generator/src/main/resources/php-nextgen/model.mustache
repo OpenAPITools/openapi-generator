@@ -21,14 +21,14 @@
 
 namespace {{modelPackage}};
 {{^isEnum}}
-{{^parentSchema}}
 
+{{^parentSchema}}
 use ArrayAccess;
 use JsonSerializable;
+{{/parentSchema}}
 use InvalidArgumentException;
 use ReturnTypeWillChange;
 use {{invokerPackage}}\ObjectSerializer;
-{{/parentSchema}}
 {{/isEnum}}
 
 /**
