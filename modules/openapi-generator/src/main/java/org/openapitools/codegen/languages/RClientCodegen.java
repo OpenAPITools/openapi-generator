@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -723,8 +722,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // string
         String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         if (isReservedWord(enumName) || STARTS_WITH_DIGIT.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);

@@ -257,6 +257,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
+    protected static final Pattern DOUBLE_QUOTE = Pattern.compile("\"");
+
     protected static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
 
     protected static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)/");
@@ -264,9 +266,18 @@ public class DefaultCodegen implements CodegenConfig {
     /** Matches a string that starts with a digit (anchored); used across language generators. */
     protected static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
 
-    protected static final Pattern LEADING_SINGLE_UNDERSCORE = Pattern.compile("^_");
+    protected static final Pattern FIRST_LEADING_UNDERSCORE = Pattern.compile("^_");
+
+    protected static final Pattern LAST_TRAILING_UNDERSCORE = Pattern.compile("_$");
     /** Matches a string consisting entirely of uppercase letters and underscores. */
     protected static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+
+    protected static final Pattern MINUS = Pattern.compile("-");
+    protected static final Pattern PLUS = Pattern.compile("\\+");
+    protected static final Pattern DOT = Pattern.compile("\\.");
+
+    /** Matches a string consisting entirely of uppercase letters and underscores and digits. */
+    protected static final Pattern ALL_UPPER_UNDERSCORE_DIGITS = Pattern.compile("^[A-Z0-9_]*$");
     /** Matches tab, newline, or carriage-return; used in {@link #escapeText}. */
     protected static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
 

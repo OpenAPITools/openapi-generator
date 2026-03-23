@@ -947,8 +947,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // string
         String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);

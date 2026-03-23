@@ -475,7 +475,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         //
         // Construct a Rust constant (uppercase) token name, and ensure it's
         // unique using a numeric tie-breaker if required.
-        String basePathId = sanitizeName(op.path.replace("/", "_").replace("{", "").replace("}", "").replaceAll("^_", "")).toUpperCase(Locale.ROOT);
+        String basePathId = sanitizeName(FIRST_LEADING_UNDERSCORE.matcher(op.path.replace("/", "_").replace("{", "").replace("}", "")).replaceAll("")).toUpperCase(Locale.ROOT);
         String pathId = basePathId;
         int pathIdTiebreaker = 2;
         boolean found = false;

@@ -974,8 +974,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             varName = varName.replaceAll("_+", "_");
         }
         varName = sanitizeName(varName);
-        varName = varName.replaceFirst("^_", "");
-        varName = varName.replaceFirst("_$", "");
+        varName = FIRST_LEADING_UNDERSCORE.matcher(varName).replaceFirst("");
+        varName = LAST_TRAILING_UNDERSCORE.matcher(varName).replaceFirst("");
 
         varName = getNameUsingEnumPropertyNaming(varName);
 
@@ -1207,7 +1207,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         // replace ' with \'
-        return super.escapeText(input).replace("\'", "\\\'");
+        return super.escapeText(input).replace("'", "\\'");
     }
 
     @Override

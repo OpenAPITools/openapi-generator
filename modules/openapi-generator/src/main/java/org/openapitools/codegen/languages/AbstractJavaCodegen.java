@@ -86,7 +86,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static final Pattern LOMBOK_ANNOTATION = Pattern.compile("@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?");
     private static final Pattern JAVA_UTIL_IMPORT = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
     private static final Pattern STARTS_WITH_UNDERSCORE_CLASS = Pattern.compile("^_*class$");
-    private static final Pattern ALL_UPPER_CASE_DIGITS_UNDERSCORE = Pattern.compile("^[A-Z0-9_]*$");
     private static final Pattern ANNOTATION_IN_TYPE = Pattern.compile("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+");
     private static final Pattern NON_ALPHANUMERIC = Pattern.compile("\\P{Alnum}");
     private static final Pattern INVALID_PACKAGE_CHARS = Pattern.compile("[^a-zA-Z0-9_.]");
@@ -941,7 +940,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // if it's all upper case, do nothing
-        if (ALL_UPPER_CASE_DIGITS_UNDERSCORE.matcher(name).matches()) {
+        if (ALL_UPPER_UNDERSCORE_DIGITS.matcher(name).matches()) {
             return name;
         }
 
@@ -2091,7 +2090,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // parse lombok additional model type annotations
         Map<String, Boolean> lombokOptions = new HashMap<>();
-        String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
         for (String annotation : additionalModelTypeAnnotations) {
             Matcher matcher = LOMBOK_ANNOTATION.matcher(annotation);
             if (matcher.find()) {

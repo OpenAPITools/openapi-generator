@@ -962,8 +962,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         String enumName = sanitizeName(name);
 
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         enumName = camelize(enumName) + "Enum";
 

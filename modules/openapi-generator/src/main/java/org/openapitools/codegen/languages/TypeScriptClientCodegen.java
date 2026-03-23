@@ -49,7 +49,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -324,8 +323,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         // string
         String enumName = sanitizeName(name);
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         enumName = getNameWithEnumPropertyNaming(enumName);
 

@@ -36,7 +36,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
 
-    private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_");
     private static final Pattern STARTS_WITH_OPT_NEG_DIGIT = Pattern.compile("^-?\\d.*");
 
     protected static final List<String> DEFAULT_SUPPORTED_CONTENT_TYPES = Arrays.asList(
@@ -417,7 +416,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (name.equals("_")) {
             return "underscore";
         }
-        name = LEADING_UNDERSCORE.matcher(name).replaceAll("");
+        name = FIRST_LEADING_UNDERSCORE.matcher(name).replaceAll("");
 
         // if it's all upper case, do nothing
         if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {

@@ -1798,8 +1798,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         String enumName = sanitizeName(name);
 
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         enumName = adjustNamingStyle(enumName) + this.enumValueSuffix;
 

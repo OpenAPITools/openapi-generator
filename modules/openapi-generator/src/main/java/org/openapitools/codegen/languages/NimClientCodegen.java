@@ -668,7 +668,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z0-9_]*$")) {
+        if (ALL_UPPER_UNDERSCORE_DIGITS.matcher(name).matches()) {
             return name;
         }
 

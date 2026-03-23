@@ -747,8 +747,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // string
         String enumName = sanitizeName(camelize(name).toUpperCase(Locale.ROOT));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return escapeReservedWord(enumName);
@@ -760,8 +760,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toEnumName(CodegenProperty property) {
         String enumName = camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return escapeReservedWord(enumName);

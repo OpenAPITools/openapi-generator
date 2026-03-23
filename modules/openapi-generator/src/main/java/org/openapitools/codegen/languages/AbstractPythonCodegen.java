@@ -1110,8 +1110,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         name = name.replace(" ", "_");
-        name = name.replaceFirst("^_", "");
-        name = name.replaceFirst("_$", "");
+        name = FIRST_LEADING_UNDERSCORE.matcher(name).replaceFirst("");
+        name = LAST_TRAILING_UNDERSCORE.matcher(name).replaceFirst("");
 
         if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "ENUM_" + name.toUpperCase(Locale.ROOT);

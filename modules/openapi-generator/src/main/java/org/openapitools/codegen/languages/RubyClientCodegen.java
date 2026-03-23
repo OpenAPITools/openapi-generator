@@ -524,8 +524,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         // string
         String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
@@ -541,8 +541,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
         String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        enumName = FIRST_LEADING_UNDERSCORE.matcher(enumName).replaceFirst("");
+        enumName = LAST_TRAILING_UNDERSCORE.matcher(enumName).replaceFirst("");
 
         if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;

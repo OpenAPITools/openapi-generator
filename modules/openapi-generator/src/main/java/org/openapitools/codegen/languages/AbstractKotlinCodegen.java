@@ -51,7 +51,6 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Pattern NON_WORD_UNICODE          = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
-    private static final Pattern ALL_UPPER_ALPHANUMERIC_US  = Pattern.compile("^[A-Z0-9_]*$");
     private static final Pattern ALL_UNDERSCORES            = Pattern.compile("^_*$");
     private static final Pattern LEADING_DIGIT_OR_DOLLAR    = Pattern.compile("(^\\d.*)|(.*\\$.*)");
     private static final Pattern UNDERSCORE_CLASS           = Pattern.compile("^_*class$");
@@ -1032,7 +1031,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // if it's all upper case, do nothing
-        if (ALL_UPPER_ALPHANUMERIC_US.matcher(name).matches()) {
+        if (ALL_UPPER_UNDERSCORE_DIGITS.matcher(name).matches()) {
             return name;
         }
 
