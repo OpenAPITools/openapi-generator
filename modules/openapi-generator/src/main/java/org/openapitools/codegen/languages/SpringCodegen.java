@@ -551,7 +551,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
-        importMapping.put("Nullable", "org.springframework.lang.Nullable");
+        importMapping.put("Nullable", isUseSpringBoot4() ? "org.jspecify.annotations.Nullable" : "org.springframework.lang.Nullable");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
