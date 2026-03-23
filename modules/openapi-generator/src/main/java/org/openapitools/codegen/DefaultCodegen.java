@@ -253,8 +253,6 @@ public class DefaultCodegen implements CodegenConfig {
     protected static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
     /** Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}. */
     protected static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
-    /** Matches a string that starts with a digit; used in {@link #toEnumVarName}. */
-    protected static final Pattern LEADING_DIGIT = Pattern.compile("\\d.*");
     protected static final Pattern LEADING_UNDERSCORES = Pattern.compile("^_*");
 
     protected static final Pattern WHITESPACE = Pattern.compile("\\s+");
@@ -265,6 +263,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     /** Matches a string that starts with a digit (anchored); used across language generators. */
     protected static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+
+    protected static final Pattern LEADING_SINGLE_UNDERSCORE = Pattern.compile("^_");
     /** Matches a string consisting entirely of uppercase letters and underscores. */
     protected static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
     /** Matches tab, newline, or carriage-return; used in {@link #escapeText}. */
@@ -974,12 +974,12 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized variable name for enum
      */
     public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             return "EMPTY";
         }
 
         String var = NON_WORD_PLUS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
-        if (LEADING_DIGIT.matcher(var).lookingAt()) {
+        if (STARTS_WITH_DIGIT.matcher(var).matches()) {
             var = "_" + var;
         }
 
@@ -998,8 +998,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             originalSpecVersion = openAPI.getOpenapi();
         }
-        Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
-        Integer specMinorVersion = Integer.parseInt(originalSpecVersion.substring(2, 3));
+        int specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
+        int specMinorVersion = Integer.parseInt(originalSpecVersion.substring(2, 3));
         return specMajorVersion == 3 && specMinorVersion >= 1;
     }
 

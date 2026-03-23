@@ -220,7 +220,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
 
         // string
         String var = NON_WORD_PLUS.matcher(value).replaceAll("_").toLowerCase(Locale.ROOT);
-        if (LEADING_DIGIT.matcher(var).matches()) {
+        if (STARTS_WITH_DIGIT.matcher(var).matches()) {
             return "val_" + var;
         } else if (var.startsWith("_")) {
             return "val" + var;

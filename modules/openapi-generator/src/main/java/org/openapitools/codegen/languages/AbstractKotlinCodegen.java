@@ -51,7 +51,6 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Pattern NON_WORD_UNICODE          = Pattern.compile("\\W+", Pattern.UNICODE_CHARACTER_CLASS);
-    private static final Pattern LEADING_DIGIT              = Pattern.compile("^\\d");
     private static final Pattern ALL_UPPER_ALPHANUMERIC_US  = Pattern.compile("^[A-Z0-9_]*$");
     private static final Pattern ALL_UNDERSCORES            = Pattern.compile("^_*$");
     private static final Pattern LEADING_DIGIT_OR_DOLLAR    = Pattern.compile("(^\\d.*)|(.*\\$.*)");
@@ -750,7 +749,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // model name starts with number
-        if (LEADING_DIGIT.matcher(modifiedName).find()) {
+        if (STARTS_WITH_DIGIT.matcher(modifiedName).matches()) {
             final String modelName = "Model" + modifiedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -783,7 +782,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // operationId starts with a number
-        if (LEADING_DIGIT.matcher(operationId).find()) {
+        if (STARTS_WITH_DIGIT.matcher(operationId).matches()) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + operationId), LOWERCASE_FIRST_LETTER);
             operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
@@ -811,7 +810,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // Fallback, replace unknowns with underscore.
         word = NON_WORD_UNICODE.matcher(word).replaceAll("_");
-        if (LEADING_DIGIT.matcher(word).find()) {
+        if (STARTS_WITH_DIGIT.matcher(word).matches()) {
             word = "_" + word;
         }
 

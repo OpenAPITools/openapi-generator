@@ -46,8 +46,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
-    private static final Pattern LEADING_DIGIT = Pattern.compile("^\\d");
-
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
     public static final String OPENAPI_PACKAGE_NAME_OPTION = "openApiName";
 
@@ -401,7 +399,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         // model name starts with number
-        if (LEADING_DIGIT.matcher(result).find()) {
+        if (STARTS_WITH_DIGIT.matcher(result).matches()) {
             String modelName = "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -451,7 +449,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // string
         else {
             var = NON_WORD_PLUS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
-            if (LEADING_DIGIT.matcher(var).find()) {
+            if (STARTS_WITH_DIGIT.matcher(var).matches()) {
                 var = "_" + var;
             } else {
                 var = sanitizeName(var);

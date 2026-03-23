@@ -40,7 +40,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
-    private static final Pattern LEADING_DIGIT     = Pattern.compile("^\\d");
     private static final Pattern LEADING_TRAILING_SLASH = Pattern.compile("^/|/$");
 
     @Setter
@@ -231,7 +230,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // for reserved word or word starting with number, append _
-        if (LEADING_DIGIT.matcher(name).find())
+        if (STARTS_WITH_DIGIT.matcher(name).matches())
             name = "Var" + name;
 
         if ("AdditionalProperties".equals(name)) {
@@ -336,7 +335,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // model name starts with number
-        if (LEADING_DIGIT.matcher(name).find()) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -502,7 +501,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // operationId starts with a number
-        if (LEADING_DIGIT.matcher(sanitizedOperationId).find()) {
+        if (STARTS_WITH_DIGIT.matcher(sanitizedOperationId).matches()) {
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
@@ -953,7 +952,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
-        } else if (LEADING_DIGIT.matcher(enumName).find()) { // starts with a number
+        } else if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with a number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
@@ -971,7 +970,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (LEADING_DIGIT.matcher(enumName).find()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;

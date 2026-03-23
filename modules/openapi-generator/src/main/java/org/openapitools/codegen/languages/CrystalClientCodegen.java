@@ -505,7 +505,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
@@ -518,7 +518,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;

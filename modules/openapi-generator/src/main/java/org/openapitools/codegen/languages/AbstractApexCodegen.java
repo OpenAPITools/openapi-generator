@@ -40,17 +40,17 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
-    private static final Pattern LEADING_DIGIT        = Pattern.compile("^\\d");
-    private static final Pattern DATE_FORMAT          = Pattern.compile("^\\d{4}(-\\d{2}){2}");
-    private static final Pattern DATETIME_FORMAT      = Pattern.compile("^\\d{4}([-T:]\\d{2}){5}.+");
-    private static final Pattern NON_NUMERIC          = Pattern.compile("[^-0-9.]");
+    private static final Pattern DATE_FORMAT = Pattern.compile("^\\d{4}(-\\d{2}){2}");
+    private static final Pattern DATETIME_FORMAT = Pattern.compile("^\\d{4}([-T:]\\d{2}){5}.+");
+    private static final Pattern NON_NUMERIC = Pattern.compile("[^-0-9.]");
     private static final Pattern UNSAFE_PACKAGE_CHARS = Pattern.compile("[^a-zA-Z0-9_.]");
-    private static final Pattern INTEGER_PATTERN      = Pattern.compile("^-?\\d+$");
-    private static final Pattern UNDERSCORE_CLASS     = Pattern.compile("^_*class$");
-    private static final Pattern DATE_SEP_ZERO        = Pattern.compile("-0?");
-    private static final Pattern DATETIME_SEP_ZERO    = Pattern.compile("[-T:]0?");
+    private static final Pattern INTEGER_PATTERN = Pattern.compile("^-?\\d+$");
+    private static final Pattern UNDERSCORE_CLASS = Pattern.compile("^_*class$");
+    private static final Pattern DATE_SEP_ZERO = Pattern.compile("-0?");
+    private static final Pattern DATETIME_SEP_ZERO = Pattern.compile("[-T:]0?");
 
-    @Setter protected Boolean serializableModel = false;
+    @Setter
+    protected Boolean serializableModel = false;
 
     public AbstractApexCodegen() {
         super();
@@ -90,9 +90,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         if (name.contains("__")) { // Preventing namespacing
             name = name.replace("__", "_");
         }
-        if (LEADING_DIGIT.matcher(name).find()) {  // Prevent named credentials with leading number
-            name = STARTS_WITH_DIGIT.matcher(name).replaceAll("");
-        }
+        name = STARTS_WITH_DIGIT.matcher(name).replaceAll(""); // Prevent named credentials with leading number
         return name;
     }
 
@@ -126,7 +124,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || LEADING_DIGIT.matcher(name).find()) {
+        if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
 
@@ -180,7 +178,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         // model name starts with number
-        if (LEADING_DIGIT.matcher(camelizedName).find()) {
+        if (STARTS_WITH_DIGIT.matcher(camelizedName).matches()) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
@@ -543,7 +541,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
         // string
         String var = NON_WORD_PLUS.matcher(value).replaceAll("_").toUpperCase(Locale.ROOT);
-        if (LEADING_DIGIT.matcher(var).find()) {
+        if (STARTS_WITH_DIGIT.matcher(var).matches()) {
             return "_" + var;
         } else {
             return var;

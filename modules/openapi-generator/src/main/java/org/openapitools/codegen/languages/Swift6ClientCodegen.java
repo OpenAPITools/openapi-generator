@@ -1064,7 +1064,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // Prefix with underscore if name starts with number
-        if (LEADING_DIGIT.matcher(name).matches()) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             return "_" + replaceSpecialCharacters(camelize(name, LOWERCASE_FIRST_LETTER));
         }
 
@@ -1174,7 +1174,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // TODO: toModelName already does something for names starting with number,
         // so this code is probably never called
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

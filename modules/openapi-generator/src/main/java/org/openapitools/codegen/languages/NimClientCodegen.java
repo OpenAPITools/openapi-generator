@@ -646,7 +646,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             return typeMapping.get(schemaType);
         }
 
-        if (LEADING_DIGIT.matcher(schemaType).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(schemaType).matches()) { // starts with number
             return "`" + schemaType + "`";
         } else {
             return schemaType;
@@ -706,7 +706,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toEnumName(CodegenProperty property) {
         String name = StringUtils.camelize(property.name);
 
-        if (LEADING_DIGIT.matcher(name).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) { // starts with number
             return "`" + name + "`";
         } else {
             return name;

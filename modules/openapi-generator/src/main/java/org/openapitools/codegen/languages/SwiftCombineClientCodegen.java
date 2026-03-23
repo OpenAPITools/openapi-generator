@@ -646,7 +646,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
         // TODO: toModelName already does something for names starting with number,
         // so this code is probably never called
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

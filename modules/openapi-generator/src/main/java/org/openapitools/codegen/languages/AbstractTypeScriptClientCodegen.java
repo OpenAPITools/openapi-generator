@@ -979,7 +979,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         varName = getNameUsingEnumPropertyNaming(varName);
 
-        if (LEADING_DIGIT.matcher(varName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(varName).matches()) { // starts with number
             return "_" + varName;
         } else {
             return varName;

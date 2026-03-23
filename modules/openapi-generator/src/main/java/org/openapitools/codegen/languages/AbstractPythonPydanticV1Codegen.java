@@ -1631,7 +1631,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         name = name.replaceFirst("^_", "");
         name = name.replaceFirst("_$", "");
 
-        if (LEADING_DIGIT.matcher(name).matches()) {
+        if (STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = "ENUM_" + name.toUpperCase(Locale.ROOT);
         }
 

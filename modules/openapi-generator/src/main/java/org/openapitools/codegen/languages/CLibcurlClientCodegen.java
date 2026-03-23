@@ -722,7 +722,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            if (LEADING_DIGIT.matcher(value).matches()) { // starts with number
+            if (STARTS_WITH_DIGIT.matcher(value).matches()) { // starts with number
                 return escapeReservedWord(escapeText(value));
             } else {
                 return escapeText(value);
@@ -750,7 +750,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -763,7 +763,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;

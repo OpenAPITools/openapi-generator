@@ -561,7 +561,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || LEADING_DIGIT.matcher(enumName).matches()) { // reserved word or starts with number
+        if (isReservedWord(enumName) || STARTS_WITH_DIGIT.matcher(enumName).matches()) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -575,7 +575,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
 
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;

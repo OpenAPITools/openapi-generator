@@ -329,7 +329,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         enumName = getNameWithEnumPropertyNaming(enumName);
 
-        if (LEADING_DIGIT.matcher(enumName).matches()) { // starts with number
+        if (STARTS_WITH_DIGIT.matcher(enumName).matches()) { // starts with number
             return "_" + enumName;
         }
 
