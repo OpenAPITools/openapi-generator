@@ -6,4 +6,5 @@ additionalProperties:
   artifactId: springboot-implicitHeaders
   documentationProvider: springdoc
   hideGenerationTimestamp: "true"
+  useSpringBoot3: false
   implicitHeadersRegex: .*
