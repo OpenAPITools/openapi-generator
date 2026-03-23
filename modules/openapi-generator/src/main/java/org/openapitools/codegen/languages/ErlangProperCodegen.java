@@ -340,7 +340,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName + "_" + underscore(DOT.matcher(MINUS.matcher(name).replaceAll("_")).replaceAll("_"));
     }
 
     @Override
@@ -350,7 +350,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelFilename(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("\\.", "_"));
+        return this.packageName + "_" + underscore(DOT.matcher(name).replaceAll("_"));
     }
 
     @Override
@@ -362,11 +362,11 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, DOT.matcher(underscore(sanitizeName("call_" + operationId))).replaceAll("_"));
             operationId = "call_" + operationId;
         }
 
-        return underscore(operationId.replaceAll("\\.", "_"));
+        return underscore(DOT.matcher(operationId).replaceAll("_"));
     }
 
     @Override

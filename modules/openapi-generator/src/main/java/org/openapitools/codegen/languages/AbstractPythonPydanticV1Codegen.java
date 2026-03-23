@@ -776,7 +776,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     protected static String dropDots(String str) {
-        return str.replaceAll("\\.", "_");
+        return  DOT.matcher(str).replaceAll("_");
     }
 
     @Override

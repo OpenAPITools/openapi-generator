@@ -739,9 +739,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // number
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = MINUS.matcher(varName).replaceAll("MINUS_");
+            varName = PLUS.matcher(varName).replaceAll("PLUS_");
+            varName = DOT.matcher(varName).replaceAll("_DOT_");
             return varName;
         }
 

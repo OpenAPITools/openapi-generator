@@ -840,9 +840,9 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         if (datatype.startsWith("int") || datatype.startsWith("long") ||
                 datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = MINUS.matcher(varName).replaceAll("MINUS_");
+            varName = PLUS.matcher(varName).replaceAll("PLUS_");
+            varName = DOT.matcher(varName).replaceAll("_DOT_");
             return varName;
         }
 
