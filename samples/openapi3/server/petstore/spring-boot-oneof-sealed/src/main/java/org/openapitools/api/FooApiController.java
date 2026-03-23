@@ -1,5 +1,8 @@
 package org.openapitools.api;
 
+import org.openapitools.model.Foo;
+import org.openapitools.model.FooRefOrValue;
+import org.springframework.lang.Nullable;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +20,23 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.context.request.NativeWebRequest;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Controller
-@RequestMapping("${openapi.pingTest.base-path:}")
-public class PingApiController implements PingApi {
+@RequestMapping("${openapi.byRefOrValue.base-path:}")
+public class FooApiController implements FooApi {
 
     private final NativeWebRequest request;
 
     @Autowired
-    public PingApiController(NativeWebRequest request) {
+    public FooApiController(NativeWebRequest request) {
         this.request = request;
     }
 

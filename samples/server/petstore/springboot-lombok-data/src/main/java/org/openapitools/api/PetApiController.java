@@ -1,6 +1,8 @@
-package org.openapitools.virtualan.api;
+package org.openapitools.api;
 
-import org.openapitools.virtualan.model.Client;
+import org.openapitools.model.ModelApiResponse;
+import org.springframework.lang.Nullable;
+import org.openapitools.model.Pet;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +31,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
-public class AnotherFakeApiController implements AnotherFakeApi {
+public class PetApiController implements PetApi {
 
     private final NativeWebRequest request;
 
     @Autowired
-    public AnotherFakeApiController(NativeWebRequest request) {
+    public PetApiController(NativeWebRequest request) {
         this.request = request;
     }
 

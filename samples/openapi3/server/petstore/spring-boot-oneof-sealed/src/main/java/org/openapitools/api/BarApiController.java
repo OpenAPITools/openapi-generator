@@ -1,6 +1,7 @@
-package org.openapitools.virtualan.api;
+package org.openapitools.api;
 
-import org.openapitools.virtualan.model.Client;
+import org.openapitools.model.Bar;
+import org.openapitools.model.BarCreate;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
-public class AnotherFakeApiController implements AnotherFakeApi {
+@RequestMapping("${openapi.byRefOrValue.base-path:}")
+public class BarApiController implements BarApi {
 
     private final NativeWebRequest request;
 
     @Autowired
-    public AnotherFakeApiController(NativeWebRequest request) {
+    public BarApiController(NativeWebRequest request) {
         this.request = request;
     }
 

@@ -8,3 +8,4 @@ additionalProperties:
   annotationLibrary: none
   hideGenerationTimestamp: "true"
   implicitHeadersRegex: .*
+  useSpringBoot3: false
