@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openapitools.codegen.cpphttplib;
+package org.openapitools.codegen.cpphttplibserver;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 

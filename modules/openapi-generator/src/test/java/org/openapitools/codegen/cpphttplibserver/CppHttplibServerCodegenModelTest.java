@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openapitools.codegen.cpphttplib;
+package org.openapitools.codegen.cpphttplibserver;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CppHttplibServerCodegen;
