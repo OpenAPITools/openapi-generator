@@ -1401,7 +1401,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return name;
         } else {
-            return "\'" + name + "\'";
+            return "'" + name + "'";
         }
     }
 

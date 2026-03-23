@@ -46,8 +46,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private static final Pattern PATH_TEMPLATE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}");
 
-    @Setter protected String packageName = "openapi";
-    @Setter protected String packageVersion = "1.0.0";
+    @Setter
+    protected String packageName = "openapi";
+    @Setter
+    protected String packageVersion = "1.0.0";
     protected String sourceFolder = "src";
 
     @Override
@@ -258,7 +260,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
+        name = sanitizeName(MINUS.matcher(name).replaceAll("_"));
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
             name = escapeReservedWord(name);
@@ -291,24 +293,24 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName + "_" + underscore(DOT.matcher(MINUS.matcher(name).replaceAll("_")).replaceAll("_"));
     }
 
     @Override
     public String toApiName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName + "_" + underscore(DOT.matcher(MINUS.matcher(name).replaceAll("_")).replaceAll("_"));
     }
 
     @Override
     public String toModelFilename(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("\\.", "_"));
+        return this.packageName + "_" + underscore(DOT.matcher(name).replaceAll("_"));
     }
 
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
         // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        name = name.replaceAll("-", "_").replaceAll("\\.", "_");
+        name = DOT.matcher(MINUS.matcher(name).replaceAll("_")).replaceAll("_");
 
         // e.g. PetApi.erl => pet_api.erl
         return this.packageName + "_" + underscore(name) + "_api";
@@ -318,11 +320,11 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. if
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, DOT.matcher(underscore(sanitizeName("call_" + operationId))).replaceAll("_"));
             operationId = "call_" + operationId;
         }
 
-        return underscore(operationId.replaceAll("\\.", "_"));
+        return underscore(DOT.matcher(operationId).replaceAll("_"));
     }
 
     @Override
@@ -403,9 +405,11 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
-        @Getter @Setter
+        @Getter
+        @Setter
         private List<String> pathTemplateNames = new ArrayList<String>();
-        @Getter @Setter
+        @Getter
+        @Setter
         private String replacedPathName;
         String arityRequired;
         String arityOptional;

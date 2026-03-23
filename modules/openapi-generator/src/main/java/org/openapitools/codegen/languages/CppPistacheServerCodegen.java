@@ -309,7 +309,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
         }
 
-        String pathForPistache = path.replaceAll("\\{(.*?)}", ":$1");
+        String pathForPistache = PATH_PARAMETER.matcher(path).replaceAll(":$1");
         op.vendorExtensions.put("x-codegen-pistache-path", pathForPistache);
 
         return op;

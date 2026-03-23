@@ -961,17 +961,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if ("number".equals(datatype)) {
             varName = "NUMBER_" + varName;
 
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = MINUS.matcher(varName).replaceAll("MINUS_");
+            varName = PLUS.matcher(varName).replaceAll("PLUS_");
+            varName = DOT.matcher(varName).replaceAll("_DOT_");
             return varName;
         }
 
         // string
         if (isEnumPropertyNamingReplaceSpecialChar()) {
-            varName = varName.replaceAll("-", "_minus_");
-            varName = varName.replaceAll("\\+", "_plus_");
-            varName = varName.replaceAll("_+", "_");
+            varName = MINUS.matcher(varName).replaceAll("_minus_");
+            varName = PLUS.matcher(varName).replaceAll("_plus_");
+            varName = MULTI_UNDERSCORES.matcher(varName).replaceAll("_");
         }
         varName = sanitizeName(varName);
         varName = FIRST_LEADING_UNDERSCORE.matcher(varName).replaceFirst("");

@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
 import static org.openapitools.codegen.CodegenConstants.X_REGEX;
@@ -70,6 +71,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
+
+    Pattern TRAILING_SLASHES_PATTERN = Pattern.compile("[/\\\\]+$");
 
     // An object mapper that is used to convert an example string to
     // a "python-compliant" example string (boolean as True/False).
@@ -251,7 +254,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (val == null) {
             pySrcRoot = "";
         } else {
-            pySrcRoot = val.replaceAll("[/\\\\]+$", "");
+            pySrcRoot = TRAILING_SLASHES_PATTERN.matcher(val).replaceAll("");
         }
 
         if (pySrcRoot.isEmpty() || ".".equals(pySrcRoot)) {

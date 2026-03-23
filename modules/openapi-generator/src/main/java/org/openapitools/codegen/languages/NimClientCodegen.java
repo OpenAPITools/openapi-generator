@@ -505,8 +505,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             // Sanitize baseName to remove underscores and properly format for Nim
             if (newVariant.baseName != null) {
                 // Remove trailing underscores and convert to proper format
-                String sanitizedBase = newVariant.baseName.replaceAll("_+$", ""); // Remove trailing underscores
-                if (sanitizedBase.length() > 0 && Character.isUpperCase(sanitizedBase.charAt(0))) {
+                String sanitizedBase = MULTI_TRAILING_UNDERSCORES.matcher(newVariant.baseName).replaceAll(""); // Remove trailing underscores
+                if (!sanitizedBase.isEmpty() && Character.isUpperCase(sanitizedBase.charAt(0))) {
                     newVariant.baseName = toModelName(sanitizedBase);
                 } else {
                     newVariant.baseName = sanitizeNimIdentifier(sanitizedBase);
@@ -517,7 +517,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             // For model types (not primitives), use toModelName to get the proper type name
             if (newVariant.dataType != null) {
                 // Check if this is a model type (starts with uppercase) vs primitive
-                if (newVariant.dataType.length() > 0 && Character.isUpperCase(newVariant.dataType.charAt(0))) {
+                if (!newVariant.dataType.isEmpty() && Character.isUpperCase(newVariant.dataType.charAt(0))) {
                     // This is likely a model type, use toModelName to properly format it
                     newVariant.dataType = toModelName(newVariant.dataType);
                 } else {
@@ -730,9 +730,9 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
         // Remove trailing underscores (Nim identifiers cannot end with underscore)
-        name = name.replaceAll("_+$", "");
+        name = MULTI_TRAILING_UNDERSCORES.matcher(name).replaceAll("");
         // Collapse multiple consecutive underscores to single underscore
-        name = name.replaceAll("_+", "_");
+        name = MULTI_UNDERSCORES.matcher(name).replaceAll("_");
         return name;
     }
 

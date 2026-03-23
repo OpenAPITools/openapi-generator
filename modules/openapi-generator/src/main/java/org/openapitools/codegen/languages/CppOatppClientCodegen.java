@@ -219,7 +219,7 @@ public class CppOatppClientCodegen extends AbstractCppCodegen {
             }
         }
 
-        String pathForOatpp = path.replaceAll("\\{(.*?)}", "{$1}");
+        String pathForOatpp = PATH_PARAMETER.matcher(path).replaceAll("{$1}");
         op.vendorExtensions.put("x-codegen-oatpp-path", pathForOatpp);
 
         return op;
