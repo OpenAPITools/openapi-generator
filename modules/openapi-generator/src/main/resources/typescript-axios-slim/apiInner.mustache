@@ -60,7 +60,7 @@ export interface {{classname}}Interface {
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
-    {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options: ResponseObserveOptions): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    {{nickname}}({{#allParams.0}}{{#hasRequiredParams}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/hasRequiredParams}}{{^hasRequiredParams}}requestParameters: {{classname}}{{operationIdCamelCase}}Request | undefined, {{/hasRequiredParams}}{{/allParams.0}}options: ResponseObserveOptions): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
     {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: ObserveOptions): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
 {{/operation}}
@@ -107,12 +107,13 @@ export class {{classname}} extends BaseAPI {
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
-    public async {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: ResponseObserveOptions): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    public async {{nickname}}({{#allParams.0}}{{#hasRequiredParams}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/hasRequiredParams}}{{^hasRequiredParams}}requestParameters: {{classname}}{{operationIdCamelCase}}Request | undefined, {{/hasRequiredParams}}{{/allParams.0}}options: ResponseObserveOptions): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+    public async {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: ObserveOptions): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
     public async {{nickname}}<TObserve extends ObserveOptions = ObserveOptions>({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: TObserve = {} as TObserve): Promise<TObserve extends ResponseObserveOptions ? AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}> : {{{returnType}}}{{^returnType}}void{{/returnType}}> {
     {{#allParams.0}}
         validateRequestParameters('{{nickname}}', {{nickname}}RequestSchema, requestParameters);
     {{/allParams.0}}
-        const localVarPath = {{#pathParams}}withParams(`{{{path}}}`, { {{#pathParams}}"{{baseName}}": requestParameters.{{paramName}}, {{/pathParams}} }){{/pathParams}}{{^pathParams}}`{{{path}}}`{{/pathParams}};
+        const localVarPath = {{#pathParams.0}}withParams(`{{{path}}}`, { {{#pathParams}}"{{baseName}}": requestParameters.{{paramName}}, {{/pathParams}} }){{/pathParams.0}}{{^pathParams.0}}`{{{path}}}`{{/pathParams.0}};
         const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
         const baseOptions = this.configuration ? this.configuration.baseOptions : undefined;
         const localVarObserve = options.observe ?? 'body';

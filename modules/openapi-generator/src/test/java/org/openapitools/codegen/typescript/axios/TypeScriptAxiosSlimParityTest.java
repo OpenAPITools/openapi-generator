@@ -134,6 +134,17 @@ public class TypeScriptAxiosSlimParityTest {
         assertTrue(apiSource.contains("return localVarResponse.data as TObserve extends ResponseObserveOptions ? AxiosResponse<"), "Slim API class should resolve axios response data directly");
     }
 
+    @Test(description = "slim: response overload keeps optional request object typescript-safe")
+    public void shouldUseUndefinedRequestParameterForOptionalRequestObjectResponseOverloads() throws Exception {
+        IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, NO_CUSTOMIZER);
+        String apiSource = String.join(" ", slimSurface.apiFiles.values());
+
+        assertTrue(apiSource.contains("requestParameters: AnalyticsApiListReportsRequest | undefined, options: ResponseObserveOptions"),
+                "Slim API response overloads should avoid optional request parameters before required options");
+        assertTrue(apiSource.contains("public async listReports(requestParameters: AnalyticsApiListReportsRequest | undefined, options: ResponseObserveOptions): Promise<AxiosResponse<ReportList>>;"),
+                "Slim API class response overload should remain TypeScript-valid for optional request objects");
+    }
+
     @Test(description = "slim: observe options are exported for typed response access")
     public void shouldExportObserveOptionsForTypedResponseAccess() throws Exception {
         IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, NO_CUSTOMIZER);
