@@ -5,12 +5,12 @@
 
 
 import type { Configuration } from '{{apiRelativeToRoot}}configuration{{importFileExtension}}';
-import type { AxiosInstance, RawAxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosInstance, AxiosResponse } from 'axios';
 import globalAxios from 'axios';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
 // @ts-ignore
-import { URL, URLSearchParams } from 'url';
+import { URLSearchParams } from 'url';
 {{#multipartFormData}}
 import FormData from 'form-data'
 {{/multipartFormData}}
@@ -18,10 +18,10 @@ import FormData from 'form-data'
 import * as v from 'valibot';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, validateRequestParameters, withParams, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, replaceWithSerializableTypeIfNeeded{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
-import type { ObserveOptions, ResponseObserveOptions } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
+import { runAxiosRequest, withParams, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, serializeDataIfNeeded, replaceWithSerializableTypeIfNeeded{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
+import type { ObserveOptions, ResponseObserveOptions, ObserveReturn, RunAxiosPrepare } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base{{importFileExtension}}';
+import { COLLECTION_FORMATS, BaseAPI, RequiredError } from '{{apiRelativeToRoot}}base{{importFileExtension}}';
 {{#imports}}
 // @ts-ignore
 import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}{{#importFileExtension}}/index{{importFileExtension}}{{/importFileExtension}}';
@@ -87,6 +87,152 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
 {{/allParams.0}}
 {{/operation}}
 {{/useSingleRequestParameter}}
+{{#operation}}
+const run{{classname}}{{operationIdCamelCase}}Request = async <TObserve extends ObserveOptions = ObserveOptions>(
+    axiosInstance: AxiosInstance,
+    configuration: Configuration | undefined,
+    basePath: string | undefined,
+    {{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: TObserve = {} as TObserve
+): Promise<ObserveReturn<{{{returnType}}}{{^returnType}}void{{/returnType}}, TObserve>> =>
+    runAxiosRequest<{{{returnType}}}{{^returnType}}void{{/returnType}}, TObserve>({
+        axios: axiosInstance,
+        method: '{{httpMethod}}',
+        path: {{#pathParams.0}}withParams(`{{{path}}}`, { {{#pathParams}}"{{baseName}}": requestParameters.{{paramName}}, {{/pathParams}} }){{/pathParams.0}}{{^pathParams.0}}`{{{path}}}`{{/pathParams.0}},
+        configuration,
+        basePath,
+        operationServerMapKey: '{{classname}}.{{nickname}}',
+        options,
+{{#allParams.0}}        functionName: '{{nickname}}',
+        requestParameters,
+        requestSchema: {{nickname}}RequestSchema,
+{{/allParams.0}}        prepare: (async ({ axios, configuration, requestOptions, headerParameter, queryParameter }) => {
+{{#vendorExtensions}}{{#hasFormParams}}            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((configuration && configuration.formDataCtor) || FormData)(){{/multipartFormData}};
+{{/hasFormParams}}{{/vendorExtensions}}
+{{#authMethods}}
+    {{#isApiKey}}
+        {{#withAWSV4Signature}}            await setAWS4SignatureInterceptor(axios, configuration)
+        {{/withAWSV4Signature}}
+        {{#isKeyInHeader}}            await setApiKeyToObject(headerParameter, "{{keyParamName}}", configuration)
+        {{/isKeyInHeader}}
+        {{#isKeyInQuery}}            await setApiKeyToObject(queryParameter, "{{keyParamName}}", configuration)
+        {{/isKeyInQuery}}
+    {{/isApiKey}}
+    {{#isBasicBasic}}            setBasicAuthToObject(requestOptions, configuration)
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}            await setBearerAuthToObject(headerParameter, configuration)
+    {{/isBasicBearer}}
+    {{#isOAuth}}            await setOAuthToObject(headerParameter, "{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}], configuration)
+    {{/isOAuth}}
+
+{{/authMethods}}
+{{#queryParams}}            const {{paramName}} = requestParameters.{{paramName}};
+    {{#isArray}}            if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{#uniqueItems}}                queryParameter['{{baseName}}'] = Array.from({{paramName}});
+            {{/uniqueItems}}
+            {{^uniqueItems}}                queryParameter['{{baseName}}'] = {{paramName}};
+            {{/uniqueItems}}
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            {{#uniqueItems}}                queryParameter['{{baseName}}'] = Array.from({{paramName}}).join(COLLECTION_FORMATS.{{collectionFormat}});
+            {{/uniqueItems}}
+            {{^uniqueItems}}                queryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
+            {{/uniqueItems}}
+        {{/isCollectionFormatMulti}}
+            }
+    {{/isArray}}
+    {{^isArray}}            if ({{paramName}} !== undefined) {
+        {{#isDateTime}}                queryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
+                    ({{paramName}} as any).toISOString() :
+                    {{paramName}};
+        {{/isDateTime}}
+        {{^isDateTime}}
+        {{#isDate}}                queryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
+                    ({{paramName}} as any).toISOString().substring(0, 10) :
+                    {{paramName}};
+        {{/isDate}}
+        {{^isDate}}
+        {{#isExplode}}
+            {{#isPrimitiveType}}                queryParameter['{{baseName}}'] = {{paramName}};
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+                {{^isEnumRef}}
+                    {{^isEnum}}                for (const [key, value] of Object.entries({{paramName}} as any)) {
+                    queryParameter[key] = value;
+                }
+                    {{/isEnum}}
+                {{/isEnumRef}}
+                {{#isEnum}}                queryParameter['{{baseName}}'] = {{paramName}};
+                {{/isEnum}}
+                {{#isEnumRef}}                queryParameter['{{baseName}}'] = {{paramName}};
+                {{/isEnumRef}}
+            {{/isPrimitiveType}}
+        {{/isExplode}}
+        {{^isExplode}}                queryParameter['{{baseName}}'] = {{paramName}};
+        {{/isExplode}}
+        {{/isDate}}
+        {{/isDateTime}}
+            }
+    {{/isArray}}
+
+{{/queryParams}}{{#vendorExtensions}}{{#formParams}}            const {{paramName}} = requestParameters.{{paramName}};
+    {{#isArray}}            if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{#contentType}}                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded)], { type: "{{contentType}}", }));
+            {{/contentType}}
+            {{^contentType}}                {{paramName}}.forEach((element) => {
+                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', element as any);
+                })
+            {{/contentType}}
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));
+        {{/isCollectionFormatMulti}}
+            }{{/isArray}}
+    {{^isArray}}            if ({{paramName}} !== undefined) { {{^multipartFormData}}
+                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}{{^isBoolean}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isBoolean}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isBoolean}}
+                localVarFormParams.append('{{baseName}}', String({{paramName}}) as any);{{/isBoolean}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isEnumRef}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isEnumRef}}{{^isEnumRef}}
+                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded)], { type: "application/json", }));{{/isEnumRef}}{{/isPrimitiveType}}{{/multipartFormData}}
+            }{{/isArray}}
+{{/formParams}}{{/vendorExtensions}}{{#vendorExtensions}}{{#hasFormParams}}
+    {{^multipartFormData}}            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+    {{/multipartFormData}}
+    {{#multipartFormData}}            headerParameter['Content-Type'] = 'multipart/form-data';
+    {{/multipartFormData}}
+{{/hasFormParams}}{{/vendorExtensions}}{{#bodyParam}}            const {{paramName}} = requestParameters.{{paramName}};
+    {{^consumes}}            headerParameter['Content-Type'] = 'application/json';
+    {{/consumes}}
+    {{#consumes.0}}            headerParameter['Content-Type'] = '{{{mediaType}}}';
+    {{/consumes.0}}
+{{/bodyParam}}{{#hasProduces}}            headerParameter['Accept'] = '{{#produces}}{{{mediaType}}}{{^-last}},{{/-last}}{{/produces}}';
+{{/hasProduces}}
+{{#headerParams}}            const {{paramName}} = requestParameters.{{paramName}};
+    {{#isArray}}            if ({{paramName}}) {
+        {{#uniqueItems}}                let mapped = Array.from({{paramName}}).map(value => (<any>"{{{dataType}}}" !== "Set<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
+        {{/uniqueItems}}
+        {{^uniqueItems}}                let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
+        {{/uniqueItems}}
+                headerParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+            }
+    {{/isArray}}
+    {{^isArray}}            if ({{paramName}} != null) {
+        {{#isString}}                headerParameter['{{baseName}}'] = String({{paramName}});
+        {{/isString}}
+        {{^isString}}                headerParameter['{{baseName}}'] = typeof {{paramName}} === 'string'
+                    ? {{paramName}}
+                    : JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded);
+        {{/isString}}
+            }
+    {{/isArray}}
+{{/headerParams}}{{#hasFormParams}}            requestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
+{{/hasFormParams}}{{#bodyParam}}            requestOptions.data = serializeDataIfNeeded({{paramName}}, requestOptions, configuration)
+{{/bodyParam}}        }) as RunAxiosPrepare,
+    });
+{{^-last}}
+
+{{/-last}}
+{{/operation}}
 /**
  * {{classname}} - object-oriented interface{{#description}}
  * {{{.}}}{{/description}}
@@ -109,208 +255,8 @@ export class {{classname}} extends BaseAPI {
      */
     public async {{nickname}}({{#allParams.0}}{{#hasRequiredParams}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/hasRequiredParams}}{{^hasRequiredParams}}requestParameters: {{classname}}{{operationIdCamelCase}}Request | undefined, {{/hasRequiredParams}}{{/allParams.0}}options: ResponseObserveOptions): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
     public async {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: ObserveOptions): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
-    public async {{nickname}}<TObserve extends ObserveOptions = ObserveOptions>({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: TObserve = {} as TObserve): Promise<TObserve extends ResponseObserveOptions ? AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}> : {{{returnType}}}{{^returnType}}void{{/returnType}}> {
-    {{#allParams.0}}
-        validateRequestParameters('{{nickname}}', {{nickname}}RequestSchema, requestParameters);
-    {{/allParams.0}}
-        const localVarPath = {{#pathParams.0}}withParams(`{{{path}}}`, { {{#pathParams}}"{{baseName}}": requestParameters.{{paramName}}, {{/pathParams}} }){{/pathParams.0}}{{^pathParams.0}}`{{{path}}}`{{/pathParams.0}};
-        const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-        const baseOptions = this.configuration ? this.configuration.baseOptions : undefined;
-        const localVarObserve = options.observe ?? 'body';
-        const { observe, ...axiosOptions } = options;
-        const localVarRequestOptions = { method: '{{httpMethod}}', ...baseOptions, ...axiosOptions } as RawAxiosRequestConfig;
-        const localVarHeaderParameter = {} as any;
-        const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
-        const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((this.configuration && this.configuration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
-
-    {{#authMethods}}
-        {{#isApiKey}}
-        {{#withAWSV4Signature}}
-        await setAWS4SignatureInterceptor(this.axios, this.configuration)
-        {{/withAWSV4Signature}}
-        {{#isKeyInHeader}}
-        await setApiKeyToObject(localVarHeaderParameter, "{{keyParamName}}", this.configuration)
-        {{/isKeyInHeader}}
-        {{#isKeyInQuery}}
-        await setApiKeyToObject(localVarQueryParameter, "{{keyParamName}}", this.configuration)
-        {{/isKeyInQuery}}
-        {{/isApiKey}}
-        {{#isBasicBasic}}
-        setBasicAuthToObject(localVarRequestOptions, this.configuration)
-        {{/isBasicBasic}}
-        {{#isBasicBearer}}
-        await setBearerAuthToObject(localVarHeaderParameter, this.configuration)
-        {{/isBasicBearer}}
-        {{#isOAuth}}
-        await setOAuthToObject(localVarHeaderParameter, "{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}], this.configuration)
-        {{/isOAuth}}
-
-    {{/authMethods}}
-    {{#queryParams}}
-        const {{paramName}} = requestParameters.{{paramName}};
-        {{#isArray}}
-        if ({{paramName}}) {
-        {{#isCollectionFormatMulti}}
-            {{#uniqueItems}}
-            localVarQueryParameter['{{baseName}}'] = Array.from({{paramName}});
-            {{/uniqueItems}}
-            {{^uniqueItems}}
-            localVarQueryParameter['{{baseName}}'] = {{paramName}};
-            {{/uniqueItems}}
-        {{/isCollectionFormatMulti}}
-        {{^isCollectionFormatMulti}}
-            {{#uniqueItems}}
-            localVarQueryParameter['{{baseName}}'] = Array.from({{paramName}}).join(COLLECTION_FORMATS.{{collectionFormat}});
-            {{/uniqueItems}}
-            {{^uniqueItems}}
-            localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
-            {{/uniqueItems}}
-        {{/isCollectionFormatMulti}}
-        }
-        {{/isArray}}
-        {{^isArray}}
-        if ({{paramName}} !== undefined) {
-            {{#isDateTime}}
-            localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
-                ({{paramName}} as any).toISOString() :
-                {{paramName}};
-            {{/isDateTime}}
-            {{^isDateTime}}
-            {{#isDate}}
-            localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
-                ({{paramName}} as any).toISOString().substring(0, 10) :
-                {{paramName}};
-            {{/isDate}}
-            {{^isDate}}
-            {{#isExplode}}
-            {{#isPrimitiveType}}
-            localVarQueryParameter['{{baseName}}'] = {{paramName}};
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-            {{^isEnumRef}}
-            {{^isEnum}}
-            for (const [key, value] of Object.entries({{paramName}} as any)) {
-                localVarQueryParameter[key] = value;
-            }
-            {{/isEnum}}
-            {{/isEnumRef}}
-            {{#isEnum}}
-            localVarQueryParameter['{{baseName}}'] = {{paramName}};
-            {{/isEnum}}
-            {{#isEnumRef}}
-            localVarQueryParameter['{{baseName}}'] = {{paramName}};
-            {{/isEnumRef}}
-            {{/isPrimitiveType}}
-            {{/isExplode}}
-            {{^isExplode}}
-            localVarQueryParameter['{{baseName}}'] = {{paramName}};
-            {{/isExplode}}
-            {{/isDate}}
-            {{/isDateTime}}
-        }
-        {{/isArray}}
-
-    {{/queryParams}}
-    {{#vendorExtensions}}
-    {{#formParams}}
-        const {{paramName}} = requestParameters.{{paramName}};
-        {{#isArray}}
-        if ({{paramName}}) {
-        {{#isCollectionFormatMulti}}
-          {{#contentType}}
-            localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded)], { type: "{{contentType}}", }));
-          {{/contentType}}
-          {{^contentType}}
-            {{paramName}}.forEach((element) => {
-                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', element as any);
-            })
-          {{/contentType}}
-        {{/isCollectionFormatMulti}}
-        {{^isCollectionFormatMulti}}
-            localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));
-        {{/isCollectionFormatMulti}}
-        }{{/isArray}}
-        {{^isArray}}
-        if ({{paramName}} !== undefined) { {{^multipartFormData}}
-            localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}{{^isBoolean}}
-            localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isBoolean}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isBoolean}}
-            localVarFormParams.append('{{baseName}}', String({{paramName}}) as any);{{/isBoolean}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isEnumRef}}
-            localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isEnumRef}}{{^isEnumRef}}
-            localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded)], { type: "application/json", }));{{/isEnumRef}}{{/isPrimitiveType}}{{/multipartFormData}}
-        }{{/isArray}}
-    {{/formParams}}
-    {{/vendorExtensions}}
-    {{#vendorExtensions}}
-    {{#hasFormParams}}
-    {{^multipartFormData}}
-        localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    {{/multipartFormData}}
-    {{#multipartFormData}}
-        localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    {{/multipartFormData}}
-    {{/hasFormParams}}
-    {{/vendorExtensions}}
-    {{#bodyParam}}
-        const {{paramName}} = requestParameters.{{paramName}};
-        {{^consumes}}
-        localVarHeaderParameter['Content-Type'] = 'application/json';
-        {{/consumes}}
-        {{#consumes.0}}
-        localVarHeaderParameter['Content-Type'] = '{{{mediaType}}}';
-        {{/consumes.0}}
-    {{/bodyParam}}
-    {{#hasProduces}}
-        localVarHeaderParameter['Accept'] = '{{#produces}}{{{mediaType}}}{{^-last}},{{/-last}}{{/produces}}';
-    {{/hasProduces}}
-
-    {{#headerParams}}
-        const {{paramName}} = requestParameters.{{paramName}};
-        {{#isArray}}
-        if ({{paramName}}) {
-            {{#uniqueItems}}
-            let mapped = Array.from({{paramName}}).map(value => (<any>"{{{dataType}}}" !== "Set<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
-            {{/uniqueItems}}
-            {{^uniqueItems}}
-            let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
-            {{/uniqueItems}}
-            localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
-        }
-        {{/isArray}}
-        {{^isArray}}
-        if ({{paramName}} != null) {
-            {{#isString}}
-            localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
-            {{/isString}}
-            {{^isString}}
-            localVarHeaderParameter['{{baseName}}'] = typeof {{paramName}} === 'string'
-                ? {{paramName}}
-                : JSON.stringify({{paramName}}, replaceWithSerializableTypeIfNeeded);
-            {{/isString}}
-        }
-        {{/isArray}}
-    {{/headerParams}}
-
-        setSearchParams(localVarUrlObj, localVarQueryParameter);
-        const headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-        localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions,{{#hasFormParams}}{{#multipartFormData}} ...(localVarFormParams as any).getHeaders?.(),{{/multipartFormData}}{{/hasFormParams}} ...options.headers };
-    {{#hasFormParams}}
-        localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
-    {{/hasFormParams}}
-    {{#bodyParam}}
-        localVarRequestOptions.data = serializeDataIfNeeded({{paramName}}, localVarRequestOptions, this.configuration)
-    {{/bodyParam}}
-
-        const localVarOperationServerIndex = this.configuration?.serverIndex ?? 0;
-        const localVarOperationServerBasePath = operationServerMap['{{classname}}.{{nickname}}']?.[localVarOperationServerIndex]?.url;
-        const effectiveBasePath = localVarOperationServerBasePath || this.basePath || BASE_PATH;
-        localVarRequestOptions.url = (this.axios.defaults.baseURL ? '' : this.configuration?.basePath ?? effectiveBasePath) + toPathString(localVarUrlObj);
-
-        const localVarResponse = await this.axios.request<{{{returnType}}}{{^returnType}}void{{/returnType}}, AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>(localVarRequestOptions);
-        if (localVarObserve === 'response') {
-            return localVarResponse as TObserve extends ResponseObserveOptions ? AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}> : {{{returnType}}}{{^returnType}}void{{/returnType}};
-        }
-
-        return localVarResponse.data as TObserve extends ResponseObserveOptions ? AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}> : {{{returnType}}}{{^returnType}}void{{/returnType}};
+    public async {{nickname}}<TObserve extends ObserveOptions = ObserveOptions>({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: TObserve = {} as TObserve): Promise<ObserveReturn<{{{returnType}}}{{^returnType}}void{{/returnType}}, TObserve>> {
+        return run{{classname}}{{operationIdCamelCase}}Request(this.axios, this.configuration, this.basePath, {{#allParams.0}}requestParameters, {{/allParams.0}}options);
     }
     {{^-last}}
 

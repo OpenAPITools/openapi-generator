@@ -9,7 +9,7 @@ import * as v from 'valibot';
 {{#withAWSV4Signature}}
 import { aws4Interceptor } from "aws4-axios";
 {{/withAWSV4Signature}}
-import { RequiredError } from "./base{{importFileExtension}}";
+import { BASE_PATH, operationServerMap, RequiredError } from "./base{{importFileExtension}}";
 {{#withNodeImports}}
 import { URL, URLSearchParams } from 'url';
 {{/withNodeImports}}
@@ -20,6 +20,31 @@ export type Observe = 'body' | 'response';
 export type BodyObserveOptions = RawAxiosRequestConfig & { observe?: 'body' };
 export type ResponseObserveOptions = RawAxiosRequestConfig & { observe: 'response' };
 export type ObserveOptions = BodyObserveOptions | ResponseObserveOptions;
+export type ObserveReturn<T, TObserve extends ObserveOptions> = TObserve extends ResponseObserveOptions ? AxiosResponse<T> : T;
+
+export type RunAxiosRequestContext = {
+    axios: AxiosInstance;
+    configuration?: Configuration;
+    requestOptions: RawAxiosRequestConfig;
+    headerParameter: Record<string, any>;
+    queryParameter: Record<string, any>;
+};
+
+export type RunAxiosPrepare = (context: RunAxiosRequestContext) => Promise<void> | void;
+
+export type RunAxiosRequestArgs<T, TObserve extends ObserveOptions> = {
+    axios: AxiosInstance;
+    method: NonNullable<RawAxiosRequestConfig['method']>;
+    path: string;
+    configuration?: Configuration;
+    basePath?: string;
+    operationServerMapKey: string;
+    options: TObserve;
+    functionName?: string;
+    requestParameters?: unknown;
+    requestSchema?: v.GenericSchema<any>;
+    prepare?: RunAxiosPrepare;
+};
 
 /**
  *
@@ -160,6 +185,56 @@ export const serializeDataIfNeeded = function (value: any, requestOptions: any, 
 
 export const toPathString = function (url: URL) {
     return url.pathname + url.search + url.hash
+}
+
+const toObserveResult = function <T, TObserve extends ObserveOptions>(observe: Observe, response: AxiosResponse<T>): ObserveReturn<T, TObserve> {
+    return (observe === 'response' ? response : response.data) as ObserveReturn<T, TObserve>;
+}
+
+export const runAxiosRequest = async function <T, TObserve extends ObserveOptions = ObserveOptions>({
+    axios,
+    method,
+    path,
+    configuration,
+    basePath,
+    operationServerMapKey,
+    options,
+    functionName,
+    requestParameters,
+    requestSchema,
+    prepare,
+}: RunAxiosRequestArgs<T, TObserve>): Promise<ObserveReturn<T, TObserve>> {
+    if (requestSchema && functionName) {
+        validateRequestParameters(functionName, requestSchema, requestParameters);
+    }
+
+    const baseOptions = configuration ? configuration.baseOptions : undefined;
+    const observe = options.observe ?? 'body';
+    const { observe: _observe, ...axiosOptions } = options;
+    const requestOptions = { method, ...baseOptions, ...axiosOptions } as RawAxiosRequestConfig;
+    const headerParameter = {} as Record<string, any>;
+    const queryParameter = {} as Record<string, any>;
+
+    await prepare?.({ axios, configuration, requestOptions, headerParameter, queryParameter });
+
+    const url = new URL(path, DUMMY_BASE_URL);
+    setSearchParams(url, queryParameter);
+
+    const headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+    requestOptions.headers = {
+        ...headerParameter,
+        ...headersFromBaseOptions,
+        ...(requestOptions.data as any)?.getHeaders?.(),
+        ...options.headers,
+    };
+
+    const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+    const localVarOperationServerBasePath = operationServerMap[operationServerMapKey]?.[localVarOperationServerIndex]?.url;
+    const effectiveBasePath = localVarOperationServerBasePath || basePath || BASE_PATH;
+    requestOptions.url = (axios.defaults.baseURL ? '' : configuration?.basePath ?? effectiveBasePath) + toPathString(url);
+
+    const response = await axios.request<T, AxiosResponse<T>>(requestOptions);
+    return toObserveResult<T, TObserve>(observe, response);
 }
 
 export const createRequestFunction = function (axiosArgs: RequestArgs, globalAxios: AxiosInstance, BASE_PATH: string, configuration?: Configuration) {

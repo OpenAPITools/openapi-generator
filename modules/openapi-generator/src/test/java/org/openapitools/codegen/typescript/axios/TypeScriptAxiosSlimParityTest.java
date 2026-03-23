@@ -124,14 +124,16 @@ public class TypeScriptAxiosSlimParityTest {
     public void shouldReturnPayloadDataFromObjectOrientedMethods() throws Exception {
         IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, NO_CUSTOMIZER);
         String apiSource = String.join(" ", slimSurface.apiFiles.values());
+        String commonSource = slimSurface.supportingFiles.getOrDefault("common.ts", "");
 
         assertTrue(apiSource.contains("<TObserve extends ObserveOptions = ObserveOptions>"), "Slim API methods should expose observe-aware generics");
-        assertTrue(apiSource.contains("options: TObserve = {} as TObserve): Promise<TObserve extends ResponseObserveOptions ? AxiosResponse<"), "Slim API methods should return payload types by default through observe-aware generics");
+        assertTrue(apiSource.contains("options: TObserve = {} as TObserve): Promise<ObserveReturn<"), "Slim API methods should return payload types by default through observe-aware generics");
         assertFalse(apiSource.contains("AxiosPromise<"), "Slim API interface should not expose AxiosPromise return wrappers");
         assertTrue(apiSource.contains("options: ResponseObserveOptions): Promise<AxiosResponse<"), "Slim API methods should preserve explicit response overloads when observe=response");
-        assertTrue(apiSource.contains("const localVarObserve = options.observe ?? 'body';"), "Slim API class should default observe mode to body");
-        assertTrue(apiSource.contains("return localVarResponse as TObserve extends ResponseObserveOptions ? AxiosResponse<"), "Slim API class should return raw axios responses when observe=response");
-        assertTrue(apiSource.contains("return localVarResponse.data as TObserve extends ResponseObserveOptions ? AxiosResponse<"), "Slim API class should resolve axios response data directly");
+        assertTrue(apiSource.contains("return run"), "Slim API class should delegate request execution to generated helpers");
+        assertTrue(apiSource.contains("runAxiosRequest<"), "Slim API helper should delegate boilerplate to the shared runtime helper");
+        assertTrue(commonSource.contains("const observe = options.observe ?? 'body';"), "Slim common helper should default observe mode to body");
+        assertTrue(commonSource.contains("return (observe === 'response' ? response : response.data) as ObserveReturn<"), "Slim common helper should resolve either the raw response or payload data");
     }
 
     @Test(description = "slim: response overload keeps optional request object typescript-safe")
@@ -149,11 +151,11 @@ public class TypeScriptAxiosSlimParityTest {
     public void shouldExportObserveOptionsForTypedResponseAccess() throws Exception {
         IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, NO_CUSTOMIZER);
         String commonSource = slimSurface.supportingFiles.getOrDefault("common.ts", "");
-        String apiSource = String.join(" ", slimSurface.apiFiles.values());
 
         assertTrue(commonSource.contains("export type Observe = 'body' | 'response';"), "Slim common runtime should export observe mode types");
         assertTrue(commonSource.contains("export type ObserveOptions = BodyObserveOptions | ResponseObserveOptions;"), "Slim common runtime should export observe option union types");
-        assertTrue(apiSource.contains("const { observe, ...axiosOptions } = options;"), "Slim API class should strip observe before forwarding axios options");
+        assertTrue(commonSource.contains("const { observe: _observe, ...axiosOptions } = options;"), "Slim common runtime should strip observe before forwarding axios options");
+        assertTrue(commonSource.contains("export const runAxiosRequest = async function"), "Slim common runtime should export the shared request helper");
     }
 
     @Test(description = "slim: useSingleRequestParameter remains enabled even if configured false")
