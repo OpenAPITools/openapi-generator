@@ -38,6 +38,7 @@ class SpecialModelName {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
+    runtimeType == other.runtimeType &&
       other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
     @override

@@ -141,6 +141,7 @@ class EnumTest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
+    runtimeType == other.runtimeType &&
       other.enumString == enumString &&
       other.enumStringRequired == enumStringRequired &&
       other.enumInteger == enumInteger &&

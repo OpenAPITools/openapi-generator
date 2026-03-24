@@ -53,6 +53,7 @@ class AllOfWithSingleRef {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
+    runtimeType == other.runtimeType &&
       other.username == username &&
       other.singleRefType == singleRefType;
 

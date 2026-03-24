@@ -38,6 +38,7 @@ class ModelReturn {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
+    runtimeType == other.runtimeType &&
       other.return_ == return_;
 
     @override

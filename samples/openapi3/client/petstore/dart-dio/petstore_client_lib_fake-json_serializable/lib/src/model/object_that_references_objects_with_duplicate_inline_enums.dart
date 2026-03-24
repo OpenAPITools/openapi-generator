@@ -53,6 +53,7 @@ class ObjectThatReferencesObjectsWithDuplicateInlineEnums {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ObjectThatReferencesObjectsWithDuplicateInlineEnums &&
+    runtimeType == other.runtimeType &&
       other.objectOne == objectOne &&
       other.objectTwo == objectTwo;
 

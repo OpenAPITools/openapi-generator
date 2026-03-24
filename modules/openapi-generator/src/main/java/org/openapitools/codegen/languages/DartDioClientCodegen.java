@@ -87,9 +87,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     public DartDioClientCodegen() {
         super();
-        
-     // This stops the DefaultCodegen from copying parent properties into the child's 'vars'.
-        this.supportsInheritance = true;
 
         modifyFeatureSet(features -> features
                 .includeClientModificationFeatures(

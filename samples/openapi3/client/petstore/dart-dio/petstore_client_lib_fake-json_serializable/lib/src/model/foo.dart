@@ -38,6 +38,7 @@ class Foo {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Foo &&
+    runtimeType == other.runtimeType &&
       other.bar == bar;
 
     @override

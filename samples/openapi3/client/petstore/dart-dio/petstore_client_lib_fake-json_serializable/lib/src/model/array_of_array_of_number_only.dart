@@ -38,6 +38,7 @@ class ArrayOfArrayOfNumberOnly {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ArrayOfArrayOfNumberOnly &&
+    runtimeType == other.runtimeType &&
       other.arrayArrayNumber == arrayArrayNumber;
 
     @override

@@ -51,6 +51,7 @@ class ReadOnlyFirst {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
+    runtimeType == other.runtimeType &&
       other.bar == bar &&
       other.baz == baz;
 

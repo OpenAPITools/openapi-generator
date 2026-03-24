@@ -51,6 +51,7 @@ class HasOnlyReadOnly {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
+    runtimeType == other.runtimeType &&
       other.bar == bar &&
       other.foo == foo;
 

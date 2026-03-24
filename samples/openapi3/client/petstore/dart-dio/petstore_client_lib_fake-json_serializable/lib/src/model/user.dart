@@ -130,6 +130,7 @@ class User {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is User &&
+    runtimeType == other.runtimeType &&
       other.id == id &&
       other.username == username &&
       other.firstName == firstName &&
