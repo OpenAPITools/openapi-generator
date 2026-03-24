@@ -1543,7 +1543,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = DOT.matcher(varName).replaceAll("_DOT_");
             return "NUMBER_" + varName;
         }
 

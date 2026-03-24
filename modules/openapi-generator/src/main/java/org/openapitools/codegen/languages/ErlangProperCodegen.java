@@ -311,7 +311,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
+        name = sanitizeName(MINUS.matcher(name).replaceAll("_"));
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
             name = escapeReservedWord(name);

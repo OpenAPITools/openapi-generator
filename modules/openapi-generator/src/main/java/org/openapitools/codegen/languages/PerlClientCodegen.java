@@ -426,7 +426,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = MINUS.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. phone_number_api.rb => PhoneNumberApi.rb
         return camelize(name) + "Api";

@@ -1571,7 +1571,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = MINUS.matcher(name).replaceAll("_");
 
         // e.g. PhoneNumber => phone_number
         return underscore(name) + "_service";

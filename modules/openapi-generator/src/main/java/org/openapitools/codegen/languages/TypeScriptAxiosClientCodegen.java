@@ -127,8 +127,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void processOpts() {
         super.processOpts();
-        tsModelPackage = modelPackage.replaceAll("\\.", "/");
-        String tsApiPackage = apiPackage.replaceAll("\\.", "/");
+        tsModelPackage = DOT.matcher(modelPackage).replaceAll("/");
+        String tsApiPackage = DOT.matcher(apiPackage).replaceAll("/");
 
         String modelRelativeToRoot = getRelativeToRoot(tsModelPackage);
         String apiRelativeToRoot = getRelativeToRoot(tsApiPackage);

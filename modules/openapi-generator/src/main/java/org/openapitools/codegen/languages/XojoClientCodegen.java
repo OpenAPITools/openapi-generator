@@ -495,8 +495,8 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                .replaceAll("[-_ :\\(\\)]", "")));
+        return camelize(replaceSpecialCharacters(DASH_UNDERSCORE_SPACE_COLON_PARENTHESES.matcher(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators))
+                .replaceAll("")));
     }
 
     private String replaceSpecialCharacters(String name) {
@@ -564,7 +564,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name);
 
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = MINUS.matcher(name).replaceAll("_");
 
         // if it's all upper case, do nothing
         if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
@@ -595,7 +595,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name);
 
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = MINUS.matcher(name).replaceAll("_");
 
         if (isReservedWord(name)) {
             name = escapeReservedWord(name);

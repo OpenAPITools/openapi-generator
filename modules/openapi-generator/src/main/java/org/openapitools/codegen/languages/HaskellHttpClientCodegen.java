@@ -32,6 +32,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.PatternCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,8 +87,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     // protected String MODEL_IMPORTS = "modelImports";
     // protected String MODEL_EXTENSIONS = "modelExtensions";
-
-    private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
     static final String MEDIA_TYPE = "mediaType";
     static final String MIME_NO_CONTENT = "MimeNoContent";
@@ -1059,14 +1058,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (op.getHasPathParams()) {
             for (CodegenParameter param : op.allParams) {
                 if (param.isPathParam) {
-                    xPath = xPath.replaceAll("\\{" + param.baseName + "\\}", "\",toPath " + param.paramName + ",\"");
+                    xPath = PatternCache.get("\\{" + param.baseName + "}").matcher(xPath).replaceAll("\",toPath " + param.paramName + ",\"");
                 }
             }
             xPath = xPath.replaceAll(",\"\",", ",");
             xPath = xPath.replaceAll("\"\",", ",");
             xPath = xPath.replaceAll(",\"\"", ",");
             xPath = xPath.replaceAll("^\\[,", "[");
-            xPath = xPath.replaceAll(",\\]$", "]");
+            xPath = xPath.replaceAll(",]$", "]");
         }
         op.vendorExtensions.put(VENDOR_EXTENSION_X_PATH, xPath);
     }
@@ -1191,7 +1190,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     public String toVarName(String prefix, String name) {
         boolean hasPrefix = !StringUtils.isBlank(prefix);
-        name = underscore(sanitizeName(name.replaceAll("-", "_")));
+        name = underscore(sanitizeName(MINUS.matcher(name).replaceAll("_")));
         if (name.equals("_")) {
             name = "underscore";
         }
@@ -1430,7 +1429,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             String varName = "Num" + value;
             varName = varName.replaceAll("-", "Minus_");
             varName = varName.replaceAll("\\+", "Plus_");
-            varName = varName.replaceAll("\\.", "_Dot_");
+            varName = DOT.matcher(varName).replaceAll("_Dot_");
             return "'" + StringUtils.capitalize(sanitizeName(varName));
         }
 

@@ -293,7 +293,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     protected String toModuleName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_"));
+        return this.packageName + "_" + underscore(MINUS.matcher(name).replaceAll("_"));
     }
 
     protected String toSourceFilePath(String name, String extension) {

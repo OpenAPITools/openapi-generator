@@ -260,7 +260,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = MINUS.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all upper case, do nothing
         if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {

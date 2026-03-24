@@ -131,7 +131,7 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         additionalProperties.put("httpClientGprName", httpClientPackageName.toLowerCase(Locale.ROOT));
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
-        String names[] = this.modelPackage.split("\\.");
+        String names[] = DOT.split(this.modelPackage);
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
         supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "src",
@@ -152,8 +152,8 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
             @Override
             public void execute(Template.Fragment fragment, Writer writer) throws IOException {
                 String content = fragment.execute();
-                content = content.trim().replaceAll("\n$", "");
-                writer.write(content.replaceAll("\n", "\n   --  "));
+                content = TRAILING_NEWLINE.matcher(content.trim()).replaceAll("");
+                writer.write(NEWLINE.matcher(content).replaceAll("\n   --  "));
             }
         });
     }

@@ -252,7 +252,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
      */
     private String sanitizeEnumValue(String value) {
         // Replace any non-alphanumeric characters with an underscore
-        String sanitizedValue = value.replaceAll("[^A-Za-z0-9_]", "_");
+        String sanitizedValue = NON_WORD_CHAR.matcher(value).replaceAll("_");
         // If the enum starts with a number, prefix it with an underscore
         sanitizedValue = sanitizedValue.replaceAll("^([0-9])", "_$1");
         return sanitizedValue;

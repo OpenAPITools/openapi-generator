@@ -249,7 +249,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
+        name = sanitizeName(MINUS.matcher(name).replaceAll("_"));
+        name = sanitizeName(MINUS.matcher(name).replaceAll("_"));
 
         // if it's all upper case, do nothing
         if (ALL_UPPER_UNDERSCORE.matcher(name).matches())
@@ -321,7 +322,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = MINUS.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.lua => pet_api.lua
         return underscore(name) + "_api";
@@ -547,7 +548,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = DOT.matcher(varName).replaceAll("_DOT_");
             return varName;
         }
 

@@ -98,7 +98,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         }
 
         private String escapeCurlyBrackets(String relativeFileName) {
-            return relativeFileName.replaceAll("\\{", "\\\\{").replaceAll("\\}", "\\\\}");
+            return RIGHT_CURLY_BRACE.matcher(LEFT_CURLY_BRACE.matcher(relativeFileName).replaceAll("\\\\{")).replaceAll("\\\\}");
         }
     }
 

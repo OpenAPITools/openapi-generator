@@ -453,13 +453,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
         String escapedName = name + "_var";
 
         // Trim leading underscores in the event the name is already underscored
-        escapedName = escapedName.replaceAll("^_+", "");
+        escapedName = MULTI_LEADING_UNDERSCORES.matcher(escapedName).replaceAll("");
         return escapedName;
     }
 
     private String sourceFolder() {
         ArrayList<String> underscoredWords = new ArrayList<>();
-        for (String word : moduleName.split("\\.")) {
+        for (String word : DOT.split(moduleName)) {
             underscoredWords.add(underscore(word));
         }
         return ("lib/" + join("/", underscoredWords)).replace('/', File.separatorChar);
@@ -496,7 +496,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = MINUS.matcher(name).replaceAll("_");
 
         // e.g. PetApi.go => pet_api.go
         return underscore(name);

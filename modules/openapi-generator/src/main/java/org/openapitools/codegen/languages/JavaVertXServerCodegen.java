@@ -290,7 +290,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         String operationId = entry.getValue().getOperationId();
         return (operationId != null) ? operationId
                 : entry.getKey().name()
-                + pathname.replaceAll("-", "_").replaceAll("/", "_").replaceAll("[{}]", "");
+                + MINUS.matcher(pathname).replaceAll("_").replaceAll("/", "_").replaceAll("[{}]", "");
     }
 
     protected String extractPortFromHost(String host) {

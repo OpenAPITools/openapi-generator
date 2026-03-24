@@ -322,7 +322,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         List<CodegenOperation> operationList = objectMap.getOperation();
 
         for (CodegenOperation operation : operationList) {
-            operation.path = operation.path.replaceAll("\\{([^}]+)}", ":$1");
+            operation.path = PATH_PARAMETER.matcher(operation.path).replaceAll(":$1");
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
 
             List<CodegenParameter> params = operation.allParams;

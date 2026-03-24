@@ -228,7 +228,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // Replace space with _ (underscore) so camelize works as expected
-        final String varName = camelize(name.replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_]", ""),
+        final String varName = camelize(NON_WORD_CHAR.matcher(name.replace(" ", "_")).replaceAll(""),
                 LOWERCASE_FIRST_LETTER);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
     }

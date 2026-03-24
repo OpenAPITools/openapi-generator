@@ -847,7 +847,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         }
 
         // string
-        String var = value.replaceAll(" ", "_");
+        String var = value.replace(" ", "_");
         var = camelize(var);
         var = NON_WORD_PLUS.matcher(var).replaceAll("");
 

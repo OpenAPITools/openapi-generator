@@ -33,15 +33,12 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
-
-    private static final Pattern PATH_VARIABLE = Pattern.compile("\\{([^}]+)}");
 
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -248,7 +245,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                     }
                 }
 
-                Matcher match = PATH_VARIABLE.matcher(operation.path);
+                Matcher match = PATH_PARAMETER.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
                     String replacement = ":" + camelize(match.group(1), LOWERCASE_FIRST_LETTER);

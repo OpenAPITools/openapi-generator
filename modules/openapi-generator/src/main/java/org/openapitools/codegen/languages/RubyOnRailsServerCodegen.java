@@ -265,7 +265,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = MINUS.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. DefaultController => defaults_controller.rb
         return underscore(name) + "_controller";

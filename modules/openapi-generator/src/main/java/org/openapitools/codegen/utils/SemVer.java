@@ -17,14 +17,18 @@
 
 package org.openapitools.codegen.utils;
 
+import java.util.regex.Pattern;
+
 public class SemVer implements Comparable<SemVer> {
+
+    private static final Pattern DOT = Pattern.compile("\\.");
 
     public final int major;
     public final int minor;
     public final int revision;
 
     public SemVer(String versionString) {
-        String[] tokens = versionString.split("\\.");
+        String[] tokens = DOT.split(versionString);
         major = Integer.parseInt(tokens[0]);
         minor = tokens.length < 2 ? 0 : Integer.parseInt(tokens[1]);
         revision = tokens.length < 3 ? 0 : Integer.parseInt(tokens[2]);

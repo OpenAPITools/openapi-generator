@@ -147,9 +147,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         @Override
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             String text = fragment.execute();
-            writer.write(text
-                    .replaceAll("\\{", "{{")
-                    .replaceAll("}", "}}")
+            writer.write(RIGHT_CURLY_BRACE.matcher(LEFT_CURLY_BRACE.matcher(text).replaceAll("{{")).replaceAll("}}")
             );
         }
     }

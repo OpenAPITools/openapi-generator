@@ -157,7 +157,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = MINUS.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(name) + "_api";
@@ -165,7 +165,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi

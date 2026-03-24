@@ -630,7 +630,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if (isReservedWord(name) || STARTS_WITH_DIGIT.matcher(name).matches()) {
             name = escapeReservedWord(name);
         }
-        name = name.replaceAll("-", "_");
+        name = MINUS.matcher(name).replaceAll("_");
         return name;
     }
 
@@ -683,7 +683,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = MINUS.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return camelize(name) + "API";
@@ -715,7 +715,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        value = value.replaceAll("-", "_");
+        value = MINUS.matcher(value).replaceAll("_");
         if (isReservedWord(value)) {
             value = escapeReservedWord(value);
         }

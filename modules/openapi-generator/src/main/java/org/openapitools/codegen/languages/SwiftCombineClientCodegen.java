@@ -507,7 +507,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         name = sanitizeName(name);
 
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = MINUS.matcher(name).replaceAll("_");
 
         // if it's all upper case, do nothing
         if (ALL_UPPER_UNDERSCORE.matcher(name).matches()) {
@@ -612,7 +612,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
             String varName = "number" + camelize(name);
             varName = varName.replaceAll("-", "minus");
             varName = varName.replaceAll("\\+", "plus");
-            varName = varName.replaceAll("\\.", "dot");
+            varName = DOT.matcher(varName).replaceAll("dot");
             return varName;
         }
 
@@ -623,8 +623,8 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                        .replaceAll("[-_ :\\(\\)]", ""),
+        return camelize(DASH_UNDERSCORE_SPACE_COLON_PARENTHESES.matcher(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators))
+                        .replaceAll(""),
                 LOWERCASE_FIRST_LETTER);
     }
 

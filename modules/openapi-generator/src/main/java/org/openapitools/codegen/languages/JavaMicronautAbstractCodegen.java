@@ -403,17 +403,17 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     @Override
     public String apiTestFileFolder() {
         if (testTool.equals(OPT_TEST_SPOCK)) {
-            return getOutputDir() + "/src/test/groovy/" + apiPackage().replaceAll("\\.", "/");
+            return getOutputDir() + "/src/test/groovy/" + DOT.matcher(apiPackage()).replaceAll("/");
         }
-        return getOutputDir() + "/src/test/java/" + apiPackage().replaceAll("\\.", "/");
+        return getOutputDir() + "/src/test/java/" + DOT.matcher(apiPackage()).replaceAll("/");
     }
 
     @Override
     public String modelTestFileFolder() {
         if (testTool.equals(OPT_TEST_SPOCK)) {
-            return getOutputDir() + "/src/test/groovy/" + modelPackage().replaceAll("\\.", "/");
+            return getOutputDir() + "/src/test/groovy/" + DOT.matcher(modelPackage()).replaceAll("/");
         }
-        return getOutputDir() + "/src/test/java/" + modelPackage().replaceAll("\\.", "/");
+        return getOutputDir() + "/src/test/java/" + DOT.matcher(modelPackage()).replaceAll("/");
     }
 
     @Override
@@ -694,6 +694,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         if (text == null) {
             return null;
         }
+        //TODO: this seems like a bug, since it is basically no-op currently. Probably .replace instead of .replaceAll is wanted here?
         return escapeText(text).replaceAll("'", "\\'");
     }
 

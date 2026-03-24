@@ -207,7 +207,7 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
     }
 
     private String mapToFlightPath(String path) {
-        return path.replaceAll("\\{([^}]+)}", "@$1");
+        return PATH_PARAMETER.matcher(path).replaceAll("@$1");
     }
 
     @Override

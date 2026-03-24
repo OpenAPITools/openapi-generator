@@ -218,10 +218,10 @@ public class CppRestbedServerDeprecatedCodegen extends AbstractCppCodegen {
             reservedWordPrefix = additionalProperties.get(RESERVED_WORD_PREFIX_OPTION).toString();
         }
 
-        additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
-        additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
-        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
+        additionalProperties.put("modelNamespaceDeclarations", DOT.split(modelPackage));
+        additionalProperties.put("modelNamespace", DOT.matcher(modelPackage).replaceAll("::"));
+        additionalProperties.put("apiNamespaceDeclarations", DOT.split(apiPackage));
+        additionalProperties.put("apiNamespace", DOT.matcher(apiPackage).replaceAll("::"));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
         additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);

@@ -190,7 +190,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
                     for (final ListIterator<Object> i = enumValues.listIterator(); i.hasNext(); ) {
                         final String element = String.valueOf(i.next());
-                        i.set(element.replaceAll("^\"|\"$", ""));
+                        i.set(ENCLOSING_QUOTES.matcher(element).replaceAll(""));
                     }
                 }
             }
@@ -222,7 +222,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
         for (CodegenOperation codegenOperation : oplist) {
             String path = codegenOperation.path;
-            codegenOperation.path = path.replaceAll("\\{", ":").replaceAll("}", "");
+            codegenOperation.path = RIGHT_CURLY_BRACE.matcher(LEFT_CURLY_BRACE.matcher(path).replaceAll(":")).replaceAll("");
         }
         return objs;
     }

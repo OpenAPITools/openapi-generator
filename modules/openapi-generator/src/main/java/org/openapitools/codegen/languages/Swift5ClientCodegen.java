@@ -1051,8 +1051,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                        .replaceAll("[-_ :\\(\\)]", "")),
+        return camelize(replaceSpecialCharacters(DASH_UNDERSCORE_SPACE_COLON_PARENTHESES.matcher(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators))
+                        .replaceAll("")),
                 LOWERCASE_FIRST_LETTER);
     }
 

@@ -42,7 +42,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     // source folder where to write the files
     protected String sourceFolder = "src";
     protected String apiVersion = "0.0.1";
-    private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
     public static final String PROP_SERVE_STATIC = "serveStatic";
     public static final String PROP_SERVE_STATIC_DESC = "serve will serve files from the directory 'static'.";

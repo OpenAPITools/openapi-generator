@@ -343,9 +343,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public String escapeStringLiteral(String input) {
-        return input
-                .replace("\"", "\\\"")  // escape double quotes
-                .replaceAll("[\\\\]+$", "")  // remove trailing backslash(es)
+        return TRAILING_BACKSLASHES.matcher(input
+                .replace("\"", "\\\""))  // escape double quotes
+                .replaceAll("")  // remove trailing backslash(es)
                 // issue: "foo\<control char>" will perhaps still wreak havoc
                 ;
     }

@@ -25,6 +25,7 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.PatternCache;
 
 import java.io.File;
 import java.text.Normalizer;
@@ -107,8 +108,8 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     private String escapeTitle(String title) {
         // strip umlauts etc.
-        final String normalizedTitle = Normalizer.normalize(title, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
+        final String normalizedTitle = PatternCache.get("[^\\p{ASCII}]").matcher(Normalizer.normalize(title, Normalizer.Form.NFD))
+                .replaceAll("");
         return super.escapeUnsafeCharacters(normalizedTitle);
     }
 

@@ -213,12 +213,12 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
         }
 
-        additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
-        additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
-        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("helpersNamespaceDeclarations", helpersPackage.split("\\."));
-        additionalProperties.put("helpersNamespace", helpersPackage.replaceAll("\\.", "::"));
+        additionalProperties.put("modelNamespaceDeclarations", DOT.split(modelPackage));
+        additionalProperties.put("modelNamespace", DOT.matcher(modelPackage).replaceAll("::"));
+        additionalProperties.put("apiNamespaceDeclarations", DOT.split(apiPackage));
+        additionalProperties.put("apiNamespace", DOT.matcher(apiPackage).replaceAll("::"));
+        additionalProperties.put("helpersNamespaceDeclarations", DOT.split(helpersPackage));
+        additionalProperties.put("helpersNamespace", DOT.matcher(helpersPackage).replaceAll("::"));
         additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
 
         if (additionalProperties.containsKey(OPTIONAL_EXTERNAL_LIB)) {

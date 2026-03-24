@@ -1828,7 +1828,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 path = path.replace("_error", "").replace("_Error", "").replace("error_", "").replace("Error_", "");
             }
             // Remove leading underscores
-            String clean = path.replaceAll("^_+", "");
+            String clean = MULTI_LEADING_UNDERSCORES.matcher(path).replaceAll("");
 
             // If the path is now empty or whitespace only, return default
             if (clean.isEmpty() || clean.trim().isEmpty()) {

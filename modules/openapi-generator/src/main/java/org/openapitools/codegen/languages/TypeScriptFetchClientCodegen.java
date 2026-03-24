@@ -215,11 +215,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     public String getPassthroughSuffix() {
-        return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[0] : null;
+        return detectPassthroughModelsWithSuffixAndField != null ? DOT.split(detectPassthroughModelsWithSuffixAndField)[0] : null;
     }
 
     public String getPassthroughField() {
-        return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[1] : null;
+        return detectPassthroughModelsWithSuffixAndField != null ? DOT.split(detectPassthroughModelsWithSuffixAndField)[1] : null;
     }
 
     public boolean getInferUniqueIdFromNameSuffix() {

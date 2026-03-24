@@ -56,10 +56,10 @@ public class StringUtils {
                 .build();
     }
 
-    private static Pattern capitalLetterPattern = Pattern.compile("([A-Z]+)([A-Z][a-z][a-z]+)");
-    private static Pattern lowercasePattern = Pattern.compile("([a-z\\d])([A-Z])");
-    private static Pattern pkgSeparatorPattern = Pattern.compile("\\.");
-    private static Pattern dollarPattern = Pattern.compile("\\$");
+    private static final Pattern CAPITAL_LETTER_PATTERN = Pattern.compile("([A-Z]+)([A-Z][a-z][a-z]+)");
+    private static final Pattern LOWERCASE_PATTERN = Pattern.compile("([a-z\\d])([A-Z])");
+    private static final Pattern PKG_SEPARATOR_PATTERN = Pattern.compile("\\.");
+    private static final Pattern DOLLAR_PATTERN = Pattern.compile("\\$");
 
     /**
      * Underscore the given word.
@@ -74,12 +74,12 @@ public class StringUtils {
             String result;
             String replacementPattern = "$1_$2";
             // Replace package separator with slash.
-            result = pkgSeparatorPattern.matcher(wordToUnderscore).replaceAll("/");
+            result = PKG_SEPARATOR_PATTERN.matcher(wordToUnderscore).replaceAll("/");
             // Replace $ with two underscores for inner classes.
-            result = dollarPattern.matcher(result).replaceAll("__");
+            result = DOLLAR_PATTERN.matcher(result).replaceAll("__");
             // Replace capital letter with _ plus lowercase letter.
-            result = capitalLetterPattern.matcher(result).replaceAll(replacementPattern);
-            result = lowercasePattern.matcher(result).replaceAll(replacementPattern);
+            result = CAPITAL_LETTER_PATTERN.matcher(result).replaceAll(replacementPattern);
+            result = LOWERCASE_PATTERN.matcher(result).replaceAll(replacementPattern);
             result = result.replace('-', '_');
             // replace space with underscore
             result = result.replace(' ', '_');
@@ -88,6 +88,7 @@ public class StringUtils {
         });
     }
 
+    private static final Pattern UNDERSCORE_OR_SPACE = Pattern.compile("[_ ]+");
     /**
      * Dashize the given word.
      *
@@ -95,7 +96,7 @@ public class StringUtils {
      * @return The dashized version of the word, e.g. "my-name"
      */
     public static String dashize(String word) {
-        return underscore(word).replaceAll("[_ ]+", "-");
+        return UNDERSCORE_OR_SPACE.matcher(underscore(word)).replaceAll("-");
     }
 
     /**
@@ -110,12 +111,13 @@ public class StringUtils {
         return camelize(word, UPPERCASE_FIRST_CHAR);
     }
 
-    private static Pattern camelizeSlashPattern = Pattern.compile("\\/(.?)");
-    private static Pattern camelizeUppercasePattern = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
-    private static Pattern camelizeUnderscorePattern = Pattern.compile("(_)(.)");
-    private static Pattern camelizeHyphenPattern = Pattern.compile("(-)(.)");
-    private static Pattern camelizeDollarPattern = Pattern.compile("\\$");
-    private static Pattern camelizeSimpleUnderscorePattern = Pattern.compile("_");
+    private static final Pattern CAMELIZE_SLASH_PATTERN = Pattern.compile("/(.?)");
+    private static final Pattern CAMELIZE_UPPERCASE_PATTERN = Pattern.compile("(\\.?)(\\w)([^.]*)$");
+    private static final Pattern CAMELIZE_UNDERSCORE_PATTERN = Pattern.compile("(_)(.)");
+    private static final Pattern CAMELIZE_HYPHEN_PATTERN = Pattern.compile("(-)(.)");
+    private static final Pattern CAMELIZE_DOLLAR_PATTERN = Pattern.compile("\\$");
+    private static final Pattern CAMELIZE_SIMPLE_UNDERSCORE_PATTERN = Pattern.compile("_");
+    private static final Pattern DOT = Pattern.compile("\\.");
 
     /**
      * Camelize name (parameter, property, method, etc)
@@ -131,14 +133,14 @@ public class StringUtils {
             String word = pair.getKey();
             CamelizeOption option = pair.getValue();
             // Replace all slashes with dots (package separator)
-            Matcher m = camelizeSlashPattern.matcher(word);
+            Matcher m = CAMELIZE_SLASH_PATTERN.matcher(word);
             while (m.find()) {
                 word = m.replaceFirst("." + m.group(1).replace("\\", "\\\\")/*.toUpperCase()*/);
-                m = camelizeSlashPattern.matcher(word);
+                m = CAMELIZE_SLASH_PATTERN.matcher(word);
             }
 
             // case out dots
-            String[] parts = word.split("\\.");
+            String[] parts = DOT.split(word);
             StringBuilder f = new StringBuilder();
             for (String z : parts) {
                 if (z.length() > 0) {
@@ -147,38 +149,38 @@ public class StringUtils {
             }
             word = f.toString();
 
-            m = camelizeSlashPattern.matcher(word);
+            m = CAMELIZE_SLASH_PATTERN.matcher(word);
             while (m.find()) {
                 word = m.replaceFirst(Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
-                m = camelizeSlashPattern.matcher(word);
+                m = CAMELIZE_SLASH_PATTERN.matcher(word);
             }
 
             // Uppercase the class name.
-            m = camelizeUppercasePattern.matcher(word);
+            m = CAMELIZE_UPPERCASE_PATTERN.matcher(word);
             if (m.find()) {
                 String rep = m.group(1) + m.group(2).toUpperCase(Locale.ROOT) + m.group(3);
-                rep = camelizeDollarPattern.matcher(rep).replaceAll("\\\\\\$");
+                rep = CAMELIZE_DOLLAR_PATTERN.matcher(rep).replaceAll("\\\\\\$");
                 word = m.replaceAll(rep);
             }
 
             // Remove all underscores (underscore_case to camelCase)
-            m = camelizeUnderscorePattern.matcher(word);
+            m = CAMELIZE_UNDERSCORE_PATTERN.matcher(word);
             while (m.find()) {
                 String original = m.group(2);
                 String upperCase = original.toUpperCase(Locale.ROOT);
                 if (original.equals(upperCase)) {
-                    word = camelizeSimpleUnderscorePattern.matcher(word).replaceFirst("");
+                    word = CAMELIZE_SIMPLE_UNDERSCORE_PATTERN.matcher(word).replaceFirst("");
                 } else {
                     word = m.replaceFirst(upperCase);
                 }
-                m = camelizeUnderscorePattern.matcher(word);
+                m = CAMELIZE_UNDERSCORE_PATTERN.matcher(word);
             }
 
             // Remove all hyphens (hyphen-case to camelCase)
-            m = camelizeHyphenPattern.matcher(word);
+            m = CAMELIZE_HYPHEN_PATTERN.matcher(word);
             while (m.find()) {
                 word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
-                m = camelizeHyphenPattern.matcher(word);
+                m = CAMELIZE_HYPHEN_PATTERN.matcher(word);
             }
 
             switch (option) {
@@ -191,7 +193,7 @@ public class StringUtils {
             }
 
             // remove all underscore
-            word = camelizeSimpleUnderscorePattern.matcher(word).replaceAll("");
+            word = CAMELIZE_SIMPLE_UNDERSCORE_PATTERN.matcher(word).replaceAll("");
             return word;
         });
     }

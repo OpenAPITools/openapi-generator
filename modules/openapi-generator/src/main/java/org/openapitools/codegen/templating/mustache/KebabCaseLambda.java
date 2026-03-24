@@ -36,21 +36,25 @@ import java.util.Locale;
  * {{#kebabcase}}{{summary}}{{/kebabcase}}
  * </pre>
  */
+import java.util.regex.Pattern;
+
 public class KebabCaseLambda implements Mustache.Lambda {
+
+    private static final Pattern PACKAGE_SEPARATOR = Pattern.compile("\\.");
+    private static final Pattern SPECIAL           = Pattern.compile("[^A-Za-z0-9_]");
+    private static final Pattern FIRST_PATTERN     = Pattern.compile("([A-Z]+)([A-Z][a-z])");
+    private static final Pattern SECOND_PATTERN    = Pattern.compile("([a-z\\d])([A-Z])");
+
+    private static final String SPACE_REPLACEMENT  = "$1 $2";
+
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String text = fragment.execute();
 
-        String SPECIAL = "[^A-Za-z0-9_]";
-        String firstPattern = "([A-Z]+)([A-Z][a-z])";
-        String secondPattern = "([a-z\\d])([A-Z])";
-        String replacementPattern = "$1 $2";
-        // Replace package separator with slash.
-        text = text.replaceAll("\\.", "/");
-        text = text.replaceAll(SPECIAL, "");
-        // Replace capital letter with _ plus lowercase letter.
-        text = text.replaceAll(firstPattern, replacementPattern);
-        text = text.replaceAll(secondPattern, replacementPattern);
+        text = PACKAGE_SEPARATOR.matcher(text).replaceAll("/");
+        text = SPECIAL.matcher(text).replaceAll("");
+        text = FIRST_PATTERN.matcher(text).replaceAll(SPACE_REPLACEMENT);
+        text = SECOND_PATTERN.matcher(text).replaceAll(SPACE_REPLACEMENT);
         text = text.replace('_', '-');
         text = text.replace(' ', '-');
         text = text.toLowerCase(Locale.ROOT);

@@ -249,15 +249,24 @@ public class DefaultCodegen implements CodegenConfig {
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application/json(;.*)?");
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application/vnd.(.*)+json(;.*)?");
     private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
-    /** Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}. */
+    /**
+     * Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}.
+     */
     protected static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
-    /** Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}. */
+    /**
+     * Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}.
+     */
     protected static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
     protected static final Pattern LEADING_UNDERSCORES = Pattern.compile("^_*");
     protected static final Pattern MULTI_UNDERSCORES = Pattern.compile("_+");
     protected static final Pattern MULTI_TRAILING_UNDERSCORES = Pattern.compile("_+$");
+    protected static final Pattern MULTI_LEADING_UNDERSCORES = Pattern.compile("^_+");
     protected static final Pattern FIRST_LEADING_UNDERSCORE = Pattern.compile("^_");
     protected static final Pattern LAST_TRAILING_UNDERSCORE = Pattern.compile("_$");
+    protected static final Pattern NEWLINE = Pattern.compile("\n");
+    protected static final Pattern TRAILING_NEWLINE = Pattern.compile("\n$");
+    protected static final Pattern LEFT_CURLY_BRACE = Pattern.compile("\\{");
+    protected static final Pattern RIGHT_CURLY_BRACE = Pattern.compile("}");
 
 
     protected static final Pattern WHITESPACE = Pattern.compile("\\s+");
@@ -265,27 +274,42 @@ public class DefaultCodegen implements CodegenConfig {
     protected static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
 
     protected static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)/");
+    protected static final Pattern TRAILING_BACKSLASHES = Pattern.compile("\\\\+$");
+    protected static final Pattern ENCLOSING_QUOTES = Pattern.compile("^\"|\"$");
 
-    /** Matches a string that starts with a digit (anchored); used across language generators. */
+
+    /**
+     * Matches a string that starts with a digit (anchored); used across language generators.
+     */
     protected static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
 
 
-    /** Matches a string consisting entirely of uppercase letters and underscores. */
+    /**
+     * Matches a string consisting entirely of uppercase letters and underscores.
+     */
     protected static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    protected static final Pattern NON_WORD_CHAR = Pattern.compile("[^a-zA-Z0-9_]");
+    protected static final Pattern DASH_UNDERSCORE_SPACE_COLON_PARENTHESES = Pattern.compile("[-_ :()]");
 
     protected static final Pattern MINUS = Pattern.compile("-");
     protected static final Pattern PLUS = Pattern.compile("\\+");
     protected static final Pattern DOT = Pattern.compile("\\.");
 
-    protected static final Pattern PATH_PARAMETER = Pattern.compile("\\{(.*?)}");
+    protected static final Pattern PATH_PARAMETER = Pattern.compile("\\{([^}]+)}");
 
-    /** Matches a string consisting entirely of uppercase letters and underscores and digits. */
+    /**
+     * Matches a string consisting entirely of uppercase letters and underscores and digits.
+     */
     protected static final Pattern ALL_UPPER_UNDERSCORE_DIGITS = Pattern.compile("^[A-Z0-9_]*$");
-    /** Matches tab, newline, or carriage-return; used in {@link #escapeText}. */
+    /**
+     * Matches tab, newline, or carriage-return; used in {@link #escapeText}.
+     */
     protected static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
 
     protected static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
-    /** Matches a callback path-expression parameter like {@code {$request.body#/id}}. */
+    /**
+     * Matches a callback path-expression parameter like {@code {$request.body#/id}}.
+     */
     private static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
     // Dynamic patterns keyed by user-supplied removeCharRegEx strings are cached via PatternCache.
 

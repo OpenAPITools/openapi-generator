@@ -310,7 +310,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         }
 
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
-        String[] packageNameSplits = packageName.split("\\.");
+        String[] packageNameSplits = DOT.split(packageName);
         String currentPackagePath = "";
         for (int i = 0; i < packageNameSplits.length - 1; i++) {
             if (i > 0) {

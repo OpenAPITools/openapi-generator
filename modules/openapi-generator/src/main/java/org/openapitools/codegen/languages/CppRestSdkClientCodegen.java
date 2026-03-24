@@ -207,12 +207,12 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
-        additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
-        additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
-        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
+        additionalProperties.put("modelNamespaceDeclarations", DOT.split(modelPackage));
+        additionalProperties.put("modelNamespace", DOT.matcher(modelPackage).replaceAll("::"));
+        additionalProperties.put("modelHeaderGuardPrefix", DOT.matcher(modelPackage).replaceAll("_").toUpperCase(Locale.ROOT));
+        additionalProperties.put("apiNamespaceDeclarations", DOT.split(apiPackage));
+        additionalProperties.put("apiNamespace", DOT.matcher(apiPackage).replaceAll("::"));
+        additionalProperties.put("apiHeaderGuardPrefix", DOT.matcher(apiPackage).replaceAll("_").toUpperCase(Locale.ROOT));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
         additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);

@@ -154,7 +154,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
                 PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
-                        String pathWithDollars = pathname.replaceAll("\\{", "\\$\\{");
+                        String pathWithDollars =  LEFT_CURLY_BRACE.matcher(pathname).replaceAll("\\${");
                         operation.addExtension("x-path", pathWithDollars);
                     }
                 }

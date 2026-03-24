@@ -454,7 +454,7 @@ public class JavaDubboServerCodegen extends AbstractJavaCodegen {
 
         try {
             String cleanVersion = version.split("-")[0];
-            String[] parts = cleanVersion.split("\\.");
+            String[] parts = DOT.split(cleanVersion);
             if (parts.length >= 2) {
                 int major = Integer.parseInt(parts[0]);
                 int minor = Integer.parseInt(parts[1]);
