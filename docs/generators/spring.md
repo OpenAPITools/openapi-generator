@@ -103,7 +103,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useHttpServiceProxyFactoryInterfacesConfigurator|Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.| |false|
-|useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `useSpringBoot4` is set and incompatible with `openApiNullable`).| |false|
+|useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `useSpringBoot4` is set).| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |true|
 |useOptional|Use Optional container for optional parameters| |false|
