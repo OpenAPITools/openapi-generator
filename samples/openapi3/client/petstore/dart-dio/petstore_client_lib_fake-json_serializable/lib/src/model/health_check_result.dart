@@ -17,9 +17,8 @@ part 'health_check_result.g.dart';
   explicitToJson: true,
 )
 class HealthCheckResult {
-  /// Returns a new [HealthCheckResult] instance.
+/// Returns a new [HealthCheckResult] instance.
   HealthCheckResult({
-
      this.nullableMessage,
   });
 

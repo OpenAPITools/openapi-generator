@@ -17,9 +17,8 @@ part 'number_only.g.dart';
   explicitToJson: true,
 )
 class NumberOnly {
-  /// Returns a new [NumberOnly] instance.
+/// Returns a new [NumberOnly] instance.
   NumberOnly({
-
      this.justNumber,
   });
 

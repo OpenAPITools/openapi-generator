@@ -17,9 +17,8 @@ part 'special_model_name.g.dart';
   explicitToJson: true,
 )
 class SpecialModelName {
-  /// Returns a new [SpecialModelName] instance.
+/// Returns a new [SpecialModelName] instance.
   SpecialModelName({
-
      this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 

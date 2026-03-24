@@ -17,9 +17,8 @@ part 'model_list.g.dart';
   explicitToJson: true,
 )
 class ModelList {
-  /// Returns a new [ModelList] instance.
+/// Returns a new [ModelList] instance.
   ModelList({
-
      this.n123list,
   });
 

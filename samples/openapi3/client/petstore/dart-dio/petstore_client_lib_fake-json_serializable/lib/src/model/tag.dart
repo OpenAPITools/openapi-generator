@@ -17,11 +17,9 @@ part 'tag.g.dart';
   explicitToJson: true,
 )
 class Tag {
-  /// Returns a new [Tag] instance.
+/// Returns a new [Tag] instance.
   Tag({
-
      this.id,
-
      this.name,
   });
 

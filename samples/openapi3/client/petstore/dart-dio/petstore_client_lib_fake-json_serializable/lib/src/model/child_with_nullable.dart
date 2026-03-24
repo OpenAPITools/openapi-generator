@@ -19,40 +19,13 @@ part 'child_with_nullable.g.dart';
   disallowUnrecognizedKeys: false,
   explicitToJson: true,
 )
-class ChildWithNullable {
-  /// Returns a new [ChildWithNullable] instance.
+class ChildWithNullable extends ParentWithNullable {
+/// Returns a new [ChildWithNullable] instance.
   ChildWithNullable({
-
-     this.type,
-
-     this.nullableProperty,
-
      this.otherProperty,
+     super.type,
+     super.nullableProperty,
   });
-
-  @JsonKey(
-    
-    name: r'type',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? type;
-
-
-
-  @JsonKey(
-    
-    name: r'nullableProperty',
-    required: false,
-    includeIfNull: false,
-  )
-
-
-  final String? nullableProperty;
-
-
 
   @JsonKey(
     

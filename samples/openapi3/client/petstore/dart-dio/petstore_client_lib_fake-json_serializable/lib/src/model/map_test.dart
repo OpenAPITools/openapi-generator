@@ -17,15 +17,11 @@ part 'map_test.g.dart';
   explicitToJson: true,
 )
 class MapTest {
-  /// Returns a new [MapTest] instance.
+/// Returns a new [MapTest] instance.
   MapTest({
-
      this.mapMapOfString,
-
      this.mapOfEnumString,
-
      this.directMap,
-
      this.indirectMap,
   });
 

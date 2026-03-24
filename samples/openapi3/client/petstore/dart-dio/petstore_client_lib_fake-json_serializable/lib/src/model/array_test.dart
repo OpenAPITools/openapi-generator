@@ -18,13 +18,10 @@ part 'array_test.g.dart';
   explicitToJson: true,
 )
 class ArrayTest {
-  /// Returns a new [ArrayTest] instance.
+/// Returns a new [ArrayTest] instance.
   ArrayTest({
-
      this.arrayOfString,
-
      this.arrayArrayOfInteger,
-
      this.arrayArrayOfModel,
   });
 

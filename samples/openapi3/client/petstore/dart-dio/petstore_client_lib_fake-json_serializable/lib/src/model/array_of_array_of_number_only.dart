@@ -17,9 +17,8 @@ part 'array_of_array_of_number_only.g.dart';
   explicitToJson: true,
 )
 class ArrayOfArrayOfNumberOnly {
-  /// Returns a new [ArrayOfArrayOfNumberOnly] instance.
+/// Returns a new [ArrayOfArrayOfNumberOnly] instance.
   ArrayOfArrayOfNumberOnly({
-
      this.arrayArrayNumber,
   });
 

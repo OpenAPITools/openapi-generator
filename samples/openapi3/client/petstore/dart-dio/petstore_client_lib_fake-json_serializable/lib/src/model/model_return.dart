@@ -17,9 +17,8 @@ part 'model_return.g.dart';
   explicitToJson: true,
 )
 class ModelReturn {
-  /// Returns a new [ModelReturn] instance.
+/// Returns a new [ModelReturn] instance.
   ModelReturn({
-
      this.return_,
   });
 

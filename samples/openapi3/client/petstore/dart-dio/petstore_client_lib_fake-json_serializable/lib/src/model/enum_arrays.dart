@@ -17,11 +17,9 @@ part 'enum_arrays.g.dart';
   explicitToJson: true,
 )
 class EnumArrays {
-  /// Returns a new [EnumArrays] instance.
+/// Returns a new [EnumArrays] instance.
   EnumArrays({
-
      this.justSymbol,
-
      this.arrayEnum,
   });
 

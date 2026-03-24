@@ -18,39 +18,23 @@ part 'format_test.g.dart';
   explicitToJson: true,
 )
 class FormatTest {
-  /// Returns a new [FormatTest] instance.
+/// Returns a new [FormatTest] instance.
   FormatTest({
-
      this.integer,
-
      this.int32,
-
      this.int64,
-
     required  this.number,
-
      this.float,
-
      this.double_,
-
      this.decimal,
-
      this.string,
-
     required  this.byte,
-
      this.binary,
-
     required  this.date,
-
      this.dateTime,
-
      this.uuid,
-
     required  this.password,
-
      this.patternWithDigits,
-
      this.patternWithDigitsAndDelimiter,
   });
 

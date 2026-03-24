@@ -17,15 +17,11 @@ part 'name.g.dart';
   explicitToJson: true,
 )
 class Name {
-  /// Returns a new [Name] instance.
+/// Returns a new [Name] instance.
   Name({
-
     required  this.name,
-
      this.snakeCase,
-
      this.property,
-
      this.n123number,
   });
 

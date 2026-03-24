@@ -17,19 +17,13 @@ part 'order.g.dart';
   explicitToJson: true,
 )
 class Order {
-  /// Returns a new [Order] instance.
+/// Returns a new [Order] instance.
   Order({
-
      this.id,
-
      this.petId,
-
      this.quantity,
-
      this.shipDate,
-
      this.status,
-
      this.complete = false,
   });
 

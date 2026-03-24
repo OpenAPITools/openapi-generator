@@ -17,13 +17,10 @@ part 'outer_composite.g.dart';
   explicitToJson: true,
 )
 class OuterComposite {
-  /// Returns a new [OuterComposite] instance.
+/// Returns a new [OuterComposite] instance.
   OuterComposite({
-
      this.myNumber,
-
      this.myString,
-
      this.myBoolean,
   });
 

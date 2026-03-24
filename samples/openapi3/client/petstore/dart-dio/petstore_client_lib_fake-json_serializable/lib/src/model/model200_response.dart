@@ -17,11 +17,9 @@ part 'model200_response.g.dart';
   explicitToJson: true,
 )
 class Model200Response {
-  /// Returns a new [Model200Response] instance.
+/// Returns a new [Model200Response] instance.
   Model200Response({
-
      this.name,
-
      this.class_,
   });
 

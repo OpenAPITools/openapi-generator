@@ -18,9 +18,8 @@ part 'object_with_enum.g.dart';
   explicitToJson: true,
 )
 class ObjectWithEnum {
-  /// Returns a new [ObjectWithEnum] instance.
+/// Returns a new [ObjectWithEnum] instance.
   ObjectWithEnum({
-
      this.attribute = TestEnum.empty,
   });
 

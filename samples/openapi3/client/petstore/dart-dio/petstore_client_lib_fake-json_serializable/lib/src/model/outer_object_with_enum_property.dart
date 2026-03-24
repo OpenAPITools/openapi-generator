@@ -18,9 +18,8 @@ part 'outer_object_with_enum_property.g.dart';
   explicitToJson: true,
 )
 class OuterObjectWithEnumProperty {
-  /// Returns a new [OuterObjectWithEnumProperty] instance.
+/// Returns a new [OuterObjectWithEnumProperty] instance.
   OuterObjectWithEnumProperty({
-
     required  this.value,
   });
 

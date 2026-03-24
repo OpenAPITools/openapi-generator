@@ -17,11 +17,9 @@ part 'has_only_read_only.g.dart';
   explicitToJson: true,
 )
 class HasOnlyReadOnly {
-  /// Returns a new [HasOnlyReadOnly] instance.
+/// Returns a new [HasOnlyReadOnly] instance.
   HasOnlyReadOnly({
-
      this.bar,
-
      this.foo,
   });
 

@@ -17,19 +17,13 @@ part 'capitalization.g.dart';
   explicitToJson: true,
 )
 class Capitalization {
-  /// Returns a new [Capitalization] instance.
+/// Returns a new [Capitalization] instance.
   Capitalization({
-
      this.smallCamel,
-
      this.capitalCamel,
-
      this.smallSnake,
-
      this.capitalSnake,
-
      this.sCAETHFlowPoints,
-
      this.ATT_NAME,
   });
 

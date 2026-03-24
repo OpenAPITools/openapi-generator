@@ -21,23 +21,15 @@ part 'enum_test.g.dart';
   explicitToJson: true,
 )
 class EnumTest {
-  /// Returns a new [EnumTest] instance.
+/// Returns a new [EnumTest] instance.
   EnumTest({
-
      this.enumString,
-
     required  this.enumStringRequired,
-
      this.enumInteger,
-
      this.enumNumber,
-
      this.outerEnum,
-
      this.outerEnumInteger,
-
      this.outerEnumDefaultValue,
-
      this.outerEnumIntegerDefaultValue,
   });
 

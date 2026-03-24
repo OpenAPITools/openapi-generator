@@ -17,23 +17,15 @@ part 'user.g.dart';
   explicitToJson: true,
 )
 class User {
-  /// Returns a new [User] instance.
+/// Returns a new [User] instance.
   User({
-
      this.id,
-
      this.username,
-
      this.firstName,
-
      this.lastName,
-
      this.email,
-
      this.password,
-
      this.phone,
-
      this.userStatus,
   });
 

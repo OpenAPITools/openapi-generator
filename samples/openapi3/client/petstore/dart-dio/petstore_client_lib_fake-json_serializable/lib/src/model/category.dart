@@ -17,11 +17,9 @@ part 'category.g.dart';
   explicitToJson: true,
 )
 class Category {
-  /// Returns a new [Category] instance.
+/// Returns a new [Category] instance.
   Category({
-
      this.id,
-
      this.name = 'default-name',
   });
 

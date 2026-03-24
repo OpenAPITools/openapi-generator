@@ -17,9 +17,8 @@ part 'foo.g.dart';
   explicitToJson: true,
 )
 class Foo {
-  /// Returns a new [Foo] instance.
+/// Returns a new [Foo] instance.
   Foo({
-
      this.bar = 'bar',
   });
 

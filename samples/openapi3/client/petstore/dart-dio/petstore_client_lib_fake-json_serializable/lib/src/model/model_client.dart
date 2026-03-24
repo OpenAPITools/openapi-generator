@@ -17,9 +17,8 @@ part 'model_client.g.dart';
   explicitToJson: true,
 )
 class ModelClient {
-  /// Returns a new [ModelClient] instance.
+/// Returns a new [ModelClient] instance.
   ModelClient({
-
      this.client,
   });
 

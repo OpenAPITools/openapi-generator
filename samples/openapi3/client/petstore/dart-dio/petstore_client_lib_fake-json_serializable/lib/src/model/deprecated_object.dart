@@ -18,9 +18,8 @@ part 'deprecated_object.g.dart';
   explicitToJson: true,
 )
 class DeprecatedObject {
-  /// Returns a new [DeprecatedObject] instance.
+/// Returns a new [DeprecatedObject] instance.
   DeprecatedObject({
-
      this.name,
   });
 

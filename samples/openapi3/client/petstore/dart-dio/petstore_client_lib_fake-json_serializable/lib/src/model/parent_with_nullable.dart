@@ -17,11 +17,9 @@ part 'parent_with_nullable.g.dart';
   explicitToJson: true,
 )
 class ParentWithNullable {
-  /// Returns a new [ParentWithNullable] instance.
+/// Returns a new [ParentWithNullable] instance.
   ParentWithNullable({
-
      this.type,
-
      this.nullableProperty,
   });
 

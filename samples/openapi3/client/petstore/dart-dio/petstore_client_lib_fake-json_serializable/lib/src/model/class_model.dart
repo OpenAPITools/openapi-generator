@@ -17,9 +17,8 @@ part 'class_model.g.dart';
   explicitToJson: true,
 )
 class ClassModel {
-  /// Returns a new [ClassModel] instance.
+/// Returns a new [ClassModel] instance.
   ClassModel({
-
      this.class_,
   });
 

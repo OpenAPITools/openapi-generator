@@ -18,11 +18,9 @@ part 'file_schema_test_class.g.dart';
   explicitToJson: true,
 )
 class FileSchemaTestClass {
-  /// Returns a new [FileSchemaTestClass] instance.
+/// Returns a new [FileSchemaTestClass] instance.
   FileSchemaTestClass({
-
      this.file,
-
      this.files,
   });
 

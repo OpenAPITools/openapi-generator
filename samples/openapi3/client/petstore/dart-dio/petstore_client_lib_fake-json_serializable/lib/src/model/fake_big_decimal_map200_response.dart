@@ -17,11 +17,9 @@ part 'fake_big_decimal_map200_response.g.dart';
   explicitToJson: true,
 )
 class FakeBigDecimalMap200Response {
-  /// Returns a new [FakeBigDecimalMap200Response] instance.
+/// Returns a new [FakeBigDecimalMap200Response] instance.
   FakeBigDecimalMap200Response({
-
      this.someId,
-
      this.someMap,
   });
 

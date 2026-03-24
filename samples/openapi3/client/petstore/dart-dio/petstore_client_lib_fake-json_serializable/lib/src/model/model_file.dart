@@ -17,9 +17,8 @@ part 'model_file.g.dart';
   explicitToJson: true,
 )
 class ModelFile {
-  /// Returns a new [ModelFile] instance.
+/// Returns a new [ModelFile] instance.
   ModelFile({
-
      this.sourceURI,
   });
 

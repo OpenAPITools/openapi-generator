@@ -19,19 +19,13 @@ part 'pet.g.dart';
   explicitToJson: true,
 )
 class Pet {
-  /// Returns a new [Pet] instance.
+/// Returns a new [Pet] instance.
   Pet({
-
      this.id,
-
      this.category,
-
     required  this.name,
-
     required  this.photoUrls,
-
      this.tags,
-
      this.status,
   });
 

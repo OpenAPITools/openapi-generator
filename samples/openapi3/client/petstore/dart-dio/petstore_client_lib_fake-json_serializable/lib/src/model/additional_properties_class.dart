@@ -17,11 +17,9 @@ part 'additional_properties_class.g.dart';
   explicitToJson: true,
 )
 class AdditionalPropertiesClass {
-  /// Returns a new [AdditionalPropertiesClass] instance.
+/// Returns a new [AdditionalPropertiesClass] instance.
   AdditionalPropertiesClass({
-
      this.mapProperty,
-
      this.mapOfMapProperty,
 
      this.mapOfArrayInteger,

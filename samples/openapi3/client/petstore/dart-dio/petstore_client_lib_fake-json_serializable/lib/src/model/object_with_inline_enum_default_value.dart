@@ -17,9 +17,8 @@ part 'object_with_inline_enum_default_value.g.dart';
   explicitToJson: true,
 )
 class ObjectWithInlineEnumDefaultValue {
-  /// Returns a new [ObjectWithInlineEnumDefaultValue] instance.
+/// Returns a new [ObjectWithInlineEnumDefaultValue] instance.
   ObjectWithInlineEnumDefaultValue({
-
      this.attribute = const ObjectWithInlineEnumDefaultValueAttributeEnum._('value_one'),
   });
 

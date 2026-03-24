@@ -17,13 +17,10 @@ part 'api_response.g.dart';
   explicitToJson: true,
 )
 class ApiResponse {
-  /// Returns a new [ApiResponse] instance.
+/// Returns a new [ApiResponse] instance.
   ApiResponse({
-
      this.code,
-
      this.type,
-
      this.message,
   });
 

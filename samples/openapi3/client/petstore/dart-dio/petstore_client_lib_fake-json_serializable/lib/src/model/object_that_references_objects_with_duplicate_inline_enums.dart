@@ -19,11 +19,9 @@ part 'object_that_references_objects_with_duplicate_inline_enums.g.dart';
   explicitToJson: true,
 )
 class ObjectThatReferencesObjectsWithDuplicateInlineEnums {
-  /// Returns a new [ObjectThatReferencesObjectsWithDuplicateInlineEnums] instance.
+/// Returns a new [ObjectThatReferencesObjectsWithDuplicateInlineEnums] instance.
   ObjectThatReferencesObjectsWithDuplicateInlineEnums({
-
      this.objectOne,
-
      this.objectTwo,
   });
 
