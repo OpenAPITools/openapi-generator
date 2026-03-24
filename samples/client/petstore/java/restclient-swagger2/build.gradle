@@ -100,7 +100,7 @@ ext {
     swagger_annotations_version = "2.2.43"
     jackson_version = "2.21.1"
     jackson_annotations_version = "2.21"
-    jackson_databind_nullable_version = "0.2.9"
+    jackson_databind_nullable_version = "0.2.10"
     spring_web_version = "6.2.16"
     jakarta_annotation_version = "2.1.1"
     jodatime_version = "2.14.0"
