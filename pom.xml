@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.21.0-SNAPSHOT</version>
+    <version>7.21.0</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -23,15 +23,6 @@
         <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
         <url>https://github.com/openapitools/openapi-generator</url>
     </scm>
-    <modules>
-        <module>modules/openapi-generator-core</module>
-        <module>modules/openapi-generator</module>
-        <module>modules/openapi-generator-cli</module>
-        <module>modules/openapi-generator-maven-plugin</module>
-        <!--                <module>modules/openapi-generator-gradle-plugin</module>-->
-        <!--                <module>modules/openapi-generator-mill-plugin</module>-->
-        <!--                <module>modules/openapi-generator-online</module>-->
-    </modules>
     <developers>
         <!-- original author of the project -->
         <developer>
