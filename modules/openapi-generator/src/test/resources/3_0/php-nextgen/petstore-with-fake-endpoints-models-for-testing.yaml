@@ -2291,3 +2291,22 @@ components:
           description: "Optional array of multiple errors encountered during processing"
       required:
         - error
+
+    DiscriminatorBase:
+      type: object
+      discriminator:
+        propertyName: type
+      required:
+        - type
+      properties:
+        type:
+          type: string
+
+    DiscriminatorChild:
+      allOf:
+        - $ref: '#/components/schemas/DiscriminatorBase'
+        - type: object
+          properties:
+            childProperty:
+              type: string
+

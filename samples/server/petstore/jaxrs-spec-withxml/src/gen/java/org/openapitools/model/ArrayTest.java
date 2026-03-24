@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "ArrayTest", propOrder =
     { "arrayOfString", "arrayArrayOfInteger", "arrayArrayOfModel"
     })
@@ -237,4 +237,3 @@ public class ArrayTest  implements Serializable {
     }
   }
 }
-

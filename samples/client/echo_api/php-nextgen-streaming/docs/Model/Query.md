@@ -1,10 +1,10 @@
-# # Query
+# Query
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** | Query | [optional]
-**outcomes** | **string[]** |  | [optional] [default to [["SUCCESS","FAILURE"]]]
+**outcomes** | **string[]** |  | [optional] [default to ["SUCCESS","FAILURE"]]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

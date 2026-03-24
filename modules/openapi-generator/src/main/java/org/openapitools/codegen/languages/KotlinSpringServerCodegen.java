@@ -348,7 +348,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return Arrays.asList(
                 DocumentationProvider.NONE,
                 DocumentationProvider.SOURCE,
-                DocumentationProvider.SPRINGFOX,
                 DocumentationProvider.SPRINGDOC
         );
     }
@@ -369,8 +368,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
      */
     private boolean selectedDocumentationProviderRequiresSwaggerUiBootstrap() {
-        return getDocumentationProvider().equals(DocumentationProvider.SPRINGFOX) ||
-                getDocumentationProvider().equals(DocumentationProvider.SOURCE);
+        return getDocumentationProvider().equals(DocumentationProvider.SOURCE);
     }
 
     public boolean getExceptionHandler() {
@@ -432,10 +430,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         super.processOpts();
-
-        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-            LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
-        }
 
         if (null != defaultDocumentationProvider()) {
             documentationProvider = DocumentationProvider.ofCliOption(
@@ -514,7 +508,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         // Spring-specific import mappings for x-spring-paginated support
-        importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
         importMapping.put("PageableAsQueryParam", "org.springdoc.core.converters.models.PageableAsQueryParam");
         if (useSpringBoot3) {
@@ -725,9 +718,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
-            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
-            }
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
@@ -899,11 +889,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (!reactive && !(library.equals(SPRING_CLOUD_LIBRARY) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
-            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
-                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
-                        "SpringFoxConfiguration.kt"));
-            } else if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+            if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "SpringDocConfiguration.kt"));
@@ -970,7 +956,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * When x-spring-paginated is set to true on an operation, this method:
      * - Adds org.springframework.data.domain.Pageable parameter to the method signature
      * - Removes the default Spring Data Web pagination query parameters (page, size, sort)
-     * - Adds appropriate imports (Pageable, ApiIgnore for springfox, ParameterObject for springdoc)
+     * - Adds appropriate imports (Pageable, ParameterObject for springdoc)
      *
      * Auto-detection (when autoXSpringPaginated is enabled):
      * - Automatically detects operations with 'page', 'size', and 'sort' query parameters (case-sensitive)
@@ -1037,9 +1023,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             // add org.springframework.data.domain.Pageable import when needed (server libraries only)
             if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
                 codegenOperation.imports.add("Pageable");
-                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                    codegenOperation.imports.add("ApiIgnore");
-                }
                 if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                     codegenOperation.imports.add("PageableAsQueryParam");
                     // Prepend @PageableAsQueryParam to existing x-operation-extra-annotation if present

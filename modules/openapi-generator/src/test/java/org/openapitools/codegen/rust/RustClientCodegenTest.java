@@ -271,4 +271,23 @@ public class RustClientCodegenTest {
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, enumSpec);
     }
+
+    @Test
+    public void testArrayWithObjectEnumValues() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_1/issue_23278.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        Path outputPath = Path.of(target.toString(), "/src/models/object_arrays_options.rs");
+        String enumSpec = linearize("pub enum ObjectArraysOptions { " +
+                "ArrayVecTestObject(Vec<models::TestObject>), " +
+                "ArrayVecTestArray(Vec<models::TestArray>)," +
+                "}");
+        TestUtils.assertFileExists(outputPath);
+        TestUtils.assertFileContains(outputPath, enumSpec);
+    }
 }

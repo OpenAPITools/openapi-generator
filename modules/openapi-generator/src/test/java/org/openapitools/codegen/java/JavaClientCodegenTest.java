@@ -4211,83 +4211,30 @@ public class JavaClientCodegenTest {
                 "feign-hc5 must preserve a user-provided templateDir and not overwrite it with 'feign'");
     }
 
-//    @Test(description = "Regression test for multipart/form-data list handling in restclient ApiClient to avoid IndexOutOfBoundsException on empty lists")
-//    public void testRestClientMultipartFormParamsGuardAgainstEmptyLists() {
-//        final Path output = newTempFolder();
-//        final CodegenConfigurator configurator = new CodegenConfigurator()
-//                .setGeneratorName(JAVA_GENERATOR)
-//                .setLibrary(JavaClientCodegen.RESTCLIENT)
-//                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
-//                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
-//                .setOutputDir(output.toString().replace("\\", "/"));
-//
-//        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-//
-//        validateJavaSourceFiles(files);
-//
-//        assertFileContains(
-//                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
-//                "if (v instanceof java.util.ArrayList && !v.isEmpty()) {",
-//                "first.getClass().isEnum()"
-//        );
-//
-//        TestUtils.assertFileNotContains(
-//                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
-//                "if (v instanceof java.util.ArrayList) {",
-//                "o.getClass().getEnumConstants() != null"
-//        );
-//    }
+    @Test(description = "Regression test for multipart/form-data list handling in restclient ApiClient to avoid IndexOutOfBoundsException on empty lists")
+    public void testRestClientMultipartFormParamsGuardAgainstEmptyLists() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
 
-//    @DataProvider(name = "jspecifyLibraries")
-//    public Object[][] jspecifyLibraries() {
-//        return new Object[][]{
-//                {"restclient"},
-//                {"webclient"},
-//                {"resttemplate"},
-//                {"native"}
-//        };
-//    }
-//
-//    @Test(dataProvider = "jspecifyLibraries")
-//    public void testJspecify(String library) throws IOException {
-//        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
-//                Map.of(USE_JSPECIFY, true,
-//                        "containerDefaultToNull", true
-//                ),
-//                codegenConfigurator ->
-//                        codegenConfigurator
-//                                .setValidateSpec(false)
-//                                .addTypeMapping("OffsetDateTime", "java.time.Instant")
-//                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
-//
-//        assertThat(files.get("pom.xml")).content()
-//                .contains(
-//                        "<groupId>org.jspecify</groupId>",
-//                        "<artifactId>jspecify</artifactId>",
-//                        "<version>1.0.0</version>");
-//        JavaFileAssert.assertThat(files.get("Foo.java"))
-//                .fileContains(
-//                        "import org.jspecify.annotations.Nullable;",
-//                        "private java.time.@Nullable Instant dt;",
-//                        "setDt(java.time.@Nullable Instant dt)",
-//                        "dt(java.time.@Nullable Instant dt)",
-//                        "setBinary(@Nullable File binary)",
-//                        "public @Nullable File getBinary()",
-//                        "List<java.time.@Nullable Instant> getListOfDt()",
-//                        "setListOfDt(List<java.time.@Nullable Instant> listOfDt)"
-//                );
-//        if (!RESTTEMPLATE.equals(library)) {
-//            JavaFileAssert.assertThat(files.get("DefaultApi.java"))
-//                    .fileContains(
-//                            "import org.jspecify.annotations.Nullable;",
-//                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie)"
-//                    );
-//        }
-//        JavaFileAssert.assertThat(files.get("api/package-info.java"))
-//                .fileContains("@org.jspecify.annotations.NullMarked");
-//        JavaFileAssert.assertThat(files.get("model/package-info.java"))
-//                .fileContains("@org.jspecify.annotations.NullMarked");
-//        JavaFileAssert.assertThat(files.get("client/package-info.java"))
-//                .fileContains("@org.jspecify.annotations.NullMarked");
-//    }
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "if (v instanceof java.util.ArrayList && !v.isEmpty()) {",
+                "first.getClass().isEnum()"
+        );
+
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "if (v instanceof java.util.ArrayList) {",
+                "o.getClass().getEnumConstants() != null"
+        );
+    }
 }

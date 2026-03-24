@@ -1236,5 +1236,43 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         assertFileNotContains(files.get("RequiredProperties.java").toPath(), "@JsonCreator");
     }
+    
+    @Test
+    public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(OPENAPI_NULLABLE, "true");
+        
+        File output = Files.createTempDirectory("test").toFile();
+        
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("jaxrs-spec")
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/bugs/issue_23251.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        
+        validateJavaSourceFiles(files);
+        
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BugResponse.java");
+        
+        // Assert that the generated model contains JsonNullable fields
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BugResponse.java"),
+            "private JsonNullable<String> nullableField = JsonNullable.<String>undefined();",
+            "private JsonNullable<List<String>> nullableList = JsonNullable.<List<String>>undefined();",
+            "private JsonNullable<List<@Valid NestedResponse>> nullableObjectList = JsonNullable.<List<@Valid NestedResponse>>undefined();"
+        );
+        
+        // Assert that the generated model contains correct add and remove helper methods reference for JsonNullable fields
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BugResponse.java"),
+            "this.nullableList.get().add(nullableListItem);",
+                "this.nullableList.get().remove(nullableListItem);",
+            "this.nullableObjectList.get().add(nullableObjectListItem);",
+            "this.nullableObjectList.get().remove(nullableObjectListItem);");
+        
+        output.deleteOnExit();
+    }
 
 }
