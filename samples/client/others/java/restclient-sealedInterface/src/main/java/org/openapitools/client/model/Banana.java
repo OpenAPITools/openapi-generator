@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Banana.JSON_PROPERTY_LENGTH,
   Banana.JSON_PROPERTY_FRUIT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public final class Banana implements Serializable, Fruit {
   private static final long serialVersionUID = 1L;
 

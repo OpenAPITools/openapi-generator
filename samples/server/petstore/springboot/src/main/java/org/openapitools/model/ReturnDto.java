@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Return", description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ReturnDto {
 
   private @Nullable Integer _return;

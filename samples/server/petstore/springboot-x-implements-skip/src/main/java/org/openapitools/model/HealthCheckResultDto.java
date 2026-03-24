@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "HealthCheckResult", description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @JsonTypeName("HealthCheckResult")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class HealthCheckResultDto {
 
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
