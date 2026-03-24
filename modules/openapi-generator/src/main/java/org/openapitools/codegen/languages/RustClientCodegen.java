@@ -300,7 +300,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     // If the type is an array, extend the name with the inner type to prevent name collisions
                     // in case multiple arrays with different types are defined. If the user has manually specified
                     // a name, use that name instead.
-                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.dataType;
+                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.baseType;
                     String oneOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
                     oneOf.setName(oneOfName);
                 }

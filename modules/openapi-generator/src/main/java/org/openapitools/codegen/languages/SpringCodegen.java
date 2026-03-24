@@ -163,7 +163,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean generateGenericResponseEntity = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
     @Getter @Setter
-    protected boolean useSpringBoot3 = false;
+    protected boolean useSpringBoot3 = true;
     @Getter @Setter
     protected boolean useSpringBoot4 = false;
     @Getter @Setter
@@ -366,7 +366,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         List<DocumentationProvider> supportedProviders = new ArrayList<>();
         supportedProviders.add(DocumentationProvider.NONE);
         supportedProviders.add(DocumentationProvider.SOURCE);
-        supportedProviders.add(DocumentationProvider.SPRINGFOX);
         supportedProviders.add(DocumentationProvider.SPRINGDOC);
         return supportedProviders;
     }
@@ -387,7 +386,7 @@ public class SpringCodegen extends AbstractJavaCodegen
      * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
      */
     private boolean selectedDocumentationProviderRequiresSwaggerUiBootstrap() {
-        return getDocumentationProvider().equals(DocumentationProvider.SPRINGFOX) || getDocumentationProvider().equals(DocumentationProvider.SOURCE);
+        return getDocumentationProvider().equals(DocumentationProvider.SOURCE);
     }
 
     @Override
@@ -446,10 +445,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
             LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary, useBeanValidation, performBeanValidation. "
                     + "useJakartaEe defaulted to 'true'");
-        }
-
-        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-            LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
         }
 
         // clear model and api doc template as this codegen
@@ -526,13 +521,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3, this::setUseSpringBoot3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
-        if(isUseSpringBoot3() && isUseSpringBoot4()){
-            throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
+
+        if (isUseSpringBoot4()) {
+            setUseSpringBoot3(false);
         }
+
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
-            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
-            }
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
@@ -563,7 +557,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("Nullable", useJspecify? "org.jspecify.annotations.Nullable": "org.springframework.lang.Nullable");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
-        importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
@@ -638,10 +631,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                         supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
                                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                                 "SpringDocConfiguration.java"));
-                    } else if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                        supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
-                                (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                                "SpringFoxConfiguration.java"));
                     }
                 }
             } else if (SPRING_HTTP_INTERFACE.equals(library)) {
@@ -1144,9 +1133,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.data.domain.Pageable import when needed
         if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
-            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                codegenOperation.imports.add("ApiIgnore");
-            }
             if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                 codegenOperation.imports.add("ParameterObject");
             }
@@ -1168,9 +1154,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             addNullableImportForOperation(codegenOperation);
         }
 
-        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && includeHttpRequestContext != null && includeHttpRequestContext) {
-            codegenOperation.imports.add("ApiIgnore");
-        }
         if (reactive && sse) {
             var MEDIA_EVENT_STREAM = "text/event-stream";
             // inspecting used streaming media types

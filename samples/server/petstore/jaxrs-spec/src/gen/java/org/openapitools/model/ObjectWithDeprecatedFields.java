@@ -22,7 +22,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("ObjectWithDeprecatedFields")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields  implements Serializable {
   private String uuid;
   private BigDecimal id;
@@ -218,4 +218,3 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     }
   }
 }
-

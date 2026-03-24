@@ -121,6 +121,45 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testDiscriminatorUsesModelPackageNamespace() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        // Set invokerPackage="MyApp" and modelPackage="Entities" (relative suffix).
+        // AbstractPhpCodegen.processOpts() will produce final modelPackage = "MyApp\Entities".
+        // The old bug would have emitted '\MyApp\Model\' (invokerPackage + \Model\).
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "MyApp");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "Entities");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> objectSerializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        // The discriminator subclass lookup must use modelPackage (\MyApp\Entities\),
+        // NOT invokerPackage + '\Model' (\MyApp\Model\).
+        Assert.assertListContains(objectSerializerContent,
+                a -> a.contains("'\\MyApp\\Entities\\\\'"),
+                "ObjectSerializer discriminator subclass lookup must use modelPackage namespace");
+        Assert.assertListNotContains(objectSerializerContent,
+                a -> a.contains("'\\MyApp\\Model\\\\'"),
+                "ObjectSerializer discriminator must NOT use invokerPackage\\Model namespace");
+    }
+
+    @Test
     public void testEnumUnknownDefaultCaseDeserializationDisabled() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
