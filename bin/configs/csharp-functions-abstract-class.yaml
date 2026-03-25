@@ -1,0 +1,6 @@
+generatorName: csharp-functions
+outputDir: samples/server/petstore/csharp-functions-abstract-class
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp-functions
+additionalProperties:
+  classModifier: abstract
