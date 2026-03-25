@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright 2026 OpenAPI-Generator Contributors (https://openapi-generator.tech)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,17 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.csharpnetcorefunctions;
+package org.openapitools.codegen.csharpnetcore;
 
-import org.openapitools.codegen.languages.CSharpFunctionsServerCodegen;
+import org.openapitools.codegen.languages.AspNetServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CSharpFunctionsServerCodegenTest {
-
-    @Test
-    public void testToEnumVarName() throws Exception {
-        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
-        codegen.processOpts();
-
-        Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBarEnum");
-        Assert.assertEquals(codegen.toEnumVarName("fooBar", "string"), "FooBarEnum");
-        Assert.assertEquals(codegen.toEnumVarName("foo-bar", "string"), "FooBarEnum");
-        Assert.assertEquals(codegen.toEnumVarName("foo_bar", "string"), "FooBarEnum");
-        Assert.assertEquals(codegen.toEnumVarName("foo bar", "string"), "FooBarEnum");
-
-        // The below cases do not work currently, camelize doesn't support uppercase
-        // Assert.assertEquals(codegen.toEnumVarName("FOO-BAR", "string"), "FooBar");
-        // Assert.assertEquals(codegen.toEnumVarName("FOO_BAR", "string"), "FooBar");
-    }
+public class AspNetServerCodegenTest {
 
     @Test
     public void abstractClassUsesDefaultVirtualOperations() {
-        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
         codegen.additionalProperties().put("classModifier", "abstract");
 
         codegen.processOpts();
@@ -52,7 +36,7 @@ public class CSharpFunctionsServerCodegenTest {
 
     @Test
     public void abstractOperationsDisableBodyGeneration() {
-        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
         codegen.additionalProperties().put("classModifier", "abstract");
         codegen.additionalProperties().put("operationModifier", "abstract");
 
@@ -64,11 +48,12 @@ public class CSharpFunctionsServerCodegenTest {
 
     @Test
     public void libraryBuildUsesDefaultVirtualOperations() {
-        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
         codegen.additionalProperties().put("buildTarget", "library");
 
         codegen.processOpts();
 
+        Assert.assertEquals(codegen.additionalProperties().get("classModifier"), "abstract");
         Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "virtual");
         Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.TRUE);
     }
