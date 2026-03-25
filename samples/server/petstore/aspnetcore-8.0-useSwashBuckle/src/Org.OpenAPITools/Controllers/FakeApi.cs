@@ -33,7 +33,20 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/fake/nullable_example_test")]
         [ValidateModelState]
         [ProducesResponseType(statusCode: 200, type: typeof(TestNullable))]
-        public abstract IActionResult FakeNullableExampleTest();
+        public virtual IActionResult FakeNullableExampleTest()
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default);
+            string exampleJson = null;
+            exampleJson = "{\r\n  \"nullableName\" : \"nullableName\",\r\n  \"name\" : \"name\"\r\n}";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<TestNullable>(exampleJson)
+            : default;
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
 
         /// <summary>
         /// fake endpoint to test parameter example (object)
@@ -43,6 +56,13 @@ namespace Org.OpenAPITools.Controllers
         [HttpGet]
         [Route("/v2/fake/parameter_example_test")]
         [ValidateModelState]
-        public abstract IActionResult FakeParameterExampleTest([FromQuery (Name = "data")][Required()]Pet data);
+        public virtual IActionResult FakeParameterExampleTest([FromQuery (Name = "data")][Required()]Pet data)
+        {
+
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+            throw new NotImplementedException();
+        }
     }
 }
