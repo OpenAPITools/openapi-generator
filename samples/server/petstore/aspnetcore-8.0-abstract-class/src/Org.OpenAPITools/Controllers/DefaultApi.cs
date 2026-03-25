@@ -37,6 +37,13 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/test")]
         [ValidateModelState]
         [SwaggerOperation("TestGet")]
-        public abstract IActionResult TestGet([FromQuery (Name = "testQuery")]TestEnum? testQuery);
+        public virtual IActionResult TestGet([FromQuery (Name = "testQuery")]TestEnum? testQuery)
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200);
+
+            throw new NotImplementedException();
+        }
     }
 }
