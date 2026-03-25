@@ -88,7 +88,6 @@ The following generators are available:
 
 ## SERVER generators
 * [ada-server](generators/ada-server.md)  
-* [aspnet-fastendpoints](generators/aspnet-fastendpoints.md)  
 * [aspnetcore](generators/aspnetcore.md)  
 * [cpp-httplib-server](generators/cpp-httplib-server.md)  
 * [cpp-oatpp-server](generators/cpp-oatpp-server.md)  
