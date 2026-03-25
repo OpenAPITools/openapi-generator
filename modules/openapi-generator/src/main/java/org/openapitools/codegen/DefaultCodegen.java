@@ -312,6 +312,43 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
 
+    // --- Shared patterns reused across multiple language generators ---
+
+    /** Splits on {@code  | } (the union-type pipe separator), e.g. {@code TypeA | TypeB}. */
+    public static final Pattern SPLIT_ON_PIPE = Pattern.compile(" \\| ");
+    /** Splits on {@code |} used as a single-char separator in rule strings. */
+    protected static final Pattern SPLIT_ON_PIPE_CHAR = Pattern.compile("[|]");
+    /** Splits on line-endings, both Windows ({@code \r\n}) and Unix ({@code \n}). */
+    public static final Pattern SPLIT_ON_NEWLINE = Pattern.compile("\\r?\\n");
+    /** Matches the camelCase boundary */
+    public static final Pattern CAMEL_CASE_BOUNDARY = Pattern.compile("([a-z0-9])([A-Z])");
+    /** Matches one or more trailing whitespace characters in an identifier. */
+    protected static final Pattern TRAILING_WHITESPACE = Pattern.compile("\\s+$");
+    /** Matches any string that ends with at least one whitespace character. */
+    protected static final Pattern ENDS_WITH_WHITESPACE = Pattern.compile(".*\\s$");
+    /** Matches strings consisting entirely of ASCII digits. */
+    protected static final Pattern DIGITS_ONLY = Pattern.compile("^\\d+$");
+    /** Matches one or more characters that are not ASCII alphanumeric (no underscore). */
+    protected static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]+");
+    /** Matches exactly one character that is not ASCII alphanumeric (no underscore). */
+    protected static final Pattern NON_ALPHANUMERIC_CHAR = Pattern.compile("[^a-zA-Z0-9]");
+    /** Matches {@code .}, {@code /}, or {@code \} — for package-name-to-path conversion. */
+    protected static final Pattern PACKAGE_SEPARATOR = Pattern.compile("[./\\\\]");
+    /** Matches a CamelCase-initial type name like {@code FooBar} (used in Swift/Kotlin). */
+    protected static final Pattern CAMEL_INITIAL = Pattern.compile("[A-Z][a-z0-9]+[a-zA-Z0-9]*");
+    /** Matches a 2xx HTTP success status code (e.g. {@code 200}, {@code 201}). */
+    protected static final Pattern HTTP_2XX_CODE = Pattern.compile("2[0-9][0-9]");
+    /** Matches a path segment that is entirely a parameter placeholder, e.g. {@code {id}}. */
+    public static final Pattern IS_PATH_PARAM = Pattern.compile("^\\{.*}$");
+    /** Matches one or more consecutive hyphens. */
+    protected static final Pattern HYPHENS = Pattern.compile("-+");
+    /** Matches two or more consecutive hyphens. */
+    protected static final Pattern MULTI_HYPHEN = Pattern.compile("-{2,}");
+    /** Matches one or more leading hyphens (at start of string). */
+    protected static final Pattern LEADING_HYPHENS = Pattern.compile("^-+");
+    /** Matches one or more trailing hyphens (at end of string). */
+    protected static final Pattern TRAILING_HYPHENS = Pattern.compile("-+$");
+
     /**
      * True if the code generator supports multiple class inheritance.
      * This is used to model the parent hierarchy based on the 'allOf' composed schemas.
@@ -4413,7 +4450,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param input a set of rules separated by `|`
      */
     void parseDefaultToEmptyContainer(String input) {
-        String[] inputs = input.split("[|]");
+        String[] inputs = SPLIT_ON_PIPE_CHAR.split(input);
         String containerType;
         for (String rule : inputs) {
             if (StringUtils.isEmpty(rule)) {
@@ -5915,7 +5952,7 @@ public class DefaultCodegen implements CodegenConfig {
         // remove prefix in operationId
         if (removeOperationIdPrefix) {
             // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
-            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
+            String[] components = PatternCache.get("[" + removeOperationIdPrefixDelimiter + "]").split(operationId);
             if (components.length > 1) {
                 // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
                 int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
@@ -7755,7 +7792,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
                 // TODO move this splitting logic to the generator that needs it only
-                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                List<String> parts = Arrays.asList(SPLIT_ON_PIPE.split(codegenProperty.getComplexType()));
                 imports.addAll(parts);
 
                 String codegenModelName = codegenProperty.getComplexType();
