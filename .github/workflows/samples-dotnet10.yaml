@@ -28,6 +28,7 @@ jobs:
           - samples/client/petstore/csharp/generichost/latest/Tags
           - samples/client/petstore/csharp/generichost/latest/HelloWorld
           - samples/client/petstore/csharp/generichost/latest/OneOfList
+          - samples/client/petstore/csharp/generichost/latest/UseDateTimeOffset
           - samples/client/petstore/csharp/generichost/net10/AllOf
           - samples/client/petstore/csharp/generichost/net10/AnyOf
           - samples/client/petstore/csharp/generichost/net10/AnyOfNoCompare
