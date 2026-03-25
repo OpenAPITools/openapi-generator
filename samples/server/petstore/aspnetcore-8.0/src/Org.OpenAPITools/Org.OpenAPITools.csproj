@@ -7,6 +7,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PreserveCompilationContext>true</PreserveCompilationContext>
         <Version>1.0.0</Version>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyName>Org.OpenAPITools</AssemblyName>
         <PackageId>Org.OpenAPITools</PackageId>
         <UserSecretsId>cb87e868-8646-48ef-9bb6-344b537d0d37</UserSecretsId>
