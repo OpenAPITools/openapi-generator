@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool? Sweet { get { return this.SweetOption; } set { this.SweetOption = new Option<bool?>(value); } }
+        public bool? Sweet { get { return this.SweetOption.Value; } set { this.SweetOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
