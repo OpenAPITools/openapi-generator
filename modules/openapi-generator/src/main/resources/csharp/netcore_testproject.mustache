@@ -7,6 +7,12 @@
     <IsPackable>false</IsPackable>{{#nrt}}
     <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    {{#treatWarningsAsErrors}}
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    {{/treatWarningsAsErrors}}
+    {{#warningsNotAsErrors}}
+    <WarningsNotAsErrors>{{warningsNotAsErrors}}</WarningsNotAsErrors>
+    {{/warningsNotAsErrors}}
   </PropertyGroup>
 
   <ItemGroup>
