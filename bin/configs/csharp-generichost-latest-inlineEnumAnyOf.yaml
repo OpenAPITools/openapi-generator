@@ -8,7 +8,7 @@ additionalProperties:
   modelPropertySorting: alphabetical
   operationParameterSorting: alphabetical
   treatWarningsAsErrors: true
-  warningsNotAsErrors: CS0618
+  warningsNotAsErrors: CS0612
 validateSpec: false
 inlineSchemaOptions:
   RESOLVE_INLINE_ENUMS: true
