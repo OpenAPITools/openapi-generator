@@ -311,7 +311,6 @@ public class DefaultCodegen implements CodegenConfig {
      * Matches a callback path-expression parameter like {@code {$request.body#/id}}.
      */
     private static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
-    // Dynamic patterns keyed by user-supplied removeCharRegEx strings are cached via PatternCache.
 
     /**
      * True if the code generator supports multiple class inheritance.

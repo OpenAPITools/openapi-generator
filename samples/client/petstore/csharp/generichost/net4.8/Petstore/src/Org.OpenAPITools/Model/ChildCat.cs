@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get { return this.NameOption; } set { this.NameOption = new Option<string>(value); } }
+        public string Name { get { return this.NameOption.Value; } set { this.NameOption = new Option<string>(value); } }
 
         /// <summary>
         /// The discriminator

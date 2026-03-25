@@ -251,7 +251,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
             if (schema.getDefault() != null) { // array schema has default value
-                return "[" + schema.getDefault().toString() + "]";
+                return schema.getDefault().toString();
             } else if (schema.getItems().getDefault() != null) { // array item schema has default value
                 return "[" + toDefaultValue(schema.getItems()) + "]";
             } else {

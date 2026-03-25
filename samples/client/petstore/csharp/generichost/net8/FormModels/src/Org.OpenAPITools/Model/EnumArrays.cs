@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArraysArrayEnumInner> ArrayEnum { get { return this.ArrayEnumOption; } set { this.ArrayEnumOption = new(value); } }
+        public List<EnumArraysArrayEnumInner> ArrayEnum { get { return this.ArrayEnumOption.Value; } set { this.ArrayEnumOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

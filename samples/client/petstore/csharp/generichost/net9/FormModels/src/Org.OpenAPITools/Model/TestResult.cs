@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>list of named parameters for current message</value>
         [JsonPropertyName("data")]
-        public Dictionary<string, string> Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public Dictionary<string, string> Data { get { return this.DataOption.Value; } set { this.DataOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Result unique identifier</value>
         [JsonPropertyName("uuid")]
-        public string Uuid { get { return this.UuidOption; } set { this.UuidOption = new(value); } }
+        public string Uuid { get { return this.UuidOption.Value; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

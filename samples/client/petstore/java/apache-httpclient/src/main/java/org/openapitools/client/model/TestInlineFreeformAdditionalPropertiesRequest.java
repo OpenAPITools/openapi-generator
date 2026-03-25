@@ -41,7 +41,7 @@ import java.util.StringJoiner;
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @javax.annotation.Nullable
@@ -140,10 +140,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**

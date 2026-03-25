@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,18 +11,19 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * TypeHolderDefault
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class TypeHolderDefault {
 
   private String stringItem = "what";
@@ -63,7 +62,7 @@ public class TypeHolderDefault {
    * @return stringItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "string_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
@@ -84,7 +83,7 @@ public class TypeHolderDefault {
    * @return numberItem
    */
   @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "number_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -105,7 +104,7 @@ public class TypeHolderDefault {
    * @return integerItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
@@ -126,7 +125,7 @@ public class TypeHolderDefault {
    * @return boolItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "bool_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
@@ -155,7 +154,7 @@ public class TypeHolderDefault {
    * @return arrayItem
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "array_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -205,10 +204,7 @@ public class TypeHolderDefault {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

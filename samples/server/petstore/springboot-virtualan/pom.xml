@@ -6,20 +6,20 @@
     <name>springboot-virtualan</name>
     <version>1.0.0</version>
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springdoc.version>1.6.14</springdoc.version>
-        <virtualan.version>2.5.2</virtualan.version>
-        <swagger-ui.version>5.3.1</swagger-ui.version>
+        <springdoc.version>2.6.0</springdoc.version>
+        <swagger-ui.version>5.17.14</swagger-ui.version>
+        <virtualan.version>2.5.5</virtualan.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.15</version>
+        <version>3.3.13</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -43,7 +43,7 @@
           <!--SpringDoc dependencies -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         <!-- @Nullable annotation -->
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.8</version>
+            <version>0.2.9</version>
         </dependency>
         <!-- Bean Validation API support -->
         <dependency>
