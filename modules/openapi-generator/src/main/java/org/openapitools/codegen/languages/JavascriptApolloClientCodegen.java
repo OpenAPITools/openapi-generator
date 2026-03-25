@@ -48,6 +48,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(JavascriptApolloClientCodegen.class);
 
+    /** Matches JS/JsDoc primitive type names for quoting in documentation. */
+    private static final java.util.regex.Pattern JS_PRIMITIVE_TYPES =
+            java.util.regex.Pattern.compile("\\b(Boolean|Integer|Number|String|Date|Blob)\\b");
+
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";
     public static final String PROJECT_DESCRIPTION = "projectDescription";
@@ -782,7 +786,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
      * @return Normalized type
      */
     private String normalizeType(String type) {
-        return type.replaceAll("\\b(Boolean|Integer|Number|String|Date|Blob)\\b", "'$1'");
+        return JS_PRIMITIVE_TYPES.matcher(type).replaceAll("'$1'");
     }
 
     @Override

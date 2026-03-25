@@ -597,7 +597,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 // Because headers is a Map multiple Set-Cookie headers are currently not possible. If someone
                 // uses the workaround with null bytes, remove them and add add each header to the list:
                 // https://github.com/OAI/OpenAPI-Specification/issues/1237#issuecomment-906603675
-                String headerName = h.baseName.replaceAll("\0", "");
+                String headerName = h.baseName.replace("\0", "");
                 String headerType = h.dataType;
                 headerContents.add("Header \"" + headerName + "\" " + headerType);
             }
@@ -608,7 +608,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         String code = "200";
         for (CodegenResponse r : op.responses) {
-            if (r.code.matches("2[0-9][0-9]")) {
+            if (HTTP_2XX_CODE.matcher(r.code).matches()) {
                 code = r.code;
                 break;
             }

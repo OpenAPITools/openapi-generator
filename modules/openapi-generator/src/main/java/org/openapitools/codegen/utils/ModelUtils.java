@@ -2017,7 +2017,7 @@ public class ModelUtils {
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
         String data;
-        location = location.replaceAll("\\\\", "/");
+        location = location.replace("\\", "/");
         if (location.toLowerCase(Locale.ROOT).startsWith("http")) {
             data = RemoteUrl.urlToString(location, auths);
         } else {

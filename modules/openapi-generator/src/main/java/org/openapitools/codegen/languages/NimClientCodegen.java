@@ -45,6 +45,14 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String PROJECT_NAME = "projectName";
 
+    /** Matches an underscore, one or more digits, and a trailing underscore; used to strip version markers. */
+    private static final Pattern UNDERSCORE_DIGITS_UNDERSCORE = Pattern.compile("_(\\d+)_");
+    /** Matches an underscore followed by one or more digits at the end of a string. */
+    private static final Pattern UNDERSCORE_DIGITS_END = Pattern.compile("_(\\d+)$");
+    /** Matches a valid Nim type name: starts with an uppercase letter and continues with CamelCase segments. */
+    private static final Pattern NIM_TYPE_NAME = Pattern.compile(
+            "^(?:[A-Z]|[a-z]|[\\x80-\\xff])(_?(?:[A-Z]|[a-z]|[\\x80-\\xff]|[0-9]))*$");
+
     @Setter protected String packageName = "openapiclient";
     @Setter protected String packageVersion = "1.0.0";
 
@@ -443,12 +451,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (name == null) {
             return null;
         }
-        // Remove underscores around and before digits (HTTP status codes, version numbers, etc.)
-        // e.g., "GetComments_200_response" -> "GetComments200response"
-        // e.g., "Config_anyOf_1" -> "ConfiganyOf1"
-        // This ensures consistent handling whether the name comes with or without underscores
-        name = name.replaceAll("_(\\d+)_", "$1");  // Underscores on both sides
-        name = name.replaceAll("_(\\d+)$", "$1");   // Trailing underscore before digits
+        name = UNDERSCORE_DIGITS_UNDERSCORE.matcher(name).replaceAll("$1");  // Underscores on both sides
+        name = UNDERSCORE_DIGITS_END.matcher(name).replaceAll("$1");   // Trailing underscore before digits
         return name;
     }
 
@@ -715,7 +719,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private boolean isValidIdentifier(String identifier) {
         //see https://nim-lang.org/docs/manual.html#lexical-analysis-identifiers-amp-keywords
-        return identifier.matches("^(?:[A-Z]|[a-z]|[\\x80-\\xff])(_?(?:[A-Z]|[a-z]|[\\x80-\\xff]|[0-9]))*$");
+        return NIM_TYPE_NAME.matcher(identifier).matches();
     }
 
     /**

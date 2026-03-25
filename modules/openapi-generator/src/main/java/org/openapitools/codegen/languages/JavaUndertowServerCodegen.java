@@ -215,7 +215,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         if (name.length() == 0) {
             return "DefaultHandler";
         }
-        name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = NON_ALPHANUMERIC.matcher(name).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return camelize(name) + "Handler";
     }
 }

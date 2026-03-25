@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -46,6 +47,11 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
+
+    /** Matches a valid Java/Scala identifier starting with a letter, {@code _} or {@code $}. */
+    private static final Pattern SCALA_IDENTIFIER = Pattern.compile("[a-zA-Z_$][\\w_$]+");
+    /** Matches a string consisting only of digits (possibly empty). */
+    private static final Pattern DIGITS_ZERO_OR_MORE = Pattern.compile("[0-9]*");
 
     // https://spec.openapis.org/registry/format/date-time-local.html
     protected static final String DATE_TIME_LOCAL_FORMAT = "date-time-local";
@@ -288,7 +294,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         // if it's all upper case, do nothing
-        if (!varName.matches("^[A-Z_0-9]*$")) {
+        if (!ALL_UPPER_UNDERSCORE_DIGITS.matcher(varName).matches()) {
             varName = getNameUsingModelPropertyNaming(varName);
         }
 
@@ -531,13 +537,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
         }
-        if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !isReservedWord(identifier)) {
+        if (SCALA_IDENTIFIER.matcher(identifier).matches() && !isReservedWord(identifier)) {
             return identifier;
         }
 
         // below code block only for scala-sttp4-jsoniter for backward copmatibility
         if (this instanceof ScalaSttp4JsoniterClientCodegen) {
-            if (identifier.matches("[0-9]*")) {
+            if (DIGITS_ZERO_OR_MORE.matcher(identifier).matches()) {
                 return escapeReservedWord(identifier);
             }
             if (!capitalized || StringUtils.isNumeric(name)) {

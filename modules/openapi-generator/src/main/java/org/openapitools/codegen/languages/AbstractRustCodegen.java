@@ -14,12 +14,16 @@ import javax.annotation.Nullable;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractRustCodegen.class);
+
+    /** Matches hyphens and periods — replaced with underscores during name sanitisation. */
+    private static final Pattern HYPHEN_OR_PERIOD = Pattern.compile("[.\\-]");
 
     protected static final String VENDOR_EXTENSION_PARAM_IDENTIFIER = "x-rust-param-identifier";
 
@@ -184,7 +188,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         }
 
         // Replace hyphens and periods with underscores
-        name = name.replaceAll("[\\.\\-]", "_");
+        name = HYPHEN_OR_PERIOD.matcher(name).replaceAll("_");
 
         // Apply special character escapes, e.g. "@type" => "At_type"
         // Remove the trailing underscore if necessary

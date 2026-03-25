@@ -38,7 +38,12 @@ public class URLPathUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtils.class);
     public static final String LOCAL_HOST = "http://localhost";
-    public static final Pattern VARIABLE_PATTERN = Pattern.compile("(?<!\\$)\\{([^\\}]+)\\}");
+    public static final Pattern VARIABLE_PATTERN = Pattern.compile("(?<!\\$)\\{([^}]+)}");
+
+    /** Matches a URL that already has a valid scheme (e.g. {@code http://}, {@code https://}). */
+    private static final Pattern URL_WITH_SCHEME = Pattern.compile("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+");
+    /** Matches a relative server URL whose path consists entirely of valid path segments. */
+    private static final Pattern RELATIVE_PATH_URL = Pattern.compile("^(/[\\w.~@-]+)+");
 
     // TODO: This should probably be moved into generator/workflow type rather than a static like this.
     public static URL getServerURL(OpenAPI openAPI, Map<String, String> userDefinedVariables) {
@@ -210,7 +215,7 @@ public class URLPathUtils {
             } else if (url.startsWith("/")) {
                 url = LOCAL_HOST + url;
                 once(LOGGER).info("'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]", LOCAL_HOST, url);
-            } else if (!url.matches("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+")) {
+            } else if (!URL_WITH_SCHEME.matcher(url).matches()) {
                 // Add http scheme for urls without a scheme.
                 // 2.0 spec is restricted to the following schemes: "http", "https", "ws", "wss"
                 // 3.0 spec does not have an enumerated list of schemes
@@ -235,7 +240,7 @@ public class URLPathUtils {
     public static boolean isRelativeUrl(List<Server> servers) {
         if (servers != null && servers.size() > 0) {
             final Server firstServer = servers.get(0);
-            return Pattern.matches("^(\\/[\\w\\d.~@-]+)+", firstServer.getUrl());
+            return RELATIVE_PATH_URL.matcher(firstServer.getUrl()).matches();
         }
         return false;
     }

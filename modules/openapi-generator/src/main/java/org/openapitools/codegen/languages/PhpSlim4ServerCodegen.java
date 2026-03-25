@@ -29,6 +29,7 @@ import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.PatternCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +60,17 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     @Getter protected String psr7Implementation = "slim-psr7";
     protected String interfacesDirName = "Interfaces";
     protected String interfacesPackage = "";
+
+    /** Precompiled patterns for URL-encoding fixups in {@link #encodePath}. */
+    private static final java.util.regex.Pattern URL_ENC_PLUS      = java.util.regex.Pattern.compile("\\+");
+    private static final java.util.regex.Pattern URL_ENC_SLASH     = java.util.regex.Pattern.compile("%2F", java.util.regex.Pattern.CASE_INSENSITIVE);
+    private static final java.util.regex.Pattern URL_ENC_OPEN_CB   = java.util.regex.Pattern.compile("%7B", java.util.regex.Pattern.CASE_INSENSITIVE);
+    private static final java.util.regex.Pattern URL_ENC_CLOSE_CB  = java.util.regex.Pattern.compile("%7D", java.util.regex.Pattern.CASE_INSENSITIVE);
+    private static final java.util.regex.Pattern URL_ENC_OPEN_SB   = java.util.regex.Pattern.compile("%5B", java.util.regex.Pattern.CASE_INSENSITIVE);
+    private static final java.util.regex.Pattern URL_ENC_CLOSE_SB  = java.util.regex.Pattern.compile("%5D", java.util.regex.Pattern.CASE_INSENSITIVE);
+    private static final java.util.regex.Pattern URL_ENC_COLON     = java.util.regex.Pattern.compile("%3A", java.util.regex.Pattern.CASE_INSENSITIVE);
+    private static final java.util.regex.Pattern URL_ENC_PLUS_SIGN = java.util.regex.Pattern.compile("%2B", java.util.regex.Pattern.CASE_INSENSITIVE);
+    private static final java.util.regex.Pattern URL_ENC_BACKSLASH_D = java.util.regex.Pattern.compile("%5C%5Cd", java.util.regex.Pattern.CASE_INSENSITIVE);
 
     public PhpSlim4ServerCodegen() {
         super();
@@ -316,8 +328,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
      */
     private void addUserClassnameToOperations(OperationMap operations) {
         String classname = operations.getClassname();
-        classname = classname.replaceAll("^" + abstractNamePrefix, "");
-        classname = classname.replaceAll(abstractNameSuffix + "$", "");
+        classname = PatternCache.get("^" + abstractNamePrefix).matcher(classname).replaceAll("");
+        classname = PatternCache.get(abstractNameSuffix + "$").matcher(classname).replaceAll("");
         operations.put(USER_CLASSNAME_KEY, classname);
     }
 
@@ -345,16 +357,25 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         // Trim the string to avoid leading and trailing spaces.
         input = input.trim();
 
-        return URLEncoder.encode(input, StandardCharsets.UTF_8)
-                .replaceAll("\\+", "%20")
-                .replaceAll("\\%2F", "/")
-                .replaceAll("\\%7B", "{") // keep { part of complex placeholders
-                .replaceAll("\\%7D", "}") // } part
-                .replaceAll("\\%5B", "[") // [ part
-                .replaceAll("\\%5D", "]") // ] part
-                .replaceAll("\\%3A", ":") // : part
-                .replaceAll("\\%2B", "+") // + part
-                .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
+        return URL_ENC_BACKSLASH_D.matcher(
+               URL_ENC_PLUS_SIGN.matcher(
+               URL_ENC_COLON.matcher(
+               URL_ENC_CLOSE_SB.matcher(
+               URL_ENC_OPEN_SB.matcher(
+               URL_ENC_CLOSE_CB.matcher(
+               URL_ENC_OPEN_CB.matcher(
+               URL_ENC_SLASH.matcher(
+               URL_ENC_PLUS.matcher(
+                   URLEncoder.encode(input, StandardCharsets.UTF_8))
+                   .replaceAll("%20"))
+                   .replaceAll("/"))
+                   .replaceAll("{"))
+                   .replaceAll("}"))
+                   .replaceAll("["))
+                   .replaceAll("]"))
+                   .replaceAll(":"))
+                   .replaceAll("+"))
+                   .replaceAll("\\\\d");
     }
 
     @Override

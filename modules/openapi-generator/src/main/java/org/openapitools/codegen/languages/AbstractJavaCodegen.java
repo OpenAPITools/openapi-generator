@@ -87,7 +87,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static final Pattern JAVA_UTIL_IMPORT = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
     private static final Pattern STARTS_WITH_UNDERSCORE_CLASS = Pattern.compile("^_*class$");
     private static final Pattern ANNOTATION_IN_TYPE = Pattern.compile("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+");
-    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("\\P{Alnum}");
+    private static final Pattern NON_ALPHANUMERIC_UNICODE = Pattern.compile("\\P{Alnum}");
     private static final Pattern INVALID_PACKAGE_CHARS = Pattern.compile("[^a-zA-Z0-9_.]");
 
     public static final String DEFAULT_LIBRARY = "<default>";
@@ -2003,8 +2003,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String sanitizeDataType(String dataType) {
         String content = removeAnnotations(dataType);
-        if (content != null && NON_ALPHANUMERIC.matcher(content).find()) {
-            content = NON_ALPHANUMERIC.matcher(content).replaceAll("");
+        if (content != null && NON_ALPHANUMERIC_UNICODE.matcher(content).find()) {
+            content = NON_ALPHANUMERIC_UNICODE.matcher(content).replaceAll("");
         }
         return content;
     }

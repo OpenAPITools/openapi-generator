@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
@@ -43,7 +44,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CHECK_REQUIRED_PARAMS_NOT_NULL = "checkRequiredParamsNotNull";
     public static final String CHECK_SUPERFLUOUS_BODY_PROPS = "checkSuperfluousBodyProps";
     public static final String GENERATE_DEFAULT_API_EXECUTER = "generateDefaultApiExecuter";
-
+    private static final Pattern COMPOSED_TYPE_DELIMITERS = Pattern.compile("[|&<>]");
     final Logger LOGGER = LoggerFactory.getLogger(N4jsClientCodegen.class);
 
     final Set<String> forbiddenChars = new HashSet<>();
@@ -300,7 +301,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private String[] splitComposedType(String name) {
-        return name.replace(" ", "").split("[|&<>]");
+        return COMPOSED_TYPE_DELIMITERS.split(name.replace(" ", ""));
     }
 
     @Override

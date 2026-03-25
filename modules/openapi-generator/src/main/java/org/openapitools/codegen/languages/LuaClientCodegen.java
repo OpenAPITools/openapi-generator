@@ -546,8 +546,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // number
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = MINUS.matcher(varName).replaceAll("MINUS_");
+            varName = PLUS.matcher(varName).replaceAll("PLUS_");
             varName = DOT.matcher(varName).replaceAll("_DOT_");
             return varName;
         }

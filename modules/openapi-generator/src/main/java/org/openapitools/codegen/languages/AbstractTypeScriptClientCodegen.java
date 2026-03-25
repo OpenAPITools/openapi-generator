@@ -79,6 +79,11 @@ import lombok.Setter;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
+    /** Splits a composed TypeScript type string on {@code |}, {@code &}, {@code <}, or {@code >}. */
+    private static final Pattern COMPOSED_TYPE_DELIMITERS = Pattern.compile("[|&<>]");
+    /** Matches NPM versions that end with {@code -SNAPSHOT}. */
+    private static final Pattern SNAPSHOT_VERSION = Pattern.compile("^.*-SNAPSHOT$");
+
     /**
      * Help generating code for any kind of URL parameters (path, matrix, query).
      * <p>
@@ -491,7 +496,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     private String[] splitComposedType(String name) {
-        return name.replace(" ", "").split("[|&<>]");
+        return COMPOSED_TYPE_DELIMITERS.split(name.replace(" ", ""));
     }
 
     private boolean isUnionType(String name) {
@@ -526,7 +531,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
 
             if (additionalProperties.containsKey(SNAPSHOT) && Boolean.parseBoolean(additionalProperties.get(SNAPSHOT).toString())) {
-                if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                if (SNAPSHOT_VERSION.matcher(npmVersion.toUpperCase(Locale.ROOT)).matches()) {
                     this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
                 } else {
                     this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));

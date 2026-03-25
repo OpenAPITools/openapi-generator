@@ -26,6 +26,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.PatternCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +66,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean generateCoreData = false;
 
     protected Set<String> advancedMappingTypes = new HashSet<>();
+
+    /** Matches any character that is not alphanumeric or underscore; used in model name normalization. */
+    private static final java.util.regex.Pattern NON_ALNUM_UNDERSCORE = java.util.regex.Pattern.compile("[^0-9a-zA-Z_]");
+    /** Matches a single uppercase letter or underscore only (e.g. {@code "A"}, {@code "_"}). */
+    private static final java.util.regex.Pattern SINGLE_UPPER_OR_UNDERSCORE = java.util.regex.Pattern.compile("^[A-Z_]$");
 
     public ObjcClientCodegen() {
         super();
@@ -462,7 +468,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return model Name in ObjC style guide
      */
     public String toModelNameWithoutReservedWordCheck(String type) {
-        type = type.replaceAll("[^0-9a-zA-Z_]", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        type = NON_ALNUM_UNDERSCORE.matcher(type).replaceAll("_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // language build-in classes
         if (typeMapping.keySet().contains(type) ||
@@ -557,18 +563,18 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all upper case, do noting
-        if (name.matches("^[A-Z_]$")) {
+        if (SINGLE_UPPER_OR_UNDERSCORE.matcher(name).matches()) {
             return name;
         }
 
         // if name starting with special word, escape with '_'
         for (String specialWord : specialWords) {
-            if (name.matches("(?i:^" + specialWord + ".*)"))
+            if (PatternCache.get("(?i:^" + specialWord + ".*)").matcher(name).matches())
                 name = escapeSpecialWord(name);
         }
 
         if (name.startsWith(classPrefix)) {
-            name = name.replaceFirst(classPrefix, ""); //remove the class prefix, e.g. SWGPet => Pet
+            name = PatternCache.get(java.util.regex.Pattern.quote(classPrefix)).matcher(name).replaceFirst(""); //remove the class prefix, e.g. SWGPet => Pet
         }
 
         // camelize (lower first character) the variable name

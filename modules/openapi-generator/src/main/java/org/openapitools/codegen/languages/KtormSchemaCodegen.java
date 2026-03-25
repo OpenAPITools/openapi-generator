@@ -44,7 +44,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
 
-    private static final Pattern UNSAFE_IDENTIFIER_CHARS = Pattern.compile("[^0-9a-zA-Z$_\\x0080-\\xFFFF]");
+    private static final Pattern UNSAFE_IDENTIFIER_CHARS = Pattern.compile("[^0-9a-zA-Z$_\\u0080-\\uFFFF]");
 
     public static final String VENDOR_EXTENSION_SCHEMA = "x-ktorm-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
@@ -1063,13 +1063,13 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     public String toIdentifier(String name, String prefix, String suffix) {
         String escapedName = escapeQuotedIdentifier(name);
         // Database, table, and column names cannot end with space characters.
-        if (escapedName.matches(".*\\s$")) {
+        if (ENDS_WITH_WHITESPACE.matcher(escapedName).matches()) {
             LOGGER.warn("Database, table, and column names cannot end with space characters. Check '{}' name", name);
-            escapedName = escapedName.replaceAll("\\s+$", "");
+            escapedName = TRAILING_WHITESPACE.matcher(escapedName).replaceAll("");
         }
 
         // Identifiers may begin with a digit but unless quoted may not consist solely of digits.
-        if (escapedName.matches("^\\d+$")) {
+        if (DIGITS_ONLY.matcher(escapedName).matches()) {
             LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '{}' name", name);
             escapedName = prefix + escapedName + suffix;
         }
@@ -1167,7 +1167,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
                 // Replace period, backslash, forward slash with file separator in package name
-                packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                PACKAGE_SEPARATOR.matcher(packageName).replaceAll(Matcher.quoteReplacement("/")),
                 File.separator
         );
 

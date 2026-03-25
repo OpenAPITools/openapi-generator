@@ -787,7 +787,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
 
         for (String item : items) {
 
-            if (item.matches("^\\{(.*)}$")) { // wrap in {}
+            if (IS_PATH_PARAM.matcher(item).matches()) { // wrap in {}
                 // find the datatype of the parameter
                 final CodegenParameter cp = op.pathParams.get(pathParamIndex);
 

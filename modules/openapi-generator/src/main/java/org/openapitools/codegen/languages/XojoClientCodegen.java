@@ -476,7 +476,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // Camelize only when we have a structure defined below
         boolean camelized = false;
-        if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+        if (CAMEL_INITIAL.matcher(name).matches()) {
             name = camelize(name);
             camelized = true;
         }

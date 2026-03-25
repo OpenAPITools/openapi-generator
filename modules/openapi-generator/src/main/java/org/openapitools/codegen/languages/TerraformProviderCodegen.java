@@ -24,11 +24,13 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.PatternCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -36,6 +38,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class TerraformProviderCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(TerraformProviderCodegen.class);
+
+    /** Case-insensitive match of a trailing "api" suffix. */
+    private static final Pattern API_SUFFIX = Pattern.compile("(?i)api$");
 
     public static final String PROVIDER_NAME = "providerName";
     public static final String PROVIDER_ADDRESS = "providerAddress";
@@ -296,7 +301,7 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
         // Determine resource name from tag
         String tag = objectMap.getClassname();
         // Strip common suffixes like "Api", "API" from the tag name
-        String cleanTag = tag.replaceAll("(?i)api$", "");
+        String cleanTag = API_SUFFIX.matcher(tag).replaceAll("");
         if (cleanTag.isEmpty()) {
             cleanTag = tag;
         }
@@ -389,7 +394,7 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
                     }
                     // Try stripping resource name prefix (e.g., petId -> id)
                     if (!idResolved) {
-                        String strippedId = idField.replaceFirst("(?i)^" + resourceName, "");
+                        String strippedId = PatternCache.get("(?i)^" + java.util.regex.Pattern.quote(resourceName)).matcher(idField).replaceFirst("");
                         if (!strippedId.isEmpty()) {
                             for (CodegenProperty prop : model.vars) {
                                 if (prop.baseName.equalsIgnoreCase(strippedId)) {

@@ -1086,13 +1086,13 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public String toMysqlIdentifier(String name, String prefix, String suffix) {
         String escapedName = escapeMysqlQuotedIdentifier(name);
         // Database, table, and column names cannot end with space characters.
-        if (escapedName.matches(".*\\s$")) {
+        if (ENDS_WITH_WHITESPACE.matcher(escapedName).matches()) {
             LOGGER.warn("Database, table, and column names cannot end with space characters. Check '{}' name", name);
-            escapedName = escapedName.replaceAll("\\s+$", "");
+            escapedName = TRAILING_WHITESPACE.matcher(escapedName).replaceAll("");
         }
 
         // Identifiers may begin with a digit but unless quoted may not consist solely of digits.
-        if (escapedName.matches("^\\d+$")) {
+        if (DIGITS_ONLY.matcher(escapedName).matches()) {
             LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '{}' name", name);
             escapedName = prefix + escapedName + suffix;
         }
@@ -1211,7 +1211,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
                 // Replace period, backslash, forward slash with file separator in package name
-                packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                PACKAGE_SEPARATOR.matcher(packageName).replaceAll(Matcher.quoteReplacement("/")),
                 File.separator
         );
 

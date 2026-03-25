@@ -58,6 +58,18 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected static int emptyMethodNameCounter = 0;
 
+    // --- Precompiled patterns for markdown-to-bash conversion ---
+    private static final java.util.regex.Pattern MD_BOLD_STAR       = java.util.regex.Pattern.compile("(?m)(^|\\s)\\*{2}([\\w ]+)\\*{2}($|\\s)");
+    private static final java.util.regex.Pattern MD_BOLD_UNDERSCORE = java.util.regex.Pattern.compile("(?m)(^|\\s)_{2}([\\w ]+)_{2}($|\\s)");
+    private static final java.util.regex.Pattern MD_ITALIC_STAR     = java.util.regex.Pattern.compile("(?m)(^|\\s)\\*([\\w ]+)\\*($|\\s)");
+    private static final java.util.regex.Pattern MD_ITALIC_UNDER    = java.util.regex.Pattern.compile("(?m)(^|\\s)_([\\w ]+)_($|\\s)");
+    private static final java.util.regex.Pattern MD_H1              = java.util.regex.Pattern.compile("(?m)^#\\s+(.+)$");
+    private static final java.util.regex.Pattern MD_H2              = java.util.regex.Pattern.compile("(?m)^##\\s+(.+)$");
+    private static final java.util.regex.Pattern MD_H3              = java.util.regex.Pattern.compile("(?m)^###\\s+(.+)$");
+    private static final java.util.regex.Pattern MD_CODE_BACKTICK   = java.util.regex.Pattern.compile("(?m)\\s*```.*$");
+    private static final java.util.regex.Pattern MD_CODE_QUOTE      = java.util.regex.Pattern.compile("(?m)\\s*'''.*$");
+    private static final java.util.regex.Pattern MD_TRAILING_WS     = java.util.regex.Pattern.compile("\\s+$");
+
     public static final String CURL_OPTIONS = "curlOptions";
     public static final String PROCESS_MARKDOWN = "processMarkdown";
     public static final String SCRIPT_NAME = "scriptName";
@@ -510,56 +522,45 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
              * Convert markdown strong **Bold text**  and __Bold text__
              * to bash bold control sequences (tput bold)
              */
-            result = result.replaceAll("(?m)(^|\\s)\\*{2}([\\w\\d ]+)\\*{2}($|\\s)",
-                    "\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
+            result = MD_BOLD_STAR.matcher(result).replaceAll("\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
+            result = MD_BOLD_UNDERSCORE.matcher(result).replaceAll("\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
 
-            result = result.replaceAll("(?m)(^|\\s)_{2}([\\w\\d ]+)_{2}($|\\s)",
-                    "\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
             /**
              * Convert markdown *Italics text* and _Italics text_ to bash dim
              * control sequences (tput dim)
              */
-            result = result.replaceAll("(?m)(^|\\s)\\*{1}([\\w\\d ]+)\\*{1}($|\\s)",
-                    "\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
-
-            result = result.replaceAll("(?m)(^|\\s)_{1}([\\w\\d ]+)_{1}($|\\s)",
-                    "\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
+            result = MD_ITALIC_STAR.matcher(result).replaceAll("\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
+            result = MD_ITALIC_UNDER.matcher(result).replaceAll("\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
 
 
             /**
              * Convert all markdown section 1 level headers with bold
              */
-            result = result.replaceAll("(?m)^\\#\\s+(.+)$",
-                    "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
-                            + "$1\\$\\(tput sgr0\\)");
+            result = MD_H1.matcher(result).replaceAll("\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
+                    + "$1\\$\\(tput sgr0\\)");
 
             /**
              * Convert all markdown section 2 level headers with bold
              */
-            result = result.replaceAll("(?m)^\\#\\#\\s+(.+)$",
-                    "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
-                            + "$1\\$\\(tput sgr0\\)");
+            result = MD_H2.matcher(result).replaceAll("\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
+                    + "$1\\$\\(tput sgr0\\)");
 
             /**
              * Convert all markdown section 3 level headers with bold
              */
-            result = result.replaceAll("(?m)^\\#\\#\\#\\s+(.+)$",
-                    "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
-                            + "$1\\$\\(tput sgr0\\)");
+            result = MD_H3.matcher(result).replaceAll("\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
+                    + "$1\\$\\(tput sgr0\\)");
 
             /**
              * Convert all markdown code blocks into --- delimited sections
              */
-            result = result.replaceAll("(?m)\\s*```.*$",
-                    "\n---");
-
-            result = result.replaceAll("(?m)\\s*\\'\\'\\'.*$",
-                    "\n---");
+            result = MD_CODE_BACKTICK.matcher(result).replaceAll("\n---");
+            result = MD_CODE_QUOTE.matcher(result).replaceAll("\n---");
 
             /**
              * Remove any trailing new line at the end of the string
              */
-            result = result.replaceAll("\\s+$", "");
+            result = MD_TRAILING_WS.matcher(result).replaceAll("");
         }
 
         return result;
@@ -583,7 +584,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         /**
          * Replace backticks with normal single quotes.
          */
-        String result = input.replaceAll("`", "'");
+        String result = input.replace("`", "'");
 
         return result;
     }

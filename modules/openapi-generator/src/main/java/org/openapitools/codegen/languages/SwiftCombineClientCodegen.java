@@ -51,6 +51,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class SwiftCombineClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(SwiftCombineClientCodegen.class);
 
+    /** Matches a Swift identifier starting with an uppercase letter followed by lowercase+digits. */
+    // CAMEL_INITIAL pattern is inherited from DefaultCodegen
+
     public static final String PROJECT_NAME = "projectName";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     @Setter protected String projectName = "OpenAPIClient";
@@ -595,7 +598,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
         // Camelize only when we have a structure defined below
         Boolean camelized = false;
-        if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+        if (CAMEL_INITIAL.matcher(name).matches()) {
             name = camelize(name, LOWERCASE_FIRST_LETTER);
             camelized = true;
         }
@@ -610,8 +613,8 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype)
                 || "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "number" + camelize(name);
-            varName = varName.replaceAll("-", "minus");
-            varName = varName.replaceAll("\\+", "plus");
+            varName = MINUS.matcher(varName).replaceAll("minus");
+            varName = PLUS.matcher(varName).replaceAll("plus");
             varName = DOT.matcher(varName).replaceAll("dot");
             return varName;
         }

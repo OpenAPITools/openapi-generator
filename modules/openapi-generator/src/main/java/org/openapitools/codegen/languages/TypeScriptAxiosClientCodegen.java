@@ -270,7 +270,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             }
 
             // Deduce the model file name in kebab case
-            cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+            cm.classFilename = CAMEL_CASE_BOUNDARY.matcher(cm.classname).replaceAll("$1-$2").toLowerCase(Locale.ROOT);
 
             //processed enum names
             if (!withoutPrefixEnums) {
@@ -299,7 +299,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             String tsImport = tsModelPackage + "/" + javaImport;
             m.put("tsImport", tsImport);
             m.put("class", javaImport);
-            m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
+            m.put("filename", CAMEL_CASE_BOUNDARY.matcher(javaImport).replaceAll("$1-$2").toLowerCase(Locale.ROOT));
         }
         return objs;
     }
@@ -329,12 +329,12 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public String toModelFilename(String name) {
-        return super.toModelFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+        return CAMEL_CASE_BOUNDARY.matcher(super.toModelFilename(name)).replaceAll("$1-$2").toLowerCase(Locale.ROOT);
     }
 
     @Override
     public String toApiFilename(String name) {
-        return super.toApiFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+        return CAMEL_CASE_BOUNDARY.matcher(super.toApiFilename(name)).replaceAll("$1-$2").toLowerCase(Locale.ROOT);
     }
 
     private void addNpmPackageGeneration() {

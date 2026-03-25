@@ -59,6 +59,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
 
+    /** Splits a TypeScript composed-type string on {@code |}, {@code &}, {@code <}, or {@code >}. */
+    private static final java.util.regex.Pattern COMPOSED_TYPE_DELIMITERS = java.util.regex.Pattern.compile("[|&<>]");
+
     private static final String FRAMEWORK_SWITCH = "framework";
     private static final String FRAMEWORK_SWITCH_DESC = "Specify the framework which should be used in the client code.";
     private static final String[] FRAMEWORKS = {"fetch-api", "jquery"};
@@ -315,8 +318,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if ("number".equals(datatype)) {
             String varName = "NUMBER_" + name;
 
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = MINUS.matcher(varName).replaceAll("MINUS_");
+            varName = PLUS.matcher(varName).replaceAll("PLUS_");
             varName = DOT.matcher(varName).replaceAll("_DOT_");
             return varName;
         }
@@ -1131,6 +1134,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
      * @return list of types
      */
     protected String[] splitComposedTypes(String type) {
-        return type.replace(" ", "").split("[|&<>]");
+        return COMPOSED_TYPE_DELIMITERS.split(type.replace(" ", ""));
     }
 }

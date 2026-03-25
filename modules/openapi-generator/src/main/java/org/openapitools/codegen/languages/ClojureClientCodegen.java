@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -62,6 +63,9 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     protected Set<String> models = new HashSet<>();
 
     protected String sourceFolder = "src";
+
+    private static final Pattern NON_ALPHA_UNDERSCORE_PLUS = Pattern.compile("[^a-zA-Z_]+");
+    private static final Pattern NON_ALPHANUMERIC_UNDERSCORE_HYPHEN_PLUS = Pattern.compile("[^a-zA-Z0-9_-]+");
 
     public ClojureClientCodegen() {
         super();
@@ -306,7 +310,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String sanitizeTag(String tag) {
-        return tag.replaceAll("[^a-zA-Z_]+", "_");
+        return NON_ALPHA_UNDERSCORE_PLUS.matcher(tag).replaceAll("_");
     }
 
     @Override
@@ -359,7 +363,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             return nameMapping.get(name);
         }
 
-        name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = NON_ALPHANUMERIC_UNDERSCORE_HYPHEN_PLUS.matcher(name).replaceAll(""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return name;
     }
 

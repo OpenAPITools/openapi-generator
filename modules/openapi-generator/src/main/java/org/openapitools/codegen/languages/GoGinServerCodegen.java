@@ -133,7 +133,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             if (op.path != null) {
-                op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
+                op.path = PATH_PARAMETER.matcher(op.path).replaceAll(":$1");
             }
         }
         return objs;

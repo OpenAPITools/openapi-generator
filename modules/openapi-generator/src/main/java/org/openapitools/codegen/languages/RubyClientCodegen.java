@@ -340,7 +340,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
-        return camelize(gemName.replaceAll("[^\\w]+", "_"));
+        return camelize(NON_WORD_PLUS.matcher(gemName).replaceAll("_"));
     }
 
     /**
@@ -351,7 +351,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      */
     @SuppressWarnings("static-method")
     public String generateGemName(String moduleName) {
-        return underscore(moduleName.replaceAll("[^\\w]+", ""));
+        return underscore(NON_WORD_PLUS.matcher(moduleName).replaceAll(""));
     }
 
     @Override

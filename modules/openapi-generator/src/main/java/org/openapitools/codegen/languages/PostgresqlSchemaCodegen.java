@@ -38,9 +38,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 @SuppressWarnings("unchecked")
 public class PostgresqlSchemaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PostgresqlSchemaCodegen.class);
-
-    /** Characters not allowed in an unquoted PostgreSQL identifier: outside [0-9,a-z,A-Z,$,_,U+0080..U+FFFF]. */
-    private static final Pattern UNSAFE_IDENTIFIER_CHARS = Pattern.compile("[^0-9a-zA-Z$_\\u0080-\\uFFFF]");
+    private static final Pattern UNSAFE_UNQUOTED_IDENTIFIER_CHARS = Pattern.compile("[^0-9a-zA-Z$_\\u0080-\\uFFFF]");
+    private static final Pattern UNSAFE_QUOTED_IDENTIFIER_CHARS = Pattern.compile("[^\\u0001-\\u007F\\u0080-\\uFFFF]");
 
     public static final String VENDOR_EXTENSION_POSTGRESQL_SCHEMA = "x-postgresql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
@@ -1320,14 +1319,14 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     public String toPostgresqlIdentifier(String name, String prefix, String suffix) {
         String escapedName = escapePostgresqlQuotedIdentifier(name);
         // Database, table, and column names cannot end with space characters.
-        if (escapedName.matches(".*\\s$")) {
+        if (ENDS_WITH_WHITESPACE.matcher(escapedName).matches()) {
             LOGGER.warn("Database, table, and column names cannot end with space characters. Check '{}' name", name);
-            escapedName = escapedName.replaceAll("\\s+$", "");
+            escapedName = TRAILING_WHITESPACE.matcher(escapedName).replaceAll("");
         }
 
         // Identifiers may begin with a digit but unless quoted may not consist solely
         // of digits.
-        if (escapedName.matches("^\\d+$")) {
+        if (DIGITS_ONLY.matcher(escapedName).matches()) {
             LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '{}' name", name);
             escapedName = prefix + escapedName + suffix;
         }
@@ -1349,7 +1348,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     public String escapePostgresqlUnquotedIdentifier(String identifier) {
         // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore)
         // Extended: U+0080 .. U+FFFF
-        Matcher matcher = UNSAFE_IDENTIFIER_CHARS.matcher(identifier);
+        Matcher matcher = UNSAFE_UNQUOTED_IDENTIFIER_CHARS.matcher(identifier);
         if (matcher.find()) {
             LOGGER.warn("Identifier '{}' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range",
                     identifier);
@@ -1373,12 +1372,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      */
     public String escapePostgresqlQuotedIdentifier(String identifier) {
         // ASCII: U+0001 .. U+007F Extended: U+0080 .. U+FFFF
-        Pattern regexp = Pattern.compile("[^\\u0001-\\u007F\\u0080-\\uFFFF]");
-        Matcher matcher = regexp.matcher(identifier);
+        Matcher matcher = UNSAFE_QUOTED_IDENTIFIER_CHARS.matcher(identifier);
         if (matcher.find()) {
             LOGGER.warn("Identifier '{}' contains unsafe characters out of U+0001..U+007F and U+0080..U+FFFF range",
                     identifier);
-            identifier = identifier.replaceAll("[^\\u0001-\\u007F\\u0080-\\uFFFF]", "");
+            identifier = matcher.reset().replaceAll("");
         }
 
         // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not
@@ -1460,7 +1458,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
                 // Replace period, backslash, forward slash with file separator in package name
-                packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                PACKAGE_SEPARATOR.matcher(packageName).replaceAll(Matcher.quoteReplacement("/")),
                 File.separator);
 
         // Trim trailing file separators from the overall path

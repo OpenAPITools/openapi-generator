@@ -343,12 +343,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             if (info.getTitle() != null) {
                 // when info.title is defined, use it for projectName
                 // used in package.json
-                projectName = info.getTitle()
-                        .replaceAll("[^a-zA-Z0-9]", "-")
-                        .replaceAll("^[-]*", "")
-                        .replaceAll("[-]*$", "")
-                        .replaceAll("[-]{2,}", "-")
-                        .toLowerCase(Locale.ROOT);
+                projectName = NON_ALPHANUMERIC_CHAR.matcher(info.getTitle()).replaceAll("-");
+                projectName = LEADING_HYPHENS.matcher(projectName).replaceAll("");
+                projectName = TRAILING_HYPHENS.matcher(projectName).replaceAll("");
+                projectName = MULTI_HYPHEN.matcher(projectName).replaceAll("-");
+                projectName = projectName.toLowerCase(Locale.ROOT);
                 this.additionalProperties.put("projectName", projectName);
             }
         }

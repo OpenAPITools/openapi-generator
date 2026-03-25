@@ -56,6 +56,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
+    /** Matches {@code kotlin.collections.Mutable} prefix — replaced with its immutable counterpart. */
+    private static final java.util.regex.Pattern KOTLIN_MUTABLE_COLLECTION =
+            java.util.regex.Pattern.compile("kotlin\\.collections\\.Mutable");
+
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
             new HashSet<>(Arrays.asList(
                     "ApiClient",
@@ -1363,7 +1367,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     private String getNonMutableContainerTypeIfNeeded(String type) {
         if (type != null && type.contains("kotlin.collections.Mutable")) {
-            return type.replaceAll("kotlin\\.collections\\.Mutable", "kotlin.collections.");
+            return KOTLIN_MUTABLE_COLLECTION.matcher(type).replaceAll("kotlin.collections.");
         }
         return type;
     }

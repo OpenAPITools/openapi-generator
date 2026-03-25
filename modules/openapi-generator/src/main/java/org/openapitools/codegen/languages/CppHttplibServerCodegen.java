@@ -79,6 +79,17 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 public class CppHttplibServerCodegen extends AbstractCppCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CppHttplibServerCodegen.class);
 
+    /** Matches a string that consists entirely of uppercase ASCII letters. */
+    private static final java.util.regex.Pattern CPP_ALL_UPPER = java.util.regex.Pattern.compile("[A-Z]+");
+    /** Matches a camelCase boundary for inserting a space separator. */
+    private static final java.util.regex.Pattern CPP_CAMEL_BOUNDARY = java.util.regex.Pattern.compile("([a-z])([A-Z])");
+    /** Matches the last digit-only part of a name after an underscore (e.g. {@code _2} in {@code method_2}). */
+    private static final java.util.regex.Pattern CPP_TRAILING_DIGIT_PART = java.util.regex.Pattern.compile("\\d+");
+    /** Matches a split point at a camelCase boundary OR any non-alphanumeric character. */
+    private static final java.util.regex.Pattern CPP_CAMEL_SPLIT = java.util.regex.Pattern.compile("(?<=[a-z0-9])(?=[A-Z])|[^a-zA-Z0-9]");
+    /** Matches one or more consecutive non-word-and-non-hyphen separators (spaces, underscores, etc.) in a name. */
+    private static final java.util.regex.Pattern CPP_WORD_SEPARATORS = java.util.regex.Pattern.compile("[_\\-\\s]+");
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
@@ -1315,9 +1326,9 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                     }
                 } else {
                     // Explicit default value from schema - use qualified enum name
-                    String defaultVal = var.defaultValue.replaceAll("\"", "");
+                    String defaultVal = var.defaultValue.replace("\"", "");
                     // Convert numeric enum values (e.g., "100" -> "_100")
-                    if (defaultVal.matches("^[0-9]+$")) {
+                    if (DIGITS_ONLY.matcher(defaultVal).matches()) {
                         defaultVal = "_" + defaultVal;
                     }
                     // Convert to UPPERCASE to match enum definition
@@ -1435,7 +1446,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             // Try to extract a number suffix for uniqueness
             if (name.contains("_")) {
                 String[] parts = name.split("_");
-                if (parts.length > 1 && parts[parts.length - 1].matches("\\d+")) {
+                if (parts.length > 1 && CPP_TRAILING_DIGIT_PART.matcher(parts[parts.length - 1]).matches()) {
                     return "InlineModel" + parts[parts.length - 1];
                 }
             }
@@ -1838,7 +1849,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             }
 
             // Split by "/", "_", "-", " ", camelCase boundary
-            String[] segments = clean.split("(?<=[a-z0-9])(?=[A-Z])|[^a-zA-Z0-9]");
+            String[] segments = CPP_CAMEL_SPLIT.split(clean);
             List<String> parts = new ArrayList<>();
             for (String seg : segments) {
                 if (seg != null && !seg.trim().isEmpty()) {
@@ -1940,9 +1951,9 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         }
 
         // First, insert spaces before uppercase letters to split camelCase
-        String normalized = name.replaceAll("([a-z])([A-Z])", "$1 $2");
+        String normalized = CPP_CAMEL_BOUNDARY.matcher(name).replaceAll("$1 $2");
         // Split on delimiters (hyphens, underscores, spaces)
-        String[] parts = normalized.split("[_\\-\\s]+");
+        String[] parts = CPP_WORD_SEPARATORS.split(normalized);
         StringBuilder result = new StringBuilder();
         for (String part : parts) {
             if (part != null && !part.isEmpty()) {
@@ -2020,7 +2031,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         }
 
         // If the result is the same as input and input is all uppercase,
-        if (result.equals(name) && name.equals(name.toUpperCase(Locale.ROOT)) && name.matches("[A-Z]+")) {
+        if (result.equals(name) && name.equals(name.toUpperCase(Locale.ROOT)) && CPP_ALL_UPPER.matcher(name).matches()) {
             // Handle all-caps words manually
             result = name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1).toLowerCase(Locale.ROOT);
             if (lowercaseFirstLetter) {
@@ -2041,7 +2052,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
     public String toHandlerFunctionName(String httpMethod, String path, Boolean prefix) {
         String method = toPascalCase(httpMethod);
         String className = stripPathFromClassName(path).get("className");
-        className = className.replaceAll("[^A-Za-z0-9]", "");
+        className = NON_ALPHANUMERIC_CHAR.matcher(className).replaceAll("");
         if (prefix) {
             return "handle" + method + "For" + toPascalCase(className);
         } else {
@@ -2057,7 +2068,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
      */
     public String toHandlerFunctionRequest(String path, String method) {
         String className = stripPathFromClassName(path).get("className");
-        className = className.replaceAll("[^A-Za-z0-9]", "");
+        className = NON_ALPHANUMERIC_CHAR.matcher(className).replaceAll("");
         return toPascalCase(className + toPascalCase(method) + "Request");
     }
 
@@ -2070,7 +2081,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
      */
     public String toHandlerFunctionResponse(String path, String method) {
         String className = stripPathFromClassName(path).get("className");
-        className = className.replaceAll("[^A-Za-z0-9]", "");
+        className = NON_ALPHANUMERIC_CHAR.matcher(className).replaceAll("");
         return toPascalCase(className + toPascalCase(method) + "Response");
     }
 
@@ -2374,7 +2385,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 String enumValStr = enumVal != null ? enumVal.toString() : "";
                 String convertedVal = enumValStr;
                 // Convert numeric values to have underscore prefix
-                if (enumValStr.matches("^[0-9]+$")) {
+                if (DIGITS_ONLY.matcher(enumValStr).matches()) {
                     convertedVal = "_" + enumValStr;
                 }
                 // Convert to UPPERCASE for C++ enum standards (clang style)
@@ -2457,7 +2468,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             for (String enumVal : enumValues) {
                 // Convert numeric values to words or keep string values as-is
                 String convertedVal = enumVal;
-                if (enumVal.matches("^[0-9]+$")) {
+                if (DIGITS_ONLY.matcher(enumVal).matches()) {
                     // Convert number to enum name
                     convertedVal = "_" + enumVal;  // Prefix with underscore for numeric values
                 }

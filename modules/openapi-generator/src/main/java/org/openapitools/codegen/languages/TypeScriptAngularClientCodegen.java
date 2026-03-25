@@ -48,9 +48,9 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
-    private static String CLASS_NAME_PREFIX_PATTERN = "^[a-zA-Z0-9]*$";
-    private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
-    private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
+    private static final java.util.regex.Pattern CLASS_NAME_PREFIX_PATTERN = java.util.regex.Pattern.compile("^[a-zA-Z0-9]*$");
+    private static final java.util.regex.Pattern CLASS_NAME_SUFFIX_PATTERN = java.util.regex.Pattern.compile("^[a-zA-Z0-9]*$");
+    private static final java.util.regex.Pattern FILE_NAME_SUFFIX_PATTERN  = java.util.regex.Pattern.compile("^[a-zA-Z0-9.-]*$");
 
     public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
 
@@ -657,7 +657,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * @param value    The value that is being validated.
      */
     private void validateFileSuffixArgument(String argument, String value) {
-        if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
+        if (!FILE_NAME_SUFFIX_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException(
                     String.format(Locale.ROOT, "%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
             );
@@ -672,7 +672,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * @param value    The value that is being validated.
      */
     private void validateClassPrefixArgument(String argument, String value) {
-        if (!value.matches(CLASS_NAME_PREFIX_PATTERN)) {
+        if (!CLASS_NAME_PREFIX_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException(
                     String.format(Locale.ROOT, "%s class prefix only allows alphanumeric characters.", argument)
             );
@@ -687,7 +687,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * @param value    The value that is being validated.
      */
     private void validateClassSuffixArgument(String argument, String value) {
-        if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
+        if (!CLASS_NAME_SUFFIX_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException(
                     String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
             );

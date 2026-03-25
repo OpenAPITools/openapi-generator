@@ -32,6 +32,10 @@ import java.io.File;
 import java.util.*;
 
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
+
+    /** Matches the non-bracket prefix of a collection type, e.g. {@code "List"} in {@code "List[String]"}. */
+    private static final java.util.regex.Pattern NON_BRACKET_PREFIX = java.util.regex.Pattern.compile("^[^\\[]+");
+
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
@@ -383,7 +387,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
         for (String item : items) {
 
-            if (item.matches("^\\{(.*)}$")) { // wrap in {}
+            if (IS_PATH_PARAM.matcher(item).matches()) { // wrap in {}
                 // find the datatype of the parameter
                 final CodegenParameter cp = op.pathParams.get(pathParamIndex);
 
@@ -429,7 +433,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
             } else if (p.isContainer || p.isArray) {
                 p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "params", false));
-                p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
+                p.vendorExtensions.put("x-codegen-normalized-input-type", NON_BRACKET_PREFIX.matcher(p.dataType).replaceAll("Seq"));
             } else if (p.isQueryParam) {
                 p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "param", true));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));

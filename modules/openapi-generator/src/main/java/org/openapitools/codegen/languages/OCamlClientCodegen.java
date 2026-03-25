@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -50,6 +51,15 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String PACKAGE_VERSION = "packageVersion";
 
     static final String X_MODEL_MODULE = "x-model-module";
+
+    /** Matches a model name that starts with a digit or underscore (invalid OCaml identifier start). */
+    private static final Pattern OCAML_INVALID_NAME_START = Pattern.compile("^\\d.*|^_.*");
+    /** Matches a string that does NOT start with a letter or underscore. */
+    private static final Pattern OCAML_INVALID_IDENTIFIER_START = Pattern.compile("^[^a-zA-Z_]");
+    /** Matches a trailing {@code " list"} type suffix in OCaml return types. */
+    private static final Pattern OCAML_LIST_SUFFIX = Pattern.compile(" list$");
+    /** Matches a comma delimiter used to split enum value strings. */
+    private static final Pattern COMMA_DELIMITER = Pattern.compile(",");
 
     @Setter
     protected String packageName = "openapi";
@@ -689,7 +699,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         // model name starts with number or _
-        if (name.matches("^\\d.*|^_.*")) {
+        if (OCAML_INVALID_NAME_START.matcher(name).matches()) {
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
@@ -791,7 +801,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         String sanitizedOperationId = sanitizeName(operationId);
 
         // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(sanitizedOperationId) || sanitizedOperationId.matches("^[0-9].*")) {
+        if (isReservedWord(sanitizedOperationId) || STARTS_WITH_DIGIT.matcher(sanitizedOperationId).matches()) {
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
@@ -808,7 +818,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     private List<Map<String, Object>> buildEnumValues(String valueString) {
         List<Map<String, Object>> result = new ArrayList<>();
 
-        for (String v : valueString.split(",")) {
+        for (String v : COMMA_DELIMITER.split(valueString)) {
             Map<String, Object> m = new HashMap<>();
             String value = v.isEmpty() ? "empty" : v;
             m.put("name", value);
@@ -834,7 +844,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 toEnumValueName(value.isEmpty() ? "empty" : value)
                         .replace(" ", "_");
 
-        if (!sanitizedValue.matches("^[a-zA-Z_].*")) {
+        if (OCAML_INVALID_IDENTIFIER_START.matcher(sanitizedValue).find()) {
             sanitizedValue = "_" + sanitizedValue;
         }
         return "`" + capitalize(sanitizedValue);
@@ -846,7 +856,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         m.setName(enumName);
         m.setClassname(enumName);
         m.setDataType(enumName);
-        String[] vals = values.split(",");
+        String[] vals = COMMA_DELIMITER.split(values);
         if (vals.length == 1) {
             m.setDefaultValue(ocamlizeEnumValue(vals[0]));
         }
@@ -879,7 +889,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
 
             if (operation.returnType != null && operation.returnType.startsWith("Enums.")) {
-                String returnTypeEnum = operation.returnType.replaceAll(" list$", "");
+                String returnTypeEnum = OCAML_LIST_SUFFIX.matcher(operation.returnType).replaceAll("");
                 operation.vendorExtensions.put("x-returntype-enum", returnTypeEnum);
                 operation.vendorExtensions.put("x-returntype-is-enum", true);
             }

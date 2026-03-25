@@ -50,6 +50,12 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
 
+    private static final Pattern XPATH_EMPTY_SEGMENT     = Pattern.compile(",\"\",");
+    private static final Pattern XPATH_LEADING_EMPTY     = Pattern.compile("\"\",");
+    private static final Pattern XPATH_TRAILING_EMPTY    = Pattern.compile(",\"\"");
+    private static final Pattern XPATH_LEADING_COMMA     = Pattern.compile("^\\[,");
+    private static final Pattern XPATH_TRAILING_COMMA    = Pattern.compile(",]$");
+
     // source folder where to write the files
     protected String sourceFolder = "lib";
 
@@ -1061,11 +1067,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                     xPath = PatternCache.get("\\{" + param.baseName + "}").matcher(xPath).replaceAll("\",toPath " + param.paramName + ",\"");
                 }
             }
-            xPath = xPath.replaceAll(",\"\",", ",");
-            xPath = xPath.replaceAll("\"\",", ",");
-            xPath = xPath.replaceAll(",\"\"", ",");
-            xPath = xPath.replaceAll("^\\[,", "[");
-            xPath = xPath.replaceAll(",]$", "]");
+            xPath = XPATH_EMPTY_SEGMENT.matcher(xPath).replaceAll(",");
+            xPath = XPATH_LEADING_EMPTY.matcher(xPath).replaceAll(",");
+            xPath = XPATH_TRAILING_EMPTY.matcher(xPath).replaceAll(",");
+            xPath = XPATH_LEADING_COMMA.matcher(xPath).replaceAll("[");
+            xPath = XPATH_TRAILING_COMMA.matcher(xPath).replaceAll("]");
         }
         op.vendorExtensions.put(VENDOR_EXTENSION_X_PATH, xPath);
     }
@@ -1427,8 +1433,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // number
         if (num.contains(datatype.toLowerCase(Locale.ROOT))) {
             String varName = "Num" + value;
-            varName = varName.replaceAll("-", "Minus_");
-            varName = varName.replaceAll("\\+", "Plus_");
+            varName = MINUS.matcher(varName).replaceAll("Minus_");
+            varName = PLUS.matcher(varName).replaceAll("Plus_");
             varName = DOT.matcher(varName).replaceAll("_Dot_");
             return "'" + StringUtils.capitalize(sanitizeName(varName));
         }

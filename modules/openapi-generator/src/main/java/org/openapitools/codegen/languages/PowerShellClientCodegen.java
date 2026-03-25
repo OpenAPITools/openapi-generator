@@ -42,6 +42,11 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
+
+    /** Captures the last path segment of a URL (for extracting PS Gallery package ID). */
+    private static final java.util.regex.Pattern GALLERY_URL_LAST_SEGMENT = java.util.regex.Pattern.compile(".*/([^/?]+).*");
+    /** Matches two or more consecutive newlines — for normalising example output. */
+    private static final java.util.regex.Pattern MULTI_NEWLINE = java.util.regex.Pattern.compile("[\n]{2,}");
     @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
 
@@ -702,7 +707,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
             // get the last segment of the URL
             // e.g. https://www.powershellgallery.com/packages/PSTwitter => PSTwitter
-            additionalProperties.put("powershellGalleryId", powershellGalleryUrl.replaceFirst(".*/([^/?]+).*", "$1"));
+            additionalProperties.put("powershellGalleryId", GALLERY_URL_LAST_SEGMENT.matcher(powershellGalleryUrl).replaceFirst("$1"));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
@@ -1202,7 +1207,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // Replace multiple new lines with a single new line and trim leading and trailing spaces.
-        return example.toString().replaceAll("[\n]{2,}", "\n\n").trim();
+        return MULTI_NEWLINE.matcher(example.toString()).replaceAll("\n\n").trim();
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap, boolean requiredOnly) {
@@ -1541,8 +1546,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "UInt16".equals(datatype) || "UInt32".equals(datatype) || "UInt64".equals(datatype) ||
                 "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = MINUS.matcher(varName).replaceAll("MINUS_");
+            varName = PLUS.matcher(varName).replaceAll("PLUS_");
             varName = DOT.matcher(varName).replaceAll("_DOT_");
             return "NUMBER_" + varName;
         }

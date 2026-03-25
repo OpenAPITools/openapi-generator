@@ -45,6 +45,11 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     // citizen of cask
     private static final String AdditionalPropertiesType = "Value";
 
+    /** Matches any character that is not alphanumeric, underscore, ], or [. */
+    private static final Pattern NON_IDENTIFIER_CHAR = Pattern.compile("[^a-zA-Z0-9_\\]\\[]");
+    /** Matches the inner type of a collection, e.g. {@code List[Foo]} → {@code Foo}. */
+    private static final Pattern INNER_COLLECTION_TYPE = Pattern.compile(".*\\[(.*)]");
+
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaCaskServerCodegen.class);
 
     @Override
@@ -323,7 +328,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     static String asMethod(final String input) {
         // Remove all non-alphanumeric characters using regex
-        String alphanumeric = input.replaceAll("[^a-zA-Z0-9]", "");
+        String alphanumeric = NON_ALPHANUMERIC_CHAR.matcher(input).replaceAll("");
 
         // Ensure the method name doesn't start with a digit
         if (alphanumeric.isEmpty()) {
@@ -940,7 +945,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
          *           type: string
          * }}}
          */
-        if (p.datatypeWithEnum != null && p.datatypeWithEnum.matches(".*[^a-zA-Z0-9_\\]\\[].*")) {
+        if (p.datatypeWithEnum != null && NON_IDENTIFIER_CHAR.matcher(p.datatypeWithEnum).find()) {
             p.datatypeWithEnum = fixBackTicks(p.datatypeWithEnum);
         }
 
@@ -1238,11 +1243,11 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
     private static boolean hasBrackets(String str) {
-        return str.matches("^\\{(.*)\\}$");
+        return IS_PATH_PARAM.matcher(str).matches();
     }
 
     static String containerType(String dataType) {
-        String fixedForList = dataType.replaceAll(".*\\[(.*)\\]", "$1");
+        String fixedForList = INNER_COLLECTION_TYPE.matcher(dataType).replaceAll("$1");
 
         // if it is a map, we want the value type
         final String[] parts = fixedForList.split(",");

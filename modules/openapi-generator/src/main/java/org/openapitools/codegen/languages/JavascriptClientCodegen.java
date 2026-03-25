@@ -97,6 +97,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Setter
     protected boolean useURLSearchParams = true;
 
+    /** Matches JS/JsDoc primitive type names for quoting in documentation. */
+    private static final java.util.regex.Pattern JS_PRIMITIVE_TYPES =
+            java.util.regex.Pattern.compile("\\b(Boolean|Integer|Number|String|Date|Blob)\\b");
+
     public JavascriptClientCodegen() {
         super();
 
@@ -809,7 +813,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
      * @return Normalized type
      */
     private String normalizeType(String type) {
-        return type.replaceAll("\\b(Boolean|Integer|Number|String|Date|Blob)\\b", "'$1'");
+        return JS_PRIMITIVE_TYPES.matcher(type).replaceAll("'$1'");
     }
 
     @Override

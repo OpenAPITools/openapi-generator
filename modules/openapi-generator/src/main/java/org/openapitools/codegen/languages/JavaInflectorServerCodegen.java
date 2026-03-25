@@ -238,7 +238,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         if (name.length() == 0) {
             return "DefaultController";
         }
-        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
+        name = NON_ALPHANUMERIC.matcher(name).replaceAll("_");
         return camelize(name) + "Controller";
     }
 }

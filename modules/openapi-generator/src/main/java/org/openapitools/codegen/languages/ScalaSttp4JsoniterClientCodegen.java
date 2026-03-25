@@ -670,7 +670,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private static class JavadocLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
-            final String[] lines = fragment.split("\\r?\\n");
+            final String[] lines = DefaultCodegen.SPLIT_ON_NEWLINE.split(fragment);
             final StringBuilder sb = new StringBuilder();
             sb.append("  /**\n");
             for (String line : lines) {

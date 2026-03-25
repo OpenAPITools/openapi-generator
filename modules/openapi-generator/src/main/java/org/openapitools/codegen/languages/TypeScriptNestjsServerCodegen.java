@@ -42,8 +42,9 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNestjsServerCodegen.class);
 
-    private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
-    private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
+    private static final java.util.regex.Pattern CLASS_NAME_SUFFIX_PATTERN = java.util.regex.Pattern.compile("^[a-zA-Z0-9]*$");
+    private static final java.util.regex.Pattern FILE_NAME_SUFFIX_PATTERN  = java.util.regex.Pattern.compile("^[a-zA-Z0-9.-]*$");
+    private static final java.util.regex.Pattern QUOTED_STRING             = java.util.regex.Pattern.compile("([\"'].*[\"'])");
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String TAGGED_UNIONS = "taggedUnions";
@@ -291,7 +292,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     private boolean isInlineUnion(String type) {
         return Arrays.stream(type.split("\\|"))
                 .map(String::trim)
-                .allMatch(value -> value.matches("([\"'].*[\"'])"));
+                .allMatch(value -> QUOTED_STRING.matcher(value).matches());
     }
 
     private boolean isLanguageGenericType(String type) {
@@ -561,7 +562,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
      * @param value    The value that is being validated.
      */
     private void validateFileSuffixArgument(String argument, String value) {
-        if (value != null && !value.matches(FILE_NAME_SUFFIX_PATTERN)) {
+        if (value != null && !FILE_NAME_SUFFIX_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException(
                     String.format(Locale.ROOT, "%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
             );
@@ -576,7 +577,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
      * @param value    The value that is being validated.
      */
     private void validateClassSuffixArgument(String argument, String value) {
-        if (value != null && !value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
+        if (value != null && !CLASS_NAME_SUFFIX_PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException(
                     String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
             );
