@@ -98,8 +98,6 @@ public class DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
-    public static final Pattern SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX = Pattern.compile("\\s*(;|\\r?\\n)\\s*"); // Splits on semicolon or new line, ignoring surrounding whitespace
-
     public static FeatureSet DefaultFeatureSet;
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
@@ -245,109 +243,107 @@ public class DefaultCodegen implements CodegenConfig {
     // sort operations by default
     protected boolean skipSortingOperations = false;
 
+    // --- MIME type patterns ---
     protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application/(.*)[+]?xml(;.*)?");
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application/json(;.*)?");
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application/vnd.(.*)+json(;.*)?");
-    private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
+
+    // --- HTTP / path patterns ---
+    protected static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
+    protected static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)/");
+    protected static final Pattern LEFT_CURLY_BRACE = Pattern.compile("\\{");
+    protected static final Pattern RIGHT_CURLY_BRACE = Pattern.compile("}");
+    protected static final Pattern PATH_PARAMETER = Pattern.compile("\\{([^}]+)}");
+    /** Matches a path segment that is entirely a parameter placeholder, e.g. {@code {id}}. */
+    protected static final Pattern IS_PATH_PARAM = Pattern.compile("^\\{.*}$");
     /**
-     * Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}.
+     * Matches a callback path-expression parameter like {@code {$request.body#/id}}.
      */
-    protected static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
+    protected static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
+    /** Matches a 2xx HTTP success status code (e.g. {@code 200}, {@code 201}). */
+    protected static final Pattern HTTP_2XX_CODE = Pattern.compile("2[0-9][0-9]");
+
+    // --- Whitespace & line-ending patterns ---
+    protected static final Pattern NEWLINE = Pattern.compile("\n");
+    protected static final Pattern TRAILING_NEWLINE = Pattern.compile("\n$");
+    protected static final Pattern WHITESPACE = Pattern.compile("\\s+");
+    /** Matches one or more trailing whitespace characters in an identifier. */
+    protected static final Pattern TRAILING_WHITESPACE = Pattern.compile("\\s+$");
+    /** Matches any string that ends with at least one whitespace character. */
+    protected static final Pattern ENDS_WITH_WHITESPACE = Pattern.compile(".*\\s$");
     /**
-     * Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}.
+     * Matches tab, newline, or carriage-return; used in {@link #escapeText}.
      */
-    protected static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
+    protected static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
+    protected static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
+    /** Splits on semicolon or new line, ignoring surrounding whitespace. */
+    protected static final Pattern SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX = Pattern.compile("\\s*(;|\\r?\\n)\\s*");
+    /** Splits on line-endings, both Windows ({@code \r\n}) and Unix ({@code \n}). */
+    public static final Pattern SPLIT_ON_NEWLINE = Pattern.compile("\\r?\\n");
+
+    // --- Underscore patterns ---
     protected static final Pattern LEADING_UNDERSCORES = Pattern.compile("^_*");
     protected static final Pattern MULTI_UNDERSCORES = Pattern.compile("_+");
     protected static final Pattern MULTI_TRAILING_UNDERSCORES = Pattern.compile("_+$");
     protected static final Pattern MULTI_LEADING_UNDERSCORES = Pattern.compile("^_+");
     protected static final Pattern FIRST_LEADING_UNDERSCORE = Pattern.compile("^_");
     protected static final Pattern LAST_TRAILING_UNDERSCORE = Pattern.compile("_$");
-    protected static final Pattern NEWLINE = Pattern.compile("\n");
-    protected static final Pattern TRAILING_NEWLINE = Pattern.compile("\n$");
-    protected static final Pattern LEFT_CURLY_BRACE = Pattern.compile("\\{");
-    protected static final Pattern RIGHT_CURLY_BRACE = Pattern.compile("}");
 
-
-    protected static final Pattern WHITESPACE = Pattern.compile("\\s+");
-
-    protected static final Pattern STARTS_WITH_SLASH = Pattern.compile("^/.*");
-
-    protected static final Pattern UNESCAPED_SLASH = Pattern.compile("(?<!\\\\)/");
-    protected static final Pattern TRAILING_BACKSLASHES = Pattern.compile("\\\\+$");
-    protected static final Pattern ENCLOSING_QUOTES = Pattern.compile("^\"|\"$");
-
-
-    /**
-     * Matches a string that starts with a digit (anchored); used across language generators.
-     */
-    protected static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
-
-
-    /**
-     * Matches a string consisting entirely of uppercase letters and underscores.
-     */
-    protected static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
-    protected static final Pattern NON_WORD_CHAR = Pattern.compile("[^a-zA-Z0-9_]");
-    protected static final Pattern DASH_UNDERSCORE_SPACE_COLON_PARENTHESES = Pattern.compile("[-_ :()]");
-
+    // --- Hyphen & separator patterns ---
     protected static final Pattern MINUS = Pattern.compile("-");
-    protected static final Pattern PLUS = Pattern.compile("\\+");
-    protected static final Pattern DOT = Pattern.compile("\\.");
-
-    protected static final Pattern PATH_PARAMETER = Pattern.compile("\\{([^}]+)}");
-
-    /**
-     * Matches a string consisting entirely of uppercase letters and underscores and digits.
-     */
-    protected static final Pattern ALL_UPPER_UNDERSCORE_DIGITS = Pattern.compile("^[A-Z0-9_]*$");
-    /**
-     * Matches tab, newline, or carriage-return; used in {@link #escapeText}.
-     */
-    protected static final Pattern CONTROL_WHITESPACE = Pattern.compile("[\\t\\n\\r]");
-
-    protected static final Pattern MULTILINE_STRING = Pattern.compile("\r\n|\r|\n");
-    /**
-     * Matches a callback path-expression parameter like {@code {$request.body#/id}}.
-     */
-    private static final Pattern CALLBACK_EXPRESSION_PARAM = Pattern.compile("\\{\\$.*}");
-
-    // --- Shared patterns reused across multiple language generators ---
-
-    /** Splits on {@code  | } (the union-type pipe separator), e.g. {@code TypeA | TypeB}. */
-    public static final Pattern SPLIT_ON_PIPE = Pattern.compile(" \\| ");
-    /** Splits on {@code |} used as a single-char separator in rule strings. */
-    protected static final Pattern SPLIT_ON_PIPE_CHAR = Pattern.compile("[|]");
-    /** Splits on line-endings, both Windows ({@code \r\n}) and Unix ({@code \n}). */
-    public static final Pattern SPLIT_ON_NEWLINE = Pattern.compile("\\r?\\n");
-    /** Matches the camelCase boundary */
-    public static final Pattern CAMEL_CASE_BOUNDARY = Pattern.compile("([a-z0-9])([A-Z])");
-    /** Matches one or more trailing whitespace characters in an identifier. */
-    protected static final Pattern TRAILING_WHITESPACE = Pattern.compile("\\s+$");
-    /** Matches any string that ends with at least one whitespace character. */
-    protected static final Pattern ENDS_WITH_WHITESPACE = Pattern.compile(".*\\s$");
-    /** Matches strings consisting entirely of ASCII digits. */
-    protected static final Pattern DIGITS_ONLY = Pattern.compile("^\\d+$");
-    /** Matches one or more characters that are not ASCII alphanumeric (no underscore). */
-    protected static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]+");
-    /** Matches exactly one character that is not ASCII alphanumeric (no underscore). */
-    protected static final Pattern NON_ALPHANUMERIC_CHAR = Pattern.compile("[^a-zA-Z0-9]");
-    /** Matches {@code .}, {@code /}, or {@code \} — for package-name-to-path conversion. */
-    protected static final Pattern PACKAGE_SEPARATOR = Pattern.compile("[./\\\\]");
-    /** Matches a CamelCase-initial type name like {@code FooBar} (used in Swift/Kotlin). */
-    protected static final Pattern CAMEL_INITIAL = Pattern.compile("[A-Z][a-z0-9]+[a-zA-Z0-9]*");
-    /** Matches a 2xx HTTP success status code (e.g. {@code 200}, {@code 201}). */
-    protected static final Pattern HTTP_2XX_CODE = Pattern.compile("2[0-9][0-9]");
-    /** Matches a path segment that is entirely a parameter placeholder, e.g. {@code {id}}. */
-    public static final Pattern IS_PATH_PARAM = Pattern.compile("^\\{.*}$");
-    /** Matches one or more consecutive hyphens. */
-    protected static final Pattern HYPHENS = Pattern.compile("-+");
     /** Matches two or more consecutive hyphens. */
     protected static final Pattern MULTI_HYPHEN = Pattern.compile("-{2,}");
     /** Matches one or more leading hyphens (at start of string). */
     protected static final Pattern LEADING_HYPHENS = Pattern.compile("^-+");
     /** Matches one or more trailing hyphens (at end of string). */
     protected static final Pattern TRAILING_HYPHENS = Pattern.compile("-+$");
+    protected static final Pattern PLUS = Pattern.compile("\\+");
+    protected static final Pattern DOT = Pattern.compile("\\.");
+    /** Matches {@code .}, {@code /}, or {@code \} — for package-name-to-path conversion. */
+    protected static final Pattern PACKAGE_SEPARATOR = Pattern.compile("[./\\\\]");
+    /** Splits on {@code  | } (the union-type pipe separator), e.g. {@code TypeA | TypeB}. */
+    protected static final Pattern SPLIT_ON_PIPE = Pattern.compile(" \\| ");
+    /** Splits on {@code |} used as a single-char separator in rule strings. */
+    protected static final Pattern SPLIT_ON_PIPE_CHAR = Pattern.compile("[|]");
+
+    // --- Identifier & name-sanitization patterns ---
+    /**
+     * Matches a string that starts with a digit (anchored); used across language generators.
+     */
+    protected static final Pattern STARTS_WITH_DIGIT = Pattern.compile("^\\d.*");
+    /**
+     * Matches a trailing run of digits at the end of a name, used by {@link #generateNextName}.
+     */
+    protected static final Pattern TRAILING_DIGITS = Pattern.compile("\\d+\\z");
+    /** Matches strings consisting entirely of ASCII digits. */
+    protected static final Pattern DIGITS_ONLY = Pattern.compile("^\\d+$");
+    /**
+     * Matches a string consisting entirely of uppercase letters and underscores.
+     */
+    protected static final Pattern ALL_UPPER_UNDERSCORE = Pattern.compile("^[A-Z_]*$");
+    /**
+     * Matches a string consisting entirely of uppercase letters, underscores, and digits.
+     */
+    protected static final Pattern ALL_UPPER_UNDERSCORE_DIGITS = Pattern.compile("^[A-Z0-9_]*$");
+    /** Matches the camelCase word boundary. */
+    protected static final Pattern CAMEL_CASE_BOUNDARY = Pattern.compile("([a-z0-9])([A-Z])");
+    /** Matches a CamelCase-initial type name like {@code FooBar} (used in Swift/Kotlin). */
+    protected static final Pattern CAMEL_INITIAL = Pattern.compile("[A-Z][a-z0-9]+[a-zA-Z0-9]*");
+    /**
+     * Matches one or more non-word characters; used in {@link #toEnumVarName} and {@link #sanitizeName}.
+     */
+    protected static final Pattern NON_WORD_PLUS = Pattern.compile("\\W+");
+    protected static final Pattern NON_WORD_CHAR = Pattern.compile("[^a-zA-Z0-9_]");
+    /** Matches one or more characters that are not ASCII alphanumeric (no underscore). */
+    protected static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^a-zA-Z0-9]+");
+    /** Matches exactly one character that is not ASCII alphanumeric (no underscore). */
+    protected static final Pattern NON_ALPHANUMERIC_CHAR = Pattern.compile("[^a-zA-Z0-9]");
+    protected static final Pattern DASH_UNDERSCORE_SPACE_COLON_PARENTHESES = Pattern.compile("[-_ :()]");
+    protected static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
+
+    // --- String literal & escaping patterns ---
+    protected static final Pattern TRAILING_BACKSLASHES = Pattern.compile("\\\\+$");
+    protected static final Pattern ENCLOSING_QUOTES = Pattern.compile("^\"|\"$");
 
     /**
      * True if the code generator supports multiple class inheritance.
