@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.JsonSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -116,17 +117,17 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         // Clean interfaces of ambiguity
         for (Map.Entry<String, CodegenModel> cm : allModels.entrySet()) {
-            if (cm.getValue().getInterfaces() != null && !cm.getValue().getInterfaces().isEmpty()) {
-                List<String> newIntf = new ArrayList<>(cm.getValue().getInterfaces());
+            if (cm.getValue().interfaces != null && !cm.getValue().interfaces.isEmpty()) {
+                List<String> newIntf = new ArrayList<>(cm.getValue().interfaces);
 
-                for (String intf : allModels.get(cm.getKey()).getInterfaces()) {
-                    if (allModels.get(intf).getInterfaces() != null && !allModels.get(intf).getInterfaces().isEmpty()) {
-                        for (String intfInner : allModels.get(intf).getInterfaces()) {
+                for (String intf : allModels.get(cm.getKey()).interfaces) {
+                    if (allModels.get(intf).interfaces != null && !allModels.get(intf).interfaces.isEmpty()) {
+                        for (String intfInner : allModels.get(intf).interfaces) {
                             newIntf.remove(intfInner);
                         }
                     }
                 }
-                cm.getValue().setInterfaces(newIntf);
+                cm.getValue().interfaces = newIntf;
             }
         }
 
@@ -193,7 +194,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
+        // Handle OpenAPI 3.1 JsonSchema by creating a minimal model
+        if (model instanceof JsonSchema || containsJsonSchema(model)) {
+            LOGGER.warn("Model '{}' contains OpenAPI 3.1 JsonSchema - using generic Object type", name);
+        }
+        
         CodegenModel codegenModel = super.fromModel(name, model);
+        if (codegenModel == null) {
+            return null;
+        }
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<>();
@@ -208,6 +217,29 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             codegenModel.imports.add("#include <vector>");
         }
         return codegenModel;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private boolean containsJsonSchema(Schema schema) {
+        if (schema instanceof JsonSchema) {
+            return true;
+        }
+        if (schema.getOneOf() != null) {
+            for (Object s : schema.getOneOf()) {
+                if (s instanceof Schema && containsJsonSchema((Schema) s)) return true;
+            }
+        }
+        if (schema.getAnyOf() != null) {
+            for (Object s : schema.getAnyOf()) {
+                if (s instanceof Schema && containsJsonSchema((Schema) s)) return true;
+            }
+        }
+        if (schema.getAllOf() != null) {
+            for (Object s : schema.getAllOf()) {
+                if (s instanceof Schema && containsJsonSchema((Schema) s)) return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -287,12 +319,21 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
+        // Handle OpenAPI 3.1 JsonSchema first before any casting
+        if (p instanceof JsonSchema) {
+            // Handle OpenAPI 3.1 JsonSchema - treat as generic object
+            return "Object";
+        }
+        
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            // Use schema.getItems() directly (handles OpenAPI 3.1 JsonSchema)
+            Schema inner = p.getItems();
+            if (inner != null) {
+                return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+            }
+            return "std::vector<Object>";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
@@ -372,12 +413,13 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            if (!languageSpecificPrimitives.contains(inner)) {
-                inner = "std::shared_ptr<" + inner + ">";
+            // Use getItems() directly to handle OpenAPI 3.1 JsonSchema
+            Schema inner = p.getItems();
+            String innerType = inner != null ? getSchemaType(inner) : "Object";
+            if (!languageSpecificPrimitives.contains(innerType)) {
+                innerType = "std::shared_ptr<" + innerType + ">";
             }
-            return "std::vector<" + inner + ">()";
+            return "std::vector<" + innerType + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
         }
