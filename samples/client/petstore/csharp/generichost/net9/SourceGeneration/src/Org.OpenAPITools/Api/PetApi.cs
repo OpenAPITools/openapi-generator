@@ -1075,7 +1075,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/pet/{petId}"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/{petId}");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/pet/{petId}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     if (apiKey.IsSet)
@@ -1290,7 +1290,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/pet/findByStatus"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/findByStatus");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/pet/findByStatus");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -1591,7 +1591,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/pet/findByTags"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/findByTags");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/pet/findByTags");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -1853,7 +1853,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/pet/{petId}"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/{petId}");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/pet/{petId}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
@@ -2386,7 +2386,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/pet/{petId}"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/{petId}");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/pet/{petId}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
@@ -2629,7 +2629,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/pet/{petId}/uploadImage"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/{petId}/uploadImage");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/pet/{petId}/uploadImage");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
@@ -2921,7 +2921,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/{petId}/uploadImageWithRequiredFile"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/{petId}/uploadImageWithRequiredFile");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/{petId}/uploadImageWithRequiredFile");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
@@ -3203,7 +3203,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/pet/{petId}/uploadImages"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/{petId}/uploadImages");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/pet/{petId}/uploadImages");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();

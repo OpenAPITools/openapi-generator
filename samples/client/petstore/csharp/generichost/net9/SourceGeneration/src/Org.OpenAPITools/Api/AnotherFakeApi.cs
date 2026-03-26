@@ -275,7 +275,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/another-fake/dummy"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/another-fake/dummy");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/another-fake/dummy");
 
                     httpRequestMessageLocalVar.Content = (modelClient as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
