@@ -194,11 +194,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
-        // Handle OpenAPI 3.1 JsonSchema by creating a minimal model
-        if (model instanceof JsonSchema || containsJsonSchema(model)) {
-            LOGGER.warn("Model '{}' contains OpenAPI 3.1 JsonSchema - using generic Object type", name);
-        }
-        
         CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel == null) {
             return null;
@@ -217,29 +212,6 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             codegenModel.imports.add("#include <vector>");
         }
         return codegenModel;
-    }
-    
-    @SuppressWarnings("unchecked")
-    private boolean containsJsonSchema(Schema schema) {
-        if (schema instanceof JsonSchema) {
-            return true;
-        }
-        if (schema.getOneOf() != null) {
-            for (Object s : schema.getOneOf()) {
-                if (s instanceof Schema && containsJsonSchema((Schema) s)) return true;
-            }
-        }
-        if (schema.getAnyOf() != null) {
-            for (Object s : schema.getAnyOf()) {
-                if (s instanceof Schema && containsJsonSchema((Schema) s)) return true;
-            }
-        }
-        if (schema.getAllOf() != null) {
-            for (Object s : schema.getAllOf()) {
-                if (s instanceof Schema && containsJsonSchema((Schema) s)) return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -319,16 +291,10 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        // Handle OpenAPI 3.1 JsonSchema first before any casting
-        if (p instanceof JsonSchema) {
-            // Handle OpenAPI 3.1 JsonSchema - treat as generic object
-            return "Object";
-        }
-        
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            // Use schema.getItems() directly (handles OpenAPI 3.1 JsonSchema)
+            // Use getItems() directly to handle both OpenAPI 3.0 and 3.1
             Schema inner = p.getItems();
             if (inner != null) {
                 return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
@@ -344,6 +310,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
                 || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
+        } else if (ModelUtils.isNullType(p)) {
+            // Handle OpenAPI 3.1 null type
+            return "nullptr";
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
