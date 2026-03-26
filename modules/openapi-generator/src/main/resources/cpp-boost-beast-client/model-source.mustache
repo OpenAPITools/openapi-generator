@@ -88,7 +88,27 @@ ptree {{classname}}::toPropertyTree_internal() const
 	{{/isPrimitiveType}}
 	{{/isContainer}}
 	{{#isContainer}}
-	// generate tree for {{name}}
+	{{#isMap}}
+	// generate tree for {{name}} (map)
+	if (!m_{{name}}.empty()) {
+		for (const auto &childEntry : m_{{name}}) {
+            {{#items}}
+            {{#isModel}}
+            tmp_node.push_back(std::make_pair(childEntry.first, childEntry.second->toPropertyTree()));
+            {{/isModel}}
+            {{^isModel}}
+            ptree {{name}}_node;
+            {{name}}_node.put("", childEntry.second);
+            tmp_node.push_back(std::make_pair(childEntry.first, {{name}}_node));
+            {{/isModel}}
+            {{/items}}
+		}
+		pt.add_child("{{baseName}}", tmp_node);
+		tmp_node.clear();
+	}
+	{{/isMap}}
+	{{^isMap}}
+	// generate tree for {{name}} (array)
 	if (!m_{{name}}.empty()) {
 		for (const auto &childEntry : m_{{name}}) {
             {{#items}}
@@ -105,6 +125,7 @@ ptree {{classname}}::toPropertyTree_internal() const
 		pt.add_child("{{baseName}}", tmp_node);
 		tmp_node.clear();
 	}
+	{{/isMap}}
 	{{/isContainer}}
 	{{/vars}}
 	return pt;
@@ -142,6 +163,45 @@ void {{classname}}::fromPropertyTree_internal(ptree const &pt)
 	{{/isModel}}
 	{{/isContainer}}
 	{{#isContainer}}
+	{{#isMap}}
+	// read all key-value pairs of {{name}} into member map
+	if (pt.get_child_optional("{{baseName}}")) {
+		for (const auto &childTree : pt.get_child("{{baseName}}")) {
+		    {{#mostInnerItems}}
+            {{{dataType}}} val =
+            {{#isNumeric}}
+                {{^isFloat}}
+                {{^isLong}}
+                {{^isInteger}}
+                std::stod(childTree.second.data());
+                {{/isInteger}}
+                {{/isLong}}
+                {{/isFloat}}
+                {{#isDouble}}
+                std::stod(childTree.second.data());
+                {{/isDouble}}
+                {{#isFloat}}
+                std::stof(childTree.second.data());
+                {{/isFloat}}
+                {{#isInteger}}
+                std::stoi(childTree.second.data());
+                {{/isInteger}}
+                {{#isLong}}
+                std::stol(childTree.second.data());
+                {{/isLong}}
+            {{/isNumeric}}
+            {{#isString}}
+                childTree.second.data();
+            {{/isString}}
+            {{#isModel}}
+                std::make_shared<{{baseType}}>(childTree.second);
+            {{/isModel}}
+            m_{{name}}[childTree.first] = std::move(val);
+		    {{/mostInnerItems}}
+		}
+	}
+	{{/isMap}}
+	{{^isMap}}
 	{{^isModelContainer}}
 	// push all items of {{name}} into member vector
 	if (pt.get_child_optional("{{baseName}}")) {
@@ -191,6 +251,7 @@ void {{classname}}::fromPropertyTree_internal(ptree const &pt)
 		}
 	}
 	{{/isModelContainer}}
+	{{/isMap}}
 	{{/isContainer}}
 	{{/vars}}
 }
