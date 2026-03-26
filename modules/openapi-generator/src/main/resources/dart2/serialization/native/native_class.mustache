@@ -198,10 +198,10 @@ class {{{classname}}} {
         {{{name}}}: json[r'{{{baseName}}}'] is List
           ? (json[r'{{{baseName}}}'] as List).map((e) =>
               {{#items.complexType}}
-              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}']){{#uniqueItems}}.toSet(){{/uniqueItems}}
+              e == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const <{{items.complexType}}>[]{{/items.isNullable}} : {{items.complexType}}.listFromJson(e){{#uniqueItems}}.toSet(){{/uniqueItems}}
               {{/items.complexType}}
               {{^items.complexType}}
-              e == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const  <{{items.items.dataType}}>[]{{/items.isNullable}} : (e as List).cast<{{items.items.dataType}}>()
+              e == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const <{{items.items.dataType}}{{#items.items.isNullable}}?{{/items.items.isNullable}}>[]{{/items.isNullable}} : (e as List).map((value) => value as {{items.items.dataType}}{{#items.items.isNullable}}?{{/items.items.isNullable}}).toList(growable: false)
               {{/items.complexType}}
             ).toList()
           :  {{#isNullable}}null{{/isNullable}}{{^isNullable}}const []{{/isNullable}},
@@ -219,7 +219,7 @@ class {{{classname}}} {
             : {{items.complexType}}.mapListFromJson(json[r'{{{baseName}}}']),
                 {{/items.complexType}}
                 {{^items.complexType}}
-            : (json[r'{{{baseName}}}'] as Map<String, dynamic>).map((k, v) => MapEntry(k, v == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const <{{items.items.dataType}}>[]{{/items.isNullable}} : (v as List).cast<{{items.items.dataType}}>())),
+            : (json[r'{{{baseName}}}'] as Map<String, dynamic>).map((k, v) => MapEntry(k, v == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const <{{items.items.dataType}}{{#items.items.isNullable}}?{{/items.items.isNullable}}>[]{{/items.isNullable}} : (v as List).map((value) => value as {{items.items.dataType}}{{#items.items.isNullable}}?{{/items.items.isNullable}}).toList(growable: false))),
                 {{/items.complexType}}
               {{/items.isArray}}
               {{^items.isArray}}
