@@ -11,6 +11,7 @@ using {{packageName}}.{{modelPackage}};{{/hasImport}}
 {{>testInstructions}}
 
 
+
 namespace {{packageName}}.Test.{{apiPackage}}
 {
     /// <summary>
@@ -34,16 +35,20 @@ namespace {{packageName}}.Test.{{apiPackage}}
         public async Task {{operationId}}AsyncTest()
         {
             {{#allParams}}
-            {{^required}}Client.Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}} = default{{nrt!}};
+            {{^required}}Client.Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}} = default{{nrt!}};
             {{/allParams}}
-            {{#returnType}}
+            {{#responses}}
+            {{#-first}}
+            {{#dataType}}
             var response = await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-            var model = response.{{#lambda.first}}{{#responses}}{{vendorExtensions.x-http-status}}  {{/responses}}{{/lambda.first}}();
+            var model = response.{{vendorExtensions.x-http-status}}();
             Assert.IsType<{{{.}}}>(model);
-            {{/returnType}}
-            {{^returnType}}
+            {{/dataType}}
+            {{^dataType}}
             await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-            {{/returnType}}
+            {{/dataType}}
+            {{/-first}}
+            {{/responses}}
         }
         {{/operation}}
         {{/operations}}

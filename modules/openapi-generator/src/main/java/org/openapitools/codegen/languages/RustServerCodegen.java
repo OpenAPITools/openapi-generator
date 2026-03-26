@@ -46,7 +46,9 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_ONE_OF_NAME;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -84,6 +86,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     // RFC 7807 Support
     private static final String problemJsonMimeType = "application/problem+json";
     private static final String problemXmlMimeType = "application/problem+xml";
+
+    // Track if we have models with conflicting names (Ok/Err) that conflict with serde_valid
+    private boolean hasConflictingModelNames = false;
 
     public RustServerCodegen() {
         super();
@@ -222,7 +227,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
          */
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
-        supportingFiles.add(new SupportingFile("cargo-config", ".cargo", "config"));
+        supportingFiles.add(new SupportingFile("cargo-config", ".cargo", "config.toml"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("context.mustache", "src", "context.rs"));
@@ -370,8 +375,18 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public String toParamName(String name) {
+        // rust-server doesn't support r# in param name.
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "parameter", false);
+    }
+
+    @Override
     public String toEnumValue(String value, String datatype) {
-        // rust-server templates expect value to be in quotes
+        // rust-server templates expect value to be in quotes for Display/FromStr
         return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
@@ -592,6 +607,14 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         for (CodegenParameter param : op.allParams) {
+            processParam(param, op);
+        }
+
+        for (CodegenParameter param : op.pathParams) {
+            processParam(param, op);
+        }
+
+        for (CodegenParameter param : op.queryParams) {
             processParam(param, op);
         }
 
@@ -859,6 +882,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             op.vendorExtensions.put("x-has-request-body", true);
         }
 
+        if (op.allParams.stream()
+            .anyMatch(p -> p.isArray && !p.isPrimitiveType)) {
+            op.vendorExtensions.put("x-has-borrowed-params", Boolean.TRUE);
+            for (CodegenParameter param : op.allParams) {
+                if (param.isArray) {
+                    param.vendorExtensions.put("x-param-needs-lifetime", Boolean.TRUE);
+                }
+            }
+        }
+
         // The CLI generates a structopt structure for each operation. This can only have a single
         // use of a short option, which comes from the parameter name, so we need to police
         // against duplicates
@@ -920,6 +953,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             if (param.contentType != null && isMimetypeJson(param.contentType)) {
                 param.vendorExtensions.put("x-consumes-json", true);
             }
+
+            // Add a vendor extension to flag if this can have validate() run on it.
+            if (!param.isUuid && !param.isPrimitiveType && !param.isEnum && (!param.isContainer || !languageSpecificPrimitives.contains(typeMapping.get(param.baseType)))) {
+                param.vendorExtensions.put("x-can-validate", true);
+            }
         }
 
         for (CodegenParameter param : op.formParams) {
@@ -943,7 +981,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
             for (CodegenSecurity s : op.authMethods) {
                 if (s.isApiKey && s.isKeyInHeader) {
-                    s.vendorExtensions.put("x-api-key-name", toModelName(s.keyParamName));
                     headerAuthMethods = true;
                 }
 
@@ -1029,6 +1066,25 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return codegenParameter;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        // Check whether the spec provides an example before calling super, which
+        // will fall back to auto-generating one from the param name/type.
+        boolean hasSpecExample =
+                parameter.getExample() != null ||
+                (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) ||
+                (parameter.getSchema() != null && parameter.getSchema().getExample() != null);
+
+        super.setParameterExampleValue(codegenParameter, parameter);
+
+        if (!hasSpecExample) {
+            // Null out the auto-generated example so processParam can detect
+            // required params with no user-provided example and disable the
+            // client example stub accordingly.
+            codegenParameter.example = null;
+        }
     }
 
     @Override
@@ -1212,6 +1268,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesUuid", true);
             }
 
+            if (prop.isByteArray) {
+                additionalProperties.put("apiUsesByteArray", true);
+            }
+
             String xmlName = modelXmlNames.get(prop.dataType);
             if (xmlName != null) {
                 prop.vendorExtensions.put("x-item-xml-name", xmlName);
@@ -1227,6 +1287,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         } else if (mdl.dataType != null
                 && (mdl.dataType.startsWith("swagger::OneOf") || mdl.dataType.startsWith("swagger::AnyOf"))) {
             toStringSupport = false;
+            partialOrdSupport = false;
+        } else if (mdl.dataType != null && mdl.dataType.equals("serde_json::Value")) {
+            // Value doesn't implement PartialOrd
             partialOrdSupport = false;
         } else if (mdl.getAdditionalPropertiesType() != null) {
             toStringSupport = false;
@@ -1378,8 +1441,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (composedSchema != null) {
             exts = composedSchema.getExtensions();
         }
-        if (exts != null && exts.containsKey("x-one-of-name")) {
-            return (String) exts.get("x-one-of-name");
+        if (exts != null && exts.containsKey(X_ONE_OF_NAME)) {
+            return (String) exts.get(X_ONE_OF_NAME);
         }
 
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
@@ -1407,6 +1470,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
      *
      * @deprecated Avoid using this - use a different mechanism instead.
      */
+    @Deprecated
     private static String stripNullable(String type) {
         if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
             return type.substring("swagger::Nullable<".length(), type.length() - 1);
@@ -1421,12 +1485,63 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         return null;
     }
 
+    /**
+     * Determine the appropriate Rust integer type based on format and min/max constraints.
+     * Returns the fitted data type, or null if the baseType is not an integer.
+     *
+     * @param dataFormat The data format (e.g., "int32", "int64", "uint32", "uint64")
+     * @param minimum The minimum value constraint
+     * @param maximum The maximum value constraint
+     * @param exclusiveMinimum Whether the minimum is exclusive
+     * @param exclusiveMaximum Whether the maximum is exclusive
+     * @return The fitted Rust integer type.
+     */
+    private String applyIntegerTypeFitting(String dataFormat,
+                                            String minimum, String maximum,
+                                            boolean exclusiveMinimum, boolean exclusiveMaximum) {
+        BigInteger min = Optional.ofNullable(minimum).filter(s -> !s.isEmpty()).map(BigInteger::new).orElse(null);
+        BigInteger max = Optional.ofNullable(maximum).filter(s -> !s.isEmpty()).map(BigInteger::new).orElse(null);
+
+        boolean unsigned = canFitIntoUnsigned(min, exclusiveMinimum);
+
+        if (Strings.isNullOrEmpty(dataFormat)) {
+            return bestFittingIntegerType(min, exclusiveMinimum, max, exclusiveMaximum, true);
+        } else {
+            switch (dataFormat) {
+                // custom integer formats (legacy)
+                case "uint32":
+                    return "u32";
+                case "uint64":
+                    return "u64";
+                case "int32":
+                    return unsigned ? "u32" : "i32";
+                case "int64":
+                    return unsigned ? "u64" : "i64";
+                default:
+                    LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", dataFormat);
+                    return bestFittingIntegerType(min, exclusiveMinimum, max, exclusiveMaximum, true);
+            }
+        }
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
+        // Check for reserved field names that conflict with serde_valid macro internals
+        if ("ok".equalsIgnoreCase(property.name) || "err".equalsIgnoreCase(property.name)) {
+            model.vendorExtensions.put("x-skip-serde-valid", true);
+        }
+
+        // Mark properties that reference complex types (models) for nested validation
+        // Only add nested validation for types that reference generated models (contain "models::")
+        if (property.dataType != null && property.dataType.contains("models::")) {
+            property.vendorExtensions.put("x-needs-nested-validation", true);
+        }
+
         // TODO: We should avoid reverse engineering primitive type status from the data type
-        if (!languageSpecificPrimitives.contains(stripNullable(property.dataType))) {
+        String strippedType = stripNullable(property.dataType);
+        if (!languageSpecificPrimitives.contains(strippedType)) {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
             if (property.dataType.contains(":")) {
                 int position = property.dataType.lastIndexOf(":");
@@ -1442,41 +1557,12 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // Integer type fitting
         if (Objects.equals(property.baseType, "integer")) {
 
-            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-
-            boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
-
-            if (Strings.isNullOrEmpty(property.dataFormat)) {
-                property.dataType = bestFittingIntegerType(minimum,
-                        property.getExclusiveMinimum(),
-                        maximum,
-                        property.getExclusiveMaximum(),
-                        true);
-            } else {
-                switch (property.dataFormat) {
-                    // custom integer formats (legacy)
-                    case "uint32":
-                        property.dataType = "u32";
-                        break;
-                    case "uint64":
-                        property.dataType = "u64";
-                        break;
-                    case "int32":
-                        property.dataType = unsigned ? "u32" : "i32";
-                        break;
-                    case "int64":
-                        property.dataType = unsigned ? "u64" : "i64";
-                        break;
-                    default:
-                        LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", property.dataFormat);
-                        property.dataType = bestFittingIntegerType(minimum,
-                                property.getExclusiveMinimum(),
-                                maximum,
-                                property.getExclusiveMaximum(),
-                                true);
-                }
-            }
+            property.dataType = applyIntegerTypeFitting(
+                property.dataFormat,
+                property.getMinimum(),
+                property.getMaximum(),
+                property.getExclusiveMinimum(),
+                property.getExclusiveMaximum());
         }
 
         property.name = underscore(property.name);
@@ -1499,15 +1585,108 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        return super.postProcessModelsEnum(objs);
+        ModelsMap result = super.postProcessModelsEnum(objs);
+
+        // Detect integer enums and mark them for serde_repr usage
+        for (ModelMap modelMap : result.getModels()) {
+            CodegenModel model = modelMap.getModel();
+
+            if (Boolean.TRUE.equals(model.isEnum) &&
+                (model.isInteger || model.isLong || model.isNumber) &&
+                model.allowableValues != null) {
+
+                // Determine the correct Rust type for the enum's repr
+                String rustType;
+                if (model.isNumber && !model.isInteger && !model.isLong) {
+                    // Floating point enum - use dataType or default to f64
+                    rustType = "f32".equals(model.dataType) ? "f32" : "f64";
+                } else {
+                    // Integer enum - apply the same type fitting logic as properties
+                    rustType = applyIntegerTypeFitting(
+                        model.getFormat(),
+                        model.getMinimum(),
+                        model.getMaximum(),
+                        model.getExclusiveMinimum(),
+                        model.getExclusiveMaximum());
+                    // If applyIntegerTypeFitting returns null, default to i32
+                    if (rustType == null) {
+                        rustType = "i32";
+                    }
+                }
+
+                // Mark this as an integer enum and store the Rust type
+                model.vendorExtensions.put("x-is-integer-enum", true);
+                model.vendorExtensions.put("x-rust-type", rustType);
+
+                // Set global flag to include serde_repr dependency
+                additionalProperties.put("apiUsesIntegerEnums", true);
+
+                // Add numeric discriminant values for enum variants
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> enumVars =
+                    (List<Map<String, Object>>) model.allowableValues.get("enumVars");
+
+                if (enumVars != null) {
+                    for (Map<String, Object> enumVar : enumVars) {
+                        String value = (String) enumVar.get("value");
+                        if (value != null) {
+                            // Strip quotes to get raw numeric value
+                            String numericValue = value.substring(1, value.length() - 1);
+                            enumVar.put("numericDiscriminant", numericValue);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check for model names that conflict with serde_valid macro internals
+        // Once we find one, set a class-level flag that persists across all model batches
+        if (!hasConflictingModelNames) {
+            for (ModelMap modelMap : result.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if ("Ok".equalsIgnoreCase(model.classname) || "Err".equalsIgnoreCase(model.classname)) {
+                    hasConflictingModelNames = true;
+                    additionalProperties.put("hasConflictingModelNames", true);
+                    break;
+                }
+            }
+        }
+
+        // If there are conflicting names (detected in any batch), skip serde_valid for ALL models
+        if (hasConflictingModelNames) {
+            for (ModelMap modelMap : result.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                model.vendorExtensions.put("x-skip-serde-valid", true);
+            }
+            // Set the flag for this batch's template context
+            result.put("hasConflictingModelNames", true);
+        }
+
+        return result;
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
 
+        // If a parameter is an integer, fit it into the right type.
+        // Note: For CodegenParameter, baseType may be null, so we check isInteger/isLong/isShort flags instead.
+        if (param.isInteger || param.isLong || param.isShort) {
+            param.dataType = applyIntegerTypeFitting(
+                    param.dataFormat,
+                    param.minimum,
+                    param.maximum,
+                    param.exclusiveMinimum,
+                    param.exclusiveMaximum);
+        }
+
         // If a parameter uses UUIDs, we need to import the UUID package.
         if (uuidType.equals(param.dataType)) {
             additionalProperties.put("apiUsesUuid", true);
+        }
+
+        // If a parameter uses byte arrays, we need to set a flag.
+        if (param.isByteArray) {
+            additionalProperties.put("apiUsesByteArray", true);
         }
 
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
@@ -1519,22 +1698,57 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             example = (param.example != null) ? "&vec![\"" + param.example + "\".to_string()]" : "&Vec::new()";
         } else if (param.isString) {
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
-            example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
+            if (param.example != null) {
+                example = "\"" + param.example + "\".to_string()";
+            }
         } else if (param.isPrimitiveType) {
             if ((param.isByteArray) || (param.isBinary)) {
                 // Binary primitive types don't implement `Display`.
                 param.vendorExtensions.put("x-format-string", "{:?}");
                 example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
+            } else if (param.isBoolean) {
+                param.vendorExtensions.put("x-format-string", "{}");
+                example = (param.example != null) ? param.example : "true";
             } else {
                 param.vendorExtensions.put("x-format-string", "{}");
-                example = (param.example != null) ? param.example : "";
+                if (param.example != null) {
+                    example = param.example;
+                } else if (param.isFloat || param.isDouble) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0.0";
+                } else if (param.isInteger || param.isLong || param.isShort || param.isNumber) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0";
+                }
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            example = (param.example != null) ? param.example : "&Vec::new()";
+            if (param.items.isString) {
+                // We iterate through the list of string and ensure they end up in the format vec!["example".to_string()]
+                example = (param.example != null)
+                    ? "&vec![" + Arrays.stream(param.example.replace("[", "").replace("]", "").split(","))
+                        .map(item -> item + ".to_string()")
+                        .collect(Collectors.joining(", ")) + "]"
+                    : "&Vec::new()";
+            } else {
+                example = (param.example != null) ? param.example : "&Vec::new()";
+            }
         } else {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            if (param.example != null) {
+            // Check if this is a model-type enum (allowableValues with values list)
+            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
+                List<?> values = (List<?>) param.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    // Use the first enum value as the example.
+                    String firstEnumValue = values.get(0).toString();
+                    String enumVariant = toEnumVarName(firstEnumValue, param.dataType);
+                    example = param.dataType + "::" + enumVariant;
+                } else if (param.example != null) {
+                    example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+                }
+            } else if (param.example != null) {
                 example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
             }
         }
@@ -1558,6 +1772,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             param.vendorExtensions.put("x-format-string", "{:?}");
             String exampleString = (example != null) ? "Some(" + example + ")" : "None";
             param.vendorExtensions.put("x-example", exampleString);
+        }
+
+        // Add a vendor extension to flag if this can have validate() run on it.
+        if (!param.isUuid && !param.isPrimitiveType && !param.isEnum && (!param.isContainer || !languageSpecificPrimitives.contains(typeMapping.get(param.baseType)))) {
+           param.vendorExtensions.put("x-can-validate", true);
         }
     }
 

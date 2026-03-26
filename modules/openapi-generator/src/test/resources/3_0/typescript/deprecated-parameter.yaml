@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  description: test order parameters
+  version: 1.0.0
+  title: Test order parameters
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /pets:
+    get:
+      tags:
+        - default
+      summary: Finds Pets
+      description: Find all pets
+      operationId: findPets
+      parameters:
+        - name: type
+          in: query
+          description: type of pet
+          style: form
+          explode: false
+          schema:
+            type: string
+            default: available
+        - name: name
+          in: query
+          deprecated: true
+          description: name of pet
+          required: true
+          schema:
+            type: string
+        - name: age
+          in: query
+          description: age of pet
+          schema:
+            type: number
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value

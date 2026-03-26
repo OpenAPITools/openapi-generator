@@ -4,11 +4,13 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/outer_enum_integer.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'outer_object_with_enum_property.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

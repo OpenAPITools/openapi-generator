@@ -12,6 +12,7 @@
 #ifndef PFX_ENUM_H
 #define PFX_ENUM_H
 
+#include <QJsonObject>
 #include <QJsonValue>
 #include <QMetaType>
 #include <QString>
@@ -22,7 +23,7 @@ class PFXEnum {
 public:
     PFXEnum() {}
 
-    PFXEnum(QString jsonString) {
+    PFXEnum(const QString &jsonString) {
         fromJson(jsonString);
     }
 
@@ -36,7 +37,13 @@ public:
         return jstr;
     }
 
-    virtual void fromJson(QString jsonString) {
+    virtual QJsonObject asJsonObject() const {
+        QJsonObject obj;
+        obj["value"] = jstr;
+        return obj;
+    }
+	
+    virtual void fromJson(const QString &jsonString) {
         jstr = jsonString;
     }
 

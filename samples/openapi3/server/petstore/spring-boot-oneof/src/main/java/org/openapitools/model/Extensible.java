@@ -7,19 +7,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Extensible
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Extensible {
 
   private @Nullable String atSchemaLocation;
@@ -39,7 +39,7 @@ public class Extensible {
     this.atType = atType;
   }
 
-  public Extensible atSchemaLocation(String atSchemaLocation) {
+  public Extensible atSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;
   }
@@ -51,15 +51,16 @@ public class Extensible {
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
-  public String getAtSchemaLocation() {
+  public @Nullable String getAtSchemaLocation() {
     return atSchemaLocation;
   }
 
-  public void setAtSchemaLocation(String atSchemaLocation) {
+  @JsonProperty("@schemaLocation")
+  public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
 
-  public Extensible atBaseType(String atBaseType) {
+  public Extensible atBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
     return this;
   }
@@ -71,11 +72,12 @@ public class Extensible {
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
-  public String getAtBaseType() {
+  public @Nullable String getAtBaseType() {
     return atBaseType;
   }
 
-  public void setAtBaseType(String atBaseType) {
+  @JsonProperty("@baseType")
+  public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
 
@@ -95,6 +97,7 @@ public class Extensible {
     return atType;
   }
 
+  @JsonProperty("@type")
   public void setAtType(String atType) {
     this.atType = atType;
   }
@@ -133,11 +136,8 @@ public class Extensible {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

@@ -17,7 +17,6 @@ open class AnotherFakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Client
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func call123testSpecialTags(uuidTest: UUID, body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Client {
         return try await call123testSpecialTagsWithRequestBuilder(uuidTest: uuidTest, body: body, apiConfiguration: apiConfiguration).execute().body
     }
@@ -40,7 +39,7 @@ open class AnotherFakeAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
-            "uuid_test": uuidTest.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "uuid_test": uuidTest.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

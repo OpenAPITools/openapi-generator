@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Client
 
         public async Task<T> Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T) await Deserialize(response, typeof(T)).ConfigureAwait(false);
+            var result = (T)await Deserialize(response, typeof(T)).ConfigureAwait(false);
             return result;
         }
 
@@ -98,13 +98,13 @@ namespace Org.OpenAPITools.Client
             // process response headers, e.g. Access-Control-Allow-Methods
             foreach (var responseHeader in response.Headers)
             {
-                headers.Add(responseHeader.Key + "=" +  ClientUtils.ParameterToString(responseHeader.Value));
+                headers.Add(responseHeader.Key + "=" + ClientUtils.ParameterToString(responseHeader.Value));
             }
 
             // process response content headers, e.g. Content-Type
             foreach (var responseHeader in response.Content.Headers)
             {
-                headers.Add(responseHeader.Key + "=" +  ClientUtils.ParameterToString(responseHeader.Value));
+                headers.Add(responseHeader.Key + "=" + ClientUtils.ParameterToString(responseHeader.Value));
             }
 
             // RFC 2183 & RFC 2616
@@ -115,7 +115,8 @@ namespace Org.OpenAPITools.Client
             }
             else if (type == typeof(FileParameter))
             {
-                if (headers != null) {
+                if (headers != null)
+                {
                     foreach (var header in headers)
                     {
                         var match = fileNameRegex.Match(header.ToString());
@@ -286,7 +287,8 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public void Dispose()
         {
-            if(_disposeClient) {
+            if(_disposeClient)
+            {
                 _httpClient.Dispose();
             }
         }
@@ -425,7 +427,7 @@ namespace Org.OpenAPITools.Client
 
         private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
-            T result = (T) responseData;
+            T result = (T)responseData;
             string rawContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
@@ -460,7 +462,7 @@ namespace Org.OpenAPITools.Client
                         transformed.Cookies.Add(cookie);
                     }
                 }
-                catch (PlatformNotSupportedException) {}
+                catch (PlatformNotSupportedException) { }
             }
 
             return transformed;
@@ -473,7 +475,7 @@ namespace Org.OpenAPITools.Client
 
         private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
             IReadableConfiguration configuration,
-            System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+            System.Threading.CancellationToken cancellationToken = default)
         {
             CancellationTokenSource timeoutTokenSource = null;
             CancellationTokenSource finalTokenSource = null;
@@ -497,7 +499,7 @@ namespace Org.OpenAPITools.Client
 
                 if (configuration.ClientCertificates != null)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                    if (_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
                 }
 
@@ -505,7 +507,7 @@ namespace Org.OpenAPITools.Client
 
                 if (cookieContainer != null)
                 {
-                    if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                    if (_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     foreach (var cookie in cookieContainer)
                     {
                         _httpClientHandler.CookieContainer.Add(cookie);
@@ -535,7 +537,7 @@ namespace Org.OpenAPITools.Client
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return await ToApiResponse<T>(response, default(T), req.RequestUri).ConfigureAwait(false);
+                    return await ToApiResponse<T>(response, default, req.RequestUri).ConfigureAwait(false);
                 }
 
                 object responseData = await deserializer.Deserialize<T>(response).ConfigureAwait(false);
@@ -543,11 +545,11 @@ namespace Org.OpenAPITools.Client
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
-                    responseData = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    responseData = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {
-                    responseData = (T) (object) await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    responseData = (T)(object) await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 }
 
                 InterceptResponse(req, response);
@@ -587,7 +589,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, config), config, cancellationToken);
@@ -602,7 +604,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, config), config, cancellationToken);
@@ -617,7 +619,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, config), config, cancellationToken);
@@ -632,7 +634,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, config), config, cancellationToken);
@@ -647,7 +649,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, config), config, cancellationToken);
@@ -662,7 +664,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, config), config, cancellationToken);
@@ -677,7 +679,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest(new HttpMethod("PATCH"), path, options, config), config, cancellationToken);

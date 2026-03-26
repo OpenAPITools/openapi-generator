@@ -20,7 +20,7 @@
 
 namespace test_namespace {
 
-PFXUser::PFXUser(QString json) {
+PFXUser::PFXUser(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -58,7 +58,7 @@ void PFXUser::initializeModel() {
     m_user_status_isValid = false;
 }
 
-void PFXUser::fromJson(QString jsonString) {
+void PFXUser::fromJson(const QString &jsonString) {
     QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();

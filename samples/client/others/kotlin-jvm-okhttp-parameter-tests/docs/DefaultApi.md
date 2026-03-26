@@ -52,13 +52,13 @@ try {
 | **pathDefault** | **kotlin.String**| path default | |
 | **pathNullable** | **kotlin.String**| path_nullable | |
 | **queryDefault** | **kotlin.String**| query default | [optional] [default to &quot;available&quot;] |
-| **queryDefaultEnum** | **kotlin.String**| query default enum | [optional] [default to B] [enum: A, B, C] |
+| **queryDefaultEnum** | **kotlin.String**| query default enum | [optional] [default to QueryDefaultEnum.B] [enum: A, B, C] |
 | **queryDefaultInt** | **java.math.BigDecimal**| query default int | [optional] [default to 3] |
 | **headerDefault** | **kotlin.String**| header default | [optional] [default to &quot;available&quot;] |
-| **headerDefaultEnum** | **kotlin.String**| header default enum | [optional] [default to B] [enum: A, B, C] |
+| **headerDefaultEnum** | **kotlin.String**| header default enum | [optional] [default to HeaderDefaultEnum.B] [enum: A, B, C] |
 | **headerDefaultInt** | **java.math.BigDecimal**| header default int | [optional] [default to 3] |
 | **cookieDefault** | **kotlin.String**| cookie default | [optional] [default to &quot;available&quot;] |
-| **cookieDefaultEnum** | **kotlin.String**| cookie default enum | [optional] [default to B] [enum: A, B, C] |
+| **cookieDefaultEnum** | **kotlin.String**| cookie default enum | [optional] [default to CookieDefaultEnum.B] [enum: A, B, C] |
 | **cookieDefaultInt** | **java.math.BigDecimal**| cookie default int | [optional] [default to 3] |
 | **queryNullable** | **kotlin.String**| query nullable | [optional] |
 | **headerNullable** | **kotlin.String**| header nullable | [optional] |

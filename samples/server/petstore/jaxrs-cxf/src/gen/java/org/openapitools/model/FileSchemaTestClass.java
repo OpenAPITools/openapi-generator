@@ -15,11 +15,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class FileSchemaTestClass  {
   
   @ApiModelProperty(value = "")
+
   @Valid
+
   private ModelFile _file;
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private List<@Valid ModelFile> files = new ArrayList<>();
  /**
    * Get _file
@@ -96,10 +100,7 @@ public class FileSchemaTestClass  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

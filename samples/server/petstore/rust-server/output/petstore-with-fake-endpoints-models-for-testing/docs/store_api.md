@@ -96,7 +96,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **order_id** | **i64**| ID of pet that needs to be fetched | 
+  **order_id** | **u64**| ID of pet that needs to be fetched | 
 
 ### Return type
 

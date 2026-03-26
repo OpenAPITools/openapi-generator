@@ -6,13 +6,13 @@ group = "{{groupId}}"
 version = "{{artifactVersion}}"
 
 plugins {
-    kotlin("jvm") version "2.0.20"
-    application
-    kotlin("plugin.serialization") version "2.0.20"
+    kotlin("jvm") version "2.3.0"
+    id("io.ktor.plugin") version "3.4.0"
+    kotlin("plugin.serialization") version "2.3.0"
 }
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass = "io.ktor.server.netty.EngineMain"
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -23,7 +23,6 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom:3.0.2"))
     implementation("ch.qos.logback:logback-classic:$logback_version")
 {{#hasAuthMethods}}
     implementation("com.typesafe:config:1.4.1")

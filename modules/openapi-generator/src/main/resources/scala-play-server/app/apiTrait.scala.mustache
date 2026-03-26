@@ -10,6 +10,7 @@ import {{import}}
 {{#operations}}
 
 {{>generatedAnnotation}}
+
 trait {{classname}} {
 {{#operation}}
   /**
@@ -25,7 +26,7 @@ trait {{classname}} {
     {{/description}}
     {{/allParams}}
     */
-  {{>app/defOperationSignature}}
+  {{>app/defOperationSignature}}{{! prevent indent}}
 {{^-last}}
 
 {{/-last}}

@@ -15,7 +15,7 @@ import java.util.UUID
 {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class RequestFactory(private val headerFactories : List<() -> Map<String, String>> = listOf(), private val postProcessors :List <(Request<*>) -> Unit> = listOf(), private val gsonAdapters: Map<Type, Any> = mapOf()): IRequestFactory {
 {{#hasAuthMethods}}
 
-   {{>auth/authentication}}
+   {{>auth/authentication}}{{! prevent indent}}
 {{/hasAuthMethods}}
 
     /**

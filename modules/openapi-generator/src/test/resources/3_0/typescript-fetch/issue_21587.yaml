@@ -1,0 +1,79 @@
+openapi: 3.0.1
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /api/endpoint:
+    get:
+      operationId: GetEndpoint
+      summary: Get endpoint
+      tags:
+        - Examples
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: OneOfResponse
+                oneOf:
+                  - $ref: '#/components/schemas/OptionOne'
+                  - $ref: '#/components/schemas/OptionTwo'
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/OptionThree'
+                  - type: string
+                    enum:
+                      - "fixed-value-a"
+                      - "fixed-value-b"
+                      - "fixed-value-c"
+                  - type: boolean
+                  - type: number
+                  - type: string
+                    format: date
+                  - type: string
+                    format: date-time
+                  - type: integer
+                    format: int64
+                    enum: [10, 20, 30]
+                  - type: array
+                    items:
+                      type: number
+                  - type: array
+                    items:
+                      type: object
+                  - type: array
+                    items:
+                      type: string
+                      enum:
+                        - "oneof-array-enum-a"
+                        - "oneof-array-enum-b"
+                        - "oneof-array-enum-c"
+                  - type: array
+                    items:
+                      type: number
+                    uniqueItems: true
+
+components:
+  schemas:
+    OptionOne:
+      type: object
+      title: OptionOne
+      properties:
+        propOne:
+          type: number
+      additionalProperties: true
+    OptionTwo:
+      type: object
+      title: OptionTwo
+      properties:
+        propTwo:
+          type: string
+    OptionThree:
+      type: object
+      title: OptionThree
+      properties:
+        propThree:
+          type: boolean
+      additionalProperties: true

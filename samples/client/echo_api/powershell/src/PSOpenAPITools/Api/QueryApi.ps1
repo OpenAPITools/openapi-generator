@@ -787,3 +787,86 @@ function Test-QueryStyleFormExplodeTrueObjectAllOf {
     }
 }
 
+<#
+.SYNOPSIS
+
+Test query parameter(s)
+
+.DESCRIPTION
+
+No description available.
+
+.PARAMETER JsonSerializedObjectRefStringQuery
+No description available.
+
+.PARAMETER JsonSerializedObjectArrayRefStringQuery
+No description available.
+
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
+.OUTPUTS
+
+String
+#>
+function Test-QueryStyleJsonSerializationObject {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [PSCustomObject]
+        ${JsonSerializedObjectRefStringQuery},
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [PSCustomObject[]]
+        ${JsonSerializedObjectArrayRefStringQuery},
+        [Switch]
+        $WithHttpInfo
+    )
+
+    Process {
+        'Calling method: Test-QueryStyleJsonSerializationObject' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
+        $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter = $null
+
+        $Configuration = Get-Configuration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('text/plain')
+
+        $LocalVarUri = '/query/style_jsonSerialization/object'
+
+        if ($JsonSerializedObjectRefStringQuery) {
+            $LocalVarQueryParameters['json_serialized_object_ref_string_query'] = $JsonSerializedObjectRefStringQuery
+        }
+
+        if ($JsonSerializedObjectArrayRefStringQuery) {
+            $LocalVarQueryParameters['json_serialized_object_array_ref_string_query'] = $JsonSerializedObjectArrayRefStringQuery
+        }
+
+        $LocalVarResult = Invoke-ApiClient -Method 'GET' `
+                                -Uri $LocalVarUri `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameter `
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "String" `
+                                -IsBodyNullable $false
+
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
+    }
+}
+

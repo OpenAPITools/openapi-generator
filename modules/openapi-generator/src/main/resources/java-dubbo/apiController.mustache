@@ -1,0 +1,57 @@
+package {{consumerPackage}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+{{#hasModel}}
+import {{modelPackage}}.*;
+{{/hasModel}}
+{{#operations}}
+import {{interfacePackage}}.{{serviceName}};
+{{/operations}}
+import java.util.List;
+import java.util.Map;
+import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.*;
+{{#async}}
+import java.util.concurrent.CompletableFuture;
+{{/async}}
+import javax.annotation.Generated;
+
+
+{{>generatedAnnotation}}
+{{#operations}}
+@RestController
+@RequestMapping("/{{baseName}}")
+public class {{classname}}Controller {
+
+    @DubboReference
+    private {{serviceName}} {{serviceVarName}};
+
+{{#operation}}
+    @RequestMapping(method = RequestMethod.{{httpMethod}}, value = "{{#vendorExtensions.x-sub-path}}{{{vendorExtensions.x-sub-path}}}{{/vendorExtensions.x-sub-path}}{{^vendorExtensions.x-sub-path}}/{{/vendorExtensions.x-sub-path}}")
+{{#async}}
+    public CompletableFuture<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}(
+{{/async}}
+{{^async}}
+    public {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}}(
+{{/async}}
+{{#allParams}}
+        @RequestParam(name = "{{paramName}}"{{#defaultValue}}, defaultValue = "{{.}}"{{/defaultValue}}) {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
+{{/allParams}}
+    ) {
+{{#async}}
+        return {{serviceVarName}}.{{nickname}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+{{/async}}
+{{^async}}
+        {{#returnType}}return {{/returnType}}{{serviceVarName}}.{{nickname}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+{{/async}}
+    }
+{{^-last}}
+
+{{/-last}}
+{{/operation}}
+}
+{{/operations}}

@@ -49,7 +49,7 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
       queryParameters = {{^hasQueryParams}}Nil,{{/hasQueryParams}}{{#hasQueryParams}}queryParameters,{{/hasQueryParams}}
       requestHeaders = requestHeaders,
       auth = {{#authMethods.0}}Some(auth){{/authMethods.0}}{{^authMethods}}None{{/authMethods}}) {
-        {{>responseState}}
+        {{>responseState}}{{! prevent indent}}
     }
   }
 

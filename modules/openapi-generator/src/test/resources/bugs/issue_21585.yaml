@@ -1,0 +1,202 @@
+openapi: 3.0.3
+info:
+  title: weather.gov API
+  description: weather.gov API
+  version: 2.5.1
+servers:
+  - url: https://api.weather.gov
+    description: Production server
+paths:
+  /alerts/active/zone/{zoneId}:
+    get:
+      description: Returns active alerts for the given NWS public zone or county
+      operationId: alerts_active_zone
+      responses:
+        '200':
+          $ref: '#/components/responses/AlertCollection'
+      parameters: []
+    parameters:
+      - $ref: '#/components/parameters/NWSZoneId'
+components:
+  schemas:
+    GeoJsonBoundingBox:
+      minItems: 4
+      type: array
+      items:
+        type: number
+      description: A GeoJSON bounding box. Please refer to IETF RFC 7946 for information on the GeoJSON format.
+    GeoJsonCoordinate:
+      minItems: 2
+      type: array
+      items:
+        type: number
+      description: A GeoJSON coordinate. Please refer to IETF RFC 7946 for information on the GeoJSON format.
+    GeoJsonGeometry:
+      oneOf:
+        - title: GeoJSON Point
+          required:
+            - type
+            - coordinates
+          type: object
+          properties:
+            type:
+              enum:
+                - Point
+              type: string
+            coordinates:
+              $ref: '#/components/schemas/GeoJsonCoordinate'
+            bbox:
+              $ref: '#/components/schemas/GeoJsonBoundingBox'
+        - title: GeoJSON LineString
+          required:
+            - type
+            - coordinates
+          type: object
+          properties:
+            type:
+              enum:
+                - LineString
+              type: string
+            coordinates:
+              $ref: '#/components/schemas/GeoJsonLineString'
+            bbox:
+              $ref: '#/components/schemas/GeoJsonBoundingBox'
+        - title: GeoJSON Polygon
+          required:
+            - type
+            - coordinates
+          type: object
+          properties:
+            type:
+              enum:
+                - Polygon
+              type: string
+            coordinates:
+              $ref: '#/components/schemas/GeoJsonPolygon'
+            bbox:
+              $ref: '#/components/schemas/GeoJsonBoundingBox'
+        - title: GeoJSON MultiPoint
+          required:
+            - type
+            - coordinates
+          type: object
+          properties:
+            type:
+              enum:
+                - MultiPoint
+              type: string
+            coordinates:
+              type: array
+              items:
+                $ref: '#/components/schemas/GeoJsonCoordinate'
+            bbox:
+              $ref: '#/components/schemas/GeoJsonBoundingBox'
+        - title: GeoJSON MultiLineString
+          required:
+            - type
+            - coordinates
+          type: object
+          properties:
+            type:
+              enum:
+                - MultiLineString
+              type: string
+            coordinates:
+              type: array
+              items:
+                $ref: '#/components/schemas/GeoJsonLineString'
+              description: "A GeoJSON MultiLineString"
+            bbox:
+              $ref: '#/components/schemas/GeoJsonBoundingBox'
+        - title: GeoJSON MultiPolygon
+          required:
+            - type
+            - coordinates
+          type: object
+          properties:
+            type:
+              enum:
+                - MultiPolygon
+              type: string
+            coordinates:
+              type: array
+              items:
+                $ref: '#/components/schemas/GeoJsonPolygon'
+            bbox:
+              $ref: '#/components/schemas/GeoJsonBoundingBox'
+      description: A GeoJSON geometry object. Please refer to IETF RFC 7946 for information on the GeoJSON format.
+      nullable: true
+    GeoJsonFeature:
+      required:
+        - type
+        - geometry
+        - properties
+      type: object
+      properties:
+        type:
+          enum:
+            - Feature
+          type: string
+        geometry:
+          $ref: '#/components/schemas/GeoJsonGeometry'
+        properties:
+          type: object
+      description: A GeoJSON feature. Please refer to IETF RFC 7946 for information on the GeoJSON format.
+      additionalProperties: false
+    GeoJsonFeatureCollection:
+      required:
+        - type
+        - features
+      type: object
+      properties:
+        type:
+          enum:
+            - FeatureCollection
+          type: string
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoJsonFeature'
+      description: A GeoJSON feature collection. Please refer to IETF RFC 7946 for information on the GeoJSON format.
+    GeoJsonLineString:
+      minItems: 2
+      type: array
+      items:
+        $ref: '#/components/schemas/GeoJsonCoordinate'
+      description: A GeoJSON line string. Please refer to IETF RFC 7946 for information on the GeoJSON format.
+    GeoJsonPolygon:
+      type: array
+      items:
+        minItems: 4
+        type: array
+        items:
+          $ref: '#/components/schemas/GeoJsonCoordinate'
+      description: A GeoJSON polygon. Please refer to IETF RFC 7946 for information on the GeoJSON format.
+    NWSZoneID:
+      pattern: ^(A[KLMNRSZ]|C[AOT]|D[CE]|F[LM]|G[AMU]|I[ADLN]|K[SY]|L[ACEHMOS]|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[AHKMRSWZ]|S[CDL]|T[NX]|UT|V[AIT]|W[AIVY]|[HR]I)[CZ]\d{3}$
+      type: string
+      description: |
+        UGC identifier for a NWS forecast zone or county.
+        The first two letters will correspond to either a state code or marine area code (see #/components/schemas/StateTerritoryCode and #/components/schemas/MarineAreaCode for lists of valid letter combinations).
+        The third letter will be Z for public/fire zone or C for county.
+  responses:
+    AlertCollection:
+      description: A collection of alerts.
+      content:
+        application/geo+json:
+          schema:
+            $ref: '#/components/schemas/GeoJsonFeatureCollection'
+      x-url-content-negotiation-extensions:
+        json: application/geo+json
+        atom: application/atom+xml
+  parameters:
+    NWSZoneId:
+      name: zoneId
+      in: path
+      description: NWS public zone/county identifier
+      required: true
+      schema:
+        $ref: '#/components/schemas/NWSZoneID'
+externalDocs:
+  description: Full API documentation
+  url: https://www.weather.gov/documentation/services-web-api

@@ -91,6 +91,7 @@ _bodyData=jsonEncode(modelClient);
     try {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(rawData, 'ModelClient', growable: true);
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,

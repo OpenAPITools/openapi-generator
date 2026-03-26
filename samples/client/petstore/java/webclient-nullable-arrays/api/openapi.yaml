@@ -17,7 +17,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/ByteArrayObject'
+                  $ref: "#/components/schemas/ByteArrayObject"
                 type: array
           description: ""
       summary: ""

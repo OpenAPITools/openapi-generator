@@ -1,0 +1,18 @@
+generatorName: python
+outputDir: samples/openapi3/client/petstore/python-lazyImports
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+additionalProperties:
+  packageName: petstore_api
+  useOneOfDiscriminatorLookup: "true"
+  disallowAdditionalPropertiesIfNotPresent: false
+  mapNumberTo: StrictFloat
+  lazyImports: 'true'
+nameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
+modelNameMappings:
+  # The OpenAPI spec ApiResponse conflicts with the internal ApiResponse
+  ApiResponse: ModelApiResponse
+openapiNormalizer:
+  SIMPLIFY_ONEOF_ANYOF_ENUM: false

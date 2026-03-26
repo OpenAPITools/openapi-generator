@@ -30,6 +30,8 @@ Name | Type | Description | Notes
 **PatternWithBackslash** | **string** | None | [optional] 
 **StringFormattedAsDecimal** | **decimal** |  | [optional] 
 **StringFormattedAsDecimalRequired** | **decimal** |  | 
+**DuplicatePropertyName2** | **string** |  | [optional] 
+**DuplicatePropertyName** | **string** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

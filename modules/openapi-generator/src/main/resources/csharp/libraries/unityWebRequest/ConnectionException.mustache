@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 namespace {{packageName}}.Client
 {
+#if UNITY_2020_1_OR_NEWER
     public class ConnectionException : Exception
     {
         public UnityWebRequest.Result Result { get; private set; }
@@ -18,4 +19,39 @@ namespace {{packageName}}.Client
             Error = request.error ?? "";
         }
     }
+#else
+    // For Unity 2019, define a custom enum that roughly simulates UnityWebRequest.Result.
+    public enum UnityWebRequestResultLegacy
+    {
+        Success,
+        ConnectionError,
+        ProtocolError,
+        DataProcessingError
+    }
+
+    public class ConnectionException : Exception
+    {
+        public UnityWebRequestResultLegacy Result { get; private set; }
+        public string Error { get; private set; }
+
+        public ConnectionException(UnityWebRequest request)
+            : base($"Error: {request.error}")
+        {
+            if (request.isNetworkError)
+            {
+                Result = UnityWebRequestResultLegacy.ConnectionError;
+            }
+            else if (request.isHttpError)
+            {
+                Result = UnityWebRequestResultLegacy.ProtocolError;
+            }
+            else
+            {
+                Result = UnityWebRequestResultLegacy.Success;
+            }
+
+            Error = request.error ?? "";
+        }
+    }
+#endif
 }

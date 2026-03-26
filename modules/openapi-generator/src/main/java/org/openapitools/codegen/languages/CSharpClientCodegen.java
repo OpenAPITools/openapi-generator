@@ -39,6 +39,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -76,6 +77,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_70_OR_LATER = "net70OrLater";
     protected static final String NET_80_OR_LATER = "net80OrLater";
     protected static final String NET_90_OR_LATER = "net90OrLater";
+    protected static final String NET_10_OR_LATER = "net10OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -89,7 +91,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_8_0,
-            FrameworkStrategy.NET_9_0
+            FrameworkStrategy.NET_9_0,
+            FrameworkStrategy.NET_10
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
@@ -134,7 +137,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
-    protected String releaseNote = "Minor update";
     @Setter protected String licenseId;
     @Setter protected String packageTags;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -212,10 +214,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.LICENSE_ID,
                 CodegenConstants.LICENSE_ID_DESC,
                 this.licenseId);
-
-        addOption(CodegenConstants.RELEASE_NOTE,
-                CodegenConstants.RELEASE_NOTE_DESC,
-                this.releaseNote);
 
         addOption(CodegenConstants.PACKAGE_TAGS,
                 CodegenConstants.PACKAGE_TAGS_DESC,
@@ -414,7 +412,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         super.updateCodegenParameterEnumLegacy(parameter, model);
 
-        if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+        if (!parameter.required && parameter.vendorExtensions.get(X_CSHARP_VALUE_TYPE) != null) { //optional
             parameter.dataType = parameter.dataType + "?";
         }
     }
@@ -441,7 +439,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema<?> parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+                final CodegenModel parentCodegenModel = getCodegenModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -924,6 +922,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
                 supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
                 supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
+                supportingFiles.add(new SupportingFile("UnityWebRequestAwaiterExtension.mustache", clientPackageDir, "UnityWebRequestAwaiterExtension.cs"));
                 break;
             default: // generichost
                 addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
@@ -1127,6 +1126,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
         supportingFiles.add(new SupportingFile("CookieContainer.mustache", clientPackageDir, "CookieContainer.cs"));
         supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));
+        supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
 
         supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
 
@@ -1292,11 +1292,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
-    @Override
-    public void setReleaseNote(String releaseNote) {
-        this.releaseNote = releaseNote;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
@@ -1456,8 +1451,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0 (End of Support 10 November 2026)", "net8.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_9_0 = new FrameworkStrategy("net9.0", ".NET 9.0 (End of Support 12 May 2026)", "net9.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_9_0 = new FrameworkStrategy("net9.0", ".NET 9.0 (End of Support 10 November 2026)", "net9.0", Boolean.FALSE) {
         };
+        static FrameworkStrategy NET_10 = new FrameworkStrategy("net10.0", ".NET 10.0 (End of Support 14 November 2028)", "net10.0", Boolean.FALSE) {
+        };
+
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1588,6 +1586,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_70_OR_LATER, true);
                 properties.put(NET_80_OR_LATER, true);
                 properties.put(NET_90_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net10.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+                properties.put(NET_80_OR_LATER, true);
+                properties.put(NET_90_OR_LATER, true);
+                properties.put(NET_10_OR_LATER, true);
             } else {
                 throw new RuntimeException("Unhandled case");
             }
@@ -1635,7 +1646,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (!GENERICHOST.equals(getLibrary())) {
             if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
-                property.vendorExtensions.put("x-csharp-value-type", true);
+                property.vendorExtensions.put(X_CSHARP_VALUE_TYPE, true);
             }
         }
     }
@@ -1757,7 +1768,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
-        /**
+        /*
          * we have a custom version of this function so we only set isMap to true if
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas

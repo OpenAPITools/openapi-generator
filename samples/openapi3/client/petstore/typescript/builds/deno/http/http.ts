@@ -48,6 +48,7 @@ export class RequestContext {
     private headers: Headers = {};
     private body: RequestBody = undefined;
     private url: URL;
+    private signal: AbortSignal | undefined = undefined;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -122,8 +123,24 @@ export class RequestContext {
     }
 
     public setHeaderParam(key: string, value: string): void  {
+        // Delete any existing headers with case-insensitive matching keys
+        const lowerKey = key.toLowerCase();
+        for (const existingKey in this.headers) {
+            if (existingKey.toLowerCase() === lowerKey) {
+                delete this.headers[existingKey];
+            }
+        }
         this.headers[key] = value;
     }
+
+    public setSignal(signal: AbortSignal): void {
+        this.signal = signal;
+    }
+
+    public getSignal(): AbortSignal | undefined {
+        return this.signal;
+    }
+
 }
 
 export interface ResponseBody {
@@ -145,6 +162,7 @@ export class SelfDecodingBody implements ResponseBody {
         const data: Blob = await this.dataSource;
         return data.text();
     }
+
 }
 
 export class ResponseContext {

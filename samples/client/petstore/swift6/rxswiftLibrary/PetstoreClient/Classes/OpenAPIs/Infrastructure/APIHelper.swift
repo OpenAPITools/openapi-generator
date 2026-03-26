@@ -6,7 +6,7 @@
 
 import Foundation
 
-public struct APIHelper {
+public struct APIHelper: Sendable {
     public static func rejectNil(_ source: [String: (any Sendable)?]) -> [String: any Sendable]? {
         let destination = source.reduce(into: [String: any Sendable]()) { result, item in
             if let value = item.value {

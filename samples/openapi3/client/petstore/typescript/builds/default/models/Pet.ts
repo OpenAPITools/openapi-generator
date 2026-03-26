@@ -25,6 +25,7 @@ export class Pet {
     'tags'?: Array<Tag>;
     /**
     * pet status in the store
+    * @deprecated
     */
     'status'?: PetStatusEnum;
 

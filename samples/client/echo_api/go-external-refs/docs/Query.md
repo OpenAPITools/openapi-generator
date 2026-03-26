@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int64** | Query | [optional] 
-**Outcomes** | Pointer to **[]string** |  | [optional] [default to ["SUCCESS","FAILURE"]]
+**Outcomes** | Pointer to **[]string** |  | [optional] [default to {"SUCCESS", "FAILURE"}]
 
 ## Methods
 

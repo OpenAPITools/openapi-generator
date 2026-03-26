@@ -1,25 +1,29 @@
 package org.openapitools.server.api.api
 
+import misk.testing.MiskTestModule
 import jakarta.inject.Inject
 import misk.testing.MiskTest
+import misk.testing.MiskTestModule
 import org.junit.jupiter.api.Test
-
 import misk.web.HttpCall
 import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestHeader
-
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
 @MiskTest(startService = true)
 internal class PetApiTest {
 
-    @Inject private lateinit var petApi: PetApi
+    @Suppress("unused")
+    @MiskTestModule
+    private val module = MiskTestModule()
+
+    @Inject private lateinit var petApi: PetApiAction
 
     /**
-     * To test PetApiController.addPet
+     * To test PetApiAction.addPet
      */
     @Test
     fun `should handle addPet`() {
@@ -28,7 +32,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.deletePet
+     * To test PetApiAction.deletePet
      */
     @Test
     fun `should handle deletePet`() {
@@ -38,25 +42,25 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.findPetsByStatus
+     * To test PetApiAction.findPetsByStatus
      */
     @Test
     fun `should handle findPetsByStatus`() {
         val status = TODO()
-        val response: kotlin.Array<Pet> = petApi.findPetsByStatus(status)
+        val response: kotlin.collections.List<Pet> = petApi.findPetsByStatus(status)
     }
 
     /**
-     * To test PetApiController.findPetsByTags
+     * To test PetApiAction.findPetsByTags
      */
     @Test
     fun `should handle findPetsByTags`() {
         val tags = TODO()
-        val response: kotlin.Array<Pet> = petApi.findPetsByTags(tags)
+        val response: kotlin.collections.List<Pet> = petApi.findPetsByTags(tags)
     }
 
     /**
-     * To test PetApiController.getPetById
+     * To test PetApiAction.getPetById
      */
     @Test
     fun `should handle getPetById`() {
@@ -65,7 +69,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.updatePet
+     * To test PetApiAction.updatePet
      */
     @Test
     fun `should handle updatePet`() {
@@ -74,7 +78,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.updatePetWithForm
+     * To test PetApiAction.updatePetWithForm
      */
     @Test
     fun `should handle updatePetWithForm`() {
@@ -85,7 +89,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.uploadFile
+     * To test PetApiAction.uploadFile
      */
     @Test
     fun `should handle uploadFile`() {
@@ -94,5 +98,4 @@ internal class PetApiTest {
         val file = TODO()
         val response: ModelApiResponse = petApi.uploadFile(petId, additionalMetadata, file)
     }
-
 }

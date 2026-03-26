@@ -158,19 +158,12 @@ namespace Org.OpenAPITools.Client
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<AnotherFakeApiEvents>();
-            _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();
             _services.AddSingleton<DefaultApiEvents>();
-            _services.AddTransient<IDefaultApi, DefaultApi>();
             _services.AddSingleton<FakeApiEvents>();
-            _services.AddTransient<IFakeApi, FakeApi>();
             _services.AddSingleton<FakeClassnameTags123ApiEvents>();
-            _services.AddTransient<IFakeClassnameTags123Api, FakeClassnameTags123Api>();
             _services.AddSingleton<PetApiEvents>();
-            _services.AddTransient<IPetApi, PetApi>();
             _services.AddSingleton<StoreApiEvents>();
-            _services.AddTransient<IStoreApi, StoreApi>();
             _services.AddSingleton<UserApiEvents>();
-            _services.AddTransient<IUserApi, UserApi>();
         }
 
         /// <summary>
@@ -188,13 +181,13 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>(client));
-            builders.Add(_services.AddHttpClient<IPetApi, PetApi>(client));
-            builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>(client));
-            builders.Add(_services.AddHttpClient<IUserApi, UserApi>(client));
+            builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>("Org.OpenAPITools.Api.IAnotherFakeApi", client));
+            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>("Org.OpenAPITools.Api.IDefaultApi", client));
+            builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>("Org.OpenAPITools.Api.IFakeApi", client));
+            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>("Org.OpenAPITools.Api.IFakeClassnameTags123Api", client));
+            builders.Add(_services.AddHttpClient<IPetApi, PetApi>("Org.OpenAPITools.Api.IPetApi", client));
+            builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>("Org.OpenAPITools.Api.IStoreApi", client));
+            builders.Add(_services.AddHttpClient<IUserApi, UserApi>("Org.OpenAPITools.Api.IUserApi", client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

@@ -12,7 +12,8 @@ package org.openapitools.client.models
 
 import io.circe.*
 import io.circe.syntax.*
-import io.circe.{Decoder, Encoder}
+import io.circe.{Decoder, DecodingFailure, Encoder}
+import cats.syntax.functor.*
 
 import java.time.Instant
 
@@ -52,7 +53,7 @@ object Order {
       petId <- c.downField("petId").as[Option[Long]]
       quantity <- c.downField("quantity").as[Option[Int]]
       shipDate <- c.downField("shipDate").as[Option[Instant]]
-      status <- c.downField("status").as[Option[OrderStatus]]
+      status <- mapEmptyStringToNull(c.downField("status")).as[Option[OrderStatus]]
       complete <- c.downField("complete").as[Option[Boolean]]
     } yield Order(
       id = id,

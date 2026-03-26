@@ -51,6 +51,7 @@ import java.util.Optional;
 import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
+
 {{#useResponseEntity}}
 @Controller
 {{/useResponseEntity}}
@@ -122,17 +123,17 @@ public class {{classname}}Controller implements {{classname}} {
     public {{#responseWrapper}}{{.}}<{{/responseWrapper}}{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
-        {{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore {{/springFoxDocumentationProvider}}{{#springDocDocumentationProvider}}@ParameterObject {{/springDocDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
+        {{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}}{{#springDocDocumentationProvider}}@ParameterObject {{/springDocDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
     ) {
     {{^isDelegate}}
         {{^async}}
-        {{>methodBody}}
+        {{>methodBody}}{{! prevent indent}}
         {{/async}}
         {{#async}}
         return new Callable<{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}>() {
             @Override
             public {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} call() {
-                {{>methodBody}}
+                {{>methodBody}}{{! prevent indent}}
             }
         };
         {{/async}}

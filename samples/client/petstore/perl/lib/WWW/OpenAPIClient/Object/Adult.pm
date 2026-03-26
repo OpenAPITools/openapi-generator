@@ -34,7 +34,7 @@ use WWW::OpenAPIClient::Object::Child;
 use WWW::OpenAPIClient::Object::Human;
 use WWW::OpenAPIClient::Object::Person;
 
-use base ("Class::Accessor", "Class::Data::Inheritable", "WWW::OpenAPIClient::Object::Person", "WWW::OpenAPIClient::Object::Human");
+use base ("Class::Accessor", "Class::Data::Inheritable");
 
 #
 #A representation of an adult
@@ -87,24 +87,12 @@ sub init
         my $args_key = $self->attribute_map->{$attribute};
         $self->$attribute( $args{ $args_key } );
     }
-
-    # initialize parent object Person
-    $self->WWW::OpenAPIClient::Object::Person::init(%args);
-
-    # initialize parent object Human
-    $self->WWW::OpenAPIClient::Object::Human::init(%args);
 }
 
 # return perl hash
 sub to_hash {
     my $self = shift;
     my $_hash = decode_json(JSON->new->convert_blessed->encode($self));
-
-    # call Person to_hash and then combine hash
-    $_hash = { %$_hash, %$self->WWW::OpenAPIClient::Object::Person::to_hash };
-
-    # call Human to_hash and then combine hash
-    $_hash = { %$_hash, %$self->WWW::OpenAPIClient::Object::Human::to_hash };
 
     return $_hash;
 }
@@ -135,12 +123,6 @@ sub TO_JSON {
             }
         }
     }
-
-    # combine parent (Person) TO_JSON
-    $_data = { %$_data, %$self->WWW::OpenAPIClient::Object::Person::TO_JSON };
-
-    # combine parent (Human) TO_JSON
-    $_data = { %$_data, %$self->WWW::OpenAPIClient::Object::Human::TO_JSON };
 
     return $_data;
 }
@@ -208,12 +190,6 @@ sub from_hash {
             $log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
         }
     }
-
-    # call parent (Person) from_hash
-    $self->WWW::OpenAPIClient::Object::Person::from_hash($hash);
-
-    # call parent (Human) from_hash
-    $self->WWW::OpenAPIClient::Object::Human::from_hash($hash);
 
     return $self;
 }

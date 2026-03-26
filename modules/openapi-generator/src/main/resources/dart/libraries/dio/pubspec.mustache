@@ -25,6 +25,9 @@ dependencies:
   equatable: '^2.0.7'
 {{/useEquatable}}
 {{#useJsonSerializable}}
+  {{^skipCopyWith}}
+  copy_with_extension: '^7.1.0'
+  {{/skipCopyWith}}
   json_annotation: '^4.9.0'
 {{/useJsonSerializable}}
 {{#useDateLibTimeMachine}}
@@ -38,6 +41,9 @@ dev_dependencies:
 {{/useBuiltValue}}
 {{#useJsonSerializable}}
   build_runner: any
+  {{^skipCopyWith}}
+  copy_with_extension_gen: ^7.1.0
+  {{/skipCopyWith}}
   json_serializable: '^6.9.3'
 {{/useJsonSerializable}}
   test: '^1.16.0'

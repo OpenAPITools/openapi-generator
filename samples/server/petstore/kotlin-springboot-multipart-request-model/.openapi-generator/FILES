@@ -12,6 +12,7 @@ src/main/kotlin/org/openapitools/SpringDocConfiguration.kt
 src/main/kotlin/org/openapitools/api/ApiUtil.kt
 src/main/kotlin/org/openapitools/api/Exceptions.kt
 src/main/kotlin/org/openapitools/api/MultipartMixedApiController.kt
+src/main/kotlin/org/openapitools/configuration/EnumConverterConfiguration.kt
 src/main/kotlin/org/openapitools/model/MultipartMixedRequestMarker.kt
 src/main/kotlin/org/openapitools/model/MultipartMixedStatus.kt
 src/main/resources/application.yaml

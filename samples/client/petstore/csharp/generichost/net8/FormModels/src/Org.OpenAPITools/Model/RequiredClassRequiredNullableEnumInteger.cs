@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNullableEnumInteger requiredClassRequiredNullableEnumInteger, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNullableEnumInteger.ToString());
+            writer.WriteStringValue(RequiredClassRequiredNullableEnumIntegerValueConverter.ToJsonValue(requiredClassRequiredNullableEnumInteger).ToString());
         }
     }
 
@@ -155,14 +155,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the RequiredClassRequiredNullableEnumInteger to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="requiredClassRequiredNullableEnumInteger"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, RequiredClassRequiredNullableEnumInteger? requiredClassRequiredNullableEnumInteger, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(requiredClassRequiredNullableEnumInteger?.ToString() ?? "null");
+            writer.WriteStringValue(requiredClassRequiredNullableEnumInteger.HasValue ? RequiredClassRequiredNullableEnumIntegerValueConverter.ToJsonValue(requiredClassRequiredNullableEnumInteger.Value).ToString() : "null");
         }
     }
 }

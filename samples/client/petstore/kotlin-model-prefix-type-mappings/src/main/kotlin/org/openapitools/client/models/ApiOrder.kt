@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -135,7 +143,7 @@ data class ApiOrder (
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-                require(Status.values().any { it.value == jsonObj["status"].asString }) {
+                require(Status.entries.any { it.value == jsonObj["status"].asString }) {
                     String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
                 }
             }

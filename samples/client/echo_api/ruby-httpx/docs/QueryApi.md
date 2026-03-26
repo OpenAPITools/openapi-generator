@@ -14,6 +14,7 @@ All URIs are relative to *http://localhost:3000*
 | [**test_query_style_form_explode_true_array_string**](QueryApi.md#test_query_style_form_explode_true_array_string) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**test_query_style_form_explode_true_object**](QueryApi.md#test_query_style_form_explode_true_object) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
 | [**test_query_style_form_explode_true_object_all_of**](QueryApi.md#test_query_style_form_explode_true_object_all_of) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
+| [**test_query_style_json_serialization_object**](QueryApi.md#test_query_style_json_serialization_object) | **GET** /query/style_jsonSerialization/object | Test query parameter(s) |
 
 
 ## test_enum_ref_string
@@ -671,6 +672,74 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **query_object** | [**DataQuery**](.md) |  | [optional] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+
+## test_query_style_json_serialization_object
+
+> String test_query_style_json_serialization_object(opts)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::QueryApi.new
+opts = {
+  json_serialized_object_ref_string_query: OpenapiClient::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}), # Pet | 
+  json_serialized_object_array_ref_string_query: [OpenapiClient::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']})] # Array<Pet> | 
+}
+
+begin
+  # Test query parameter(s)
+  result = api_instance.test_query_style_json_serialization_object(opts)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling QueryApi->test_query_style_json_serialization_object: #{e}"
+end
+```
+
+#### Using the test_query_style_json_serialization_object_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(String, Integer, Hash)> test_query_style_json_serialization_object_with_http_info(opts)
+
+```ruby
+begin
+  # Test query parameter(s)
+  data, status_code, headers = api_instance.test_query_style_json_serialization_object_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => String
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling QueryApi->test_query_style_json_serialization_object_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **json_serialized_object_ref_string_query** | [**Pet**](.md) |  | [optional] |
+| **json_serialized_object_array_ref_string_query** | [**Array&lt;Pet&gt;**](Pet.md) |  | [optional] |
 
 ### Return type
 

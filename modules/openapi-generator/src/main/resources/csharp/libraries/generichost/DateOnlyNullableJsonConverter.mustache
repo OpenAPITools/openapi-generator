@@ -17,6 +17,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// </summary>
         public static string[] Formats { get; } = {
 {{>DateFormats}}
+
         };
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace {{packageName}}.{{clientPackage}}
             string value = reader.GetString(){{nrt!}};
 
             foreach(string format in Formats)
-                if (DateOnly.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateOnly result))
+                if (DateOnly.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly result))
                     return result;
 
             throw new NotSupportedException();

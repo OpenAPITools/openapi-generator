@@ -19,14 +19,14 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Tag")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class TagDto {
 
   private @Nullable Long id;
 
   private @Nullable String name;
 
-  public TagDto id(Long id) {
+  public TagDto id(@Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -37,15 +37,16 @@ public class TagDto {
    */
   
   @JsonProperty("id")
-  public Long getId() {
+  public @Nullable Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  @JsonProperty("id")
+  public void setId(@Nullable Long id) {
     this.id = id;
   }
 
-  public TagDto name(String name) {
+  public TagDto name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -56,11 +57,12 @@ public class TagDto {
    */
   
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  @JsonProperty("name")
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
@@ -96,11 +98,8 @@ public class TagDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

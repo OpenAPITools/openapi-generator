@@ -17,6 +17,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func addPet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         addPetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -69,6 +70,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, apiConfiguration: apiConfiguration).execute { result in
@@ -104,7 +106,7 @@ open class PetAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "api_key": apiKey?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "api_key": apiKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -130,6 +132,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<[Pet]>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func findPetsByStatus(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
         findPetsByStatusWithRequestBuilder(status: status, apiConfiguration: apiConfiguration).execute { result in
@@ -161,7 +164,7 @@ open class PetAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": (wrappedValue: status.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "status": (wrappedValue: status.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
@@ -182,7 +185,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<[Pet]>
      */
-    @available(*, deprecated, message: "This operation is deprecated.")
+    @available(*, deprecated, message: "This operation is deprecated. | NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func findPetsByTags(tags: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
         findPetsByTagsWithRequestBuilder(tags: tags, apiConfiguration: apiConfiguration).execute { result in
@@ -215,7 +218,7 @@ open class PetAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tags": (wrappedValue: tags.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "tags": (wrappedValue: tags.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
@@ -236,6 +239,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Pet>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func getPetById(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Pet> {
         let deferred = Promise<Pet>.pending()
         getPetByIdWithRequestBuilder(petId: petId, apiConfiguration: apiConfiguration).execute { result in
@@ -288,6 +292,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func updatePet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updatePetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -338,6 +343,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, apiConfiguration: apiConfiguration).execute { result in
@@ -370,8 +376,8 @@ open class PetAPI {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "name": name?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "status": status?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "name": name?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "status": status?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -399,6 +405,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<ApiResponse>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, apiConfiguration: apiConfiguration).execute { result in
@@ -431,8 +438,8 @@ open class PetAPI {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "additionalMetadata": additionalMetadata?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "file": file?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "file": file?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -460,6 +467,7 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<ApiResponse>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, apiConfiguration: apiConfiguration).execute { result in
@@ -492,8 +500,8 @@ open class PetAPI {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "additionalMetadata": additionalMetadata?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "requiredFile": requiredFile.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "requiredFile": requiredFile.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)

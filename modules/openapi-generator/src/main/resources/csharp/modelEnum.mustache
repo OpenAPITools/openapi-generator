@@ -46,14 +46,14 @@
     /// <summary>
     /// Converts <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/> to and from the JSON value
     /// </summary>
-    public static class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}ValueConverter
+    {{>visibility}} static class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}ValueConverter
     {
         /// <summary>
         /// Parses a given value to <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} FromString(string value)
+        {{>visibility}} static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} FromString(string value)
         {
             {{#allowableValues}}
             {{#enumVars}}
@@ -70,7 +70,7 @@
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? FromStringOrDefault(string value)
+        {{>visibility}} static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? FromStringOrDefault(string value)
         {
             {{#allowableValues}}
             {{#enumVars}}
@@ -88,7 +88,7 @@
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static {{>EnumValueDataType}} ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
+        {{>visibility}} static {{>EnumValueDataType}} ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
         {
             {{^isString}}
             return ({{>EnumValueDataType}}) value;
@@ -110,7 +110,7 @@
     /// A Json converter for type <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
-    public class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}JsonConverter : JsonConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}>
+    {{>visibility}} class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}JsonConverter : JsonConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}>
     {
         /// <summary>
         /// Returns a {{datatypeWithEnum}} from the Json object
@@ -141,14 +141,14 @@
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}, JsonSerializerOptions options)
         {
-            writer.WriteStringValue({{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}.ToString());
+            writer.WriteStringValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}).ToString());
         }
     }
 
     /// <summary>
     /// A Json converter for type <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
     /// </summary>
-    public class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}NullableJsonConverter : JsonConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}?>
+    {{>visibility}} class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}NullableJsonConverter : JsonConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}?>
     {
         /// <summary>
         /// Returns a {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} from the Json object
@@ -172,14 +172,14 @@
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="{{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? {{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}, JsonSerializerOptions options)
         {
-            writer.WriteStringValue({{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}?.ToString() ?? "null");
+            writer.WriteStringValue({{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}.HasValue ? {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}.Value).ToString() : "null");
         }
     }
     {{/useGenericHost}}

@@ -41,13 +41,13 @@ namespace Org.OpenAPITools.Controllers
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(TestNullable));
+            // return StatusCode(200, default);
             string exampleJson = null;
             exampleJson = "{\n  \"nullableName\" : \"nullableName\",\n  \"name\" : \"name\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<TestNullable>(exampleJson)
-            : default(TestNullable);
+            : default;
             //TODO: Change the data returned
             return new ObjectResult(example);
         }

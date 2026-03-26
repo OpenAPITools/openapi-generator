@@ -24,41 +24,31 @@ end
 function {{operationId}}_validate(handler)
     function {{operationId}}_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
-        {{#allParams}}{{#hasValidation}}
-        {{#maxLength}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :maxLength, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{maxLength}})
-        {{/maxLength}}
-        {{#minLength}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minLength, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minLength}})
-        {{/minLength}}
-        {{#maximum}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :maximum, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{maximum}}, {{#exclusiveMaximum}}true{{/exclusiveMaximum}}{{^exclusiveMaximum}}false{{/exclusiveMaximum}})
-        {{/maximum}}
-        {{#minimum}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minimum, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minimum}}, {{#exclusiveMinimum}}true{{/exclusiveMinimum}}{{^exclusiveMinimum}}false{{/exclusiveMinimum}})
-        {{/minimum}}
-        {{#maxItems}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :maxItems, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{maxItems}})
-        {{/maxItems}}
-        {{#minItems}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minItems, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minItems}})
-        {{/minItems}}
-        {{#uniqueItems}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :uniqueItems, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{uniqueItems}})
-        {{/uniqueItems}}
-        {{#maxProperties}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :maxProperties, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{maxProperties}})
-        {{/maxProperties}}
-        {{#minProperties}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minProperties, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minProperties}})
-        {{/minProperties}}
-        {{#pattern}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :pattern, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], r"{{{pattern}}}")
-        {{/pattern}}
-        {{#multipleOf}}
-        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :multipleOf, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{multipleOf}})
-        {{/multipleOf}}
-        {{/hasValidation}}{{/allParams}}
+        op = "{{operationId}}"{{#allParams}}
+        
+        n = "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"
+        v = get(openapi_params, n, nothing){{#required}}
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op)){{/required}}
+        if !isnothing(v){{#hasValidation}}{{#maxLength}}
+            OpenAPI.validate_param(n, op, :maxLength, v, {{maxLength}}){{/maxLength}}{{#minLength}}
+            OpenAPI.validate_param(n, op, :minLength, v, {{minLength}}){{/minLength}}{{#maximum}}
+            OpenAPI.validate_param(n, op, :maximum, v, {{maximum}}, {{#exclusiveMaximum}}true{{/exclusiveMaximum}}{{^exclusiveMaximum}}false{{/exclusiveMaximum}}){{/maximum}}{{#minimum}}
+            OpenAPI.validate_param(n, op, :minimum, v, {{minimum}}, {{#exclusiveMinimum}}true{{/exclusiveMinimum}}{{^exclusiveMinimum}}false{{/exclusiveMinimum}}){{/minimum}}{{#maxItems}}
+            OpenAPI.validate_param(n, op, :maxItems, v, {{maxItems}}){{/maxItems}}{{#minItems}}
+            OpenAPI.validate_param(n, op, :minItems, v, {{minItems}}){{/minItems}}{{#uniqueItems}}
+            OpenAPI.validate_param(n, op, :uniqueItems, v, {{uniqueItems}}){{/uniqueItems}}{{#maxProperties}}
+            OpenAPI.validate_param(n, op, :maxProperties, v, {{maxProperties}}){{/maxProperties}}{{#minProperties}}
+            OpenAPI.validate_param(n, op, :minProperties, v, {{minProperties}}){{/minProperties}}{{#pattern}}
+            OpenAPI.validate_param(n, op, :pattern, v, r"{{{pattern}}}"){{/pattern}}{{#multipleOf}}
+            OpenAPI.validate_param(n, op, :multipleOf, v, {{multipleOf}}){{/multipleOf}}{{/hasValidation}}{{^hasValidation}}
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end{{/hasValidation}}
+        end{{/allParams}}
+
         return handler(req)
     end
 end

@@ -1,0 +1,17 @@
+openapi: 3.1.0
+info:
+  description: This is an example API to reproduce a bug with webhooks in csharp codegen
+  title: Minimal reproduction for csharp webhook bug
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: This is a test
+  name: Test
+components:
+  schemas:
+    helloWorld_post_request:
+      description: The payload of the HelloWorld webhook
+      properties:
+        message: {}
+

@@ -22,12 +22,24 @@ package org.openapitools.server.models
  * @param complete 
  */
 data class Order(
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("id")
     val id: kotlin.Long? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("petId")
     val petId: kotlin.Long? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("quantity")
     val quantity: kotlin.Int? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("status")
     val status: Order.Status? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("complete")
     val complete: kotlin.Boolean? = false
 )
 {

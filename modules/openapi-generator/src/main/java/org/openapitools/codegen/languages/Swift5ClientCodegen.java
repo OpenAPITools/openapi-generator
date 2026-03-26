@@ -134,7 +134,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.STABLE)
+                .stability(Stability.DEPRECATED)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "swift";
@@ -429,6 +429,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+
+        LOGGER.warn("IMPORTANT: This generator has been deprecated. Please use `swift6` instead");
 
         if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
@@ -1342,7 +1344,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         System.out.println("# swift5 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
         System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
         System.out.println("#                                                                              #");
-        System.out.println("# There is a new swift6 generator, that is currently in beta.                #");
+        System.out.println("# There is a new swift6 generator, that is now stable.                         #");
         System.out.println("# Try it and give us your feedback.                                            #");
         System.out.println("# https://openapi-generator.tech/docs/generators/swift6                        #");
         System.out.println("#                                                                              #");

@@ -82,7 +82,7 @@ export function MixedPropertiesAndAdditionalPropertiesClassToJSONTyped(value?: M
     return {
         
         'uuid': value['uuid'],
-        'dateTime': value['dateTime'] == null ? undefined : ((value['dateTime']).toISOString()),
+        'dateTime': value['dateTime'] == null ? value['dateTime'] : value['dateTime'].toISOString(),
         'map': value['map'] == null ? undefined : (mapValues(value['map'], AnimalToJSON)),
     };
 }

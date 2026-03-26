@@ -28,3 +28,7 @@ modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @martindelille
 samples/client/petstore/cpp-qt/**/* @martindelille
 modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @muttleyxd
 samples/client/petstore/cpp-qt/**/* @muttleyxd
+
+# cpp-rest-client technical committee
+modules/openapi-generator/src/main/resources/cpp-rest-client/**/* @aminya
+samples/client/petstore/cpp-restsdk/**/* @aminya

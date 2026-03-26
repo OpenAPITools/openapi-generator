@@ -1,0 +1,26 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-x-kotlin-implements
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: swagger1
+  useSwaggerUI: false
+  serviceImplementation: false
+  skipDefaultInterface: true
+  interfaceOnly: true
+  serializableModel: true
+  beanValidations: true
+  includeHttpRequestContext: true
+  schemaImplements:
+    Pet: com.some.pack.WithId
+    Category: [ com.some.pack.CategoryInterface ]
+    Dog: [ com.some.pack.Canine ]
+  schemaImplementsFields:
+    Pet: id
+    Category: [ name, id ]
+    Dog: [ bark, breed ]
+  xKotlinImplementsSkip: [ com.some.pack.WithPhotoUrls ]
+  xKotlinImplementsFieldsSkip:
+    Pet: [ photoUrls ]

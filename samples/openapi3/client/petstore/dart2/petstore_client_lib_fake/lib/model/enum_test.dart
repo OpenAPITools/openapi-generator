@@ -135,10 +135,8 @@ class EnumTest {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "EnumTest[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "EnumTest[$key]" has a null value in JSON.');
-        });
+        assert(json.containsKey(r'enum_string_required'), 'Required key "EnumTest[enum_string_required]" is missing from JSON.');
+        assert(json[r'enum_string_required'] != null, 'Required key "EnumTest[enum_string_required]" has a null value in JSON.');
         return true;
       }());
 

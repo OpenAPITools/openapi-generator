@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Dog: Content, Hashable {
+public struct Dog: Sendable, Content, Hashable {
 
     public var className: String
     public var color: String? = "red"
@@ -33,20 +33,6 @@ public final class Dog: Content, Hashable {
         try container.encode(className, forKey: .className)
         try container.encodeIfPresent(color, forKey: .color)
         try container.encodeIfPresent(breed, forKey: .breed)
-    }
-
-    public static func == (lhs: Dog, rhs: Dog) -> Bool {
-        lhs.className == rhs.className &&
-        lhs.color == rhs.color &&
-        lhs.breed == rhs.breed
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(className.hashValue)
-        hasher.combine(color?.hashValue)
-        hasher.combine(breed?.hashValue)
-        
     }
 }
 

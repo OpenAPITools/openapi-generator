@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   Banana.JSON_PROPERTY_LENGTH_CM
 })
 @JsonTypeName("banana")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   @javax.annotation.Nullable
@@ -55,7 +55,7 @@ public class Banana {
    * @return lengthCm
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getLengthCm() {
@@ -63,7 +63,7 @@ public class Banana {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
@@ -97,10 +97,7 @@ public class Banana {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

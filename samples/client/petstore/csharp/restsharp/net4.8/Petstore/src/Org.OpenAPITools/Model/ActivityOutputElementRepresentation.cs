@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="prop1">prop1.</param>
         /// <param name="prop2">prop2.</param>
-        public ActivityOutputElementRepresentation(string prop1 = default(string), Object prop2 = default(Object))
+        public ActivityOutputElementRepresentation(string prop1 = default, Object prop2 = default)
         {
             this.Prop1 = prop1;
             this.Prop2 = prop2;

@@ -1,0 +1,10 @@
+generatorName: go
+outputDir: samples/openapi3/client/petstore/go/go-petstore-aws-signature
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-addpet-only.yaml
+templateDir: modules/openapi-generator/src/main/resources/go
+additionalProperties:
+  enumClassPrefix: "true"
+  packageName: petstore
+  disallowAdditionalPropertiesIfNotPresent: false
+  withAWSV4Signature: true
+  

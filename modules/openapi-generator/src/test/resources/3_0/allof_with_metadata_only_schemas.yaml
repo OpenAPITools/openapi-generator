@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Test
+paths:
+  /api/productRef:
+    get:
+      operationId: getProductRef
+      summary: Retrieve product reference
+      description: Returns a product reference based on a given product.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductType'
+components:
+  schemas:
+    ProductType:
+      type: object
+      required:
+        - referenceNumber
+      properties:
+        referenceNumber:
+            $ref: "#/components/schemas/ReferenceNumber"
+    ReferenceNumber:
+      allOf:
+        - $ref: "#/components/schemas/IEAN8"
+        - description: Product Ref
+        - example: IEAN1234
+    IEAN8:
+      type: string
+      minLength: 8
+      maxLength: 8
+      example: "IEAN1234"
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        foo:
+          allOf:
+            - $ref: '#/components/schemas/ProductType'
+            - description: 'this is foo'
+            - example: 'this is bar'

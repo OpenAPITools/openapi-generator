@@ -1,0 +1,10 @@
+pub mod duplicate_test;
+pub use self::duplicate_test::DuplicateTest;
+pub mod person;
+pub use self::person::Person;
+pub mod _tests_discriminator_duplicate_enums_get_200_response;
+pub use self::_tests_discriminator_duplicate_enums_get_200_response::TestsDiscriminatorDuplicateEnumsGet200Response;
+pub mod vehicle;
+pub use self::vehicle::Vehicle;
+pub mod duplicatetest;
+pub use self::duplicatetest::another_test;

@@ -18,16 +18,17 @@ class {{classname}}(baseUrl: String) {
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
+
 {{/javadocRenderer}}
   def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}, Any] =
     basicRequest
-      .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
+      .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{baseName}}=${ {{paramName}} }{{^-last}}&{{/-last}}{{/queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}{{#queryParams.0}}&{{/queryParams.0}}{{^queryParams.0}}?{{/queryParams.0}}{{keyParamName}}=${apiKeyQuery}{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
       .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
       .auth.basic(username, password){{/isBasicBasic}}{{#isBasicBearer}}
       .auth.bearer(bearerToken){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}
-      .header("{{keyParamName}}", apiKey){{/isKeyInHeader}}{{#isKeyInCookie}}
-      .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
+      .header("{{keyParamName}}", apiKeyHeader){{/isKeyInHeader}}{{#isKeyInCookie}}
+      .cookie("{{keyParamName}}", apiKeyCookie){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
       .body(Map({{#formParams}}
         {{>paramFormCreation}}{{^-last}},{{/-last}}{{/formParams}}
       )){{/isMultipart}}{{#isMultipart}}

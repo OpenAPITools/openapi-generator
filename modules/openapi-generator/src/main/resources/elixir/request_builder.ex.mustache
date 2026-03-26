@@ -94,7 +94,7 @@ defmodule {{moduleName}}.RequestBuilder do
       Tesla.Multipart.add_field(
         multipart,
         key,
-        Jason.encode!(value),
+        JSON.encode!(value),
         headers: [{:"Content-Type", "application/json"}]
       )
     end)
@@ -187,10 +187,10 @@ defmodule {{moduleName}}.RequestBuilder do
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
   defp decode(%Tesla.Env{body: body}, %{}) do
-    {{moduleName}}.Deserializer.jason_decode(body)
+    {{moduleName}}.Deserializer.json_decode(body)
   end
 
   defp decode(%Tesla.Env{body: body}, module) do
-    {{moduleName}}.Deserializer.jason_decode(body, module)
+    {{moduleName}}.Deserializer.json_decode(body, module)
   end
 end

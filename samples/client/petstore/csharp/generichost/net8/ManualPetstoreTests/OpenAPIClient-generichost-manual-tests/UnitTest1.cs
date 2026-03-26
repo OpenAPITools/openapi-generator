@@ -189,5 +189,14 @@ namespace OpenAPIClient_generichost_manual_tests
             string result = JsonSerializer.Serialize(animal, _jsonSerializerOptions);
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void Enum() {
+            string expected = """["_abc","-efg","(xyz)"]""";
+            List<EnumClass?>? enumClasses = JsonSerializer.Deserialize<List<EnumClass?>>(expected, _jsonSerializerOptions);
+            Assert.IsNotNull(enumClasses);
+            string result = JsonSerializer.Serialize(enumClasses, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
     }
 }

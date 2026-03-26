@@ -5,7 +5,7 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[allow(dead_code)]
-pub struct Object(serde_json::Value);
+pub struct Object(pub serde_json::Value);
 
 impl validator::Validate for Object {
     fn validate(&self) -> Result<(), validator::ValidationErrors> {
@@ -661,7 +661,7 @@ impl<T> validator::ValidateEmail for Nullable<T>
 where
     T: validator::ValidateEmail,
 {
-    fn as_email_string(&self) -> Option<std::borrow::Cow<str>> {
+    fn as_email_string(&'_ self) -> Option<std::borrow::Cow<'_, str>> {
         match self {
             Self::Present(x) => x.as_email_string(),
             Self::Null => None,
@@ -673,7 +673,7 @@ impl<T> validator::ValidateUrl for Nullable<T>
 where
     T: validator::ValidateUrl,
 {
-    fn as_url_string(&self) -> Option<std::borrow::Cow<str>> {
+    fn as_url_string(&'_ self) -> Option<std::borrow::Cow<'_, str>> {
         match self {
             Self::Present(x) => x.as_url_string(),
             Self::Null => None,

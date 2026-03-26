@@ -1,16 +1,24 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use headers::Host;
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
+use crate::{header, types::*};
+#[allow(unused_imports)]
+use crate::{
+    models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
+    models::check_xss_string, models::check_xss_vec_string,
+};
 
 /// Setup API Server.
 pub fn new<I, A, E>(api_impl: I) -> Router
@@ -37,6 +45,9 @@ where
         )
         .route("/enum_in_path/{path_param}",
             get(enum_in_path_path_param_get::<I, A, E>)
+        )
+        .route("/examples-test",
+            get(examples_test::<I, A, E>)
         )
         .route("/form-test",
             post(form_test::<I, A, E>)
@@ -84,7 +95,7 @@ where
             post(create_repo::<I, A, E>)
         )
         .route("/repos/{repo_id}",
-            get(get_repo_info::<I, A, E>).get(get_repo_info::<I, A, E>)
+            get(get_repo_info::<I, A, E>)
         )
         .route("/required_octet_stream",
             put(required_octet_stream_put::<I, A, E>)
@@ -125,9 +136,9 @@ fn any_of_get_validation(
 #[tracing::instrument(skip_all)]
 async fn any_of_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
-    Query(query_params): Query<models::AnyOfGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::AnyOfGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -157,13 +168,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -180,13 +186,8 @@ where
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -203,13 +204,8 @@ where
                 let mut response = response.status(202);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -251,9 +247,9 @@ fn callback_with_header_post_validation(
 #[tracing::instrument(skip_all)]
 async fn callback_with_header_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
-    Query(query_params): Query<models::CallbackWithHeaderPostQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::CallbackWithHeaderPostQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -312,9 +308,9 @@ fn complex_query_param_get_validation(
 #[tracing::instrument(skip_all)]
 async fn complex_query_param_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
-    Query(query_params): Query<models::ComplexQueryParamGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::ComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -373,7 +369,7 @@ fn enum_in_path_path_param_get_validation(
 #[tracing::instrument(skip_all)]
 async fn enum_in_path_path_param_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::EnumInPathPathParamGetPathParams>,
     State(api_impl): State<I>,
@@ -422,6 +418,81 @@ where
     })
 }
 
+#[tracing::instrument(skip_all)]
+fn examples_test_validation(
+    query_params: models::ExamplesTestQueryParams,
+) -> std::result::Result<(models::ExamplesTestQueryParams,), ValidationErrors> {
+    query_params.validate()?;
+
+    Ok((query_params,))
+}
+/// ExamplesTest - GET /examples-test
+#[tracing::instrument(skip_all)]
+async fn examples_test<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    QueryExtra(query_params): QueryExtra<models::ExamplesTestQueryParams>,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    let validation = examples_test_validation(query_params);
+
+    let Ok((query_params,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .examples_test(&method, &host, &cookies, &query_params)
+        .await;
+
+    let mut response = Response::builder();
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::ExamplesTestResponse::Status200_OK(body) => {
+                let mut response = response.status(200);
+                {
+                    let mut response_headers = response.headers_mut().unwrap();
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+                }
+
+                let body_content = tokio::task::spawn_blocking(move || {
+                    serde_json::to_vec(&body).map_err(|e| {
+                        error!(error = ?e);
+                        StatusCode::INTERNAL_SERVER_ERROR
+                    })
+                })
+                .await
+                .unwrap()?;
+                response.body(Body::from(body_content))
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct FormTestBodyValidator<'a> {
@@ -442,7 +513,7 @@ fn form_test_validation(
 #[tracing::instrument(skip_all)]
 async fn form_test<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Form(body): Form<models::FormTestRequest>,
@@ -503,9 +574,9 @@ fn get_with_boolean_parameter_validation(
 #[tracing::instrument(skip_all)]
 async fn get_with_boolean_parameter<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
-    Query(query_params): Query<models::GetWithBooleanParameterQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::GetWithBooleanParameterQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -564,9 +635,9 @@ fn json_complex_query_param_get_validation(
 #[tracing::instrument(skip_all)]
 async fn json_complex_query_param_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
-    Query(query_params): Query<models::JsonComplexQueryParamGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::JsonComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -625,7 +696,7 @@ fn mandatory_request_header_get_validation(
 #[tracing::instrument(skip_all)]
 async fn mandatory_request_header_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -645,7 +716,7 @@ where
                 Err(err) => {
                     return Response::builder()
                         .status(StatusCode::BAD_REQUEST)
-                        .body(Body::from(format!("Invalid header X-Header - {}", err)))
+                        .body(Body::from(format!("Invalid header X-Header - {err}")))
                         .map_err(|e| {
                             error!(error = ?e);
                             StatusCode::INTERNAL_SERVER_ERROR
@@ -715,7 +786,7 @@ fn merge_patch_json_get_validation() -> std::result::Result<(), ValidationErrors
 #[tracing::instrument(skip_all)]
 async fn merge_patch_json_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -748,10 +819,7 @@ where
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(
                         CONTENT_TYPE,
-                        HeaderValue::from_str("application/merge-patch+json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
+                        HeaderValue::from_static("application/merge-patch+json"),
                     );
                 }
 
@@ -790,7 +858,7 @@ fn multiget_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn multiget_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -821,13 +889,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -844,13 +907,7 @@ where
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("text/plain").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
 
                 let body_content = body;
@@ -862,10 +919,7 @@ where
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(
                         CONTENT_TYPE,
-                        HeaderValue::from_str("application/octet-stream").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
+                        HeaderValue::from_static("application/octet-stream"),
                     );
                 }
 
@@ -876,13 +930,7 @@ where
                 let mut response = response.status(203);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("text/plain").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
 
                 let body_content = body;
@@ -892,13 +940,8 @@ where
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -915,13 +958,8 @@ where
                 let mut response = response.status(205);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -938,13 +976,8 @@ where
                 let mut response = response.status(206);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -982,7 +1015,7 @@ fn multiple_auth_scheme_get_validation() -> std::result::Result<(), ValidationEr
 #[tracing::instrument(skip_all)]
 async fn multiple_auth_scheme_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1016,9 +1049,9 @@ where
                                                 },
                                             },
                                             Err(why) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
 
@@ -1047,7 +1080,7 @@ async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_
     E,
 >(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<
         models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
@@ -1093,9 +1126,9 @@ where
                                                 },
                                             },
                                             Err(why) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
 
@@ -1113,7 +1146,7 @@ fn one_of_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn one_of_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1141,13 +1174,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -1185,7 +1213,7 @@ fn override_server_get_validation() -> std::result::Result<(), ValidationErrors>
 #[tracing::instrument(skip_all)]
 async fn override_server_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1245,9 +1273,9 @@ fn paramget_get_validation(
 #[tracing::instrument(skip_all)]
 async fn paramget_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
-    Query(query_params): Query<models::ParamgetGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::ParamgetGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1277,13 +1305,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -1321,7 +1344,7 @@ fn readonly_auth_scheme_get_validation() -> std::result::Result<(), ValidationEr
 #[tracing::instrument(skip_all)]
 async fn readonly_auth_scheme_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1355,9 +1378,9 @@ where
                                                 },
                                             },
                                             Err(why) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
 
@@ -1379,9 +1402,9 @@ fn register_callback_post_validation(
 #[tracing::instrument(skip_all)]
 async fn register_callback_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
-    Query(query_params): Query<models::RegisterCallbackPostQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::RegisterCallbackPostQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1444,7 +1467,7 @@ fn required_octet_stream_put_validation(
 #[tracing::instrument(skip_all)]
 async fn required_octet_stream_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -1501,7 +1524,7 @@ fn responses_with_headers_get_validation() -> std::result::Result<(), Validation
 #[tracing::instrument(skip_all)]
 async fn responses_with_headers_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1539,7 +1562,7 @@ where
                     Err(e) => {
                         return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling success_info header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling success_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                     }
                 };
 
@@ -1553,7 +1576,7 @@ where
                         Err(e) => {
                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling bool_header header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling bool_header header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
@@ -1569,7 +1592,7 @@ where
                         Err(e) => {
                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling object_header header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling object_header header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
@@ -1582,13 +1605,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -1611,7 +1629,7 @@ where
                         Err(e) => {
                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling further_info header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling further_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
@@ -1627,7 +1645,7 @@ where
                         Err(e) => {
                             return Response::builder()
                                                                     .status(StatusCode::INTERNAL_SERVER_ERROR)
-                                                                    .body(Body::from(format!("An internal server error occurred handling failure_info header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                                    .body(Body::from(format!("An internal server error occurred handling failure_info header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
                         }
                     };
 
@@ -1665,7 +1683,7 @@ fn rfc7807_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn rfc7807_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1696,13 +1714,8 @@ where
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -1721,10 +1734,7 @@ where
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(
                         CONTENT_TYPE,
-                        HeaderValue::from_str("application/problem+json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
+                        HeaderValue::from_static("application/problem+json"),
                     );
                 }
 
@@ -1742,13 +1752,7 @@ where
                 let mut response = response.status(406);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("text/plain").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
 
                 let body_content = body;
@@ -1783,7 +1787,7 @@ fn two_first_letter_headers_validation(
 #[tracing::instrument(skip_all)]
 async fn two_first_letter_headers<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -1803,7 +1807,7 @@ where
                 Err(err) => {
                     return Response::builder()
                         .status(StatusCode::BAD_REQUEST)
-                        .body(Body::from(format!("Invalid header x-header-one - {}", err)))
+                        .body(Body::from(format!("Invalid header x-header-one - {err}")))
                         .map_err(|e| {
                             error!(error = ?e);
                             StatusCode::INTERNAL_SERVER_ERROR
@@ -1820,7 +1824,7 @@ where
                 Err(err) => {
                     return Response::builder()
                         .status(StatusCode::BAD_REQUEST)
-                        .body(Body::from(format!("Invalid header x-header-two - {}", err)))
+                        .body(Body::from(format!("Invalid header x-header-two - {err}")))
                         .map_err(|e| {
                             error!(error = ?e);
                             StatusCode::INTERNAL_SERVER_ERROR
@@ -1897,7 +1901,7 @@ fn untyped_property_get_validation(
 #[tracing::instrument(skip_all)]
 async fn untyped_property_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::ObjectUntypedProps>>,
@@ -1932,9 +1936,9 @@ where
                                                 },
                                             },
                                             Err(why) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                                    // Application code returned an error. This should not happen, as the implementation should
+                                                    // return a valid response.
+                                                    return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
 
@@ -1952,7 +1956,7 @@ fn uuid_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn uuid_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1980,13 +1984,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -2030,7 +2029,7 @@ fn xml_extra_post_validation(body: Bytes) -> std::result::Result<(Bytes,), Valid
 #[tracing::instrument(skip_all)]
 async fn xml_extra_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2097,7 +2096,7 @@ fn xml_other_post_validation(body: Bytes) -> std::result::Result<(Bytes,), Valid
 #[tracing::instrument(skip_all)]
 async fn xml_other_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2129,13 +2128,7 @@ where
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("text/plain").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
 
                 let body_content = body;
@@ -2176,7 +2169,7 @@ fn xml_other_put_validation(body: Bytes) -> std::result::Result<(Bytes,), Valida
 #[tracing::instrument(skip_all)]
 async fn xml_other_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2243,7 +2236,7 @@ fn xml_post_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationE
 #[tracing::instrument(skip_all)]
 async fn xml_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2310,7 +2303,7 @@ fn xml_put_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationEr
 #[tracing::instrument(skip_all)]
 async fn xml_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2375,7 +2368,7 @@ fn get_repo_info_validation(
 #[tracing::instrument(skip_all)]
 async fn get_repo_info<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetRepoInfoPathParams>,
     State(api_impl): State<I>,
@@ -2407,13 +2400,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -2463,7 +2451,7 @@ fn create_repo_validation(
 #[tracing::instrument(skip_all)]
 async fn create_repo<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::ObjectParam>,
@@ -2510,4 +2498,13 @@ where
         error!(error = ?e);
         StatusCode::INTERNAL_SERVER_ERROR
     })
+}
+
+#[allow(dead_code)]
+#[inline]
+fn response_with_status_code_only(code: StatusCode) -> Result<Response, StatusCode> {
+    Response::builder()
+        .status(code)
+        .body(Body::empty())
+        .map_err(|_| code)
 }

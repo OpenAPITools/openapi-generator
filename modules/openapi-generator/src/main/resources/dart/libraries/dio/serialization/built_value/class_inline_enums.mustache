@@ -11,11 +11,13 @@
         {{^isContainer}}
 
 {{>serialization/built_value/enum_inline}}
+
         {{/isContainer}}
         {{#isContainer}}
             {{#mostInnerItems}}
 
 {{>serialization/built_value/enum_inline}}
+
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/enumName}}

@@ -53,47 +53,111 @@ func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) *PetAPIControll
 func (c *PetAPIController) Routes() Routes {
 	return Routes{
 		"UpdatePet": Route{
+			"UpdatePet",
 			strings.ToUpper("Put"),
 			"/v2/pet",
 			c.UpdatePet,
 		},
 		"AddPet": Route{
+			"AddPet",
 			strings.ToUpper("Post"),
 			"/v2/pet",
 			c.AddPet,
 		},
 		"FindPetsByStatus": Route{
+			"FindPetsByStatus",
 			strings.ToUpper("Get"),
 			"/v2/pet/findByStatus",
 			c.FindPetsByStatus,
 		},
 		"FindPetsByTags": Route{
+			"FindPetsByTags",
 			strings.ToUpper("Get"),
 			"/v2/pet/findByTags",
 			c.FindPetsByTags,
 		},
 		"GetPetById": Route{
+			"GetPetById",
 			strings.ToUpper("Get"),
 			"/v2/pet/{petId}",
 			c.GetPetById,
 		},
 		"UpdatePetWithForm": Route{
+			"UpdatePetWithForm",
 			strings.ToUpper("Post"),
 			"/v2/pet/{petId}",
 			c.UpdatePetWithForm,
 		},
 		"DeletePet": Route{
+			"DeletePet",
 			strings.ToUpper("Delete"),
 			"/v2/pet/{petId}",
 			c.DeletePet,
 		},
 		"UploadFile": Route{
+			"UploadFile",
 			strings.ToUpper("Post"),
 			"/v2/pet/{petId}/uploadImage",
 			c.UploadFile,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the PetAPIController
+func (c *PetAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"UpdatePet",
+			strings.ToUpper("Put"),
+			"/v2/pet",
+			c.UpdatePet,
+		},
+		Route{
+			"AddPet",
+			strings.ToUpper("Post"),
+			"/v2/pet",
+			c.AddPet,
+		},
+		Route{
+			"FindPetsByStatus",
+			strings.ToUpper("Get"),
+			"/v2/pet/findByStatus",
+			c.FindPetsByStatus,
+		},
+		Route{
+			"FindPetsByTags",
+			strings.ToUpper("Get"),
+			"/v2/pet/findByTags",
+			c.FindPetsByTags,
+		},
+		Route{
+			"GetPetById",
+			strings.ToUpper("Get"),
+			"/v2/pet/{petId}",
+			c.GetPetById,
+		},
+		Route{
+			"UpdatePetWithForm",
+			strings.ToUpper("Post"),
+			"/v2/pet/{petId}",
+			c.UpdatePetWithForm,
+		},
+		Route{
+			"DeletePet",
+			strings.ToUpper("Delete"),
+			"/v2/pet/{petId}",
+			c.DeletePet,
+		},
+		Route{
+			"UploadFile",
+			strings.ToUpper("Post"),
+			"/v2/pet/{petId}/uploadImage",
+			c.UploadFile,
+		},
+	}
+}
+
+
 
 // UpdatePet - Update an existing pet
 func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {

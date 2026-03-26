@@ -98,9 +98,11 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 {{/hasParams}}
                 {{#rxInterface}}
 {{>RxCall}}
+
                 {{/rxInterface}}
                 {{^rxInterface}}
 {{>AsyncCall}}
+
                 {{/rxInterface}}
             } catch (Exception e) {
                 logUnexpectedError("{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}", e);

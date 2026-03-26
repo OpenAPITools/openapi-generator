@@ -1,0 +1,15 @@
+.gitignore
+README.md
+analysis_options.yaml
+build.yaml
+doc/DefaultApi.md
+lib/openapi.dart
+lib/src/api.dart
+lib/src/api/default_api.dart
+lib/src/auth/api_key_auth.dart
+lib/src/auth/auth.dart
+lib/src/auth/basic_auth.dart
+lib/src/auth/bearer_auth.dart
+lib/src/auth/oauth.dart
+lib/src/deserialize.dart
+pubspec.yaml

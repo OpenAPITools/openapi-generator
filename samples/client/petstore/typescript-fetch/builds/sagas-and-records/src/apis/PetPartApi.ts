@@ -44,9 +44,9 @@ export interface GetMatchingPartsRequest {
 export class PetPartApi extends runtime.BaseAPI {
 
     /**
-     * Returns single pet part type for the petPart id.
+     * Creates request options for getFakePetPartType without sending the request
      */
-    async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
+    async getFakePetPartTypeRequestOpts(requestParameters: GetFakePetPartTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
@@ -58,12 +58,24 @@ export class PetPartApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/fake_petParts/{fake_petPart-id}/part-type`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId']))),
+
+        let urlPath = `/fake_petParts/{fake_petPart-id}/part-type`;
+        urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns single pet part type for the petPart id.
+     */
+    async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
+        const requestOptions = await this.getFakePetPartTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetPetPartTypeResponseFromJSON(jsonValue));
     }
@@ -77,9 +89,9 @@ export class PetPartApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the matching parts for the given pet part.
+     * Creates request options for getMatchingParts without sending the request
      */
-    async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
+    async getMatchingPartsRequestOpts(requestParameters: GetMatchingPartsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
@@ -132,12 +144,24 @@ export class PetPartApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/fake_petParts/{fake_petPart-id}/matching-parts`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId']))),
+
+        let urlPath = `/fake_petParts/{fake_petPart-id}/matching-parts`;
+        urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the matching parts for the given pet part.
+     */
+    async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
+        const requestOptions = await this.getMatchingPartsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetMatchingPartsResponseFromJSON(jsonValue));
     }

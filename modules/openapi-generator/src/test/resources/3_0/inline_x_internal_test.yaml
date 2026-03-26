@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test inline x-internal
+components:
+  schemas:
+    ParentSchema:
+      description: Schema with inline x-internal property
+      type: object
+      properties:
+        normalProperty:
+          type: string
+          description: A normal property without x-internal
+        inlineXInternalProperty:
+          x-internal: true
+          description: Inline object property marked as x-internal
+          type: object
+          properties:
+            nestedField:
+              type: string
+              description: A field inside the inline x-internal object
+            nestedNumber:
+              type: integer
+              description: Another field inside the inline object

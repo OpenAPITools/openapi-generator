@@ -50,12 +50,27 @@ func NewFakeAPIController(s FakeAPIServicer, opts ...FakeAPIOption) *FakeAPICont
 func (c *FakeAPIController) Routes() Routes {
 	return Routes{
 		"FakePostTest": Route{
+			"FakePostTest",
 			strings.ToUpper("Post"),
 			"/v2/fake/collection/test",
 			c.FakePostTest,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the FakeAPIController
+func (c *FakeAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"FakePostTest",
+			strings.ToUpper("Post"),
+			"/v2/fake/collection/test",
+			c.FakePostTest,
+		},
+	}
+}
+
+
 
 // FakePostTest - POST a test batch
 func (c *FakeAPIController) FakePostTest(w http.ResponseWriter, r *http.Request) {

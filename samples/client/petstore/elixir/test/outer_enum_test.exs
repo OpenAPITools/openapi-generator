@@ -14,8 +14,8 @@ defmodule OuterEnumTest do
   """
 
   @tag timeout: :infinity
-  test "jason_decode/2 with valid JSON" do
-    assert Deserializer.jason_decode(@valid_json, EnumTest) ==
+  test "json_decode/2 with valid JSON" do
+    assert Deserializer.json_decode(@valid_json, EnumTest) ==
              {:ok,
               %EnumTest{
                 enum_string: "UPPER",

@@ -25,6 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.DataTypeFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -40,6 +41,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
+import static org.openapitools.codegen.CodegenConstants.X_REGEX;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 
@@ -69,7 +72,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 SecurityFeature.BearerToken,
                 SecurityFeature.ApiKey,
                 SecurityFeature.OAuth2_Implicit
-        )));
+        )).includeDataTypeFeatures(
+                DataTypeFeature.Uuid
+        ));
 
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
@@ -106,6 +111,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
         languageSpecificPrimitives.add("bytes");
+        languageSpecificPrimitives.add("UUID");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -127,8 +133,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // mapped to String as a workaround
         typeMapping.put("binary", "str");
         typeMapping.put("ByteArray", "str");
-        // map uuid to string for the time being
-        typeMapping.put("UUID", "str");
+        typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "str");
         typeMapping.put("null", "none_type");
 
@@ -214,7 +219,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 String defaultValue = String.valueOf(p.getDefault());
                 if (defaultValue != null) {
                     defaultValue = defaultValue.replace("\\", "\\\\")
-                            .replace("'", "\'");
+                            .replace("'", "\\'");
                     if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
                         return "'''" + defaultValue + "'''";
                     } else {
@@ -569,7 +574,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+        if (Boolean.TRUE.equals(p.isUuid)) {
+            if (example == null) {
+                example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+            }
+            example = "UUID('" + escapeTextInSingleQuotes(example) + "')";
+        } else if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
@@ -669,7 +679,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return getSchemaType(p) + "[str, " + getCollectionItemTypeDeclaration(inner) + "]";
         }
 
-        String openAPIType = getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
+        
+        if (openAPIType == null) {
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
+        }
+
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
         }
@@ -958,8 +974,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
-                        // update `name`, e.g.
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                        // Do not overwrite the variable name if already set through x-enum-varnames
+                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                        }
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
@@ -1059,6 +1077,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     public String toEnumVariableName(String name, String datatype) {
+        name = name.replace(".", "_DOT_");
+
         if ("int".equals(datatype)) {
             return "NUMBER_" + name.replace("-", "MINUS_");
         }
@@ -1349,9 +1369,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            vendorExtensions.put("x-regex", regex.replace("\"", "\\\""));
+            vendorExtensions.put(X_REGEX, regex.replace("\"", "\\\""));
             vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
-            vendorExtensions.put("x-modifiers", modifiers);
+            vendorExtensions.put(X_MODIFIERS, modifiers);
         }
     }
 
@@ -2020,7 +2040,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private PythonType uuidType(IJsonSchemaValidationProperties cp) {
-            return new PythonType(cp.getDataType());
+            moduleImports.add("uuid", "UUID");
+            return new PythonType("UUID");
         }
 
         private PythonType modelType(IJsonSchemaValidationProperties cp) {
@@ -2043,10 +2064,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add("pydantic", "field_validator");
             }
 
+            if (cp.getPattern() != null) {
+                moduleImports.add("pydantic", "field_validator");
+            }
+
             if (cp.getIsArray()) {
                 return arrayType(cp);
             } else if (cp.getIsMap() || cp.getIsFreeFormObject()) {
                 return mapType(cp);
+            } else if (cp.getIsUuid()) {
+                return uuidType(cp);
             } else if (cp.getIsString()) {
                 return stringType(cp);
             } else if (cp.getIsNumber() || cp.getIsFloat() || cp.getIsDouble()) {
@@ -2063,8 +2090,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return anyType(cp);
             } else if (cp.getIsDate() || cp.getIsDateTime()) {
                 return dateType(cp);
-            } else if (cp.getIsUuid()) {
-                return uuidType(cp);
             }
 
             return null;

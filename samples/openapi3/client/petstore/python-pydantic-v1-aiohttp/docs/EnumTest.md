@@ -9,14 +9,14 @@ Name | Type | Description | Notes
 **enum_integer_default** | **int** |  | [optional] [default to 5]
 **enum_integer** | **int** |  | [optional] 
 **enum_number** | **float** |  | [optional] 
-**enum_number_vendor_ext** | **int** |  | [optional] 
-**enum_string_vendor_ext** | **str** |  | [optional] 
 **enum_string_single_member** | **str** |  | [optional] 
 **enum_integer_single_member** | **int** |  | [optional] 
 **outer_enum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **outer_enum_integer** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
 **outer_enum_default_value** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
 **outer_enum_integer_default_value** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
+**enum_number_vendor_ext** | [**EnumNumberVendorExt**](EnumNumberVendorExt.md) |  | [optional] 
+**enum_string_vendor_ext** | [**EnumStringVendorExt**](EnumStringVendorExt.md) |  | [optional] 
 
 ## Example
 

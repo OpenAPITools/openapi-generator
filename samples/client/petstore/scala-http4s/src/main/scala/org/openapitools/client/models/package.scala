@@ -10,7 +10,7 @@
   */
 package org.openapitools.client
 
-import io.circe.{Decoder, Encoder, Json}
+import io.circe.{Decoder, Encoder, Json, ACursor}
 import java.time.{Instant, LocalDate, OffsetDateTime}
 import java.util.UUID
 
@@ -39,5 +39,8 @@ package object models {
 
   given encodeJson: Encoder[Json] =
     Encoder.encodeString.contramap[Json](_.toString)
+
+  def mapEmptyStringToNull(f: ACursor): ACursor =
+    f.withFocus(json => if json.toString == "\"\"" then Json.Null else json)
 
 }

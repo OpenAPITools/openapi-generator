@@ -13,19 +13,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
   private @Nullable UUID uuid;
@@ -36,7 +36,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid
   private Map<String, Animal> map = new HashMap<>();
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(@Nullable UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -48,15 +48,16 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid 
   @Schema(name = "uuid", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public @Nullable UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  @JsonProperty("uuid")
+  public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -68,11 +69,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid 
   @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  @JsonProperty("dateTime")
+  public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -100,6 +102,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return map;
   }
 
+  @JsonProperty("map")
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
@@ -138,11 +141,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

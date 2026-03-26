@@ -172,7 +172,7 @@ function Initialize-PSFormatTest {
         }
 
         if ($Password.length -lt 10) {
-            throw "invalid value for 'Password', the character length must be great than or equal to 10."
+            throw "invalid value for 'Password', the character length must be greater than or equal to 10."
         }
 
 

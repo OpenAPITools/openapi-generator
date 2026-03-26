@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class MapTest: Content, Hashable {
+public struct MapTest: Sendable, Content, Hashable {
 
     public enum MapOfEnumString: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"
@@ -41,22 +41,6 @@ public final class MapTest: Content, Hashable {
         try container.encodeIfPresent(mapOfEnumString, forKey: .mapOfEnumString)
         try container.encodeIfPresent(directMap, forKey: .directMap)
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
-    }
-
-    public static func == (lhs: MapTest, rhs: MapTest) -> Bool {
-        lhs.mapMapOfString == rhs.mapMapOfString &&
-        lhs.mapOfEnumString == rhs.mapOfEnumString &&
-        lhs.directMap == rhs.directMap &&
-        lhs.indirectMap == rhs.indirectMap
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(mapMapOfString?.hashValue)
-        hasher.combine(mapOfEnumString?.hashValue)
-        hasher.combine(directMap?.hashValue)
-        hasher.combine(indirectMap?.hashValue)
-        
     }
 }
 

@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info:
+  title: Minimal reproduction for csharp webhook bug
+  version: 1.0.0
+  description: This is an example API to reproduce a bug with webhooks in csharp codegen
+tags:
+  - name: Test
+    description: This is a test
+webhooks:
+  helloWorld:
+    post:
+      summary: Example webhook
+      responses:
+        "204":
+          description: Webhook processed
+        "500":
+          description: Webhook not processed
+      description: Send when an example is needed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+              description: The payload of the HelloWorld webhook
+        description: Contains the details of the hello world webhook

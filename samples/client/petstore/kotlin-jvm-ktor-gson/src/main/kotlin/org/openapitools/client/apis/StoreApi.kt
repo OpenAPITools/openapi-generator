@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -142,15 +150,15 @@ import java.text.DateFormat
         * POST /store/order
         * Place an order for a pet
         * 
-         * @param body order placed for purchasing the pet 
+         * @param order order placed for purchasing the pet 
          * @return Order
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun placeOrder(body: Order): HttpResponse<Order> {
+        open suspend fun placeOrder(order: Order): HttpResponse<Order> {
 
             val localVariableAuthNames = listOf<String>()
 
-            val localVariableBody = body
+            val localVariableBody = order
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 

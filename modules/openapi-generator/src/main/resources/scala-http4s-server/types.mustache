@@ -13,10 +13,17 @@ import {{.}}
 
 {{#models}}
 {{#model}}
+{{#vendorExtensions.x-isEnum}}
+import {{modelPackage}}.{{classname}}.{{classname}}
+{{/vendorExtensions.x-isEnum}}
+{{/model}}
+{{/models}}
+{{#models}}
+{{#model}}
 /**
 * {{{description}}}
 {{#vars}}
-* @param {{name}} {{{description}}}
+* @param {{#fnEscapeBacktick}}{{{name}}}{{/fnEscapeBacktick}} {{{description}}}
 {{/vars}}
 */
 {{#vendorExtensions.x-isSealedTrait}}
@@ -82,17 +89,29 @@ object {{classname}} {
 }
 {{/vendorExtensions.x-isSealedTrait}}
 
-{{^vendorExtensions.x-isSealedTrait}}
+{{#vendorExtensions.x-isEnum}}
+object {{classname}} extends Enumeration {
+    type {{classname}} = Value
+    {{#allowableValues}}
+    {{#values}}
+    val {{.}} = Value
+    {{/values}}
+    {{/allowableValues}}
+    implicit val decoder: Decoder[{{classname}}.Value] = Decoder.decodeEnumeration({{classname}})
+    implicit val encoder: Encoder[{{classname}}.Value] = Encoder.encodeEnumeration({{classname}})
+}
+{{/vendorExtensions.x-isEnum}}
+{{#vendorExtensions.x-another}}
 case class {{classname}}(
 {{#vars}}
-  {{name}}: {{^required}}Option[{{{vendorExtensions.x-type}}}]{{/required}}{{#required}}{{{vendorExtensions.x-type}}}{{/required}}{{^-last}},{{/-last}}
+  {{#fnEscapeBacktick}}{{{name}}}{{/fnEscapeBacktick}}: {{^required}}Option[{{{vendorExtensions.x-type}}}]{{/required}}{{#required}}{{{vendorExtensions.x-type}}}{{/required}}{{^-last}},{{/-last}}
 {{/vars}}
 ){{#vendorExtensions.x-extends}} extends {{.}}{{/vendorExtensions.x-extends}}{{#vendorExtensions.x-extendsWith}} with {{.}}{{/vendorExtensions.x-extendsWith}}
 object {{classname}} {
   implicit val encoder{{classname}}: Encoder[{{classname}}] = deriveEncoder[{{classname}}].mapJson(_.dropNullValues)
   implicit val decoder{{classname}}: Decoder[{{classname}}] = deriveDecoder[{{classname}}]
 }
-{{/vendorExtensions.x-isSealedTrait}}
+{{/vendorExtensions.x-another}}
 
 {{/model}}
 {{/models}}

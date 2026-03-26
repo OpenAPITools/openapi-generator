@@ -1,15 +1,15 @@
 buildscript {
     repositories {
         mavenLocal()
-        maven { url "https://repo1.maven.org/maven2" }
+        maven { url = "https://repo1.maven.org/maven2" }
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url = "https://plugins.gradle.org/m2/"
         }
         maven {
-            url "https://oss.sonatype.org/content/repositories/releases/"
+            url = "https://oss.sonatype.org/content/repositories/releases/"
         }
         maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
     dependencies {
@@ -23,7 +23,7 @@ apply plugin: 'org.openapi.generator'
 openApiMeta {
     generatorName = "Sample"
     packageName = "org.openapitools.example"
-    outputFolder = "$buildDir/meta".toString()
+    outputFolder = layout.buildDirectory.dir("meta").get().asFile.toString()
 }
 
 openApiValidate {
@@ -35,7 +35,7 @@ openApiValidate {
 openApiGenerate {
     generatorName = "kotlin"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
-    outputDir = "$buildDir/kotlin".toString()
+    outputDir = layout.buildDirectory.dir("kotlin").get().asFile.toString()
     apiPackage = "org.openapitools.example.api"
     invokerPackage = "org.openapitools.example.invoker"
     modelPackage = "org.openapitools.example.model"
@@ -58,7 +58,7 @@ task buildJavaResttemplateSdk(type: org.openapitools.generator.gradle.plugin.tas
     generatorName = "java"
     library = "resttemplate"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
-    outputDir = "$buildDir/java-resttemplate-api-client"
+    outputDir = layout.buildDirectory.dir("java-resttemplate-api-client").get().asFile.toString()
     apiPackage = "com.example.client"
     invokerPackage = "com.example.invoker"
     modelPackage = "com.example.cdm"
@@ -79,7 +79,7 @@ task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTas
     additionalProperties = [
             packageName: "petstore"
     ]
-    outputDir = "$buildDir/go".toString()
+    outputDir = layout.buildDirectory.dir("go").get().asFile.toString()
     configOptions = [
             dateLibrary: "threetenp"
     ]
@@ -92,7 +92,7 @@ task buildDotnetSdk(type: org.openapitools.generator.gradle.plugin.tasks.Generat
             packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}",
             useCompareNetObjects: "true"
     ]
-    outputDir = "$buildDir/csharp".toString()
+    outputDir = layout.buildDirectory.dir("csharp").get().asFile.toString()
     globalProperties = [
             models: "",
             apis  : "",
@@ -106,7 +106,7 @@ task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.ta
     additionalProperties = [
             packageName: "petstore"
     ]
-    outputDir = "$buildDir/go".toString()
+    outputDir = layout.buildDirectory.dir("go").get().asFile.toString()
     configOptions = [
             dateLibrary: "threetenp"
     ]

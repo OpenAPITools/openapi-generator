@@ -1,0 +1,2 @@
+{{#defaultValue}} ?:{{#isInteger}}{{{defaultValue}}}{{/isInteger}}{{#isLong}}{{{defaultValue}}}L{{/isLong}}{{#isShort}}{{{defaultValue}}}.toShort(){{/isShort}}{{#isDouble}}{{{defaultValue}}}.toDouble(){{/isDouble}}{{#isFloat}}{{{defaultValue}}}f{{/isFloat}}{{#isEnum}}{{{dataType}}}.valueOf("{{{defaultValue}}}"){{/isEnum}}{{#isBoolean}}{{{defaultValue}}}{{/isBoolean}}{{#isString}}"{{{defaultValue}}}"{{/isString}}{{#isUuid}}"UUID.fromString({{{defaultValue}}})"{{/isUuid}}{{#isUuid}}"UUID.fromString({{{defaultValue}}})"{{/isUuid}}
+{{/defaultValue}}

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -30,7 +38,7 @@ import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 import org.openapitools.client.infrastructure.*
 
-class QueryApi(client: RestClient) : ApiClient(client) {
+open class QueryApi(client: RestClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)

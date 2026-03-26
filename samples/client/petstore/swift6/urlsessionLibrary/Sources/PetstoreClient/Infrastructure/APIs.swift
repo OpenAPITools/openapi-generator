@@ -49,7 +49,7 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public static let shared = PetstoreClientAPIConfiguration()
 }
 
-open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
+open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
     public var credential: URLCredential?
     public var headers: [String: String]
     public let parameters: [String: any Sendable]?
@@ -97,7 +97,7 @@ open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
     }
 }
 
-public protocol RequestBuilderFactory {
+public protocol RequestBuilderFactory: Sendable {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }

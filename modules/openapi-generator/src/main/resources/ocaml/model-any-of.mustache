@@ -1,0 +1,25 @@
+type t =
+{{#composedSchemas.anyOf}}
+    | {{{nameInPascalCase}}} of {{{dataType}}}
+{{/composedSchemas.anyOf}}
+[@@deriving show, eq];;
+
+let to_yojson = function
+{{#composedSchemas.anyOf}}
+    | {{{nameInPascalCase}}} v -> [%to_yojson: {{{ datatypeWithEnum }}}] v
+{{/composedSchemas.anyOf}}
+
+(* Manual implementations because the derived one encodes into a tuple list where the first element is the constructor name. *)
+
+let of_yojson json =
+  [
+{{#composedSchemas.anyOf}}
+    [%of_yojson: {{{ datatypeWithEnum }}}] json
+      |> Stdlib.Result.to_option
+      |> Stdlib.Option.map (fun v -> {{{nameInPascalCase}}} v);
+{{/composedSchemas.anyOf}}
+                ]
+  |> Stdlib.List.filter_map (Fun.id)
+  |> function
+     | t :: _ -> Ok t (* Return the first successful parsing. *)
+     | [] -> Error ("Failed to parse JSON " ^ Yojson.Safe.show json ^ " into a value of type {{{ classname }}}")

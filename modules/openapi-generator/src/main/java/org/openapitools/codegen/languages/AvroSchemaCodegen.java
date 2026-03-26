@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -25,6 +26,7 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -151,6 +153,25 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             // This sets the default if the option was not specified.
             additionalProperties.put(LOGICAL_TYPES_TIME_QUANTIFIER, logicalTypeTimeQuantifier);
         }
+    }
+
+    /**
+     * Return the default value of the property
+     *
+     * @param p OpenAPI property object
+     * @return string presentation of the default value of the property
+     */
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (p.getDefault() == null) {
+            return null;
+        }
+
+        if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p) || ModelUtils.isStringSchema(p)) {
+            return "\"" + p.getDefault().toString() + "\"";
+        }
+
+        return p.getDefault().toString();
     }
 
     @Override

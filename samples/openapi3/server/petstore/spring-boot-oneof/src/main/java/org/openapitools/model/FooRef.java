@@ -11,20 +11,20 @@ import org.openapitools.model.EntityRef;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * FooRef
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class FooRef extends EntityRef implements FooRefOrValue {
 
   private @Nullable String foorefPropA;
@@ -40,7 +40,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     super(atType);
   }
 
-  public FooRef foorefPropA(String foorefPropA) {
+  public FooRef foorefPropA(@Nullable String foorefPropA) {
     this.foorefPropA = foorefPropA;
     return this;
   }
@@ -52,24 +52,15 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   
   @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foorefPropA")
-  public String getFoorefPropA() {
+  public @Nullable String getFoorefPropA() {
     return foorefPropA;
   }
 
-  public void setFoorefPropA(String foorefPropA) {
+  @JsonProperty("foorefPropA")
+  public void setFoorefPropA(@Nullable String foorefPropA) {
     this.foorefPropA = foorefPropA;
   }
 
-
-  public FooRef name(String name) {
-    super.name(name);
-    return this;
-  }
-
-  public FooRef atReferredType(String atReferredType) {
-    super.atReferredType(atReferredType);
-    return this;
-  }
 
   public FooRef href(String href) {
     super.href(href);
@@ -93,6 +84,16 @@ public class FooRef extends EntityRef implements FooRefOrValue {
 
   public FooRef atType(String atType) {
     super.atType(atType);
+    return this;
+  }
+
+  public FooRef name(String name) {
+    super.name(name);
+    return this;
+  }
+
+  public FooRef atReferredType(String atReferredType) {
+    super.atReferredType(atReferredType);
     return this;
   }
   @Override
@@ -127,11 +128,8 @@ public class FooRef extends EntityRef implements FooRefOrValue {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder extends EntityRef.Builder {
@@ -155,18 +153,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
 
     public FooRef.Builder foorefPropA(String foorefPropA) {
       this.instance.foorefPropA(foorefPropA);
-      return this;
-    }
-    
-    @Override
-    public FooRef.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    @Override
-    public FooRef.Builder atReferredType(String atReferredType) {
-      this.instance.atReferredType(atReferredType);
       return this;
     }
     
@@ -197,6 +183,18 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     @Override
     public FooRef.Builder atType(String atType) {
       this.instance.atType(atType);
+      return this;
+    }
+    
+    @Override
+    public FooRef.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    @Override
+    public FooRef.Builder atReferredType(String atReferredType) {
+      this.instance.atReferredType(atReferredType);
       return this;
     }
     

@@ -1,0 +1,19 @@
+version := "{{artifactVersion}}"
+name := "{{artifactId}}"
+organization := "{{groupId}}"
+
+scalaVersion := "3.3.4"
+
+libraryDependencies ++= Seq(
+  "com.softwaremill.sttp.client4" %% "core"                          % "{{sttpClientVersion}}",
+  "com.softwaremill.sttp.client4" %% "jsoniter"                      % "{{sttpClientVersion}}",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-core"   % "{{jsoniterVersion}}",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-macros" % "{{jsoniterVersion}}" % "compile-internal",
+  "com.github.plokhotnyuk.jsoniter-scala" %% "jsoniter-scala-circe"  % "{{jsoniterVersion}}"
+)
+
+scalacOptions := Seq(
+  "-unchecked",
+  "-deprecation",
+  "-feature"
+)

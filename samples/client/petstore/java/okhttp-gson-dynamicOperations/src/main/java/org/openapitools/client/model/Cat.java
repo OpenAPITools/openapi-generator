@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
@@ -113,10 +113,7 @@ public class Cat extends Animal {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -125,14 +122,10 @@ public class Cat extends Animal {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("className");
-    openapiFields.add("color");
-    openapiFields.add("declawed");
+    openapiFields = new HashSet<String>(Arrays.asList("className", "color", "declawed"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("className");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("className"));
   }
 
   /**
@@ -144,7 +137,7 @@ public class Cat extends Animal {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Cat.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Cat is not found in the empty JSON string", Cat.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Cat is not found in the empty JSON string", Cat.openapiRequiredFields.toString()));
         }
       }
 
@@ -154,7 +147,7 @@ public class Cat extends Animal {
           BigCat.validateJsonElement(jsonElement);
           break;
         default:
-          throw new IllegalArgumentException(String.format("The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }
 

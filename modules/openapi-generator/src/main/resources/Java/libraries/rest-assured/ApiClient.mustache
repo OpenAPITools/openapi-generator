@@ -19,9 +19,9 @@ public class ApiClient {
     public static final String BASE_URI = "{{.}}";
     {{/basePath}}
 
-    private final Config config;
+    protected final Config config;
 
-    private ApiClient(Config config) {
+    protected ApiClient(Config config) {
         this.config = config;
     }
 
@@ -38,7 +38,7 @@ public class ApiClient {
      {{/apiInfo}}
 
     public static class Config {
-        private Supplier<RequestSpecBuilder> reqSpecSupplier = () -> new RequestSpecBuilder()
+        protected Supplier<RequestSpecBuilder> reqSpecSupplier = () -> new RequestSpecBuilder()
                 {{#basePath}}.setBaseUri(BASE_URI){{/basePath}}
                 .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper({{#gson}}gson(){{/gson}}{{#jackson}}jackson(){{/jackson}})));
 

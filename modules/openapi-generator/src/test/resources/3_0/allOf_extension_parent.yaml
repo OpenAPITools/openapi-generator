@@ -37,6 +37,22 @@ components:
           type: string
         firstName:
           type: string
+    PersonA:
+      type: object
+      properties:
+        lastName:
+          type: string
+    PersonAExplicitParent:
+      type: object
+      x-parent: "abstract"
+      properties:
+        lastName:
+          type: string
+    PersonB:
+      type: object
+      properties:
+        firstName:
+          type: string
     Adult:
       description: A representation of an adult
       allOf:
@@ -65,6 +81,26 @@ components:
               type: integer
               format: int32
         - $ref: '#/components/schemas/AnotherPerson'
+    SchemaWithTwoAllOfRefs:
+      description: A schema that has two allOfs with refs
+      allOf:
+        - type: object
+          properties:
+            age:
+              type: integer
+              format: int32
+        - $ref: '#/components/schemas/PersonA'
+        - $ref: '#/components/schemas/PersonB'
+    SchemaWithTwoAllOfRefsOneIsMarkedAsParent:
+      description: A schema that has two allOfs with refs, but one of the allOfs is explicitly marked with x-parent
+      allOf:
+        - type: object
+          properties:
+            age:
+              type: integer
+              format: int32
+        - $ref: '#/components/schemas/PersonAExplicitParent'
+        - $ref: '#/components/schemas/PersonB'
     AnotherPerson:
       description: person object without x-parent extension
       type: object

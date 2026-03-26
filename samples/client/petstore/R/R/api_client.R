@@ -332,6 +332,11 @@ ApiClient <- R6::R6Class(
       return_obj <- NULL
       primitive_types <- c("character", "numeric", "integer", "logical", "complex")
 
+      # for deserialization, uniqueness requirements do not matter
+      return_type <- gsub(pattern = "^(set|array)\\[",
+                          replacement = "collection\\[",
+                          x = return_type)
+
       # To handle the "map" type
       if (startsWith(return_type, "map(")) {
         inner_return_type <- regmatches(return_type,
@@ -340,10 +345,10 @@ ApiClient <- R6::R6Class(
           self$deserializeObj(obj[[name]], inner_return_type, pkg_env)
         })
         names(return_obj) <- names(obj)
-      } else if (startsWith(return_type, "array[")) {
-        # To handle the "array" type
+      } else if (startsWith(return_type, "collection[")) {
+        # To handle the "array" and "set" types
         inner_return_type <- regmatches(return_type,
-                                        regexec(pattern = "array\\[(.*)\\]", return_type))[[1]][2]
+                                        regexec(pattern = "collection\\[(.*)\\]", return_type))[[1]][2]
         if (c(inner_return_type) %in% primitive_types) {
           return_obj <- vector("list", length = length(obj))
           if (length(obj) > 0) {
@@ -352,6 +357,9 @@ ApiClient <- R6::R6Class(
             }
           }
         } else {
+          if (is.list(obj) && length(obj) == 1 && is.data.frame(obj[[1]])) {
+            obj <- obj[[1]]
+          }
           if (!is.null(nrow(obj))) {
             return_obj <- vector("list", length = nrow(obj))
             if (nrow(obj) > 0) {

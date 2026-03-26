@@ -54,14 +54,14 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
     {{#required}}/* {{name}} */ {{/required}}{
         const {{{dataType}}}& value = {{name}}{{^required}}.value(){{/required}};
         const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
-        {{> model-validation-body }}
+        {{> model-validation-body }}{{! prevent indent}}
     }
     {{/isArray}}{{^isArray}}{{#hasValidation}} {{! Only generate validation if necessary }}
     {{^required}}if ({{name}}.has_value()){{/required}}
     {{#required}}/* {{name}} */ {{/required}}{
         const {{{dataType}}}& value = {{name}}{{^required}}.value(){{/required}};
         const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
-        {{> model-validation-body }}
+        {{> model-validation-body }}{{! prevent indent}}
     }
     {{/hasValidation}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
     if (!m_value.validate(msg))

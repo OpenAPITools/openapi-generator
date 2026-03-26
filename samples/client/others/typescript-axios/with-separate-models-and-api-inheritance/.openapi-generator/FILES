@@ -4,6 +4,12 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/AbstractFlatStockPickOrderBaseDto.md
+docs/AbstractUserDto.md
+docs/BranchDto.md
+docs/FlatStockPickOrderDto.md
+docs/InternalAuthenticatedUserDto.md
+docs/RemoteAuthenticatedUserDto.md
 git_push.sh
 index.ts
 model/abstract-flat-stock-pick-order-base-dto.ts

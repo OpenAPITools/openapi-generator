@@ -20,7 +20,11 @@
     {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}
-    }){{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
+    }){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
+    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}")
+    @ApiResponses(value = { {{#responses}}
+        @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"){{^-last}},{{/-last}}{{/responses}}
+    }){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
     {{#hasAuthMethods}}@org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
         {{#authMethods}}{{#isOAuth}}@org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "{{name}}", scopes = { {{#scopes}} "{{scope}}"{{^-last}},{{/-last}} {{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}{{^isOAuth}}     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "{{name}}"){{^-last}},{{/-last}}{{/isOAuth}}
    {{/authMethods}} }){{/hasAuthMethods}}
@@ -40,6 +44,6 @@
                 {{^vendorExtensions.x-java-is-response-void}}@org.eclipse.microprofile.openapi.annotations.media.Content(schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = {{{baseType}}}.class{{#vendorExtensions.x-microprofile-open-api-return-schema-container}}, type = {{{.}}} {{/vendorExtensions.x-microprofile-open-api-return-schema-container}}{{#vendorExtensions.x-microprofile-open-api-return-unique-items}}, uniqueItems = true {{/vendorExtensions.x-microprofile-open-api-return-unique-items}})){{/vendorExtensions.x-java-is-response-void}}
             }){{^-last}},{{/-last}}{{/responses}}
         }){{/hasProduces}}{{/useMicroProfileOpenAPIAnnotations}}
-    public {{#supportAsync}}{{#useMutiny}}Uni{{/useMutiny}}{{^useMutiny}}CompletionStage{{/useMutiny}}<{{/supportAsync}}Response{{#supportAsync}}>{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
+    public {{#supportAsync}}{{#useMutiny}}Uni{{/useMutiny}}{{^useMutiny}}CompletionStage{{/useMutiny}}<{{/supportAsync}}{{#returnJBossResponse}}{{>returnResponseTypeInterface}}{{/returnJBossResponse}}{{^returnJBossResponse}}Response{{/returnJBossResponse}}{{#supportAsync}}>{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
         return {{#supportAsync}}{{#useMutiny}}Uni.createFrom().item({{/useMutiny}}{{^useMutiny}}CompletableFuture.supplyAsync(() -> {{/useMutiny}}{{/supportAsync}}Response.ok().entity("magic!").build(){{#supportAsync}}){{/supportAsync}};
     }

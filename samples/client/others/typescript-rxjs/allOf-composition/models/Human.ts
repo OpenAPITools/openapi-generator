@@ -27,4 +27,11 @@ export interface Human {
      * @memberof Human
      */
     name?: string;
+    /**
+     * Previous short name for the human, replaced by `name`
+     * @deprecated
+     * @type {string}
+     * @memberof Human
+     */
+    nickname?: string;
 }

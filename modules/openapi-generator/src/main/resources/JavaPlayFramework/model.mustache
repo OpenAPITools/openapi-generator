@@ -12,9 +12,11 @@ import {{javaxPackage}}.validation.*;
 {{#model}}
 {{#isEnum}}
 {{>enumOuterClass}}
+
 {{/isEnum}}
 {{^isEnum}}
 {{>pojo}}
+
 {{/isEnum}}
 {{/model}}
 {{/models}}

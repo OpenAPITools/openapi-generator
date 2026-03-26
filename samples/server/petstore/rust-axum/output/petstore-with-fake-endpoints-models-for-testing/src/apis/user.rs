@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::CookieJar;
 use bytes::Bytes;
+use headers::Host;
 use http::Method;
 use serde::{Deserialize, Serialize};
 
@@ -94,6 +95,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// CreateUser - POST /v2/user
     async fn create_user(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -105,6 +107,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// CreateUsersWithArrayInput - POST /v2/user/createWithArray
     async fn create_users_with_array_input(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -116,6 +119,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// CreateUsersWithListInput - POST /v2/user/createWithList
     async fn create_users_with_list_input(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -127,6 +131,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// DeleteUser - DELETE /v2/user/{username}
     async fn delete_user(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -138,6 +143,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// GetUserByName - GET /v2/user/{username}
     async fn get_user_by_name(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -149,6 +155,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// LoginUser - GET /v2/user/login
     async fn login_user(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -160,6 +167,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// LogoutUser - GET /v2/user/logout
     async fn logout_user(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -170,6 +178,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// UpdateUser - PUT /v2/user/{username}
     async fn update_user(
         &self,
+
         method: &Method,
         host: &Host,
         cookies: &CookieJar,

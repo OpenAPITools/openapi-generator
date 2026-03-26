@@ -1,0 +1,45 @@
+name: Samples Go Clients (Petstore)
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/go/**
+      - samples/openapi3/client/petstore/go/**
+  pull_request:
+    paths:
+      - samples/client/petstore/go/**
+      - samples/openapi3/client/petstore/go/**
+
+jobs:
+  build:
+    name: Build Go
+    runs-on: ubuntu-latest
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/go/
+          - samples/openapi3/client/petstore/go/
+    steps:
+      - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      - uses: actions/setup-go@v6
+      - run: go version
+      - name: Install Dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          go mod tidy
+      - name: Run test
+        working-directory: ${{ matrix.sample }}
+        run: go test -mod=mod -v
+

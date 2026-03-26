@@ -4,7 +4,6 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
-import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -37,7 +36,7 @@ data class Order(
     @get:JsonProperty("status") val status: Order.Status? = null,
 
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-    ) : Serializable{
+) : java.io.Serializable {
 
     /**
     * Order Status
@@ -53,7 +52,8 @@ data class Order(
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Order'")
             }
         }
     }

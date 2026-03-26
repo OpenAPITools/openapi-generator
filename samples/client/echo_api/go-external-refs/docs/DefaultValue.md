@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArrayStringEnumRefDefault** | Pointer to [**[]StringEnumRef**](StringEnumRef.md) |  | [optional] [default to ["success","failure"]]
-**ArrayStringEnumDefault** | Pointer to **[]string** |  | [optional] [default to ["success","failure"]]
-**ArrayStringDefault** | Pointer to **[]string** |  | [optional] [default to ["failure","skipped"]]
-**ArrayIntegerDefault** | Pointer to **[]int32** |  | [optional] [default to [1,3]]
+**ArrayStringEnumRefDefault** | Pointer to [**[]StringEnumRef**](StringEnumRef.md) |  | [optional] [default to {"success", "failure"}]
+**ArrayStringEnumDefault** | Pointer to **[]string** |  | [optional] [default to {"success", "failure"}]
+**ArrayStringDefault** | Pointer to **[]string** |  | [optional] [default to {"failure", "skipped"}]
+**ArrayIntegerDefault** | Pointer to **[]int32** |  | [optional] [default to {1, 3}]
 **ArrayString** | Pointer to **[]string** |  | [optional] 
 **ArrayStringNullable** | Pointer to **[]string** |  | [optional] 
 **ArrayStringExtensionNullable** | Pointer to **[]string** |  | [optional] 

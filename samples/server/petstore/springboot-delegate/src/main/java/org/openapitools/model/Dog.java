@@ -7,25 +7,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Dog
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Dog extends Animal {
 
   private @Nullable String breed;
@@ -49,7 +48,7 @@ public class Dog extends Animal {
       this.breed = breed;
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(@Nullable String breed) {
     this.breed = breed;
     return this;
   }
@@ -59,13 +58,14 @@ public class Dog extends Animal {
    * @return breed
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("breed")
-  public String getBreed() {
+  public @Nullable String getBreed() {
     return breed;
   }
 
-  public void setBreed(String breed) {
+  @JsonProperty("breed")
+  public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }
 
@@ -111,11 +111,8 @@ public class Dog extends Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

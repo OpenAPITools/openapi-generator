@@ -14,15 +14,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Order  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   private Long petId;
 
   @ApiModelProperty(value = "")
+
   private Integer quantity;
 
   @ApiModelProperty(value = "")
+
   private Date shipDate;
 
 public enum StatusEnum {
@@ -57,13 +61,15 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
     }
 }
 
-  @ApiModelProperty(value = "Order Status")
  /**
-   * Order Status
-  **/
+  * Order Status
+  */
+  @ApiModelProperty(value = "Order Status")
+
   private StatusEnum status;
 
   @ApiModelProperty(value = "")
+
   private Boolean complete = false;
  /**
    * Get id
@@ -218,10 +224,7 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

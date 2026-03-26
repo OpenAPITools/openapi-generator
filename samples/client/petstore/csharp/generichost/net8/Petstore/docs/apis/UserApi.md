@@ -21,57 +21,6 @@ Create user
 
 This can only be done by the logged in user.
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class CreateUserExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-            var user = new User(); // User | Created user object
-
-            try
-            {
-                // Create user
-                apiInstance.CreateUser(user);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.CreateUser: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the CreateUserWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Create user
-    apiInstance.CreateUserWithHttpInfo(user);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.CreateUserWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -106,57 +55,6 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class CreateUsersWithArrayInputExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-            var user = new List<User>(); // List<User> | List of user object
-
-            try
-            {
-                // Creates list of users with given input array
-                apiInstance.CreateUsersWithArrayInput(user);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInput: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the CreateUsersWithArrayInputWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Creates list of users with given input array
-    apiInstance.CreateUsersWithArrayInputWithHttpInfo(user);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInputWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -191,57 +89,6 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class CreateUsersWithListInputExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-            var user = new List<User>(); // List<User> | List of user object
-
-            try
-            {
-                // Creates list of users with given input array
-                apiInstance.CreateUsersWithListInput(user);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.CreateUsersWithListInput: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the CreateUsersWithListInputWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Creates list of users with given input array
-    apiInstance.CreateUsersWithListInputWithHttpInfo(user);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.CreateUsersWithListInputWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -278,57 +125,6 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class DeleteUserExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-            var username = "username_example";  // string | The name that needs to be deleted
-
-            try
-            {
-                // Delete user
-                apiInstance.DeleteUser(username);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.DeleteUser: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the DeleteUserWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Delete user
-    apiInstance.DeleteUserWithHttpInfo(username);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.DeleteUserWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -364,61 +160,6 @@ No authorization required
 
 Get user by user name
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class GetUserByNameExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-            var username = "username_example";  // string | The name that needs to be fetched. Use user1 for testing.
-
-            try
-            {
-                // Get user by user name
-                User result = apiInstance.GetUserByName(username);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.GetUserByName: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the GetUserByNameWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Get user by user name
-    ApiResponse<User> response = apiInstance.GetUserByNameWithHttpInfo(username);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.GetUserByNameWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -457,62 +198,6 @@ No authorization required
 
 Logs user into the system
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class LoginUserExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-            var password = "password_example";  // string | The password for login in clear text
-            var username = "username_example";  // string | The user name for login
-
-            try
-            {
-                // Logs user into the system
-                string result = apiInstance.LoginUser(password, username);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.LoginUser: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the LoginUserWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Logs user into the system
-    ApiResponse<string> response = apiInstance.LoginUserWithHttpInfo(password, username);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.LoginUserWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 
@@ -549,56 +234,6 @@ No authorization required
 
 Logs out current logged in user session
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class LogoutUserExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-
-            try
-            {
-                // Logs out current logged in user session
-                apiInstance.LogoutUser();
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.LogoutUser: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the LogoutUserWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Logs out current logged in user session
-    apiInstance.LogoutUserWithHttpInfo();
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.LogoutUserWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 This endpoint does not need any parameter.
@@ -631,58 +266,6 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UpdateUserExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
-            var user = new User(); // User | Updated user object
-            var username = "username_example";  // string | name that need to be deleted
-
-            try
-            {
-                // Updated user
-                apiInstance.UpdateUser(user, username);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling UserApi.UpdateUser: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the UpdateUserWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Updated user
-    apiInstance.UpdateUserWithHttpInfo(user, username);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling UserApi.UpdateUserWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
 
 ### Parameters
 

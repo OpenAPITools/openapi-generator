@@ -3,8 +3,12 @@
     "strict": true,
     /* Basic Options */
     "target": "es5",
+    "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
+    "typeRoots": [
+        "node_modules/@types"
+    ],
 
     /* Additional Checks */
      "noUnusedLocals": false,                     /* Report errors on unused locals. */ // TODO: reenable (unused imports!)

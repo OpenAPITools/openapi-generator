@@ -13,3 +13,5 @@ additionalProperties:
 nameMappings:
   _type: underscore_type
   type_: type_with_underscore
+openapiNormalizer:
+  SIMPLIFY_ONEOF_ANYOF_ENUM: false

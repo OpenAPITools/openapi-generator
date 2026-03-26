@@ -4,5 +4,14 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/ApiResponse.md
+docs/Category.md
+docs/Order.md
+docs/Pet.md
+docs/PetApi.md
+docs/StoreApi.md
+docs/Tag.md
+docs/User.md
+docs/UserApi.md
 git_push.sh
 index.ts

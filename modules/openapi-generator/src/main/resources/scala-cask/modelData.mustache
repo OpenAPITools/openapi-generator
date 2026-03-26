@@ -42,10 +42,10 @@ object {{{classname}}}Data {
 {{/vendorExtensions.x-has-one-of}}
 {{^vendorExtensions.x-has-one-of}}
     {{#isEnum}}
-        {{>modelDataEnum}}
+        {{>modelDataEnum}}{{! prevent indent}}
     {{/isEnum}}
     {{^isEnum}}
-        {{>modelDataClass}}
+        {{>modelDataClass}}{{! prevent indent}}
     {{/isEnum}}
 {{/vendorExtensions.x-has-one-of}}
 {{/model}}

@@ -1,0 +1,25 @@
+{{>licenseInfo}}
+#include "ApiBase.h"
+
+namespace {{apiNamespace}}
+{
+
+ApiBase::ApiBase(const std::shared_ptr<Pistache::Rest::Router>& rtr) : router(rtr)
+{
+}
+
+{{#authMethods}}{{#isBasicBasic}}
+void ApiBase::setBasicCredentialsAuthenticator( const BasicCredentialsAuthenticator &newBasicCredentialsAuthenticator)
+{
+    basicCredentialsAuthenticator = newBasicCredentialsAuthenticator;
+}
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+void ApiBase::setBearerTokenAuthenticator( const BearerTokenAuthenticator &newbearerTokenAuthenticator)
+{
+    bearerTokenAuthenticator = newbearerTokenAuthenticator;
+}
+{{/isBasicBearer}}
+{{/authMethods}}
+
+} // Namespace {{apiNamespace}}

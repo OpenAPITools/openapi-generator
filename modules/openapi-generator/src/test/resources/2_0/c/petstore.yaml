@@ -253,6 +253,34 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  '/pet/byUuid/{uuid}':
+    get:
+      tags:
+        - pet
+      summary: Find pet by UUID
+      description: Returns a single pet identified by UUID
+      operationId: getPetByUuid
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of pet to return
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Pet'
+        '400':
+          description: Invalid UUID supplied
+        '404':
+          description: Pet not found
+      security:
+        - api_key: []
   /pet/picture:
     get:
       tags:
@@ -724,6 +752,40 @@ paths:
           in: query
           description: how many days user data is kept after deletion
           type: integer
+      responses:
+        '200':
+          description: successful operation
+  '/user/test_int32_int64_float_double':
+    get:
+      tags:
+        - user
+      summary: test int32, int64 float and double query parameters in API
+      description: This can test int32, int64 float and double query parameters in API.
+      operationId: test_int32_int64_float_double
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: floatnum
+          in: query
+          description: A float number
+          type: number
+          format: float
+        - name: doublenum
+          in: query
+          description: A double number
+          type: number
+          format: double
+        - name: int32num
+          in: query
+          description: An int32 number
+          type: integer
+          format: int32
+        - name: int64num
+          in: query
+          description: An int64 number
+          type: integer
+          format: int64
       responses:
         '200':
           description: successful operation

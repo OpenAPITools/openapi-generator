@@ -40,14 +40,28 @@ export interface TokenProvider {
 {{/useInversify}}
 export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication implements SecurityAuthentication {
     {{#isApiKey}}
+    {{^useErasableSyntax}}
     /**
      * Configures this api key authentication with the necessary properties
      *
      * @param apiKey: The api key to be used for every request
      */
     public constructor({{#useInversify}}@inject(AuthApiKey) @named("{{name}}") {{/useInversify}}private apiKey: string) {}
+    {{/useErasableSyntax}}
+    {{#useErasableSyntax}}
+    private apiKey: string;
+    /**
+     * Configures this api key authentication with the necessary properties
+     *
+     * @param apiKey: The api key to be used for every request
+     */
+    public constructor({{#useInversify}}@inject(AuthApiKey) @named("{{name}}") {{/useInversify}}apiKey: string) {
+        this.apiKey = apiKey;
+    }
+    {{/useErasableSyntax}}
     {{/isApiKey}}
     {{#isBasicBasic}}
+    {{^useErasableSyntax}}
     /**
      * Configures the http authentication with the required details.
      *
@@ -58,22 +72,66 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
         {{#useInversify}}@inject(AuthUsername) @named("{{name}}") {{/useInversify}}private username: string,
         {{#useInversify}}@inject(AuthPassword) @named("{{name}}") {{/useInversify}}private password: string
     ) {}
+    {{/useErasableSyntax}}
+    {{#useErasableSyntax}}
+    private username: string;
+    private password: string;
+    /**
+     * Configures the http authentication with the required details.
+     *
+     * @param username username for http basic authentication
+     * @param password password for http basic authentication
+     */
+    public constructor(
+        {{#useInversify}}@inject(AuthUsername) @named("{{name}}") {{/useInversify}}username: string,
+        {{#useInversify}}@inject(AuthPassword) @named("{{name}}") {{/useInversify}}password: string
+    ) {
+        this.username = username;
+        this.password = password;
+    }
+    {{/useErasableSyntax}}
     {{/isBasicBasic}}
     {{#isBasicBearer}}
+    {{^useErasableSyntax}}
     /**
      * Configures the http authentication with the required details.
      *
      * @param tokenProvider service that can provide the up-to-date token when needed
      */
     public constructor({{#useInversify}}@inject(AbstractTokenProvider) @named("{{name}}") {{/useInversify}}private tokenProvider: TokenProvider) {}
+    {{/useErasableSyntax}}
+    {{#useErasableSyntax}}
+    private tokenProvider: TokenProvider;
+    /**
+     * Configures the http authentication with the required details.
+     *
+     * @param tokenProvider service that can provide the up-to-date token when needed
+     */
+    public constructor({{#useInversify}}@inject(AbstractTokenProvider) @named("{{name}}") {{/useInversify}}tokenProvider: TokenProvider) {
+        this.tokenProvider = tokenProvider;
+    }
+    {{/useErasableSyntax}}
     {{/isBasicBearer}}
     {{#isOAuth}}
+    {{^useErasableSyntax}}
     /**
      * Configures OAuth2 with the necessary properties
      *
      * @param accessToken: The access token to be used for every request
      */
     public constructor(private accessToken: string) {}
+    {{/useErasableSyntax}}
+    {{#useErasableSyntax}}
+    private accessToken: string;
+    /**
+     * Configures OAuth2 with the necessary properties
+     *
+     * @param accessToken: The access token to be used for every request
+     */
+    public constructor(accessToken: string) {
+        this.accessToken = accessToken;
+    }
+    {{/useErasableSyntax}}
     {{/isOAuth}}
 
     public getName(): string {
@@ -98,7 +156,6 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 }
 
 {{/authMethods}}
-
 export type AuthMethods = {
     {{^useInversify}}
     "default"?: SecurityAuthentication,

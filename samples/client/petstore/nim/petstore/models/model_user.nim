@@ -9,15 +9,18 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type User* = object
   ## A User who is purchasing from the pet store
-  id*: int64
-  username*: string
-  firstName*: string
-  lastName*: string
-  email*: string
-  password*: string
-  phone*: string
-  userStatus*: int ## User Status
+  id*: Option[int64]
+  username*: Option[string]
+  firstName*: Option[string]
+  lastName*: Option[string]
+  email*: Option[string]
+  password*: Option[string]
+  phone*: Option[string]
+  userStatus*: Option[int] ## User Status
+

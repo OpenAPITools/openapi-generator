@@ -4,7 +4,7 @@
  * If the field is required, always include it, even if it is null.
  * Else use custom behaviour, IOW use whatever is defined on the object mapper
  }}
-  @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
+  @JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}, required = {{#isNullable}}false{{/isNullable}}{{^isNullable}}{{required}}{{/isNullable}})
   @JsonInclude({{#isMap}}{{#items.isNullable}}content = JsonInclude.Include.ALWAYS, {{/items.isNullable}}{{/isMap}}value = JsonInclude.Include.{{#required}}ALWAYS{{/required}}{{^required}}USE_DEFAULTS{{/required}})
 {{#withXml}}
   @JacksonXmlProperty(localName = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#isXmlAttribute}}, isAttribute = true{{/isXmlAttribute}}{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})

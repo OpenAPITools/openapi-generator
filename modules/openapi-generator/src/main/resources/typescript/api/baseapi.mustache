@@ -26,8 +26,16 @@ export const COLLECTION_FORMATS = {
 {{/useInversify}}
 export class BaseAPIRequestFactory {
 
+    {{^useErasableSyntax}}
     constructor({{#useInversify}}@inject(AbstractConfiguration) {{/useInversify}}protected configuration: Configuration) {
     }
+    {{/useErasableSyntax}}
+    {{#useErasableSyntax}}
+    protected configuration: Configuration;
+    constructor({{#useInversify}}@inject(AbstractConfiguration) {{/useInversify}} config: Configuration) {
+        this.configuration = config;
+    }
+    {{/useErasableSyntax}}
 };
 
 /**
@@ -38,7 +46,20 @@ export class BaseAPIRequestFactory {
  */
 export class RequiredError extends Error {
     override name: "RequiredError" = "RequiredError";
+    {{#useErasableSyntax}}
+    public api: string;
+    public method: string;
+    public field: string;
+    constructor(api: string, method: string, field: string) {
+        super("Required parameter " + field + " was null or undefined when calling " + api + "." + method + ".");
+        this.api = api;
+        this.method = method;
+        this.field = field;
+    }
+    {{/useErasableSyntax}}
+    {{^useErasableSyntax}}
     constructor(public api: string, public method: string, public field: string) {
         super("Required parameter " + field + " was null or undefined when calling " + api + "." + method + ".");
     }
+    {{/useErasableSyntax}}
 }

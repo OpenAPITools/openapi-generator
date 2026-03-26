@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -14,6 +14,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.reflect.Type;
@@ -32,10 +34,11 @@ import javax.json.bind.annotation.JsonbCreator;
 public class AdditionalPropertiesClass  {
   
   @JsonbProperty("map_property")
-  private Map<String, String> mapProperty = null;
+  protected Map<String, String> mapProperty = null;
 
   @JsonbProperty("map_of_map_property")
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  protected Map<String, Map<String, String>> mapOfMapProperty = null;
+
 
   /**
    * Get mapProperty
@@ -130,10 +133,7 @@ public class AdditionalPropertiesClass  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

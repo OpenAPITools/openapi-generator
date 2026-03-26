@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OrderStatus orderStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(orderStatus.ToString());
+            writer.WriteStringValue(OrderStatusValueConverter.ToJsonValue(orderStatus).ToString());
         }
     }
 
@@ -176,14 +176,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the OrderStatus to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="orderStatus"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OrderStatus? orderStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(orderStatus?.ToString() ?? "null");
+            writer.WriteStringValue(orderStatus.HasValue ? OrderStatusValueConverter.ToJsonValue(orderStatus.Value).ToString() : "null");
         }
     }
 }

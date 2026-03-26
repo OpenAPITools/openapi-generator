@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -130,7 +130,7 @@ public class EnumArrays {
    * @return justSymbol
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JustSymbolEnum getJustSymbol() {
@@ -138,7 +138,7 @@ public class EnumArrays {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustSymbol(@javax.annotation.Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -163,7 +163,7 @@ public class EnumArrays {
    * @return arrayEnum
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -171,7 +171,7 @@ public class EnumArrays {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -206,10 +206,7 @@ public class EnumArrays {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

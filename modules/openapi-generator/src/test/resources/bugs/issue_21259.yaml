@@ -1,0 +1,60 @@
+#Modified from the original
+openapi: 3.0.1
+info:
+  title: Minimal API for Bug Report
+  version: v1
+paths:
+  /test:
+    post:
+      summary: Test endpoint with MyCustomSpeed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestPayload'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    MyNumericValue:
+      type: object
+      properties:
+        lmnop:
+          type: number
+      description: A numeric value (e.g., 0 to 1).
+    MyCustomSpeed:
+      oneOf:
+        - $ref: '#/components/schemas/MyNumericValue'
+        - type: string
+          enum:
+            - "fixed-value-a"
+            - "fixed-value-b"
+            - "fixed-value-c"
+        - type: string
+          format: date
+        - type: string
+          format: date-time
+        - type: integer
+          format: int64
+          enum: [10, 20, 30]
+        - type: array
+          items:
+            type: number
+        - type: array
+          items:
+            type: object
+        - type: array
+          items:
+            type: string
+            enum:
+              - "oneof-array-enum-a"
+              - "oneof-array-enum-b"
+              - "oneof-array-enum-c"
+      description: A value that can be a number or a specific string.
+    TestPayload:
+      type: object
+      properties:
+        speed_setting:
+          $ref: '#/components/schemas/MyCustomSpeed'

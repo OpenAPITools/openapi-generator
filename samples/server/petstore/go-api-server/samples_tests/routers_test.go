@@ -1,8 +1,8 @@
 package main
 
 import (
-	"testing"
 	"strings"
+	"testing"
 
 	"github.com/GIT_USER_ID/GIT_REPO_ID/samples_tests/utils"
 )
@@ -14,8 +14,9 @@ func Test_Routers(t *testing.T) {
 		filepath := "../go/routers.go"
 
 		expected := ("type Route struct {\n" +
-			"\tMethod\t  string\n" +
-			"\tPattern\t string\n" +
+			"\tName        string\n" +
+			"\tMethod	    string\n" +
+			"\tPattern	    string\n" +
 			"\tHandlerFunc http.HandlerFunc\n" +
 			"}")
 
@@ -31,8 +32,8 @@ func Test_Routers(t *testing.T) {
 		lines := utils.ReadLines(filepath)
 		expected := "type Routes map[string]Route"
 
-		if lines[25] != expected {
-			t.Errorf("Expected '%s', but got '%s'", expected, lines[25])
+		if lines[26] != expected {
+			t.Errorf("Expected '%s', but got '%s'", expected, lines[26])
 		}
 	})
 }

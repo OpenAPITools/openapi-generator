@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**UserAPI_getUserByName**](UserAPI.md#UserAPI_getUserByName) | **GET** /user/{username} | Get user by user name
 [**UserAPI_loginUser**](UserAPI.md#UserAPI_loginUser) | **GET** /user/login | Logs user into the system
 [**UserAPI_logoutUser**](UserAPI.md#UserAPI_logoutUser) | **GET** /user/logout | Logs out current logged in user session
+[**UserAPI_testInt32Int64FloatDouble**](UserAPI.md#UserAPI_testInt32Int64FloatDouble) | **GET** /user/test_int32_int64_float_double | test int32, int64 float and double query parameters in API
 [**UserAPI_testIntAndBool**](UserAPI.md#UserAPI_testIntAndBool) | **GET** /user/testIntAndBool | test integer and boolean query parameters in API
 [**UserAPI_updateUser**](UserAPI.md#UserAPI_updateUser) | **PUT** /user/{username} | Updated user
 
@@ -202,6 +203,39 @@ void UserAPI_logoutUser(apiClient_t *apiClient);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
+
+### Return type
+
+void
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **UserAPI_testInt32Int64FloatDouble**
+```c
+// test int32, int64 float and double query parameters in API
+//
+// This can test int32, int64 float and double query parameters in API.
+//
+void UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double doublenum, int *int32num, long int64num);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**floatnum** | **float** | A float number | [optional] 
+**doublenum** | **double** | A double number | [optional] 
+**int32num** | **int \*** | An int32 number | [optional] 
+**int64num** | **long** | An int64 number | [optional] 
 
 ### Return type
 

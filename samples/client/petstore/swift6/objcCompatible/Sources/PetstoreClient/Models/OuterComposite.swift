@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class OuterComposite: NSObject, Codable, QueryStringEncodable {
+@objcMembers public final class OuterComposite: NSObject, Codable, @unchecked Sendable {
 
     public var myNumber: Double?
     public var myString: String?

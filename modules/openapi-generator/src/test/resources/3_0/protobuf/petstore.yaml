@@ -59,7 +59,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
         '405':
-          description: Invalid input
+          $ref: '#/components/responses/ErrorResponse'
       security:
         - petstore_auth:
             - 'write:pets'
@@ -83,11 +83,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
         '400':
-          description: Invalid ID supplied
+          $ref: '#/components/responses/ErrorResponse'
         '404':
-          description: Pet not found
+          $ref: '#/components/responses/ErrorResponse'
         '405':
-          description: Validation exception
+          $ref: '#/components/responses/ErrorResponse'
       security:
         - petstore_auth:
             - 'write:pets'
@@ -593,6 +593,13 @@ externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
 components:
+  responses:
+    ErrorResponse:
+      description: An error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   requestBodies:
     UserArray:
       content:
@@ -786,3 +793,16 @@ components:
           uniqueItems: true
           items:
             type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code.
+        message:
+          type: string
+          description: Detailed error message.

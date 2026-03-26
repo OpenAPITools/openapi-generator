@@ -1,0 +1,18 @@
+generatorName: kotlin-misk
+outputDir: samples/server/petstore/kotlin-misk-config
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-misk
+validateSpec: false
+useBeanValidation: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  moduleClassName: "PetStoreModule"
+  generateStubImplClasses: true
+  addModelMoshiJsonAnnotation: true
+  actionPathPrefix: "samplePrefix"
+  actionAnnotations: "@LogRequestResponse(bodySampling = 1.0, errorBodySampling = 2.0);@Suppress(\"unused\")"
+  actionImports: "misk.web.actions.WebAction;misk.web.interceptors.LogRequestResponse"
+  actionParentClass: "WebAction"
+  actionRequestContentType: "@RequestContentType"
+  actionRequestContentTypePrefix: "MediaTypes"
+  testingModule: "misk.web.MiskWebModule"

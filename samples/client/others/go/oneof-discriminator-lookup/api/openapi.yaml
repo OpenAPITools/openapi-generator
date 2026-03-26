@@ -30,9 +30,9 @@ components:
     Object:
       discriminator:
         mapping:
-          ONE: '#/components/schemas/NestedObject1'
-          TWO: '#/components/schemas/NestedObject2'
+          ONE: "#/components/schemas/NestedObject1"
+          TWO: "#/components/schemas/NestedObject2"
         propertyName: type
       oneOf:
-      - $ref: '#/components/schemas/NestedObject1'
-      - $ref: '#/components/schemas/NestedObject2'
+      - $ref: "#/components/schemas/NestedObject1"
+      - $ref: "#/components/schemas/NestedObject2"

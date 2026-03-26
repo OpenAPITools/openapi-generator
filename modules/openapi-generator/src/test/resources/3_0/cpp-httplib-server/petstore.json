@@ -1,0 +1,316 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Petstore API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "http://petstore.swagger.io/v2" }
+  ],
+  "paths": {
+    "/pet/{petId}": {
+      "get": {
+        "tags": ["pet"],
+        "summary": "Get pet by ID",
+        "operationId": "getPetById",
+        "parameters": [
+          { "name": "petId", "in": "path", "required": true, "schema": { "type": "integer", "format": "int64" } },
+          { "name": "customHeader", "in": "header", "required": false, "schema": { "type": "string" } },
+          { "name": "cookieParam", "in": "cookie", "required": false, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Pet" } } } },
+          "400": { "description": "Invalid ID", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse" } } } },
+          "404": { "description": "Not found", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse" } } } }
+        }
+      },
+      "delete": {
+        "tags": ["pet"],
+        "summary": "Delete pet by ID",
+        "operationId": "deletePetById",
+        "parameters": [
+          { "name": "petId", "in": "path", "required": true, "schema": { "type": "integer", "format": "int64" } },
+          { "name": "api_key", "in": "query", "required": false, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Pet deleted" },
+          "400": { "description": "Invalid ID" }
+        }
+      }
+    },
+    "/pet": {
+      "post": {
+        "tags": ["pet"],
+        "summary": "Add a new pet",
+        "operationId": "addPet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Pet" } }
+          }
+        },
+        "responses": {
+          "201": { "description": "Pet created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Pet" } } } },
+          "400": { "description": "Invalid input", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ApiResponse" } } } }
+        }
+      },
+      "put": {
+        "tags": ["pet"],
+        "summary": "Update an existing pet",
+        "operationId": "updatePet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Pet" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "Pet updated" },
+          "400": { "description": "Invalid input" }
+        }
+      }
+    },
+    "/pet/findByStatus": {
+      "get": {
+        "tags": ["pet"],
+        "summary": "Find pets by status (enum, array)",
+        "operationId": "findPetsByStatus",
+        "parameters": [
+          { "name": "status", "in": "query", "required": true, "schema": { "type": "string", "enum": ["available", "pending", "sold"] } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Pet" } } } } },
+          "400": { "description": "Invalid status" }
+        }
+      }
+    },
+    "/pet/findByTags": {
+      "get": {
+        "tags": ["pet"],
+        "summary": "Find pets by tags",
+        "operationId": "findPetsByTags",
+        "parameters": [
+          { "name": "tags", "in": "query", "required": true, "style": "form", "explode": false, "schema": { "type": "array", "items": { "type": "string" } } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Pet" } } } } }
+        }
+      }
+    },
+    "/pet/complex": {
+      "get": {
+        "tags": ["pet"],
+        "summary": "Test nested object, enum, array, header, cookie",
+        "operationId": "complexParamTest",
+        "parameters": [
+          { "name": "deepObj", "in": "query", "required": false, "style": "deepObject", "explode": true, "schema": { "$ref": "#/components/schemas/DeepObj" } },
+          { "name": "enumParam", "in": "query", "required": false, "schema": { "type": "string", "enum": ["A", "B", "C"] } },
+          { "name": "pipeArr", "in": "query", "required": false, "style": "pipeDelimited", "explode": false, "schema": { "type": "array", "items": { "type": "string" } } },
+          { "name": "spaceArr", "in": "query", "required": false, "style": "spaceDelimited", "explode": false, "schema": { "type": "array", "items": { "type": "integer" } } },
+          { "name": "x-enum-header", "in": "header", "required": false, "schema": { "type": "string", "enum": ["X", "Y", "Z"] } },
+          { "name": "cookieEnum", "in": "cookie", "required": false, "schema": { "type": "string", "enum": ["cookieA", "cookieB"] } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ComplexParamsResponse" } } } }
+        }
+      }
+    },
+    "/store/order": {
+      "post": {
+        "tags": ["store"],
+        "summary": "Place an order",
+        "operationId": "placeOrder",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Order" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "Order placed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } }
+        }
+      }
+    },
+    "/store/order/{orderId}": {
+      "get": {
+        "tags": ["store"],
+        "summary": "Get order by ID",
+        "operationId": "getOrderById",
+        "parameters": [
+          { "name": "orderId", "in": "path", "required": true, "schema": { "type": "integer", "format": "int64" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } }
+        }
+      },
+      "delete": {
+        "tags": ["store"],
+        "summary": "Delete order",
+        "operationId": "deleteOrder",
+        "parameters": [
+          { "name": "orderId", "in": "path", "required": true, "schema": { "type": "integer", "format": "int64" } }
+        ],
+        "responses": {
+          "200": { "description": "Order deleted" }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create user",
+        "operationId": "createUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/User" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "User created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } }
+        }
+      }
+    },
+    "/user/{username}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get user by name",
+        "operationId": "getUserByName",
+        "parameters": [
+          { "name": "username", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } }
+        }
+      },
+      "put": {
+        "tags": ["user"],
+        "summary": "Update user",
+        "operationId": "updateUser",
+        "parameters": [
+          { "name": "username", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/User" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "User updated" }
+        }
+      },
+      "delete": {
+        "tags": ["user"],
+        "summary": "Delete user",
+        "operationId": "deleteUser",
+        "parameters": [
+          { "name": "username", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "User deleted" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "required": ["name", "photoUrls"],
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" },
+          "photoUrls": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["available", "pending", "sold"], "description": "Pet status in store" },
+          "category": { "$ref": "#/components/schemas/Category" },
+          "tags": { "type": "array", "items": { "$ref": "#/components/schemas/Tag" } }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" }
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "petId": { "type": "integer", "format": "int64" },
+          "quantity": { "type": "integer", "format": "int32" },
+          "shipDate": { "type": "string", "format": "date-time" },
+          "status": { "type": "string", "enum": ["placed", "approved", "delivered"], "description": "Order status" },
+          "complete": { "type": "boolean" }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "username": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string" },
+          "phone": { "type": "string" },
+          "userStatus": { "type": "integer", "format": "int32", "enum": [0, 1, 2], "description": "User status (0=inactive, 1=active, 2=admin)" }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer", "format": "int32" },
+          "type": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      },
+      "DeepObj": {
+        "type": "object",
+        "properties": {
+          "foo": { "type": "string" },
+          "bar": { "type": "integer" },
+          "baz": {
+            "type": "object",
+            "properties": {
+              "x": { "type": "string" },
+              "y": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "ComplexParamsResponse": {
+        "type": "object",
+        "properties": {
+          "deepObj": { "$ref": "#/components/schemas/DeepObj" },
+          "enumParam": { "type": "string", "enum": ["A", "B", "C"] },
+          "pipeArr": { "type": "array", "items": { "type": "string" } },
+          "spaceArr": { "type": "array", "items": { "type": "integer" } },
+          "x-enum-header": { "type": "string", "enum": ["X", "Y", "Z"] },
+          "cookieEnum": { "type": "string", "enum": ["cookieA", "cookieB"] }
+        }
+      },
+      "PetOrCategory": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/Pet" },
+          { "$ref": "#/components/schemas/Category" }
+        ],
+        "description": "Polymorphic type: Pet or Category"
+      },
+      "NullableExample": {
+        "type": "object",
+        "properties": {
+          "maybeString": { "type": "string", "nullable": true, "description": "A nullable string property" }
+        }
+      }
+    }
+  }
+}

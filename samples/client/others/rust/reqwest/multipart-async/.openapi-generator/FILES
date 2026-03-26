@@ -1,0 +1,12 @@
+.gitignore
+.travis.yml
+README.md
+docs/DefaultApi.md
+docs/UploadResponse.md
+git_push.sh
+src/apis/configuration.rs
+src/apis/default_api.rs
+src/apis/mod.rs
+src/lib.rs
+src/models/mod.rs
+src/models/upload_response.rs

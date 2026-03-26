@@ -1,0 +1,20 @@
+package {{invokerPackage}}
+
+import java.net.{URI, URISyntaxException}
+import com.github.plokhotnyuk.jsoniter_scala.core.*
+
+trait AdditionalTypeSerializers:
+
+  implicit final lazy val URICodec: JsonValueCodec[URI] = new JsonValueCodec[URI]:
+    def nullValue: URI = null
+    def decodeValue(in: JsonReader, default: URI): URI =
+      try
+        val uriString = in.readString(null)
+        if (uriString != null) new URI(uriString) else default
+      catch
+        case e: URISyntaxException =>
+          in.decodeError(s"Invalid URI syntax: ${e.getMessage}")
+
+    def encodeValue(uri: URI, out: JsonWriter): Unit =
+      if (uri != null) out.writeVal(uri.toString)
+      else out.writeNull()

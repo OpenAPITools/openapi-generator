@@ -1,24 +1,28 @@
 package org.openapitools.server.api.api
 
+import misk.testing.MiskTestModule
 import jakarta.inject.Inject
 import misk.testing.MiskTest
+import misk.testing.MiskTestModule
 import org.junit.jupiter.api.Test
-
 import misk.web.HttpCall
 import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestHeader
-
 import org.openapitools.server.api.model.User
 
 @MiskTest(startService = true)
 internal class UserApiTest {
 
-    @Inject private lateinit var userApi: UserApi
+    @Suppress("unused")
+    @MiskTestModule
+    private val module = MiskTestModule()
+
+    @Inject private lateinit var userApi: UserApiAction
 
     /**
-     * To test UserApiController.createUser
+     * To test UserApiAction.createUser
      */
     @Test
     fun `should handle createUser`() {
@@ -27,7 +31,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.createUsersWithArrayInput
+     * To test UserApiAction.createUsersWithArrayInput
      */
     @Test
     fun `should handle createUsersWithArrayInput`() {
@@ -36,7 +40,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.createUsersWithListInput
+     * To test UserApiAction.createUsersWithListInput
      */
     @Test
     fun `should handle createUsersWithListInput`() {
@@ -45,7 +49,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.deleteUser
+     * To test UserApiAction.deleteUser
      */
     @Test
     fun `should handle deleteUser`() {
@@ -54,7 +58,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.getUserByName
+     * To test UserApiAction.getUserByName
      */
     @Test
     fun `should handle getUserByName`() {
@@ -63,7 +67,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.loginUser
+     * To test UserApiAction.loginUser
      */
     @Test
     fun `should handle loginUser`() {
@@ -73,7 +77,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.logoutUser
+     * To test UserApiAction.logoutUser
      */
     @Test
     fun `should handle logoutUser`() {
@@ -81,7 +85,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.updateUser
+     * To test UserApiAction.updateUser
      */
     @Test
     fun `should handle updateUser`() {
@@ -89,5 +93,4 @@ internal class UserApiTest {
         val user = TODO()
         val response = userApi.updateUser(username, user)
     }
-
 }

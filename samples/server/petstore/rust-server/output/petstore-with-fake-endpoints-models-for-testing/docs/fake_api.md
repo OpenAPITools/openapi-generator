@@ -278,8 +278,8 @@ Name | Type | Description  | Notes
  **double** | **f64**| None | 
  **pattern_without_delimiter** | **String**| None | 
  **byte** | **swagger::ByteArray**| None | 
- **integer** | **i32**| None | 
- **int32** | **i32**| None | 
+ **integer** | **u32**| None | 
+ **int32** | **u32**| None | 
  **int64** | **i64**| None | 
  **float** | **f32**| None | 
  **string** | **String**| None | 

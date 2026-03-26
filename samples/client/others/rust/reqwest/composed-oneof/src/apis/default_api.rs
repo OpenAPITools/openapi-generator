@@ -32,7 +32,7 @@ pub enum GetStateError {
 
 pub fn create_state(configuration: &configuration::Configuration, create_state_request: models::CreateStateRequest) -> Result<(), Error<CreateStateError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_create_state_request = create_state_request;
+    let p_body_create_state_request = create_state_request;
 
     let uri_str = format!("{}/state", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -40,7 +40,7 @@ pub fn create_state(configuration: &configuration::Configuration, create_state_r
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&p_create_state_request);
+    req_builder = req_builder.json(&p_body_create_state_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;

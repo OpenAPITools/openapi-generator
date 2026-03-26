@@ -21,8 +21,8 @@ jobs:
           - samples/server/petstore/go-gin-api-server/
           - samples/server/petstore/go-gin-api-server-interface-only/
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: "stable"
       - run: go version

@@ -49,6 +49,7 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
+    - url: 'http://localhost/v2'
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
     post:
@@ -1307,7 +1308,42 @@ paths:
             application/json:
               schema:
                 type: object
+  /fake/query-array-with-default-values:
+    post:
+      tags:
+        - fake
+      summary: to test query array with default values
+      operationId: query_array_with_default_values
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      parameters:
+        - name: "arrayparam"
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+            default: ["test1", "test2"]
+        - name: "enumarrayparam"
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ExampleEnum"
+            default: ["example1"]
+        - name: "stringparam"
+          in: query
+          schema:
+            type: string
+            default: "test3"
+      responses:
+        200:
+          description: Ok
 servers:
+  - url: 'http://localhost/v2'
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
     variables:
@@ -1322,7 +1358,7 @@ servers:
           - 80
           - 8080
         default: 80
-  - url: https://localhost:8080/{version}
+  - url: http://localhost:8080/{version}
     description: The local server
     variables:
       version:
@@ -1330,7 +1366,7 @@ servers:
           - 'v1'
           - 'v2'
         default: 'v2'
-  - url: https://127.0.0.1/no_variable
+  - url: http://127.0.0.1/no_variable
     description: The local server without variables
 components:
   requestBodies:
@@ -1365,7 +1401,7 @@ components:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+          authorizationUrl: 'http://localhost/api/oauth/dialog'
           scopes:
             'write:pets': modify pets in your account
             'read:pets': read your pets
@@ -1887,6 +1923,25 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/ReadOnlyFirst'
+    ArrayTestWithWrapped:
+      type: object
+      properties:
+        array_of_string:
+          type: array
+          items:
+            type: string
+          xml:
+            wrapped: true
+    ArrayTestWithWrappedAndName:
+      type: object
+      properties:
+        array_of_string:
+          type: array
+          items:
+            type: string
+          xml:
+            name: item
+            wrapped: true
     NumberOnly:
       type: object
       properties:
@@ -2285,3 +2340,8 @@ components:
         - type: array
           items:
             type: string
+    ExampleEnum:
+      type: string
+      enum:
+        - example1
+        - example2

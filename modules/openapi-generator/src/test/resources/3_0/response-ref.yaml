@@ -1,0 +1,25 @@
+openapi: 3.0.1
+info:
+  title: ping test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8000/'
+paths:
+  /hello:
+    get:
+      operationId: hello
+      responses:
+        '200':
+          $ref: "#/components/responses/refResponse"
+
+components:
+  responses:
+    refResponse:
+      description: a response specification `$ref`erenced from an operation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              responseProperty:
+                type: string

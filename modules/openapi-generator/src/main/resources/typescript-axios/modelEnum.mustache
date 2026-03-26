@@ -1,8 +1,8 @@
+{{#description}}
 /**
  * {{{description}}}
- * @export
- * @enum {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
  */
+{{/description}}
 {{#isBoolean}}
 export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}
 {{/isBoolean}}
@@ -10,8 +10,10 @@ export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last
 {{^isBoolean}}
 {{^stringEnums}}
 {{>modelObjectEnum}}
+
 {{/stringEnums}}
 {{#stringEnums}}
 {{>modelStringEnum}}
+
 {{/stringEnums}}
 {{/isBoolean}}

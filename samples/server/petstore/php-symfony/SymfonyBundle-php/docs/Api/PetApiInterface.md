@@ -6,9 +6,12 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addPet**](PetApiInterface.md#addPet) | **POST** /pet | Add a new pet to the store
 [**deletePet**](PetApiInterface.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
+[**downloadFile**](PetApiInterface.md#downloadFile) | **GET** /pet/{petId}/downloadImage | downloads an image
 [**findPetsByStatus**](PetApiInterface.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApiInterface.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**getPetById**](PetApiInterface.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
+[**petAge**](PetApiInterface.md#petAge) | **GET** /pet/{petId}/age | Get the age of the pet
+[**petAvailableForSale**](PetApiInterface.md#petAvailableForSale) | **GET** /pet/{petId}/available-for-sale | Whether the pet can currently be bought
 [**updatePet**](PetApiInterface.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApiInterface.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApiInterface.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -147,6 +150,60 @@ void (empty response body)
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+## **downloadFile**
+> UploadedFile downloadFile($petId)
+
+downloads an image
+
+response may be an image
+
+### Example Implementation
+```php
+<?php
+// src/Acme/MyBundle/Api/PetApiInterface.php
+
+namespace Acme\MyBundle\Api;
+
+use OpenAPI\Server\Api\PetApiInterface;
+
+class PetApi implements PetApiInterface
+{
+
+    // ...
+
+    /**
+     * Implementation of PetApiInterface#downloadFile
+     */
+    public function downloadFile(int $petId, int &$responseCode, array &$responseHeaders): mixed
+    {
+        // Implement the operation ...
+    }
+
+    // ...
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **int**| ID of pet to download an image from |
+
+### Return type
+
+**UploadedFile**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: image/png
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -333,6 +390,114 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+## **petAge**
+> int petAge($petId)
+
+Get the age of the pet
+
+response may be an int
+
+### Example Implementation
+```php
+<?php
+// src/Acme/MyBundle/Api/PetApiInterface.php
+
+namespace Acme\MyBundle\Api;
+
+use OpenAPI\Server\Api\PetApiInterface;
+
+class PetApi implements PetApiInterface
+{
+
+    // ...
+
+    /**
+     * Implementation of PetApiInterface#petAge
+     */
+    public function petAge(int $petId, int &$responseCode, array &$responseHeaders): int
+    {
+        // Implement the operation ...
+    }
+
+    // ...
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **int**| ID of pet |
+
+### Return type
+
+**int**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+## **petAvailableForSale**
+> bool petAvailableForSale($petId)
+
+Whether the pet can currently be bought
+
+response may be a boolean
+
+### Example Implementation
+```php
+<?php
+// src/Acme/MyBundle/Api/PetApiInterface.php
+
+namespace Acme\MyBundle\Api;
+
+use OpenAPI\Server\Api\PetApiInterface;
+
+class PetApi implements PetApiInterface
+{
+
+    // ...
+
+    /**
+     * Implementation of PetApiInterface#petAvailableForSale
+     */
+    public function petAvailableForSale(int $petId, int &$responseCode, array &$responseHeaders): bool
+    {
+        // Implement the operation ...
+    }
+
+    // ...
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **int**| ID of pet |
+
+### Return type
+
+**bool**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

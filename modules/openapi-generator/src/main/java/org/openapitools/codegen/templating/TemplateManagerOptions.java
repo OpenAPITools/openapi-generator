@@ -24,8 +24,8 @@ public class TemplateManagerOptions {
     /**
      * Constructs a new instance of {@link TemplateManagerOptions}
      *
-     * @param minimalUpdate See {@link #isMinimalUpdate()}
-     * @param skipOverwrite See {@link #isSkipOverwrite()}
+     * @param minimalUpdate Minimal update
+     * @param skipOverwrite Skip overwrite
      */
     public TemplateManagerOptions(boolean minimalUpdate, boolean skipOverwrite) {
         this.minimalUpdate = minimalUpdate;

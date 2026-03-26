@@ -73,7 +73,7 @@ public class ClientConfiguration {
 
     public String getBearerToken() {
       final OAuth2AccessToken accessToken = getAccessToken();
-      return String.format( "%s %s", accessToken.getTokenType().getValue(), accessToken.getTokenValue() );
+      return String.format(java.util.Locale.ROOT, "%s %s", accessToken.getTokenType().getValue(), accessToken.getTokenValue() );
     }
   }
 

@@ -49,6 +49,7 @@ interface PetApiService {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
+    @Deprecated(message="Operation is deprecated")
     suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
 
     /**
@@ -100,5 +101,5 @@ interface PetApiService {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.web.multipart.MultipartFile?): ModelApiResponse
+    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.web.multipart.MultipartFile): ModelApiResponse
 }

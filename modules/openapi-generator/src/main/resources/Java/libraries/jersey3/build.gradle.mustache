@@ -99,10 +99,11 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.6.5"
-    jackson_version = "2.17.1"
-    jackson_databind_version = "2.17.1"
+    jackson_version = "2.21.1"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.1"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.6"
+    jackson_databind_nullable_version = "0.2.9"
     {{/openApiNullable}}
     jakarta_annotation_version = "2.1.0"
     {{#useBeanValidation}}
@@ -130,7 +131,7 @@ dependencies {
     implementation "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     implementation "org.glassfish.jersey.connectors:jersey-apache-connector:$jersey_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
@@ -152,7 +153,6 @@ dependencies {
     {{#useReflectionEqualsHashCode}}
     implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     {{/useReflectionEqualsHashCode}}
-
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }

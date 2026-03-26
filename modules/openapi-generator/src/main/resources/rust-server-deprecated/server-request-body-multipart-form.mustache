@@ -1,0 +1,98 @@
+                                let boundary = match swagger::multipart::form::boundary(&headers) {
+                                    Some(boundary) => boundary.to_string(),
+                                    None => return Ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from("Couldn't find valid multipart body".to_string()))
+                                                .expect("Unable to create Bad Request response for incorrect boundary")),
+                                };
+
+                                use std::io::Read;
+
+                                // Read Form Parameters from body
+                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary)
+                                    .save()
+                                    .size_limit(multipart_form_size_limit)
+                                    .temp()
+                                {
+                                    SaveResult::Full(entries) => {
+                                        entries
+                                    },
+                                    SaveResult::Partial(_, PartialReason::CountLimit) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Unable to process message part due to excessive parts".to_string()))
+                                                        .expect("Unable to create Bad Request response due to excessive parts"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::SizeLimit) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Unable to process message part due to excessive data".to_string()))
+                                                        .expect("Unable to create Bad Request response due to excessive data"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::Utf8Error(_)) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Unable to process message part due to invalid data".to_string()))
+                                                        .expect("Unable to create Bad Request response due to invalid data"))
+                                    },
+                                    SaveResult::Partial(_, PartialReason::IoError(_)) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .body(Body::from("Failed to process message part due an internal error".to_string()))
+                                                        .expect("Unable to create Internal Server Error response due to an internal error"))
+                                    },
+                                    SaveResult::Error(e) => {
+                                        return Ok(Response::builder()
+                                                        .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                        .body(Body::from("Failed to process all message parts due to an internal error".to_string()))
+                                                        .expect("Unable to create Internal Server Error response due to an internal error"))
+                                    },
+                                };
+                {{#formParams}}
+                                let field_{{{paramName}}} = entries.fields.remove("{{{paramName}}}");
+                                let param_{{{paramName}}} = match field_{{{paramName}}} {
+                                    Some(field) => {
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for {{{paramName}}}");
+                {{^required}}
+                                    Some({
+                {{/required}}
+                                {{#isByteArray}}
+                                        let mut data = vec![];
+                                        reader.read_to_end(&mut data).expect("Reading saved binary data should never fail");
+                                        swagger::ByteArray(data)
+                                {{/isByteArray}}
+                                {{^isByteArray}}
+                                  {{#jsonSchema}}
+                                        let mut data = String::new();
+                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
+                                        let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_str(&data) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Ok(
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("{{{paramName}}} data does not match API definition : {e}")))
+                                                    .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}"))
+                                            }
+                                        };
+                                        {{{paramName}}}_model
+                                  {{/jsonSchema}}
+                                {{/isByteArray}}
+                {{^required}}
+                                    })
+                {{/required}}
+                                    },
+                                    None => {
+                {{#required}}
+                                        return Ok(
+                                            Response::builder()
+                                            .status(StatusCode::BAD_REQUEST)
+                                            .body(Body::from("Missing required form parameter {{{paramName}}}".to_string()))
+                                            .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}"))
+                {{/required}}
+                {{^required}}
+                                            None
+                {{/required}}
+                                    }
+                                };
+        {{/formParams}}

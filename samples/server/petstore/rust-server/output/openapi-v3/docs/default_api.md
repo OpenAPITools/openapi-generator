@@ -7,6 +7,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /any-of | 
 ****](default_api.md#) | **POST** /callback-with-header | 
 ****](default_api.md#) | **GET** /complex-query-param | 
+**ExamplesTest**](default_api.md#ExamplesTest) | **GET** /examples-test | Test examples
 **FormTest**](default_api.md#FormTest) | **POST** /form-test | Test a Form Post
 **GetWithBooleanParameter**](default_api.md#GetWithBooleanParameter) | **GET** /get-with-bool | 
 ****](default_api.md#) | **GET** /json-complex-query-param | 
@@ -17,6 +18,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /one-of | 
 ****](default_api.md#) | **GET** /override-server | 
 ****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
+**queryExampleGet**](default_api.md#queryExampleGet) | **GET** /query-example | Test required query params with and without examples
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
 ****](default_api.md#) | **POST** /register-callback | 
 ****](default_api.md#) | **PUT** /required_octet_stream | 
@@ -123,9 +125,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FormTest**
-> FormTest(optional)
-Test a Form Post
+# **ExamplesTest**
+> models::AdditionalPropertiesReferencedAnyOfObject ExamplesTest(optional)
+Test examples
+
+Test examples in OpenAPI
 
 ### Required Parameters
 
@@ -138,7 +142,33 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **required_array** | [**String**](String.md)|  | 
+ **ids** | [**String**](String.md)| A list of IDs to get | 
+
+### Return type
+
+[**models::AdditionalPropertiesReferencedAnyOfObject**](AdditionalPropertiesReferencedAnyOfObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **FormTest**
+> FormTest(required_array, enum_field)
+Test a Form Post
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **required_array** | [**String**](String.md)|  | 
+  **enum_field** | [**FormTest_request_enum_field**](FormTest_request_enum_field.md)|  | 
 
 ### Return type
 
@@ -380,6 +410,32 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **queryExampleGet**
+> queryExampleGet(required_no_example, required_with_example)
+Test required query params with and without examples
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **required_no_example** | **String**|  | 
+  **required_with_example** | **i32**|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

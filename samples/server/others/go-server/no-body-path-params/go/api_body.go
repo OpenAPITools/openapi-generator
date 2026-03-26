@@ -50,12 +50,27 @@ func NewBodyAPIController(s BodyAPIServicer, opts ...BodyAPIOption) *BodyAPICont
 func (c *BodyAPIController) Routes() Routes {
 	return Routes{
 		"Body": Route{
+			"Body",
 			strings.ToUpper("Post"),
 			"/body/endpoint",
 			c.Body,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the BodyAPIController
+func (c *BodyAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"Body",
+			strings.ToUpper("Post"),
+			"/body/endpoint",
+			c.Body,
+		},
+	}
+}
+
+
 
 // Body - summary
 func (c *BodyAPIController) Body(w http.ResponseWriter, r *http.Request) {

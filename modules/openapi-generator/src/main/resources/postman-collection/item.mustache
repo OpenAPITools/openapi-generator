@@ -5,59 +5,23 @@
                         {{#vendorExtensions.postmanRequests}}
                             {
                                 "name": "{{{name}}}",
-                                "request": {
-                                    "method": "{{httpMethod}}",
-                                    "header": [
-                                    {{#headerParams}}
-                                        {
-                                            "key": "{{baseName}}",
-                                            "value": "{{schema.defaultValue}}",
-                                            "description": "{{{description}}}",
-                                            "disabled": {{#schema.defaultValue}}false{{/schema.defaultValue}}{{^schema.defaultValue}}true{{/schema.defaultValue}}
-                                        }{{^-last}},{{/-last}}
-                                    {{/headerParams}}
-                                    ],
-                                    "body": {
-                                        "mode": "raw",
-                                        "raw": "{{{body}}}",
-                                        "options": {
-                                            "raw": {
-                                                "language": "json"
-                                            }
-                                        }
-                                    },
-                                    "url": {
-                                        "raw": "{{=<% %>=}}{{baseUrl}}<%={{ }}=%>{{{path}}}",
-                                        "host": [
-                                            "{{=<% %>=}}{{baseUrl}}<%={{ }}=%>"
-                                        ],
-                                        "path": [
-                                            {{#vendorExtensions.pathSegments}}
-                                            "{{.}}"{{^-last}},{{/-last}}
-                                            {{/vendorExtensions.pathSegments}}
-                                        ],
-                                        "variable": [
-                                            {{#pathParams}}
-                                            {
-                                                "key": "{{paramName}}",
-                                                "value": "{{defaultValue}}",
-                                                "description": "{{{description}}}"
-                                            }{{^-last}},{{/-last}}
-                                        {{/pathParams}}
-                                        ],
-                                        "query": [
-                                            {{#queryParams}}
-                                            {
-                                                "key": "{{paramName}}",
-                                                "value": "{{example}}",
-                                                "description": "{{{description}}}",
-                                                "disabled": {{#required}}false{{/required}}{{^required}}true{{/required}}
-                                            }{{^-last}},{{/-last}}
-                                            {{/queryParams}}
-                                        ]
-                                    },
-                                    "description": "{{{notes}}}"
-                                }
+                                "request": {{>request}}
+                                ,"response": [
+                            {{#responses}}
+                                {"name": "{{name}}",
+                                "code": {{code}},
+                                "status": "{{status}}",
+                                "header": [{
+                                "key": "Content-Type",
+                                "value": "application/json"}
+                                ],
+                                "_postman_previewlanguage": "json",
+                                "cookie": [],
+                                "body" : "{{{body}}}",
+                                "originalRequest": {{#originalRequest}}{{>request}}{{/originalRequest}}
+                                }{{^-last}},{{/-last}}
+                            {{/responses}}
+                            ]
                             }{{^-last}},{{/-last}}
                         {{/vendorExtensions.postmanRequests}}
                             ]

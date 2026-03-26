@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -36,7 +37,6 @@ public class PetApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public PetApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -49,7 +49,6 @@ public class PetApi {
         this.apiClient = apiClient;
     }
 
-    
     /**
      * Add a new pet to the store
      * 
@@ -149,7 +148,6 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-
         if (apiKey != null)
         headerParams.add("api_key", apiClient.parameterToString(apiKey));
         final String[] localVarAccepts = { };
@@ -229,7 +227,7 @@ public class PetApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
-        
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
@@ -310,7 +308,7 @@ public class PetApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
-        
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
@@ -346,7 +344,9 @@ public class PetApi {
      * @param tags Tags to filter by
      * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     * @deprecated
      */
+    @Deprecated
     public ResponseEntity<List<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return findPetsByTagsRequestCreation(tags).toEntityList(localVarReturnType).block();

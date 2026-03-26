@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="roleUuid">roleUuid.</param>
         /// <param name="role">role.</param>
-        public RolesReportsHash(Guid roleUuid = default(Guid), RolesReportsHashRole role = default(RolesReportsHashRole))
+        public RolesReportsHash(Guid roleUuid = default, RolesReportsHashRole role = default)
         {
             this.RoleUuid = roleUuid;
             this.Role = role;

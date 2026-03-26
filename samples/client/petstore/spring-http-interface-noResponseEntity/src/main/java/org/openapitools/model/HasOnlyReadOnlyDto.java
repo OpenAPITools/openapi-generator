@@ -19,14 +19,14 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class HasOnlyReadOnlyDto {
 
   private @Nullable String bar;
 
   private @Nullable String foo;
 
-  public HasOnlyReadOnlyDto bar(String bar) {
+  public HasOnlyReadOnlyDto bar(@Nullable String bar) {
     this.bar = bar;
     return this;
   }
@@ -37,15 +37,16 @@ public class HasOnlyReadOnlyDto {
    */
   
   @JsonProperty("bar")
-  public String getBar() {
+  public @Nullable String getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  @JsonProperty("bar")
+  public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
 
-  public HasOnlyReadOnlyDto foo(String foo) {
+  public HasOnlyReadOnlyDto foo(@Nullable String foo) {
     this.foo = foo;
     return this;
   }
@@ -56,11 +57,12 @@ public class HasOnlyReadOnlyDto {
    */
   
   @JsonProperty("foo")
-  public String getFoo() {
+  public @Nullable String getFoo() {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  @JsonProperty("foo")
+  public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }
 
@@ -96,11 +98,8 @@ public class HasOnlyReadOnlyDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

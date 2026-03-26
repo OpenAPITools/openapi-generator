@@ -69,8 +69,7 @@
         openapi_one_of.each do |klass|
           begin
             next if klass == :AnyType # "nullable: true"
-            typed_data = find_and_cast_into_type(klass, data)
-            return typed_data if typed_data
+            return find_and_cast_into_type(klass, data)
           rescue # rescue all errors so we keep iterating even if the current item lookup raises
           end
         end
@@ -98,7 +97,7 @@
         when 'Time'
           return Time.parse(data)
         when 'Date'
-          return Date.parse(data)
+          return Date.iso8601(data)
         when 'String'
           return data if data.instance_of?(String)
         when 'Object' # "type: object"

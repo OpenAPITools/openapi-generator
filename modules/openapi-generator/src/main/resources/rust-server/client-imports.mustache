@@ -1,10 +1,12 @@
 use async_trait::async_trait;
+use bytes::Bytes;
 use futures::{Stream, future, future::BoxFuture, stream, future::TryFutureExt, future::FutureExt, stream::StreamExt};
+use http_body_util::{combinators::BoxBody, Full};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
-use hyper::{Body, Request, Response, service::Service, Uri};
+use hyper::{body::{Body, Incoming}, Request, Response, service::Service, Uri};
 use percent_encoding::{utf8_percent_encode, AsciiSet};
 use std::borrow::Cow;
-use std::convert::TryInto;
+use std::convert::{TryInto, Infallible};
 use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
@@ -18,6 +20,7 @@ use std::string::ToString;
 use std::task::{Context, Poll};
 use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
 use url::form_urlencoded;
+use tower_service::Service as _;
 
 {{#apiUsesMultipartFormData}}
 use mime::Mime;
@@ -25,7 +28,7 @@ use std::io::Cursor;
 use multipart::client::lazy::Multipart;
 {{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartRelated}}
-use hyper_0_10::header::{Headers, ContentType};
+use hyper::header::HeaderMap;
 use mime_multipart::{Node, Part, write_multipart};
 {{/apiUsesMultipartRelated}}
 

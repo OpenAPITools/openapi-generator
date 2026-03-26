@@ -34,6 +34,7 @@
 {{/useSpringAnnotationConfig}}
 
 {{#useSwaggerFeature}}
+{{#swagger1AnnotationLibrary}}
     <!-- CXF Swagger2Feature -->
     {{! http://cxf.apache.org/docs/swagger2feature.html }}
     <bean id="swagger2Feature" class="org.apache.cxf.jaxrs.swagger.Swagger2Feature">
@@ -48,6 +49,7 @@
         <property name="license" value="${swagger.license}" />
         <property name="licenseUrl" value="${swagger.licenseUrl}" /-->
     </bean>
+{{/swagger1AnnotationLibrary}}
 {{/useSwaggerFeature}}
 
     <cxf:bus>

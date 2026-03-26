@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   @javax.annotation.Nullable
@@ -66,7 +66,7 @@ public class OuterComposite {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getMyNumber() {
@@ -74,7 +74,7 @@ public class OuterComposite {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyNumber(@javax.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -93,7 +93,7 @@ public class OuterComposite {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getMyString() {
@@ -101,7 +101,7 @@ public class OuterComposite {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyString(@javax.annotation.Nullable String myString) {
     this.myString = myString;
@@ -120,7 +120,7 @@ public class OuterComposite {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean isMyBoolean() {
@@ -128,7 +128,7 @@ public class OuterComposite {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
@@ -161,10 +161,7 @@ public class OuterComposite {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

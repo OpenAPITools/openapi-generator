@@ -3,6 +3,7 @@ models/api_response.proto
 models/cat.proto
 models/category.proto
 models/dog.proto
+models/error.proto
 models/order.proto
 models/other_test.proto
 models/pet.proto

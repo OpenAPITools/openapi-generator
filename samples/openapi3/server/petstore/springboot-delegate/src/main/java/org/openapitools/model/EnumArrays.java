@@ -11,19 +11,19 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * EnumArrays
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class EnumArrays {
 
   /**
@@ -34,7 +34,7 @@ public class EnumArrays {
     
     DOLLAR("$");
 
-    private String value;
+    private final String value;
 
     JustSymbolEnum(String value) {
       this.value = value;
@@ -71,7 +71,7 @@ public class EnumArrays {
     
     CRAB("crab");
 
-    private String value;
+    private final String value;
 
     ArrayEnumEnum(String value) {
       this.value = value;
@@ -101,7 +101,7 @@ public class EnumArrays {
   @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArrays justSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;
   }
@@ -113,11 +113,12 @@ public class EnumArrays {
   
   @Schema(name = "just_symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("just_symbol")
-  public JustSymbolEnum getJustSymbol() {
+  public @Nullable JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
 
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  @JsonProperty("just_symbol")
+  public void setJustSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
@@ -145,6 +146,7 @@ public class EnumArrays {
     return arrayEnum;
   }
 
+  @JsonProperty("array_enum")
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
@@ -181,11 +183,8 @@ public class EnumArrays {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

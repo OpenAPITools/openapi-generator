@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 {{>generatedAnnotation}}
+
 {{#operations}}
 public class {{classname}} {
   private ApiClient apiClient;
@@ -205,7 +206,7 @@ public class {{classname}} {
 
   public class API{{operationId}}Request {
     {{#allParams}}
-    {{>nullable_var_annotations}}
+    {{>nullable_var_annotations}}{{! prevent indent}}
     private {{{dataType}}} {{paramName}};
     {{/allParams}}
 

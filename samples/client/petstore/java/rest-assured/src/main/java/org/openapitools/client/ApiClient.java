@@ -26,9 +26,9 @@ import static org.openapitools.client.GsonObjectMapper.gson;
 public class ApiClient {
     public static final String BASE_URI = "http://petstore.swagger.io:80/v2";
 
-    private final Config config;
+    protected final Config config;
 
-    private ApiClient(Config config) {
+    protected ApiClient(Config config) {
         this.config = config;
     }
 
@@ -56,7 +56,7 @@ public class ApiClient {
     }
 
     public static class Config {
-        private Supplier<RequestSpecBuilder> reqSpecSupplier = () -> new RequestSpecBuilder()
+        protected Supplier<RequestSpecBuilder> reqSpecSupplier = () -> new RequestSpecBuilder()
                 .setBaseUri(BASE_URI)
                 .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())));
 

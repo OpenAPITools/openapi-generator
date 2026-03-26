@@ -50,7 +50,7 @@ public class ApiKeyAuth implements RequestInterceptor {
         } else if ("header".equals(location)) {
             template.header(paramName, apiKey);
         } else if ("cookie".equals(location)) {
-            template.header("Cookie", String.format("%s=%s", paramName, apiKey));
+            template.header("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", paramName, apiKey));
         }
     }
 }

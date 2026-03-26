@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -38,7 +38,7 @@ public class BigCat extends Cat {
     
     JAGUARS("jaguars");
 
-    private String value;
+    private final String value;
 
     KindEnum(String value) {
       this.value = value;
@@ -78,7 +78,7 @@ public class BigCat extends Cat {
     super(className);
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(@Nullable KindEnum kind) {
     this.kind = kind;
     return this;
   }
@@ -89,11 +89,12 @@ public class BigCat extends Cat {
    */
   
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public @Nullable KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  @JsonProperty("kind")
+  public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }
 
@@ -144,11 +145,8 @@ public class BigCat extends Cat {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

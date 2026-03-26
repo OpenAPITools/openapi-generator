@@ -1,0 +1,39 @@
+name: Samples Elixir
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/elixir/**
+  pull_request:
+    paths:
+      - samples/client/petstore/elixir/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    strategy:
+      matrix:
+        otp: ['25.3.2', '26.2.5', '27.3.3']
+        elixir: ['1.18.3']
+        sample:
+          - samples/client/petstore/elixir/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - name: mix deps.get 
+        run: mix deps.get
+        working-directory: ${{ matrix.sample }}
+      - name: mix test
+        run: mix test
+        working-directory: ${{ matrix.sample }}

@@ -18,7 +18,11 @@ package org.openapitools.server.models
  * @param name 
  */
 data class Category(
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("id")
     val id: kotlin.Long? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("name")
     val name: kotlin.String? = null
 )
 

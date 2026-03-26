@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -21,8 +29,8 @@ import com.google.gson.annotations.SerializedName
 /**
  * A User who is purchasing from the pet store
  *
- * @param id 
  * @param username 
+ * @param id 
  * @param firstName 
  * @param lastName 
  * @param email 
@@ -34,11 +42,11 @@ import com.google.gson.annotations.SerializedName
 
 data class User (
 
+    @SerializedName("username")
+    val username: kotlin.String,
+
     @SerializedName("id")
     val id: kotlin.Long? = null,
-
-    @SerializedName("username")
-    val username: kotlin.String? = null,
 
     @SerializedName("firstName")
     val firstName: kotlin.String? = null,

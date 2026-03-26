@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**PetAPI_findPetsByTags**](PetAPI.md#PetAPI_findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**PetAPI_getDaysWithoutIncident**](PetAPI.md#PetAPI_getDaysWithoutIncident) | **GET** /store/daysWithoutIncident | Number of days since the last time a pet maimed someone at the store
 [**PetAPI_getPetById**](PetAPI.md#PetAPI_getPetById) | **GET** /pet/{petId} | Find pet by ID
+[**PetAPI_getPetByUuid**](PetAPI.md#PetAPI_getPetByUuid) | **GET** /pet/byUuid/{uuid} | Find pet by UUID
 [**PetAPI_getPicture**](PetAPI.md#PetAPI_getPicture) | **GET** /pet/picture | Get a random picture of someone else&#39;s pet
 [**PetAPI_isPetAvailable**](PetAPI.md#PetAPI_isPetAvailable) | **POST** /pet/{petId}/isAvailable | Is this pet still available?
 [**PetAPI_sharePicture**](PetAPI.md#PetAPI_sharePicture) | **POST** /pet/picture | Send a picture of your happy pet
@@ -181,6 +182,37 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
 **petId** | **long** | ID of pet to return | 
+
+### Return type
+
+[pet_t](pet.md) *
+
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **PetAPI_getPetByUuid**
+```c
+// Find pet by UUID
+//
+// Returns a single pet identified by UUID
+//
+pet_t* PetAPI_getPetByUuid(apiClient_t *apiClient, char *uuid);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**uuid** | **char \*** | UUID of pet to return | 
 
 ### Return type
 

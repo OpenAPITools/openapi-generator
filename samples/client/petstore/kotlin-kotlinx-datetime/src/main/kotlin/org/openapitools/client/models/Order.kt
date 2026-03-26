@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -43,7 +51,7 @@ data class Order (
     val quantity: kotlin.Int? = null,
 
     @Json(name = "shipDate")
-    val shipDate: kotlinx.datetime.Instant? = null,
+    val shipDate: kotlin.time.Instant? = null,
 
     /* Order Status */
     @Json(name = "status")

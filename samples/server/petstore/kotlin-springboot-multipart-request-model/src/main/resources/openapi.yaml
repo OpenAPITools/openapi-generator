@@ -13,7 +13,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/multipartMixed_request'
+              $ref: "#/components/schemas/multipartMixed_request"
       responses:
         "204":
           description: Successful operation
@@ -38,9 +38,9 @@ components:
     multipartMixed_request:
       properties:
         status:
-          $ref: '#/components/schemas/MultipartMixedStatus'
+          $ref: "#/components/schemas/MultipartMixedStatus"
         marker:
-          $ref: '#/components/schemas/multipartMixed_request_marker'
+          $ref: "#/components/schemas/multipartMixed_request_marker"
         file:
           description: a file
           format: binary

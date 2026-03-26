@@ -17,8 +17,9 @@ import (
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Method	  string
-	Pattern	 string
+	Name        string
+	Method	    string
+	Pattern	    string
 	HandlerFunc http.HandlerFunc
 }
 
@@ -28,20 +29,21 @@ type Routes map[string]Route
 // Router defines the required methods for retrieving api routes
 type Router interface {
 	Routes() Routes
+	OrderedRoutes() []Route
 }
 
 // NewRouter creates a new router for any number of api routers
 func NewRouter(routers ...Router) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, api := range routers {
-		for name, route := range api.Routes() {
+		for _, route := range api.OrderedRoutes() {
 			var handler http.Handler = route.HandlerFunc
-			handler = Logger(handler, name)
+			handler = Logger(handler, route.Name)
 
 			router.
 				Methods(route.Method).
 				Path(route.Pattern).
-				Name(name).
+				Name(route.Name).
 				Handler(handler)
 		}
 	}

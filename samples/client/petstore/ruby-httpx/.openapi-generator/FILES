@@ -37,7 +37,6 @@ docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/List.md
-docs/MamalWithEnum.md
 docs/Mammal.md
 docs/MammalAnyof.md
 docs/MammalWithoutDiscriminator.md
@@ -49,6 +48,7 @@ docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
+docs/OneOfPrimitiveTypes.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -80,6 +80,7 @@ lib/petstore/api/store_api.rb
 lib/petstore/api/user_api.rb
 lib/petstore/api_client.rb
 lib/petstore/api_error.rb
+lib/petstore/api_model_base.rb
 lib/petstore/configuration.rb
 lib/petstore/models/additional_properties_class.rb
 lib/petstore/models/all_of_with_single_ref.rb
@@ -108,7 +109,6 @@ lib/petstore/models/format_test.rb
 lib/petstore/models/has_only_read_only.rb
 lib/petstore/models/health_check_result.rb
 lib/petstore/models/list.rb
-lib/petstore/models/mamal_with_enum.rb
 lib/petstore/models/mammal.rb
 lib/petstore/models/mammal_anyof.rb
 lib/petstore/models/mammal_without_discriminator.rb
@@ -120,6 +120,7 @@ lib/petstore/models/name.rb
 lib/petstore/models/nullable_class.rb
 lib/petstore/models/number_only.rb
 lib/petstore/models/object_with_deprecated_fields.rb
+lib/petstore/models/one_of_primitive_types.rb
 lib/petstore/models/order.rb
 lib/petstore/models/outer_composite.rb
 lib/petstore/models/outer_enum.rb

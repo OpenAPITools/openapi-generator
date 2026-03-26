@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -287,14 +295,14 @@ import io.ktor.http.ParametersBuilder
          * @return ModelApiResponse
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
+        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>?): HttpResponse<ModelApiResponse> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
             val localVariableBody = 
                         formData {
                         additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                        file?.apply { append("file", file) }
+                        file?.apply { append(file) }
                         }
 
             val localVariableQuery = mutableMapOf<String, List<String>>()

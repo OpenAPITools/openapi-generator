@@ -5,11 +5,11 @@ Running `./save_dart_keywords.sh` from this directory will generate `dart-keywor
 
 ## When should the keywords be generated?
 
-`save_dart_keywords.sh` should be run when a new version of Dart is release to update the keywords file.
+`save_dart_keywords.sh` should be run when a new version of Dart is released to update the keywords file.
 
 The last Dart version that was used to generate the keywords can be found in `dart-version.txt`.
 
-## What does the shellscript do? 
+## What does the shell script do? 
 
 1. run the dart app 
     - `dart run save-dart-keywords.dart`

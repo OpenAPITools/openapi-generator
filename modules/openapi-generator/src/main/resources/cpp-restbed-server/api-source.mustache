@@ -117,6 +117,8 @@ namespace {{classname}}Resources {
 	{{/vendorExtensions.x-codegen-other-methods}}
 }
 
+{{vendorExtensions.x-codegen-resource-name}}Resource::~{{vendorExtensions.x-codegen-resource-name}}Resource() = default;
+
 std::pair<int, std::string> {{vendorExtensions.x-codegen-resource-name}}Resource::handle{{classname}}Exception(const {{classname}}Exception& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -151,7 +153,7 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::defaultSessionClose(c
 void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session)
 {
     {{#lambda.indented}}
-    {{>api-source-HandlerBody}}
+    {{>api-source-HandlerBody}}{{! prevent indent}}
     {{/lambda.indented}}
 
 }
@@ -160,7 +162,7 @@ void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}
 // x-extension
 void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session) {
     {{#lambda.indented}}
-    {{>api-source-HandlerBody}}
+    {{>api-source-HandlerBody}}{{! prevent indent}}
     {{/lambda.indented}}
 
 }

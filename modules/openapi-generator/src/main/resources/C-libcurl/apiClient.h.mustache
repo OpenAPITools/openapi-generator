@@ -19,9 +19,20 @@ typedef struct sslConfig_t {
                                   /* 1 -- skip ssl verify for server certificate */
 } sslConfig_t;
 
+typedef struct curlConfig_t {
+    long verbose;   /* 0 -- disable verbose (default) */
+                    /* 1 -- enable verbose */
+    int keepalive;  /* 0 -- disable keepalive (default) */
+                    /* 1 -- enable keepalive */
+    long keepidle;  /* keep-alive idle time: default to 120 seconds */
+    long keepintvl; /* interval time between keep-alive probes: default to 60 seconds */
+} curlConfig_t;
+
 typedef struct apiClient_t {
     char *basePath;
     sslConfig_t *sslConfig;
+    curlConfig_t *curlConfig;
+    void (*curl_pre_invoke_func)(CURL *);
     void *dataReceived;
     long dataReceivedLen;
     void (*data_callback_func)(void **, long *);

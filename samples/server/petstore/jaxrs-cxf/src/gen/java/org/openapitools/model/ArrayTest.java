@@ -15,14 +15,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ArrayTest  {
   
   @ApiModelProperty(value = "")
+
   private List<String> arrayOfString = new ArrayList<>();
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
  /**
    * Get arrayOfString
@@ -129,10 +134,7 @@ public class ArrayTest  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

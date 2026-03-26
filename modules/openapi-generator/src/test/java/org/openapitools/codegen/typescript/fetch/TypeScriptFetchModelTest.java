@@ -47,7 +47,7 @@ import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
-    @Test(description = "convert a simple TypeScript Angular model")
+    @Test(description = "convert a simple TypeScript Fetch model")
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")

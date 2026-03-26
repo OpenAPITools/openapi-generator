@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class URLPathUtilsTest {
 
@@ -204,4 +205,56 @@ public class URLPathUtilsTest {
         URL serverURL = URLPathUtils.getServerURL(server, null);
         Assert.assertEquals(serverURL.toString(), "http://localhost");
     }
+
+   @Test
+   public void testPropertyUrl() {
+      String[][] testData = {
+            {"https://abc1.xyz:9999/some/${my.property}", "https://abc1.xyz:9999/some/${my.property}"},
+            {"HTTPS://abc2.xyz:9999/some/${my.property}", "https://abc2.xyz:9999/some/${my.property}"},
+            {"http://abc3.xyz:9999/${my.property}/path", "http://abc3.xyz:9999/${my.property}/path"},
+            {"HTTP://abc4.xyz:9999/some/${my.property}", "http://abc4.xyz:9999/some/${my.property}"},
+            {"//abc5.xyz:9999/some/${my.property}", "http://abc5.xyz:9999/some/${my.property}"},
+            {"abc6.xyz:9999/some/path", "http://abc6.xyz:9999/some/path"},
+            {"localhost:9000/${my.property}", "http://localhost:9000/${my.property}"},
+            {"/${my.property}/path", "http://localhost/${my.property}/path"},
+            {"https://abc1.xyz:9999/some/${my.property}/{version}", "https://abc1.xyz:9999/some/${my.property}/v1"},
+            {"HTTPS://abc2.xyz:9999/${my.property}/{version}", "https://abc2.xyz:9999/${my.property}/v1"},
+            {"https://abc1.xyz:9999/some/{version}/${my.property}", "https://abc1.xyz:9999/some/v1/${my.property}"},
+            {"HTTPS://abc2.xyz:9999/{version}/${my.property}", "https://abc2.xyz:9999/v1/${my.property}"}
+
+      };
+
+      for (String[] t : testData) {
+         OpenAPI openAPI = new OpenAPI();
+         openAPI.addServersItem(new Server().url(t[0]));
+
+         Assert.assertEquals(URLPathUtils.getServerURL(openAPI, Map.of("version", "v1") ).toString(), t[1]);
+      }
+   }
+
+   @Test
+   public void testPropertyUrlInVariable() {
+      String[][] testData = {
+            {"https://abc1.xyz:9999/some/{my.property}", "https://abc1.xyz:9999/some/${my.property}"},
+            {"HTTPS://abc2.xyz:9999/some/{my.property}", "https://abc2.xyz:9999/some/${my.property}"},
+            {"http://abc3.xyz:9999/{my.property}/path", "http://abc3.xyz:9999/${my.property}/path"},
+            {"HTTP://abc4.xyz:9999/some/{my.property}", "http://abc4.xyz:9999/some/${my.property}"},
+            {"//abc5.xyz:9999/some/{my.property}", "http://abc5.xyz:9999/some/${my.property}"},
+            {"abc6.xyz:9999/some/path", "http://abc6.xyz:9999/some/path"},
+            {"localhost:9000/{my.property}", "http://localhost:9000/${my.property}"},
+            {"/{my.property}/path", "http://localhost/${my.property}/path"},
+            {"https://abc1.xyz:9999/some/{my.property}/{version}", "https://abc1.xyz:9999/some/${my.property}/v1"},
+            {"HTTPS://abc2.xyz:9999/{my.property}/{version}", "https://abc2.xyz:9999/${my.property}/v1"},
+            {"https://abc1.xyz:9999/some/{version}/{my.property}", "https://abc1.xyz:9999/some/v1/${my.property}"},
+            {"HTTPS://abc2.xyz:9999/{version}/{my.property}", "https://abc2.xyz:9999/v1/${my.property}"}
+
+      };
+
+      for (String[] t : testData) {
+         OpenAPI openAPI = new OpenAPI();
+         openAPI.addServersItem(new Server().url(t[0]));
+
+         Assert.assertEquals(URLPathUtils.getServerURL(openAPI, Map.of("version", "v1", "my.property", "${my.property}") ).toString(), t[1]);
+      }
+   }
 }

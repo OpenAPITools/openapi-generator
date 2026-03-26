@@ -41,15 +41,12 @@ class PetApiTest extends TestCase
 
         $newPet->setTags(array($tag));
         $newPet->setCategory($category);
-
-        $config = new Configuration();
-        $petApi = new Api\PetApi(null, $config);
-
     }
 
     public function setUp(): void
     {
-        $this->api = new Api\PetApi();
+        $config = (new Configuration())->setHost('http://localhost/v2');
+        $this->api = new Api\PetApi(null, $config);
     }
 
     public function testGetPetById()
@@ -417,8 +414,8 @@ class PetApiTest extends TestCase
         $contents = $request->getBody()->getContents();
 
         $this->assertBodyContents('name', $name, $contents);
-        $this->assertBodyContents('photoUrls[0]', $photo_urls[0], $contents);
-        $this->assertBodyContents('photoUrls[1]', $photo_urls[1], $contents);
+        $this->assertBodyContents('photo_urls[0]', $photo_urls[0], $contents);
+        $this->assertBodyContents('photo_urls[1]', $photo_urls[1], $contents);
         $this->assertBodyContents('category[id]', $category->getId(), $contents);
         $this->assertBodyContents('category[name]', $category->getName(), $contents);
         $this->assertBodyContents('tags[0][id]', $tags[0]->getId(), $contents);

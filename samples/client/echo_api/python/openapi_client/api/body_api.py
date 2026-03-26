@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Echo Server API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -57,7 +56,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> bytearray:
+    ) -> bytes:
         """Test binary (gif) response body
 
         Test binary (gif) response body
@@ -92,7 +91,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -120,7 +119,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[bytearray]:
+    ) -> ApiResponse[bytes]:
         """Test binary (gif) response body
 
         Test binary (gif) response body
@@ -155,7 +154,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -218,7 +217,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -309,7 +308,7 @@ class BodyApi:
         Test body parameter(s)
 
         :param body:
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -376,7 +375,7 @@ class BodyApi:
         Test body parameter(s)
 
         :param body:
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -443,7 +442,7 @@ class BodyApi:
         Test body parameter(s)
 
         :param body:
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -590,7 +589,7 @@ class BodyApi:
         Test array of binary in multipart mime
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: List[bytes]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -657,7 +656,7 @@ class BodyApi:
         Test array of binary in multipart mime
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: List[bytes]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -724,7 +723,7 @@ class BodyApi:
         Test array of binary in multipart mime
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: List[bytes]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -864,7 +863,7 @@ class BodyApi:
         Test single binary in multipart mime
 
         :param my_file:
-        :type my_file: bytearray
+        :type my_file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -931,7 +930,7 @@ class BodyApi:
         Test single binary in multipart mime
 
         :param my_file:
-        :type my_file: bytearray
+        :type my_file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -998,7 +997,7 @@ class BodyApi:
         Test single binary in multipart mime
 
         :param my_file:
-        :type my_file: bytearray
+        :type my_file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

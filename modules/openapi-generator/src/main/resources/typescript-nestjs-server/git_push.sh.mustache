@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Git push script for {{npmName}}
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+# Get the current branch
+CURRENT_BRANCH=$(git branch --show-current)
+
+echo "Pushing to git repository..."
+echo "Current branch: $CURRENT_BRANCH"
+
+# Add all changes
+git add .
+
+# Commit with a default message if no commit message provided
+if [ -z "$1" ]; then
+    git commit -m "Update generated NestJS server code"
+else
+    git commit -m "$1"
+fi
+
+# Push to the current branch
+git push origin $CURRENT_BRANCH
+
+echo "Successfully pushed to git repository!" 

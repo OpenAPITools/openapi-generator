@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * OpenAPI generator for Postman Collection format v2.1
@@ -79,7 +81,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
 
     // operations grouped by tag
-    public Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
+    public Map<PostmanRequestFolder, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
     // list of operations
     public List<CodegenOperation> codegenOperationsList = new ArrayList<>();
 
@@ -318,22 +320,31 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @param codegenOperation Codegen operation instance
      */
     public void addToMap(CodegenOperation codegenOperation) {
-
-        String key = null;
+        String tagName;
+        String tagDescription;
         if (codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
-            key = "default";
+            tagName = "Default";
+            tagDescription = "Default tag";
         } else {
-            key = codegenOperation.tags.get(0).getName();
+            tagName = codegenOperation.tags.get(0).getName();
+            tagDescription = codegenOperation.tags.get(0).getDescription();
+            if (tagDescription == null) {
+                tagDescription = tagName + " tag";
+            }
         }
 
-        List<CodegenOperation> list = codegenOperationsByTag.get(key);
+        tagName = escapeJsonString(tagName);
+        tagDescription = escapeJsonString(tagDescription);
+
+        PostmanRequestFolder folder = new PostmanRequestFolder(tagName, tagDescription);
+        List<CodegenOperation> list = codegenOperationsByTag.get(folder);
 
         if (list == null) {
             list = new ArrayList<>();
         }
         list.add(codegenOperation);
 
-        codegenOperationsByTag.put(key, list);
+        codegenOperationsByTag.put(folder, list);
 
         // sort requests by path
         Collections.sort(list, Comparator.comparing(obj -> obj.path));
@@ -389,12 +400,14 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                             String exampleRef = entry.getValue().get$ref();
                             Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
                             String exampleAsString = getJsonFromExample(example);
+                            String exampleName = entry.getKey();
 
-                            items.add(new PostmanRequestItem(example.getSummary(), exampleAsString));
+                            items.add(new PostmanRequestItem(exampleName, example.getSummary(), exampleAsString));
                         } else if (entry.getValue().getValue() != null && entry.getValue().getValue() instanceof ObjectNode) {
                             // find inline
                             String exampleAsString = convertToJson((ObjectNode) entry.getValue().getValue());
-                            items.add(new PostmanRequestItem(entry.getKey(), exampleAsString));
+                            String exampleName = entry.getKey();
+                            items.add(new PostmanRequestItem(exampleName, entry.getKey(), exampleAsString));
                         }
                     }
                 } else if (codegenOperation.bodyParam.example != null) {
@@ -415,6 +428,24 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             // operation without bodyParam
             items.add(new PostmanRequestItem(codegenOperation.summary, ""));
         }
+
+        // Grabbing responses
+        List<CodegenResponse> responses = codegenOperation.responses;
+        List<PostmanResponse> allPostmanResponses = new ArrayList<>();
+        for (CodegenResponse response : responses) {
+            List<PostmanResponse> postmanResponses = getResponseExamples(response, response.message);
+            allPostmanResponses.addAll(postmanResponses);
+        }
+
+        // Adding responses to corresponding requests
+        for(PostmanRequestItem item: items){
+            List<PostmanResponse> postmanResponses = allPostmanResponses.stream().filter( r -> Objects.equals(r.getId(), item.getId())).collect(Collectors.toList());
+            if(!postmanResponses.isEmpty()){
+                postmanResponses.forEach(r -> r.setOriginalRequest(item));
+                item.addResponses(postmanResponses);
+            }
+        }
+
 
         return items;
     }
@@ -453,6 +484,37 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         return postmanRequests;
     }
+
+    List<PostmanResponse> getResponseExamples(CodegenResponse codegenResponse, String message) {
+        List<PostmanResponse> postmanResponses = new ArrayList<>();
+
+        if (codegenResponse.getContent() != null && codegenResponse.getContent().get("application/json") != null &&
+                codegenResponse.getContent().get("application/json").getExamples() != null) {
+
+            var examples = codegenResponse.getContent().get("application/json").getExamples();
+            for (Map.Entry<String, Example> entry : examples.entrySet()) {
+                String key = entry.getKey();
+                String ref = entry.getValue().get$ref();
+
+                String response;
+                if (ref != null) {
+                    // get example by $ref
+                    Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(ref));
+                    response = getJsonFromExample(example);
+                } else {
+                    // get inline example
+                    response = getJsonFromExample(entry.getValue());
+                }
+                postmanResponses.add(new PostmanResponse(key, codegenResponse, message, response));
+            }
+
+        } else if (codegenResponse.getContent() != null) {
+            // TODO : Implement
+        }
+
+        return postmanResponses;
+    }
+
 
     /**
      * Returns human-friendly help for the generator.  Provide the consumer with help
@@ -622,6 +684,13 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         }
 
         return description;
+    }
+
+    String escapeJsonString(String value) {
+        if (value == null) {
+            return null;
+        }
+        return new String(JsonStringEncoder.getInstance().quoteAsString(value));
     }
 
     /**
@@ -831,21 +900,93 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
+    @Getter
+    public static class PostmanRequestFolder {
+        private final String name;
+        private final String description;
+
+        public PostmanRequestFolder(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PostmanRequestFolder that = (PostmanRequestFolder) o;
+            return Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, description);
+        }
+    }
+
     // Supporting models
     @Getter
     @Setter
     public class PostmanRequestItem {
 
+        private String id;
         private String name;
         private String body;
+        private List<PostmanResponse> responses;
+
+        private PostmanRequestItem originalRequest;
 
         public PostmanRequestItem() {
+        }
+
+        public PostmanRequestItem(String id, String name, String body) {
+            this.id = id;
+            this.name = name;
+            this.body = body;
         }
 
         public PostmanRequestItem(String name, String body) {
             this.name = name;
             this.body = body;
         }
+
+        public void addResponses(List<PostmanResponse> responses) {
+            if(this.responses == null) { this.responses = new ArrayList<>(); }
+
+            this.responses.addAll(responses);
+        }
+
+    }
+
+    @Getter
+    @Setter
+    public class PostmanResponse {
+
+        private String id;
+        private String code;
+        private String status;
+        private String name;
+        private String body;
+        private PostmanRequestItem originalRequest;
+
+        public PostmanResponse(String id, CodegenResponse response, String name, String body) {
+            this.id = id;
+            this.code = response.code;
+            this.status = PostmanCollectionCodegen.this.getStatus(response);
+            this.name = name;
+            this.body = body;
+            this.originalRequest = null; // Setting this here explicitly for clarity
+        }
+
+
+        public PostmanRequestItem getOriginalRequest() {
+            return originalRequest;
+        }
+
+        public void setOriginalRequest(PostmanRequestItem originalRequest) {
+            this.originalRequest = originalRequest;
+        }
+
 
     }
 

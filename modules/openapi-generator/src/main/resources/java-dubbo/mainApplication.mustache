@@ -1,0 +1,15 @@
+package {{invokerPackage}};
+
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableDubbo(scanBasePackages = "{{invokerPackage}}")
+public class {{mainClassName}} {
+
+    public static void main(String[] args) {
+        SpringApplication.run({{mainClassName}}.class, args);
+    }
+
+}

@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumDefaultValue outerEnumDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumDefaultValue.ToString());
+            writer.WriteStringValue(OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue).ToString());
         }
     }
 
@@ -178,14 +178,14 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the OuterEnumDefaultValue to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="outerEnumDefaultValue"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumDefaultValue? outerEnumDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumDefaultValue?.ToString() ?? "null");
+            writer.WriteStringValue(outerEnumDefaultValue.HasValue ? OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue.Value).ToString() : "null");
         }
     }
 

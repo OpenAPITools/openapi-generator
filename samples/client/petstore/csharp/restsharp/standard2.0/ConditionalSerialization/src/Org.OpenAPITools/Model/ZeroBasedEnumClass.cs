@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ZeroBasedEnumClass" /> class.
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
-        public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default(ZeroBasedEnumEnum?))
+        public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default)
         {
             this._ZeroBasedEnum = zeroBasedEnum;
             if (this.ZeroBasedEnum != null)

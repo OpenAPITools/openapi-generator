@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -27,17 +28,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class CSharpClientCodegenTest {
 
     @Test
-    public void testToEnumVarName() throws Exception {
+    public void testToEnumVarName() {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setLibrary("restsharp");
         codegen.processOpts();
@@ -136,7 +140,7 @@ public class CSharpClientCodegenTest {
                 .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Response.cs").toString());
         assertNotNull(modelFile);
         assertFileContains(modelFile.toPath(),
-                " Dictionary<string, ResponseResultsValue> results = default(Dictionary<string, ResponseResultsValue>");
+                " Dictionary<string, ResponseResultsValue> results = default");
     }
 
     @Test
@@ -180,5 +184,80 @@ public class CSharpClientCodegenTest {
             assertNotNull(file, "Could not find file for model: " + modelName);
             assertFileContains(file.toPath(), expectedContent);
         }
+    }
+
+    @Test
+    public void testAnyOfDiscriminatorCreatesCompilableCode() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/anyOfDiscriminatorSimple.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        String modelName = "FruitAnyOfDisc";
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: " + modelName);
+        // Should not contain this as the constructor will have two parameters instead of one
+        assertFileNotContains(file.toPath(), "return new FruitAnyOfDisc(appleAnyOfDisc);");
+    }
+
+    @Test
+    public void testDoubleDepthArrayAliasCSharp() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_21585.yaml");
+        String schemaName = "GeoJSON_MultiLineString";
+        String modelName = "GeoJSONMultiLineString";
+        Schema schema = ModelUtils.getSchema(openAPI, schemaName);
+
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        CodegenModel concreteModel = codegen.fromModel(modelName, schema);
+        assertThat(getNames(concreteModel.vars)).isEqualTo(List.of("Type", "Coordinates", "Bbox"));
+        assertThat(concreteModel.vars.get(1).getDataType()).isEqualTo("List<List<List<BigDecimal>>>");
+    }
+
+    @Test
+    public void testDeepArrayAlias() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_21585.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("httpclient");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        String modelName = "GeoJSONMultiLineString";
+        File file = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+                .toString()
+        );
+        assertNotNull(file, "Could not find file for model: " + modelName);
+        assertFileContains(file.toPath(), "public List<List<List<decimal>>> Coordinates { get; set; }");
+    }
+
+    private List<String> getNames(List<CodegenProperty> props) {
+        if (props == null) return null;
+        return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
 }

@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * inline schema in webhooks
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class FakeWebhooksSourcesDeletedPostRequest {
   public static final String SERIALIZED_NAME_EVENT_TIMESTAMP = "event_timestamp";
   @SerializedName(SERIALIZED_NAME_EVENT_TIMESTAMP)
@@ -209,10 +209,7 @@ public class FakeWebhooksSourcesDeletedPostRequest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -221,16 +218,10 @@ public class FakeWebhooksSourcesDeletedPostRequest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("event_timestamp");
-    openapiFields.add("event_type");
-    openapiFields.add("event");
+    openapiFields = new HashSet<String>(Arrays.asList("event_timestamp", "event_type", "event"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("event_timestamp");
-    openapiRequiredFields.add("event_type");
-    openapiRequiredFields.add("event");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("event_timestamp", "event_type", "event"));
   }
 
   /**
@@ -242,19 +233,19 @@ public class FakeWebhooksSourcesDeletedPostRequest {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!FakeWebhooksSourcesDeletedPostRequest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in FakeWebhooksSourcesDeletedPostRequest is not found in the empty JSON string", FakeWebhooksSourcesDeletedPostRequest.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in FakeWebhooksSourcesDeletedPostRequest is not found in the empty JSON string", FakeWebhooksSourcesDeletedPostRequest.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : FakeWebhooksSourcesDeletedPostRequest.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("event_type").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `event_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("event_type").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `event_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("event_type").toString()));
       }
       // validate the required field `event`
       FakeWebhooksSourcesDeletedPostRequestEvent.validateJsonElement(jsonObj.get("event"));
@@ -317,7 +308,7 @@ public class FakeWebhooksSourcesDeletedPostRequest {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

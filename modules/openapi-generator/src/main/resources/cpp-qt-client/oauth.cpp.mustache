@@ -22,7 +22,7 @@ void OauthBase::onFinish(QNetworkReply *rep)
     addToken(oauthToken(token, expiresIn, scope, type));
 }
 
-oauthToken OauthBase::getToken(QString scope)
+oauthToken OauthBase::getToken(const QString &scope)
 {
     auto tokenIt = m_oauthTokenMap.find(scope);
     return tokenIt != m_oauthTokenMap.end() ? tokenIt.value() : oauthToken();
@@ -35,7 +35,7 @@ void OauthBase::addToken(oauthToken token)
 
 }
 
-void OauthBase::removeToken(QString scope)
+void OauthBase::removeToken(const QString &scope)
 {
     m_oauthTokenMap.remove(scope);
 }
@@ -59,7 +59,7 @@ void OauthCode::unlink()
     disconnect(&m_server, nullptr, nullptr, nullptr);
 }
 
-void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType){
+void OauthCode::setVariables(const QString &authUrl, const QString &tokenUrl, const QString &scope, const QString &state, const QString &redirectUri, const QString &clientId, const QString &clientSecret, const QString &accessType){
 
     m_authUrl = QUrl(authUrl);
     m_tokenUrl = QUrl(tokenUrl);
@@ -126,7 +126,7 @@ void OauthImplicit::unlink()
      m_linked = false;
 }
 
-void OauthImplicit::setVariables(QString authUrl, QString scope, QString state, QString redirectUri, QString clientId, QString accessType){
+void OauthImplicit::setVariables(const QString &authUrl, const QString &scope, const QString &state, const QString &redirectUri, const QString &clientId, const QString &accessType){
 
     m_authUrl = QUrl(authUrl);
     m_scope = scope;
@@ -168,7 +168,7 @@ void OauthCredentials::unlink()
     disconnect(this, nullptr, nullptr, nullptr);
 }
 
-void OauthCredentials::setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret){
+void OauthCredentials::setVariables(const QString &tokenUrl, const QString &scope, const QString &clientId, const QString &clientSecret){
 
     m_tokenUrl = QUrl(tokenUrl);
     m_scope = scope;
@@ -211,7 +211,7 @@ void OauthPassword::unlink()
     disconnect(this, nullptr, nullptr, nullptr);
 }
 
-void OauthPassword::setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret, QString username, QString password){
+void OauthPassword::setVariables(const QString &tokenUrl, const QString &scope, const QString &clientId, const QString &clientSecret, const QString &username, const QString &password){
 
     m_tokenUrl = QUrl(tokenUrl);
     m_scope = scope;

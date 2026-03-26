@@ -4,28 +4,27 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * NumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class NumberOnly {
 
   private @Nullable BigDecimal justNumber;
 
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly justNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;
   }
@@ -35,13 +34,14 @@ public class NumberOnly {
    * @return justNumber
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "JustNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  public @Nullable BigDecimal getJustNumber() {
     return justNumber;
   }
 
-  public void setJustNumber(BigDecimal justNumber) {
+  @JsonProperty("JustNumber")
+  public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
 
@@ -75,11 +75,8 @@ public class NumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

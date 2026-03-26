@@ -12,9 +12,7 @@ import java.util.Set;
 import {{rootJavaEEPackage}}.ws.rs.*;
 import {{rootJavaEEPackage}}.ws.rs.core.Response;
 import {{rootJavaEEPackage}}.ws.rs.core.MediaType;
-{{^disableMultipart}}
-import org.apache.cxf.jaxrs.ext.multipart.*;
-{{/disableMultipart}}
+
 {{#microprofileMutiny}}
 import io.smallrye.mutiny.Uni;
 {{/microprofileMutiny}}
@@ -24,8 +22,11 @@ import {{rootJavaEEPackage}}.validation.constraints.*;
 import {{rootJavaEEPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
+{{#microprofileRegisterExceptionMapper}}
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
+{{/microprofileRegisterExceptionMapper}}
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
 
 {{#appName}}
 /**
@@ -41,7 +42,9 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 {{^microprofileServer}}
 @RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}{{#configKeyFromClassName}}{{#operations}}(configKey="{{configKey}}"){{/operations}}{{/configKeyFromClassName}}
 {{/microprofileServer}}
+{{#microprofileRegisterExceptionMapper}}
 @RegisterProvider(ApiExceptionMapper.class)
+{{/microprofileRegisterExceptionMapper}}
 @Path("{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}{{commonPath}}")
 public interface {{classname}}  {
 {{#operations}}

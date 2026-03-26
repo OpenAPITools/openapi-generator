@@ -24,14 +24,30 @@ package org.openapitools.server.models
  * @param userStatus User Status
  */
 data class User(
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("id")
     val id: kotlin.Long? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("username")
     val username: kotlin.String? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("firstName")
     val firstName: kotlin.String? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("lastName")
     val lastName: kotlin.String? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("email")
     val email: kotlin.String? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("password")
     val password: kotlin.String? = null,
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("phone")
     val phone: kotlin.String? = null,
     /* User Status */
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 )
 

@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
         /// <param name="varClass">varClass.</param>
-        public ClassModel(string varClass = default(string))
+        public ClassModel(string varClass = default)
         {
             this.Class = varClass;
         }

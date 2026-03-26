@@ -1,6 +1,6 @@
 package {{packageName}}.auth
 
-import io.ktor.util.encodeBase64
+import kotlin.io.encoding.Base64
 
 {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class HttpBasicAuth : Authentication {
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var username: String? = null
@@ -9,7 +9,7 @@ import io.ktor.util.encodeBase64
     override fun apply(query: MutableMap<String, List<String>>, headers: MutableMap<String, String>) {
         if (username == null && password == null) return
         val str = (username ?: "") + ":" + (password ?: "")
-        val auth = str.encodeBase64()
+        val auth = Base64.encode(str.encodeToByteArray())
         headers["Authorization"] = "Basic $auth"
     }
 }

@@ -17,6 +17,7 @@ import {{javaxPackage}}.servlet.ServletContext
 
 
 {{>generatedAnnotation}}
+
 @Configuration
 @EnableSwagger2
 class SpringFoxConfiguration {
@@ -35,7 +36,7 @@ class SpringFoxConfiguration {
 
     @Bean
 {{=<% %>=}}
-    fun customImplementation(servletContext: ServletContext, @Value("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}") basePath: String): Docket {
+    fun customImplementation(servletContext: ServletContext, @Value("\${openapi.<%title%>.base-path:\${api.base-path:<%>defaultBasePath%>}}") basePath: String): Docket {
 <%={{ }}=%>
         return Docket(DocumentationType.SWAGGER_2)
                 .select()

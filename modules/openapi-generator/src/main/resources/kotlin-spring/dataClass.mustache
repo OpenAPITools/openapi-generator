@@ -17,13 +17,27 @@
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-    ) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{{/parent}}{
+){{/discriminator}}{{! no newline
+}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! <- serializableModel is also handled via x-kotlin-implements
+      }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{#.}}, {{{.}}}{{/.}}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! <- add sealed interface implementations
+}}{{/parent}}{{! no newline
+}}{{^parent}}{{! no newline
+    }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
+    }}{{#-first}} : {{{.}}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+    }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
+    }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{! no newline
+    }}{{#-first}}{{^vendorExtensions.x-kotlin-implements}} : {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{/-first}}{{! no newline
+      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
+    }}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! no newline
+}}{{/parent}} {
 {{#discriminator}}
     {{#requiredVars}}
-        {{>interfaceReqVar}}
+        {{>interfaceReqVar}}{{! prevent indent}}
     {{/requiredVars}}
     {{#optionalVars}}
-        {{>interfaceOptVar}}
+        {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
@@ -39,7 +53,8 @@
             @JvmStatic
             @JsonCreator
             fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{classname}}'")
             }
         }
     }
@@ -49,4 +64,5 @@
         private const val serialVersionUID: kotlin.Long = 1
     }
 {{/serializableModel}}
-}
+{{^serializableModel}}{{#companionObject}}    companion object { }
+{{/companionObject}}{{/serializableModel}}}

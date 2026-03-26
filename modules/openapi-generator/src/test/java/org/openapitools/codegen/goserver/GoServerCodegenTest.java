@@ -70,7 +70,7 @@ public class GoServerCodegenTest {
         // verify /getPath/latest is first route
         Assert.assertEquals(Files.readAllLines(Paths.get(output + "/go/api_dev.go")).get(52), "\t\t\"GetLatest\": Route{");
         // verify /getPath/{id} is second route
-        Assert.assertEquals(Files.readAllLines(Paths.get(output + "/go/api_dev.go")).get(57), "\t\t\"GetById\": Route{");
+        Assert.assertEquals(Files.readAllLines(Paths.get(output + "/go/api_dev.go")).get(58), "\t\t\"GetById\": Route{");
 
     }
 

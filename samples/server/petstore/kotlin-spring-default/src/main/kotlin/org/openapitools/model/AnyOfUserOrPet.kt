@@ -78,7 +78,7 @@ data class AnyOfUserOrPet(
     @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
     @get:JsonProperty("status") val status: AnyOfUserOrPet.Status? = null
-    ) {
+) {
 
     /**
     * pet status in the store
@@ -94,7 +94,8 @@ data class AnyOfUserOrPet(
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
-                return values().first{it -> it.value == value}
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'AnyOfUserOrPet'")
             }
         }
     }

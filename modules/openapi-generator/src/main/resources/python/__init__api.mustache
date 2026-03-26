@@ -1,5 +1,19 @@
 # flake8: noqa
 
-# import apis into api package
-{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}}
-{{/apis}}{{/apiInfo}}
+{{^lazyImports}}
+{{>exports_api}}
+{{/lazyImports}}
+{{#lazyImports}}if __import__("typing").TYPE_CHECKING:
+    {{>exports_api}}
+else:
+    from lazy_imports import LazyModule, as_package, load
+
+    load(
+        LazyModule(
+            *as_package(__file__),
+            """{{>exports_api}}""",
+            name=__name__,
+            doc=__doc__,
+        )
+    )
+{{/lazyImports}}

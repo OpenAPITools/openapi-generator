@@ -13,7 +13,7 @@ import (
 
 var client *sw.APIClient
 
-const testHost = "petstore.swagger.io:80"
+const testHost = "localhost"
 const testScheme = "http"
 
 func TestMain(m *testing.M) {

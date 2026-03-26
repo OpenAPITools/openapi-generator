@@ -242,7 +242,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          lapply(self$`{{name}}`, function(x) x$toSimpleType())
+          self$extractSimpleType(self$`{{name}}`)
           {{/isPrimitiveType}}
           {{/isArray}}
           {{#isMap}}
@@ -250,7 +250,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          lapply(self$`{{name}}`, function(x) x$toSimpleType())
+          self$extractSimpleType(self$`{{name}}`)
           {{/isPrimitiveType}}
           {{/isMap}}
           {{/isContainer}}
@@ -259,7 +259,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          self$`{{name}}`$toSimpleType()
+          self$extractSimpleType(self$`{{name}}`)
           {{/isPrimitiveType}}
           {{/isContainer}}
       }
@@ -272,6 +272,31 @@
       {{/isAdditionalPropertiesTrue}}
       return({{classname}}Object)
     },
+    {{#vendorExtensions.x-r-has-non-primitive-field}}
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
+    },
+    {{/vendorExtensions.x-r-has-non-primitive-field}}
 
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}

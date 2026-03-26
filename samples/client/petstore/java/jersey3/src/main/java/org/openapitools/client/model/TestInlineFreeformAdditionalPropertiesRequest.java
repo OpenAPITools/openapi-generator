@@ -41,7 +41,7 @@ import org.openapitools.client.JSON;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @jakarta.annotation.Nullable
@@ -61,7 +61,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSomeProperty() {
@@ -69,7 +69,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeProperty(@jakarta.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
@@ -141,10 +141,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

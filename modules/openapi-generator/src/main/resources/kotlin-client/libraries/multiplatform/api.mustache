@@ -11,6 +11,10 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.content.PartData
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -64,7 +68,7 @@ import kotlinx.serialization.encoding.*
     {{#returnType}}
     @Suppress("UNCHECKED_CAST")
     {{/returnType}}
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{&enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{&enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
 
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
@@ -76,11 +80,31 @@ import kotlinx.serialization.encoding.*
                 {{#formParams}}
                 {{#isArray}}
                 {{{paramName}}}?.onEach {
-                    append("{{{baseName}}}[]", it)
+                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", it.toString()){{/isFile}}
                 }
                 {{/isArray}}
                 {{^isArray}}
+                {{#isFile}}
+                {{{paramName}}}?.apply { append({{{baseName}}}) }
+                {{/isFile}}
+                {{^isFile}}
+                {{#isPrimitiveType}}
+                {{#isString}}
                 {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{/isString}}
+                {{^isString}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{/isString}}
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+                {{#isEnumOrRef}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.value.toString()) }
+                {{/isEnumOrRef}}
+                {{^isEnumOrRef}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", ApiClient.JSON_DEFAULT.encodeToString({{{dataType}}}.serializer(), {{{paramName}}})) }
+                {{/isEnumOrRef}}
+                {{/isPrimitiveType}}
+                {{/isFile}}
                 {{/isArray}}
                 {{/formParams}}
             }
@@ -99,13 +123,13 @@ import kotlinx.serialization.encoding.*
             {{/hasBodyParam}}
 
         val localVariableQuery = mutableMapOf<String, List<String>>(){{#queryParams}}
-        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{^isEnum}}"${{{paramName}}}"{{/isEnum}}{{#isEnum}}"${ {{paramName}}.value }"{{/isEnum}}){{/isContainer}} }{{/queryParams}}
+        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}){{/isContainer}} }{{/queryParams}}
         val localVariableHeaders = mutableMapOf<String, String>(){{#headerParams}}
         {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnum}}"${{{paramName}}}"{{/isEnum}}{{#isEnum}}"${ {{paramName}}.value }"{{/isEnum}}{{/isContainer}}){{/pathParams}},
+            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
@@ -125,9 +149,11 @@ import kotlinx.serialization.encoding.*
 {{/hasBodyParam}}
 {{#isArray}}
 {{>serial_wrapper_response_list}}
+
 {{/isArray}}
 {{#isMap}}
 {{>serial_wrapper_response_map}}
+
 {{/isMap}}
 
     {{/operation}}

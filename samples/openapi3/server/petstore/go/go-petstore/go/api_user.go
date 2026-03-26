@@ -52,47 +52,111 @@ func NewUserAPIController(s UserAPIServicer, opts ...UserAPIOption) *UserAPICont
 func (c *UserAPIController) Routes() Routes {
 	return Routes{
 		"CreateUser": Route{
+			"CreateUser",
 			strings.ToUpper("Post"),
 			"/v2/user",
 			c.CreateUser,
 		},
 		"CreateUsersWithArrayInput": Route{
+			"CreateUsersWithArrayInput",
 			strings.ToUpper("Post"),
 			"/v2/user/createWithArray",
 			c.CreateUsersWithArrayInput,
 		},
 		"CreateUsersWithListInput": Route{
+			"CreateUsersWithListInput",
 			strings.ToUpper("Post"),
 			"/v2/user/createWithList",
 			c.CreateUsersWithListInput,
 		},
 		"LoginUser": Route{
+			"LoginUser",
 			strings.ToUpper("Get"),
 			"/v2/user/login",
 			c.LoginUser,
 		},
 		"LogoutUser": Route{
+			"LogoutUser",
 			strings.ToUpper("Get"),
 			"/v2/user/logout",
 			c.LogoutUser,
 		},
 		"GetUserByName": Route{
+			"GetUserByName",
 			strings.ToUpper("Get"),
 			"/v2/user/{username}",
 			c.GetUserByName,
 		},
 		"UpdateUser": Route{
+			"UpdateUser",
 			strings.ToUpper("Put"),
 			"/v2/user/{username}",
 			c.UpdateUser,
 		},
 		"DeleteUser": Route{
+			"DeleteUser",
 			strings.ToUpper("Delete"),
 			"/v2/user/{username}",
 			c.DeleteUser,
 		},
 	}
 }
+
+// OrderedRoutes returns all the api routes in a deterministic order for the UserAPIController
+func (c *UserAPIController) OrderedRoutes() []Route {
+	return []Route{
+		Route{
+			"CreateUser",
+			strings.ToUpper("Post"),
+			"/v2/user",
+			c.CreateUser,
+		},
+		Route{
+			"CreateUsersWithArrayInput",
+			strings.ToUpper("Post"),
+			"/v2/user/createWithArray",
+			c.CreateUsersWithArrayInput,
+		},
+		Route{
+			"CreateUsersWithListInput",
+			strings.ToUpper("Post"),
+			"/v2/user/createWithList",
+			c.CreateUsersWithListInput,
+		},
+		Route{
+			"LoginUser",
+			strings.ToUpper("Get"),
+			"/v2/user/login",
+			c.LoginUser,
+		},
+		Route{
+			"LogoutUser",
+			strings.ToUpper("Get"),
+			"/v2/user/logout",
+			c.LogoutUser,
+		},
+		Route{
+			"GetUserByName",
+			strings.ToUpper("Get"),
+			"/v2/user/{username}",
+			c.GetUserByName,
+		},
+		Route{
+			"UpdateUser",
+			strings.ToUpper("Put"),
+			"/v2/user/{username}",
+			c.UpdateUser,
+		},
+		Route{
+			"DeleteUser",
+			strings.ToUpper("Delete"),
+			"/v2/user/{username}",
+			c.DeleteUser,
+		},
+	}
+}
+
+
 
 // CreateUser - Create user
 func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {

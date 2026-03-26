@@ -35,7 +35,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
   @javax.annotation.Nullable
@@ -54,14 +54,14 @@ public class ModelReturn {
    * @return _return
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getReturn() {
     return _return;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReturn(@javax.annotation.Nullable Integer _return) {
     this._return = _return;
@@ -102,10 +102,7 @@ public class ModelReturn {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -142,7 +139,7 @@ public class ModelReturn {
 
     // add `return` to the URL query string
     if (getReturn() != null) {
-      joiner.add(String.format("%sreturn%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getReturn()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sreturn%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getReturn()))));
     }
 
     return joiner.toString();

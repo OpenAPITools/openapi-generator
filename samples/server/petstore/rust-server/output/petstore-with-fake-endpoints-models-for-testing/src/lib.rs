@@ -3,14 +3,15 @@
 
 use async_trait::async_trait;
 use futures::Stream;
+#[cfg(feature = "mock")]
+use mockall::automock;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
-use swagger::{ApiError, ContextWrapper};
+use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
-use crate::server::Authorization;
 
-
+#[cfg(any(feature = "client", feature = "server"))]
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "/v2";
@@ -322,13 +323,10 @@ pub enum UpdateUserResponse {
 }
 
 /// API
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
-        Poll::Ready(Ok(()))
-    }
-
     /// To test special tags
     async fn test_special_tags(
         &self,
@@ -382,8 +380,8 @@ pub trait Api<C: Send + Sync> {
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -395,11 +393,11 @@ pub trait Api<C: Send + Sync> {
         context: &C) -> Result<TestEndpointParametersResponse, ApiError>;
 
     /// To test enum parameters
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -437,15 +435,15 @@ pub trait Api<C: Send + Sync> {
         context: &C) -> Result<AddPetResponse, ApiError>;
 
     /// Finds Pets by status
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        tags: &Vec<String>,
+        tags: &'a Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>;
 
     /// Update an existing pet
@@ -503,7 +501,7 @@ pub trait Api<C: Send + Sync> {
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         context: &C) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
@@ -513,15 +511,15 @@ pub trait Api<C: Send + Sync> {
         context: &C) -> Result<CreateUserResponse, ApiError>;
 
     /// Creates list of users with given input array
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>;
 
     /// Creates list of users with given input array
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>;
 
     /// Logs user into the system
@@ -558,11 +556,14 @@ pub trait Api<C: Send + Sync> {
 }
 
 /// API where `Context` isn't passed on every API call
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
-
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
+    // The std::task::Context struct houses a reference to std::task::Waker with the lifetime <'a>.
+    // Adding an anonymous lifetime `'a` to allow mockall to create a mock object with the right lifetimes.
+    // This is needed because the compiler is unable to determine the lifetimes on F's trait bound
+    // where F is the closure created by mockall. We use higher-rank trait bounds here to get around this.
 
     fn context(&self) -> &C;
 
@@ -619,8 +620,8 @@ pub trait ApiNoContext<C: Send + Sync> {
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -632,11 +633,11 @@ pub trait ApiNoContext<C: Send + Sync> {
         ) -> Result<TestEndpointParametersResponse, ApiError>;
 
     /// To test enum parameters
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -674,15 +675,15 @@ pub trait ApiNoContext<C: Send + Sync> {
         ) -> Result<AddPetResponse, ApiError>;
 
     /// Finds Pets by status
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         ) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        tags: &Vec<String>,
+        tags: &'a Vec<String>,
         ) -> Result<FindPetsByTagsResponse, ApiError>;
 
     /// Update an existing pet
@@ -740,7 +741,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         ) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
@@ -750,15 +751,15 @@ pub trait ApiNoContext<C: Send + Sync> {
         ) -> Result<CreateUserResponse, ApiError>;
 
     /// Creates list of users with given input array
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         ) -> Result<CreateUsersWithArrayInputResponse, ApiError>;
 
     /// Creates list of users with given input array
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         ) -> Result<CreateUsersWithListInputResponse, ApiError>;
 
     /// Logs user into the system
@@ -809,10 +810,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T
 
 #[async_trait]
 impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
-    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
-        self.api().poll_ready(cx)
-    }
-
     fn context(&self) -> &C {
         ContextWrapper::context(self)
     }
@@ -906,8 +903,8 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -923,11 +920,11 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     }
 
     /// To test enum parameters
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -989,9 +986,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     }
 
     /// Finds Pets by status
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         ) -> Result<FindPetsByStatusResponse, ApiError>
     {
         let context = self.context().clone();
@@ -999,9 +996,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     }
 
     /// Finds Pets by tags
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        tags: &Vec<String>,
+        tags: &'a Vec<String>,
         ) -> Result<FindPetsByTagsResponse, ApiError>
     {
         let context = self.context().clone();
@@ -1095,7 +1092,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         ) -> Result<GetOrderByIdResponse, ApiError>
     {
         let context = self.context().clone();
@@ -1113,9 +1110,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         ) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
         let context = self.context().clone();
@@ -1123,9 +1120,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         ) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
         let context = self.context().clone();

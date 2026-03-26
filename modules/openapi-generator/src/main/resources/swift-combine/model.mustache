@@ -12,21 +12,26 @@ import Foundation
 {{/description}}
 {{#vendorExtensions.x-is-one-of-interface}}
 {{> modelOneOf}}
+
 {{/vendorExtensions.x-is-one-of-interface}}
 {{^vendorExtensions.x-is-one-of-interface}}
 {{#isArray}}
 {{> modelArray}}
+
 {{/isArray}}
 {{^isArray}}
 {{#isEnum}}
 {{> modelEnum}}
+
 {{/isEnum}}
 {{^isEnum}}
 {{#vendorExtensions.x-swift-contains-not-codable}}
 {{> modelObjectCustom}}
+
 {{/vendorExtensions.x-swift-contains-not-codable}}
 {{^vendorExtensions.x-swift-contains-not-codable}}
 {{> modelObject}}
+
 {{/vendorExtensions.x-swift-contains-not-codable}}
 {{/isEnum}}
 {{/isArray}}

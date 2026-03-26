@@ -15,7 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MapTest  {
   
   @ApiModelProperty(value = "")
+
   @Valid
+
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
 public enum InnerEnum {
@@ -51,12 +53,15 @@ UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 }
 
   @ApiModelProperty(value = "")
+
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   @ApiModelProperty(value = "")
+
   private Map<String, Boolean> directMap = new HashMap<>();
 
   @ApiModelProperty(value = "")
+
   private Map<String, Boolean> indirectMap = new HashMap<>();
  /**
    * Get mapMapOfString
@@ -188,10 +193,7 @@ UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -60,9 +60,9 @@ void PFXPetApi::initializeServerConfigs() {
 }
 
 /**
-* returns 0 on success and -1, -2 or -3 on failure.
-* -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
-*/
+ * returns 0 on success and -1, -2 or -3 on failure.
+ * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
+ */
 int PFXPetApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value) {
     auto it = _serverConfigs.find(operation);
     if (it != _serverConfigs.end() && serverIndex < it.value().size()) {
@@ -70,9 +70,21 @@ int PFXPetApi::setDefaultServerValue(int serverIndex, const QString &operation, 
     }
     return -3;
 }
+
+/**
+ * Sets the server index.
+ * @param operation The id to the target operation.
+ * @param serverIndex The server index.
+ */
 void PFXPetApi::setServerIndex(const QString &operation, int serverIndex) {
     if (_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size()) {
         _serverIndices[operation] = serverIndex;
+    }
+}
+
+void PFXPetApi::setServerIndex(int serverIndex) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, serverIndex);
     }
 }
 
@@ -106,13 +118,13 @@ void PFXPetApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
 }
 
 /**
-    * Appends a new ServerConfiguration to the config map for a specific operation.
-    * @param operation The id to the target operation.
-    * @param url A string that contains the URL of the server
-    * @param description A String that describes the server
-    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-    * returns the index of the new server config on success and -1 if the operation is not found
-    */
+ * Appends a new ServerConfiguration to the config map for a specific operation.
+ * @param operation The id to the target operation.
+ * @param url A string that contains the URL of the server
+ * @param description A String that describes the server
+ * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+ * returns the index of the new server config on success and -1 if the operation is not found
+ */
 int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     if (_serverConfigs.contains(operation)) {
         _serverConfigs[operation].append(PFXServerConfiguration(
@@ -126,11 +138,11 @@ int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url,
 }
 
 /**
-    * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
-    * @param url A string that contains the URL of the server
-    * @param description A String that describes the server
-    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-    */
+ * Appends a new ServerConfiguration to the config map for a all operations and sets the index to that server.
+ * @param url A string that contains the URL of the server
+ * @param description A String that describes the server
+ * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+ */
 void PFXPetApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
@@ -138,11 +150,11 @@ void PFXPetApi::setNewServerForAllOperations(const QUrl &url, const QString &des
 }
 
 /**
-    * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
-    * @param URL A string that contains the URL of the server
-    * @param description A String that describes the server
-    * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
-    */
+ * Appends a new ServerConfiguration to the config map for an operations and sets the index to that server.
+ * @param URL A string that contains the URL of the server
+ * @param description A String that describes the server
+ * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+ */
 void PFXPetApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
 }
@@ -252,17 +264,17 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
-    scope.append("write:pets");
-    scope.append("read:pets");
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -277,7 +289,7 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -309,32 +321,6 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT addPetSignalE(error_type, error_str);
-        Q_EMIT addPetSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT addPetSignalError(error_type, error_str);
         Q_EMIT addPetSignalErrorFull(worker, error_type, error_str);
     }
@@ -388,32 +374,6 @@ void PFXPetApi::allPetsCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT allPetsSignal(output);
         Q_EMIT allPetsSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT allPetsSignalE(output, error_type, error_str);
-        Q_EMIT allPetsSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT allPetsSignalError(output, error_type, error_str);
         Q_EMIT allPetsSignalErrorFull(worker, error_type, error_str);
     }
@@ -460,17 +420,17 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
-    scope.append("write:pets");
-    scope.append("read:pets");
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -485,7 +445,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -517,32 +477,6 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT deletePetSignalE(error_type, error_str);
-        Q_EMIT deletePetSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT deletePetSignalError(error_type, error_str);
         Q_EMIT deletePetSignalErrorFull(worker, error_type, error_str);
     }
@@ -655,17 +589,17 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
-    scope.append("write:pets");
-    scope.append("read:pets");
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -680,7 +614,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -722,32 +656,6 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT findPetsByStatusSignalE(output, error_type, error_str);
-        Q_EMIT findPetsByStatusSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT findPetsByStatusSignalError(output, error_type, error_str);
         Q_EMIT findPetsByStatusSignalErrorFull(worker, error_type, error_str);
     }
@@ -860,17 +768,17 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
-    scope.append("write:pets");
-    scope.append("read:pets");
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -885,7 +793,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -927,32 +835,6 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT findPetsByTagsSignalE(output, error_type, error_str);
-        Q_EMIT findPetsByTagsSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT findPetsByTagsSignalError(output, error_type, error_str);
         Q_EMIT findPetsByTagsSignalErrorFull(worker, error_type, error_str);
     }
@@ -1015,32 +897,6 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT getPetByIdSignal(output);
         Q_EMIT getPetByIdSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT getPetByIdSignalE(output, error_type, error_str);
-        Q_EMIT getPetByIdSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT getPetByIdSignalError(output, error_type, error_str);
         Q_EMIT getPetByIdSignalErrorFull(worker, error_type, error_str);
     }
@@ -1072,17 +928,17 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
-    scope.append("write:pets");
-    scope.append("read:pets");
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -1097,7 +953,7 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -1129,32 +985,6 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT updatePetSignalE(error_type, error_str);
-        Q_EMIT updatePetSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT updatePetSignalError(error_type, error_str);
         Q_EMIT updatePetSignalErrorFull(worker, error_type, error_str);
     }
@@ -1203,17 +1033,17 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
-    scope.append("write:pets");
-    scope.append("read:pets");
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -1228,7 +1058,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -1260,32 +1090,6 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT updatePetWithFormSignalE(error_type, error_str);
-        Q_EMIT updatePetWithFormSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT updatePetWithFormSignalError(error_type, error_str);
         Q_EMIT updatePetWithFormSignalErrorFull(worker, error_type, error_str);
     }
@@ -1334,17 +1138,17 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
-    scope.append("write:pets");
-    scope.append("read:pets");
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -1359,7 +1163,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -1392,42 +1196,16 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT uploadFileSignalE(output, error_type, error_str);
-        Q_EMIT uploadFileSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT uploadFileSignalError(output, error_type, error_str);
         Q_EMIT uploadFileSignalErrorFull(worker, error_type, error_str);
     }
 }
 
-void PFXPetApi::tokenAvailable(){
+void PFXPetApi::tokenAvailable() {
 
     oauthToken token;
     switch (_OauthMethod) {
-    case 1: //implicit flow
+    case OauthMethod::ImplicitFlow:
         token = _implicitFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -1437,7 +1215,7 @@ void PFXPetApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 2: //authorization flow
+    case OauthMethod::AuthorizationFlow:
         token = _authFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -1447,7 +1225,7 @@ void PFXPetApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 3: //client credentials flow
+    case OauthMethod::ClientCredentialsFlow:
         token = _credentialFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -1457,7 +1235,7 @@ void PFXPetApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 4: //resource owner password flow
+    case OauthMethod::ResourceOwnerPasswordFlow:
         token = _passwordFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());

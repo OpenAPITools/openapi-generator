@@ -7,7 +7,7 @@
 | **id** | **kotlin.Long** |  |  [optional] |
 | **petId** | **kotlin.Long** |  |  [optional] |
 | **quantity** | **kotlin.Int** |  |  [optional] |
-| **shipDate** | [**kotlinx.datetime.Instant**](kotlinx.datetime.Instant.md) |  |  [optional] |
+| **shipDate** | [**kotlin.time.Instant**](kotlin.time.Instant.md) |  |  [optional] |
 | **status** | [**inline**](#Status) | Order Status |  [optional] |
 | **complete** | **kotlin.Boolean** |  |  [optional] |
 

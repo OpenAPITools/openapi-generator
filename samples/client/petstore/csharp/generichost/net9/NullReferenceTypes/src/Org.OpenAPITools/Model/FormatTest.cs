@@ -43,6 +43,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime</param>
         /// <param name="decimal">decimal</param>
         /// <param name="double">double</param>
+        /// <param name="duplicatePropertyName2">duplicatePropertyName2</param>
+        /// <param name="duplicatePropertyName">duplicatePropertyName</param>
         /// <param name="float">float</param>
         /// <param name="int32">int32</param>
         /// <param name="int32Range">int32Range</param>
@@ -61,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(byte[] @byte, DateOnly date, decimal number, string password, decimal stringFormattedAsDecimalRequired, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> @string = default, Option<decimal?> stringFormattedAsDecimal = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
+        public FormatTest(byte[] @byte, DateOnly date, decimal number, string password, decimal stringFormattedAsDecimalRequired, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<string?> duplicatePropertyName2 = default, Option<string?> duplicatePropertyName = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> @string = default, Option<decimal?> stringFormattedAsDecimal = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             Byte = @byte;
             Date = date;
@@ -72,6 +74,8 @@ namespace Org.OpenAPITools.Model
             DateTimeOption = dateTime;
             DecimalOption = @decimal;
             DoubleOption = @double;
+            DuplicatePropertyName2Option = duplicatePropertyName2;
+            DuplicatePropertyNameOption = duplicatePropertyName;
             FloatOption = @float;
             Int32Option = int32;
             Int32RangeOption = int32Range;
@@ -136,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
-        public System.IO.Stream? Binary { get { return this.BinaryOption; } set { this.BinaryOption = new(value); } }
+        public System.IO.Stream? Binary { get { return this.BinaryOption.Value; } set { this.BinaryOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DateTime
@@ -150,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>2007-12-03T10:15:30+01:00</example> */
         [JsonPropertyName("dateTime")]
-        public DateTime? DateTime { get { return this.DateTimeOption; } set { this.DateTimeOption = new(value); } }
+        public DateTime? DateTime { get { return this.DateTimeOption.Value; } set { this.DateTimeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Decimal
@@ -163,7 +167,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Decimal
         /// </summary>
         [JsonPropertyName("decimal")]
-        public decimal? Decimal { get { return this.DecimalOption; } set { this.DecimalOption = new(value); } }
+        public decimal? Decimal { get { return this.DecimalOption.Value; } set { this.DecimalOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Double
@@ -176,7 +180,33 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Double
         /// </summary>
         [JsonPropertyName("double")]
-        public double? Double { get { return this.DoubleOption; } set { this.DoubleOption = new(value); } }
+        public double? Double { get { return this.DoubleOption.Value; } set { this.DoubleOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of DuplicatePropertyName2
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> DuplicatePropertyName2Option { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets DuplicatePropertyName2
+        /// </summary>
+        [JsonPropertyName("duplicate_property_name")]
+        public string? DuplicatePropertyName2 { get { return this.DuplicatePropertyName2Option.Value; } set { this.DuplicatePropertyName2Option = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of DuplicatePropertyName
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> DuplicatePropertyNameOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets DuplicatePropertyName
+        /// </summary>
+        [JsonPropertyName("@duplicate_property_name")]
+        public string? DuplicatePropertyName { get { return this.DuplicatePropertyNameOption.Value; } set { this.DuplicatePropertyNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Float
@@ -189,7 +219,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [JsonPropertyName("float")]
-        public float? Float { get { return this.FloatOption; } set { this.FloatOption = new(value); } }
+        public float? Float { get { return this.FloatOption.Value; } set { this.FloatOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int32
@@ -202,7 +232,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int32
         /// </summary>
         [JsonPropertyName("int32")]
-        public int? Int32 { get { return this.Int32Option; } set { this.Int32Option = new(value); } }
+        public int? Int32 { get { return this.Int32Option.Value; } set { this.Int32Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int32Range
@@ -215,7 +245,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int32Range
         /// </summary>
         [JsonPropertyName("int32Range")]
-        public int? Int32Range { get { return this.Int32RangeOption; } set { this.Int32RangeOption = new(value); } }
+        public int? Int32Range { get { return this.Int32RangeOption.Value; } set { this.Int32RangeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int64
@@ -228,7 +258,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64
         /// </summary>
         [JsonPropertyName("int64")]
-        public long? Int64 { get { return this.Int64Option; } set { this.Int64Option = new(value); } }
+        public long? Int64 { get { return this.Int64Option.Value; } set { this.Int64Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int64Negative
@@ -241,7 +271,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64Negative
         /// </summary>
         [JsonPropertyName("int64Negative")]
-        public long? Int64Negative { get { return this.Int64NegativeOption; } set { this.Int64NegativeOption = new(value); } }
+        public long? Int64Negative { get { return this.Int64NegativeOption.Value; } set { this.Int64NegativeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int64NegativeExclusive
@@ -254,7 +284,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64NegativeExclusive
         /// </summary>
         [JsonPropertyName("int64NegativeExclusive")]
-        public long? Int64NegativeExclusive { get { return this.Int64NegativeExclusiveOption; } set { this.Int64NegativeExclusiveOption = new(value); } }
+        public long? Int64NegativeExclusive { get { return this.Int64NegativeExclusiveOption.Value; } set { this.Int64NegativeExclusiveOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int64Positive
@@ -267,7 +297,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64Positive
         /// </summary>
         [JsonPropertyName("int64Positive")]
-        public long? Int64Positive { get { return this.Int64PositiveOption; } set { this.Int64PositiveOption = new(value); } }
+        public long? Int64Positive { get { return this.Int64PositiveOption.Value; } set { this.Int64PositiveOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int64PositiveExclusive
@@ -280,7 +310,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64PositiveExclusive
         /// </summary>
         [JsonPropertyName("int64PositiveExclusive")]
-        public long? Int64PositiveExclusive { get { return this.Int64PositiveExclusiveOption; } set { this.Int64PositiveExclusiveOption = new(value); } }
+        public long? Int64PositiveExclusive { get { return this.Int64PositiveExclusiveOption.Value; } set { this.Int64PositiveExclusiveOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Integer
@@ -293,7 +323,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [JsonPropertyName("integer")]
-        public int? Integer { get { return this.IntegerOption; } set { this.IntegerOption = new(value); } }
+        public int? Integer { get { return this.IntegerOption.Value; } set { this.IntegerOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithBackslash
@@ -307,7 +337,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>None</value>
         [JsonPropertyName("pattern_with_backslash")]
-        public string? PatternWithBackslash { get { return this.PatternWithBackslashOption; } set { this.PatternWithBackslashOption = new(value); } }
+        public string? PatternWithBackslash { get { return this.PatternWithBackslashOption.Value; } set { this.PatternWithBackslashOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigits
@@ -321,7 +351,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
-        public string? PatternWithDigits { get { return this.PatternWithDigitsOption; } set { this.PatternWithDigitsOption = new(value); } }
+        public string? PatternWithDigits { get { return this.PatternWithDigitsOption.Value; } set { this.PatternWithDigitsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigitsAndDelimiter
@@ -335,7 +365,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
-        public string? PatternWithDigitsAndDelimiter { get { return this.PatternWithDigitsAndDelimiterOption; } set { this.PatternWithDigitsAndDelimiterOption = new(value); } }
+        public string? PatternWithDigitsAndDelimiter { get { return this.PatternWithDigitsAndDelimiterOption.Value; } set { this.PatternWithDigitsAndDelimiterOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of String
@@ -348,7 +378,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public string? String { get { return this.StringOption; } set { this.StringOption = new(value); } }
+        public string? String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of StringFormattedAsDecimal
@@ -361,7 +391,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringFormattedAsDecimal
         /// </summary>
         [JsonPropertyName("string_formatted_as_decimal")]
-        public decimal? StringFormattedAsDecimal { get { return this.StringFormattedAsDecimalOption; } set { this.StringFormattedAsDecimalOption = new(value); } }
+        public decimal? StringFormattedAsDecimal { get { return this.StringFormattedAsDecimalOption.Value; } set { this.StringFormattedAsDecimalOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedInteger
@@ -374,7 +404,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [JsonPropertyName("unsigned_integer")]
-        public uint? UnsignedInteger { get { return this.UnsignedIntegerOption; } set { this.UnsignedIntegerOption = new(value); } }
+        public uint? UnsignedInteger { get { return this.UnsignedIntegerOption.Value; } set { this.UnsignedIntegerOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedLong
@@ -387,7 +417,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnsignedLong
         /// </summary>
         [JsonPropertyName("unsigned_long")]
-        public ulong? UnsignedLong { get { return this.UnsignedLongOption; } set { this.UnsignedLongOption = new(value); } }
+        public ulong? UnsignedLong { get { return this.UnsignedLongOption.Value; } set { this.UnsignedLongOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -401,7 +431,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this.UuidOption; } set { this.UuidOption = new(value); } }
+        public Guid? Uuid { get { return this.UuidOption.Value; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -426,6 +456,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Decimal: ").Append(Decimal).Append("\n");
             sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  DuplicatePropertyName2: ").Append(DuplicatePropertyName2).Append("\n");
+            sb.Append("  DuplicatePropertyName: ").Append(DuplicatePropertyName).Append("\n");
             sb.Append("  Float: ").Append(Float).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
             sb.Append("  Int32Range: ").Append(Int32Range).Append("\n");
@@ -660,6 +692,8 @@ namespace Org.OpenAPITools.Model
             Option<DateTime?> dateTime = default;
             Option<decimal?> varDecimal = default;
             Option<double?> varDouble = default;
+            Option<string?> duplicatePropertyName2 = default;
+            Option<string?> duplicatePropertyName = default;
             Option<float?> varFloat = default;
             Option<int?> int32 = default;
             Option<int?> int32Range = default;
@@ -719,6 +753,12 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "double":
                             varDouble = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
+                        case "duplicate_property_name":
+                            duplicatePropertyName2 = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "@duplicate_property_name":
+                            duplicatePropertyName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "float":
                             varFloat = new Option<float?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (float?)null : (float)utf8JsonReader.GetDouble());
@@ -819,6 +859,12 @@ namespace Org.OpenAPITools.Model
             if (varDouble.IsSet && varDouble.Value == null)
                 throw new ArgumentNullException(nameof(varDouble), "Property is not nullable for class FormatTest.");
 
+            if (duplicatePropertyName2.IsSet && duplicatePropertyName2.Value == null)
+                throw new ArgumentNullException(nameof(duplicatePropertyName2), "Property is not nullable for class FormatTest.");
+
+            if (duplicatePropertyName.IsSet && duplicatePropertyName.Value == null)
+                throw new ArgumentNullException(nameof(duplicatePropertyName), "Property is not nullable for class FormatTest.");
+
             if (varFloat.IsSet && varFloat.Value == null)
                 throw new ArgumentNullException(nameof(varFloat), "Property is not nullable for class FormatTest.");
 
@@ -870,7 +916,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, stringFormattedAsDecimalRequired.Value!.Value!, binary, dateTime, varDecimal, varDouble, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, stringFormattedAsDecimal, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, stringFormattedAsDecimalRequired.Value!.Value!, binary, dateTime, varDecimal, varDouble, duplicatePropertyName2, duplicatePropertyName, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, stringFormattedAsDecimal, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -905,6 +951,12 @@ namespace Org.OpenAPITools.Model
 
             if (formatTest.BinaryOption.IsSet && formatTest.Binary == null)
                 throw new ArgumentNullException(nameof(formatTest.Binary), "Property is required for class FormatTest.");
+
+            if (formatTest.DuplicatePropertyName2Option.IsSet && formatTest.DuplicatePropertyName2 == null)
+                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName2), "Property is required for class FormatTest.");
+
+            if (formatTest.DuplicatePropertyNameOption.IsSet && formatTest.DuplicatePropertyName == null)
+                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName), "Property is required for class FormatTest.");
 
             if (formatTest.PatternWithBackslashOption.IsSet && formatTest.PatternWithBackslash == null)
                 throw new ArgumentNullException(nameof(formatTest.PatternWithBackslash), "Property is required for class FormatTest.");
@@ -943,6 +995,12 @@ namespace Org.OpenAPITools.Model
             }
             if (formatTest.DoubleOption.IsSet)
                 writer.WriteNumber("double", formatTest.DoubleOption.Value!.Value);
+
+            if (formatTest.DuplicatePropertyName2Option.IsSet)
+                writer.WriteString("duplicate_property_name", formatTest.DuplicatePropertyName2);
+
+            if (formatTest.DuplicatePropertyNameOption.IsSet)
+                writer.WriteString("@duplicate_property_name", formatTest.DuplicatePropertyName);
 
             if (formatTest.FloatOption.IsSet)
                 writer.WriteNumber("float", formatTest.FloatOption.Value!.Value);

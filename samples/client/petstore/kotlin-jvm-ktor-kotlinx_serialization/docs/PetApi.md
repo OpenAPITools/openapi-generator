@@ -372,7 +372,7 @@ uploads an image
 val apiInstance = PetApi()
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-val file : io.ktor.client.request.forms.InputProvider = BINARY_DATA_HERE // io.ktor.client.request.forms.InputProvider | file to upload
+val file : io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider> = BINARY_DATA_HERE // io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider> | file to upload
 try {
     val result : ModelApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
     println(result)
@@ -390,7 +390,7 @@ try {
 | **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **file** | **io.ktor.client.request.forms.InputProvider**| file to upload | [optional] |
+| **file** | **io.ktor.client.request.forms.FormPart&lt;io.ktor.client.request.forms.InputProvider&gt;**| file to upload | [optional] |
 
 ### Return type
 

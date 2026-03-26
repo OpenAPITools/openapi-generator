@@ -1,58 +1,51 @@
 # Created with Openapi Generator
 
 <a id="cli"></a>
-## Run the following powershell command to generate the library
+## Creating the library
+Create a config.yaml file similar to what is below, then run the following powershell command to generate the library `java -jar "<path>/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar" generate -c config.yaml`
 
-```ps1
-$properties = @(
-    'apiName={{apiName}}',
-    'targetFramework={{targetFramework}}',
-    'validatable={{validatable}}',
-    'nullableReferenceTypes={{nullableReferenceTypes}}',
-    'hideGenerationTimestamp={{hideGenerationTimestamp}}',
-    'packageVersion={{packageVersion}}',
-    'packageAuthors={{packageAuthors}}',
-    'packageCompany={{packageCompany}}',
-    'packageCopyright={{packageCopyright}}',
-    'packageDescription={{packageDescription}}',{{#licenseId}}
-    'licenseId={{.}}',{{/licenseId}}
-    'packageName={{packageName}}',
-    'packageTags={{packageTags}}',
-    'packageTitle={{packageTitle}}'
-) -join ","
+```yaml
+generatorName: csharp
+inputSpec: {{inputSpec}}
+outputDir: out
 
-$global = @(
-    'apiDocs={{generateApiDocs}}',
-    'modelDocs={{generateModelDocs}}',
-    'apiTests={{generateApiTests}}',
-    'modelTests={{generateModelTests}}'
-) -join ","
+# https://openapi-generator.tech/docs/generators/csharp
+additionalProperties:
+  packageGuid: '{{packageGuid}}'
 
-java -jar "<path>/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar" generate `
-    -g csharp-netcore `
-    -i <your-swagger-file>.yaml `
-    -o <your-output-folder> `
-    --library generichost `
-    --additional-properties $properties `
-    --global-property $global `
-    --git-host "{{gitHost}}" `
-    --git-repo-id "{{gitRepoId}}" `
-    --git-user-id "{{gitUserId}}" `
-    --release-note "{{releaseNote}}"
-    # -t templates
+# https://openapi-generator.tech/docs/integrations/#github-integration
+# gitHost:
+# gitUserId:
+# gitRepoId:
+
+# https://openapi-generator.tech/docs/globals
+# globalProperties:
+
+# https://openapi-generator.tech/docs/customization/#inline-schema-naming
+# inlineSchemaOptions:
+
+# https://openapi-generator.tech/docs/customization/#name-mapping
+# modelNameMappings:
+# nameMappings:
+
+# https://openapi-generator.tech/docs/customization/#openapi-normalizer
+# openapiNormalizer:
+
+# templateDir: https://openapi-generator.tech/docs/templating/#modifying-templates
+
+# releaseNote:
 ```
 
 <a id="usage"></a>
 ## Using the library in your project
 
 ```cs
-using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.Api;
 using {{packageName}}.Client;
 using {{packageName}}.Model;
+using Org.OpenAPITools.Extensions;
 
 namespace YourProject
 {
@@ -60,14 +53,17 @@ namespace YourProject
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();{{#apiInfo}}{{#apis}}{{#-first}}
+            var host = CreateHostBuilder(args).Build();
+            {{#apiInfo}}
+            {{#apis}}
+            {{#-first}}
             var api = host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
             {{#operations}}
             {{#-first}}
             {{#operation}}
             {{#-first}}
-            {{operationId}}ApiResponse apiResponse = await api.{{operationId}}Async("todo");
-            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}} model = apiResponse.Ok();
+            {{interfacePrefix}}{{operationId}}ApiResponse apiResponse = await api.{{operationId}}Async("todo");
+            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}} model = apiResponse.Ok();
             {{/-first}}
             {{/operation}}
             {{/-first}}
@@ -78,16 +74,17 @@ namespace YourProject
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-          .Configure{{apiName}}((context, options) =>
+          .Configure{{apiName}}((context, services, options) =>
           {
               {{#authMethods}}
               {{#-first}}
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Authorization);
+              // The type of token here depends on the api security specifications
+              // Available token types are ApiKeyToken, BasicToken, BearerToken, HttpSigningToken, and OAuthToken.
+              BearerToken token = new("<your token>");
               options.AddTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
+              options.UseProvider<RateLimitProvider<BearerToken>, BearerToken>();
 
               {{/-first}}
               {{/authMethods}}
@@ -96,11 +93,17 @@ namespace YourProject
                   // your custom converters if any
               });
 
-              options.Add{{apiName}}HttpClients(builder: builder => builder
-                .AddRetryPolicy(2)
-                .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
-                .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30))
-                // add whatever middleware you prefer
+              options.Add{{apiName}}HttpClients(client =>
+              {
+                  // client configuration
+              }, builder =>
+              {
+                  builder
+                      .AddRetryPolicy(2)
+                      .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
+                      .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30));
+                      // add whatever middleware you prefer
+                  }
               );
           });
     }
@@ -110,136 +113,28 @@ namespace YourProject
 ## Questions
 
 - What about HttpRequest failures and retries?
-  If supportsRetry is enabled, you can configure Polly in the ConfigureClients method.
+  Configure Polly in the IHttpClientBuilder
 - How are tokens used?
   Tokens are provided by a TokenProvider class. The default is RateLimitProvider which will perform client side rate limiting.
   Other providers can be used with the UseProvider method.
 - Does an HttpRequest throw an error when the server response is not Ok?
-  It depends how you made the request. If the return type is ApiResponse<T> no error will be thrown, though the Content property will be null. 
+  It depends how you made the request. If the return type is ApiResponse<T> no error will be thrown, though the Content property will be null.
   StatusCode and ReasonPhrase will contain information about the error.
   If the return type is T, then it will throw. If the return type is TOrDefault, it will return null.
 - How do I validate requests and process responses?
-  Use the provided On and After methods in the Api class from the namespace {{packageName}}.Rest.DefaultApi.
-  Or provide your own class by using the generic Configure{{apiName}} method.
-
-<a id="dependencies"></a>
-## Dependencies
-
-- [Microsoft.Extensions.Hosting](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/) - 5.0.0 or later
-- [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) - 5.0.0 or later{{#supportsRetry}}
-- [Microsoft.Extensions.Http.Polly](https://www.nuget.org/packages/Microsoft.Extensions.Http.Polly/) - 5.0.1 or later{{/supportsRetry}}{{#useCompareNetObjects}}
-- [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later{{/useCompareNetObjects}}{{#validatable}}
-- [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later{{/validatable}}{{#apiDocs}}
-
-<a id="documentation-for-api-endpoints"></a>
-## Documentation for API Endpoints
-
-All URIs are relative to *{{{basePath}}}*
-
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}{{/apiDocs}}{{#modelDocs}}
-
-<a id="documentation-for-models"></a>
-## Documentation for Models
-
-{{#modelPackage}}{{#models}}{{#model}} - [{{{modelPackage}}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md){{/model}}{{/models}}{{/modelPackage}}
-{{^modelPackage}}No model defined in this package{{/modelPackage}}{{/modelDocs}}
-
-<a id="documentation-for-authorization"></a>
-## Documentation for Authorization
-
-{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
-{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
-{{#authMethods}}
-<a id="{{name}}"></a>
-### {{name}}
-
-{{#isApiKey}}- **Type**: API key
-- **API key parameter name**: {{keyParamName}}
-- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
-{{/isApiKey}}
-{{#isBasicBasic}}
-- **Type**: HTTP basic authentication
-{{/isBasicBasic}}
-{{#isBasicBearer}}
-- **Type**: Bearer Authentication
-{{/isBasicBearer}}
-{{#isHttpSignature}}
-- **Type**: HTTP signature authentication
-{{/isHttpSignature}}
-{{#isOAuth}}
-- **Type**: OAuth
-- **Flow**: {{flow}}
-- **Authorization URL**: {{authorizationUrl}}
-- **Scopes**: {{^scopes}}N/A{{/scopes}}{{#scopes}}  
-- {{scope}}: {{description}}{{/scopes}}
-{{/isOAuth}}
-
-{{/authMethods}}
-
-## Build
-- SDK version: {{packageVersion}}
-{{^hideGenerationTimestamp}}
-- Build date: {{generatedDate}}
-{{/hideGenerationTimestamp}}
-- Generator version: {{generatorVersion}}
-- Build package: {{generatorClass}}
+  Use the provided On and After partial methods in the api classes.
 
 ## Api Information
 - appName: {{appName}}
 - appVersion: {{appVersion}}
 - appDescription: {{appDescription}}
 
-## [OpenApi Global properties](https://openapi-generator.tech/docs/globals)
-- generateAliasAsModel: {{generateAliasAsModel}}
-- supportingFiles: {{supportingFiles}}
-- models: omitted for brevity
-- apis: omitted for brevity
-- apiDocs: {{generateApiDocs}}
-- modelDocs: {{generateModelDocs}}
-- apiTests: {{generateApiTests}}
-- modelTests: {{generateModelTests}}
-
-## [OpenApi Generator Parameters](https://openapi-generator.tech/docs/generators/csharp-netcore)
-- allowUnicodeIdentifiers: {{allowUnicodeIdentifiers}}
-- apiName: {{apiName}}
-- caseInsensitiveResponseHeaders: {{caseInsensitiveResponseHeaders}}
-- conditionalSerialization: {{conditionalSerialization}}
-- disallowAdditionalPropertiesIfNotPresent: {{disallowAdditionalPropertiesIfNotPresent}}
-- gitHost: {{gitHost}}
-- gitRepoId: {{gitRepoId}}
-- gitUserId: {{gitUserId}}
-- hideGenerationTimestamp: {{hideGenerationTimestamp}}
-- interfacePrefix: {{interfacePrefix}}
-- library: {{library}}
-- licenseId: {{licenseId}}
-- modelPropertyNaming: {{modelPropertyNaming}}
-- netCoreProjectFile: {{netCoreProjectFile}}
-- nonPublicApi: {{nonPublicApi}}
-- nullableReferenceTypes: {{nullableReferenceTypes}}
-- optionalAssemblyInfo: {{optionalAssemblyInfo}}
-- optionalEmitDefaultValues: {{optionalEmitDefaultValues}}
-- optionalMethodArgument: {{optionalMethodArgument}}
-- optionalProjectFile: {{optionalProjectFile}}
-- packageAuthors: {{packageAuthors}}
-- packageCompany: {{packageCompany}}
-- packageCopyright: {{packageCopyright}}
-- packageDescription: {{packageDescription}}
-- packageGuid: {{packageGuid}}
-- packageName: {{packageName}}
-- packageTags: {{packageTags}}
-- packageTitle: {{packageTitle}}
-- packageVersion: {{packageVersion}}
-- releaseNote: {{releaseNote}}
-- returnICollection: {{returnICollection}}
-- sortParamsByRequiredFlag: {{sortParamsByRequiredFlag}}
-- sourceFolder: {{sourceFolder}}
-- targetFramework: {{targetFramework}}
-- useCollection: {{useCollection}}
-- useDateTimeOffset: {{useDateTimeOffset}}
-- useOneOfDiscriminatorLookup: {{useOneOfDiscriminatorLookup}}
-- validatable: {{validatable}}{{#infoUrl}}
-For more information, please visit [{{{.}}}]({{{.}}}){{/infoUrl}}
-
+## Build
 This C# SDK is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project.
+
+- SDK version: {{packageVersion}}
+{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}
+{{/hideGenerationTimestamp}}
+- Generator version: {{generatorVersion}}
+- Build package: {{generatorClass}}

@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.languages.SpringCodegen.*;
+
 public class MergedSpecBuilderTest {
 
     @Test
@@ -55,6 +57,7 @@ public class MergedSpecBuilderTest {
                 .readLocation(mergedSpec, null, parseOptions).getOpenAPI();
 
         SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
         codegen.setOutputDir(output.getAbsolutePath());
 
         ClientOptInput input = new ClientOptInput();
@@ -73,15 +76,23 @@ public class MergedSpecBuilderTest {
                 .assertMethod("spec1OperationComplex")
                 .hasReturnType("ResponseEntity<Spec1Model>")
                 .assertMethodAnnotations()
-                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("value", "\"/spec1/complex/{param1}/path\""))
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("value", "Spec1Api.PATH_SPEC1_OPERATION_COMPLEX"))
                 .toMethod()
                 .assertParameter("param1")
                 .hasType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("PathVariable", ImmutableMap.of("value", "\"param1\""));
+                .containsWithNameAndAttributes("PathVariable", ImmutableMap.of("value", "\"param1\""))
+                .toParameter()
+                .toMethod()
+                .toFileAssert()
+                .fileContains("@RequestMapping(\"${openapi.mergedSpec.base-path:/my-context-root/v1}\")")
+        ;
 
         JavaFileAssert.assertThat(files.get("Spec2Api.java"))
-                .assertMethod("spec2Operation").hasReturnType("ResponseEntity<Spec2Model>");
+                .assertMethod("spec2Operation").hasReturnType("ResponseEntity<Spec2Model>")
+                .toFileAssert()
+                .fileContains("@RequestMapping(\"${openapi.mergedSpec.base-path:/my-context-root/v1}\")")
+        ;
 
         JavaFileAssert.assertThat(files.get("Spec1Model.java"))
                 .assertMethod("getSpec1Field").hasReturnType("String");

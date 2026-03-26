@@ -12,14 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    static final String API_DOCS_PATH = "/v2/api-docs";
-
-    @GetMapping(value = "/swagger-config.yaml", produces = "text/plain")
-    @ResponseBody
-    public String swaggerConfig() {
-        return "url: " + API_DOCS_PATH + "\n";
-    }
-
     @RequestMapping("/")
     public String index() {
         return "redirect:swagger-ui.html";

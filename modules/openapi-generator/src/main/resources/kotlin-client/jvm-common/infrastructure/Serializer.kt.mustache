@@ -23,7 +23,8 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
 {{#kotlinx-datetime}}
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 {{/kotlinx-datetime}}
 import java.util.UUID
@@ -50,7 +51,9 @@ import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
 import java.util.UUID
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonBuilder
 import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.SerializersModuleBuilder
 import java.net.URI
 import java.net.URL
 import java.util.concurrent.atomic.AtomicBoolean
@@ -65,6 +68,7 @@ import java.util.concurrent.atomic.AtomicLong
         .add(OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .add(InstantAdapter())
+        .add(LocalDateAdapter())
         .add(LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .add(LocalDateTimeAdapter())
@@ -92,6 +96,7 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .registerTypeAdapter(Instant::class.java, InstantAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter())
         {{/kotlinx-datetime}}
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
@@ -126,42 +131,60 @@ import java.util.concurrent.atomic.AtomicLong
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}})
 {{/jackson}}
 {{#kotlinx_serialization}}
-    @Deprecated("Use Serializer.kotlinxSerializationAdapters instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationAdapters"))
-    @JvmStatic
-    val kotlinSerializationAdapters: SerializersModule
-        get() { return kotlinxSerializationAdapters }
+    private var isAdaptersInitialized = false
 
     @JvmStatic
-    val kotlinxSerializationAdapters = SerializersModule {
-        contextual(BigDecimal::class, BigDecimalAdapter)
-        contextual(BigInteger::class, BigIntegerAdapter)
-        {{^kotlinx-datetime}}
-        contextual(LocalDate::class, LocalDateAdapter)
-        contextual(LocalDateTime::class, LocalDateTimeAdapter)
-        contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
-        {{/kotlinx-datetime}}
-        contextual(UUID::class, UUIDAdapter)
-        contextual(AtomicInteger::class, AtomicIntegerAdapter)
-        contextual(AtomicLong::class, AtomicLongAdapter)
-        contextual(AtomicBoolean::class, AtomicBooleanAdapter)
-        contextual(URI::class, URIAdapter)
-        contextual(URL::class, URLAdapter)
-        contextual(StringBuilder::class, StringBuilderAdapter)
+    val kotlinxSerializationAdapters: SerializersModule by lazy {
+        isAdaptersInitialized = true
+        SerializersModule {
+            contextual(BigDecimal::class, BigDecimalAdapter)
+            contextual(BigInteger::class, BigIntegerAdapter)
+            {{^kotlinx-datetime}}
+            contextual(LocalDate::class, LocalDateAdapter)
+            contextual(LocalDateTime::class, LocalDateTimeAdapter)
+            contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
+            {{/kotlinx-datetime}}
+            contextual(UUID::class, UUIDAdapter)
+            contextual(AtomicInteger::class, AtomicIntegerAdapter)
+            contextual(AtomicLong::class, AtomicLongAdapter)
+            contextual(AtomicBoolean::class, AtomicBooleanAdapter)
+            contextual(URI::class, URIAdapter)
+            contextual(URL::class, URLAdapter)
+            contextual(StringBuilder::class, StringBuilderAdapter)
+
+            apply(kotlinxSerializationAdaptersConfiguration)
+        }
     }
 
-    @Deprecated("Use Serializer.kotlinxSerializationJson instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationJson"))
-    @JvmStatic
-    val jvmJson: Json
-        get() { return kotlinxSerializationJson }
+    var kotlinxSerializationAdaptersConfiguration: SerializersModuleBuilder.() -> Unit = {}
+        set(value) {
+            check(!isAdaptersInitialized) {
+                "Cannot configure kotlinxSerializationAdaptersConfiguration after kotlinxSerializationAdapters has been initialized."
+            }
+            field = value
+        }
+
+    private var isJsonInitialized = false
 
     @JvmStatic
     val kotlinxSerializationJson: Json by lazy {
+        isJsonInitialized = true
         Json {
             serializersModule = kotlinxSerializationAdapters
             encodeDefaults = true
             ignoreUnknownKeys = true
             isLenient = true
+
+            apply(kotlinxSerializationJsonConfiguration)
         }
     }
+
+    var kotlinxSerializationJsonConfiguration: JsonBuilder.() -> Unit = {}
+        set(value) {
+            check(!isJsonInitialized) {
+                "Cannot configure kotlinxSerializationJsonConfiguration after kotlinxSerializationJson has been initialized."
+            }
+            field = value
+        }
 {{/kotlinx_serialization}}
 }

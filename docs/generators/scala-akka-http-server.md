@@ -18,7 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|akkaHttpVersion|The version of akka-http| |10.1.10|
+|akkaHttpVersion|The version of akka-http| |10.2.9|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
 |artifactId|artifactId| |openapi-scala-akka-http-server|

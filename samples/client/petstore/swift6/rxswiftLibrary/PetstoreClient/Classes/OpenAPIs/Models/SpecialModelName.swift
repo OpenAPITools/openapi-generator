@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SpecialModelName: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct SpecialModelName: Sendable, Codable, Hashable {
 
     public var specialPropertyName: Int64?
 

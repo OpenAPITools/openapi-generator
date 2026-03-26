@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Test generate oneOf with SchemaMapping with package
+  description: this test shows that the generation has a bug.
+  version: 1.0.0
+paths:
+  /testOneOf:
+    get:
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseObjectOneOf'
+  /testAnyOf:
+    get:
+      responses:
+        '201':
+          $ref: '#/components/responses/ResponseObjectAnyOf'
+components:
+  responses:
+    ResponseObjectOneOf:
+      description: 'The validation of the data provided by the client failed.'
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/ResultObjectOneOf'
+    ResponseObjectAnyOf:
+      description: 'The validation of the data provided by the client failed.'
+      content:
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/ResultObjectAnyOf'
+  schemas:
+    ResultObjectOneOf:
+      oneOf:
+        - $ref: '#/components/schemas/A'
+        - $ref: '#/components/schemas/B'
+    ResultObjectAnyOf:
+      oneOf:
+        - $ref: '#/components/schemas/A'
+        - $ref: '#/components/schemas/B'
+    A:
+      type: object
+    B:
+      type: object

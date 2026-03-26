@@ -24,6 +24,8 @@ OuterType::OuterType()
     
 }
 
+OuterType::~OuterType() = default;
+
 void OuterType::validate() const
 {
     std::stringstream msg;

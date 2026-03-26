@@ -5,13 +5,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -22,14 +21,14 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
   private @Nullable String bar;
 
   private @Nullable String foo;
 
-  public HasOnlyReadOnly bar(String bar) {
+  public HasOnlyReadOnly bar(@Nullable String bar) {
     this.bar = bar;
     return this;
   }
@@ -39,17 +38,18 @@ public class HasOnlyReadOnly {
    * @return bar
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("bar")
-  public String getBar() {
+  public @Nullable String getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  @JsonProperty("bar")
+  public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
 
-  public HasOnlyReadOnly foo(String foo) {
+  public HasOnlyReadOnly foo(@Nullable String foo) {
     this.foo = foo;
     return this;
   }
@@ -59,13 +59,14 @@ public class HasOnlyReadOnly {
    * @return foo
    */
   
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
-  public String getFoo() {
+  public @Nullable String getFoo() {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  @JsonProperty("foo")
+  public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }
 
@@ -101,11 +102,8 @@ public class HasOnlyReadOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

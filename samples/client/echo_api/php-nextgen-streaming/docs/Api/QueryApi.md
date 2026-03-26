@@ -14,6 +14,7 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 | [**testQueryStyleFormExplodeTrueArrayString()**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObject()**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObjectAllOf()**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
+| [**testQueryStyleJsonSerializationObject()**](QueryApi.md#testQueryStyleJsonSerializationObject) | **GET** /query/style_jsonSerialization/object | Test query parameter(s) |
 
 
 ## `testEnumRefString()`
@@ -568,6 +569,64 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **query_object** | [**\OpenAPI\Client\Model\DataQuery**](../Model/.md)|  | [optional] |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `text/plain`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testQueryStyleJsonSerializationObject()`
+
+```php
+testQueryStyleJsonSerializationObject($json_serialized_object_ref_string_query, $json_serialized_object_array_ref_string_query): string
+```
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\QueryApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$json_serialized_object_ref_string_query = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet
+$json_serialized_object_array_ref_string_query = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\Pet()); // \OpenAPI\Client\Model\Pet[]
+
+try {
+    $result = $apiInstance->testQueryStyleJsonSerializationObject($json_serialized_object_ref_string_query, $json_serialized_object_array_ref_string_query);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling QueryApi->testQueryStyleJsonSerializationObject: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **json_serialized_object_ref_string_query** | [**\OpenAPI\Client\Model\Pet**](../Model/.md)|  | [optional] |
+| **json_serialized_object_array_ref_string_query** | [**\OpenAPI\Client\Model\Pet[]**](../Model/\OpenAPI\Client\Model\Pet.md)|  | [optional] |
 
 ### Return type
 

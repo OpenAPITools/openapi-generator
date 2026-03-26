@@ -1,0 +1,24 @@
+openapi: 3.0.1
+info:
+  title: Test to check that array query params are rendered correctly.
+  version: 0.0.1
+paths:
+  /endpoint:
+    get:
+      description: Some endpoint.
+      parameters:
+        - name: numbers
+          in: query
+          description: Some numbers.
+          schema:
+            type: array
+            items:
+              type: number
+        - name: multiplier
+          in: query
+          description: Multipler for sum.
+          schema:
+            type: number  
+      responses:
+        '200':
+          description: OK.

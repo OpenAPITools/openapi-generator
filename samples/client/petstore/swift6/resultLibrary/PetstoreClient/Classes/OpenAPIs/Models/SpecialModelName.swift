@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct SpecialModelName: Sendable, Codable, QueryStringEncodable {
+internal struct SpecialModelName: Sendable, Codable {
 
     internal private(set) var specialPropertyName: Int64?
 

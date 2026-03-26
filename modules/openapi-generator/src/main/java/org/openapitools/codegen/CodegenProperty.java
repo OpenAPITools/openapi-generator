@@ -128,7 +128,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean exclusiveMaximum;
     @Setter public boolean required;
     public boolean deprecated;
-    public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
     /**
@@ -435,6 +434,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public boolean notRequiredOrIsNullable() {
         return !getRequired() || isNullable;
+    }
+
+    /**
+     * An alias for vendor extensions, e.g. one can use {{exts.x-something}} for cleaner template
+     *
+     * @return vendor extensions
+     */
+    public Map<String, Object> getExts() {
+        return vendorExtensions;
     }
 
     @Override
@@ -995,7 +1003,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
         sb.append(", required=").append(required);
         sb.append(", deprecated=").append(deprecated);
-        sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
         sb.append(", isModel=").append(isModel);
         sb.append(", isContainer=").append(isContainer);
@@ -1092,7 +1099,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMaximum == that.exclusiveMaximum &&
                 required == that.required &&
                 deprecated == that.deprecated &&
-                hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
                 isModel == that.isModel &&
                 isContainer == that.isContainer &&
@@ -1209,7 +1215,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
-                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
+                isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
                 isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,

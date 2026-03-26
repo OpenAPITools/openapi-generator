@@ -148,6 +148,7 @@ open class {{classname}} {
                 var multipartData = Data()
                 {{#formParams}}
 {{> toMultipartFormDataAppend}}
+
                 {{/formParams}}
                 multipartData.append("\r\n--\(multipartBoundary)--\r\n".data(using: .utf8) ?? Data())
                 request.httpBody = multipartData

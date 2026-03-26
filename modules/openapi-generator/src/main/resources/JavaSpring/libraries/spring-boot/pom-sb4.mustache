@@ -1,0 +1,251 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>{{groupId}}</groupId>
+    <artifactId>{{artifactId}}</artifactId>
+    <packaging>jar</packaging>
+    <name>{{artifactId}}</name>
+    <version>{{artifactVersion}}</version>
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#springDocDocumentationProvider}}
+        <springdoc.version>2.6.0</springdoc.version>
+        {{/springDocDocumentationProvider}}
+        {{^springDocDocumentationProvider}}
+        {{#swagger2AnnotationLibrary}}
+        <swagger-annotations.version>2.2.42</swagger-annotations.version>
+        {{/swagger2AnnotationLibrary}}
+        {{/springDocDocumentationProvider}}
+        {{#useSwaggerUI}}
+        <swagger-ui.version>5.17.14</swagger-ui.version>
+        {{/useSwaggerUI}}
+        {{#virtualService}}
+        <virtualan.version>2.5.5</virtualan.version>
+        {{/virtualService}}
+    </properties>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
+{{^parentOverridden}}
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+{{/parentOverridden}}
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <plugins>
+            {{^interfaceOnly}}
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    {{#classifier}}
+                  <classifier>{{{classifier}}}</classifier>
+                    {{/classifier}}
+                    {{#lombok}}
+                  <excludes>
+                    <exclude>
+                      <groupId>org.projectlombok</groupId>
+                      <artifactId>lombok</artifactId>
+                    </exclude>
+                  </excludes>
+                    {{/lombok}}
+                </configuration>
+            </plugin>
+            {{/interfaceOnly}}
+            {{#interfaceOnly}}
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            {{/interfaceOnly}}
+            {{#apiFirst}}
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>{{{generatorVersion}}}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>src/main/resources/openapi.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>{{{apiPackage}}}</apiPackage>
+                            <modelPackage>{{{modelPackage}}}</modelPackage>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            {{#modelNamePrefix}}
+                            <modelNamePrefix>{{{.}}}</modelNamePrefix>
+                            {{/modelNamePrefix}}
+                            {{#modelNameSuffix}}
+                            <modelNameSuffix>{{{.}}}</modelNameSuffix>
+                            {{/modelNameSuffix}}
+                            <configOptions>
+                            {{#configOptions}}
+                                <{{left}}>{{right}}</{{left}}>
+                            {{/configOptions}}
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            {{/apiFirst}}
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}{{^reactive}}mvc{{/reactive}}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+        {{#springDocDocumentationProvider}}
+          <!--SpringDoc dependencies -->
+        {{#useSwaggerUI}}
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        {{/useSwaggerUI}}
+        {{^useSwaggerUI}}
+        <dependency>
+            <groupId>org.springdoc</groupId>
+          <artifactId>springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-api</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        {{/useSwaggerUI}}
+        {{/springDocDocumentationProvider}}
+        {{#useSwaggerUI}}
+        {{^springDocDocumentationProvider}}
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        {{/springDocDocumentationProvider}}
+        {{/useSwaggerUI}}
+        {{^springDocDocumentationProvider}}
+        {{#swagger2AnnotationLibrary}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+        {{/swagger2AnnotationLibrary}}
+        {{/springDocDocumentationProvider}}
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        {{#withXml}}
+        <!-- XML processing: Jackson -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>{{jacksonPackage}}.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+        {{/withXml}}
+        {{^useJackson3}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        {{/useJackson3}}
+        {{#joda}}
+        <dependency>
+            <groupId>{{jacksonPackage}}.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+        </dependency>
+        {{/joda}}
+        {{#openApiNullable}}
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.8</version>
+        </dependency>
+        {{/openApiNullable}}
+{{#useBeanValidation}}
+        <!-- Bean Validation API support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+{{/useBeanValidation}}
+{{#virtualService}}
+    <!-- START Virtual Service API support -->
+        <dependency>
+            <groupId>io.virtualan</groupId>
+            <artifactId>virtualan-plugin</artifactId>
+            <version>${virtualan.version}</version>
+        </dependency>
+        <!-- HyperSQL DB -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
+    <!-- END Virtual Service API support -->
+{{/virtualService}}
+{{#hateoas}}
+        <!-- Spring HATEOAS -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+{{/hateoas}}
+{{#lombok}}
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+{{/lombok}}
+        <dependency>
+            <groupId>{{jacksonPackage}}.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}{{^reactive}}mvc{{/reactive}}-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

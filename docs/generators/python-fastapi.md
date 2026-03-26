@@ -10,7 +10,7 @@ title: Documentation for the python-fastapi Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Python | |
-| generator language version | 3.7 | |
+| generator language version | 3.10 | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a Python FastAPI server (beta). Models are defined with the pydantic library | |
 
@@ -50,6 +50,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Dict</li>
 <li>List</li>
+<li>UUID</li>
 <li>bool</li>
 <li>bytes</li>
 <li>date</li>
@@ -150,7 +151,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
-|Uuid|✗|
+|Uuid|✓|
 |Array|✓|OAS2,OAS3
 |Null|✗|OAS3
 |AnyType|✗|OAS2,OAS3

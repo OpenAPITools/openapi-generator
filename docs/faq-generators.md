@@ -96,7 +96,7 @@ mvn integration-test
 ### Which Swift generator is still actively maintained?
 
 Please use `swift5` generator because Swift 4.x is deprecated.
-There is a new `swift6` generator, that is currently in beta, try it and give us your feedback.
+There is a new `swift6` generator, that is now stable, try it and give us your feedback.
 
 ### How do I implement bearer token authentication with URLSession on the Swift 5 API client?
 
@@ -494,6 +494,8 @@ Here is a working sample that put's together all of this.
 - The default project structure now follows the SPM (Swift Package Manager) structure. To revert to the old structure, set the `useSPMFileStructure` flag to `false`.
 - The former `{{projectName}}API` is now called `{{projectName}}APIConfiguration`.
 - You can now set a request interceptor and retrier by configuring `OpenAPIClient.shared.interceptor`, making authenticated requests easier to manage.
+- The protocol `JSONEncodable` was renamed to `ParameterConvertible`.
+- The flag `useJSONEncodable` was renamed to `useParameterConvertible`.
 
 ## TypeScript
 

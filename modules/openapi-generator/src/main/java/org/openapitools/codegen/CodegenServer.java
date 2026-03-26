@@ -38,4 +38,13 @@ public class CodegenServer {
         sb.append('}');
         return sb.toString();
     }
+
+    /**
+     * An alias for vendor extensions, e.g. one can use {{exts.x-something}} for cleaner template
+     *
+     * @return vendor extensions
+     */
+    public Map<String, Object> getExts() {
+        return vendorExtensions;
+    }
 }

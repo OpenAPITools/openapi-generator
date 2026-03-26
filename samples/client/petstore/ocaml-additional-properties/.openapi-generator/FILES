@@ -1,0 +1,10 @@
+.ocamlformat
+README.md
+dune
+dune-project
+petstore_client.opam
+src/models/some_object.ml
+src/models/some_object_required_field3_value.ml
+src/support/enums.ml
+src/support/jsonSupport.ml
+src/support/request.ml

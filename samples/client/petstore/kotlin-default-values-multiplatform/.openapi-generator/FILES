@@ -16,7 +16,6 @@ src/commonMain/kotlin/org/openapitools/client/auth/OAuth.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/ApiAbstractions.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/ApiClient.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/Base64ByteArray.kt
-src/commonMain/kotlin/org/openapitools/client/infrastructure/Bytes.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/HttpResponse.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/OctetByteArray.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/PartConfig.kt

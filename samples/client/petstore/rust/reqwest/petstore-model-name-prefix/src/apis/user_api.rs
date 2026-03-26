@@ -86,7 +86,7 @@ pub enum UpdateUserError {
 /// This can only be done by the logged in user.
 pub fn create_user(configuration: &configuration::Configuration, foo_user: models::FooUser) -> Result<(), Error<CreateUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_foo_user = foo_user;
+    let p_body_foo_user = foo_user;
 
     let uri_str = format!("{}/user", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -102,7 +102,7 @@ pub fn create_user(configuration: &configuration::Configuration, foo_user: model
         };
         req_builder = req_builder.header("api_key", value);
     };
-    req_builder = req_builder.json(&p_foo_user);
+    req_builder = req_builder.json(&p_body_foo_user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
@@ -121,7 +121,7 @@ pub fn create_user(configuration: &configuration::Configuration, foo_user: model
 /// 
 pub fn create_users_with_array_input(configuration: &configuration::Configuration, user: Vec<models::FooUser>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_user = user;
+    let p_body_user = user;
 
     let uri_str = format!("{}/user/createWithArray", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -137,7 +137,7 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
         };
         req_builder = req_builder.header("api_key", value);
     };
-    req_builder = req_builder.json(&p_user);
+    req_builder = req_builder.json(&p_body_user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
@@ -156,7 +156,7 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
 /// 
 pub fn create_users_with_list_input(configuration: &configuration::Configuration, user: Vec<models::FooUser>) -> Result<(), Error<CreateUsersWithListInputError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_user = user;
+    let p_body_user = user;
 
     let uri_str = format!("{}/user/createWithList", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -172,7 +172,7 @@ pub fn create_users_with_list_input(configuration: &configuration::Configuration
         };
         req_builder = req_builder.header("api_key", value);
     };
-    req_builder = req_builder.json(&p_user);
+    req_builder = req_builder.json(&p_body_user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
@@ -191,9 +191,9 @@ pub fn create_users_with_list_input(configuration: &configuration::Configuration
 /// This can only be done by the logged in user.
 pub fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<DeleteUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_username = username;
+    let p_path_username = username;
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(p_username));
+    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(p_path_username));
     let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -225,9 +225,9 @@ pub fn delete_user(configuration: &configuration::Configuration, username: &str)
 /// 
 pub fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<models::FooUser, Error<GetUserByNameError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_username = username;
+    let p_path_username = username;
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(p_username));
+    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(p_path_username));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -262,14 +262,14 @@ pub fn get_user_by_name(configuration: &configuration::Configuration, username: 
 /// 
 pub fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<LoginUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_username = username;
-    let p_password = password;
+    let p_query_username = username;
+    let p_query_password = password;
 
     let uri_str = format!("{}/user/login", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("username", &p_username.to_string())]);
-    req_builder = req_builder.query(&[("password", &p_password.to_string())]);
+    req_builder = req_builder.query(&[("username", &p_query_username.to_string())]);
+    req_builder = req_builder.query(&[("password", &p_query_password.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -334,10 +334,10 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
 /// This can only be done by the logged in user.
 pub fn update_user(configuration: &configuration::Configuration, username: &str, foo_user: models::FooUser) -> Result<(), Error<UpdateUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_username = username;
-    let p_foo_user = foo_user;
+    let p_path_username = username;
+    let p_body_foo_user = foo_user;
 
-    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(p_username));
+    let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(p_path_username));
     let mut req_builder = configuration.client.request(reqwest::Method::PUT, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -351,7 +351,7 @@ pub fn update_user(configuration: &configuration::Configuration, username: &str,
         };
         req_builder = req_builder.header("api_key", value);
     };
-    req_builder = req_builder.json(&p_foo_user);
+    req_builder = req_builder.json(&p_body_foo_user);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -71,6 +72,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final int DEFAULT_SERVER_PORT = 8080;
     private static final String DEFAULT_PACKAGE_NAME = "openapi_server";
     private static final String DEFAULT_SOURCE_FOLDER = "src";
+    private static final String DEFAULT_IMPL_FOLDER = "impl";
     private static final String DEFAULT_PACKAGE_VERSION = "1.0.0";
 
     private String implPackage;
@@ -87,6 +89,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     public PythonFastAPIServerCodegen() {
         super();
+
+        setSkipSortingOperations(true);
 
         modifyFeatureSet(features -> features.includeSecurityFeatures(
                 SecurityFeature.OAuth2_AuthorizationCode,
@@ -109,7 +113,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         additionalProperties.put("baseSuffix", BASE_CLASS_SUFFIX);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, DEFAULT_SOURCE_FOLDER);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
-        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_PACKAGE_NAME.concat(".impl"));
+        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_IMPL_FOLDER);
 
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
@@ -124,7 +128,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         apiPackage = "apis";
         modelPackage = "models";
         testPackage = "tests";
-        implPackage = "impl";
+        implPackage = DEFAULT_IMPL_FOLDER;
         apiTestTemplateFiles().put("api_test.mustache", ".py");
 
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
@@ -143,6 +147,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     public void processOpts() {
         super.processOpts();
 
+        // Skip sorting of operations via setSkipSortingOperations(true) in the constructor to preserve the order
+        // found in the OpenAPI spec file.  See
+        // https://fastapi.tiangolo.com/tutorial/path-params/?h=path#order-matters for details on why order matters.
+        LOGGER.info("Skipping sorting of path operations, order matters, let the developer decide via their specification file.");
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         }
@@ -153,10 +162,14 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE)) {
             this.implPackage = ((String) additionalProperties.get(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE));
+            // Prefix templating value with the package name
+            additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE,
+                    this.packageName + "." + this.implPackage);
         }
 
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
+        implPackage = packageName + "." + implPackage;
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
@@ -193,7 +206,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
+        if (Strings.CS.startsWithAny(name, "import", "from")) {
             modelImport = name;
         } else {
             modelImport = "from ";
@@ -227,15 +240,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
-                List<CodegenResponse> responses = operation.responses;
-                if (responses != null) {
-                    for (final CodegenResponse resp : responses) {
-                        // Convert "default" value (0) to OK (200).
-                        if ("0".equals(resp.code)) {
-                            resp.code = "200";
-                        }
-                    }
-                }
                 List<CodegenSecurity> securityMethods = operation.authMethods;
                 if (securityMethods != null) {
                     for (final CodegenSecurity securityMethod : securityMethods) {
@@ -326,7 +330,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.7";
+        return "3.10";
     }
 
     @Override

@@ -12,7 +12,8 @@ package org.openapitools.client.models
 
 import io.circe.*
 import io.circe.syntax.*
-import io.circe.{Decoder, Encoder}
+import io.circe.{Decoder, DecodingFailure, Encoder}
+import cats.syntax.functor.*
 
 import scala.collection.immutable.Seq
 
@@ -53,7 +54,7 @@ object Pet {
       name <- c.downField("name").as[String]
       photoUrls <- c.downField("photoUrls").as[Seq[String]]
       tags <- c.downField("tags").as[Option[Seq[Tag]]]
-      status <- c.downField("status").as[Option[PetStatus]]
+      status <- mapEmptyStringToNull(c.downField("status")).as[Option[PetStatus]]
     } yield Pet(
       id = id,
       category = category,

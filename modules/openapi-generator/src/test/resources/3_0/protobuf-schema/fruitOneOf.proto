@@ -14,14 +14,13 @@ package openapitools;
 
 import public "models/apple.proto";
 import public "models/banana.proto";
+import public "models/orange.proto";
 
 message Fruit {
 
     oneof fruit {
         Apple apple = 93029210;
-
         Banana banana = 322613405;
-
+        Orange orange = 471980499;
     }
-
 }

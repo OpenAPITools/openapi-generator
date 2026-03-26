@@ -17,29 +17,9 @@
 // @ts-ignore
 import type { BranchDto } from './branch-dto';
 
-/**
- * 
- * @export
- * @interface AbstractUserDto
- */
 export interface AbstractUserDto {
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractUserDto
-     */
     'username'?: string;
-    /**
-     * 
-     * @type {BranchDto}
-     * @memberof AbstractUserDto
-     */
     'branch'?: BranchDto;
-    /**
-     * 
-     * @type {string}
-     * @memberof AbstractUserDto
-     */
     'type'?: string;
 }
 

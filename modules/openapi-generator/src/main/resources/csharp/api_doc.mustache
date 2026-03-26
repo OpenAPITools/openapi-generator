@@ -21,6 +21,7 @@ All URIs are relative to *{{{basePath}}}*
 
 {{{.}}}{{/notes}}
 
+{{^useGenericHost}}
 ### Example
 ```csharp
 using System.Collections.Generic;
@@ -122,6 +123,7 @@ catch (ApiException e)
     Debug.Print(e.StackTrace);
 }
 ```
+{{/useGenericHost}}
 
 ### Parameters
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}

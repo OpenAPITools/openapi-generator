@@ -14,18 +14,18 @@ class BaseStoreApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseStoreApi.subclasses = BaseStoreApi.subclasses + (cls,)
-    async def delete_order(
-        self,
-        orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
-    ) -> None:
-        """For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors"""
-        ...
-
-
     async def get_inventory(
         self,
     ) -> Dict[str, int]:
         """Returns a map of status codes to quantities"""
+        ...
+
+
+    async def place_order(
+        self,
+        order: Annotated[Order, Field(description="order placed for purchasing the pet")],
+    ) -> Order:
+        """"""
         ...
 
 
@@ -37,9 +37,9 @@ class BaseStoreApi:
         ...
 
 
-    async def place_order(
+    async def delete_order(
         self,
-        order: Annotated[Order, Field(description="order placed for purchasing the pet")],
-    ) -> Order:
-        """"""
+        orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
+    ) -> None:
+        """For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors"""
         ...

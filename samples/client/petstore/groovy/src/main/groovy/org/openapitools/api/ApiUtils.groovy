@@ -5,6 +5,7 @@ import groovy.json.JsonGenerator
 import groovyx.net.http.ChainedHttpConfig
 import groovyx.net.http.ContentTypes
 import groovyx.net.http.NativeHandlers
+import groovyx.net.http.FromServer
 import groovyx.net.http.ToServer
 
 import static groovyx.net.http.HttpBuilder.configure
@@ -18,24 +19,25 @@ class ApiUtils {
             }
             .build()
 
-    void invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType, method, container, type)  {
+    void invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType, method, container, type)  {
         def (url, uriPath) = buildUrlAndUriPath(basePath, versionPath, resourcePath)
         println "url=$url uriPath=$uriPath"
         def http = configure {
             request.uri = url
             request.uri.path = uriPath
             request.encoder(ContentTypes.JSON, { final ChainedHttpConfig config, final ToServer ts ->
-                final ChainedHttpConfig.ChainedRequest request = config.getChainedRequest();
+                final ChainedHttpConfig.ChainedRequest request = config.getChainedRequest()
                 if (NativeHandlers.Encoders.handleRawUpload(config, ts)) {
-                    return;
+                    return
                 }
 
-                final Object body = NativeHandlers.Encoders.checkNull(request.actualBody());
+                final Object body = NativeHandlers.Encoders.checkNull(request.actualBody())
                 final String json = ((body instanceof String || body instanceof GString)
                         ? body.toString()
-                        : new JsonBuilder(body, jsonGenerator).toString());
-                ts.toServer(NativeHandlers.Encoders.stringToStream(json, request.actualCharset()));
+                        : new JsonBuilder(body, jsonGenerator).toString())
+                ts.toServer(NativeHandlers.Encoders.stringToStream(json, request.actualCharset()))
             })
+
         }
         .invokeMethod(String.valueOf(method).toLowerCase()) {
             request.uri.query = queryParams
@@ -43,11 +45,11 @@ class ApiUtils {
             if (bodyParams != null) {
                 request.body = bodyParams
             }
+            request.accept = accept
             request.contentType = contentType
-
-            response.success { resp, json ->
+            response.success { resp, body ->
                 if (type != null) {
-                    onSuccess(parse(json, container, type))
+                    onSuccess(parse(resp, body, container, type))
                 }
             }
             response.failure { resp ->
@@ -68,12 +70,19 @@ class ApiUtils {
         [basePath-pathOnly, pathOnly+versionPath+resourcePath]
     }
 
-    private def parse(object, container, clazz) {
+    private def parse(response, object, container, clazz) {
         if (container == "array") {
-            return object.collect {parse(it, "", clazz)}
-        }   else {
+            return object.collect { parse(response, it, "", clazz) }
+        } else {
             return clazz.newInstance(object)
         }
     }
 
+    private def selectHeaderAccept(accepts) {
+        def jsonMime = 'application/json'
+        if (accepts.find { it.toLowerCase().startsWith(jsonMime) }) {
+            return [jsonMime]
+        }
+        return accepts
+    }
 }

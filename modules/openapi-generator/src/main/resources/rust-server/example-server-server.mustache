@@ -30,6 +30,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {{#operations}}
       {{#operation}}
 {{>example-server-operation}}
+
       {{/operation}}
     {{/operations}}
   {{/apis}}

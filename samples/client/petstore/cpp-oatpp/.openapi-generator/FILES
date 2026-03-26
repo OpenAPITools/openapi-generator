@@ -1,0 +1,12 @@
+CMakeLists.txt
+README.md
+api/PetApi.hpp
+api/StoreApi.hpp
+api/UserApi.hpp
+main-api-client.cpp
+model/ApiResponse.hpp
+model/Category.hpp
+model/Order.hpp
+model/Pet.hpp
+model/Tag.hpp
+model/User.hpp

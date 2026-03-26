@@ -4,6 +4,14 @@ use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.useAsyncFileStream}}
+use tokio::fs::File as TokioFile;
+use tokio_util::codec::{BytesCodec, FramedRead};
+{{/vendorExtensions.useAsyncFileStream}}
+{{/operation}}
+{{/operations}}
 
 {{#operations}}
 {{#operation}}
@@ -91,6 +99,9 @@ pub enum {{{operationIdCamelCase}}}Error {
 {{#notes}}
 /// {{{.}}}
 {{/notes}}
+{{#isDeprecated}}
+#[deprecated]
+{{/isDeprecated}}
 {{#vendorExtensions.x-group-parameters}}
 pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration{{#allParams}}{{#-first}}, {{!
 ### Params
@@ -160,15 +171,64 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#isNullable}}
     {{#isDeepObject}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", param_value);
+        {{^isExplode}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
+        {{/isExplode}}
+        {{#isExplode}}
+        {{#isModel}}
+        req_builder = req_builder.query(&param_value);
+        {{/isModel}}
+        {{#isMap}}
+        let mut query_params = Vec::with_capacity(param_value.len());
+        for (key, value) in param_value.iter() {
+            query_params.push((key.to_string(), serde_json::to_string(value)?));
+        }
+        req_builder = req_builder.query(&query_params);
+        {{/isMap}}
+        {{/isExplode}}
     };
     {{/isDeepObject}}
     {{^isDeepObject}}
+    {{#isObject}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+    };
+    {{/isObject}}
+    {{#isModel}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+    };
+    {{/isModel}}
+    {{/isDeepObject}}
+    {{^isObject}}
+    {{^isModel}}
+    {{^isEnum}}
+    {{^isEnumRef}}
+    {{#isPrimitiveType}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
     };
-    {{/isDeepObject}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+    };
+    {{/isPrimitiveType}}
+    {{/isEnumRef}}
+    {{/isEnum}}
+    {{#isEnum}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+    };
+    {{/isEnum}}
+    {{#isEnumRef}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+    };
+    {{/isEnumRef}}
+    {{/isModel}}
+    {{/isObject}}
     {{/isNullable}}
     {{/isArray}}
     {{/required}}
@@ -182,11 +242,50 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{/isArray}}
         {{^isArray}}
         {{#isDeepObject}}
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", param_value);
+        {{^isExplode}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", &serde_json::to_value(param_value)?);
         req_builder = req_builder.query(&params);
+        {{/isExplode}}
+        {{#isExplode}}
+        {{#isModel}}
+        req_builder = req_builder.query(&param_value);
+        {{/isModel}}
+        {{#isMap}}
+        let mut query_params = Vec::with_capacity(param_value.len());
+        for (key, value) in param_value.iter() {
+            query_params.push((key.to_string(), serde_json::to_string(value)?));
+        }
+        req_builder = req_builder.query(&query_params);
+        {{/isMap}}
+        {{/isExplode}}
         {{/isDeepObject}}
         {{^isDeepObject}}
+        {{#isObject}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isObject}}
+        {{#isModel}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isModel}}
+        {{#isEnum}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        {{/isEnum}}
+        {{#isEnumRef}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        {{/isEnumRef}}
+        {{^isObject}}
+        {{^isModel}}
+        {{^isEnum}}
+        {{^isEnumRef}}
+        {{#isPrimitiveType}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isPrimitiveType}}
+        {{/isEnumRef}}
+        {{/isEnum}}
+        {{/isModel}}
+        {{/isObject}}
         {{/isDeepObject}}
         {{/isArray}}
     }
@@ -305,23 +404,86 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{^supportAsync}}
     {{#required}}
     {{^isNullable}}
+    {{#isArray}}
+    for value in &{{{vendorExtensions.x-rust-param-identifier}}} {
+        multipart_form = multipart_form.file("{{{baseName}}}", value)?;
+    }
+    {{/isArray}}
+    {{^isArray}}
     multipart_form = multipart_form.file("{{{baseName}}}", {{{vendorExtensions.x-rust-param-identifier}}})?;
+    {{/isArray}}
     {{/isNullable}}
     {{#isNullable}}
+    {{#isArray}}
+    match {{{vendorExtensions.x-rust-param-identifier}}} {
+        Some(param_value) => {
+            for value in param_value {
+                multipart_form = multipart_form.file("{{{baseName}}}", value)?;
+            }
+        },
+        None => { unimplemented!("Required nullable form file param not supported"); },
+    }
+    {{/isArray}}
+    {{^isArray}}
     match {{{vendorExtensions.x-rust-param-identifier}}} {
         Some(param_value) => { multipart_form = multipart_form.file("{{{baseName}}}", param_value)?; },
         None => { unimplemented!("Required nullable form file param not supported"); },
     }
+    {{/isArray}}
     {{/isNullable}}
     {{/required}}
     {{^required}}
-    if let Some(param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        {{#isArray}}
+        for value in param_value {
+            multipart_form = multipart_form.file("{{{baseName}}}", value)?;
+        }
+        {{/isArray}}
+        {{^isArray}}
         multipart_form = multipart_form.file("{{{baseName}}}", param_value)?;
+        {{/isArray}}
     }
     {{/required}}
     {{/supportAsync}}
     {{#supportAsync}}
-    // TODO: support file upload for '{{{baseName}}}' parameter
+    {{^required}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        {{#isArray}}
+                for value in param_value {
+                let file = TokioFile::open(value).await?;
+                let stream = FramedRead::new(file, BytesCodec::new());
+                let file_name = value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+                let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+                multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+                }
+        {{/isArray}}
+        {{^isArray}}
+                let file = TokioFile::open(param_value).await?;
+                let stream = FramedRead::new(file, BytesCodec::new());
+                let file_name = param_value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+                let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+                multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+        {{/isArray}}
+    }
+    {{/required}}
+    {{#required}}
+    {{#isArray}}
+    for value in &{{{vendorExtensions.x-rust-param-identifier}}} {
+        let file = TokioFile::open(value).await?;
+        let stream = FramedRead::new(file, BytesCodec::new());
+        let file_name = value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+        multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+    }
+    {{/isArray}}
+    {{^isArray}}
+    let file = TokioFile::open(&{{{vendorExtensions.x-rust-param-identifier}}}).await?;
+    let stream = FramedRead::new(file, BytesCodec::new());
+    let file_name = {{{vendorExtensions.x-rust-param-identifier}}}.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+    let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+    multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+    {{/isArray}}
+    {{/required}}
     {{/supportAsync}}
     {{/isFile}}
     {{^isFile}}
@@ -338,7 +500,12 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/required}}
     {{^required}}
     if let Some(param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
-        multipart_form = multipart_form.text("{{{baseName}}}", param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
+    {{#isPrimitiveType}}
+        multipart_form = multipart_form.text("{{{baseName}}}", param_value.to_string());
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+        multipart_form = multipart_form.text("{{{baseName}}}", serde_json::to_string(&param_value)?);
+    {{/isPrimitiveType}}
     }
     {{/required}}
     {{/isFile}}
@@ -393,7 +560,23 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#hasBodyParam}}
     {{#bodyParams}}
     {{#isFile}}
+    {{#supportAsync}}
+    {{#required}}
+    let file = TokioFile::open({{{vendorExtensions.x-rust-param-identifier}}}).await?;
+    let stream = FramedRead::new(file, BytesCodec::new());
+    req_builder = req_builder.body(reqwest::Body::wrap_stream(stream));
+    {{/required}}
+    {{^required}}
+    if let Some(param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        let file = TokioFile::open(param_value).await?;
+        let stream = FramedRead::new(file, BytesCodec::new());
+        req_builder = req_builder.body(reqwest::Body::wrap_stream(stream));
+    }
+    {{/required}}
+    {{/supportAsync}}
+    {{^supportAsync}}
     req_builder = req_builder.body({{{vendorExtensions.x-rust-param-identifier}}});
+    {{/supportAsync}}
     {{/isFile}}
     {{^isFile}}
     req_builder = req_builder.json(&{{{vendorExtensions.x-rust-param-identifier}}});
@@ -430,7 +613,12 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{#returnType}}
         let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
         match content_type {
+            {{^useSerdePathToError}}
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            {{/useSerdePathToError}}
+            {{#useSerdePathToError}}
+            ContentType::Json => serde_path_to_error::deserialize(&mut serde_json::Deserializer::from_str(&content)).map_err(Error::from),
+            {{/useSerdePathToError}}
             {{#vendorExtensions.x-supports-plain-text}}
             ContentType::Text => return Ok(content),
             {{/vendorExtensions.x-supports-plain-text}}

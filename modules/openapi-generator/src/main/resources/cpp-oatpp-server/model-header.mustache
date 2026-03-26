@@ -1,0 +1,61 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+{{#imports}}{{{this}}}
+{{/imports}}
+{{^isEnum}}
+#include "oatpp/core/macro/codegen.hpp"
+{{/isEnum}}
+#include "oatpp/core/Types.hpp"
+
+namespace {{modelNamespace}}
+{
+
+{{^isEnum}}
+/* Begin DTO code-generation */
+#include OATPP_CODEGEN_BEGIN(DTO)
+
+/**
+ * Message Data-Transfer-Object
+ */
+class {{classname}} : public oatpp::DTO {
+
+  DTO_INIT({{classname}}, DTO /* Extends */)
+
+  {{#vars}}
+  DTO_FIELD({{#isModel}}oatpp::Object<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}, {{baseName}});
+  {{^required}}
+  DTO_FIELD(oatpp::Boolean, {{baseName}}IsSet);{{/required}}
+  {{/vars}}
+
+};
+
+/* End DTO code-generation */
+#include OATPP_CODEGEN_END(DTO)
+{{/isEnum}}
+
+{{#isEnum}}
+typedef {{dataType}} {{classname}};
+class {{classname}}Values {
+public:
+{{#allowableValues}}
+{{#enumVars}}
+  static {{classname}} {{value}}(void) { return "{{value}}"; }
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/isEnum}}
+
+} // namespace {{modelNamespace}}
+
+#endif /* {{classname}}_H_ */
+{{/model}}
+{{/models}}

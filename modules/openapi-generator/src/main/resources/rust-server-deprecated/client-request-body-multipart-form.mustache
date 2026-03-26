@@ -1,0 +1,65 @@
+        let (body_string, multipart_header) = {
+            let mut multipart = Multipart::new();
+
+    {{#vendorExtensions}}
+      {{#formParams}}
+        {{#-first}}
+            // For each parameter, encode as appropriate and add to the multipart body as a stream.
+        {{/-first}}
+
+        {{^isByteArray}}
+          {{#jsonSchema}}
+            let {{{paramName}}}_str = match serde_json::to_string(&param_{{{paramName}}}) {
+                Ok(str) => str,
+                Err(e) => return Err(ApiError(format!("Unable to serialize {{{paramName}}} to string: {e}"))),
+            };
+
+            let {{{paramName}}}_vec = {{{paramName}}}_str.as_bytes().to_vec();
+            let {{{paramName}}}_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
+            let {{{paramName}}}_cursor = Cursor::new({{{paramName}}}_vec);
+
+            multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  None as Option<&str>, Some({{{paramName}}}_mime));
+          {{/jsonSchema}}
+        {{/isByteArray}}
+
+        {{#isByteArray}}
+            let {{{paramName}}}_vec = param_{{{paramName}}}.to_vec();
+
+            let {{{paramName}}}_mime = match mime_0_2::Mime::from_str("application/octet-stream") {
+                Ok(mime) => mime,
+                Err(err) => return Err(ApiError(format!("Unable to get mime type: {err:?}"))),
+            };
+
+            let {{{paramName}}}_cursor = Cursor::new({{{paramName}}}_vec);
+
+            let filename = None as Option<&str> ;
+            multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  filename, Some({{{paramName}}}_mime));
+        {{/isByteArray}}
+      {{/formParams}}
+    {{/vendorExtensions}}
+
+            let mut fields = match multipart.prepare() {
+                Ok(fields) => fields,
+                Err(err) => return Err(ApiError(format!("Unable to build request: {err}"))),
+            };
+
+            let mut body_string = String::new();
+
+            match fields.read_to_string(&mut body_string) {
+                Ok(_) => (),
+                Err(err) => return Err(ApiError(format!("Unable to build body: {err}"))),
+            }
+
+            let boundary = fields.boundary();
+
+            let multipart_header = format!("multipart/form-data;{boundary}");
+
+            (body_string, multipart_header)
+        };
+
+        *request.body_mut() = Body::from(body_string);
+
+        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create header: {multipart_header} - {e}")))
+        });

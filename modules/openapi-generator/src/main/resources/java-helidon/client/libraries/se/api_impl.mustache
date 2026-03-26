@@ -25,7 +25,7 @@ import io.helidon.config.Config;
 }}import io.helidon.http.Method;
 import io.helidon.http.media.MediaSupport;
 {{/x-helidon-v3}}
-{{#jsonb}}import io.helidon.media.jsonb.JsonbSupport;{{/jsonb}}
+{{#jsonb}}{{#x-helidon-v3}}import io.helidon.media.jsonb.JsonbSupport;{{/x-helidon-v3}}{{/jsonb}}
 {{#jackson}}import io.helidon{{^x-helidon-v3}}.http{{/x-helidon-v3}}.media.jackson.JacksonSupport;{{/jackson}}
 {{#x-helidon-v3}}import io.helidon.webclient.WebClientRequestBuilder;
 import io.helidon.webclient.WebClientResponse;

@@ -30,7 +30,7 @@ public class PythonFastapiCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "/src", IMPL_PKG, "__init__.py"));
+        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "/src", "/nodesc", IMPL_PKG, "__init__.py"));
     }
 
     @Test
@@ -52,5 +52,23 @@ public class PythonFastapiCodegenTest {
                 "return await BaseNodescApi.subclasses[0]().nodesc()\n");
         TestUtils.assertFileContains(Paths.get(output + "/src/nodesc/apis/desc_api.py"),
                 "return await BaseDescApi.subclasses[0]().desc()\n");
+    }
+
+    @Test
+    public void testNoAdditionalSlashesInQueryRegex() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-fastapi")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setInputSpec("src/test/resources/3_1/issue_19823.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/openapi_server/apis/default_api.py"),
+                "r\"^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$\"");
     }
 }

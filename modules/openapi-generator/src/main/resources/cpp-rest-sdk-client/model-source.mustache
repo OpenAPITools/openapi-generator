@@ -72,7 +72,7 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}util
     {
     {{#enumVars}}
     case {{value}}:
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+        return {{classname}}::e{{classname}}::{{name}};
     {{#-last}}
     default:
         break;
@@ -82,8 +82,8 @@ using EnumUnderlyingType = {{#isNumeric}}int64_t{{/isNumeric}}{{^isNumeric}}util
 {{/isNumeric}}
 {{^isNumeric}}
     {{#enumVars}}
-    if (val == utility::conversions::to_string_t(U("{{{value}}}")))
-        return {{classname}}::e{{classname}}::{{classname}}_{{name}};
+    if (val == utility::conversions::to_string_t(_XPLATSTR("{{{value}}}")))
+        return {{classname}}::e{{classname}}::{{name}};
     {{/enumVars}}
 {{/isNumeric}}
 {{/allowableValues}}
@@ -96,8 +96,8 @@ EnumUnderlyingType fromEnum({{classname}}::e{{classname}} e)
     switch (e)
     {
 {{#enumVars}}
-    case {{classname}}::e{{classname}}::{{classname}}_{{name}}:
-        return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}U("{{value}}"){{/isNumeric}};
+    case {{classname}}::e{{classname}}::{{name}}:
+        return {{#isNumeric}}{{value}}{{/isNumeric}}{{^isNumeric}}_XPLATSTR("{{value}}"){{/isNumeric}};
 {{#-last}}
     default:
         break;
@@ -137,9 +137,9 @@ bool {{classname}}::fromJson(const web::json::value& val)
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if (!namePrefix.empty() && namePrefix.back() != U('.'))
+    if (!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix.push_back(U('.'));
+        namePrefix.push_back(_XPLATSTR('.'));
     }
 
     auto e = fromEnum(m_value);
@@ -150,9 +150,9 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if (!namePrefix.empty() && namePrefix.back() != U('.'))
+    if (!namePrefix.empty() && namePrefix.back() != _XPLATSTR('.'))
     {
-        namePrefix.push_back(U('.'));
+        namePrefix.push_back(_XPLATSTR('.'));
     }
     {
         EnumUnderlyingType e;
@@ -176,6 +176,10 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
    m_value = value;
 }
 
+{{classname}}::{{classname}}(utility::string_t str){
+    setValue( strToEnumMap[str] );
+}
+
 {{/isEnum}}
 {{^isEnum}}
 
@@ -183,6 +187,7 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
 {
     {{#vars}}
     {{^isInherited}}
+    {{^isNullable}}
     {{^isContainer}}
     {{^isEnum}}
     {{#isPrimitiveType}}
@@ -199,8 +204,12 @@ void {{classname}}::setValue({{classname}}::e{{classname}} const value)
     {{/isEnum}}
     {{/isContainer}}
     m_{{name}}IsSet = false;
+    {{/isNullable}}
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    m_AdditionalPropertiesIsSet = false;
+    {{/additionalPropertiesType}}
 }
 
 {{classname}}::~{{classname}}()
@@ -222,22 +231,50 @@ web::json::value {{classname}}::toJson() const
     {{/parent}}
     {{#vars}}
     {{^isInherited}}
+    {{#isNullable}}
+    if(m_{{name}}.has_value())
+    {
+        {{#isEnum}}{{#isContainer}}{{#isArray}}
+        {{{dataType}}} refVal = from{{{enumName}}}(m_{{name}}.get());
+        {{/isArray}}{{#isMap}}
+        val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(m_{{name}}.get());
+        {{/isMap}}{{/isContainer}}{{^isContainer}}
+        utility::string_t refVal = from{{{datatypeWithEnum}}}(m_{{name}}.get());
+        {{/isContainer}}{{^isMap}}val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(refVal);
+        {{/isMap}}{{/isEnum}}
+        {{^isEnum}}
+        val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(m_{{name}}.get());
+        {{/isEnum}}
+    }
+    {{/isNullable}}
+    {{^isNullable}}
     if(m_{{name}}IsSet)
-    {   
+    {
         {{#isEnum}}{{#isContainer}}{{#isArray}}
         {{{dataType}}} refVal = from{{{enumName}}}(m_{{name}});
         {{/isArray}}{{#isMap}}
-        val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
+        val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
         {{/isMap}}{{/isContainer}}{{^isContainer}}
         utility::string_t refVal = from{{{datatypeWithEnum}}}(m_{{name}});
-        {{/isContainer}}{{^isMap}}val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(refVal);
+        {{/isContainer}}{{^isMap}}val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(refVal);
         {{/isMap}}{{/isEnum}}
         {{^isEnum}}
-        val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
+        val[utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
         {{/isEnum}}
     }
+    {{/isNullable}}
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    // Serialize additional properties
+    if(m_AdditionalPropertiesIsSet)
+    {
+        for(const auto& item : m_AdditionalProperties)
+        {
+            val[item.first] = item.second;
+        }
+    }
+    {{/additionalPropertiesType}}
 
     return val;
 }
@@ -250,9 +287,9 @@ bool {{classname}}::fromJson(const web::json::value& val)
     {{/parent}}
     {{#vars}}
     {{^isInherited}}
-    if(val.has_field(utility::conversions::to_string_t(U("{{baseName}}"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("{{baseName}}")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")));
         if(!fieldValue.is_null())
         {
             {{{dataType}}} refVal_{{setter}};
@@ -271,35 +308,75 @@ bool {{classname}}::fromJson(const web::json::value& val)
     }
     {{/isInherited}}
     {{/vars}}
+    {{#additionalPropertiesType}}
+    // Capture additional properties (keys not defined in the schema)
+    if(val.is_object())
+    {
+        for(const auto& item : val.as_object())
+        {
+            // Skip known properties
+            {{#vars}}
+            {{^isInherited}}
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))) continue;
+            {{/isInherited}}
+            {{/vars}}
+            // This is an additional property
+            m_AdditionalProperties[item.first] = item.second;
+            m_AdditionalPropertiesIsSet = true;
+        }
+    }
+    {{/additionalPropertiesType}}
     return ok;
 }
 
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
     {{#vars}}
-    if(m_{{name}}IsSet)
+    {{#isNullable}}
+    if(m_{{name}}.has_value())
     {
         {{^isEnum}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), m_{{name}}.get()));
         {{/isEnum}}
         {{#isEnum}}
 	{{#isContainer}}
 	{{#isArray}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{enumName}}}(m_{{name}})));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), from{{{enumName}}}(m_{{name}}.get())));
         {{/isArray}}{{#isMap}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), m_{{name}}.get()));
         {{/isMap}}
 	{{/isContainer}}
 	{{^isContainer}}
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), from{{{datatypeWithEnum}}}(m_{{name}})));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), from{{{datatypeWithEnum}}}(m_{{name}}.get())));
         {{/isContainer}}
 	{{/isEnum}}
     }
+    {{/isNullable}}
+    {{^isNullable}}
+    if(m_{{name}}IsSet)
+    {
+        {{^isEnum}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), m_{{name}}));
+        {{/isEnum}}
+        {{#isEnum}}
+	{{#isContainer}}
+	{{#isArray}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), from{{{enumName}}}(m_{{name}})));
+        {{/isArray}}{{#isMap}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), m_{{name}}));
+        {{/isMap}}
+	{{/isContainer}}
+	{{^isContainer}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("{{baseName}}")), from{{{datatypeWithEnum}}}(m_{{name}})));
+        {{/isContainer}}
+	{{/isEnum}}
+    }
+    {{/isNullable}}
     {{/vars}}
 }
 
@@ -307,16 +384,16 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(_XPLATSTR(".")))
     {
-        namePrefix += utility::conversions::to_string_t(U("."));
+        namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
 
     {{#vars}}
-    if(multipart->hasContent(utility::conversions::to_string_t(U("{{baseName}}"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))))
     {
         {{{dataType}}} refVal_{{setter}};
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("{{baseName}}"))), refVal_{{setter}} );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("{{baseName}}"))), refVal_{{setter}} );
         {{^isEnum}}
         {{setter}}(refVal_{{setter}});
         {{/isEnum}}
@@ -350,7 +427,7 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     {{#allowableValues}}{{#enumVars}}
     if (value == utility::conversions::to_string_t("{{value}}")) {
-        return {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{value}};
+        return {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{name}};
     }
     {{/enumVars}}{{/allowableValues}}
     throw std::invalid_argument("Invalid value for conversion to {{{datatypeWithEnum}}}");
@@ -365,7 +442,7 @@ const {{dataType}} {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWi
     switch(value)
     {
         {{#allowableValues}}{{#enumVars}}
-        case {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{value}}: return utility::conversions::to_string_t("{{value}}");
+        case {{#isContainer}}{{{enumName}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}::{{name}}: return utility::conversions::to_string_t("{{value}}");
         {{/enumVars}}{{/allowableValues}}
     }
 }
@@ -401,7 +478,12 @@ const {{dataType}} {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWi
 {{^isEnum}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
+    {{#isNullable}}
+    return m_{{name}}.get();
+    {{/isNullable}}
+    {{^isNullable}}
     return m_{{name}};
+    {{/isNullable}}
 }
 {{/isEnum}}
 {{/isContainer}}
@@ -409,14 +491,24 @@ const {{dataType}} {{classname}}::from{{{datatypeWithEnum}}}(const {{{datatypeWi
 {{^isEnum}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
+    {{#isNullable}}
+    return m_{{name}}.get();
+    {{/isNullable}}
+    {{^isNullable}}
     return m_{{name}};
+    {{/isNullable}}
 }
 {{/isEnum}}
 {{/isContainer}}
 {{#isEnum}}
 {{^isMap}}{{#isArray}}{{{baseType}}}<{{/isArray}}{{{classname}}}::{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} {{classname}}::{{getter}}() const
 {
+    {{#isNullable}}
+    return m_{{name}}.get();
+    {{/isNullable}}
+    {{^isNullable}}
     return m_{{name}};
+    {{/isNullable}}
 }
 {{/isEnum}}
 
@@ -429,19 +521,61 @@ void {{classname}}::{{setter}}(const {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{
 {{/isEnum}}
 {
     m_{{name}} = value;
+    {{^isNullable}}
     m_{{name}}IsSet = true;
+    {{/isNullable}}
 }
 
 bool {{classname}}::{{nameInCamelCase}}IsSet() const
 {
+    {{#isNullable}}
+    return m_{{name}}.has_value();
+    {{/isNullable}}
+    {{^isNullable}}
     return m_{{name}}IsSet;
+    {{/isNullable}}
 }
 
 void {{classname}}::unset{{name}}()
 {
+    {{#isNullable}}
+    m_{{name}}.reset();
+    {{/isNullable}}
+    {{^isNullable}}
     m_{{name}}IsSet = false;
+    {{/isNullable}}
 }
 {{/isInherited}}{{/vars}}
+{{#additionalPropertiesType}}
+
+std::map<utility::string_t, web::json::value> {{classname}}::getAdditionalProperties() const
+{
+    return m_AdditionalProperties;
+}
+
+void {{classname}}::setAdditionalProperties(const std::map<utility::string_t, web::json::value>& value)
+{
+    m_AdditionalProperties = value;
+    m_AdditionalPropertiesIsSet = true;
+}
+
+void {{classname}}::addAdditionalProperty(const utility::string_t& key, const web::json::value& value)
+{
+    m_AdditionalProperties[key] = value;
+    m_AdditionalPropertiesIsSet = true;
+}
+
+bool {{classname}}::additionalPropertiesIsSet() const
+{
+    return m_AdditionalPropertiesIsSet;
+}
+
+void {{classname}}::unsetAdditionalProperties()
+{
+    m_AdditionalProperties.clear();
+    m_AdditionalPropertiesIsSet = false;
+}
+{{/additionalPropertiesType}}
 {{/isEnum}}
 {{/oneOf}}
 {{#modelNamespaceDeclarations}}

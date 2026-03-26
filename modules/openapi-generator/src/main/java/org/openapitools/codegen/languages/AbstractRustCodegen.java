@@ -183,8 +183,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
                 throw new IllegalArgumentException("Unknown CasingType");
         }
 
-        // Replace hyphens with underscores
-        name = name.replaceAll("-", "_");
+        // Replace hyphens and periods with underscores
+        name = name.replaceAll("[\\.\\-]", "_");
 
         // Apply special character escapes, e.g. "@type" => "At_type"
         // Remove the trailing underscore if necessary
@@ -346,6 +346,10 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(String name) {
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         return sanitizeIdentifier(addModelNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "model", "model", false);
     }
 

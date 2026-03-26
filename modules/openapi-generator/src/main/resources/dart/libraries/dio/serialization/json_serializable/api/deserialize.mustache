@@ -1,2 +1,7 @@
 final rawData = _response.data;
+{{#isResponseFile}}
+_responseData = rawData == null ? null : rawData as {{{returnType}}};
+{{/isResponseFile}}
+{{^isResponseFile}}
 _responseData = rawData == null ? null : deserialize<{{{returnType}}}, {{{returnBaseType}}}>(rawData, '{{{returnType}}}', growable: true);
+{{/isResponseFile}}

@@ -36,6 +36,11 @@ namespace Org.OpenAPITools.Client
         /// The raw content of this response.
         /// </summary>
         string RawContent { get; }
+        
+        /// <summary>
+        /// The raw binary stream (only set for binary responses)
+        /// </summary>
+        System.IO.Stream? ContentStream { get; }
 
         /// <summary>
         /// The DateTime when the request was retrieved.
@@ -46,6 +51,11 @@ namespace Org.OpenAPITools.Client
         /// The headers contained in the api response
         /// </summary>
         System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
+
+        /// <summary>
+        /// The headers contained in the api response related to the content
+        /// </summary>
+        System.Net.Http.Headers.HttpContentHeaders ContentHeaders { get; }
 
         /// <summary>
         /// The path used when making the request.
@@ -85,6 +95,11 @@ namespace Org.OpenAPITools.Client
         public string RawContent { get; protected set; }
 
         /// <summary>
+        /// The raw binary stream (only set for binary responses)
+        /// </summary>
+        public System.IO.Stream? ContentStream { get; protected set; }
+
+        /// <summary>
         /// The IsSuccessStatusCode from the api response
         /// </summary>
         public bool IsSuccessStatusCode { get; }
@@ -98,6 +113,11 @@ namespace Org.OpenAPITools.Client
         /// The headers contained in the api response
         /// </summary>
         public System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
+
+        /// <summary>
+        /// The headers contained in the api response related to the content
+        /// </summary>
+        public System.Net.Http.Headers.HttpContentHeaders ContentHeaders { get; }
 
         /// <summary>
         /// The DateTime when the request was retrieved.
@@ -137,6 +157,7 @@ namespace Org.OpenAPITools.Client
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
+            ContentHeaders = httpResponseMessage.Content.Headers;
             IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
             ReasonPhrase = httpResponseMessage.ReasonPhrase;
             RawContent = rawContent;
@@ -146,6 +167,32 @@ namespace Org.OpenAPITools.Client
             _jsonSerializerOptions = jsonSerializerOptions;
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
+
+        /// <summary>
+        /// Construct the response using an HttpResponseMessage
+        /// </summary>
+        /// <param name="httpRequestMessage"></param>
+        /// <param name="httpResponseMessage"></param>
+        /// <param name="contentStream"></param>
+        /// <param name="path"></param>
+        /// <param name="requestedAt"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        public ApiResponse(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
+        {
+            StatusCode = httpResponseMessage.StatusCode;
+            Headers = httpResponseMessage.Headers;
+            ContentHeaders = httpResponseMessage.Content.Headers;
+            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+            ReasonPhrase = httpResponseMessage.ReasonPhrase;
+            ContentStream = contentStream;
+            RawContent = string.Empty;
+            Path = path;
+            RequestUri = httpRequestMessage.RequestUri;
+            RequestedAt = requestedAt;
+            _jsonSerializerOptions = jsonSerializerOptions;
+            OnCreated(httpRequestMessage, httpResponseMessage);
+        }
+
 
         partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
     }

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -28,7 +36,7 @@ import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.infrastructure.*
 
-class AuthApi(client: WebClient) : ApiClient(client) {
+open class AuthApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -43,7 +51,7 @@ class AuthApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testAuthHttpBasic(): Mono<kotlin.String> {
         return testAuthHttpBasicWithHttpInfo()
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -78,7 +86,7 @@ class AuthApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testAuthHttpBearer(): Mono<kotlin.String> {
         return testAuthHttpBearerWithHttpInfo()
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

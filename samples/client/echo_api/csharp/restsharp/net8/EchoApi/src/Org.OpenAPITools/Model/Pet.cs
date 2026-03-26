@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="photoUrls">photoUrls (required).</param>
         /// <param name="tags">tags.</param>
         /// <param name="status">pet status in the store.</param>
-        public Pet(long id = default(long), string name = default(string), Category category = default(Category), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
+        public Pet(long id = default, string name = default, Category category = default, List<string> photoUrls = default, List<Tag> tags = default, StatusEnum? status = default)
         {
             // to ensure "name" is required (not null)
             if (name == null)

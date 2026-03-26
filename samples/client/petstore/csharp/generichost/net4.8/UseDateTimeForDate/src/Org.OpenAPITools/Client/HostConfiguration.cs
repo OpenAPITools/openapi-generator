@@ -44,7 +44,6 @@ namespace Org.OpenAPITools.Client
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<DefaultApiEvents>();
-            _services.AddTransient<IDefaultApi, DefaultApi>();
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>("Org.OpenAPITools.Api.IDefaultApi", client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

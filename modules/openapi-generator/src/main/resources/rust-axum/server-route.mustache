@@ -2,7 +2,7 @@
 pub fn new<I, A, E{{#havingAuthMethods}}, C{{/havingAuthMethods}}>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: {{#apiInfo}}{{#apis}}{{#operations}}apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}> + {{/operations}}{{/apis}}{{/apiInfo}}{{#authMethods}}{{#isApiKey}}{{#isKeyInCookie}}apis::CookieAuthentication<Claims = C> + {{/isKeyInCookie}}{{#isKeyInHeader}}apis::ApiKeyAuthHeader<Claims = C> + {{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}}apis::ApiAuthBasic<Claims = C> + {{/isBasic}}{{/authMethods}}Send + Sync + 'static,
+    A: {{#basicAnalytic}}apis::EventDispatcher + {{/basicAnalytic}}{{#apiInfo}}{{#apis}}{{#operations}}apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#havingAuthMethod}}{{#basicAuthorization}} + apis::{{classFilename}}::{{classnamePascalCase}}Authorization<Claims = C>{{/basicAuthorization}}{{/havingAuthMethod}} + {{/operations}}{{/apis}}{{/apiInfo}}{{#authMethods}}{{#isApiKey}}{{#isKeyInCookie}}apis::CookieAuthentication<Claims = C> + {{/isKeyInCookie}}{{#isKeyInHeader}}apis::ApiKeyAuthHeader<Claims = C> + {{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}}apis::ApiAuthBasic<Claims = C> + {{/isBasic}}{{/authMethods}}Send + Sync + 'static,
     E: std::fmt::Debug + Send + Sync + 'static,
     {{#havingAuthMethods}}C: Send + Sync + 'static,{{/havingAuthMethods}}
 {

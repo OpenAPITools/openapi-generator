@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+
 /**
  * This class holds data to add to `oneOf` members. Let's consider this example:
  * <p>
@@ -101,11 +103,11 @@ public class OneOfImplementorAdditionalData {
      */
     @SuppressWarnings("unchecked")
     public void addToImplementor(CodegenConfig cc, CodegenModel implcm, List<Map<String, String>> implImports, boolean addInterfaceImports) {
-        implcm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+        implcm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
 
         // Add implemented interfaces
         for (String intf : additionalInterfaces) {
-            List<String> impl = (List<String>) implcm.getVendorExtensions().get("x-implements");
+            List<String> impl = (List<String>) implcm.getVendorExtensions().get(X_IMPLEMENTS);
             impl.add(intf);
             if (addInterfaceImports) {
                 // Add imports for interfaces
