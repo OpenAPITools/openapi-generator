@@ -1,6 +1,6 @@
 
-find_package(Boost 1.66 REQUIRED
-             COMPONENTS system)
+find_package(Boost 1.66 REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 
 if (MSVC)
@@ -35,7 +35,7 @@ target_sources(${LIBRARY_NAME} PRIVATE
 )
 
 
-target_link_libraries(${LIBRARY_NAME} PUBLIC boost_system ssl crypto)
+target_link_libraries(${LIBRARY_NAME} PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC model api ${CMAKE_CURRENT_LIST_DIR})
 

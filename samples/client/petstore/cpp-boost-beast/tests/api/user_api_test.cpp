@@ -76,7 +76,7 @@ BOOST_DATA_TEST_CASE(deleteUser_fails, boost::unit_test::data::make(
             {"user_name_not_found", 404, "User not found"}}), order_id, expected_http_status, expected_error_message) {
 
     REQUIRE_THROW(api.deleteUser(order_id), UserApiException, [&](const auto& e) {
-        BOOST_REQUIRE_EQUAL(e.getStatus(), boost::beast::http::status{expected_http_status});
+        BOOST_REQUIRE_EQUAL(e.getStatus(), static_cast<boost::beast::http::status>(expected_http_status));
         BOOST_REQUIRE_EQUAL(e.what(), expected_error_message);
     });
 }

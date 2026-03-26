@@ -110,7 +110,7 @@ BOOST_DATA_TEST_CASE(updatePet_fails, boost::unit_test::data::make(
     pet->setPhotoUrls(photoUrls);
 
     REQUIRE_THROW(api.updatePet(pet), PetApiException, [&](const auto& e) {
-        BOOST_REQUIRE_EQUAL(e.getStatus(), boost::beast::http::status{expected_http_status});
+        BOOST_REQUIRE_EQUAL(e.getStatus(), static_cast<boost::beast::http::status>(expected_http_status));
         BOOST_REQUIRE_EQUAL(e.what(), expected_error_message);
     });
 

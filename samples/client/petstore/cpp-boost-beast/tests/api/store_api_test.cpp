@@ -46,7 +46,7 @@ BOOST_DATA_TEST_CASE(deleteOrder_fails, boost::unit_test::data::make(
             {"order_id_not_found", 404, "Order not found"}}), order_id, expected_http_status, expected_error_message) {
 
     REQUIRE_THROW(api.deleteOrder(order_id), StoreApiException, [&](const auto& e) {
-        BOOST_REQUIRE_EQUAL(e.getStatus(), boost::beast::http::status{expected_http_status});
+        BOOST_REQUIRE_EQUAL(e.getStatus(), static_cast<boost::beast::http::status>(expected_http_status));
         BOOST_REQUIRE_EQUAL(e.what(), expected_error_message);
     });
 }
