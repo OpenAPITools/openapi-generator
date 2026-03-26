@@ -399,6 +399,15 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
 
         return "nullptr";
     }
+    
+    @Override
+    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
+        // Override for properties using boost::property_tree::ptree directly (not shared_ptr)
+        if (codegenProperty != null && "boost::property_tree::ptree".equals(codegenProperty.dataType)) {
+            return "boost::property_tree::ptree()";
+        }
+        return super.toDefaultValue(codegenProperty, schema);
+    }
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
