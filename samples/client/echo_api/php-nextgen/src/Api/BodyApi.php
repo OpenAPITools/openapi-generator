@@ -1175,7 +1175,7 @@ class BodyApi
         $formDataProcessor = new FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
-            'my_file' => $my_file,
+            'my-file' => $my_file,
         ]);
 
         $formParams = $formDataProcessor->flatten($formData);
