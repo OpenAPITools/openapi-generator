@@ -51,6 +51,7 @@ class FakeBigDecimalMap200Response {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FakeBigDecimalMap200Response &&
+    runtimeType == other.runtimeType &&
       other.someId == someId &&
       other.someMap == someMap;
 

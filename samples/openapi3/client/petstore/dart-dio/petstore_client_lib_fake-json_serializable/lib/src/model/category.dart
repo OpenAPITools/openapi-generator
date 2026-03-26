@@ -51,6 +51,7 @@ class Category {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Category &&
+    runtimeType == other.runtimeType &&
       other.id == id &&
       other.name == name;
 

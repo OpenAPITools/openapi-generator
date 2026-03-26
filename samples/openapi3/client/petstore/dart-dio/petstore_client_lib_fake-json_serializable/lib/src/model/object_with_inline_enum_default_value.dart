@@ -40,6 +40,7 @@ class ObjectWithInlineEnumDefaultValue {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ObjectWithInlineEnumDefaultValue &&
+    runtimeType == other.runtimeType &&
       other.attribute == attribute;
 
     @override

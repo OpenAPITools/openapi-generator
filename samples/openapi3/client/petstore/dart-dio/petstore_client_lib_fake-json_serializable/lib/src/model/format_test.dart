@@ -241,6 +241,7 @@ class FormatTest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
+    runtimeType == other.runtimeType &&
       other.integer == integer &&
       other.int32 == int32 &&
       other.int64 == int64 &&

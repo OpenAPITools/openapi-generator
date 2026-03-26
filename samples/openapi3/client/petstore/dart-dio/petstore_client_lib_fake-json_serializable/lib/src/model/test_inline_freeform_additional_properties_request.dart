@@ -38,6 +38,7 @@ class TestInlineFreeformAdditionalPropertiesRequest extends Object {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is TestInlineFreeformAdditionalPropertiesRequest &&
+    runtimeType == other.runtimeType &&
       other.someProperty == someProperty;
 
     @override

@@ -181,6 +181,7 @@ class NullableClass extends Object {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
+    runtimeType == other.runtimeType &&
       other.integerProp == integerProp &&
       other.numberProp == numberProp &&
       other.booleanProp == booleanProp &&

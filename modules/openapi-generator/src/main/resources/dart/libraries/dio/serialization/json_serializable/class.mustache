@@ -105,6 +105,7 @@ class {{{classname}}}{{#parent}} extends {{{parent}}}{{/parent}} {
   {{^useEquatable}}
     @override
     bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+    runtimeType == other.runtimeType &&
     {{#allVars}}
       other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
     {{/allVars}}

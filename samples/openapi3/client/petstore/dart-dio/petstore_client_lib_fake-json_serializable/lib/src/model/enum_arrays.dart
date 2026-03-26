@@ -53,6 +53,7 @@ class EnumArrays {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
+    runtimeType == other.runtimeType &&
       other.justSymbol == justSymbol &&
       other.arrayEnum == arrayEnum;
 

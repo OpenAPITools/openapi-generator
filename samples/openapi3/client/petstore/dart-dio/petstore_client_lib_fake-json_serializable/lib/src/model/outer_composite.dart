@@ -64,6 +64,7 @@ class OuterComposite {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
+    runtimeType == other.runtimeType &&
       other.myNumber == myNumber &&
       other.myString == myString &&
       other.myBoolean == myBoolean;

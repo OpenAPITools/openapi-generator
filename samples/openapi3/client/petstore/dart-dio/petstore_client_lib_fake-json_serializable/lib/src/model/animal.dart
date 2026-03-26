@@ -51,6 +51,7 @@ class Animal {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Animal &&
+    runtimeType == other.runtimeType &&
       other.className == className &&
       other.color == color;
 

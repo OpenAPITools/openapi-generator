@@ -64,6 +64,7 @@ class AdditionalPropertiesClass {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
+    runtimeType == other.runtimeType &&
       other.mapProperty == mapProperty &&
       other.mapOfMapProperty == mapOfMapProperty &&
       other.mapOfArrayInteger == mapOfArrayInteger;
