@@ -81,6 +81,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("http-client-header.mustache", "api", "HttpClient.h"));
         supportingFiles.add(new SupportingFile("http-client-impl-header.mustache", "api", "HttpClientImpl.h"));
         supportingFiles.add(new SupportingFile("http-client-impl-source.mustache", "api", "HttpClientImpl.cpp"));
+        supportingFiles.add(new SupportingFile("anytype-header.mustache", "model", "AnyType.h"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
@@ -108,6 +109,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         importMapping.put("int32_t", "#include <cstdint>");
         importMapping.put("int64_t", "#include <cstdint>");
         importMapping.put("boost::property_tree::ptree", "#include <boost/property_tree/ptree.hpp>");
+        importMapping.put("AnyType", "#include \"AnyType.h\"");
     }
 
 
