@@ -39,7 +39,6 @@ class DeprecatedObject {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is DeprecatedObject &&
-    runtimeType == other.runtimeType &&
       other.name == name;
 
     @override

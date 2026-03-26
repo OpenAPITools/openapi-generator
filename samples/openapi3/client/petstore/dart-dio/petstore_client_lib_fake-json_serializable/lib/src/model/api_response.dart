@@ -64,7 +64,6 @@ class ApiResponse {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
-    runtimeType == other.runtimeType &&
       other.code == code &&
       other.type == type &&
       other.message == message;

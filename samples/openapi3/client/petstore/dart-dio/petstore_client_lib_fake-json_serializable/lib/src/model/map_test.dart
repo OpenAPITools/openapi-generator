@@ -78,7 +78,6 @@ class MapTest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is MapTest &&
-    runtimeType == other.runtimeType &&
       other.mapMapOfString == mapMapOfString &&
       other.mapOfEnumString == mapOfEnumString &&
       other.directMap == directMap &&

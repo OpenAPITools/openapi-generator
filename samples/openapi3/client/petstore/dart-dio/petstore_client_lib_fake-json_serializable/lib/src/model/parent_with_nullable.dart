@@ -51,7 +51,6 @@ class ParentWithNullable {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ParentWithNullable &&
-    runtimeType == other.runtimeType &&
       other.type == type &&
       other.nullableProperty == nullableProperty;
 

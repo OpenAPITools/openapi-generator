@@ -43,7 +43,6 @@ class Dog extends Animal {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Dog &&
-    runtimeType == other.runtimeType &&
       other.className == className &&
       other.color == color &&
       other.breed == breed;

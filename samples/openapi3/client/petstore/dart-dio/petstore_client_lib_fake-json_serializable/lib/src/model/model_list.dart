@@ -38,7 +38,6 @@ class ModelList {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelList &&
-    runtimeType == other.runtimeType &&
       other.n123list == n123list;
 
     @override

@@ -65,7 +65,6 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
-    runtimeType == other.runtimeType &&
       other.uuid == uuid &&
       other.dateTime == dateTime &&
       other.map == map;

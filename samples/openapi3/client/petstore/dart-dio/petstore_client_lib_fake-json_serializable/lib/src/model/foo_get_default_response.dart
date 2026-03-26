@@ -39,7 +39,6 @@ class FooGetDefaultResponse {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FooGetDefaultResponse &&
-    runtimeType == other.runtimeType &&
       other.string == string;
 
     @override

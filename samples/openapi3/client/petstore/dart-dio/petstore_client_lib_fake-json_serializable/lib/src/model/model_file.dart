@@ -39,7 +39,6 @@ class ModelFile {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
-    runtimeType == other.runtimeType &&
       other.sourceURI == sourceURI;
 
     @override

@@ -107,7 +107,6 @@ class Pet {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Pet &&
-    runtimeType == other.runtimeType &&
       other.id == id &&
       other.category == category &&
       other.name == name &&

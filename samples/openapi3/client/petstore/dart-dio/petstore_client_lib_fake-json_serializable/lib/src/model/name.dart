@@ -77,7 +77,6 @@ class Name {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Name &&
-    runtimeType == other.runtimeType &&
       other.name == name &&
       other.snakeCase == snakeCase &&
       other.property == property &&

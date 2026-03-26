@@ -38,7 +38,6 @@ class HealthCheckResult {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
-    runtimeType == other.runtimeType &&
       other.nullableMessage == nullableMessage;
 
     @override

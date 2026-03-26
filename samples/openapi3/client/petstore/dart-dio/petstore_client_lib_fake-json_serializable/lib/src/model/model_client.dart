@@ -38,7 +38,6 @@ class ModelClient {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
-    runtimeType == other.runtimeType &&
       other.client == client;
 
     @override

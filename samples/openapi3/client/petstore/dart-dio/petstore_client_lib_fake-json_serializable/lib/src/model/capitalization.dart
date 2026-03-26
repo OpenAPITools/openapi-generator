@@ -104,7 +104,6 @@ class Capitalization {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
-    runtimeType == other.runtimeType &&
       other.smallCamel == smallCamel &&
       other.capitalCamel == capitalCamel &&
       other.smallSnake == smallSnake &&

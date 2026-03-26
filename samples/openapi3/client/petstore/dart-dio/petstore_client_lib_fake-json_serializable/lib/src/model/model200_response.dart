@@ -51,7 +51,6 @@ class Model200Response {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
-    runtimeType == other.runtimeType &&
       other.name == name &&
       other.class_ == class_;
 

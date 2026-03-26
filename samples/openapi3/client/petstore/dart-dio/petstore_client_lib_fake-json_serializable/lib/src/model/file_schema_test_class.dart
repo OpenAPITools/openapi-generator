@@ -52,7 +52,6 @@ class FileSchemaTestClass {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
-    runtimeType == other.runtimeType &&
       other.file == file &&
       other.files == files;
 

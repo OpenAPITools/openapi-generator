@@ -105,7 +105,6 @@ class Order {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Order &&
-    runtimeType == other.runtimeType &&
       other.id == id &&
       other.petId == petId &&
       other.quantity == quantity &&

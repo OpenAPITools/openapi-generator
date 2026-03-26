@@ -40,7 +40,6 @@ class OuterObjectWithEnumProperty {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is OuterObjectWithEnumProperty &&
-    runtimeType == other.runtimeType &&
       other.value == value;
 
     @override
