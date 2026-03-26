@@ -95,18 +95,19 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "std::string");
-        typeMapping.put("object", "Object");
+        typeMapping.put("object", "boost::property_tree::ptree");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
-
+        
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("int32_t", "#include <cstdint>");
         importMapping.put("int64_t", "#include <cstdint>");
+        importMapping.put("boost::property_tree::ptree", "#include <boost/property_tree/ptree.hpp>");
     }
 
 
@@ -299,7 +300,7 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
             if (inner != null) {
                 return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
             }
-            return "std::vector<Object>";
+            return "std::vector<boost::property_tree::ptree>";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
@@ -313,6 +314,9 @@ public class CppBoostBeastClientCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isNullType(p)) {
             // Handle OpenAPI 3.1 null type
             return "nullptr";
+        } else if (ModelUtils.isAnyType(p) || ModelUtils.isFreeFormObject(p, openAPI)) {
+            // Use boost::property_tree::ptree for generic/untyped schemas (OpenAPI 3.1 JsonSchema)
+            return "boost::property_tree::ptree";
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
