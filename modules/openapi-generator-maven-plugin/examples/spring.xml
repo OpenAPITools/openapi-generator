@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.15</version>
+        <version>3.3.13</version>
     </parent>
     <build>
         <plugins>
@@ -40,7 +40,6 @@
 
                             <!-- pass any necessary config options -->
                             <configOptions>
-                                <documentationProvider>springfox</documentationProvider>
                                 <serializableModel>true</serializableModel>
                                 <snapshotVersion>true</snapshotVersion>
                             </configOptions>
@@ -49,16 +48,6 @@
                     </execution>
 
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <proc>none</proc>
-                </configuration>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -81,11 +70,6 @@
         </dependency>
         <!--SpringFox dependencies -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
             <version>${swagger-ui.version}</version>
@@ -99,6 +83,11 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -129,7 +118,7 @@
         </dependency>
     </dependencies>
     <properties>
-        <springfox.version>2.9.2</springfox.version>
         <swagger-ui.version>4.15.5</swagger-ui.version>
+        <springdoc.version>2.6.0</springdoc.version>
     </properties>
 </project>

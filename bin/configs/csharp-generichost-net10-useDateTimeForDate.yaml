@@ -9,3 +9,5 @@ additionalProperties:
   targetFramework: net10.0
   modelPropertySorting: alphabetical
   operationParameterSorting: alphabetical
+  treatWarningsAsErrors: true
+  warningsNotAsErrors: CS0612

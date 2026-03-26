@@ -227,7 +227,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/one-of-array"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/one-of-array");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/one-of-array");
 
                     if (oneOfArrayRequest.IsSet)
                         httpRequestMessageLocalVar.Content = (oneOfArrayRequest.Value as object) is System.IO.Stream stream

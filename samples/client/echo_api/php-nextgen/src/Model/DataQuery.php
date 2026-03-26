@@ -28,6 +28,10 @@
 
 namespace OpenAPI\Client\Model;
 
+use InvalidArgumentException;
+use ReturnTypeWillChange;
+use OpenAPI\Client\ObjectSerializer;
+
 /**
  * DataQuery Class Doc Comment
  *
