@@ -15,12 +15,15 @@
  * Represents any JSON type using boost::property_tree::ptree
  */
 
-#ifndef {{modelPackage}}_AnyType_H_
-#define {{modelPackage}}_AnyType_H_
+#ifndef BOOST_BEAST_OPENAPI_CLIENT_ANYTYPE_H
+#define BOOST_BEAST_OPENAPI_CLIENT_ANYTYPE_H
 
 #include <boost/property_tree/ptree.hpp>
 
-namespace {{modelPackage}} {
+namespace org {
+namespace openapitools {
+namespace client {
+namespace model {
 
 /**
  * AnyType is an alias for boost::property_tree::ptree to represent any JSON value.
@@ -29,5 +32,8 @@ namespace {{modelPackage}} {
 using AnyType = boost::property_tree::ptree;
 
 }
+}
+}
+}
 
-#endif /* {{modelPackage}}_AnyType_H_ */
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_ANYTYPE_H */
