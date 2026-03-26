@@ -8,6 +8,7 @@ on:
       - samples/client/petstore/spring-http-interface-springboot-4/**
       - samples/openapi3/server/petstore/springboot-3/**
       - samples/openapi3/server/petstore/springboot-4/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
       - samples/server/petstore/springboot-lombok-tostring/**
@@ -22,6 +23,7 @@ on:
       - samples/client/petstore/spring-http-interface-springboot-4/**
       - samples/openapi3/server/petstore/springboot-3/**
       - samples/openapi3/server/petstore/springboot-4/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
       - samples/server/petstore/springboot-lombok-tostring/**
@@ -44,6 +46,7 @@ jobs:
           # servers
           - samples/openapi3/server/petstore/springboot-3
           - samples/openapi3/server/petstore/springboot-4
+          - samples/openapi3/server/petstore/springboot-4-jspecify
           - samples/server/petstore/springboot-api-response-examples
           - samples/server/petstore/springboot-lombok-data
           - samples/server/petstore/springboot-lombok-tostring
