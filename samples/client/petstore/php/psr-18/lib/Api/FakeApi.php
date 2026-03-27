@@ -5395,7 +5395,7 @@ class FakeApi
             'byte' => $byte,
             'binary' => $binary,
             'date' => $date,
-            'date_time' => $date_time,
+            'dateTime' => $date_time,
             'password' => $password,
             'callback' => $callback,
         ]);

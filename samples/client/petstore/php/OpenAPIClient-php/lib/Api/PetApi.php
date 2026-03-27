@@ -2431,7 +2431,7 @@ class PetApi
         $formDataProcessor = new FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
-            'additional_metadata' => $additional_metadata,
+            'additionalMetadata' => $additional_metadata,
             'file' => $file,
         ]);
 
@@ -2732,8 +2732,8 @@ class PetApi
         $formDataProcessor = new FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
-            'additional_metadata' => $additional_metadata,
-            'required_file' => $required_file,
+            'additionalMetadata' => $additional_metadata,
+            'requiredFile' => $required_file,
         ]);
 
         $formParams = $formDataProcessor->flatten($formData);
@@ -3078,7 +3078,7 @@ class PetApi
             'id' => $id,
             'category' => $category,
             'name' => $name,
-            'photo_urls' => $photo_urls,
+            'photoUrls' => $photo_urls,
             'tags' => $tags,
             'status' => $status,
             'file' => $file,
