@@ -187,6 +187,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("helpers.mustache", invokerFolder,
                 "Helpers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
     }
 
     @Override
