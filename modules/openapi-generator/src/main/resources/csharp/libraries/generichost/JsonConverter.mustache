@@ -251,7 +251,21 @@
                         {{^isNumeric}}
                         {{^isDate}}
                         {{^isDateTime}}
+                            {{#items.isEnum}}
+                            var {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Items = new List<{{#items.isInnerEnum}}{{classname}}.{{/items.isInnerEnum}}{{{items.datatypeWithEnum}}}>();
+                            while (utf8JsonReader.Read())
+                            {
+                                if (utf8JsonReader.TokenType == JsonTokenType.EndArray)
+                                    break;
+                                string{{nrt?}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ItemRawValue = utf8JsonReader.GetString();
+                                if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ItemRawValue != null)
+                                    {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Items.Add({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ItemRawValue){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ItemRawValue){{/items.isInnerEnum}});
+                            }
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Items);
+                            {{/items.isEnum}}
+                            {{^items.isEnum}}
                             {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref utf8JsonReader, jsonSerializerOptions){{^isNullable}}{{nrt!}}{{/isNullable}});
+                            {{/items.isEnum}}
                         {{/isDateTime}}
                         {{/isDate}}
                         {{/isNumeric}}
@@ -612,14 +626,30 @@
             if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
             {
                 writer.WritePropertyName("{{baseName}}");
+                {{^items.isEnum}}
                 JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+                {{/items.isEnum}}
+                {{#items.isEnum}}
+                writer.WriteStartArray();
+                foreach (var {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item in {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}})
+                    {{^items.isNumeric}}writer.WriteStringValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}{{#items.isNumeric}}writer.WriteNumberValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}
+                writer.WriteEndArray();
+                {{/items.isEnum}}
             }
             else
                 writer.WriteNull("{{baseName}}");
             {{/isNullable}}
             {{^isNullable}}
             writer.WritePropertyName("{{baseName}}");
+            {{^items.isEnum}}
             JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+            {{/items.isEnum}}
+            {{#items.isEnum}}
+            writer.WriteStartArray();
+            foreach (var {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item in {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}})
+                {{^items.isNumeric}}writer.WriteStringValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}{{#items.isNumeric}}writer.WriteNumberValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}
+            writer.WriteEndArray();
+            {{/items.isEnum}}
             {{/isNullable}}
             {{/required}}
             {{^required}}
@@ -628,7 +658,15 @@
                 if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value != null)
                 {
                     writer.WritePropertyName("{{baseName}}");
+                    {{^items.isEnum}}
                     JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+                    {{/items.isEnum}}
+                    {{#items.isEnum}}
+                    writer.WriteStartArray();
+                    foreach (var {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item in {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value{{nrt!}})
+                        {{^items.isNumeric}}writer.WriteStringValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}{{#items.isNumeric}}writer.WriteNumberValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}
+                    writer.WriteEndArray();
+                    {{/items.isEnum}}
                 }
                 else
                     writer.WriteNull("{{baseName}}");
@@ -636,7 +674,15 @@
             {{^isNullable}}
             {
                 writer.WritePropertyName("{{baseName}}");
+                {{^items.isEnum}}
                 JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+                {{/items.isEnum}}
+                {{#items.isEnum}}
+                writer.WriteStartArray();
+                foreach (var {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item in {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{nrt!}})
+                    {{^items.isNumeric}}writer.WriteStringValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}{{#items.isNumeric}}writer.WriteNumberValue({{^items.isInnerEnum}}{{{items.datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}}{{#items.isInnerEnum}}{{classname}}.{{{items.datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Item){{/items.isInnerEnum}});{{/items.isNumeric}}
+                writer.WriteEndArray();
+                {{/items.isEnum}}
             }
             {{/isNullable}}
             {{/required}}
