@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import io.swagger.v3.oas.models.Operation;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -706,22 +705,29 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
-        // For JAXRS_SPEC library, compute commonPath similar to JavaJaxRS generators
+        // For JAXRS_SPEC library, compute commonPath when useTags=true, otherwise default to "/"
         if (operations != null && Objects.equals(library, Constants.JAXRS_SPEC)) {
-            String commonPath = null;
-            List<CodegenOperation> ops = operations.getOperation();
-            for (CodegenOperation operation : ops) {
-                if (commonPath == null) {
-                    commonPath = operation.path;
-                } else {
-                    commonPath = getCommonPath(commonPath, operation.path);
+            if (useTags) {
+                String commonPath = null;
+                List<CodegenOperation> ops = operations.getOperation();
+                for (CodegenOperation operation : ops) {
+                    if (commonPath == null) {
+                        commonPath = operation.path;
+                    } else {
+                        commonPath = getCommonPath(commonPath, operation.path);
+                    }
                 }
+                for (CodegenOperation co : ops) {
+                    co.path = StringUtils.removeStart(co.path, commonPath);
+                    co.subresourceOperation = co.path.length() > 1;
+                }
+                objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
+            } else {
+                for (CodegenOperation co : operations.getOperation()) {
+                    co.subresourceOperation = !co.path.isEmpty();
+                }
+                objs.put("commonPath", "/");
             }
-            for (CodegenOperation co : ops) {
-                co.path = StringUtils.removeStart(co.path, commonPath);
-                co.subresourceOperation = co.path.length() > 1;
-            }
-            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
         }
         // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
@@ -781,24 +787,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         }
 
         return objs;
-    }
-
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (Objects.equals(library, Constants.JAXRS_SPEC) && additionalProperties.containsKey(USE_TAGS) && !useTags) {
-            String basePath = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
-            if (!StringUtils.isEmpty(basePath)) {
-                co.subresourceOperation = !co.path.isEmpty();
-            }
-            co.baseName = basePath;
-            if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
-                co.baseName = "default";
-            }
-            final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
-            opList.add(co);
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-        }
     }
 
     private boolean isJavalin() {
