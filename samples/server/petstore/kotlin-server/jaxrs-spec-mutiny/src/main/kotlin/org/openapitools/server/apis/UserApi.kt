@@ -10,41 +10,41 @@ import java.io.InputStream
 
 
 
-@Path("/user")
+@Path("/")
 @javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.22.0-SNAPSHOT")
 interface UserApi {
 
     @POST
-    @Path("")
+    @Path("/user")
     fun createUser( body: User): io.smallrye.mutiny.Uni<Response>
 
     @POST
-    @Path("/createWithArray")
+    @Path("/user/createWithArray")
     fun createUsersWithArrayInput( body: kotlin.collections.List<User>): io.smallrye.mutiny.Uni<Response>
 
     @POST
-    @Path("/createWithList")
+    @Path("/user/createWithList")
     fun createUsersWithListInput( body: kotlin.collections.List<User>): io.smallrye.mutiny.Uni<Response>
 
     @DELETE
-    @Path("/{username}")
+    @Path("/user/{username}")
     fun deleteUser(@PathParam("username") username: kotlin.String): io.smallrye.mutiny.Uni<Response>
 
     @GET
-    @Path("/{username}")
+    @Path("/user/{username}")
     @Produces("application/xml", "application/json")
     fun getUserByName(@PathParam("username") username: kotlin.String): io.smallrye.mutiny.Uni<Response>
 
     @GET
-    @Path("/login")
+    @Path("/user/login")
     @Produces("application/xml", "application/json")
     fun loginUser(@QueryParam("username")   username: kotlin.String,@QueryParam("password")   password: kotlin.String): io.smallrye.mutiny.Uni<Response>
 
     @GET
-    @Path("/logout")
+    @Path("/user/logout")
     fun logoutUser(): io.smallrye.mutiny.Uni<Response>
 
     @PUT
-    @Path("/{username}")
+    @Path("/user/{username}")
     fun updateUser(@PathParam("username") username: kotlin.String, body: User): io.smallrye.mutiny.Uni<Response>
 }
