@@ -676,6 +676,53 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "Spring Boot 4 should use Jackson 3 datetime property path")
+    public void useSpringBoot4JacksonDateTimeProperty() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // Spring Boot 4 uses Jackson 3, which moved WRITE_DATES_AS_TIMESTAMPS to
+        // spring.jackson.datatype.datetime instead of spring.jackson.serialization
+        Path applicationYaml = Paths.get(outputPath + "/src/main/resources/application.yaml");
+        assertFileContains(applicationYaml, "datatype:");
+        assertFileContains(applicationYaml, "datetime:");
+        assertFileContains(applicationYaml, "WRITE_DATES_AS_TIMESTAMPS: false");
+        assertFileNotContains(applicationYaml, "serialization:");
+    }
+
+    @Test(description = "Spring Boot 3 should use Jackson 2 serialization property path")
+    public void useSpringBoot3JacksonSerializationProperty() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT3, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // Spring Boot 3 uses Jackson 2, which has WRITE_DATES_AS_TIMESTAMPS under
+        // spring.jackson.serialization
+        Path applicationYaml = Paths.get(outputPath + "/src/main/resources/application.yaml");
+        assertFileContains(applicationYaml, "serialization:");
+        assertFileContains(applicationYaml, "WRITE_DATES_AS_TIMESTAMPS: false");
+        assertFileNotContains(applicationYaml, "datatype:");
+    }
+
     @Test(description = "multi-line descriptions should be supported for operations")
     public void multiLineOperationDescription() throws IOException {
         testMultiLineOperationDescription(false);
