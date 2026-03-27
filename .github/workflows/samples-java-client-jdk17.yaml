@@ -13,6 +13,7 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
       - samples/client/others/java/restclient-sealedInterface/**
+      - samples/client/others/java/restclient-useAbstractionForFiles/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
@@ -25,6 +26,7 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
       - samples/client/others/java/restclient-sealedInterface/**
+      - samples/client/others/java/restclient-useAbstractionForFiles/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -52,6 +54,7 @@ jobs:
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/others/java/restclient-enum-in-multipart
           - samples/client/others/java/restclient-sealedInterface
+          - samples/client/others/java/restclient-useAbstractionForFiles
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

@@ -1384,12 +1384,8 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
-     * <p>
-     * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
-     * We will contact the contributor of the following test to see if the fix will break their use cases and
-     * how we can fix it accordingly.
      */
-    @Test(enabled = false)
+    @Test
     public void testWebClientWithUseAbstractionForFiles() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -1403,21 +1399,20 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java")).content()
-                .contains(
-                        // multiple files
-                        "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
-                        "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
+                // multiple files
+                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
-                        // mixed
-                        "multipartMixed(org.springframework.core.io.AbstractResource file, MultipartMixedMarker"
-                                + " marker)",
-                        "formParams.add(\"file\", file);",
+                // mixed
+                "multipartMixed(@javax.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.Resource _file, @javax.annotation.Nullable MultipartMixedRequestMarker marker, @javax.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", _file);",
 
-                        // single file
-                        "multipartSingle(org.springframework.core.io.AbstractResource file)",
-                        "formParams.add(\"file\", file);"
-                );
+                // single file
+                "multipartSingle(org.springframework.core.io.Resource _file)",
+                "formParams.add(\"file\", _file);"
+       );
     }
 
     /**
@@ -2747,15 +2742,15 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.AbstractResource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.Resource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", _file);",
 
                 // single file
-                "multipartSingle(org.springframework.core.io.AbstractResource _file)",
+                "multipartSingle(org.springframework.core.io.Resource _file)",
                 "formParams.add(\"file\", _file);"
         );
     }
