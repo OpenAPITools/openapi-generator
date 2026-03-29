@@ -413,6 +413,35 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void generateLocalDateTimeForDateTimeLocalFormat() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
+                .hasImports("java.time.LocalDateTime")
+                .assertProperty("adoptionDate").withType("LocalDateTime");
+    }
+
+    @Test
     public void interfaceDefaultImplDisableWithResponseWrapper() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
