@@ -9,9 +9,9 @@ import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.jspecify.annotations.Nullable;
 import org.openapitools.model.AnimalDto;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 

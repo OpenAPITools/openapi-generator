@@ -6,7 +6,7 @@
 package org.openapitools.api;
 
 import org.openapitools.model.ApiResponseDto;
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.openapitools.model.PetDto;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import java.util.Set;

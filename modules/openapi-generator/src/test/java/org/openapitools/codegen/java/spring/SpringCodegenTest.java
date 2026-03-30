@@ -6489,6 +6489,42 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldAddNullableImportForArrayTypeModelsForSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-with-spring-pageable.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // AnimalFarm is an array-type model with no properties (issue #22788)
+        JavaFileAssert.assertThat(files.get("AnimalFarm.java"))
+                .hasImports("org.jspecify.annotations.Nullable");
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .hasImports("org.jspecify.annotations.Nullable");
+    }
+
+    @Test
     public void shouldRefuseJackson3WithoutSpringboot4() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
