@@ -67,7 +67,7 @@ async def get_inventory(
     response_model_by_alias=True,
 )
 async def place_order(
-    order: Annotated[Order, Field(description="order placed for purchasing the pet")] = Body(None, description="order placed for purchasing the pet"),
+    order: Annotated[Order, Field(description="order placed for purchasing the pet")] = Body(..., description="order placed for purchasing the pet"),
 ) -> Order:
     """"""
     if not BaseStoreApi.subclasses:
