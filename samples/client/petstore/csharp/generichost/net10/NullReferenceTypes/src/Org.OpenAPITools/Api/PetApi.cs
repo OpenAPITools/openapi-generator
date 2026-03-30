@@ -849,14 +849,20 @@ namespace Org.OpenAPITools.Api
 
                     oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
 
-                    HttpSignatureToken httpSignatureTokenLocalVar2 = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar2 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar2);
+
+                    oauthTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, "");
+
+                    HttpSignatureToken httpSignatureTokenLocalVar3 = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+
+                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar3);
 
                     if (httpRequestMessageLocalVar.Content != null) {
                         string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                        httpSignatureTokenLocalVar3.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
 
                     string[] contentTypes = new string[] {

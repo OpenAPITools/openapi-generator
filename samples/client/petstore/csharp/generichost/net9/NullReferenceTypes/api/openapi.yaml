@@ -90,6 +90,9 @@ paths:
       - petstore_auth:
         - write:pets
         - read:pets
+      - petstore_auth2:
+        - write:pets
+        - read:pets
       summary: Add a new pet to the store
       tags:
       - pet
@@ -3129,6 +3132,14 @@ components:
       description: Mixed anyOf types for testing
   securitySchemes:
     petstore_auth:
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+      type: oauth2
+    petstore_auth2:
       flows:
         implicit:
           authorizationUrl: http://petstore.swagger.io/api/oauth/dialog

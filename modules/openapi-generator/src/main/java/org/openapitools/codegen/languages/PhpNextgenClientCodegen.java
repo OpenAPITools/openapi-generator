@@ -167,16 +167,6 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
                 prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
             }
-
-            if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
-                    if ((Boolean) enumVars.get("isString")) {
-                        model.vendorExtensions.putIfAbsent("x-php-enum-type", "string");
-                    } else {
-                        model.vendorExtensions.putIfAbsent("x-php-enum-type", "int");
-                    }
-                }
-            }
         }
         return objs;
     }

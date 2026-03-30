@@ -265,6 +265,16 @@ Authentication schemes defined for the API:
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
+<a id="petstore_auth2"></a>
+### petstore_auth2
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
+
 <a id="api_key"></a>
 ### api_key
 
