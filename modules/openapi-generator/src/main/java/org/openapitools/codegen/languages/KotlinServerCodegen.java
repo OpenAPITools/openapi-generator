@@ -786,6 +786,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             });
         }
 
+        handleImplicitHeaders(objs);
+
         return objs;
     }
 
