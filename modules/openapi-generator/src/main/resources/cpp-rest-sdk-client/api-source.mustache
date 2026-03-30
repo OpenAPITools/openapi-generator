@@ -239,7 +239,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
     {{#isApiKey}}
     {{#isKeyInHeader}}
     {
-        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("{{keyParamName}}"));
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("{{name}}"));
         if ( localVarApiKey.size() > 0 )
         {
             localVarHeaderParams[utility::conversions::to_string_t("{{keyParamName}}")] = localVarApiKey;
@@ -248,7 +248,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
     {{/isKeyInHeader}}
     {{#isKeyInQuery}}
     {
-        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("{{keyParamName}}"));
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("{{name}}"));
         if ( localVarApiKey.size() > 0 )
         {
             localVarQueryParams[utility::conversions::to_string_t("{{keyParamName}}")] = localVarApiKey;

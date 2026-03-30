@@ -58,6 +58,7 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -65,4 +66,20 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
     implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    testImplementation "org.springframework.boot:spring-boot-test:$spring_boot_version"
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-client'
+            version = '1.0.0'
+            from components.java
+        }
+    }
 }

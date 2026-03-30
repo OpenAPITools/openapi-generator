@@ -135,17 +135,20 @@ components:
       allOf:
       - $ref: "#/components/schemas/Addressable"
       - $ref: "#/components/schemas/Extensible"
-      description: Entity reference schema to be use for all entityRef class.
+      - description: Entity reference schema to be use for all entityRef class.
+        properties:
+          name:
+            description: Name of the related entity.
+            type: string
+          '@referredType':
+            description: The actual type of the target instance when needed for disambiguation.
+            type: string
+        type: object
+        example: null
       discriminator:
         propertyName: '@type'
-      properties:
-        name:
-          description: Name of the related entity.
-          type: string
-        '@referredType':
-          description: The actual type of the target instance when needed for disambiguation.
-          type: string
       type: object
+      example: null
     FooRefOrValue:
       discriminator:
         propertyName: '@type'
@@ -157,22 +160,32 @@ components:
     Foo:
       allOf:
       - $ref: "#/components/schemas/Entity"
+      - properties:
+          fooPropA:
+            type: string
+          fooPropB:
+            type: string
+        type: object
+        example: null
       example:
+        '@baseType': '@baseType'
+        '@type': '@type'
         fooPropA: fooPropA
+        href: href
+        id: id
         fooPropB: fooPropB
-      properties:
-        fooPropA:
-          type: string
-        fooPropB:
-          type: string
+        '@schemaLocation': '@schemaLocation'
       type: object
     FooRef:
       allOf:
       - $ref: "#/components/schemas/EntityRef"
-      properties:
-        foorefPropA:
-          type: string
+      - properties:
+          foorefPropA:
+            type: string
+        type: object
+        example: null
       type: object
+      example: null
     BarRef:
       allOf:
       - $ref: "#/components/schemas/EntityRef"
@@ -180,35 +193,49 @@ components:
     Bar_Create:
       allOf:
       - $ref: "#/components/schemas/Entity"
-      properties:
-        barPropA:
-          type: string
-        fooPropB:
-          type: string
-        foo:
-          $ref: "#/components/schemas/FooRefOrValue"
+      - properties:
+          barPropA:
+            type: string
+          fooPropB:
+            type: string
+          foo:
+            $ref: "#/components/schemas/FooRefOrValue"
+        type: object
+        example: null
       type: object
+      example: null
     Bar:
       allOf:
       - $ref: "#/components/schemas/Entity"
+      - properties:
+          id:
+            type: string
+          barPropA:
+            type: string
+          fooPropB:
+            type: string
+          foo:
+            $ref: "#/components/schemas/FooRefOrValue"
+        required:
+        - id
+        type: object
+        example: null
       example:
+        '@baseType': '@baseType'
+        '@type': '@type'
         foo:
+          '@baseType': '@baseType'
+          '@type': '@type'
           fooPropA: fooPropA
+          href: href
+          id: id
           fooPropB: fooPropB
+          '@schemaLocation': '@schemaLocation'
+        href: href
         id: id
         fooPropB: fooPropB
+        '@schemaLocation': '@schemaLocation'
         barPropA: barPropA
-      properties:
-        id:
-          type: string
-        barPropA:
-          type: string
-        fooPropB:
-          type: string
-        foo:
-          $ref: "#/components/schemas/FooRefOrValue"
-      required:
-      - id
       type: object
     BarRefOrValue:
       oneOf:
@@ -219,24 +246,33 @@ components:
     Pizza:
       allOf:
       - $ref: "#/components/schemas/Entity"
-      properties:
-        pizzaSize:
-          type: number
+      - properties:
+          pizzaSize:
+            type: number
+        type: object
+        example: null
       type: object
+      example: null
     Pasta:
       allOf:
       - $ref: "#/components/schemas/Entity"
-      properties:
-        vendor:
-          type: string
+      - properties:
+          vendor:
+            type: string
+        type: object
+        example: null
       type: object
+      example: null
     PizzaSpeziale:
       allOf:
       - $ref: "#/components/schemas/Pizza"
-      properties:
-        toppings:
-          type: string
+      - properties:
+          toppings:
+            type: string
+        type: object
+        example: null
       type: object
+      example: null
     FruitType:
       enum:
       - APPLE

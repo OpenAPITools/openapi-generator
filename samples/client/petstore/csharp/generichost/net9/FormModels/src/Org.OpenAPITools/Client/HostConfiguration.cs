@@ -63,6 +63,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ClassModelJsonConverter());
             _jsonOptions.Converters.Add(new ComplexQuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new CopyActivityJsonConverter());
+            _jsonOptions.Converters.Add(new CopyActivityAllOfSchemaJsonConverter());
+            _jsonOptions.Converters.Add(new CopyActivityAllOfSchemaNullableJsonConverter());
             _jsonOptions.Converters.Add(new DanishPigJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyClassJsonConverter());
             _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
@@ -227,13 +229,13 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>(client));
-            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>(client));
-            builders.Add(_services.AddHttpClient<IPetApi, PetApi>(client));
-            builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>(client));
-            builders.Add(_services.AddHttpClient<IUserApi, UserApi>(client));
+            builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>("Org.OpenAPITools.Api.IAnotherFakeApi", client));
+            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>("Org.OpenAPITools.Api.IDefaultApi", client));
+            builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>("Org.OpenAPITools.Api.IFakeApi", client));
+            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>("Org.OpenAPITools.Api.IFakeClassnameTags123Api", client));
+            builders.Add(_services.AddHttpClient<IPetApi, PetApi>("Org.OpenAPITools.Api.IPetApi", client));
+            builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>("Org.OpenAPITools.Api.IStoreApi", client));
+            builders.Add(_services.AddHttpClient<IUserApi, UserApi>("Org.OpenAPITools.Api.IUserApi", client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)

@@ -53,8 +53,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Dict</li>
 <li>List</li>
+<li>UUID</li>
 <li>bool</li>
-<li>bytearray</li>
 <li>bytes</li>
 <li>date</li>
 <li>datetime</li>
@@ -155,7 +155,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
-|Uuid|✗|
+|Uuid|✓|
 |Array|✓|OAS2,OAS3
 |Null|✗|OAS3
 |AnyType|✗|OAS2,OAS3

@@ -47,6 +47,8 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -105,6 +107,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
     public static final String SUPPORT_VERTX_FUTURE = "supportVertxFuture";
     public static final String USE_SEALED_ONE_OF_INTERFACES = "useSealedOneOfInterfaces";
+    public static final String USE_UNARY_INTERCEPTOR = "useUnaryInterceptor";
+    public static final String USE_JACKSON_3 = "useJackson3";
 
     // Internal configurations
     public static final String SINGLE_REQUEST_PARAMETER = "singleRequestParameter";
@@ -114,6 +118,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
+
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
+    private static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    private static final String JACKSON3_PACKAGE = "tools.jackson";
+    private static final String JACKSON_PACKAGE = "jacksonPackage";
 
     public static final String GENERATE_CLIENT_AS_BEAN = "generateClientAsBean";
 
@@ -132,7 +141,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean microProfileRegisterExceptionMapper = true;
     @Setter protected String configKey = null;
     @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
-
     @Setter protected boolean asyncNative = false;
     @Setter protected boolean parcelableModel = false;
     @Setter protected boolean performBeanValidation = false;
@@ -149,11 +157,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     @Setter protected boolean supportVertxFuture = false;
     @Setter protected boolean useSealedOneOfInterfaces = false;
+    @Setter protected boolean useUnaryInterceptor = false;
+    @Getter @Setter protected boolean useJackson3 = false;
+
     protected String authFolder;
     /**
      * Serialization library.
      */
     @Getter protected String serializationLibrary = null;
+    @Getter @Setter protected boolean useSpringBoot4 = false;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
@@ -258,8 +270,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native' library (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true). Incompatible with 'openApiNullable'.", this.useJackson3));
         cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
         cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.", this.useSealedOneOfInterfaces));
+        cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");
@@ -267,14 +281,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(FEIGN_HC5, "HTTP client: OpenFeign 13.2.1/HttpClient5 5.4.2. JSON processing: Jackson 2.17.1 or Gson 2.10.1");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1 (Retrofit 2.5.0) or Jackson 2.17.1. Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
-        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 5.3.33 (6.1.5 if `useJakartaEe=true`). JSON processing: Jackson 2.17.1");
-        supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.1.18. JSON processing: Jackson 2.17.1");
-        supportedLibraries.put(RESTCLIENT, "HTTP client: Spring RestClient 6.1.6. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 5.3.33 (6.2.x if `useJakartaEe=true`, 7.x.x if `useSpringBoot4=true`). JSON processing: Jackson 2.x (3.x if `useJackson3=true`)");
+        supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.1.18 (7.x.x if `useSpringBoot4=true`). JSON processing: Jackson 2.17.1 (3.x if `useJackson3=true`)");
+        supportedLibraries.put(RESTCLIENT, "HTTP client: Spring RestClient 6.1.6 (7.x.x if `useSpringBoot4=true`). JSON processing: Jackson 2.17.1 (3.x if `useJackson3=true`)");
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 4.7.6. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.5.2. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 2.2.0. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured 5.3.2. JSON processing: Gson 2.10.1 or Jackson 2.17.1. Only for Java 8");
-        supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.17.1. Only for Java11+");
+        supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.17.1 (3.x if `useJackson3=true`). Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client " + MICROPROFILE_REST_CLIENT_DEFAULT_VERSION + " (default, set desired version via `" + MICROPROFILE_REST_CLIENT_VERSION + "=x.x.x`). JSON processing: JSON-B 1.0.2 or Jackson 2.17.1");
         supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 5.2.1. JSON processing: Jackson 2.17.1");
 
@@ -293,7 +307,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
-
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x.", useSpringBoot4));
         // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
         // and the discriminator mapping schemas in the OAS document.
@@ -362,8 +376,33 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // default jackson unless overridden by setSerializationLibrary
         this.jackson = !additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY) ||
                 SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
-
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
+        if (useJackson3 && (libRestClient || libRestTemplate || libWebClient) && !useSpringBoot4) {
+            throw new IllegalArgumentException("useJackson3 for the restclient, resttemplate, and webclient libraries requires useSpringBoot4=true");
+        } else if (useJackson3 && !libNative && !libRestClient && !libRestTemplate && !libWebClient) {
+            throw new IllegalArgumentException("useJackson3 is only supported for the 'native', 'restclient', 'resttemplate', and 'webclient' libraries. " +
+                    "The Spring libraries also require useSpringBoot4=true.");
+        }
+        if (useJackson3 && openApiNullable) {
+            throw new IllegalArgumentException("openApiNullable=true is not compatible with useJackson3=true " +
+                    "(jackson-databind-nullable has no Jackson 3 release). Please set openApiNullable=false explicitly.");
+        }
+
+        if (this.useJackson3) {
+            this.applyJackson3Package();
+        } else {
+            this.applyJackson2Package();
+        }
+
+        if(this.useSpringBoot4) {
+            setUseJakartaEe(true);
+            applyJakartaPackage();
+        }
+
+        // override parent one
+        importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         // RxJava
         if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
@@ -376,6 +415,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         convertPropertyToStringAndWriteBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, this::setUseSingleRequestParameter);
         convertPropertyToBooleanAndWriteBack(USE_SEALED_ONE_OF_INTERFACES, this::setUseSealedOneOfInterfaces);
+        convertPropertyToBooleanAndWriteBack(USE_UNARY_INTERCEPTOR, this::setUseUnaryInterceptor);
         writePropertyBack(SINGLE_REQUEST_PARAMETER, getSingleRequestParameter());
         writePropertyBack(STATIC_REQUEST, getStaticRequest());
 
@@ -784,8 +824,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
-                supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
+                if (!useJackson3 || libNative || libRestTemplate || libWebClient) {
+                    supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
+                    supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
+                }
                 break;
             case SERIALIZATION_LIBRARY_GSON:
                 additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
@@ -803,12 +845,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 break;
         }
-        
+
         if (isLibrary(FEIGN)) {
             additionalProperties.put("feign-okhttp", "true");
         } else if (isLibrary(FEIGN_HC5)) {
             additionalProperties.put("feign-hc5", "true");
-            setTemplateDir(FEIGN);
+            // Only fall back to the built-in "feign" template directory when the user has not
+            // provided a custom template directory.  super.processOpts() already wrote any
+            // user-supplied templateDir back into additionalProperties, so checking for the
+            // key's presence reliably distinguishes "user provided" from "not provided".
+            if (!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
+                setTemplateDir(FEIGN);
+            }
             setLibrary(FEIGN);
         }
 
@@ -1022,13 +1070,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
         if (!model.isEnum) {
             //Needed imports for Jackson based libraries
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
                 model.imports.add("JsonProperty");
                 model.imports.add("JsonValue");
                 model.imports.add("JsonInclude");
-                model.imports.add("JsonTypeName");
+                if (!useJackson3) {
+                    model.imports.add("JsonTypeName");
+                }
             }
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON)) {
                 model.imports.add("SerializedName");
@@ -1169,7 +1220,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
-            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
             if (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(NATIVE) || isLibrary(OKHTTP_GSON)) {
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
@@ -1184,7 +1235,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
             if (this.parcelableModel && !cm.isEnum) {
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
+                ((ArrayList<String>) cm.getVendorExtensions().get(X_IMPLEMENTS)).add("Parcelable");
             }
         }
 
@@ -1235,6 +1286,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
+    }
+
     public void setSerializationLibrary(String serializationLibrary) {
         if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
@@ -1275,7 +1334,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        if(additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
             for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
                 Map<String, String> oneImport = new HashMap<>();
                 oneImport.put("import", importMapping.get(i));

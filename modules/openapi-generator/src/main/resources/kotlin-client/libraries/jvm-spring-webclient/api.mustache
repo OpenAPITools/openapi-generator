@@ -21,7 +21,7 @@ import org.springframework.util.LinkedMultiValueMap
 import {{packageName}}.infrastructure.*
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class {{classname}}(client: WebClient) : ApiClient(client) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}open {{/nonPublicApi}}class {{classname}}(client: WebClient) : ApiClient(client) {
 
     {{#jackson}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(WebClient.builder()
@@ -72,7 +72,7 @@ import {{packageName}}.infrastructure.*
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{#defaultValue}} = {{>param_default_value}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): Mono<{{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
         return {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
-            .map { {{#returnType}}it.body{{/returnType}}{{^returnType}}Unit{{/returnType}} }
+            .map { {{#returnType}}it.body!!{{/returnType}}{{^returnType}}Unit{{/returnType}} }
     }
 
     @Throws(WebClientResponseException::class)

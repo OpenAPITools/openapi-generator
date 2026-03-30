@@ -70,11 +70,11 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum ErrorResponse: Error {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum ErrorResponse: Error, Sendable {
     case error(Int, Data?, URLResponse?, Error)
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DownloadException: Error {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DownloadException: Error, Sendable {
     case responseDataMissing
     case responseFailed
     case requestMissing
@@ -82,7 +82,7 @@ extension NullEncodable: Codable where Wrapped: Codable {
     case requestMissingURL
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DecodableRequestBuilderError: Error {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DecodableRequestBuilderError: Error, Sendable {
     case emptyDataResponse
     case nilHTTPResponse
     case unsuccessfulHTTPStatusCode

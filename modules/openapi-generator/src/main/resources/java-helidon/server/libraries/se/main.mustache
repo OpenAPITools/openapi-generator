@@ -72,7 +72,9 @@ public final class Main {
                                     .config(config.get("server"))
                                     .addMediaSupport(JsonpSupport.create())
 {{#jsonb}}
+{{#x-helidon-v3}}
                                     .addMediaSupport(JsonbSupport.create())
+{{/x-helidon-v3}}
 {{/jsonb}}
 {{#jackson}}
                                     .addMediaSupport(JacksonSupport.create(JsonProvider.objectMapper()))

@@ -22,6 +22,9 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#description}}
     /**
     * {{{.}}}
+    {{#deprecated}}
+    * @deprecated
+    {{/deprecated}}
     */
 {{/description}}
     '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};

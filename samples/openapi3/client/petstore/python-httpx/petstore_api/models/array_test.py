@@ -23,6 +23,7 @@ from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class ArrayTest(BaseModel):
     """
@@ -35,7 +36,8 @@ class ArrayTest(BaseModel):
     __properties: ClassVar[List[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -47,8 +49,7 @@ class ArrayTest(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:

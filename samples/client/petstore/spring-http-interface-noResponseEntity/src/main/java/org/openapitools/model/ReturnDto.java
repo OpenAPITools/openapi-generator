@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ReturnDto {
 
   private @Nullable Integer _return;
@@ -39,6 +39,7 @@ public class ReturnDto {
     return _return;
   }
 
+  @JsonProperty("return")
   public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }
@@ -73,11 +74,8 @@ public class ReturnDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

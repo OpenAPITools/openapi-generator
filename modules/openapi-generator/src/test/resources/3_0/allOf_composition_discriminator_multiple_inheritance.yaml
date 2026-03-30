@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: OAI Specification example for Polymorphism
+  version: 1.0.0
+paths:
+  /status:
+    get:
+      responses:
+        '201':
+          description: desc
+
+components:
+  schemas:
+    Animal:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: '#/components/schemas/Dog'
+          cat: '#/components/schemas/Cat'
+    Feline:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            name:
+              type: string
+            furColor:
+              type: string
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Feline'
+        - type: object
+          properties:
+            isIndoor:
+              type: boolean
+            careDetails:
+              $ref: '#/components/schemas/CareDetails'
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            bark:
+              type: string
+    CareDetails:
+      type: object
+      properties:
+        veterinarian:
+          type: string
+        lastVetVisit:
+          type: string
+          format: date

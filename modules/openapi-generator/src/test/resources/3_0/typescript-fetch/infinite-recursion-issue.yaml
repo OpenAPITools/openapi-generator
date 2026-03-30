@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Minimal
+  description: Api to reproduce bug
+  version: 0.5.1-SNAPSHOT.0
+tags:
+  - name: test
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/v1/test:
+    get:
+      tags:
+        - test
+      operationId: test
+      responses:
+        "200":
+          description: test operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TestBaseDto"
+
+components:
+  schemas:
+    TestObjectType:
+      type: string
+      enum:
+        - TEST1
+        - TEST2
+    TestBaseDto:
+      type: object
+      properties:
+        something:
+          type: string
+        testObjectType:
+          $ref: "#/components/schemas/TestObjectType"
+      discriminator:
+        propertyName: testObjectType
+        mapping:
+          TEST2: '#/components/schemas/ExtendDto'
+          TEST1: '#/components/schemas/TestBaseDto'
+    ExtendDto:
+      allOf:
+        - $ref: '#/components/schemas/TestBaseDto'
+        - type: object
+          properties:
+            someItems:
+              type: array
+              items:
+                $ref: '#/components/schemas/TestBaseDto'

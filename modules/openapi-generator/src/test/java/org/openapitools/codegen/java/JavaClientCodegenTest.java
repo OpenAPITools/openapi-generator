@@ -635,6 +635,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpClientWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JSON.java")).content()
+                .contains("import com.fasterxml.jackson.annotation.*;")
+                .contains("import tools.jackson.databind.*;")
+                .doesNotContain("import com.fasterxml.jackson.databind");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("import tools.jackson.databind.ObjectMapper;")
+                .doesNotContain("import com.fasterxml.jackson.databind");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
+                .contains("import tools.jackson.core.type.TypeReference;")
+                .doesNotContain("import com.fasterxml.jackson.core.type.TypeReference");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson.core</groupId>")
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>");
+    }
+
+    @Test
     public void testReferencedHeader() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
@@ -1251,29 +1282,33 @@ public class JavaClientCodegenTest {
 
         final List<CodegenOperation> codegenOperations = paths.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
         final CodegenOperation getWithBasicAuthAndOauth = getByOperationId(codegenOperations, "getWithBasicAuthAndOauth");
-        assertEquals(getWithBasicAuthAndOauth.authMethods.size(), 3);
-        assertEquals(getWithBasicAuthAndOauth.authMethods.get(0).name, "basic_auth");
+        List<CodegenSecurity> sortedAuthMethods = new ArrayList<>(getWithBasicAuthAndOauth.authMethods);
+        sortedAuthMethods.sort(Comparator.comparing(am -> am.name));
+        assertEquals(sortedAuthMethods.size(), 3);
+        assertEquals(sortedAuthMethods.get(0).name, "basic_auth");
 
-        final Map<String, Object> passwordFlowScope = getWithBasicAuthAndOauth.authMethods.get(1).scopes.get(0);
+        final Map<String, Object> passwordFlowScope = sortedAuthMethods.get(1).scopes.get(0);
         assertEquals(passwordFlowScope.get("scope"), "something:create");
         assertEquals(passwordFlowScope.get("description"), "create from password flow");
 
-        final Map<String, Object> clientCredentialsFlow = getWithBasicAuthAndOauth.authMethods.get(2).scopes.get(0);
+        final Map<String, Object> clientCredentialsFlow = sortedAuthMethods.get(2).scopes.get(0);
         assertEquals(clientCredentialsFlow.get("scope"), "something:create");
         assertEquals(clientCredentialsFlow.get("description"), "create from client credentials flow");
 
         final CodegenOperation getWithOauthAuth = getByOperationId(codegenOperations, "getWithOauthAuth");
-        assertEquals(getWithOauthAuth.authMethods.size(), 2);
+        List<CodegenSecurity> sortedOauthAuthMethods = new ArrayList<>(getWithOauthAuth.authMethods);
+        sortedOauthAuthMethods.sort(Comparator.comparing(am -> am.name));
+        assertEquals(sortedOauthAuthMethods.size(), 2);
 
-        final Map<String, Object> passwordFlow = getWithOauthAuth.authMethods.get(0).scopes.get(0);
+        final Map<String, Object> passwordFlow = sortedOauthAuthMethods.get(0).scopes.get(0);
         assertEquals(passwordFlow.get("scope"), "something:create");
         assertEquals(passwordFlow.get("description"), "create from password flow");
 
-        final Map<String, Object> clientCredentialsCreateFlow = getWithOauthAuth.authMethods.get(1).scopes.get(0);
+        final Map<String, Object> clientCredentialsCreateFlow = sortedOauthAuthMethods.get(1).scopes.get(0);
         assertEquals(clientCredentialsCreateFlow.get("scope"), "something:create");
         assertEquals(clientCredentialsCreateFlow.get("description"), "create from client credentials flow");
 
-        final Map<String, Object> clientCredentialsProcessFlow = getWithOauthAuth.authMethods.get(1).scopes.get(1);
+        final Map<String, Object> clientCredentialsProcessFlow = sortedOauthAuthMethods.get(1).scopes.get(1);
         assertEquals(clientCredentialsProcessFlow.get("scope"), "something:process");
         assertEquals(clientCredentialsProcessFlow.get("description"), "process from client credentials flow");
     }
@@ -2841,6 +2876,11 @@ public class JavaClientCodegenTest {
         return new JavaClientCodegen().supportedLibraries().keySet().iterator();
     }
 
+    @DataProvider
+    Iterator<String> springBoot4Jackson3Libraries() {
+        return Arrays.asList(JavaClientCodegen.RESTTEMPLATE, JavaClientCodegen.WEBCLIENT, JavaClientCodegen.RESTCLIENT).iterator();
+    }
+
     @Test(dataProvider = "serializationLibraries")
     void setsDefaultSerializationLibrary(String library) {
         var codegen = new JavaClientCodegen();
@@ -2853,6 +2893,31 @@ public class JavaClientCodegenTest {
                         entry(SERIALIZATION_LIBRARY_JACKSON, "true"),
                         entry(SERIALIZATION_LIBRARY_JSONB, "true")
                 );
+    }
+
+    @Test(dataProvider = "springBoot4Jackson3Libraries")
+    void supportsJackson3ForSpringBoot4Libraries(String library) {
+        String outputDir = newTempFolder().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(USE_JACKSON_3, true)
+                .addAdditionalProperty(USE_SPRING_BOOT4, true)
+                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
+                .setOutputDir(outputDir);
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).isNotEmpty();
+        if (library.equals(JavaClientCodegen.RESTTEMPLATE) || library.equals(JavaClientCodegen.WEBCLIENT)) {
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339DateFormat.java"))
+                    .content().contains("tools.jackson.databind.util.StdDateFormat");
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java"))
+                    .content().contains("tools.jackson.databind.cfg.DateTimeFeature");
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java"))
+                    .content().contains("tools.jackson.databind.module.SimpleModule");
+        }
     }
 
     /**
@@ -3237,7 +3302,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         final Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));;
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
                 .printFileContent();
@@ -3533,8 +3598,9 @@ public class JavaClientCodegenTest {
         assertNotNull(apiFile);
 
         JavaFileAssert.assertThat(apiFile).fileContains(
-                //reading the body into a string, then checking if it is blank.
-                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                // reading the body into a string after decompression, then checking if it is blank.
+                "localVarResponseBody = ApiClient.getResponseBody(localVarResponse);",
+                "String responseBody = new String(localVarResponseBody.readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
     }
@@ -3548,23 +3614,23 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName(JAVA_GENERATOR)
-            .setLibrary(JavaClientCodegen.NATIVE)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
 
         JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
-            "import io.swagger.v3.oas.annotations.media.Schema;"
+                "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
 
@@ -3577,23 +3643,23 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName(JAVA_GENERATOR)
-            .setLibrary(JavaClientCodegen.NATIVE)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
 
         JavaFileAssert.assertThat(apiFile).fileContains(
-            "import io.swagger.v3.oas.annotations.media.Schema;"
+                "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
 
@@ -3627,9 +3693,10 @@ public class JavaClientCodegenTest {
         File apiFile = files.get("DefaultApi.java");
         assertNotNull(apiFile);
 
-        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
-                //reading the body into a string, then checking if it is blank.
-                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+        JavaFileAssert.assertThat(apiFile).fileContains(
+                // async path should also decompress before reading the body.
+                "InputStream localVarResponseBody = ApiClient.getResponseBody(localVarResponse);",
+                "String responseBody = new String(localVarResponseBody.readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
     }
@@ -3747,7 +3814,7 @@ public class JavaClientCodegenTest {
 
         JavaFileAssert.assertThat(oneOfFile).fileContains(
                 "final TypeAdapter<some.pkg.A> adaptersomepkgA = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.A.class));",
-                        "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
+                "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
                 "public some.pkg.A getsomepkgA() throws ClassCastException {",
                 "public some.pkg.B getsomepkgB() throws ClassCastException {"
         );
@@ -3761,6 +3828,35 @@ public class JavaClientCodegenTest {
                 "public some.pkg.A getsomepkgA() throws ClassCastException {",
                 "public some.pkg.B getsomepkgB() throws ClassCastException {"
         );
+    }
+
+    @Test
+    public void testRequiredAndNullableAreBothTrue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/bugs/issue_18516.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path modelFile = Paths.get(output + "/src/main/java/org/openapitools/client/model/SomeObject.java");
+        TestUtils.assertFileContains(
+                modelFile,
+                "} else if (!jsonObj.get(\"ids\").isJsonArray()  && !jsonObj.get(\"ids\").isJsonNull()) {",
+                "if (jsonObj.get(\"users\") != null && !jsonObj.get(\"users\").isJsonNull()) {",
+                "if (!jsonObj.get(\"users\").isJsonArray()) {",
+                "if (jsonObj.get(\"user\") != null && !jsonObj.get(\"user\").isJsonNull()) {",
+                "if (jsonObj.get(\"role\") != null && !jsonObj.get(\"role\").isJsonNull()) {",
+                "if (jsonObj.get(\"custom\") != null && !jsonObj.get(\"custom\").isJsonNull()) {");
     }
 
     @Test(description = "Issue #21051")
@@ -3797,10 +3893,11 @@ public class JavaClientCodegenTest {
         //chain method calls for object initialization
         class MethodCallVisitor extends VoidVisitorAdapter<Void> {
             Map<String, Expression> expressionMap = new HashMap<>();
+
             @Override
             public void visit(MethodCallExpr n, Void arg) {
                 expressionMap.put(n.getNameAsString(), n.getArgument(0));
-                if(n.getScope().isPresent()) {
+                if (n.getScope().isPresent()) {
                     n.getScope().get().accept(this, arg);
                 }
             }
@@ -3987,7 +4084,7 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
                 "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
-                ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
+                        ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
         );
     }
 
@@ -4056,5 +4153,88 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("Fruit.java"))
                 .isInterface()
                 .assertTypeAnnotations().containsWithName("SuppressWarnings");
+    }
+
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeNotAdded() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
+                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "true"));
+        JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
+                .assertTypeAnnotations().doesNotContainWithName("JsonIgnoreProperties");
+    }
+
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeAdded() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
+                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false"));
+        JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
+                .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
+    }
+
+    @Test
+    public void testOneOfInterfaceWithEnumDiscriminatorHavingCustomDescription3_1() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml", WEBCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .fileContains("public FruitType getFruitType()");
+    }
+
+    /**
+     * Regression: without a user-provided template dir, feign-hc5 should still resolve
+     * built-in templates from the "feign" folder (same behaviour as before the fix).
+     */
+    @Test
+    public void testFeignHc5TemplateDirDefaultsToFeign() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(FEIGN_HC5);
+        codegen.processOpts();
+
+        assertEquals(codegen.templateDir(), FEIGN,
+                "feign-hc5 without a custom templateDir should use the 'feign' built-in template directory");
+    }
+
+    /**
+     * Bug fix: a user-provided templateDir must not be overwritten when library=feign-hc5.
+     * Previously setTemplateDir(FEIGN) was called unconditionally and silently replaced the
+     * user's path.
+     */
+    @Test
+    public void testFeignHc5CustomTemplateDirIsPreserved() {
+        final String customTemplateDir = "/custom/templates";
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(FEIGN_HC5);
+        codegen.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, customTemplateDir);
+        codegen.processOpts();
+
+        assertEquals(codegen.templateDir(), customTemplateDir,
+                "feign-hc5 must preserve a user-provided templateDir and not overwrite it with 'feign'");
+    }
+
+    @Test(description = "Regression test for multipart/form-data list handling in restclient ApiClient to avoid IndexOutOfBoundsException on empty lists")
+    public void testRestClientMultipartFormParamsGuardAgainstEmptyLists() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "if (v instanceof java.util.ArrayList && !v.isEmpty()) {",
+                "first.getClass().isEnum()"
+        );
+
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "if (v instanceof java.util.ArrayList) {",
+                "o.getClass().getEnumConstants() != null"
+        );
     }
 }

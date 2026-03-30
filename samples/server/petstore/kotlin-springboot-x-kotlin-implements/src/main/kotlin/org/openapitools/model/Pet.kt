@@ -1,6 +1,5 @@
 package org.openapitools.model
 
-import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
@@ -11,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.Tag
-import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -21,6 +19,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -42,26 +41,33 @@ import javax.validation.Valid
       JsonSubTypes.Type(value = Dog::class, name = "Dog")
 )
 
-interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods {
+interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, java.io.Serializable {
         
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         override val name: kotlin.String
 
         
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         val photoUrls: kotlin.collections.List<kotlin.String>
 
         
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         val petType: kotlin.String
 
         
-        val id: kotlin.Long? 
+        @get:ApiModelProperty(example = "null", value = "")
+        override val id: kotlin.Long? 
 
         
+        @get:ApiModelProperty(example = "null", value = "")
         override val category: Category? 
 
         
+        @get:ApiModelProperty(example = "null", value = "")
         val tags: kotlin.collections.List<Tag>? 
 
         
+        @get:ApiModelProperty(example = "null", value = "")
         val color: Color? 
 
 

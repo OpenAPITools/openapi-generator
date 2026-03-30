@@ -1731,6 +1731,12 @@ components:
             type: object
             additionalProperties:
               type: string
+        map_of_array_integer:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: integer
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
@@ -2079,22 +2085,29 @@ components:
     TestEnum:
       type: string
       enum:
-        - ""
-        - "1"
-        - "2"
+        - ''
+        - 'value_one'
+        - 'value_two'
       title: TestEnum
-    TestItem:
+    ObjectWithEnum:
       type: object
-      required:
-        - test
       properties:
-        test:
-          type: integer
-          title: test
-        testEmum:
-          $ref: '#/components/schemas/TestEnum'
-          default: ""
-      title: TestItem
+        attribute:
+          allOf:
+            - $ref: '#/components/schemas/TestEnum'
+          default: ''
+      title: ObjectWithEnum
+    ObjectWithInlineEnumDefaultValue:
+      type: object
+      properties:
+        attribute:
+          description: 'Object one attribute enum with default value'
+          type: 'string'
+          enum: [
+            'value_one',
+            'value_two'
+          ]
+          default: 'value_one'
     ObjectWithInlineEnum:
       type: object
       properties:

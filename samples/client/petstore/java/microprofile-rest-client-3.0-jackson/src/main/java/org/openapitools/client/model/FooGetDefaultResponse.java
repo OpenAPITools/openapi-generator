@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +36,7 @@ public class FooGetDefaultResponse  {
   
   public static final String JSON_PROPERTY_STRING = "string";
   
-  private Foo string;
+  protected Foo string;
 
 
   /**
@@ -92,10 +91,7 @@ public class FooGetDefaultResponse  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

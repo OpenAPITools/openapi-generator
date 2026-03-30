@@ -17,11 +17,11 @@ class Order {
 
     enum StatusEnum {
     
-        PLACED("placed"),
+        placed("placed"),
         
-        APPROVED("approved"),
+        approved("approved"),
         
-        DELIVERED("delivered")
+        delivered("delivered")
     
         private final String value
     

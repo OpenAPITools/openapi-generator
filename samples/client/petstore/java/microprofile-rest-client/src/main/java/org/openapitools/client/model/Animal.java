@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -33,10 +32,10 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Animal  {
   
   @JsonbProperty("className")
-  private String className;
+  protected String className;
 
   @JsonbProperty("color")
-  private String color = "red";
+  protected String color = "red";
 
 
   /**
@@ -116,10 +115,7 @@ public class Animal  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

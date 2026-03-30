@@ -50,25 +50,25 @@ import {
 export interface EnumTest {
     /**
      * 
-     * @type {string}
+     * @type {EnumTestEnumStringEnum}
      * @memberof EnumTest
      */
     enumString?: EnumTestEnumStringEnum;
     /**
      * 
-     * @type {string}
+     * @type {EnumTestEnumStringRequiredEnum}
      * @memberof EnumTest
      */
     enumStringRequired: EnumTestEnumStringRequiredEnum;
     /**
      * 
-     * @type {number}
+     * @type {EnumTestEnumIntegerEnum}
      * @memberof EnumTest
      */
     enumInteger?: EnumTestEnumIntegerEnum;
     /**
      * 
-     * @type {number}
+     * @type {EnumTestEnumNumberEnum}
      * @memberof EnumTest
      */
     enumNumber?: EnumTestEnumNumberEnum;

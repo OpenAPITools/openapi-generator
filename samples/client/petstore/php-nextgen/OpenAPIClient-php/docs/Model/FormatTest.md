@@ -1,4 +1,4 @@
-# # FormatTest
+# FormatTest
 
 ## Properties
 

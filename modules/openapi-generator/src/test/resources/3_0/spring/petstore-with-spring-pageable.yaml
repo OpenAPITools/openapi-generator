@@ -117,6 +117,9 @@ paths:
         - write:pets
         - read:pets
       x-spring-paginated: true
+      x-operation-extra-annotation:
+        - "@org.springframework.validation.annotation.Validated"
+        - "@org.springframework.security.access.prepost.PreAuthorize(\"hasRole('ADMIN')\")"
   /pet/findByTags:
     get:
       tags:
@@ -191,6 +194,59 @@ paths:
         - write:pets
         - read:pets
       x-spring-paginated: true
+  /pet/all:
+    get:
+      tags:
+      - pet
+      summary: List all pets
+      description: Returns all pets with pagination support
+      operationId: listAllPets
+      parameters:
+      - name: page
+        in: query
+        description: "The page number to return. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used."
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        description: "The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used."
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: sort
+        in: query
+        description: "The sort order. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used."
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        400:
+          description: Invalid status value
+          content: {}
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      x-spring-paginated: true
+      x-operation-extra-annotation: "@org.springframework.validation.annotation.Validated" # test that the annotation is preserved when x-spring-paginated:true is used and is prepended with the @PageableAsQueryParam for springdoc
   /pet/{petId}:
     get:
       tags:

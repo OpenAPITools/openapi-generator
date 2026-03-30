@@ -26,7 +26,7 @@ message Dog {
     BREED_SHEPHERD = 4;
   }
 
-  Breed breed = 2;
+  string breed = 2;
 
   map<string, Pet> pet = 3;
 

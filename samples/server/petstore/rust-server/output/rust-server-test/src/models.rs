@@ -1,23 +1,47 @@
 #![allow(unused_qualifications)]
-
+#[cfg(not(feature = "validate"))]
 use validator::Validate;
 
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
+#[cfg(feature = "validate")]
+use serde_valid::Validate;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_thing: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "RequiredNullableThing")]
+
     pub required_nullable_thing: swagger::Nullable<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ANullableContainer {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ANullableContainer {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -134,7 +158,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ANullableContainer>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -150,7 +174,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ANullableContainer>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ANullableContainer>> {
     type Error = String;
 
@@ -179,8 +203,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 /// An additionalPropertiesObject
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AdditionalPropertiesObject(std::collections::HashMap<String, String>);
+pub struct AdditionalPropertiesObject(
+    std::collections::HashMap<String, String>
+);
 
 impl std::convert::From<std::collections::HashMap<String, String>> for AdditionalPropertiesObject {
     fn from(x: std::collections::HashMap<String, String>) -> Self {
@@ -207,6 +234,25 @@ impl std::ops::DerefMut for AdditionalPropertiesObject {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for AdditionalPropertiesObject {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for AdditionalPropertiesObject {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the AdditionalPropertiesObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -263,7 +309,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -279,7 +325,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesObjec
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesObject>> {
     type Error = String;
 
@@ -306,17 +352,39 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AllOfObject {
-    #[serde(rename = "sampleProperty")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub sample_property: Option<String>,
-
     #[serde(rename = "sampleBaseProperty")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_base_property: Option<String>,
 
+    #[serde(rename = "sampleProperty")]
+
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sample_property: Option<String>,
+
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for AllOfObject {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for AllOfObject {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -324,8 +392,8 @@ impl AllOfObject {
     #[allow(clippy::new_without_default)]
     pub fn new() -> AllOfObject {
         AllOfObject {
-            sample_property: None,
             sample_base_property: None,
+            sample_property: None,
         }
     }
 }
@@ -336,16 +404,16 @@ impl AllOfObject {
 impl std::fmt::Display for AllOfObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.sample_property.as_ref().map(|sample_property| {
-                [
-                    "sampleProperty".to_string(),
-                    sample_property.to_string(),
-                ].join(",")
-            }),
             self.sample_base_property.as_ref().map(|sample_base_property| {
                 [
                     "sampleBaseProperty".to_string(),
                     sample_base_property.to_string(),
+                ].join(",")
+            }),
+            self.sample_property.as_ref().map(|sample_property| {
+                [
+                    "sampleProperty".to_string(),
+                    sample_property.to_string(),
                 ].join(",")
             }),
         ];
@@ -365,8 +433,8 @@ impl std::str::FromStr for AllOfObject {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub sample_property: Vec<String>,
             pub sample_base_property: Vec<String>,
+            pub sample_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -385,9 +453,9 @@ impl std::str::FromStr for AllOfObject {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "sampleProperty" => intermediate_rep.sample_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    #[allow(clippy::redundant_clone)]
                     "sampleBaseProperty" => intermediate_rep.sample_base_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "sampleProperty" => intermediate_rep.sample_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AllOfObject".to_string())
                 }
             }
@@ -398,8 +466,8 @@ impl std::str::FromStr for AllOfObject {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(AllOfObject {
-            sample_property: intermediate_rep.sample_property.into_iter().next(),
             sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
+            sample_property: intermediate_rep.sample_property.into_iter().next(),
         })
     }
 }
@@ -439,7 +507,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AllOfObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -455,7 +523,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AllOfObject>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AllOfObject>> {
     type Error = String;
 
@@ -482,13 +550,34 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
     #[serde(rename = "sampleBaseProperty")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_base_property: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for BaseAllOf {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for BaseAllOf {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -600,7 +689,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<BaseAllOf>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -616,7 +705,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<BaseAllOf>>> for hyper::h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<BaseAllOf>> {
     type Error = String;
 
@@ -643,16 +732,38 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DummyPutRequest {
     #[serde(rename = "id")]
+
     pub id: String,
 
     #[serde(rename = "password")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for DummyPutRequest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for DummyPutRequest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -771,7 +882,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DummyPutRequest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -787,7 +898,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DummyPutRequest>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DummyPutRequest>> {
     type Error = String;
 
@@ -815,14 +926,35 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 /// structured response
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetYamlResponse {
     /// Inner string
     #[serde(rename = "value")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub value: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for GetYamlResponse {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for GetYamlResponse {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -934,7 +1066,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetYamlResponse>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -950,7 +1082,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetYamlResponse>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<GetYamlResponse>> {
     type Error = String;
 
@@ -978,13 +1110,35 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 /// An object of objects
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
+
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectOfObjectsInner>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectOfObjects {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectOfObjects {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1091,7 +1245,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectOfObjects>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1107,7 +1261,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectOfObjects>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectOfObjects>> {
     type Error = String;
 
@@ -1134,16 +1288,38 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjectsInner {
     #[serde(rename = "required_thing")]
+
     pub required_thing: String,
 
     #[serde(rename = "optional_thing")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_thing: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectOfObjectsInner {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectOfObjectsInner {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1262,7 +1438,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectOfObjectsInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1278,7 +1454,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectOfObjectsInner>>> f
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectOfObjectsInner>> {
     type Error = String;
 
@@ -1294,6 +1470,348 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
                             std::result::Result::Ok(value) => std::result::Result::Ok(value),
                             std::result::Result::Err(err) => std::result::Result::Err(
                                 format!("Unable to convert header value '{hdr_value}' into ObjectOfObjectsInner - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}
+
+/// Model for testing allOf references inside properties
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UnnamedAllofUnderProperties {
+    #[serde(rename = "name")]
+    #[cfg_attr(not(feature = "validate"), validate(
+            range(min = 5u32, max = 30u32),
+        ))]
+    #[cfg_attr(feature = "validate", validate(exclusive_minimum = 5u32))]
+    #[cfg_attr(feature = "validate", validate(exclusive_maximum = 30u32))]
+
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<u32>,
+
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for UnnamedAllofUnderProperties {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for UnnamedAllofUnderProperties {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+
+
+impl UnnamedAllofUnderProperties {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> UnnamedAllofUnderProperties {
+        UnnamedAllofUnderProperties {
+            name: None,
+        }
+    }
+}
+
+/// Converts the UnnamedAllofUnderProperties value to the Query Parameters representation (style=form, explode=false)
+/// specified in <https://swagger.io/docs/specification/serialization/>
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for UnnamedAllofUnderProperties {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            self.name.as_ref().map(|name| {
+                [
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
+        ];
+
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UnnamedAllofUnderProperties value
+/// as specified in <https://swagger.io/docs/specification/serialization/>
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for UnnamedAllofUnderProperties {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub name: Vec<u32>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing UnnamedAllofUnderProperties".to_string())
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing UnnamedAllofUnderProperties".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(UnnamedAllofUnderProperties {
+            name: intermediate_rep.name.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UnnamedAllofUnderProperties> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UnnamedAllofUnderProperties>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UnnamedAllofUnderProperties>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UnnamedAllofUnderProperties - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UnnamedAllofUnderProperties> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UnnamedAllofUnderProperties as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into UnnamedAllofUnderProperties - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UnnamedAllofUnderProperties>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<UnnamedAllofUnderProperties>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UnnamedAllofUnderProperties>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<UnnamedAllofUnderProperties> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <UnnamedAllofUnderProperties as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into UnnamedAllofUnderProperties - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UnnamedReference(
+    #[cfg_attr(feature = "validate", validate(exclusive_minimum = 5i32))]
+    #[cfg_attr(feature = "validate", validate(exclusive_maximum = 30i32))]
+    i32
+);
+
+impl std::convert::From<i32> for UnnamedReference {
+    fn from(x: i32) -> Self {
+        UnnamedReference(x)
+    }
+}
+
+impl std::convert::From<UnnamedReference> for i32 {
+    fn from(x: UnnamedReference) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for UnnamedReference {
+    type Target = i32;
+    fn deref(&self) -> &i32 {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for UnnamedReference {
+    fn deref_mut(&mut self) -> &mut i32 {
+        &mut self.0
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for UnnamedReference {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for UnnamedReference {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+/// Converts the UnnamedReference value to the Query Parameters representation (style=form, explode=false)
+/// specified in <https://swagger.io/docs/specification/serialization/>
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for UnnamedReference {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UnnamedReference value
+/// as specified in <https://swagger.io/docs/specification/serialization/>
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for UnnamedReference {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(UnnamedReference(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {s} to UnnamedReference: {e:?}")),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UnnamedReference> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UnnamedReference>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UnnamedReference>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UnnamedReference - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UnnamedReference> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UnnamedReference as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into UnnamedReference - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UnnamedReference>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<UnnamedReference>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}",))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UnnamedReference>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<UnnamedReference> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <UnnamedReference as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into UnnamedReference - {err}"))
                         }
                     })
                 }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;

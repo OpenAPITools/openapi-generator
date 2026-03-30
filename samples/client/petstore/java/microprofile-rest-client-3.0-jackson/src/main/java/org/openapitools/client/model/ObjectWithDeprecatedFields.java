@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -43,19 +42,19 @@ public class ObjectWithDeprecatedFields  {
   
   public static final String JSON_PROPERTY_UUID = "uuid";
   
-  private String uuid;
+  protected String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   
-  private BigDecimal id;
+  protected BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   
-  private DeprecatedObject deprecatedRef;
+  protected DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
   
-  private List<String> bars = null;
+  protected List<String> bars = null;
 
 
   /**
@@ -199,10 +198,7 @@ public class ObjectWithDeprecatedFields  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

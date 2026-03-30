@@ -9,10 +9,10 @@ import 'package:json_annotation/json_annotation.dart';
 enum TestEnum {
       @JsonValue(r'')
       empty(r''),
-      @JsonValue(r'1')
-      n1(r'1'),
-      @JsonValue(r'2')
-      n2(r'2'),
+      @JsonValue(r'value_one')
+      valueOne(r'value_one'),
+      @JsonValue(r'value_two')
+      valueTwo(r'value_two'),
       @JsonValue(r'unknown_default_open_api')
       unknownDefaultOpenApi(r'unknown_default_open_api');
 

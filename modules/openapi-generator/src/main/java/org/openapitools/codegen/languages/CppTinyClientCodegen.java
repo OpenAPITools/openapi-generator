@@ -208,9 +208,23 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         return str;
     }
 
+    /**
+     * Resolve a schema reference. If the schema has a $ref, return the referenced schema.
+     * This is for nested maps.
+     */
+    private Schema resolveSchema(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Schema resolved = ModelUtils.getSchema(openAPI, ref);
+            return resolved != null ? resolved : schema;
+        }
+        return schema;
+    }
+
     private void makeTypeMappings() {
-        // Types
-        String cpp_array_type = "std::list";
         typeMapping = new HashMap<>();
 
         typeMapping.put("string", "std::string");
@@ -219,7 +233,8 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         typeMapping.put("long", "long");
         typeMapping.put("boolean", "bool");
         typeMapping.put("double", "double");
-        typeMapping.put("array", cpp_array_type);
+        typeMapping.put("array", "std::list");
+        typeMapping.put("map", "std::map");
         typeMapping.put("number", "long");
         typeMapping.put("binary", "std::string");
         typeMapping.put("password", "std::string");
@@ -255,6 +270,19 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
 
     @Override
     public String getTypeDeclaration(Schema p) {
+        // Only resolve for nested maps - check if a $ref points to a map schema
+        Schema resolved = resolveSchema(p);
+
+        // Handle nested maps: if a $ref resolves to a map schema, build the nested type
+        if (ModelUtils.isMapSchema(resolved)) {
+            Schema inner = ModelUtils.getAdditionalProperties(resolved);
+            // inner can be null if additionalProperties is a boolean or not present
+            String innerType = inner != null ? getTypeDeclaration(inner) : "std::string";
+            return getSchemaType(p) + "<std::string, " + innerType + ">";
+        }
+
+        // For everything else (including arrays), use the original behavior
+        // The templates handle adding array item types themselves
         String openAPIType = getSchemaType(p);
         if (languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
@@ -296,7 +324,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
             return "#include <string>";
         } else if (name.equals("std::list")) {
             return "#include <list>";
-        } else if (name.equals("Map")) {
+        } else if (name.equals("Map") || name.equals("std::map")) {
             return "#include <map>";
         }
         return "#include \"" + name + ".h\"";

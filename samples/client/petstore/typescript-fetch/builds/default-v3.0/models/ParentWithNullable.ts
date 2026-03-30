@@ -22,7 +22,7 @@ import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullab
 export interface ParentWithNullable {
     /**
      * 
-     * @type {string}
+     * @type {ParentWithNullableTypeEnum}
      * @memberof ParentWithNullable
      */
     type?: ParentWithNullableTypeEnum;
@@ -63,6 +63,7 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
         if (json['type'] === 'ChildWithNullable') {
             return ChildWithNullableFromJSONTyped(json, ignoreDiscriminator);
         }
+
     }
     return {
         

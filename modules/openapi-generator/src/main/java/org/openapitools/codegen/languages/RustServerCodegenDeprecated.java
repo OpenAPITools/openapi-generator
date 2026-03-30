@@ -48,6 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_ONE_OF_NAME;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -1213,6 +1214,10 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
                 additionalProperties.put("apiUsesUuid", true);
             }
 
+            if (prop.isByteArray) {
+                additionalProperties.put("apiUsesByteArray", true);
+            }
+
             String xmlName = modelXmlNames.get(prop.dataType);
             if (xmlName != null) {
                 prop.vendorExtensions.put("x-item-xml-name", xmlName);
@@ -1228,6 +1233,9 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
         } else if (mdl.dataType != null
                 && (mdl.dataType.startsWith("swagger::OneOf") || mdl.dataType.startsWith("swagger::AnyOf"))) {
             toStringSupport = false;
+            partialOrdSupport = false;
+        } else if (mdl.dataType != null && mdl.dataType.equals("serde_json::Value")) {
+            // Value doesn't implement PartialOrd
             partialOrdSupport = false;
         } else if (mdl.getAdditionalPropertiesType() != null) {
             toStringSupport = false;
@@ -1379,8 +1387,8 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
         if (composedSchema != null) {
             exts = composedSchema.getExtensions();
         }
-        if (exts != null && exts.containsKey("x-one-of-name")) {
-            return (String) exts.get("x-one-of-name");
+        if (exts != null && exts.containsKey(X_ONE_OF_NAME)) {
+            return (String) exts.get(X_ONE_OF_NAME);
         }
 
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
@@ -1408,6 +1416,7 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
      *
      * @deprecated Avoid using this - use a different mechanism instead.
      */
+    @Deprecated
     private static String stripNullable(String type) {
         if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
             return type.substring("swagger::Nullable<".length(), type.length() - 1);
@@ -1511,6 +1520,11 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
             additionalProperties.put("apiUsesUuid", true);
         }
 
+        // If a parameter uses byte arrays, we need to set a flag.
+        if (param.isByteArray) {
+            additionalProperties.put("apiUsesByteArray", true);
+        }
+
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
             param.vendorExtensions.put("x-format-string", "{:?}");
             example = null;
@@ -1545,7 +1559,18 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
         }
             else {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            if (param.example != null) {
+            // Check if this is a model-type enum (allowableValues with values list)
+            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
+                List<?> values = (List<?>) param.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    // Use the first enum value as the example.
+                    String firstEnumValue = values.get(0).toString();
+                    String enumVariant = toEnumVarName(firstEnumValue, param.dataType);
+                    example = param.dataType + "::" + enumVariant;
+                } else if (param.example != null) {
+                    example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+                }
+            } else if (param.example != null) {
                 example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
             }
         }

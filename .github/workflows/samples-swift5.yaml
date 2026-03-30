@@ -35,7 +35,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5
-      - uses: swift-actions/setup-swift@v2
+      - uses: swift-actions/setup-swift@v3
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
           swift-version: '5'

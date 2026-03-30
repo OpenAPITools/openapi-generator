@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +36,7 @@ import org.openapitools.client.ApiClient;
   AppleReq.JSON_PROPERTY_CULTIVAR,
   AppleReq.JSON_PROPERTY_MEALY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   @javax.annotation.Nonnull
@@ -134,10 +133,7 @@ public class AppleReq {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -174,12 +170,12 @@ public class AppleReq {
 
     // add `cultivar` to the URL query string
     if (getCultivar() != null) {
-      joiner.add(String.format(Locale.ROOT, "%scultivar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCultivar()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%scultivar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCultivar()))));
     }
 
     // add `mealy` to the URL query string
     if (getMealy() != null) {
-      joiner.add(String.format(Locale.ROOT, "%smealy%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMealy()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%smealy%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMealy()))));
     }
 
     return joiner.toString();

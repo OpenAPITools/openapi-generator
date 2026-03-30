@@ -11,20 +11,20 @@ import org.openapitools.model.EntityRef;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * BarRef
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef() {
@@ -38,16 +38,6 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     super(atType);
   }
 
-
-  public BarRef name(String name) {
-    super.name(name);
-    return this;
-  }
-
-  public BarRef atReferredType(String atReferredType) {
-    super.atReferredType(atReferredType);
-    return this;
-  }
 
   public BarRef href(String href) {
     super.href(href);
@@ -71,6 +61,16 @@ public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef atType(String atType) {
     super.atType(atType);
+    return this;
+  }
+
+  public BarRef name(String name) {
+    super.name(name);
+    return this;
+  }
+
+  public BarRef atReferredType(String atReferredType) {
+    super.atReferredType(atReferredType);
     return this;
   }
   @Override
@@ -102,11 +102,8 @@ public class BarRef extends EntityRef implements BarRefOrValue {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

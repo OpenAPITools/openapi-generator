@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.reflect.Type;
@@ -38,7 +37,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class MapTest  {
   
   @JsonbProperty("map_map_of_string")
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  protected Map<String, Map<String, String>> mapMapOfString = null;
 
   @JsonbTypeSerializer(InnerEnum.Serializer.class)
   @JsonbTypeDeserializer(InnerEnum.Deserializer.class)
@@ -83,13 +82,13 @@ public class MapTest  {
   }
 
   @JsonbProperty("map_of_enum_string")
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  protected Map<String, InnerEnum> mapOfEnumString = null;
 
   @JsonbProperty("direct_map")
-  private Map<String, Boolean> directMap = null;
+  protected Map<String, Boolean> directMap = null;
 
   @JsonbProperty("indirect_map")
-  private Map<String, Boolean> indirectMap = null;
+  protected Map<String, Boolean> indirectMap = null;
 
 
   /**
@@ -245,10 +244,7 @@ public class MapTest  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

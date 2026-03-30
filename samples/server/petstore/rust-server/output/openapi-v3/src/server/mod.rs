@@ -4,6 +4,8 @@ use http_body_util::{combinators::BoxBody, Full};
 use hyper::{body::{Body, Incoming}, HeaderMap, Request, Response, StatusCode};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
+#[cfg(feature = "validate")]
+use serde_valid::Validate;
 #[allow(unused_imports)]
 use std::convert::{TryFrom, TryInto};
 use std::{convert::Infallible, error::Error};
@@ -37,6 +39,7 @@ use crate::{Api,
      OneOfGetResponse,
      OverrideServerGetResponse,
      ParamgetGetResponse,
+     QueryExampleGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RegisterCallbackPostResponse,
      RequiredOctetStreamPutResponse,
@@ -82,6 +85,7 @@ mod paths {
             r"^/operation-two-first-letter-headers$",
             r"^/override-server$",
             r"^/paramget$",
+            r"^/query-example$",
             r"^/readonly_auth_scheme$",
             r"^/register-callback$",
             r"^/repos$",
@@ -126,24 +130,25 @@ mod paths {
     pub(crate) static ID_OPERATION_TWO_FIRST_LETTER_HEADERS: usize = 14;
     pub(crate) static ID_OVERRIDE_SERVER: usize = 15;
     pub(crate) static ID_PARAMGET: usize = 16;
-    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 17;
-    pub(crate) static ID_REGISTER_CALLBACK: usize = 18;
-    pub(crate) static ID_REPOS: usize = 19;
-    pub(crate) static ID_REPOS_REPOID: usize = 20;
+    pub(crate) static ID_QUERY_EXAMPLE: usize = 17;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 18;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 19;
+    pub(crate) static ID_REPOS: usize = 20;
+    pub(crate) static ID_REPOS_REPOID: usize = 21;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 21;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 22;
-    pub(crate) static ID_RFC7807: usize = 23;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 24;
-    pub(crate) static ID_UUID: usize = 25;
-    pub(crate) static ID_XML: usize = 26;
-    pub(crate) static ID_XML_EXTRA: usize = 27;
-    pub(crate) static ID_XML_OTHER: usize = 28;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 22;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 23;
+    pub(crate) static ID_RFC7807: usize = 24;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 25;
+    pub(crate) static ID_UUID: usize = 26;
+    pub(crate) static ID_XML: usize = 27;
+    pub(crate) static ID_XML_EXTRA: usize = 28;
+    pub(crate) static ID_XML_OTHER: usize = 29;
 }
 
 
@@ -154,6 +159,7 @@ where
 {
     api_impl: T,
     marker: PhantomData<C>,
+    validation: bool
 }
 
 impl<T, C> MakeService<T, C>
@@ -164,8 +170,15 @@ where
     pub fn new(api_impl: T) -> Self {
         MakeService {
             api_impl,
-            marker: PhantomData
+            marker: PhantomData,
+            validation: false
         }
+    }
+
+    // Turn on/off validation for the service being made.
+    #[cfg(feature = "validate")]
+    pub fn set_validation(&mut self, validation: bool) {
+        self.validation = validation;
     }
 }
 
@@ -178,6 +191,7 @@ where
         Self {
             api_impl: self.api_impl.clone(),
             marker: PhantomData,
+            validation: self.validation
         }
     }
 }
@@ -192,7 +206,7 @@ where
     type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
     fn call(&self, target: Target) -> Self::Future {
-        let service = Service::new(self.api_impl.clone());
+        let service = Service::new(self.api_impl.clone(), self.validation);
 
         future::ok(service)
     }
@@ -206,24 +220,57 @@ fn method_not_allowed() -> Result<Response<BoxBody<Bytes, Infallible>>, crate::S
     )
 }
 
+#[allow(unused_macros)]
+#[cfg(not(feature = "validate"))]
+macro_rules! run_validation {
+    ($parameter:tt, $base_name:tt, $validation:tt) => ();
+}
+
+#[allow(unused_macros)]
+#[cfg(feature = "validate")]
+macro_rules! run_validation {
+    ($parameter:tt, $base_name:tt, $validation:tt) => {
+        let $parameter = if $validation {
+            match $parameter.validate() {
+            Ok(()) => $parameter,
+            Err(e) => return Ok(Response::builder()
+                                    .status(StatusCode::BAD_REQUEST)
+                                    .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
+                                    .body(BoxBody::new(format!("Invalid value in body parameter {}: {}", $base_name, e)))
+                                    .expect(&format!("Unable to create Bad Request response for invalid value in body parameter {}", $base_name))),
+            }
+        } else {
+            $parameter
+        };
+    }
+}
+
 pub struct Service<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
 {
     api_impl: T,
     marker: PhantomData<C>,
+    // Enable regex pattern validation of received JSON models
+    validation: bool,
 }
 
 impl<T, C> Service<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
 {
-    pub fn new(api_impl: T) -> Self {
+    pub fn new(api_impl: T, validation: bool) -> Self {
         Service {
             api_impl,
-            marker: PhantomData
+            marker: PhantomData,
+            validation,
         }
     }
+    #[cfg(feature = "validate")]
+    pub fn set_validation(&mut self, validation: bool) {
+        self.validation = validation
+    }
+
 }
 
 impl<T, C> Clone for Service<T, C> where
@@ -234,6 +281,7 @@ impl<T, C> Clone for Service<T, C> where
         Service {
             api_impl: self.api_impl.clone(),
             marker: self.marker,
+            validation: self.validation,
         }
     }
 }
@@ -262,6 +310,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
         async fn run<T, C, ReqBody>(
             mut api_impl: T,
             req: (Request<ReqBody>, C),
+            validation: bool,
         ) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
         where
             T: Api<C> + Clone + Send + 'static,
@@ -509,11 +558,14 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                      Ok(body) => {
                                 // Form parameters
                                 let param_required_array =
-                                    None;
+                                    Vec::new();
+                                let param_enum_field =
+                                    models::FormTestRequestEnumField::OneEnum;
 
 
                                 let result = api_impl.form_test(
                                             param_required_array.as_ref(),
+                                            param_enum_field,
                                         &context
                                     ).await;
                                 let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
@@ -792,8 +844,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/octet-stream"));
                                                     // Binary Body
-                                                    let body = String::from_utf8(body.0).expect("Error converting octet stream to string");
-                                                    *response.body_mut() = body_from_string(body);
+                                                    *response.body_mut() = BoxBody::new(Full::new(Bytes::from(body.0)));
 
                                                 },
                                                 MultigetGetResponse::StringRsp
@@ -1020,6 +1071,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                     },
                     None => None,
                 };
+    #[cfg(not(feature = "validate"))]
+                run_validation!(param_some_object, "someObject", validation);
                 let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.clone())
                     .next();
                 let param_some_list = match param_some_list {
@@ -1037,6 +1090,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                     },
                     None => None,
                 };
+    #[cfg(not(feature = "validate"))]
+                run_validation!(param_some_list, "someList", validation);
 
                                 let result = api_impl.paramget_get(
                                             param_uuid,
@@ -1062,6 +1117,89 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = body_from_string(body);
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // QueryExampleGet - GET /query-example
+            hyper::Method::GET if path.matched(paths::ID_QUERY_EXAMPLE) => {
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_required_no_example = query_params.iter().filter(|e| e.0 == "required_no_example").map(|e| e.1.clone())
+                    .next();
+                let param_required_no_example = match param_required_no_example {
+                    Some(param_required_no_example) => {
+                        let param_required_no_example =
+                            <String as std::str::FromStr>::from_str
+                                (&param_required_no_example);
+                        match param_required_no_example {
+                            Ok(param_required_no_example) => Some(param_required_no_example),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(body_from_string(format!("Couldn't parse query parameter required_no_example - doesn't match schema: {e}")))
+                                .expect("Unable to create Bad Request response for invalid query parameter required_no_example")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_required_no_example = match param_required_no_example {
+                    Some(param_required_no_example) => param_required_no_example,
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(body_from_str("Missing required query parameter required_no_example"))
+                        .expect("Unable to create Bad Request response for missing query parameter required_no_example")),
+                };
+                let param_required_with_example = query_params.iter().filter(|e| e.0 == "required_with_example").map(|e| e.1.clone())
+                    .next();
+                let param_required_with_example = match param_required_with_example {
+                    Some(param_required_with_example) => {
+                        let param_required_with_example =
+                            <i32 as std::str::FromStr>::from_str
+                                (&param_required_with_example);
+                        match param_required_with_example {
+                            Ok(param_required_with_example) => Some(param_required_with_example),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(body_from_string(format!("Couldn't parse query parameter required_with_example - doesn't match schema: {e}")))
+                                .expect("Unable to create Bad Request response for invalid query parameter required_with_example")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_required_with_example = match param_required_with_example {
+                    Some(param_required_with_example) => param_required_with_example,
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(body_from_str("Missing required query parameter required_with_example"))
+                        .expect("Unable to create Bad Request response for missing query parameter required_with_example")),
+                };
+
+                                let result = api_impl.query_example_get(
+                                            param_required_no_example,
+                                            param_required_with_example,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                QueryExampleGetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
@@ -1534,6 +1672,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_object_untyped_props, "ObjectUntypedProps", validation);
 
 
                                 let result = api_impl.untyped_property_get(
@@ -1633,6 +1773,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_duplicate_xml_object, "DuplicateXmlObject", validation);
 
 
                                 let result = api_impl.xml_extra_post(
@@ -1700,6 +1842,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_another_xml_object, "AnotherXmlObject", validation);
 
 
                                 let result = api_impl.xml_other_post(
@@ -1777,6 +1921,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_another_xml_array, "AnotherXmlArray", validation);
 
 
                                 let result = api_impl.xml_other_put(
@@ -1844,6 +1990,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_xml_array, "XmlArray", validation);
 
 
                                 let result = api_impl.xml_post(
@@ -1911,6 +2059,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_xml_object, "XmlObject", validation);
 
 
                                 let result = api_impl.xml_put(
@@ -2114,6 +2264,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter ObjectParam".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter ObjectParam")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_object_param, "ObjectParam", validation);
 
 
                                 let result = api_impl.create_repo(
@@ -2235,6 +2387,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
             _ if path.matched(paths::ID_OPERATION_TWO_FIRST_LETTER_HEADERS) => method_not_allowed(),
             _ if path.matched(paths::ID_OVERRIDE_SERVER) => method_not_allowed(),
             _ if path.matched(paths::ID_PARAMGET) => method_not_allowed(),
+            _ if path.matched(paths::ID_QUERY_EXAMPLE) => method_not_allowed(),
             _ if path.matched(paths::ID_READONLY_AUTH_SCHEME) => method_not_allowed(),
             _ if path.matched(paths::ID_REGISTER_CALLBACK) => method_not_allowed(),
             _ if path.matched(paths::ID_REPOS) => method_not_allowed(),
@@ -2255,6 +2408,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
         Box::pin(run(
             self.api_impl.clone(),
             req,
+            self.validation
         ))
     }
 }
@@ -2293,6 +2447,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Some("OverrideServerGet"),
             // ParamgetGet - GET /paramget
             hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Some("ParamgetGet"),
+            // QueryExampleGet - GET /query-example
+            hyper::Method::GET if path.matched(paths::ID_QUERY_EXAMPLE) => Some("QueryExampleGet"),
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
             hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Some("ReadonlyAuthSchemeGet"),
             // RegisterCallbackPost - POST /register-callback

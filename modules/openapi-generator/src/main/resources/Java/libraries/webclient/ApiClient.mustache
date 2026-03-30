@@ -2,10 +2,21 @@
 
 package {{invokerPackage}};
 
+import {{jacksonPackage}}.databind.DeserializationFeature;
+
+{{#useJackson3}}
+import {{jacksonPackage}}.core.JacksonException;
+import {{jacksonPackage}}.databind.json.JsonMapper;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonEncoder;
+{{/useJackson3}}
+{{^useJackson3}}
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
+{{/useJackson3}}
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
@@ -27,8 +38,6 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.reactive.ClientHttpRequest;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
 {{#generateClientAsBean}}
 import org.springframework.stereotype.Component;
 {{/generateClientAsBean}}
@@ -110,15 +119,20 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     protected final WebClient webClient;
     protected final DateFormat dateFormat;
-    protected final ObjectMapper objectMapper;
+    {{^useJackson3}}
+    protected final ObjectMapper mapper;
+    {{/useJackson3}}
+    {{#useJackson3}}
+    protected final JsonMapper mapper;
+    {{/useJackson3}}
 
     protected Map<String, Authentication> authentications;
 
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        this.objectMapper = createDefaultObjectMapper(this.dateFormat);
-        this.webClient = buildWebClient(this.objectMapper);
+        this.mapper = createDefaultMapper(this.dateFormat);
+        this.webClient = buildWebClient(this.mapper);
         this.init();
     }
 
@@ -129,18 +143,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient()), createDefaultDateFormat());
     }
 
-    public ApiClient(ObjectMapper mapper, DateFormat format) {
-        this(buildWebClient(mapper.copy()), format);
+    public ApiClient({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
+        this(buildWebClient(mapper), format);
     }
 
-    public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient(mapper.copy())), format);
+    public ApiClient(WebClient webClient, {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper, DateFormat format) {
+        this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient(mapper)), format);
     }
 
     protected ApiClient(WebClient webClient, DateFormat format) {
         this.webClient = webClient;
         this.dateFormat = format;
-        this.objectMapper = createDefaultObjectMapper(format);
+        this.mapper = createDefaultMapper(format);
         this.init();
     }
 
@@ -150,7 +164,21 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         return dateFormat;
     }
 
-    public static ObjectMapper createDefaultObjectMapper(@Nullable DateFormat dateFormat) {
+    {{#useJackson3}}
+    public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
+        return JsonMapper.builder()
+            .defaultDateFormat(dateFormat)
+            {{#failOnUnknownProperties}}
+            .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            {{^failOnUnknownProperties}}
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            .build();
+    }
+    {{/useJackson3}}
+    {{^useJackson3}}
+    public static ObjectMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
         if (null == dateFormat) {
             dateFormat = createDefaultDateFormat();
         }
@@ -164,6 +192,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         {{/openApiNullable}}
         return mapper;
     }
+    {{/useJackson3}}
+
 
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
@@ -181,12 +211,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     * @param mapper ObjectMapper used for serialize/deserialize
     * @return WebClient
     */
-    public static WebClient.Builder buildWebClientBuilder(ObjectMapper mapper) {
+    public static WebClient.Builder buildWebClientBuilder({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
+                {{#useJackson3}}
+                clientDefaultCodecsConfigurer.defaultCodecs().jacksonJsonEncoder(new JacksonJsonEncoder(mapper, MediaType.APPLICATION_JSON));
+                clientDefaultCodecsConfigurer.defaultCodecs().jacksonJsonDecoder(new JacksonJsonDecoder(mapper, MediaType.APPLICATION_JSON));
+                {{/useJackson3}}
+                {{^useJackson3}}
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper, MediaType.APPLICATION_JSON));
                 clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.APPLICATION_JSON));
+                {{/useJackson3}}
             }).build();
         WebClient.Builder webClientBuilder = WebClient.builder().exchangeStrategies(strategies);
         return webClientBuilder;
@@ -197,7 +233,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return WebClient
      */
     public static WebClient.Builder buildWebClientBuilder() {
-        return buildWebClientBuilder(createDefaultObjectMapper(null));
+        return buildWebClientBuilder(createDefaultMapper(null));
     }
 
     /**
@@ -205,7 +241,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param mapper ObjectMapper used for serialize/deserialize
      * @return WebClient
      */
-    public static WebClient buildWebClient(ObjectMapper mapper) {
+    public static WebClient buildWebClient({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper) {
         return buildWebClientBuilder(mapper).build();
     }
 
@@ -214,7 +250,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return WebClient
      */
     public static WebClient buildWebClient() {
-        return buildWebClientBuilder(createDefaultObjectMapper(null)).build();
+        return buildWebClientBuilder(createDefaultMapper(null)).build();
     }
 
     /**
@@ -403,11 +439,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
-     * Get the ObjectMapper used to make HTTP requests.
-     * @return ObjectMapper objectMapper
+     * Get the {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} used to make HTTP requests.
+     * @return {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper
      */
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
+    public {{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} get{{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}}() {
+        return mapper;
     }
 
     /**
@@ -457,8 +493,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             valueCollection = (Collection<?>) value;
         } else {
             try {
-                return parameterToMultiValueMap(collectionFormat, name, objectMapper.writeValueAsString(value));
-            } catch (JsonProcessingException e) {
+                return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
+           } catch ({{#useJackson3}}JacksonException{{/useJackson3}}{{^useJackson3}}JsonProcessingException{{/useJackson3}} e) {
                 throw new RuntimeException(e);
             }
         }
@@ -466,8 +502,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         List<String> values = new ArrayList<>();
         for(Object o : valueCollection) {
             try {
-                values.add(objectMapper.writeValueAsString(o));
-            } catch (JsonProcessingException e) {
+                values.add(mapper.writeValueAsString(o));
+            } catch ({{#useJackson3}}JacksonException{{/useJackson3}}{{^useJackson3}}JsonProcessingException{{/useJackson3}} e) {
                 throw new RuntimeException(e);
             }
         }

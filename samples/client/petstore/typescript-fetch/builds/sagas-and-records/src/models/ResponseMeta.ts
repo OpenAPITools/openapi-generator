@@ -29,7 +29,7 @@ import {
 export interface ResponseMeta {
     /**
      * Code returned by the function
-     * @type {string}
+     * @type {ResponseMetaCodeEnum}
      * @memberof ResponseMeta
      */
     code: ResponseMetaCodeEnum;

@@ -25,10 +25,7 @@ const basepath = "http://petstore.swagger.io/v2"
 template constructResult[T](response: Response): untyped =
   if response.code in {Http200, Http201, Http202, Http204, Http206}:
     try:
-      when name(stripGenericParams(T.typedesc).typedesc) == name(Table):
-        (some(json.to(parseJson(response.body), T.typedesc)), response)
-      else:
-        (some(marshal.to[T](response.body)), response)
+      (some(to(parseJson(response.body), T)), response)
     except JsonParsingError:
       # The server returned a malformed response though the response code is 2XX
       # TODO: need better error handling
@@ -41,6 +38,7 @@ template constructResult[T](response: Response): untyped =
 proc deleteOrder*(httpClient: HttpClient, orderId: string): Response =
   ## Delete purchase order by ID
   httpClient.delete(basepath & fmt"/store/order/{orderId}")
+
 
 
 proc getInventory*(httpClient: HttpClient): (Option[Table[string, int]], Response) =

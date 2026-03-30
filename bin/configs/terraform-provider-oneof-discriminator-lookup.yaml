@@ -1,0 +1,11 @@
+generatorName: terraform-provider
+outputDir: samples/client/others/terraform/oneof-discriminator-lookup
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go/spec-with-oneof-discriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/terraform-provider
+gitHost: github.com
+gitUserId: example
+gitRepoId: terraform-provider-oneof-disc
+additionalProperties:
+  providerName: "oneof"
+  providerAddress: "registry.terraform.io/example/oneof-disc"
+  hideGenerationTimestamp: "true"

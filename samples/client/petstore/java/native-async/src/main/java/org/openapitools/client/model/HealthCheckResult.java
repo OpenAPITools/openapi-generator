@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,7 +39,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
@@ -125,10 +124,7 @@ public class HealthCheckResult {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -165,7 +161,7 @@ public class HealthCheckResult {
 
     // add `NullableMessage` to the URL query string
     if (getNullableMessage() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sNullableMessage%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableMessage()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sNullableMessage%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableMessage()))));
     }
 
     return joiner.toString();

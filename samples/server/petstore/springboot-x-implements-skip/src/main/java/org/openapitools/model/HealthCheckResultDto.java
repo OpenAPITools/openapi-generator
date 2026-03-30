@@ -1,0 +1,98 @@
+package org.openapitools.model;
+
+import java.net.URI;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
+import java.util.NoSuchElementException;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
+
+/**
+ * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+ */
+
+@Schema(name = "HealthCheckResult", description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
+@JsonTypeName("HealthCheckResult")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+public class HealthCheckResultDto {
+
+  private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
+
+  public HealthCheckResultDto nullableMessage(String nullableMessage) {
+    this.nullableMessage = JsonNullable.of(nullableMessage);
+    return this;
+  }
+
+  /**
+   * Get nullableMessage
+   * @return nullableMessage
+   */
+  
+  @Schema(name = "NullableMessage", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("NullableMessage")
+  public JsonNullable<String> getNullableMessage() {
+    return nullableMessage;
+  }
+
+  public void setNullableMessage(JsonNullable<String> nullableMessage) {
+    this.nullableMessage = nullableMessage;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HealthCheckResultDto healthCheckResult = (HealthCheckResultDto) o;
+    return equalsNullable(this.nullableMessage, healthCheckResult.nullableMessage);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(hashCodeNullable(nullableMessage));
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class HealthCheckResultDto {\n");
+    sb.append("    nullableMessage: ").append(toIndentedString(nullableMessage)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
+  }
+}
+

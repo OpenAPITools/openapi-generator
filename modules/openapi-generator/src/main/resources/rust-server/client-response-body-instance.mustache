@@ -1,4 +1,4 @@
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-produces-bytes}}
                 let body = swagger::ByteArray(body.to_vec());
   {{/x-produces-bytes}}
@@ -19,4 +19,4 @@
                 let body = body.to_string();
     {{/x-produces-plain-text}}
   {{/x-produces-bytes}}
-{{/vendorExtensions}}
+{{/exts}}

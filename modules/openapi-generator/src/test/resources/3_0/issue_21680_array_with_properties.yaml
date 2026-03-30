@@ -1,0 +1,48 @@
+---
+# Corresponds to bug report 21680: https://github.com/openapitools/openapi-generator/issues/21680
+openapi: 3.0.1
+info:
+  title: API that has problem with OpenAPI Generator
+  version: 1.0.0
+paths:
+  "/forbiddenaccesscsrf":
+    get:
+      summary: Forbidden access CSRF
+      operationId: forbiddenAccessCsrfGet
+      responses:
+        '403':
+          description: Expected response
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errors"
+components:
+  schemas:
+    error:
+      required:
+      - code
+      - horodatage
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: Short error description
+        message:
+          type: string
+          description: Complete human readable description
+        error_uri:
+          type: string
+          description: Detailed error description URI
+          format: uri
+        horodatage:
+          type: string
+          description: Date time of occurence
+          format: date-time
+    errors:
+      type: array
+      properties:
+        empty:
+          type: boolean
+      items:
+        "$ref": "#/components/schemas/error"

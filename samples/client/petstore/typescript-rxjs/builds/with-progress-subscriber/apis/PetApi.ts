@@ -155,6 +155,7 @@ export class PetApi extends BaseAPI {
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
+     * @deprecated
      */
     findPetsByTags({ tags }: FindPetsByTagsRequest): Observable<Array<Pet>>
     findPetsByTags({ tags }: FindPetsByTagsRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Array<Pet>>

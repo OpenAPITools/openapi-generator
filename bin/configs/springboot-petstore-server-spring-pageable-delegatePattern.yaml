@@ -5,7 +5,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 delegatePattern: true
 additionalProperties:
-  documentationProvider: springfox
+  documentationProvider: springdoc
   artifactId: springboot-spring-pageable-delegatePattern
   hideGenerationTimestamp: 'true'
   implicitHeadersRegex: ^Version.*

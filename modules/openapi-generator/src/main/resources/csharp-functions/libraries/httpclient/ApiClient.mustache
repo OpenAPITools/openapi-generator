@@ -167,6 +167,9 @@ namespace {{packageName}}.Client
     /// </remarks>
     {{>visibility}} partial class ApiClient : IDisposable, ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}
     {
+    {{#net60OrLater}}
+        private static readonly HttpRequestOptionsKey<List<Cookie>> _httpOptionsCookieContainerKey = new("CookieContainer");
+    {{/net60OrLater}}
         private readonly string _baseUrl;
 
         private readonly HttpClientHandler _httpClientHandler;
@@ -382,12 +385,15 @@ namespace {{packageName}}.Client
                 }
             }
 
-
-
             // TODO provide an alternative that allows cookies per request instead of per API client
             if (options.Cookies != null && options.Cookies.Count > 0)
             {
+            {{#net60OrLater}}
+                request.Options.Set(_httpOptionsCookieContainerKey, options.Cookies);
+            {{/net60OrLater}}
+            {{^net60OrLater}}
                 request.Properties["CookieContainer"] = options.Cookies;
+            {{/net60OrLater}}
             }
 
             return request;
@@ -474,9 +480,16 @@ namespace {{packageName}}.Client
                     _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
                 }
 
+            {{^net60OrLater}}
                 var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
+            {{/net60OrLater}}
 
+            {{#net60OrLater}}
+                if (req.Options.TryGetValue(_httpOptionsCookieContainerKey, out var cookieContainer))
+            {{/net60OrLater}}
+            {{^net60OrLater}}
                 if (cookieContainer != null)
+            {{/net60OrLater}}
                 {
                     if(_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     foreach (var cookie in cookieContainer)

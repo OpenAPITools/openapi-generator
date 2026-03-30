@@ -42,6 +42,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
+|typescriptMajorVersion|Specify the major version of TypeScript to use in the client code. Default is 5.| |5|
 |useErasableSyntax|Use erasable syntax for the generated code. This is a temporary feature and will be removed in the future.| |false|
 |useInversify|Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.| |false|
 |useObjectParameters|Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.| |false|

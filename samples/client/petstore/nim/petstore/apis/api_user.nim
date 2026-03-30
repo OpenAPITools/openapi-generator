@@ -25,10 +25,7 @@ const basepath = "http://petstore.swagger.io/v2"
 template constructResult[T](response: Response): untyped =
   if response.code in {Http200, Http201, Http202, Http204, Http206}:
     try:
-      when name(stripGenericParams(T.typedesc).typedesc) == name(Table):
-        (some(json.to(parseJson(response.body), T.typedesc)), response)
-      else:
-        (some(marshal.to[T](response.body)), response)
+      (some(to(parseJson(response.body), T)), response)
     except JsonParsingError:
       # The server returned a malformed response though the response code is 2XX
       # TODO: need better error handling
@@ -44,10 +41,12 @@ proc createUser*(httpClient: HttpClient, user: User): Response =
   httpClient.post(basepath & "/user", $(%user))
 
 
+
 proc createUsersWithArrayInput*(httpClient: HttpClient, user: seq[User]): Response =
   ## Creates list of users with given input array
   httpClient.headers["Content-Type"] = "application/json"
   httpClient.post(basepath & "/user/createWithArray", $(%user))
+
 
 
 proc createUsersWithListInput*(httpClient: HttpClient, user: seq[User]): Response =
@@ -56,9 +55,11 @@ proc createUsersWithListInput*(httpClient: HttpClient, user: seq[User]): Respons
   httpClient.post(basepath & "/user/createWithList", $(%user))
 
 
+
 proc deleteUser*(httpClient: HttpClient, username: string): Response =
   ## Delete user
   httpClient.delete(basepath & fmt"/user/{username}")
+
 
 
 proc getUserByName*(httpClient: HttpClient, username: string): (Option[User], Response) =
@@ -70,10 +71,10 @@ proc getUserByName*(httpClient: HttpClient, username: string): (Option[User], Re
 
 proc loginUser*(httpClient: HttpClient, username: string, password: string): (Option[string], Response) =
   ## Logs user into the system
-  let url_encoded_query_params = encodeQuery([
-    ("username", $username), # The user name for login
-    ("password", $password), # The password for login in clear text
-  ])
+  var query_params_list: seq[(string, string)] = @[]
+  query_params_list.add(("username", $username))
+  query_params_list.add(("password", $password))
+  let url_encoded_query_params = encodeQuery(query_params_list)
 
   let response = httpClient.get(basepath & "/user/login" & "?" & url_encoded_query_params)
   constructResult[string](response)
@@ -84,8 +85,10 @@ proc logoutUser*(httpClient: HttpClient): Response =
   httpClient.get(basepath & "/user/logout")
 
 
+
 proc updateUser*(httpClient: HttpClient, username: string, user: User): Response =
   ## Updated user
   httpClient.headers["Content-Type"] = "application/json"
   httpClient.put(basepath & fmt"/user/{username}", $(%user))
+
 

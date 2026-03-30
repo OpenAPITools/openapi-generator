@@ -1,0 +1,57 @@
+# https://spec.openapis.org/oas/v3.2.0.html#models-with-polymorphism-support-and-a-discriminator-object
+# 4.24.8.8 Models with Polymorphism Support and a Discriminator Object
+# The following example extends the example of the previous section by adding a Discriminator Object to the Pet schema. Note that the Discriminator Object is only a hint to the consumer of the API and does not change the validation outcome of the schema.
+openapi: 3.1.0
+info:
+  title: Basic polymorphism example with discriminator
+  version: "1.0"
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+      properties:
+        name:
+          type: string
+      required:
+        - name
+        - petType
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Cat:
+      description: A pet cat
+      type: object
+      properties:
+        petType:
+          const: 'cat'
+        huntingSkill:
+          type: string
+          description: The measured skill for hunting
+          enum:
+            - clueless
+            - lazy
+            - adventurous
+            - aggressive
+      required:
+        - huntingSkill
+    Dog:
+      description: A pet dog
+      type: object
+      properties:
+        petType:
+          const: 'dog'
+        packSize:
+          type: integer
+          format: int32
+          description: the size of the pack the dog is from
+          default: 0
+          minimum: 0
+      required:
+        - petType
+        - packSize

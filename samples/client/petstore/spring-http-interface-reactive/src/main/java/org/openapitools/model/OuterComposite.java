@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class OuterComposite {
 
   private @Nullable BigDecimal myNumber;
@@ -42,6 +42,7 @@ public class OuterComposite {
     return myNumber;
   }
 
+  @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -61,6 +62,7 @@ public class OuterComposite {
     return myString;
   }
 
+  @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
   }
@@ -80,6 +82,7 @@ public class OuterComposite {
     return myBoolean;
   }
 
+  @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
@@ -118,11 +121,8 @@ public class OuterComposite {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

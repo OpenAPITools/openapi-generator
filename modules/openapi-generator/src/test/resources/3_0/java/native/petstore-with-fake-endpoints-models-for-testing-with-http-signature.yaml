@@ -2240,3 +2240,39 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+    LongId:
+      description: "Id as long"
+      type: integer
+      format: int64
+    Weight:
+      description: "Weight as float"
+      format: float
+      type: number
+    Height:
+      description: "Height as double"
+      format: double
+      type: number
+    AllOfRefToLong:
+      description: "Object with allOf ref to long"
+      type: object
+      properties:
+        id:
+          allOf:
+            - $ref: '#/components/schemas/LongId'
+          default: 10
+    AllOfRefToFloat:
+      description: "Object with allOf ref to float"
+      type: object
+      properties:
+        weight:
+          allOf:
+            - $ref: '#/components/schemas/Weight'
+          default: 7.89
+    AllOfRefToDouble:
+      description: "Object with allOf ref to double"
+      type: object
+      properties:
+        height:
+          allOf:
+            - $ref: '#/components/schemas/Height'
+          default: 32.1

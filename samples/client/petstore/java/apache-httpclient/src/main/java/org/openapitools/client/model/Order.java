@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,7 +38,7 @@ import java.util.StringJoiner;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -255,6 +254,7 @@ public class Order {
     this.complete = complete;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -296,10 +296,7 @@ public class Order {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -337,7 +334,7 @@ public class Order {
     // add `id` to the URL query string
     if (getId() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -347,7 +344,7 @@ public class Order {
     // add `petId` to the URL query string
     if (getPetId() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%spetId%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPetId()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%spetId%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPetId()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -357,7 +354,7 @@ public class Order {
     // add `quantity` to the URL query string
     if (getQuantity() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%squantity%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantity()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%squantity%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantity()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -367,7 +364,7 @@ public class Order {
     // add `shipDate` to the URL query string
     if (getShipDate() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sshipDate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getShipDate()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sshipDate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getShipDate()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -377,7 +374,7 @@ public class Order {
     // add `status` to the URL query string
     if (getStatus() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -387,7 +384,7 @@ public class Order {
     // add `complete` to the URL query string
     if (getComplete() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%scomplete%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComplete()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%scomplete%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComplete()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

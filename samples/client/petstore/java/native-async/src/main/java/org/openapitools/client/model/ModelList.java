@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,7 +35,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ModelList.JSON_PROPERTY_123LIST
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   @javax.annotation.Nullable
@@ -103,10 +102,7 @@ public class ModelList {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -143,7 +139,7 @@ public class ModelList {
 
     // add `123-list` to the URL query string
     if (get123list() != null) {
-      joiner.add(String.format(Locale.ROOT, "%s123-list%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123list()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%s123-list%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123list()))));
     }
 
     return joiner.toString();

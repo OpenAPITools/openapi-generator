@@ -93,7 +93,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesReferencedAnyOfObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -109,7 +109,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesRefer
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesReferencedAnyOfObject>> {
     type Error = String;
 
@@ -230,7 +230,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithList>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -246,7 +246,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithL
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesWithList>> {
     type Error = String;
 
@@ -410,7 +410,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithNullable>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -426,7 +426,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithN
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesWithNullable>> {
     type Error = String;
 
@@ -603,7 +603,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlArray>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -619,7 +619,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlArray>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnotherXmlArray>> {
     type Error = String;
 
@@ -733,7 +733,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -749,7 +749,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlInner>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnotherXmlInner>> {
     type Error = String;
 
@@ -905,7 +905,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -921,7 +921,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlObject>>> for h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnotherXmlObject>> {
     type Error = String;
 
@@ -1051,7 +1051,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfGet202Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1067,7 +1067,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfGet202Response>>> fo
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfGet202Response>> {
     type Error = String;
 
@@ -1189,7 +1189,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfHashMapObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1205,7 +1205,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfHashMapObject>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfHashMapObject>> {
     type Error = String;
 
@@ -1327,7 +1327,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1343,7 +1343,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObject>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfObject>> {
     type Error = String;
 
@@ -1449,7 +1449,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObjectAnyOf>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1465,7 +1465,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObjectAnyOf>>> for h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfObjectAnyOf>> {
     type Error = String;
 
@@ -1624,7 +1624,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfProperty>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1640,7 +1640,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfProperty>>> for hype
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfProperty>> {
     type Error = String;
 
@@ -1806,7 +1806,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DuplicateXmlObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1822,7 +1822,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DuplicateXmlObject>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DuplicateXmlObject>> {
     type Error = String;
 
@@ -1942,7 +1942,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumWithStarObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1958,7 +1958,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumWithStarObject>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumWithStarObject>> {
     type Error = String;
 
@@ -2071,7 +2071,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Err>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2087,7 +2087,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Err>>> for hyper::header:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Err>> {
     type Error = String;
 
@@ -2200,7 +2200,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Error>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2216,7 +2216,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Error>>> for hyper::heade
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Error>> {
     type Error = String;
 
@@ -2244,6 +2244,124 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 impl Error {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum FormTestRequestEnumField {
+    #[serde(rename = "one_enum")]
+    OneEnum,
+}
+
+impl std::fmt::Display for FormTestRequestEnumField {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            FormTestRequestEnumField::OneEnum => write!(f, "one_enum"),
+        }
+    }
+}
+
+impl std::str::FromStr for FormTestRequestEnumField {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+            "one_enum" => std::result::Result::Ok(FormTestRequestEnumField::OneEnum),
+            _ => std::result::Result::Err(format!("Value not valid: {s}")),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<FormTestRequestEnumField> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<FormTestRequestEnumField>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<FormTestRequestEnumField>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for FormTestRequestEnumField - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<FormTestRequestEnumField> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <FormTestRequestEnumField as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into FormTestRequestEnumField - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FormTestRequestEnumField>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<FormTestRequestEnumField>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FormTestRequestEnumField>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<FormTestRequestEnumField> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <FormTestRequestEnumField as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into FormTestRequestEnumField - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}
+
+impl FormTestRequestEnumField {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -2338,7 +2456,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2354,7 +2472,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObject>>> 
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Model12345AnyOfObject>> {
     type Error = String;
 
@@ -2464,7 +2582,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObjectAnyOf>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2480,7 +2598,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObjectAnyO
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Model12345AnyOfObjectAnyOf>> {
     type Error = String;
 
@@ -2634,7 +2752,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultigetGet201Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2650,7 +2768,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultigetGet201Response>>>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultigetGet201Response>> {
     type Error = String;
 
@@ -2773,7 +2891,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyId>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2789,7 +2907,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyId>>> for hyper::header
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MyId>> {
     type Error = String;
 
@@ -2950,7 +3068,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyIdList>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2966,7 +3084,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyIdList>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MyIdList>> {
     type Error = String;
 
@@ -2994,6 +3112,146 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 impl MyIdList {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// An object with no type
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct NoTypeObject(serde_json::Value);
+
+impl std::convert::From<serde_json::Value> for NoTypeObject {
+    fn from(x: serde_json::Value) -> Self {
+        NoTypeObject(x)
+    }
+}
+
+impl std::convert::From<NoTypeObject> for serde_json::Value {
+    fn from(x: NoTypeObject) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for NoTypeObject {
+    type Target = serde_json::Value;
+    fn deref(&self) -> &serde_json::Value {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for NoTypeObject {
+    fn deref_mut(&mut self) -> &mut serde_json::Value {
+        &mut self.0
+    }
+}
+
+/// Converts the NoTypeObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for NoTypeObject {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a NoTypeObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for NoTypeObject {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(NoTypeObject(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {s} to NoTypeObject: {e:?}")),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<NoTypeObject> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<NoTypeObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<NoTypeObject>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for NoTypeObject - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<NoTypeObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <NoTypeObject as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into NoTypeObject - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NoTypeObject>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<NoTypeObject>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NoTypeObject>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<NoTypeObject> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <NoTypeObject as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into NoTypeObject - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}
+
+impl NoTypeObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -3079,7 +3337,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3095,7 +3353,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableObject>>> for hyp
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NullableObject>> {
     type Error = String;
 
@@ -3358,7 +3616,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3374,7 +3632,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableTest>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NullableTest>> {
     type Error = String;
 
@@ -3538,7 +3796,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectHeader>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3554,7 +3812,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectHeader>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectHeader>> {
     type Error = String;
 
@@ -3721,7 +3979,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectParam>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3737,7 +3995,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectParam>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectParam>> {
     type Error = String;
 
@@ -3913,7 +4171,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectUntypedProps>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3929,7 +4187,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectUntypedProps>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectUntypedProps>> {
     type Error = String;
 
@@ -4082,7 +4340,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithArrayOfObjects>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4098,7 +4356,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithArrayOfObjects>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectWithArrayOfObjects>> {
     type Error = String;
 
@@ -4211,7 +4469,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Ok>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4227,7 +4485,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Ok>>> for hyper::header::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Ok>> {
     type Error = String;
 
@@ -4348,7 +4606,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OneOfGet200Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4364,7 +4622,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OneOfGet200Response>>> fo
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OneOfGet200Response>> {
     type Error = String;
 
@@ -4487,7 +4745,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OptionalObjectHeader>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4503,7 +4761,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OptionalObjectHeader>>> f
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OptionalObjectHeader>> {
     type Error = String;
 
@@ -4626,7 +4884,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<RequiredObjectHeader>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4642,7 +4900,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<RequiredObjectHeader>>> f
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<RequiredObjectHeader>> {
     type Error = String;
 
@@ -4755,7 +5013,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Result>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4771,7 +5029,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Result>>> for hyper::head
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Result>> {
     type Error = String;
 
@@ -4877,7 +5135,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringEnum>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4893,7 +5151,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringEnum>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<StringEnum>> {
     type Error = String;
 
@@ -5006,7 +5264,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5022,7 +5280,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringObject>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<StringObject>> {
     type Error = String;
 
@@ -5146,7 +5404,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UuidObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5162,7 +5420,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UuidObject>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UuidObject>> {
     type Error = String;
 
@@ -5339,7 +5597,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlArray>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5355,7 +5613,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlArray>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<XmlArray>> {
     type Error = String;
 
@@ -5469,7 +5727,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5485,7 +5743,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlInner>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<XmlInner>> {
     type Error = String;
 
@@ -5656,7 +5914,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5672,7 +5930,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlObject>>> for hyper::h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<XmlObject>> {
     type Error = String;
 

@@ -38,7 +38,7 @@ final Pet pet = ; // Pet | Pet object that needs to be added to the store
 try {
     final response = api.addPet(pet);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->addPet: $e\n');
 }
 ```
@@ -83,7 +83,7 @@ final String apiKey = apiKey_example; // String |
 
 try {
     api.deletePet(petId, apiKey);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
 ```
@@ -129,7 +129,7 @@ final BuiltList<String> status = ; // BuiltList<String> | Status values that nee
 try {
     final response = api.findPetsByStatus(status);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->findPetsByStatus: $e\n');
 }
 ```
@@ -174,7 +174,7 @@ final BuiltList<String> tags = ; // BuiltList<String> | Tags to filter by
 try {
     final response = api.findPetsByTags(tags);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->findPetsByTags: $e\n');
 }
 ```
@@ -221,7 +221,7 @@ final int petId = 789; // int | ID of pet to return
 try {
     final response = api.getPetById(petId);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->getPetById: $e\n');
 }
 ```
@@ -266,7 +266,7 @@ final Pet pet = ; // Pet | Pet object that needs to be added to the store
 try {
     final response = api.updatePet(pet);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->updatePet: $e\n');
 }
 ```
@@ -312,7 +312,7 @@ final String status = status_example; // String | Updated status of the pet
 
 try {
     api.updatePetWithForm(petId, name, status);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
 ```
@@ -361,7 +361,7 @@ final MultipartFile file = BINARY_DATA_HERE; // MultipartFile | file to upload
 try {
     final response = api.uploadFile(petId, additionalMetadata, file);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling PetApi->uploadFile: $e\n');
 }
 ```

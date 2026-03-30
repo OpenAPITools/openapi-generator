@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class AdditionalPropertiesClass: Content, Hashable {
+public struct AdditionalPropertiesClass: Sendable, Content, Hashable {
 
     public var mapString: [String: String]?
     public var mapNumber: [String: Double]?
@@ -65,36 +65,6 @@ public final class AdditionalPropertiesClass: Content, Hashable {
         try container.encodeIfPresent(anytype1, forKey: .anytype1)
         try container.encodeIfPresent(anytype2, forKey: .anytype2)
         try container.encodeIfPresent(anytype3, forKey: .anytype3)
-    }
-
-    public static func == (lhs: AdditionalPropertiesClass, rhs: AdditionalPropertiesClass) -> Bool {
-        lhs.mapString == rhs.mapString &&
-        lhs.mapNumber == rhs.mapNumber &&
-        lhs.mapInteger == rhs.mapInteger &&
-        lhs.mapBoolean == rhs.mapBoolean &&
-        lhs.mapArrayInteger == rhs.mapArrayInteger &&
-        lhs.mapArrayAnytype == rhs.mapArrayAnytype &&
-        lhs.mapMapString == rhs.mapMapString &&
-        lhs.mapMapAnytype == rhs.mapMapAnytype &&
-        lhs.anytype1 == rhs.anytype1 &&
-        lhs.anytype2 == rhs.anytype2 &&
-        lhs.anytype3 == rhs.anytype3
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(mapString?.hashValue)
-        hasher.combine(mapNumber?.hashValue)
-        hasher.combine(mapInteger?.hashValue)
-        hasher.combine(mapBoolean?.hashValue)
-        hasher.combine(mapArrayInteger?.hashValue)
-        hasher.combine(mapArrayAnytype?.hashValue)
-        hasher.combine(mapMapString?.hashValue)
-        hasher.combine(mapMapAnytype?.hashValue)
-        hasher.combine(anytype1?.hashValue)
-        hasher.combine(anytype2?.hashValue)
-        hasher.combine(anytype3?.hashValue)
-        
     }
 }
 

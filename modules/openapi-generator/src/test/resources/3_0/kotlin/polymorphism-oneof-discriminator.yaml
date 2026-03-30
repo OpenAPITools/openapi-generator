@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: Example
+  description: An example
+  version: '0.1'
+  contact:
+    email: contact@example.org
+    url: 'https://example.org'
+servers:
+  - url: http://example.org
+tags:
+  - name: bird
+paths:
+  '/v1/bird/{id}':
+    get:
+      tags:
+        - bird
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/animal'
+      operationId: get-bird
+    parameters:
+      - schema:
+          type: string
+          format: uuid
+        name: id
+        in: path
+        required: true
+components:
+  schemas:
+    animal:
+      title: An animal
+      oneOf:
+        - $ref: '#/components/schemas/bird'
+        - $ref: '#/components/schemas/robobird'
+      discriminator:
+        propertyName: discriminator
+        mapping:
+          BIRD: '#/components/schemas/bird'
+          ROBOBIRD: '#/components/schemas/robobird'
+    another_animal:
+      title: Another animal
+      oneOf:
+        - $ref: '#/components/schemas/bird'
+        - $ref: '#/components/schemas/robobird'
+      discriminator:
+        propertyName: another_discriminator
+        mapping:
+          ANOTHER_BIRD: '#/components/schemas/bird'
+          ANOTHER_ROBOBIRD: '#/components/schemas/robobird'
+
+    bird:
+      title: A bird
+      required:
+        - discriminator
+        - another_discriminator
+      properties:
+        propertyA:
+          type: string
+        sameNameProperty:
+          type: integer
+        discriminator:
+          type: string
+        another_discriminator:
+          type: string
+    robobird:
+      title: A robo-bird
+      required:
+        - discriminator
+        - another_discriminator
+      properties:
+        propertyB:
+          type: string
+        sameNameProperty:
+          type: string
+        discriminator:
+          type: string
+        another_discriminator:
+          type: string

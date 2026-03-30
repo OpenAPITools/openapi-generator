@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NumberOnly: Sendable, Codable, ParameterConvertible, Hashable {
+public struct NumberOnly: Sendable, Codable, Hashable {
 
     public var justNumber: Double?
 

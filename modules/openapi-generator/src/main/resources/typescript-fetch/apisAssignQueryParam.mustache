@@ -1,0 +1,12 @@
+{{! Assign query parameters based on their type }}
+{{#isDateTimeType}}
+            queryParameters['{{baseName}}'] = (requestParameters['{{paramName}}'] as any).toISOString();
+{{/isDateTimeType}}
+{{^isDateTimeType}}
+{{#isDateType}}
+            queryParameters['{{baseName}}'] = (requestParameters['{{paramName}}'] as any).toISOString().substring(0,10);
+{{/isDateType}}
+{{^isDateType}}
+            queryParameters['{{baseName}}'] = requestParameters['{{paramName}}'];
+{{/isDateType}}
+{{/isDateTimeType}}

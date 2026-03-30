@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const parseYaml = require("js-yaml").safeLoad;
+const parseYaml = require("js-yaml").load;
 
 const loadYaml = relativePath => parseYaml(fs.readFileSync(path.join(__dirname, relativePath), "utf8"));
 

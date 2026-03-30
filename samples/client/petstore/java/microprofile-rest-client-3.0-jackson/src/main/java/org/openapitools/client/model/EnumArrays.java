@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -71,7 +70,7 @@ public class EnumArrays  {
 
   public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   
-  private JustSymbolEnum justSymbol;
+  protected JustSymbolEnum justSymbol;
 
   public enum ArrayEnumEnum {
 
@@ -107,7 +106,7 @@ public class EnumArrays  {
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   
-  private List<ArrayEnumEnum> arrayEnum = null;
+  protected List<ArrayEnumEnum> arrayEnum = null;
 
 
   /**
@@ -195,10 +194,7 @@ public class EnumArrays  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

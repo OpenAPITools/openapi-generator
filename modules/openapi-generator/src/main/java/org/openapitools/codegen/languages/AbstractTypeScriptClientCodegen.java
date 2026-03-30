@@ -17,39 +17,65 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
-import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
-import org.openapitools.codegen.CodegenConstants.PARAM_NAMING_TYPE;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.form;
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.simple;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.form;
-import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.simple;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
+import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
+import org.openapitools.codegen.CodegenConstants.PARAM_NAMING_TYPE;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.GeneratorLanguage;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Getter;
+import lombok.Setter;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -1023,6 +1049,85 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
+    /**
+     * Override to fix the inner enum naming issue for maps/arrays of enums.
+     * <p>
+     * The parent implementation uses toEnumName(baseItem) which produces a generic name
+     * like "InnerEnum" based on the inner item's name. This override first calculates
+     * the correct property.enumName, then uses it in the datatypeWithEnum replacement.
+     * </p>
+     *
+     * @param property Codegen property
+     */
+    @Override
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
+            baseItem = baseItem.items;
+        }
+
+        if (baseItem != null) {
+            // First, set the property's enumName using the property itself (not the inner item)
+            // This ensures the correct enum name (e.g., "OptionsEnum") is used
+            // instead of the generic inner item name (e.g., "InnerEnum")
+            property.enumName = toEnumName(property);
+
+            // Now use property.enumName for datatypeWithEnum
+            property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, property.enumName);
+
+            // set default value for variable with inner enum
+            if (property.defaultValue != null) {
+                property.defaultValue = property.defaultValue.replace(baseItem.baseType, property.enumName);
+            }
+
+            updateCodegenPropertyEnum(property);
+        }
+    }
+
+    /**
+     * Override to fix the inner enum naming issue for map properties.
+     * <p>
+     * The parent implementation uses {@code toEnumName(baseItem)} which produces "InnerEnum"
+     * for properties whose inner item has a generic name like "inner". We instead
+     * calculate the enumName from the property itself first, then use it in the replacement.
+     * </p>
+     *
+     * @param property Codegen property
+     */
+    @Override
+    protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
+            baseItem = baseItem.items;
+        }
+
+        if (baseItem != null) {
+            // First, set the property's enumName using the property itself (not the inner item)
+            property.enumName = toEnumName(property);
+
+            // Replace only the LAST occurrence of baseType with enumName.
+            // In map types, the value type appears last (after the key type),
+            // so this approach is template-agnostic.
+            String datatypeWithEnum = property.datatypeWithEnum;
+            int lastIndex = datatypeWithEnum.lastIndexOf(baseItem.baseType);
+            if (lastIndex >= 0) {
+                property.datatypeWithEnum = datatypeWithEnum.substring(0, lastIndex)
+                        + property.enumName
+                        + datatypeWithEnum.substring(lastIndex + baseItem.baseType.length());
+            }
+            LOGGER.info("Updated datatypeWithEnum for map property '{}': {}", property.name, property.datatypeWithEnum);
+
+            // set default value for variable with inner enum
+            if (property.defaultValue != null) {
+                property.defaultValue = property.defaultValue.replace(baseItem.baseType, property.enumName);
+            }
+
+            updateCodegenPropertyEnum(property);
+        }
+    }
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
@@ -1030,15 +1135,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
             cm.imports = new TreeSet<>(cm.imports);
+
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
+            // This applies to both direct enum properties (isEnum) and properties containing
+            // inner enums (isInnerEnum) like maps or arrays of enums.
             for (CodegenProperty var : cm.vars) {
-                if (Boolean.TRUE.equals(var.isEnum)) {
+                if (Boolean.TRUE.equals(var.isEnum) || Boolean.TRUE.equals(var.isInnerEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
-                    if (Boolean.TRUE.equals(var.isEnum)) {
+                    if (Boolean.TRUE.equals(var.isEnum) || Boolean.TRUE.equals(var.isInnerEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
                                 .replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
                     }

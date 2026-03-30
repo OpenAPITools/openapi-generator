@@ -19,7 +19,10 @@
     })
     {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
+    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}")
+    @ApiResponses(value = { {{#responses}}
+        @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
     {{#hasAuthMethods}}@org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value = {
         {{#authMethods}}{{#isOAuth}}@org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(
                 name = "{{name}}",

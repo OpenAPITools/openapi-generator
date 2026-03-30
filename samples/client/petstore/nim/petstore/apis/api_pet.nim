@@ -19,17 +19,22 @@ import typetraits
 import uri
 
 import ../models/model_api_response
+import ../models/model_get_pet_reviews200response
+import ../models/model_get_pet_stats200response
+import ../models/model_ignored_response
 import ../models/model_pet
+import ../models/model_pet_alert
+import ../models/model_pet_audit_log
+import ../models/model_pet_review
+import ../models/model_pet_reviews_response
+import ../models/model_unfavorite_pet_request
 
 const basepath = "http://petstore.swagger.io/v2"
 
 template constructResult[T](response: Response): untyped =
   if response.code in {Http200, Http201, Http202, Http204, Http206}:
     try:
-      when name(stripGenericParams(T.typedesc).typedesc) == name(Table):
-        (some(json.to(parseJson(response.body), T.typedesc)), response)
-      else:
-        (some(marshal.to[T](response.body)), response)
+      (some(to(parseJson(response.body), T)), response)
     except JsonParsingError:
       # The server returned a malformed response though the response code is 2XX
       # TODO: need better error handling
@@ -47,17 +52,34 @@ proc addPet*(httpClient: HttpClient, pet: Pet): (Option[Pet], Response) =
   constructResult[Pet](response)
 
 
+proc addPetReview*(httpClient: HttpClient, petReview: PetReview): (Option[PetReview], Response) =
+  ## Add a pet review (tests _id field mapping)
+  httpClient.headers["Content-Type"] = "application/json"
+
+  let response = httpClient.post(basepath & "/comments", $(%petReview))
+  constructResult[PetReview](response)
+
+
+proc createPetAlert*(httpClient: HttpClient, petAlert: PetAlert): (Option[PetAlert], Response) =
+  ## Create pet alert
+  httpClient.headers["Content-Type"] = "application/json"
+
+  let response = httpClient.post(basepath & "/notifications", $(%petAlert))
+  constructResult[PetAlert](response)
+
+
 proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string): Response =
   ## Deletes a pet
   httpClient.headers["api_key"] = apiKey
   httpClient.delete(basepath & fmt"/pet/{petId}")
 
 
+
 proc findPetsByStatus*(httpClient: HttpClient, status: seq[Status]): (Option[seq[Pet]], Response) =
   ## Finds Pets by status
-  let url_encoded_query_params = encodeQuery([
-    ("status", $status.join(",")), # Status values that need to be considered for filter
-  ])
+  var query_params_list: seq[(string, string)] = @[]
+  query_params_list.add(("status", $status.join(",")))
+  let url_encoded_query_params = encodeQuery(query_params_list)
 
   let response = httpClient.get(basepath & "/pet/findByStatus" & "?" & url_encoded_query_params)
   constructResult[seq[Pet]](response)
@@ -65,12 +87,26 @@ proc findPetsByStatus*(httpClient: HttpClient, status: seq[Status]): (Option[seq
 
 proc findPetsByTags*(httpClient: HttpClient, tags: seq[string]): (Option[seq[Pet]], Response) {.deprecated.} =
   ## Finds Pets by tags
-  let url_encoded_query_params = encodeQuery([
-    ("tags", $tags.join(",")), # Tags to filter by
-  ])
+  var query_params_list: seq[(string, string)] = @[]
+  query_params_list.add(("tags", $tags.join(",")))
+  let url_encoded_query_params = encodeQuery(query_params_list)
 
   let response = httpClient.get(basepath & "/pet/findByTags" & "?" & url_encoded_query_params)
   constructResult[seq[Pet]](response)
+
+
+proc getPetAlerts*(httpClient: HttpClient): (Option[seq[PetAlert]], Response) =
+  ## Get pet alerts (tests integer enum)
+
+  let response = httpClient.get(basepath & "/notifications")
+  constructResult[seq[PetAlert]](response)
+
+
+proc getPetAuditLogs*(httpClient: HttpClient): (Option[seq[PetAuditLog]], Response) =
+  ## Get pet audit logs (combined test)
+
+  let response = httpClient.get(basepath & "/audit")
+  constructResult[seq[PetAuditLog]](response)
 
 
 proc getPetById*(httpClient: HttpClient, petId: int64): (Option[Pet], Response) =
@@ -78,6 +114,42 @@ proc getPetById*(httpClient: HttpClient, petId: int64): (Option[Pet], Response) 
 
   let response = httpClient.get(basepath & fmt"/pet/{petId}")
   constructResult[Pet](response)
+
+
+proc getPetReviews*(httpClient: HttpClient): (Option[PetReviewsResponse], Response) =
+  ## Get pet reviews (tests _id field mapping and arrays)
+
+  let response = httpClient.get(basepath & "/comments")
+  constructResult[PetReviewsResponse](response)
+
+
+proc getPetStats*(httpClient: HttpClient): (Option[GetPetStats_200_response], Response) =
+  ## Get pet statistics (tests _200_ response normalization)
+
+  let response = httpClient.get(basepath & "/pet/stats")
+  constructResult[GetPetStats_200_response](response)
+
+
+proc markIgnored*(httpClient: HttpClient, ignoredResponse: IgnoredResponse): (Option[IgnoredResponse], Response) =
+  ## Mark as ignored (tests inline enum)
+  httpClient.headers["Content-Type"] = "application/json"
+
+  let response = httpClient.post(basepath & "/ignored", $(%ignoredResponse))
+  constructResult[IgnoredResponse](response)
+
+
+proc searchPetReviews*(httpClient: HttpClient): (Option[GetPetReviews_200_response], Response) =
+  ## Search pet reviews (tests anyOf with underscores)
+
+  let response = httpClient.get(basepath & "/comments/search")
+  constructResult[GetPetReviews_200_response](response)
+
+
+proc unfavoritePet*(httpClient: HttpClient, petId: int64, unfavoritePetRequest: UnfavoritePetRequest): (Option[GetPetStats_200_response], Response) =
+  ## Remove pet from favorites (tests DELETE with body)
+  httpClient.headers["Content-Type"] = "application/json"
+  let response = httpClient.request(basepath & fmt"/pet/{petId}/favorite", httpMethod = HttpDelete, body = $(%unfavoritePetRequest))
+  constructResult[GetPetStats_200_response](response)
 
 
 proc updatePet*(httpClient: HttpClient, pet: Pet): (Option[Pet], Response) =
@@ -96,6 +168,7 @@ proc updatePetWithForm*(httpClient: HttpClient, petId: int64, name: string, stat
     ("status", $status), # Updated status of the pet
   ])
   httpClient.post(basepath & fmt"/pet/{petId}", $form_data)
+
 
 
 proc uploadFile*(httpClient: HttpClient, petId: int64, additionalMetadata: string, file: string): (Option[ApiResponse], Response) =

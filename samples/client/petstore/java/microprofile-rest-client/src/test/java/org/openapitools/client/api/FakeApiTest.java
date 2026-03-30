@@ -201,7 +201,7 @@ public class FakeApiTest {
     @Test
     public void testBodyWithBinaryTest() {
         // TODO: test validations
-        org.apache.cxf.jaxrs.ext.multipart.Attachment body = null;
+        File body = null;
         //api.testBodyWithBinary(body);
         //Assertions.assertNotNull(response);
 
@@ -275,7 +275,7 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         String string = null;
-        org.apache.cxf.jaxrs.ext.multipart.Attachment binary = null;
+        File binary = null;
         Date date = null;
         Date dateTime = null;
         String password = null;

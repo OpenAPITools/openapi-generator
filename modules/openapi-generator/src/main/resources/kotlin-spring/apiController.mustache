@@ -8,9 +8,7 @@ import java.util.Optional
 
 @Controller{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
 {{#useRequestMappingOnController}}
-{{=<% %>=}}
-@RequestMapping("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
-<%={{ }}=%>
+@RequestMapping("\${api.base-path:{{contextPath}}}")
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller(
@@ -30,5 +28,13 @@ class {{classname}}Controller(
 {{/skipDefaultDelegateInterface}}
 
     override fun getDelegate(): {{classname}}Delegate = delegate
+{{#useRequestMappingOnController}}
+
+    companion object {
+    //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "{{=<% %>=}}<%>defaultBasePath%><%={{ }}=%>"
+    }
+
+{{/useRequestMappingOnController}}
 }
 {{/operations}}

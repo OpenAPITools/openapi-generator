@@ -1,4 +1,4 @@
-/**
+/*
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
@@ -188,7 +188,7 @@ public class PetApiTest {
         // TODO: test validations
         Long petId = null;
         String additionalMetadata = null;
-        org.apache.cxf.jaxrs.ext.multipart.Attachment _file = null;
+        File _file = null;
         //Uni<ModelApiResponse> response = api.uploadFile(petId, additionalMetadata, _file);
         //Assertions.assertNotNull(response);
 

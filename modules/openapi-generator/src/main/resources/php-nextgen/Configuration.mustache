@@ -492,13 +492,13 @@ class Configuration
     }
 
     /**
-    * Returns URL based on host settings, index and variables
-    *
-    * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
-    * @param int        $hostIndex    index of the host settings
-    * @param array|null $variables    hash of variable and the corresponding value (optional)
-    * @return string URL based on host settings
-    */
+     * Returns URL based on host settings, index and variables
+     *
+     * @param array      $hostSettings array of host settings, generated from getHostSettings() or equivalent from the API clients
+     * @param int        $hostIndex    index of the host settings
+     * @param array|null $variables    hash of variable and the corresponding value (optional)
+     * @return string URL based on host settings
+     */
     public static function getHostString(array $hostSettings, int $hostIndex, ?array $variables = null): string
     {
         if (null === $variables) {

@@ -190,10 +190,17 @@ impl<Connector, C> Client<
     }
 }
 
+#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+type HyperHttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
+
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+type HyperHttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
+
 #[derive(Debug, Clone)]
 pub enum HyperClient {
     Http(hyper_util::client::legacy::Client<hyper_util::client::legacy::connect::HttpConnector, BoxBody<Bytes, Infallible>>),
-    Https(hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>),
+    #[cfg(feature = "client-tls")]
+    Https(hyper_util::client::legacy::Client<HyperHttpsConnector, BoxBody<Bytes, Infallible>>),
 }
 
 impl Service<Request<BoxBody<Bytes, Infallible>>> for HyperClient {
@@ -204,7 +211,8 @@ impl Service<Request<BoxBody<Bytes, Infallible>>> for HyperClient {
     fn call(&self, req: Request<BoxBody<Bytes, Infallible>>) -> Self::Future {
        match self {
           HyperClient::Http(client) => client.request(req),
-          HyperClient::Https(client) => client.request(req)
+          #[cfg(feature = "client-tls")]
+          HyperClient::Https(client) => client.request(req),
        }
     }
 }
@@ -230,11 +238,17 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
             "http" => {
                 HyperClient::Http(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector.build()))
             },
+            #[cfg(feature = "client-tls")]
             "https" => {
-                let connector = connector.https()
-                   .build()
-                   .map_err(ClientInitError::SslError)?;
-                HyperClient::Https(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector))
+                let https_connector = connector
+                    .https()
+                    .build()
+                    .map_err(ClientInitError::SslError)?;
+                HyperClient::Https(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(https_connector))
+            },
+            #[cfg(not(feature = "client-tls"))]
+            "https" => {
+                return Err(ClientInitError::TlsNotEnabled);
             },
             _ => {
                 return Err(ClientInitError::InvalidScheme);
@@ -278,12 +292,13 @@ impl<C> Client<
     }
 }
 
-#[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
 type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
+#[cfg(feature = "client-tls")]
 impl<C> Client<
     DropContextService<
         hyper_util::service::TowerToHyperService<
@@ -298,10 +313,11 @@ impl<C> Client<
 > where
     C: Clone + Send + Sync + 'static
 {
-    /// Create a client with a TLS connection to the server
+    /// Create a client with a TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
+    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
     pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
     {
         let https_connector = Connector::builder()
@@ -311,10 +327,24 @@ impl<C> Client<
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
-    /// Create a client with a TLS connection to the server using a pinned certificate
+    /// Create a client with a TLS connection to the server using OpenSSL via swagger.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    pub fn try_new_https(base_path: &str) -> Result<Self, ClientInitError>
+    {
+        let https_connector = Connector::builder()
+            .https()
+            .build()
+            .map_err(ClientInitError::SslError)?;
+        Self::try_new_with_connector(base_path, Some("https"), https_connector)
+    }
+
+    /// Create a client with a TLS connection to the server using a pinned certificate.
+    ///
+    /// # Arguments
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn try_new_https_pinned<CA>(
@@ -335,7 +365,7 @@ impl<C> Client<
     /// Create a client with a mutually authenticated TLS connection to the server.
     ///
     /// # Arguments
-    /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
+    /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
@@ -397,12 +427,15 @@ pub enum ClientInitError {
     /// Missing Hostname
     MissingHost,
 
+    /// HTTPS requested but TLS features not enabled
+    TlsNotEnabled,
+
     /// SSL Connection Error
-    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+    #[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     SslError(native_tls::Error),
 
     /// SSL Connection Error
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     SslError(openssl::error::ErrorStack),
 }
 
@@ -1208,8 +1241,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
         param_double: f64,
         param_pattern_without_delimiter: String,
         param_byte: swagger::ByteArray,
-        param_integer: Option<i32>,
-        param_int32: Option<i32>,
+        param_integer: Option<u32>,
+        param_int32: Option<u32>,
         param_int64: Option<i64>,
         param_float: Option<f32>,
         param_string: Option<String>,
@@ -1390,11 +1423,11 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        param_enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         param_enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        param_enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         param_enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         param_enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         param_enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -1968,9 +2001,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        param_status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        param_status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -2076,9 +2109,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        param_tags: &Vec<String>,
+        param_tags: &'a Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -2443,6 +2476,15 @@ impl<S, C, B> Api<C> for Client<S, C> where
             use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("api_key"),
+                        header);
+                },
                 _ => {}
             }
         }
@@ -2650,7 +2692,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         // Consumes multipart/form body
-        let (body_string, multipart_header) = {
+        let (body_bytes, multipart_header) = {
             let mut multipart = Multipart::new();
 
             // For each parameter, encode as appropriate and add to the multipart body as a stream.
@@ -2684,9 +2726,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 Err(err) => return Err(ApiError(format!("Unable to build request: {err}"))),
             };
 
-            let mut body_string = String::new();
+            let mut body_bytes = Vec::new();
 
-            match fields.read_to_string(&mut body_string) {
+            match fields.read_to_end(&mut body_bytes) {
                 Ok(_) => (),
                 Err(err) => return Err(ApiError(format!("Unable to build body: {err}"))),
             }
@@ -2695,10 +2737,10 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
             let multipart_header = format!("multipart/form-data;boundary={boundary}");
 
-            (body_string, multipart_header)
-        };
+            (body_bytes, multipart_header)
+          };
 
-        *request.body_mut() = body_from_string(body_string);
+        *request.body_mut() = BoxBody::new(Full::new(Bytes::from(body_bytes)));
 
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
             Ok(h) => h,
@@ -2815,6 +2857,15 @@ impl<S, C, B> Api<C> for Client<S, C> where
             use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("api_key"),
+                        header);
+                },
                 _ => {}
             }
         }
@@ -3032,7 +3083,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
     #[allow(clippy::vec_init_then_push)]
     async fn get_order_by_id(
         &self,
-        param_order_id: i64,
+        param_order_id: u64,
         context: &C) -> Result<GetOrderByIdResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -3201,9 +3252,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        param_body: &Vec<models::User>,
+        param_body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -3278,9 +3329,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        param_body: &Vec<models::User>,
+        param_body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();

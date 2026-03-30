@@ -5,6 +5,9 @@ import 'package:json_annotation/json_annotation.dart';
 {{#useEquatable}}
 import 'package:equatable/src/equatable_utils.dart';
 {{/useEquatable}}
+{{#useOptional}}
+import 'package:{{pubName}}/src/optional.dart';
+{{/useOptional}}
 
 part '{{classFilename}}.g.dart';
 
@@ -49,11 +52,13 @@ class {{{classname}}} {
   @Deprecated('{{{name}}} has been deprecated')
   {{/deprecated}}
   {{^isBinary}}
-  @JsonKey(
+{{^required}}{{#useOptional}}  @OptionalConverter()
+{{/useOptional}}{{/required}}  @JsonKey(
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
-    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},
+    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},{{^required}}{{#useOptional}}
+    readValue: readOptionalValue,{{/useOptional}}{{/required}}
   {{#isEnumOrRef}}
   {{#enumUnknownDefaultCase}}
   unknownEnumValue: {{{datatypeWithEnum}}}.unknownDefaultOpenApi,
@@ -70,7 +75,7 @@ class {{{classname}}} {
   {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
   {{/required}}
   {{^required}}
-  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}? {{{name}}};
+  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{^useOptional}}?{{/useOptional}} {{{name}}};
   {{/required}}
 
 

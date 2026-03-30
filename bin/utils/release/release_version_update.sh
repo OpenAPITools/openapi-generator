@@ -93,6 +93,7 @@ declare -a xml_files=(
 declare -a properties_files=(
     "${root}/modules/openapi-generator-gradle-plugin/gradle.properties"
     "${root}/modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
+    "${root}/modules/openapi-generator-mill-plugin/example/mill-build/version.properties"
 )
 
 ${cwd}/bump.sh -f ${version} -i ${inc} ${xml_files[@]}

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -27,6 +35,8 @@ import kotlinx.serialization.encoding.*
  * @param id 
  * @param featherType 
  * @param optionalProperty 
+ * @param stringSet 
+ * @param stringArray 
  */
 @Serializable
 
@@ -37,7 +47,11 @@ data class Bird (
 
     @SerialName(value = "featherType") @Required val featherType: kotlin.String,
 
-    @SerialName(value = "optional_property") override val optionalProperty: kotlin.Double? = null
+    @SerialName(value = "optional_property") override val optionalProperty: kotlin.Double? = null,
+
+    @SerialName(value = "stringSet") override val stringSet: kotlin.collections.Set<kotlin.String>? = null,
+
+    @SerialName(value = "stringArray") override val stringArray: kotlin.collections.List<kotlin.String>? = null
 
 ) : Animal() {
 

@@ -436,6 +436,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return !getRequired() || isNullable;
     }
 
+    /**
+     * An alias for vendor extensions, e.g. one can use {{exts.x-something}} for cleaner template
+     *
+     * @return vendor extensions
+     */
+    public Map<String, Object> getExts() {
+        return vendorExtensions;
+    }
+
     @Override
     public CodegenProperty getItems() {
         return items;

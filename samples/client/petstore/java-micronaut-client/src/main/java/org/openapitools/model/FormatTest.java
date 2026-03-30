@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.File;
 import java.math.BigDecimal;
@@ -48,7 +47,7 @@ import javax.annotation.Generated;
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 @JsonTypeName("format_test")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class FormatTest {
     public static final String JSON_PROPERTY_INTEGER = "integer";
@@ -486,10 +485,7 @@ public class FormatTest {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
 }

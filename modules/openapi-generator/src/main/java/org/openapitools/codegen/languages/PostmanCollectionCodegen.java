@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -80,7 +81,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
 
     // operations grouped by tag
-    public Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
+    public Map<PostmanRequestFolder, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
     // list of operations
     public List<CodegenOperation> codegenOperationsList = new ArrayList<>();
 
@@ -319,22 +320,31 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @param codegenOperation Codegen operation instance
      */
     public void addToMap(CodegenOperation codegenOperation) {
-
-        String key = null;
+        String tagName;
+        String tagDescription;
         if (codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
-            key = "default";
+            tagName = "Default";
+            tagDescription = "Default tag";
         } else {
-            key = codegenOperation.tags.get(0).getName();
+            tagName = codegenOperation.tags.get(0).getName();
+            tagDescription = codegenOperation.tags.get(0).getDescription();
+            if (tagDescription == null) {
+                tagDescription = tagName + " tag";
+            }
         }
 
-        List<CodegenOperation> list = codegenOperationsByTag.get(key);
+        tagName = escapeJsonString(tagName);
+        tagDescription = escapeJsonString(tagDescription);
+
+        PostmanRequestFolder folder = new PostmanRequestFolder(tagName, tagDescription);
+        List<CodegenOperation> list = codegenOperationsByTag.get(folder);
 
         if (list == null) {
             list = new ArrayList<>();
         }
         list.add(codegenOperation);
 
-        codegenOperationsByTag.put(key, list);
+        codegenOperationsByTag.put(folder, list);
 
         // sort requests by path
         Collections.sort(list, Comparator.comparing(obj -> obj.path));
@@ -676,6 +686,13 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         return description;
     }
 
+    String escapeJsonString(String value) {
+        if (value == null) {
+            return null;
+        }
+        return new String(JsonStringEncoder.getInstance().quoteAsString(value));
+    }
+
     /**
      * Extract all placeholders (string delimited by curly braces ie {{PLACEHOLDER}}) from the input string
      *
@@ -880,6 +897,30 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             return "date";
         } else {
             return "string";
+        }
+    }
+
+    @Getter
+    public static class PostmanRequestFolder {
+        private final String name;
+        private final String description;
+
+        public PostmanRequestFolder(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PostmanRequestFolder that = (PostmanRequestFolder) o;
+            return Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, description);
         }
     }
 

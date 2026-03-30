@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
@@ -31,7 +30,7 @@ import javax.annotation.Generated;
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
 @JsonTypeName("AdditionalPropertiesAnyType")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
     public static final String JSON_PROPERTY_NAME = "name";
@@ -95,10 +94,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
 }

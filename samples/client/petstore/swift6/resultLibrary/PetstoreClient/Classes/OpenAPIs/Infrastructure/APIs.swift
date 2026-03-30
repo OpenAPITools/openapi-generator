@@ -47,7 +47,7 @@ internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
     internal static let shared = PetstoreClientAPIConfiguration()
 }
 
-internal class RequestBuilder<T>: @unchecked Sendable, Identifiable {
+internal class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
     internal var credential: URLCredential?
     internal var headers: [String: String]
     internal let parameters: [String: any Sendable]?
@@ -95,7 +95,7 @@ internal class RequestBuilder<T>: @unchecked Sendable, Identifiable {
     }
 }
 
-internal protocol RequestBuilderFactory {
+internal protocol RequestBuilderFactory: Sendable {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }

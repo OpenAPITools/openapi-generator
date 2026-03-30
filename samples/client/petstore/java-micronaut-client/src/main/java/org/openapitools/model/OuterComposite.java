@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 
@@ -32,7 +31,7 @@ import javax.annotation.Generated;
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
 @JsonTypeName("OuterComposite")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class OuterComposite {
     public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
@@ -147,10 +146,7 @@ public class OuterComposite {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
 }

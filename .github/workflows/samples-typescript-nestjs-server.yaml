@@ -5,6 +5,7 @@ on:
     paths:
       - samples/server/petstore/typescript-nestjs-server/**
       - .github/workflows/samples-typescript-nestjs-server.yaml
+      - .github/workflows/samples-typescript-nestjs-server-parameters.yaml
 jobs:
   build:
     name: Test TypeScript NestJS Server

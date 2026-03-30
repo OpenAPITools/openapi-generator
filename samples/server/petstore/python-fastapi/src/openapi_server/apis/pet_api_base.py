@@ -15,7 +15,7 @@ class BasePetApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BasePetApi.subclasses = BasePetApi.subclasses + (cls,)
-    async def add_pet(
+    async def update_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
     ) -> Pet:
@@ -23,11 +23,10 @@ class BasePetApi:
         ...
 
 
-    async def delete_pet(
+    async def add_pet(
         self,
-        petId: Annotated[StrictInt, Field(description="Pet id to delete")],
-        api_key: Optional[StrictStr],
-    ) -> None:
+        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+    ) -> Pet:
         """"""
         ...
 
@@ -56,19 +55,20 @@ class BasePetApi:
         ...
 
 
-    async def update_pet(
-        self,
-        pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
-    ) -> Pet:
-        """"""
-        ...
-
-
     async def update_pet_with_form(
         self,
         petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
         name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")],
         status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")],
+    ) -> None:
+        """"""
+        ...
+
+
+    async def delete_pet(
+        self,
+        petId: Annotated[StrictInt, Field(description="Pet id to delete")],
+        api_key: Optional[StrictStr],
     ) -> None:
         """"""
         ...

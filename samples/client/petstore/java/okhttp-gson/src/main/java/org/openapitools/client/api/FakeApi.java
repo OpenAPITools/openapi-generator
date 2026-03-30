@@ -39,6 +39,7 @@ import org.openapitools.client.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.RequiredNullableBody;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
@@ -810,6 +811,123 @@ public class FakeApi {
 
         okhttp3.Call localVarCall = fakeRefParameterValidateBeforeCall(petId, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for fakeRequiredNullableBodyGet
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> success </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fakeRequiredNullableBodyGetCall(final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/fake/required-nullable-body";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call fakeRequiredNullableBodyGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        return fakeRequiredNullableBodyGetCall(_callback);
+
+    }
+
+    /**
+     * fields in the response body, required and nullable are both true
+     * 
+     * @return RequiredNullableBody
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> success </td><td>  -  </td></tr>
+     </table>
+     */
+    public RequiredNullableBody fakeRequiredNullableBodyGet() throws ApiException {
+        ApiResponse<RequiredNullableBody> localVarResp = fakeRequiredNullableBodyGetWithHttpInfo();
+        return localVarResp.getData();
+    }
+
+    /**
+     * fields in the response body, required and nullable are both true
+     * 
+     * @return ApiResponse&lt;RequiredNullableBody&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> success </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<RequiredNullableBody> fakeRequiredNullableBodyGetWithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = fakeRequiredNullableBodyGetValidateBeforeCall(null);
+        Type localVarReturnType = new TypeToken<RequiredNullableBody>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * fields in the response body, required and nullable are both true (asynchronously)
+     * 
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> success </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fakeRequiredNullableBodyGetAsync(final ApiCallback<RequiredNullableBody> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = fakeRequiredNullableBodyGetValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<RequiredNullableBody>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**

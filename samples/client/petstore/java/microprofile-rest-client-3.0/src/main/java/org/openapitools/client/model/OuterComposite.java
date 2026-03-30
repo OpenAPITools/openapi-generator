@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import java.math.BigDecimal;
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
@@ -37,13 +36,13 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class OuterComposite  {
   
   @JsonbProperty("my_number")
-  private BigDecimal myNumber;
+  protected BigDecimal myNumber;
 
   @JsonbProperty("my_string")
-  private String myString;
+  protected String myString;
 
   @JsonbProperty("my_boolean")
-  private Boolean myBoolean;
+  protected Boolean myBoolean;
 
 
   /**
@@ -145,10 +144,7 @@ public class OuterComposite  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

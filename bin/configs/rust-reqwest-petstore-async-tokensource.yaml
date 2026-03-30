@@ -5,6 +5,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/rust
 additionalProperties:
   supportAsync: true
+  useAsyncFileStream: true
   supportTokenSource: true
   supportMultipleResponses: true
   packageName: petstore-reqwest-async-tokensource

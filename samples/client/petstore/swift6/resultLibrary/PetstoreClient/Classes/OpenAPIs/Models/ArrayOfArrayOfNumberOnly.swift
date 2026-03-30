@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct ArrayOfArrayOfNumberOnly: Sendable, Codable, ParameterConvertible {
+internal struct ArrayOfArrayOfNumberOnly: Sendable, Codable {
 
     internal private(set) var arrayArrayNumber: [[Double]]?
 

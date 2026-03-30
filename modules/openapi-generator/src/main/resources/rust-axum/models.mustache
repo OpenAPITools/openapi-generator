@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+  let mut errs = validator::ValidationErrors::new();
+  errs.add("na", e);
+  errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -175,12 +182,12 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     {{#pattern}}
     {{^isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
     }
     {{/isByteArray}}
     {{#isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
     }
     fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}(
         b: &ByteArray
@@ -325,12 +332,12 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     {{#pattern}}
     {{^isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
     }
     {{/isByteArray}}
     {{#isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
     }
     fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}(
         b: &ByteArray
@@ -465,7 +472,7 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
                     #[serde(default)]
                 {{/required}}
                     pub {{{paramName}}}: {{{dataType}}},
-                {{/isArray}}
+            {{/isArray}}
             {{^isArray}}
                 {{#required}}
                     pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
@@ -487,12 +494,12 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     {{#pattern}}
     {{^isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
     }
     {{/isByteArray}}
     {{#isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
     }
     fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}(
         b: &ByteArray
@@ -526,7 +533,7 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
 /// which helps with FFI.
 #[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, {{^isAnyType}}PartialOrd, Ord,{{/isAnyType}} serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum {{{classname}}} {
 {{#allowableValues}}
@@ -577,13 +584,39 @@ impl std::str::FromStr for {{{classname}}} {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 {{^isMap}}
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, {{^isAnyType}}PartialOrd, {{/isAnyType}} serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct {{{classname}}}({{{dataType}}});
+pub struct {{{classname}}}(pub {{{dataType}}});
 
 impl validator::Validate for {{{classname}}} {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        {{^isNullable}}
+        {{#vendorExtensions.is-nested}}
+          let _ = self.0.validate()?;
+        {{/vendorExtensions.is-nested}}
+        {{#vendorExtensions.is-string}}
+          let _ = check_xss_string(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-string}}
+        {{#vendorExtensions.is-vec-nested}}
+          for v in self.0.iter() {
+            let _ = v.validate()?;
+          }
+        {{/vendorExtensions.is-vec-nested}}
+        {{#vendorExtensions.is-vec-string}}
+          let _ = check_xss_vec_string(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-vec-string}}
+        {{#vendorExtensions.is-map-nested}}
+          let _ = check_xss_map_nested(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-map-nested}}
+        {{#vendorExtensions.is-map}}
+          let _ = check_xss_map(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-map}}
+        {{#vendorExtensions.is-map-string}}
+          let _ = check_xss_map_string(&self.0).map_err(from_validation_error)?;
+        {{/vendorExtensions.is-map-string}}
+        {{/isNullable}}
+
         std::result::Result::Ok(())
     }
 }
@@ -597,7 +630,7 @@ impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
 
 impl std::fmt::Display for {{{classname}}} {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-       write!(f, "{:?}", self.0)
+       write!(f, "{}", self.0)
     }
 }
 
@@ -656,7 +689,7 @@ impl ::std::str::FromStr for {{{classname}}} {
 {{! vec}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct {{{classname}}}(Vec<{{{arrayModelType}}}>);
+pub struct {{{classname}}}(pub Vec<{{{arrayModelType}}}>);
 
 impl validator::Validate for {{{classname}}} {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -763,6 +796,9 @@ impl std::str::FromStr for {{{classname}}} {
 pub enum {{{classname}}} {
     {{#composedSchemas}}
     {{#anyOf}}
+    {{#discriminator}}
+    #[serde(alias = "{{{discriminatorValue}}}")]
+    {{/discriminator}}
     {{{datatypeWithEnum}}}({{{dataType}}}),
     {{/anyOf}}
     {{/composedSchemas}}
@@ -838,6 +874,9 @@ impl From<{{{dataType}}}> for {{{classname}}} {
 pub enum {{{classname}}} {
     {{#composedSchemas}}
     {{#oneOf}}
+    {{#discriminator}}
+    #[serde(alias = "{{{discriminatorValue}}}")]
+    {{/discriminator}}
     {{{datatypeWithEnum}}}({{{dataType}}}),
     {{/oneOf}}
     {{/composedSchemas}}
@@ -1038,7 +1077,7 @@ pub struct {{{classname}}} {
 {{#isString}}
 impl {{{classname}}} {
     fn _name_for_{{{name}}}() -> String {
-        String::from("{{{classname}}}")
+        String::from("{{#discriminatorValue}}{{{discriminatorValue}}}{{/discriminatorValue}}{{^discriminatorValue}}{{classname}}{{/discriminatorValue}}")
     }
 
     fn _serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
@@ -1057,12 +1096,12 @@ impl {{{classname}}} {
 {{#pattern}}
 {{^isByteArray}}
 lazy_static::lazy_static! {
-    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
 }
 {{/isByteArray}}
 {{#isByteArray}}
 lazy_static::lazy_static! {
-    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
 }
 fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}(
     b: &ByteArray

@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ReadOnlyFirst")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
 
   private @Nullable String bar;
@@ -41,6 +41,7 @@ public class ReadOnlyFirstDto {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -60,6 +61,7 @@ public class ReadOnlyFirstDto {
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(@Nullable String baz) {
     this.baz = baz;
   }
@@ -96,11 +98,8 @@ public class ReadOnlyFirstDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

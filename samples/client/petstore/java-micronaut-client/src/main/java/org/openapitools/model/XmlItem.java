@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +60,7 @@ import javax.annotation.Generated;
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
 @JsonTypeName("XmlItem")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class XmlItem {
     public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
@@ -950,10 +949,7 @@ public class XmlItem {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
 }

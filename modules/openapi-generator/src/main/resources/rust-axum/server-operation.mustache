@@ -2,7 +2,7 @@
 #[tracing::instrument(skip_all)]
 async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{{#havingAuthMethod}}, C{{/havingAuthMethod}}>(
   method: Method,
-  host: Host,
+  TypedHeader(host): TypedHeader<Host>,
   cookies: CookieJar,
 {{#headerParams.size}}
   headers: HeaderMap,

@@ -167,16 +167,6 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
                 prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
             }
-
-            if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
-                    if ((Boolean) enumVars.get("isString")) {
-                        model.vendorExtensions.putIfAbsent("x-php-enum-type", "string");
-                    } else {
-                        model.vendorExtensions.putIfAbsent("x-php-enum-type", "int");
-                    }
-                }
-            }
         }
         return objs;
     }
@@ -188,6 +178,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         for (CodegenOperation operation : operations.getOperation()) {
             Set<String> phpReturnTypeOptions = new LinkedHashSet<>();
             Set<String> docReturnTypeOptions = new LinkedHashSet<>();
+            boolean hasEmptyResponse = false;
 
             for (CodegenResponse response : operation.responses) {
                 if (response.dataType != null) {
@@ -200,6 +191,8 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
                     phpReturnTypeOptions.add(returnType);
                     docReturnTypeOptions.add(response.dataType);
+                } else {
+                    hasEmptyResponse = true;
                 }
             }
 
@@ -208,9 +201,20 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
                 operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", "void");
             } else {
+                String phpReturnType = String.join("|", phpReturnTypeOptions);
+                String docReturnType = String.join("|", docReturnTypeOptions);
+                if (hasEmptyResponse) {
+                    if (phpReturnTypeOptions.size() > 1) {
+                        phpReturnType = phpReturnType + "|null";
+                    } else {
+                        phpReturnType = "?" + phpReturnType;
+                    }
+                    docReturnType = docReturnType + "|null";
+                }
+
                 operation.vendorExtensions.putIfAbsent("x-php-return-type-is-void", false);
-                operation.vendorExtensions.putIfAbsent("x-php-return-type", String.join("|", phpReturnTypeOptions));
-                operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", String.join("|", docReturnTypeOptions));
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", phpReturnType);
+                operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", docReturnType);
             }
 
             for (CodegenParameter param : operation.allParams) {
@@ -237,7 +241,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
             if (schema.getDefault() != null) { // array schema has default value
-                return "[" + schema.getDefault().toString() + "]";
+                return schema.getDefault().toString();
             } else if (schema.getItems().getDefault() != null) { // array item schema has default value
                 return "[" + toDefaultValue(schema.getItems()) + "]";
             } else {

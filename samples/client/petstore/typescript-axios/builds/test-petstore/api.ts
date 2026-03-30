@@ -18,7 +18,7 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
@@ -35,6 +35,33 @@ export interface AdditionalPropertiesClass {
      */
     'empty_map'?: object;
     'map_with_undeclared_properties_string'?: { [key: string]: string; };
+}
+/**
+ * Object with allOf ref to double
+ */
+export interface AllOfRefToDouble {
+    /**
+     * Height as double
+     */
+    'height'?: number;
+}
+/**
+ * Object with allOf ref to float
+ */
+export interface AllOfRefToFloat {
+    /**
+     * Weight as float
+     */
+    'weight'?: number;
+}
+/**
+ * Object with allOf ref to long
+ */
+export interface AllOfRefToLong {
+    /**
+     * Id as long
+     */
+    'id'?: number;
 }
 export interface Animal {
     'className': string;
@@ -98,7 +125,7 @@ export interface ChildCat extends ParentPet {
 }
 
 export const ChildCatPetTypeEnum = {
-    ChildCat: 'ChildCat'
+    ChildCat: 'ChildCat',
 } as const;
 
 export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildCatPetTypeEnum];
@@ -140,13 +167,13 @@ export interface EnumArrays {
 
 export const EnumArraysJustSymbolEnum = {
     GreaterThanOrEqualTo: '>=',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 
 export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
 export const EnumArraysArrayEnumEnum = {
     Fish: 'fish',
-    Crab: 'crab'
+    Crab: 'crab',
 } as const;
 
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
@@ -155,7 +182,7 @@ export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeo
 export const EnumClass = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
@@ -176,32 +203,32 @@ export interface EnumTest {
 export const EnumTestEnumStringEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
 export const EnumTestEnumStringRequiredEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
 export const EnumTestEnumIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_1: -1
+    NUMBER_MINUS_1: -1,
 } as const;
 
 export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
 export const EnumTestEnumIntegerOnlyEnum = {
     NUMBER_2: 2,
-    NUMBER_MINUS_2: -2
+    NUMBER_MINUS_2: -2,
 } as const;
 
 export type EnumTestEnumIntegerOnlyEnum = typeof EnumTestEnumIntegerOnlyEnum[keyof typeof EnumTestEnumIntegerOnlyEnum];
 export const EnumTestEnumNumberEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
@@ -295,21 +322,21 @@ export interface MammalAnyof {
 export const MammalAnyofTypeEnum = {
     Plains: 'plains',
     Mountain: 'mountain',
-    Grevys: 'grevys'
+    Grevys: 'grevys',
 } as const;
 
 export type MammalAnyofTypeEnum = typeof MammalAnyofTypeEnum[keyof typeof MammalAnyofTypeEnum];
 
 export interface MapTest {
     'map_map_of_string'?: { [key: string]: { [key: string]: string; }; };
-    'map_of_enum_string'?: { [key: string]: string; };
+    'map_of_enum_string'?: { [key: string]: MapTestMapOfEnumStringEnum; };
     'direct_map'?: { [key: string]: boolean; };
     'indirect_map'?: { [key: string]: boolean; };
 }
 
 export const MapTestMapOfEnumStringEnum = {
     Upper: 'UPPER',
-    Lower: 'lower'
+    Lower: 'lower',
 } as const;
 
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
@@ -399,7 +426,7 @@ export interface Order {
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
@@ -413,7 +440,7 @@ export interface OuterComposite {
 export const OuterEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
@@ -423,7 +450,7 @@ export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 export const OuterEnumDefaultValue = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
@@ -433,7 +460,7 @@ export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof Ou
 export const OuterEnumInteger = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInteger];
@@ -443,7 +470,7 @@ export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInt
 export const OuterEnumIntegerDefaultValue = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[keyof typeof OuterEnumIntegerDefaultValue];
@@ -466,7 +493,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
@@ -581,7 +608,7 @@ export interface Zebra {
 export const ZebraTypeEnum = {
     Plains: 'plains',
     Mountain: 'mountain',
-    Grevys: 'grevys'
+    Grevys: 'grevys',
 } as const;
 
 export type ZebraTypeEnum = typeof ZebraTypeEnum[keyof typeof ZebraTypeEnum];
@@ -614,9 +641,8 @@ export const AnotherFakeApiAxiosParamCreator = function (configuration?: Configu
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -713,8 +739,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -804,8 +830,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -834,9 +860,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -867,9 +892,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -900,9 +924,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -933,9 +956,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = '*/*';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -966,8 +988,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -997,8 +1019,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1033,8 +1053,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1068,8 +1086,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1110,8 +1126,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['query'] = query;
             }
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1146,9 +1160,8 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1210,62 +1223,60 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             if (integer !== undefined) { 
                 localVarFormParams.set('integer', integer as any);
             }
-    
+
             if (int32 !== undefined) { 
                 localVarFormParams.set('int32', int32 as any);
             }
-    
+
             if (int64 !== undefined) { 
                 localVarFormParams.set('int64', int64 as any);
             }
-    
+
             if (number !== undefined) { 
                 localVarFormParams.set('number', number as any);
             }
-    
+
             if (_float !== undefined) { 
                 localVarFormParams.set('float', _float as any);
             }
-    
+
             if (_double !== undefined) { 
                 localVarFormParams.set('double', _double as any);
             }
-    
+
             if (string !== undefined) { 
                 localVarFormParams.set('string', string as any);
             }
-    
+
             if (patternWithoutDelimiter !== undefined) { 
                 localVarFormParams.set('pattern_without_delimiter', patternWithoutDelimiter as any);
             }
-    
+
             if (_byte !== undefined) { 
                 localVarFormParams.set('byte', _byte as any);
             }
-    
+
             if (binary !== undefined) { 
                 localVarFormParams.set('binary', binary as any);
             }
-    
+
             if (date !== undefined) { 
                 localVarFormParams.set('date', date as any);
             }
-    
+
             if (dateTime !== undefined) { 
                 localVarFormParams.set('dateTime', dateTime as any);
             }
-    
+
             if (password !== undefined) { 
                 localVarFormParams.set('password', password as any);
             }
-    
+
             if (callback !== undefined) { 
                 localVarFormParams.set('callback', callback as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1324,16 +1335,14 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarFormParams.set('enum_form_string_array', enumFormStringArray.join(COLLECTION_FORMATS.csv));
             }
 
-    
+
             if (enumFormString !== undefined) { 
                 localVarFormParams.set('enum_form_string', enumFormString as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
             if (enumHeaderStringArray) {
-                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
             if (enumHeaderString != null) {
@@ -1401,16 +1410,15 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
 
-    
             if (requiredBooleanGroup != null) {
                 localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
                     ? requiredBooleanGroup
-                    : JSON.stringify(requiredBooleanGroup);
+                    : JSON.stringify(requiredBooleanGroup, replaceWithSerializableTypeIfNeeded);
             }
             if (booleanGroup != null) {
                 localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
                     ? booleanGroup
-                    : JSON.stringify(booleanGroup);
+                    : JSON.stringify(booleanGroup, replaceWithSerializableTypeIfNeeded);
             }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1443,8 +1451,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1479,8 +1485,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -1523,14 +1527,12 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             if (param !== undefined) { 
                 localVarFormParams.set('param', param as any);
             }
-    
+
             if (param2 !== undefined) { 
                 localVarFormParams.set('param2', param2 as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1595,7 +1597,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -1627,8 +1628,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2381,45 +2380,45 @@ export class FakeApi extends BaseAPI {
 
 export const TestEnumParametersEnumHeaderStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 export const TestEnumParametersEnumHeaderStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 export const TestEnumParametersEnumQueryStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 export const TestEnumParametersEnumQueryStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 export const TestEnumParametersEnumQueryIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_2: -2
+    NUMBER_MINUS_2: -2,
 } as const;
 export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 export const TestEnumParametersEnumQueryDoubleEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 export const TestEnumParametersEnumFormStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 export const TestEnumParametersEnumFormStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
 
@@ -2454,9 +2453,8 @@ export const FakeClassnameTags123ApiAxiosParamCreator = function (configuration?
             // authentication api_key_query required
             await setApiKeyToObject(localVarQueryParameter, "api_key_query", configuration)
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2563,8 +2561,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication http_signature_test required
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2606,7 +2602,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
 
-    
             if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
@@ -2651,8 +2646,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
             }
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2695,8 +2690,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
             }
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2732,8 +2727,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // authentication api_key required
             await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2771,8 +2766,6 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
             // authentication http_signature_test required
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2819,14 +2812,12 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (name !== undefined) { 
                 localVarFormParams.set('name', name as any);
             }
-    
+
             if (status !== undefined) { 
                 localVarFormParams.set('status', status as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
-    
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2871,14 +2862,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (additionalMetadata !== undefined) { 
                 localVarFormParams.append('additionalMetadata', additionalMetadata as any);
             }
-    
+
             if (file !== undefined) { 
                 localVarFormParams.append('file', file as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2925,14 +2915,13 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (additionalMetadata !== undefined) { 
                 localVarFormParams.append('additionalMetadata', additionalMetadata as any);
             }
-    
+
             if (requiredFile !== undefined) { 
                 localVarFormParams.append('requiredFile', requiredFile as any);
             }
-    
-    
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
+            localVarHeaderParameter['Accept'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3302,7 +3291,7 @@ export class PetApi extends BaseAPI {
 export const FindPetsByStatusStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
@@ -3336,7 +3325,6 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3368,8 +3356,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             // authentication api_key required
             await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3402,8 +3390,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3435,9 +3423,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -3637,8 +3624,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3673,8 +3658,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3709,8 +3692,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -3747,7 +3728,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarQueryParameter = {} as any;
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3780,8 +3760,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3824,8 +3804,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['password'] = password;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/xml,application/json';
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3855,7 +3835,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarQueryParameter = {} as any;
 
 
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3891,8 +3870,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);

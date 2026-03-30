@@ -29,6 +29,8 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot
+          - samples/server/petstore/kotlin-springboot-no-response-entity
+          - samples/server/petstore/kotlin-springboot-no-response-entity-delegate
           - samples/server/petstore/kotlin-springboot-multipart-request-model
           - samples/server/petstore/kotlin-springboot-bigdecimal-default
           - samples/server/petstore/kotlin-springboot-delegate
@@ -37,13 +39,11 @@ jobs:
           - samples/server/petstore/kotlin-springboot-reactive-without-flow
           - samples/server/petstore/kotlin-springboot-source-swagger1
           - samples/server/petstore/kotlin-springboot-source-swagger2
-          - samples/server/petstore/kotlin-springboot-springfox
           - samples/server/petstore/kotlin-springboot-x-kotlin-implements
-          - samples/server/petstore/kotlin-server/ktor
+          - samples/server/petstore/kotlin-springboot-include-http-request-context-delegate
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server/jaxrs-spec
           - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
-          - samples/server/petstore/kotlin-server-modelMutable
           - samples/server/petstore/kotlin-server/javalin
           - samples/server/others/kotlin-server/jaxrs-spec
           - samples/server/others/kotlin-server/jaxrs-spec-array-response
@@ -59,9 +59,10 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 11
+          cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: maven-repository
         with:

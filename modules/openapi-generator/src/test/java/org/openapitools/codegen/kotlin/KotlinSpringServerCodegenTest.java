@@ -89,6 +89,8 @@ public class KotlinSpringServerCodegenTest {
         // base properties are present
         TestUtils.assertFileContains(animalKt, "val id");
         TestUtils.assertFileContains(animalKt, "val optionalProperty");
+        TestUtils.assertFileContains(animalKt, "val stringArray: kotlin.collections.List<kotlin.String>");
+        TestUtils.assertFileContains(animalKt, "val stringSet: kotlin.collections.Set<kotlin.String>");
         // base doesn't contain discriminator
         TestUtils.assertFileNotContains(animalKt, "val discriminator");
 
@@ -98,6 +100,8 @@ public class KotlinSpringServerCodegenTest {
         // derived properties are overridden
         TestUtils.assertFileContains(birdKt, "override val id");
         TestUtils.assertFileContains(birdKt, "override val optionalProperty");
+        TestUtils.assertFileContains(birdKt, "override val stringArray: kotlin.collections.List<kotlin.String>");
+        TestUtils.assertFileContains(birdKt, "override val stringSet: kotlin.collections.Set<kotlin.String>");
         // derived doesn't contain disciminator
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
     }

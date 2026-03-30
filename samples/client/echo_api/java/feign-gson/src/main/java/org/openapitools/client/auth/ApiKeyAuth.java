@@ -15,7 +15,6 @@ package org.openapitools.client.auth;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import java.util.Locale;
 
 public class ApiKeyAuth implements RequestInterceptor {
     private final String location;
@@ -51,7 +50,7 @@ public class ApiKeyAuth implements RequestInterceptor {
         } else if ("header".equals(location)) {
             template.header(paramName, apiKey);
         } else if ("cookie".equals(location)) {
-            template.header("Cookie", String.format(Locale.ROOT, "%s=%s", paramName, apiKey));
+            template.header("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", paramName, apiKey));
         }
     }
 }

@@ -37,12 +37,17 @@ class RESTResponse(io.IOBase):
             self.data = await self.response.aread()
         return self.data
 
+    @property
+    def headers(self):
+        """Returns a CIMultiDictProxy of response headers."""
+        return self.response.headers
+
     def getheaders(self):
-        """Returns a CIMultiDictProxy of the response headers."""
+        """Returns a CIMultiDictProxy of the response headers; use ``headers`` instead."""
         return self.response.headers
 
     def getheader(self, name, default=None):
-        """Returns a given response header."""
+        """Returns a given response header; use ``headers`` instead."""
         return self.response.headers.get(name, default)
 
 

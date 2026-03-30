@@ -7,10 +7,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 {{/moshi}}
 {{#jackson}}
+import com.fasterxml.jackson.annotation.JsonCreator
 {{#enumUnknownDefaultCase}}
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 {{/enumUnknownDefaultCase}}
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
+import kotlin.jvm.JvmStatic
 {{/jackson}}
 {{#kotlinx_serialization}}
 import kotlinx.serialization.SerialName
@@ -39,6 +42,9 @@ import kotlinx.serialization.encoding.Encoder
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 {{/multiplatform}}
 
 /**
@@ -46,13 +52,13 @@ import kotlinx.serialization.*
  *
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
-{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+{{#multiplatform}}@Serializable{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
 {{^multiplatform}}
 {{#moshi}}
 @JsonClass(generateAdapter = false)
 {{/moshi}}
 {{/multiplatform}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{classname}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{{dataType}}}) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{classname}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#jackson}}@get:JsonValue {{/jackson}}val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
     {{#moshi}}
@@ -71,7 +77,9 @@ import kotlinx.serialization.*
     {{/kotlinx_serialization}}
     {{/multiplatform}}
     {{#multiplatform}}
+    {{#isString}}
     @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
+    {{/isString}}
     {{/multiplatform}}
     {{#isArray}}
     {{#isList}}
@@ -103,12 +111,34 @@ import kotlinx.serialization.*
         /**
          * Returns a valid [{{classname}}] for [data], null otherwise.
          */
+{{^jackson}}
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
           val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
+          entries.firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }
+{{/jackson}}
+{{#jackson}}
+        @JvmStatic
+        @JsonCreator
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}{{#isNullable}}?{{/isNullable}} {
+          if (data == null) {
+{{#isNullable}}
+            return null
+{{/isNullable}}
+{{^isNullable}}
+            throw IllegalArgumentException("Value for {{classname}} cannot be null")
+{{/isNullable}}
+          }
+          val normalizedData = "$data".lowercase()
+          return entries.firstOrNull { value ->
+            data == value || normalizedData == "$value".lowercase()
+          }{{#isNullable}}{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}
+            ?: {{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}
+            ?: throw IllegalArgumentException("Unknown {{classname}} value: $data"){{/enumUnknownDefaultCase}}{{/isNullable}}
+        }
+{{/jackson}}
     }
 }
 {{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
@@ -117,7 +147,7 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 
     override fun deserialize(decoder: Decoder): {{classname}} {
         val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
-        return {{classname}}.values().firstOrNull { it.value == value }
+        return {{classname}}.entries.firstOrNull { it.value == value }
             {{#isString}}
             ?: {{classname}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
             {{/isString}}
@@ -137,7 +167,7 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 
     override fun deserialize(decoder: Decoder): {{classname}} {
         val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
-        return {{classname}}.values().firstOrNull { it.value == value }
+        return {{classname}}.entries.firstOrNull { it.value == value }
             ?: throw IllegalArgumentException("Unknown enum value: $value")
     }
 
@@ -147,3 +177,20 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 }
 {{/isString}}{{/enumUnknownDefaultCase}}
 {{/kotlinx_serialization}}
+{{#multiplatform}}
+{{^isString}}
+internal object {{classname}}Serializer : KSerializer<{{classname}}> {
+    override val descriptor = {{dataType}}.serializer().descriptor
+
+    override fun deserialize(decoder: Decoder): {{classname}} {
+        val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+        return {{classname}}.values().firstOrNull { it.value == value }
+            ?: throw IllegalArgumentException("Unknown enum value: $value")
+    }
+
+    override fun serialize(encoder: Encoder, value: {{classname}}) {
+        encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+    }
+}
+{{/isString}}
+{{/multiplatform}}

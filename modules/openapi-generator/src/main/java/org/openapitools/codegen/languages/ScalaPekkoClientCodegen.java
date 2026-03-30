@@ -179,6 +179,8 @@ public class ScalaPekkoClientCodegen extends AbstractScalaCodegen implements Cod
         supportingFiles.add(new SupportingFile("apiSettings.mustache", invokerFolder, "ApiSettings.scala"));
         final String apiFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("enumsSerializers.mustache", apiFolder, "EnumsSerializers.scala"));
         supportingFiles.add(new SupportingFile("serializers.mustache", invokerFolder, "Serializers.scala"));
     }

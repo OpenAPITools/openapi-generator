@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +33,7 @@ import javax.annotation.Generated;
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class FileSchemaTestClass {
     public static final String JSON_PROPERTY_FILE = "file";
@@ -131,10 +130,7 @@ public class FileSchemaTestClass {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
 }

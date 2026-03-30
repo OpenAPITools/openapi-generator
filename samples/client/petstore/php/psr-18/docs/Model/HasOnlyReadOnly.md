@@ -1,4 +1,4 @@
-# # HasOnlyReadOnly
+# HasOnlyReadOnly
 
 ## Properties
 

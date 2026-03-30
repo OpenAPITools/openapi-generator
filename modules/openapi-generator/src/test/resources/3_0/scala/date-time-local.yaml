@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Date Time Local Test API
+  version: 1.0.0
+paths:
+  /events:
+    get:
+      operationId: getEvents
+      summary: Get events
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+components:
+  schemas:
+    Event:
+      type: object
+      required:
+        - name
+        - startTime
+        - createdAt
+      properties:
+        name:
+          type: string
+        startTime:
+          type: string
+          format: date-time-local
+        endTime:
+          type: string
+          format: date-time-local
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time

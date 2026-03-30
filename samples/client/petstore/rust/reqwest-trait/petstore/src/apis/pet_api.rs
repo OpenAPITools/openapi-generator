@@ -480,7 +480,9 @@ impl PetApi for PetApiClient {
         if let Some(local_var_param_value) = additional_metadata {
             local_var_form = local_var_form.text("additionalMetadata", local_var_param_value.to_string());
         }
-        // TODO: support file upload for 'file' parameter
+        if let Some(ref path) = file {
+            local_var_form = local_var_form.file("file", path.as_os_str()).await?;
+        }
         local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
         let local_var_req = local_var_req_builder.build()?;

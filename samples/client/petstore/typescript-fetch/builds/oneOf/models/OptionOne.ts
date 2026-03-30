@@ -21,7 +21,7 @@ import { mapValues } from '../runtime';
 export interface OptionOne {
     /**
      * 
-     * @type {string}
+     * @type {OptionOneDiscriminatorFieldEnum}
      * @memberof OptionOne
      */
     discriminatorField: OptionOneDiscriminatorFieldEnum;

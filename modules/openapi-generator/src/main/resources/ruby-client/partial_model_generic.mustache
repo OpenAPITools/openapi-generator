@@ -1,7 +1,7 @@
   {{#description}}
   # {{{.}}}
   {{/description}}
-  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}{{^parent}} < ApiModelBase{{/parent}}
   {{#vars}}
     {{#description}}
     # {{{.}}}

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { PetApi, Pet, PetStatusEnum, Category } from '@swagger/typescript-fetch-petstore';
+import { PetApi, Pet, PetStatusEnum, Category, ResponseError } from '@swagger/typescript-fetch-petstore';
 import { config } from '../configuration';
 
 describe('PetApi', () => {
@@ -47,6 +47,13 @@ describe('PetApi', () => {
                 }, (err: any) => {
                     return expect(err).to.exist;
                 });
+            });
+
+            it('instanceof ResponseError not Error', () => {
+                const response = new Response();
+                const err = new ResponseError(response, 'test error message');
+                expect(err instanceof ResponseError).to.be.true;
+                expect(err instanceof Error).to.be.true;
             });
 
         });

@@ -548,6 +548,98 @@ end:
 
 }
 
+// Find pet by UUID
+//
+// Returns a single pet identified by UUID
+//
+pet_t*
+PetAPI_getPetByUuid(apiClient_t *apiClient, char *uuid)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
+    // create the path
+    char *localVarPath = strdup("/pet/byUuid/{uuid}");
+
+    if(!uuid)
+        goto end;
+
+
+    // Path Params
+    long sizeOfPathParams_uuid = strlen(uuid)+3 + sizeof("{ uuid }") - 1;
+    if(uuid == NULL) {
+        goto end;
+    }
+    char* localVarToReplace_uuid = malloc(sizeOfPathParams_uuid);
+    sprintf(localVarToReplace_uuid, "{%s}", "uuid");
+
+    localVarPath = strReplace(localVarPath, localVarToReplace_uuid, uuid);
+
+
+    list_addElement(localVarHeaderType,"application/xml"); //produces
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    localVarBodyLength,
+                    "GET");
+
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid UUID supplied");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 404) {
+    //    printf("%s\n","Pet not found");
+    //}
+    //nonprimitive not container
+    pet_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+        elementToReturn = pet_parseFromJSON(PetAPIlocalVarJSON);
+        cJSON_Delete(PetAPIlocalVarJSON);
+        if(elementToReturn == NULL) {
+            // return 0;
+        }
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    
+    
+    
+    list_freeList(localVarHeaderType);
+    
+    free(localVarPath);
+    free(localVarToReplace_uuid);
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
+
+}
+
 // Get a random picture of someone else's pet
 //
 binary_t*

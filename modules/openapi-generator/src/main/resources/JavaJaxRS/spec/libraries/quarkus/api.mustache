@@ -14,6 +14,12 @@ import org.jboss.resteasy.annotations.GZIP;
 {{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
+{{#useSwaggerV3Annotations}}
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+{{/useSwaggerV3Annotations}}
 
 {{#supportAsync}}
 {{#useMutiny}}
@@ -96,7 +102,8 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
         openIdConnectUrl = "{{openIdConnectUrl}}"
     ){{^-last}}, {{/-last}}{{/isOpenId}}{{/authMethods}}
 }){{/hasAuthMethods}}{{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
-@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}
+@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
+@Tag(name = "{{{baseName}}}"){{/useSwaggerV3Annotations}}
 @Path("{{commonPath}}"){{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}

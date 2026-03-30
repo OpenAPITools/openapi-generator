@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -43,7 +42,7 @@ import org.openapitools.client.ApiClient;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @javax.annotation.Nullable
@@ -185,10 +184,7 @@ public class ArrayTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -226,8 +222,8 @@ public class ArrayTest {
     // add `array_of_string` to the URL query string
     if (getArrayOfString() != null) {
       for (int i = 0; i < getArrayOfString().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_of_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_of_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayOfString().get(i)))));
       }
     }
@@ -235,8 +231,8 @@ public class ArrayTest {
     // add `array_array_of_integer` to the URL query string
     if (getArrayArrayOfInteger() != null) {
       for (int i = 0; i < getArrayArrayOfInteger().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_array_of_integer%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_array_of_integer%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayArrayOfInteger().get(i)))));
       }
     }
@@ -245,8 +241,8 @@ public class ArrayTest {
     if (getArrayArrayOfModel() != null) {
       for (int i = 0; i < getArrayArrayOfModel().size(); i++) {
         if (getArrayArrayOfModel().get(i) != null) {
-          joiner.add(String.format(Locale.ROOT, "%sarray_array_of_model%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_array_of_model%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               ApiClient.urlEncode(ApiClient.valueToString(getArrayArrayOfModel().get(i)))));
         }
       }

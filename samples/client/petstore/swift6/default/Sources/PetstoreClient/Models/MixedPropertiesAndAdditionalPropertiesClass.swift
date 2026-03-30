@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MixedPropertiesAndAdditionalPropertiesClass: Sendable, Codable, ParameterConvertible, Hashable {
+public struct MixedPropertiesAndAdditionalPropertiesClass: Sendable, Codable, Hashable {
 
     public var uuid: UUID?
     public var dateTime: Date?

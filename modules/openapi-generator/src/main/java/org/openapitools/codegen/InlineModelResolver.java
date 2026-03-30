@@ -356,7 +356,9 @@ public class InlineModelResolver {
         } else if (schema.getProperties() != null) {
             // If non-object type is specified but also properties
             LOGGER.error("Illegal schema found with non-object type combined with properties," +
-                    " no properties should be defined:\n " + schema.toString());
+                    " no properties should be defined:" +
+                    " consider using --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true\n " +
+                    schema.toString());
             return;
         } else if (schema.getAdditionalProperties() != null) {
             // If non-object type is specified but also additionalProperties

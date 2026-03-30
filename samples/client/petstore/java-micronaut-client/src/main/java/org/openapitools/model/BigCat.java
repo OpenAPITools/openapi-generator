@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import org.openapitools.model.Cat;
 import com.fasterxml.jackson.annotation.*;
 
@@ -30,7 +29,7 @@ import javax.annotation.Generated;
   BigCat.JSON_PROPERTY_KIND
 })
 @JsonTypeName("BigCat")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class BigCat extends Cat {
     /**
@@ -129,10 +128,7 @@ public class BigCat extends Cat {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
     @Override

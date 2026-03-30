@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -41,7 +40,7 @@ import org.openapitools.client.ApiClient;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
@@ -178,10 +177,7 @@ public class Name {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -218,22 +214,22 @@ public class Name {
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     // add `snake_case` to the URL query string
     if (getSnakeCase() != null) {
-      joiner.add(String.format(Locale.ROOT, "%ssnake_case%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSnakeCase()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%ssnake_case%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSnakeCase()))));
     }
 
     // add `property` to the URL query string
     if (getProperty() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sproperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getProperty()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sproperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getProperty()))));
     }
 
     // add `123Number` to the URL query string
     if (get123number() != null) {
-      joiner.add(String.format(Locale.ROOT, "%s123Number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123number()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%s123Number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123number()))));
     }
 
     return joiner.toString();

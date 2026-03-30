@@ -240,9 +240,9 @@
         </dependency>
         <!-- Bean Validation Impl. used to perform BeanValidation -->
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.2.0.Final</version>
+            <version>8.0.3.Final</version>
         </dependency>
         <!-- test dependencies -->
         <dependency>

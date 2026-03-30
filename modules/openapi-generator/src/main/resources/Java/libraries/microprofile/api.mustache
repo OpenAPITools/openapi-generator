@@ -12,9 +12,7 @@ import java.util.Set;
 import {{rootJavaEEPackage}}.ws.rs.*;
 import {{rootJavaEEPackage}}.ws.rs.core.Response;
 import {{rootJavaEEPackage}}.ws.rs.core.MediaType;
-{{^disableMultipart}}
-import org.apache.cxf.jaxrs.ext.multipart.*;
-{{/disableMultipart}}
+
 {{#microprofileMutiny}}
 import io.smallrye.mutiny.Uni;
 {{/microprofileMutiny}}
@@ -28,6 +26,7 @@ import {{rootJavaEEPackage}}.validation.Valid;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 {{/microprofileRegisterExceptionMapper}}
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
 
 {{#appName}}
 /**

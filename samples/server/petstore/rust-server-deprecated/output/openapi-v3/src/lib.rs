@@ -6,10 +6,8 @@ use futures::Stream;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
-use swagger::{ApiError, ContextWrapper};
+use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
-use crate::server::Authorization;
-
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
@@ -129,6 +127,11 @@ pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
     (models::AnotherXmlObject)
+}
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum QueryExampleGetResponse {
+    /// OK
+    OK
 }
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ReadonlyAuthSchemeGetResponse {
@@ -310,7 +313,8 @@ pub trait Api<C: Send + Sync> {
     /// Test a Form Post
     async fn form_test(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>;
 
     async fn get_with_boolean_parameter(
@@ -356,6 +360,13 @@ pub trait Api<C: Send + Sync> {
         some_object: Option<serde_json::Value>,
         some_list: Option<&Vec<models::MyId>>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>;
+
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        context: &C) -> Result<QueryExampleGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
         &self,
@@ -476,7 +487,8 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Test a Form Post
     async fn form_test(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         ) -> Result<FormTestResponse, ApiError>;
 
     async fn get_with_boolean_parameter(
@@ -522,6 +534,13 @@ pub trait ApiNoContext<C: Send + Sync> {
         some_object: Option<serde_json::Value>,
         some_list: Option<&Vec<models::MyId>>,
         ) -> Result<ParamgetGetResponse, ApiError>;
+
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        ) -> Result<QueryExampleGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
         &self,
@@ -672,11 +691,12 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Test a Form Post
     async fn form_test(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         ) -> Result<FormTestResponse, ApiError>
     {
         let context = self.context().clone();
-        self.api().form_test(required_array, &context).await
+        self.api().form_test(required_array, enum_field, &context).await
     }
 
     async fn get_with_boolean_parameter(
@@ -757,6 +777,17 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().paramget_get(uuid, some_object, some_list, &context).await
+    }
+
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        ) -> Result<QueryExampleGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().query_example_get(required_no_example, required_with_example, &context).await
     }
 
     async fn readonly_auth_scheme_get(

@@ -61,6 +61,7 @@ jobs:
           - samples/client/petstore/java/native
           - samples/client/petstore/java/native-async
           - samples/client/petstore/java/native-jakarta
+          - samples/client/petstore/java/native-useGzipFeature
           - samples/client/petstore/java/retrofit2
           - samples/client/petstore/java/retrofit2rx2
           - samples/client/petstore/java/retrofit2rx3
@@ -118,8 +119,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 11
+          cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: maven-repository
         with:
@@ -131,7 +133,7 @@ jobs:
         run: mvn clean package --no-transfer-progress
 
       - name: Cache gradle dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: gradle-caches
         with:
@@ -139,7 +141,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
 
       - name: Cache gradle wrapper
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: gradle-wrapper
         with:

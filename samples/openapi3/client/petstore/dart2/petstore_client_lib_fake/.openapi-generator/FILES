@@ -43,7 +43,9 @@ doc/NumberOnly.md
 doc/ObjectThatReferencesObjectsWithDuplicateInlineEnums.md
 doc/ObjectWithDeprecatedFields.md
 doc/ObjectWithDuplicateInlineEnum.md
+doc/ObjectWithEnum.md
 doc/ObjectWithInlineEnum.md
+doc/ObjectWithInlineEnumDefaultValue.md
 doc/Order.md
 doc/OuterComposite.md
 doc/OuterEnum.md
@@ -61,7 +63,6 @@ doc/StoreApi.md
 doc/Tag.md
 doc/TestEnum.md
 doc/TestInlineFreeformAdditionalPropertiesRequest.md
-doc/TestItem.md
 doc/User.md
 doc/UserApi.md
 git_push.sh
@@ -118,7 +119,9 @@ lib/model/number_only.dart
 lib/model/object_that_references_objects_with_duplicate_inline_enums.dart
 lib/model/object_with_deprecated_fields.dart
 lib/model/object_with_duplicate_inline_enum.dart
+lib/model/object_with_enum.dart
 lib/model/object_with_inline_enum.dart
+lib/model/object_with_inline_enum_default_value.dart
 lib/model/order.dart
 lib/model/outer_composite.dart
 lib/model/outer_enum.dart
@@ -134,6 +137,5 @@ lib/model/special_model_name.dart
 lib/model/tag.dart
 lib/model/test_enum.dart
 lib/model/test_inline_freeform_additional_properties_request.dart
-lib/model/test_item.dart
 lib/model/user.dart
 pubspec.yaml

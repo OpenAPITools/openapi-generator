@@ -11,7 +11,7 @@ on:
       - samples/client/petstore/csharp/generichost/net4.8/**
 jobs:
   build:
-    name: Build .Net projects
+    name: Build .Net Framework projects
     runs-on: windows-latest
     strategy:
       fail-fast: false

@@ -2293,6 +2293,42 @@ components:
             $ref: "#/components/schemas/Bar"
           type: array
       type: object
+    LongId:
+      description: Id as long
+      format: int64
+      type: integer
+    Weight:
+      description: Weight as float
+      format: float
+      type: number
+    Height:
+      description: Height as double
+      format: double
+      type: number
+    AllOfRefToLong:
+      description: Object with allOf ref to long
+      properties:
+        id:
+          allOf:
+          - $ref: "#/components/schemas/LongId"
+          default: 10
+      type: object
+    AllOfRefToFloat:
+      description: Object with allOf ref to float
+      properties:
+        weight:
+          allOf:
+          - $ref: "#/components/schemas/Weight"
+          default: 7.89
+      type: object
+    AllOfRefToDouble:
+      description: Object with allOf ref to double
+      properties:
+        height:
+          allOf:
+          - $ref: "#/components/schemas/Height"
+          default: 32.1
+      type: object
     _foo_get_default_response:
       example:
         string:

@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -41,19 +40,19 @@ public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
   
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
   
-  private Long petId;
+  protected Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   
-  private Integer quantity;
+  protected Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   
-  private Date shipDate;
+  protected Date shipDate;
 
   public enum StatusEnum {
 
@@ -92,11 +91,11 @@ public class Order  {
   * Order Status
   */
   
-  private StatusEnum status;
+  protected StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   
-  private Boolean complete = false;
+  protected Boolean complete = false;
 
 
   /**
@@ -276,10 +275,7 @@ public class Order  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

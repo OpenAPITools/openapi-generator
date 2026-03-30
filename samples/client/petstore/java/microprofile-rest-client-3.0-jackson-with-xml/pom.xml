@@ -10,7 +10,7 @@
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
       <plugin>
-        <groupId>org.jboss.jandex</groupId>
+        <groupId>io.smallrye</groupId>
         <artifactId>jandex-maven-plugin</artifactId>
         <version>${jandex.maven.plugin.version}</version>
         <executions>
@@ -90,11 +90,7 @@
         <scope>test</scope>
     </dependency>
 
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>${cxf.rt.rs.extension.providers.version}</version>
-    </dependency>
+
     <!-- JSON processing: jackson -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -157,7 +153,7 @@
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
     <junit.version>5.10.2</junit.version>
-    <logback.version>1.5.13</logback.version>
+    <logback.version>1.5.19</logback.version>
     <cxf.version>3.2.7</cxf.version>
     <jackson.jaxrs.version>2.17.1</jackson.jaxrs.version>
     <jackson.version>2.17.1</jackson.version>
@@ -173,8 +169,8 @@
     <cxf.rt.rs.extension.providers.version>3.5.1</cxf.rt.rs.extension.providers.version>
     <jaxb.core.version>3.0.2</jaxb.core.version>
     <jaxb.impl.version>3.0.2</jaxb.impl.version>
-    <hibernate.validator.version>7.0.4.Final</hibernate.validator.version>
-    <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
+    <hibernate.validator.version>8.0.3.Final</hibernate.validator.version>
+    <jandex.maven.plugin.version>3.2.7</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
   </properties>

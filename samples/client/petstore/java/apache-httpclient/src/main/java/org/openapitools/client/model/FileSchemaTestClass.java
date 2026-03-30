@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +37,7 @@ import java.util.StringJoiner;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   @javax.annotation.Nullable
@@ -109,6 +108,7 @@ public class FileSchemaTestClass {
     this.files = files;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -142,10 +142,7 @@ public class FileSchemaTestClass {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**
@@ -189,8 +186,8 @@ public class FileSchemaTestClass {
     if (getFiles() != null) {
       for (int i = 0; i < getFiles().size(); i++) {
         if (getFiles().get(i) != null) {
-          joiner.add(getFiles().get(i).toUrlQueryString(String.format(Locale.ROOT, "%sfiles%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
+          joiner.add(getFiles().get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%sfiles%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
