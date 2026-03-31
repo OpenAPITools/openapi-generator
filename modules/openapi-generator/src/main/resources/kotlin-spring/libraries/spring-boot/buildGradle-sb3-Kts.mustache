@@ -37,12 +37,11 @@ dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion"){{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
         implementation("org.springdoc:springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-ui:2.6.0"){{/useSwaggerUI}}{{^useSwaggerUI}}
-        implementation("org.springdoc:springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-api:2.6.0"){{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
-        implementation("io.springfox:springfox-swagger2:2.9.2"){{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
+        implementation("org.springdoc:springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-api:2.6.0"){{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
         implementation("org.webjars:swagger-ui:4.10.3")
-        implementation("org.webjars:webjars-locator-core"){{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
+        implementation("org.webjars:webjars-locator-core"){{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
         implementation("io.swagger:swagger-annotations:1.6.6"){{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
-        implementation("io.swagger.core.v3:swagger-annotations:2.2.0"){{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}{{/springFoxDocumentationProvider}}
+        implementation("io.swagger.core.v3:swagger-annotations:2.2.0"){{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")

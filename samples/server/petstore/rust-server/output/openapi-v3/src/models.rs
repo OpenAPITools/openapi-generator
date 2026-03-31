@@ -304,6 +304,7 @@ pub struct AdditionalPropertiesWithNullable {
 }
 
 
+
 impl AdditionalPropertiesWithNullable {
     #[allow(clippy::new_without_default)]
     pub fn new() -> AdditionalPropertiesWithNullable {
@@ -807,6 +808,7 @@ pub struct AnotherXmlObject {
     pub inner_string: Option<String>,
 
 }
+
 
 
 impl AnotherXmlObject {
@@ -1539,6 +1541,7 @@ pub struct AnyOfProperty {
 }
 
 
+
 impl AnyOfProperty {
     #[allow(clippy::new_without_default)]
     pub fn new(required_any_of: models::AnyOfObject, ) -> AnyOfProperty {
@@ -1716,6 +1719,7 @@ pub struct DuplicateXmlObject {
     pub inner_array: models::XmlArray,
 
 }
+
 
 
 impl DuplicateXmlObject {
@@ -2683,6 +2687,7 @@ pub struct MultigetGet201Response {
 }
 
 
+
 impl MultigetGet201Response {
     #[allow(clippy::new_without_default)]
     pub fn new() -> MultigetGet201Response {
@@ -3500,6 +3505,7 @@ pub struct NullableTest {
 }
 
 
+
 impl NullableTest {
     #[allow(clippy::new_without_default)]
     pub fn new(nullable: swagger::Nullable<String>, ) -> NullableTest {
@@ -3740,6 +3746,7 @@ pub struct ObjectHeader {
 }
 
 
+
 impl ObjectHeader {
     #[allow(clippy::new_without_default)]
     pub fn new(required_object_header: bool, ) -> ObjectHeader {
@@ -3923,6 +3930,7 @@ pub struct ObjectParam {
     pub optional_param: Option<u64>,
 
 }
+
 
 
 impl ObjectParam {
@@ -4116,6 +4124,7 @@ pub struct ObjectUntypedProps {
 }
 
 
+
 impl ObjectUntypedProps {
     #[allow(clippy::new_without_default)]
     pub fn new(required_untyped: serde_json::Value, required_untyped_nullable: swagger::Nullable<serde_json::Value>, ) -> ObjectUntypedProps {
@@ -4297,6 +4306,7 @@ pub struct ObjectWithArrayOfObjects {
     pub object_array: Option<Vec<models::StringObject>>,
 
 }
+
 
 
 impl ObjectWithArrayOfObjects {
@@ -5888,6 +5898,7 @@ pub struct XmlObject {
     pub other_inner_rename: Option<i32>,
 
 }
+
 
 
 impl XmlObject {

@@ -20,7 +20,7 @@
 
 namespace test_namespace {
 
-PFXPet::PFXPet(QString json) {
+PFXPet::PFXPet(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -52,7 +52,7 @@ void PFXPet::initializeModel() {
     m_status_isValid = false;
 }
 
-void PFXPet::fromJson(QString jsonString) {
+void PFXPet::fromJson(const QString &jsonString) {
     QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();

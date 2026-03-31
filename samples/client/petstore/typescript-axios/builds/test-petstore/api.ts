@@ -125,7 +125,7 @@ export interface ChildCat extends ParentPet {
 }
 
 export const ChildCatPetTypeEnum = {
-    ChildCat: 'ChildCat'
+    ChildCat: 'ChildCat',
 } as const;
 
 export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildCatPetTypeEnum];
@@ -167,13 +167,13 @@ export interface EnumArrays {
 
 export const EnumArraysJustSymbolEnum = {
     GreaterThanOrEqualTo: '>=',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 
 export type EnumArraysJustSymbolEnum = typeof EnumArraysJustSymbolEnum[keyof typeof EnumArraysJustSymbolEnum];
 export const EnumArraysArrayEnumEnum = {
     Fish: 'fish',
-    Crab: 'crab'
+    Crab: 'crab',
 } as const;
 
 export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeof EnumArraysArrayEnumEnum];
@@ -182,7 +182,7 @@ export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeo
 export const EnumClass = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
@@ -203,32 +203,32 @@ export interface EnumTest {
 export const EnumTestEnumStringEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringEnum = typeof EnumTestEnumStringEnum[keyof typeof EnumTestEnumStringEnum];
 export const EnumTestEnumStringRequiredEnum = {
     Upper: 'UPPER',
     Lower: 'lower',
-    Empty: ''
+    Empty: '',
 } as const;
 
 export type EnumTestEnumStringRequiredEnum = typeof EnumTestEnumStringRequiredEnum[keyof typeof EnumTestEnumStringRequiredEnum];
 export const EnumTestEnumIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_1: -1
+    NUMBER_MINUS_1: -1,
 } as const;
 
 export type EnumTestEnumIntegerEnum = typeof EnumTestEnumIntegerEnum[keyof typeof EnumTestEnumIntegerEnum];
 export const EnumTestEnumIntegerOnlyEnum = {
     NUMBER_2: 2,
-    NUMBER_MINUS_2: -2
+    NUMBER_MINUS_2: -2,
 } as const;
 
 export type EnumTestEnumIntegerOnlyEnum = typeof EnumTestEnumIntegerOnlyEnum[keyof typeof EnumTestEnumIntegerOnlyEnum];
 export const EnumTestEnumNumberEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 
 export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof EnumTestEnumNumberEnum];
@@ -322,7 +322,7 @@ export interface MammalAnyof {
 export const MammalAnyofTypeEnum = {
     Plains: 'plains',
     Mountain: 'mountain',
-    Grevys: 'grevys'
+    Grevys: 'grevys',
 } as const;
 
 export type MammalAnyofTypeEnum = typeof MammalAnyofTypeEnum[keyof typeof MammalAnyofTypeEnum];
@@ -336,7 +336,7 @@ export interface MapTest {
 
 export const MapTestMapOfEnumStringEnum = {
     Upper: 'UPPER',
-    Lower: 'lower'
+    Lower: 'lower',
 } as const;
 
 export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof typeof MapTestMapOfEnumStringEnum];
@@ -426,7 +426,7 @@ export interface Order {
 export const OrderStatusEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
@@ -440,7 +440,7 @@ export interface OuterComposite {
 export const OuterEnum = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
@@ -450,7 +450,7 @@ export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 export const OuterEnumDefaultValue = {
     Placed: 'placed',
     Approved: 'approved',
-    Delivered: 'delivered'
+    Delivered: 'delivered',
 } as const;
 
 export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
@@ -460,7 +460,7 @@ export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof Ou
 export const OuterEnumInteger = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInteger];
@@ -470,7 +470,7 @@ export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInt
 export const OuterEnumIntegerDefaultValue = {
     NUMBER_0: 0,
     NUMBER_1: 1,
-    NUMBER_2: 2
+    NUMBER_2: 2,
 } as const;
 
 export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[keyof typeof OuterEnumIntegerDefaultValue];
@@ -493,7 +493,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
@@ -608,7 +608,7 @@ export interface Zebra {
 export const ZebraTypeEnum = {
     Plains: 'plains',
     Mountain: 'mountain',
-    Grevys: 'grevys'
+    Grevys: 'grevys',
 } as const;
 
 export type ZebraTypeEnum = typeof ZebraTypeEnum[keyof typeof ZebraTypeEnum];
@@ -2380,45 +2380,45 @@ export class FakeApi extends BaseAPI {
 
 export const TestEnumParametersEnumHeaderStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
 export const TestEnumParametersEnumHeaderStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
 export const TestEnumParametersEnumQueryStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
 export const TestEnumParametersEnumQueryStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
 export const TestEnumParametersEnumQueryIntegerEnum = {
     NUMBER_1: 1,
-    NUMBER_MINUS_2: -2
+    NUMBER_MINUS_2: -2,
 } as const;
 export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
 export const TestEnumParametersEnumQueryDoubleEnum = {
     NUMBER_1_DOT_1: 1.1,
-    NUMBER_MINUS_1_DOT_2: -1.2
+    NUMBER_MINUS_1_DOT_2: -1.2,
 } as const;
 export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
 export const TestEnumParametersEnumFormStringArrayEnum = {
     GreaterThan: '>',
-    Dollar: '$'
+    Dollar: '$',
 } as const;
 export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
 export const TestEnumParametersEnumFormStringEnum = {
     Abc: '_abc',
     Efg: '-efg',
-    Xyz: '(xyz)'
+    Xyz: '(xyz)',
 } as const;
 export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
 
@@ -3291,7 +3291,7 @@ export class PetApi extends BaseAPI {
 export const FindPetsByStatusStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 

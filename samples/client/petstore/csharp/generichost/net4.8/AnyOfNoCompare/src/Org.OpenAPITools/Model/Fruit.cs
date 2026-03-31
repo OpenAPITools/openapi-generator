@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple Apple { get { return this.AppleOption; } set { this.AppleOption = new Option<Apple>(value); } }
+        public Apple Apple { get { return this.AppleOption.Value; } set { this.AppleOption = new Option<Apple>(value); } }
 
         /// <summary>
         /// Used to track the state of Banana
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana Banana { get { return this.BananaOption; } set { this.BananaOption = new Option<Banana>(value); } }
+        public Banana Banana { get { return this.BananaOption.Value; } set { this.BananaOption = new Option<Banana>(value); } }
 
         /// <summary>
         /// Used to track the state of Color
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get { return this.ColorOption; } set { this.ColorOption = new Option<string>(value); } }
+        public string Color { get { return this.ColorOption.Value; } set { this.ColorOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

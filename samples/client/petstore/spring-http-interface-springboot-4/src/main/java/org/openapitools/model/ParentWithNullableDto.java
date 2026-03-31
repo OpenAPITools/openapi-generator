@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullableDto.class, name = "ChildWithNullable")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ParentWithNullableDto {
 
   /**
@@ -85,6 +85,7 @@ public class ParentWithNullableDto {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(@Nullable TypeEnum type) {
     this.type = type;
   }
@@ -104,6 +105,7 @@ public class ParentWithNullableDto {
     return nullableProperty;
   }
 
+  @JsonProperty("nullableProperty")
   public void setNullableProperty(@Nullable String nullableProperty) {
     this.nullableProperty = nullableProperty;
   }
@@ -141,10 +143,7 @@ public class ParentWithNullableDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

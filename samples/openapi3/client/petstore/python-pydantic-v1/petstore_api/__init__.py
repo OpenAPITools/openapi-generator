@@ -48,6 +48,7 @@ __all__ = [
     "ApiResponse",
     "ArrayOfArrayOfModel",
     "ArrayOfArrayOfNumberOnly",
+    "ArrayOfMapModel",
     "ArrayOfNumberOnly",
     "ArrayTest",
     "BaseDiscriminator",
@@ -186,6 +187,7 @@ from petstore_api.models.any_of_pig import AnyOfPig as AnyOfPig
 from petstore_api.models.api_response import ApiResponse as ApiResponse
 from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel as ArrayOfArrayOfModel
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly as ArrayOfArrayOfNumberOnly
+from petstore_api.models.array_of_map_model import ArrayOfMapModel as ArrayOfMapModel
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly as ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest as ArrayTest
 from petstore_api.models.base_discriminator import BaseDiscriminator as BaseDiscriminator

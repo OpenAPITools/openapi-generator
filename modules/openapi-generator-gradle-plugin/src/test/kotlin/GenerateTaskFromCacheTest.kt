@@ -24,9 +24,7 @@ class GenerateTaskFromCacheTest : TestBase() {
     @DataProvider(name = "gradle_version_provider")
     private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(
         arrayOf("8.14.4", "STRING"),
-        arrayOf("8.14.4", "FILE"),
-        arrayOf("8.5", "STRING"),
-        arrayOf("8.5", "FILE"),
+        arrayOf("8.14.4", "FILE")
     )
 
     // inputSpec tests

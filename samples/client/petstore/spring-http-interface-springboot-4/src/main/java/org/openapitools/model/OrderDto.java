@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class OrderDto {
 
   private @Nullable Long id;
@@ -89,6 +89,7 @@ public class OrderDto {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -108,6 +109,7 @@ public class OrderDto {
     return petId;
   }
 
+  @JsonProperty("petId")
   public void setPetId(@Nullable Long petId) {
     this.petId = petId;
   }
@@ -127,6 +129,7 @@ public class OrderDto {
     return quantity;
   }
 
+  @JsonProperty("quantity")
   public void setQuantity(@Nullable Integer quantity) {
     this.quantity = quantity;
   }
@@ -146,6 +149,7 @@ public class OrderDto {
     return shipDate;
   }
 
+  @JsonProperty("shipDate")
   public void setShipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
@@ -165,6 +169,7 @@ public class OrderDto {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -184,6 +189,7 @@ public class OrderDto {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
@@ -229,10 +235,7 @@ public class OrderDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

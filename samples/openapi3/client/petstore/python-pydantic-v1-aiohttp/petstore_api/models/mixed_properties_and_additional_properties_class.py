@@ -76,10 +76,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         _obj = MixedPropertiesAndAdditionalPropertiesClass.parse_obj({
             "uuid": obj.get("uuid"),
             "date_time": obj.get("dateTime"),
-            "map": dict(
-                (_k, Animal.from_dict(_v))
-                for _k, _v in obj.get("map").items()
-            )
+            "map": {
+                _k: Animal.from_dict(_v) for _k, _v in obj["map"].items()
+            }
             if obj.get("map") is not None
             else None
         })

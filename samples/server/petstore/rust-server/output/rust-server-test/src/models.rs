@@ -24,6 +24,26 @@ pub struct ANullableContainer {
 
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ANullableContainer {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ANullableContainer {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+
 
 impl ANullableContainer {
     #[allow(clippy::new_without_default)]
@@ -223,6 +243,16 @@ impl serde_valid::validation::ValidateCompositedMinLength for AdditionalProperti
         Ok(())
     }
 }
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for AdditionalPropertiesObject {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the AdditionalPropertiesObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -335,6 +365,26 @@ pub struct AllOfObject {
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_property: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for AllOfObject {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for AllOfObject {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -510,6 +560,26 @@ pub struct BaseAllOf {
 
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for BaseAllOf {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for BaseAllOf {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+
 
 impl BaseAllOf {
     #[allow(clippy::new_without_default)]
@@ -674,6 +744,26 @@ pub struct DummyPutRequest {
     #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for DummyPutRequest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for DummyPutRequest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -847,6 +937,26 @@ pub struct GetYamlResponse {
 
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for GetYamlResponse {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for GetYamlResponse {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+
 
 impl GetYamlResponse {
     #[allow(clippy::new_without_default)]
@@ -1011,6 +1121,26 @@ pub struct ObjectOfObjects {
 
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectOfObjects {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectOfObjects {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+
 
 impl ObjectOfObjects {
     #[allow(clippy::new_without_default)]
@@ -1170,6 +1300,26 @@ pub struct ObjectOfObjectsInner {
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_thing: Option<i32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectOfObjectsInner {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for ObjectOfObjectsInner {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1345,6 +1495,26 @@ pub struct UnnamedAllofUnderProperties {
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<u32>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for UnnamedAllofUnderProperties {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for UnnamedAllofUnderProperties {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -1539,6 +1709,16 @@ impl serde_valid::validation::ValidateCompositedMinLength for UnnamedReference {
         &self,
         _min_length: usize,
     ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for UnnamedReference {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
         Ok(())
     }
 }

@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   private @Nullable UUID uuid;
@@ -50,6 +50,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
@@ -69,6 +70,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return dateTime;
   }
 
+  @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -96,6 +98,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
     return map;
   }
 
+  @JsonProperty("map")
   public void setMap(Map<String, AnimalDto> map) {
     this.map = map;
   }
@@ -135,10 +138,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

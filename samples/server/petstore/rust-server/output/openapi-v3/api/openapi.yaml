@@ -67,6 +67,30 @@ paths:
                 $ref: "#/components/schemas/anotherXmlObject"
           description: JSON rsp
       summary: Get some stuff with parameters.
+  /query-example:
+    get:
+      operationId: queryExampleGet
+      parameters:
+      - explode: true
+        in: query
+        name: required_no_example
+        required: true
+        schema:
+          type: string
+        style: form
+      - example: 42
+        explode: true
+        in: query
+        name: required_with_example
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          description: OK
+      summary: Test required query params with and without examples
   /multiget:
     get:
       responses:

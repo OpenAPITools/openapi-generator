@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
 @JsonTypeName("Enum_Test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -378,10 +378,7 @@ public class EnumTest {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

@@ -29,7 +29,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private @Nullable Integer code;
@@ -69,6 +69,8 @@ public class ModelApiResponse {
     return code;
   }
 
+  @JsonProperty("code")
+  @JacksonXmlProperty(localName = "code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
   }
@@ -91,6 +93,8 @@ public class ModelApiResponse {
     return type;
   }
 
+  @JsonProperty("type")
+  @JacksonXmlProperty(localName = "type")
   public void setType(@Nullable String type) {
     this.type = type;
   }
@@ -113,6 +117,8 @@ public class ModelApiResponse {
     return message;
   }
 
+  @JsonProperty("message")
+  @JacksonXmlProperty(localName = "message")
   public void setMessage(@Nullable String message) {
     this.message = message;
   }
@@ -152,10 +158,7 @@ public class ModelApiResponse {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

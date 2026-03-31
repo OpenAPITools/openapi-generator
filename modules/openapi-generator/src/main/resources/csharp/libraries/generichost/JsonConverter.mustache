@@ -221,7 +221,7 @@
                             {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<{{#supportsDateOnly}}DateOnly{{/supportsDateOnly}}{{^supportsDateOnly}}DateTime{{/supportsDateOnly}}{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions));
                         {{/isDate}}
                         {{#isDateTime}}
-                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions));
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<DateTime{{#useDateTimeOffset}}Offset{{/useDateTimeOffset}}{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions));
                         {{/isDateTime}}
                         {{#isEnum}}
                         {{^isMap}}

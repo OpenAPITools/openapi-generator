@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.0
-- Generator version: 7.21.0-SNAPSHOT
+- Generator version: 7.22.0-SNAPSHOT
 
 
 
@@ -95,7 +95,6 @@ cargo run --example petstore-with-fake-endpoints-models-for-testing-client FakeR
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client TestEndpointParameters
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client TestEnumParameters
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client TestJsonFormData
-cargo run --example petstore-with-fake-endpoints-models-for-testing-client HyphenParam
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client FindPetsByStatus
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client FindPetsByTags
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client DeletePet
@@ -103,14 +102,10 @@ cargo run --example petstore-with-fake-endpoints-models-for-testing-client GetPe
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client UpdatePetWithForm
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client UploadFile
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client GetInventory
-cargo run --example petstore-with-fake-endpoints-models-for-testing-client DeleteOrder
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client GetOrderById
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client CreateUsersWithArrayInput
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client CreateUsersWithListInput
-cargo run --example petstore-with-fake-endpoints-models-for-testing-client LoginUser
 cargo run --example petstore-with-fake-endpoints-models-for-testing-client LogoutUser
-cargo run --example petstore-with-fake-endpoints-models-for-testing-client DeleteUser
-cargo run --example petstore-with-fake-endpoints-models-for-testing-client GetUserByName
 ```
 
 ### HTTPS

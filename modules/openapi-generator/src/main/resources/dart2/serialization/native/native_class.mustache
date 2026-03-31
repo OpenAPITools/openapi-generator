@@ -33,7 +33,17 @@ class {{{classname}}} {
       {{/required}}
     {{/isNullable}}
   {{/isEnum}}
-  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{/isNullable}} {{{name}}};
+  {{#required}}
+  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
+  {{/required}}
+  {{^required}}
+    {{#vendorExtensions.x-is-optional}}
+  {{{datatypeWithEnum}}} {{{name}}};
+    {{/vendorExtensions.x-is-optional}}
+    {{^vendorExtensions.x-is-optional}}
+  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}} {{{name}}};
+    {{/vendorExtensions.x-is-optional}}
+  {{/required}}
 
 {{/vars}}
   @override
@@ -55,6 +65,37 @@ class {{{classname}}} {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
   {{#vars}}
+    {{#vendorExtensions.x-is-optional}}
+    if (this.{{{name}}}.isPresent) {
+      final value = this.{{{name}}}.value;
+      {{#isDateTime}}
+        {{#pattern}}
+      json[r'{{{baseName}}}'] = value == null ? null : (_isEpochMarker(r'{{{pattern}}}')
+        ? value.millisecondsSinceEpoch
+        : value.toUtc().toIso8601String());
+        {{/pattern}}
+        {{^pattern}}
+      json[r'{{{baseName}}}'] = value == null ? null : value.toUtc().toIso8601String();
+        {{/pattern}}
+      {{/isDateTime}}
+      {{#isDate}}
+        {{#pattern}}
+      json[r'{{{baseName}}}'] = value == null ? null : (_isEpochMarker(r'{{{pattern}}}')
+        ? value.millisecondsSinceEpoch
+        : _dateFormatter.format(value.toUtc()));
+        {{/pattern}}
+        {{^pattern}}
+      json[r'{{{baseName}}}'] = value == null ? null : _dateFormatter.format(value.toUtc());
+        {{/pattern}}
+      {{/isDate}}
+      {{^isDateTime}}
+        {{^isDate}}
+      json[r'{{{baseName}}}'] = value{{#isArray}}{{#uniqueItems}} == null ? null : value.toList(growable: false){{/uniqueItems}}{{/isArray}};
+        {{/isDate}}
+      {{/isDateTime}}
+    }
+    {{/vendorExtensions.x-is-optional}}
+    {{^vendorExtensions.x-is-optional}}
     {{#isNullable}}
     if (this.{{{name}}} != null) {
     {{/isNullable}}
@@ -104,6 +145,7 @@ class {{{classname}}} {
         {{/defaultValue}}
       {{/required}}
     {{/isNullable}}
+    {{/vendorExtensions.x-is-optional}}
   {{/vars}}
     return json;
   }
@@ -133,10 +175,20 @@ class {{{classname}}} {
       return {{{classname}}}(
   {{#vars}}
     {{#isDateTime}}
+      {{#vendorExtensions.x-is-optional}}
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(mapDateTime(json, r'{{{baseName}}}', r'{{{pattern}}}')) : const Optional.absent(),
+      {{/vendorExtensions.x-is-optional}}
+      {{^vendorExtensions.x-is-optional}}
         {{{name}}}: mapDateTime(json, r'{{{baseName}}}', r'{{{pattern}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+      {{/vendorExtensions.x-is-optional}}
     {{/isDateTime}}
     {{#isDate}}
+      {{#vendorExtensions.x-is-optional}}
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(mapDateTime(json, r'{{{baseName}}}', r'{{{pattern}}}')) : const Optional.absent(),
+      {{/vendorExtensions.x-is-optional}}
+      {{^vendorExtensions.x-is-optional}}
         {{{name}}}: mapDateTime(json, r'{{{baseName}}}', r'{{{pattern}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+      {{/vendorExtensions.x-is-optional}}
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
@@ -194,7 +246,12 @@ class {{{classname}}} {
         {{{name}}}: null, // No support for decoding binary content from JSON
               {{/isBinary}}
               {{^isBinary}}
+                {{#vendorExtensions.x-is-optional}}
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present({{{complexType}}}.fromJson(json[r'{{{baseName}}}'])) : const Optional.absent(),
+                {{/vendorExtensions.x-is-optional}}
+                {{^vendorExtensions.x-is-optional}}
         {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+                {{/vendorExtensions.x-is-optional}}
               {{/isBinary}}
             {{/isMap}}
           {{/isArray}}
@@ -221,12 +278,32 @@ class {{{classname}}} {
             : {{/isNullable}}{{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
               {{/isNumber}}
               {{^isNumber}}
-                {{^isEnum}}
+                {{#vendorExtensions.x-original-is-integer}}
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(json[r'{{{baseName}}}'] == null ? null : int.parse('${json[r'{{{baseName}}}']}')) : const Optional.absent(),
+                {{/vendorExtensions.x-original-is-integer}}
+                {{^vendorExtensions.x-original-is-integer}}
+                  {{#vendorExtensions.x-original-is-number}}
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(json[r'{{{baseName}}}'] == null ? null : num.parse('${json[r'{{{baseName}}}']}')) : const Optional.absent(),
+                  {{/vendorExtensions.x-original-is-number}}
+                  {{^vendorExtensions.x-original-is-number}}
+                    {{^isEnum}}
+                      {{#vendorExtensions.x-is-optional}}
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(mapValueOfType<{{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{datatypeWithEnum}}}{{/vendorExtensions.x-unwrapped-datatype}}>(json, r'{{{baseName}}}')) : const Optional.absent(),
+                      {{/vendorExtensions.x-is-optional}}
+                      {{^vendorExtensions.x-is-optional}}
         {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
-                {{/isEnum}}
-                {{#isEnum}}
+                      {{/vendorExtensions.x-is-optional}}
+                    {{/isEnum}}
+                    {{#isEnum}}
+                      {{#vendorExtensions.x-is-optional}}
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present({{{enumName}}}.fromJson(json[r'{{{baseName}}}'])) : const Optional.absent(),
+                      {{/vendorExtensions.x-is-optional}}
+                      {{^vendorExtensions.x-is-optional}}
         {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? const {{{enumName}}}._({{{.}}}){{/defaultValue}}{{/required}},
-                {{/isEnum}}
+                      {{/vendorExtensions.x-is-optional}}
+                    {{/isEnum}}
+                  {{/vendorExtensions.x-original-is-number}}
+                {{/vendorExtensions.x-original-is-integer}}
               {{/isNumber}}
             {{/isMap}}
           {{/isArray}}

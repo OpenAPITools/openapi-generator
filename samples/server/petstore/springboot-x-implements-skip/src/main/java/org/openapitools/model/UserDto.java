@@ -5,24 +5,23 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * UserDto
  */
 
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class UserDto {
 
   private @Nullable Long id;
@@ -51,12 +50,13 @@ public class UserDto {
    * @return id
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -71,12 +71,13 @@ public class UserDto {
    * @return username
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
   public @Nullable String getUsername() {
     return username;
   }
 
+  @JsonProperty("username")
   public void setUsername(@Nullable String username) {
     this.username = username;
   }
@@ -91,12 +92,13 @@ public class UserDto {
    * @return firstName
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
   public @Nullable String getFirstName() {
     return firstName;
   }
 
+  @JsonProperty("firstName")
   public void setFirstName(@Nullable String firstName) {
     this.firstName = firstName;
   }
@@ -111,12 +113,13 @@ public class UserDto {
    * @return lastName
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
   public @Nullable String getLastName() {
     return lastName;
   }
 
+  @JsonProperty("lastName")
   public void setLastName(@Nullable String lastName) {
     this.lastName = lastName;
   }
@@ -131,12 +134,13 @@ public class UserDto {
    * @return email
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
   public @Nullable String getEmail() {
     return email;
   }
 
+  @JsonProperty("email")
   public void setEmail(@Nullable String email) {
     this.email = email;
   }
@@ -151,12 +155,13 @@ public class UserDto {
    * @return password
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
   public @Nullable String getPassword() {
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(@Nullable String password) {
     this.password = password;
   }
@@ -171,12 +176,13 @@ public class UserDto {
    * @return phone
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
   public @Nullable String getPhone() {
     return phone;
   }
 
+  @JsonProperty("phone")
   public void setPhone(@Nullable String phone) {
     this.phone = phone;
   }
@@ -191,12 +197,13 @@ public class UserDto {
    * @return userStatus
    */
   
-  @ApiModelProperty(value = "User Status")
+  @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
   public @Nullable Integer getUserStatus() {
     return userStatus;
   }
 
+  @JsonProperty("userStatus")
   public void setUserStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
@@ -246,10 +253,7 @@ public class UserDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

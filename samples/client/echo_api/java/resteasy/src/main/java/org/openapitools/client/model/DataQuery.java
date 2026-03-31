@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
   @javax.annotation.Nullable
@@ -179,10 +179,7 @@ public class DataQuery extends Query {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

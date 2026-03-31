@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -442,6 +443,69 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testResponse, "import type { OptionOne } from './OptionOne'");
         TestUtils.assertFileContains(testResponse, "import type { OptionTwo } from './OptionTwo'");
         TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
+    }
+
+    @Test(description = "Verify validationAttributes works with withoutRuntimeChecks=true")
+    public void testValidationAttributesWithWithoutRuntimeChecks() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, true);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/validation-attributes.yaml");
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileExists(modelsIndex);
+        TestUtils.assertFileContains(modelsIndex, "PetPropertyValidationAttributesMap");
+        TestUtils.assertFileContains(modelsIndex, "[property: string]:");
+    }
+
+    @Test(description = "Verify withRequestOptsInInterface=true (default) includes RequestOpts in interface")
+    public void testRequestOptsInInterfaceByDefault() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.WITH_INTERFACES, true);
+
+        File output = generate(properties);
+
+        Path apiFile = Paths.get(output + "/apis/PetControllerApi.ts");
+        TestUtils.assertFileExists(apiFile);
+
+        // Read file content and split into interface and class sections
+        String content = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
+        int interfaceStart = content.indexOf("export interface PetControllerApiInterface");
+        int classStart = content.indexOf("export class PetControllerApi");
+        String interfaceSection = content.substring(interfaceStart, classStart);
+
+        // Interface should contain RequestOpts methods
+        assertThat(interfaceSection).contains("addPetRequestOpts(");
+
+        // Class should also contain RequestOpts methods
+        String classSection = content.substring(classStart);
+        assertThat(classSection).contains("async addPetRequestOpts(");
+    }
+
+    @Test(description = "Verify withRequestOptsInInterface=false excludes RequestOpts from interface but keeps them on class")
+    public void testRequestOptsNotInInterfaceWhenDisabled() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.WITH_INTERFACES, true);
+        properties.put(TypeScriptFetchClientCodegen.WITH_REQUEST_OPTS_IN_INTERFACE, false);
+
+        File output = generate(properties);
+
+        Path apiFile = Paths.get(output + "/apis/PetControllerApi.ts");
+        TestUtils.assertFileExists(apiFile);
+
+        // Read file content and split into interface and class sections
+        String content = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
+        int interfaceStart = content.indexOf("export interface PetControllerApiInterface");
+        int classStart = content.indexOf("export class PetControllerApi");
+        String interfaceSection = content.substring(interfaceStart, classStart);
+
+        // Interface should NOT contain RequestOpts methods
+        assertThat(interfaceSection).doesNotContain("RequestOpts");
+
+        // Class should still contain RequestOpts methods
+        String classSection = content.substring(classStart);
+        assertThat(classSection).contains("async addPetRequestOpts(");
     }
 
     private static File generate(

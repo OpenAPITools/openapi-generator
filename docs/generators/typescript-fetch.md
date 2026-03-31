@@ -47,6 +47,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
 |validationAttributes|Setting this property to true will generate the validation attributes of model properties.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|withRequestOptsInInterface|Setting this property to true will include *RequestOpts methods in the API interface declarations. Set to false to keep them only on the class.| |true|
 |withoutRuntimeChecks|Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.| |false|
 
 ## IMPORT MAPPING

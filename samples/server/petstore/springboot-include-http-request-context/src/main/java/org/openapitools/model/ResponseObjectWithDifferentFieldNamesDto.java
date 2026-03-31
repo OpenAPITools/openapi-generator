@@ -5,24 +5,23 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ResponseObjectWithDifferentFieldNamesDto
  */
 
 @JsonTypeName("ResponseObjectWithDifferentFieldNames")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNamesDto {
 
   private @Nullable String normalPropertyName;
@@ -43,12 +42,13 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * @return normalPropertyName
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "normalPropertyName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("normalPropertyName")
   public @Nullable String getNormalPropertyName() {
     return normalPropertyName;
   }
 
+  @JsonProperty("normalPropertyName")
   public void setNormalPropertyName(@Nullable String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
   }
@@ -63,12 +63,13 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * @return UPPER_CASE_PROPERTY_SNAKE
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "UPPER_CASE_PROPERTY_SNAKE", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public @Nullable String getUPPERCASEPROPERTYSNAKE() {
     return UPPER_CASE_PROPERTY_SNAKE;
   }
 
+  @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public void setUPPERCASEPROPERTYSNAKE(@Nullable String UPPER_CASE_PROPERTY_SNAKE) {
     this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
   }
@@ -83,12 +84,13 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * @return lowerCasePropertyDashes
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "lower-case-property-dashes", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lower-case-property-dashes")
   public @Nullable String getLowerCasePropertyDashes() {
     return lowerCasePropertyDashes;
   }
 
+  @JsonProperty("lower-case-property-dashes")
   public void setLowerCasePropertyDashes(@Nullable String lowerCasePropertyDashes) {
     this.lowerCasePropertyDashes = lowerCasePropertyDashes;
   }
@@ -103,12 +105,13 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * @return propertyNameWithSpaces
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "property name with spaces", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property name with spaces")
   public @Nullable String getPropertyNameWithSpaces() {
     return propertyNameWithSpaces;
   }
 
+  @JsonProperty("property name with spaces")
   public void setPropertyNameWithSpaces(@Nullable String propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;
   }
@@ -150,10 +153,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

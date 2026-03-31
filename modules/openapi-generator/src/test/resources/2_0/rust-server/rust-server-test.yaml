@@ -108,7 +108,6 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/allOfObject'
-
 parameters:
   nested_response:
     name: nested_response

@@ -5,7 +5,7 @@ templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   groupId: org.openapitools.openapi3
   artifactId: springboot-reactive-noResponseEntity
-  documentationProvider: springfox
+  documentationProvider: springdoc
   reactive: "true"
   hideGenerationTimestamp: "true"
   delegatePattern: "true"

@@ -13,5 +13,7 @@ additionalProperties:
   skipFormModel: false
   modelPropertySorting: alphabetical
   operationParameterSorting: alphabetical
+  treatWarningsAsErrors: true
+  warningsNotAsErrors: CS0612
 inlineSchemaOptions:
   RESOLVE_INLINE_ENUMS: true

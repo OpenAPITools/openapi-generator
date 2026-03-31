@@ -68,6 +68,34 @@ export interface User {
      */
     userStatus?: number;
 }
+export const UserPropertyValidationAttributesMap: {
+    [property: string]: {
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+    password: {
+        maxLength: 256,
+        minLength: 8,
+    },
+    userStatus: {
+        maximum: 100,
+        exclusiveMaximum: true,
+        minimum: 0,
+        exclusiveMinimum: true,
+        multipleOf: 10,
+    },
+}
+
 
 /**
  * Check if a given object implements the User interface.
@@ -117,33 +145,5 @@ export function UserToJSONTyped(value?: User | null, ignoreDiscriminator: boolea
         'phone': value['phone'],
         'userStatus': value['userStatus'],
     };
-}
-
-export const UserPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-    password: {
-        maxLength: 256,
-        minLength: 8,
-    },
-    userStatus: {
-        maximum: 100,
-        exclusiveMaximum: true,
-        minimum: 0,
-        exclusiveMinimum: true,
-        multipleOf: 10,
-    },
 }
 

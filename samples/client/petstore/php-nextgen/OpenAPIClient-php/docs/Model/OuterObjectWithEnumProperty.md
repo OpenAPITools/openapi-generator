@@ -1,4 +1,4 @@
-# # OuterObjectWithEnumProperty
+# OuterObjectWithEnumProperty
 
 ## Properties
 

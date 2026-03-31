@@ -59,4 +59,27 @@ public class RustServerCodegenTest {
         // Clean up
         target.toFile().deleteOnExit();
     }
+
+    /**
+     * Test that required query params without examples disable the client example.
+     */
+    @Test
+    public void testRequiredQueryParamWithoutExampleDisablesClientExample() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/openapi-v3.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path exampleClientMain = Path.of(target.toString(), "/examples/client/main.rs");
+        TestUtils.assertFileExists(exampleClientMain);
+        TestUtils.assertFileContains(exampleClientMain, "Disabled because there's no example.");
+        TestUtils.assertFileContains(exampleClientMain, "Some(\"QueryExampleGet\")");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
 }

@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * A pet for sale in the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -105,6 +105,7 @@ public class Pet {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -124,6 +125,7 @@ public class Pet {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -143,6 +145,7 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -170,6 +173,7 @@ public class Pet {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -197,6 +201,7 @@ public class Pet {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
@@ -212,8 +217,8 @@ public class Pet {
    * @deprecated
    */
   
-  @JsonProperty("status")
   @Deprecated
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -222,6 +227,7 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -267,10 +273,7 @@ public class Pet {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

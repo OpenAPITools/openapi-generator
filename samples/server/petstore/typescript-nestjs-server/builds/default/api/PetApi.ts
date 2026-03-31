@@ -9,7 +9,7 @@ export abstract class PetApi {
   abstract addPet(pet: Pet,  request: Request): Pet | Promise<Pet> | Observable<Pet>;
 
 
-  abstract deletePet(petId: number, apiKey: string,  request: Request): void | Promise<void> | Observable<void>;
+  abstract deletePet(petId: number, apiKey: string | undefined,  request: Request): void | Promise<void> | Observable<void>;
 
 
   abstract findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>,  request: Request): Array<Pet> | Promise<Array<Pet>> | Observable<Array<Pet>>;
@@ -24,9 +24,9 @@ export abstract class PetApi {
   abstract updatePet(pet: Pet,  request: Request): Pet | Promise<Pet> | Observable<Pet>;
 
 
-  abstract updatePetWithForm(petId: number, name: string, status: string,  request: Request): void | Promise<void> | Observable<void>;
+  abstract updatePetWithForm(petId: number, name: string | undefined, status: string | undefined,  request: Request): void | Promise<void> | Observable<void>;
 
 
-  abstract uploadFile(petId: number, additionalMetadata: string, file: Blob,  request: Request): ApiResponse | Promise<ApiResponse> | Observable<ApiResponse>;
+  abstract uploadFile(petId: number, additionalMetadata: string | undefined, file: Blob | undefined,  request: Request): ApiResponse | Promise<ApiResponse> | Observable<ApiResponse>;
 
 } 

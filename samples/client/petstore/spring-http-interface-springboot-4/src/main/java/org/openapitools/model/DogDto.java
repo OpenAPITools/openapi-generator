@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("Dog")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class DogDto extends AnimalDto {
 
   private @Nullable String breed;
@@ -47,6 +47,7 @@ public class DogDto extends AnimalDto {
     return breed;
   }
 
+  @JsonProperty("breed")
   public void setBreed(@Nullable String breed) {
     this.breed = breed;
   }
@@ -94,10 +95,7 @@ public class DogDto extends AnimalDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -614,6 +614,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             processParam(param, op);
         }
 
+        for (CodegenParameter param : op.queryParams) {
+            processParam(param, op);
+        }
+
         // We keep track of the 'default' model type for this API. If there are
         // *any* XML responses, then we set the default to XML, otherwise we
         // let the default be JSON. It would be odd for an API to want to use
@@ -1062,6 +1066,25 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return codegenParameter;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        // Check whether the spec provides an example before calling super, which
+        // will fall back to auto-generating one from the param name/type.
+        boolean hasSpecExample =
+                parameter.getExample() != null ||
+                (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) ||
+                (parameter.getSchema() != null && parameter.getSchema().getExample() != null);
+
+        super.setParameterExampleValue(codegenParameter, parameter);
+
+        if (!hasSpecExample) {
+            // Null out the auto-generated example so processParam can detect
+            // required params with no user-provided example and disable the
+            // client example stub accordingly.
+            codegenParameter.example = null;
+        }
     }
 
     @Override
@@ -1675,15 +1698,30 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             example = (param.example != null) ? "&vec![\"" + param.example + "\".to_string()]" : "&Vec::new()";
         } else if (param.isString) {
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
-            example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
+            if (param.example != null) {
+                example = "\"" + param.example + "\".to_string()";
+            }
         } else if (param.isPrimitiveType) {
             if ((param.isByteArray) || (param.isBinary)) {
                 // Binary primitive types don't implement `Display`.
                 param.vendorExtensions.put("x-format-string", "{:?}");
                 example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
+            } else if (param.isBoolean) {
+                param.vendorExtensions.put("x-format-string", "{}");
+                example = (param.example != null) ? param.example : "true";
             } else {
                 param.vendorExtensions.put("x-format-string", "{}");
-                example = (param.example != null) ? param.example : "";
+                if (param.example != null) {
+                    example = param.example;
+                } else if (param.isFloat || param.isDouble) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0.0";
+                } else if (param.isInteger || param.isLong || param.isShort || param.isNumber) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0";
+                }
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");

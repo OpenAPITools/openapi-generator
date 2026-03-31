@@ -77,7 +77,7 @@ No authorization required
 
 ## call123testSpecialTagsWithHttpInfo
 
-> CompletableFuture<ApiResponse<Client>> call123testSpecialTags call123testSpecialTagsWithHttpInfo(client)
+> CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(client)
 
 To test special tags
 

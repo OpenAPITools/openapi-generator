@@ -34,7 +34,7 @@ public class Client  {
   
   public static final String JSON_PROPERTY_CLIENT = "client";
   
-  private String client;
+  protected String client;
 
 
   /**
@@ -89,10 +89,7 @@ public class Client  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

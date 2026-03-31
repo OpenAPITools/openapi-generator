@@ -2137,6 +2137,12 @@ components:
             type: object
             additionalProperties:
               type: string
+        map_of_map_non_primitive_property:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Pet'
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
@@ -2704,6 +2710,15 @@ components:
           additionalProperties:
             type: array
             items:
+              $ref: "#/components/schemas/Tag"
+    ArrayOfMapModel:
+      type: object
+      properties:
+        array_of_map_property:
+          type: array
+          items:
+            type: object
+            additionalProperties:
               $ref: "#/components/schemas/Tag"
     ArrayOfArrayOfModel:
       type: object

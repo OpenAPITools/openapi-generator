@@ -35,7 +35,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Foo  {
   
   @JsonbProperty("bar")
-  private String bar = "bar";
+  protected String bar = "bar";
 
 
   /**
@@ -93,10 +93,7 @@ public class Foo  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

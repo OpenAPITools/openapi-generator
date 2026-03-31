@@ -33,7 +33,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Cat extends Animal {
   
   @JsonbProperty("declawed")
-  private Boolean declawed;
+  protected Boolean declawed;
 
 
   /**
@@ -92,10 +92,7 @@ public class Cat extends Animal {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 
