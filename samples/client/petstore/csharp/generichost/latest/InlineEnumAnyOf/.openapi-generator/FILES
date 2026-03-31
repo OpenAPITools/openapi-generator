@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 Org.OpenAPITools.sln
 README.md
 api/openapi.yaml
@@ -10,7 +11,13 @@ docs/models/IconsSizeParameter.md
 docs/models/IconsSizeParameterAnyOf.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
+src/Org.OpenAPITools.Test/Api/ApiTestsBase.cs
+src/Org.OpenAPITools.Test/Api/DefaultApiTests.cs
 src/Org.OpenAPITools.Test/Api/DependencyInjectionTests.cs
+src/Org.OpenAPITools.Test/Model/FooTests.cs
+src/Org.OpenAPITools.Test/Model/IconsDefaultResponseTests.cs
+src/Org.OpenAPITools.Test/Model/IconsSizeParameterAnyOfTests.cs
+src/Org.OpenAPITools.Test/Model/IconsSizeParameterTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools.Test/README.md
 src/Org.OpenAPITools/Api/DefaultApi.cs
