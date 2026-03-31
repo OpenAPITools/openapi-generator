@@ -30,10 +30,16 @@ class Type(int, Enum):
     NUMBER_1_DOT_0 = 1.0
     NUMBER_0_DOT_5 = 0.5
     NUMBER_0_DOT_25 = 0.25
+    NUMBER_11184809 = 11184809
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of Type from a JSON string"""
         return cls(json.loads(json_str))
+
+    @classmethod
+    def _missing_(cls, value):
+        """Handle unknown enum values"""
+        return cls.UNKNOWN_DEFAULT_OPEN_API
 
 
