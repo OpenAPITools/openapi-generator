@@ -1394,6 +1394,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                                     childModel.getAllVars().add(discriminatorProp);
                                 }
 
+                                // Update model flags after adding discriminator property
+                                childModel.setHasVars(true);
+                                childModel.setHasRequired(true);
+
                                 childModel.getVendorExtensions().put("x-parent-ctor-args",
                                         discriminatorVarName + " = " + discriminatorVarName);
                             }

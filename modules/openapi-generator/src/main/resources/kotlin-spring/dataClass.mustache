@@ -27,7 +27,7 @@
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{/discriminator}}{{! no newline
-}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{^isMap}}{{#vendorExtensions.x-parent-ctor-args}}({{{vendorExtensions.x-parent-ctor-args}}}){{/vendorExtensions.x-parent-ctor-args}}{{/isMap}}{{! no newline
+}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{^isMap}}{{#useSealedDiscriminatorClasses}}({{#vendorExtensions.x-parent-ctor-args}}{{{vendorExtensions.x-parent-ctor-args}}}{{/vendorExtensions.x-parent-ctor-args}}){{/useSealedDiscriminatorClasses}}{{/isMap}}{{! no newline
       }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! <- serializableModel is also handled via x-kotlin-implements
       }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{#.}}, {{{.}}}{{/.}}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! <- add sealed interface implementations
 }}{{/parent}}{{! no newline
