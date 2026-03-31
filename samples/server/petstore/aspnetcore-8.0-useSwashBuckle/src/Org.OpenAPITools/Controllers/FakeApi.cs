@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
@@ -39,7 +40,7 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default);
             string exampleJson = null;
-            exampleJson = "{\r\n  \"nullableName\" : \"nullableName\",\r\n  \"name\" : \"name\"\r\n}";
+            exampleJson = "{\n  \"nullableName\" : \"nullableName\",\n  \"name\" : \"name\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<TestNullable>(exampleJson)
