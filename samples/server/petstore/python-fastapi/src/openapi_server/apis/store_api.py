@@ -67,7 +67,8 @@ async def get_inventory(
     response_model_by_alias=True,
 )
 async def place_order(
-    order: Annotated[Order, Field(description="order placed for purchasing the pet")] = Body(..., description="order placed for purchasing the pet"),
+    order: Annotated[Order, Field(description="order placed for purchasing the pet")] = Body(..., description="order placed for purchasing the pet")
+,
 ) -> Order:
     """"""
     if not BaseStoreApi.subclasses:
@@ -87,7 +88,8 @@ async def place_order(
     response_model_by_alias=True,
 )
 async def get_order_by_id(
-    orderId: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")] = Path(..., description="ID of pet that needs to be fetched", ge=1, le=5),
+    orderId: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")] = Path(..., description="ID of pet that needs to be fetched", ge=1, le=5)
+,
 ) -> Order:
     """For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions"""
     if not BaseStoreApi.subclasses:
@@ -106,7 +108,8 @@ async def get_order_by_id(
     response_model_by_alias=True,
 )
 async def delete_order(
-    orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")] = Path(..., description="ID of the order that needs to be deleted"),
+    orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")] = Path(..., description="ID of the order that needs to be deleted")
+,
 ) -> None:
     """For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors"""
     if not BaseStoreApi.subclasses:
