@@ -50,7 +50,7 @@ jobs:
           gradle-version: '8.14.3'
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.19.0
+        uses: s4u/setup-maven-action@v1.20.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -92,7 +92,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v5
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.19.0
+        uses: s4u/setup-maven-action@v1.20.0
         with:
           java-version: 11
           maven-version: 3.8.8
