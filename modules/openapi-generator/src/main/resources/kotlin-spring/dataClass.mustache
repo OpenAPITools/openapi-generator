@@ -11,14 +11,23 @@
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{#discriminator}}{{#useSealedDiscriminatorClasses}}{{! sealed class for discriminator models when opt-in flag is enabled
+}}{{#vendorExtensions.x-discriminator-has-parent-properties}}sealed class {{classname}}(
+{{#requiredVars}}
+{{>dataClassSealedVar}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassSealedVar}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+){{/vendorExtensions.x-discriminator-has-parent-properties}}{{! no newline
+}}{{^vendorExtensions.x-discriminator-has-parent-properties}}sealed class {{classname}}{{/vendorExtensions.x-discriminator-has-parent-properties}}{{! no newline
+}}{{/useSealedDiscriminatorClasses}}{{^useSealedDiscriminatorClasses}}interface {{classname}}{{/useSealedDiscriminatorClasses}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{/discriminator}}{{! no newline
-}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
+}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{^isMap}}{{#vendorExtensions.x-parent-ctor-args}}({{{vendorExtensions.x-parent-ctor-args}}}){{/vendorExtensions.x-parent-ctor-args}}{{/isMap}}{{! no newline
       }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! <- serializableModel is also handled via x-kotlin-implements
       }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{#.}}, {{{.}}}{{/.}}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! <- add sealed interface implementations
 }}{{/parent}}{{! no newline
@@ -33,12 +42,14 @@
     }}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! no newline
 }}{{/parent}} {
 {{#discriminator}}
+{{^useSealedDiscriminatorClasses}}
     {{#requiredVars}}
         {{>interfaceReqVar}}{{! prevent indent}}
     {{/requiredVars}}
     {{#optionalVars}}
         {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
+{{/useSealedDiscriminatorClasses}}
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**

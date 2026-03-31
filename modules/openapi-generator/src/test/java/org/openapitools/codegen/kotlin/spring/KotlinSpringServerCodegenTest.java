@@ -1520,8 +1520,6 @@ public class KotlinSpringServerCodegenTest {
                 path,
                 "import java.io.Serializable",
                 "Serializable",
-                ") : Pet, java.io.Serializable,  com.some.pack.Fetchable {",
-                ") : Pet, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -4961,6 +4959,194 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(pomPath, "com.fasterxml.jackson.dataformat");
         assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
         assertFileNotContains(pomPath, "jackson-datatype-jsr310");
+    }
+
+    // ==================== Polymorphism and Discriminator Tests ====================
+
+    @Test
+    public void oneOfWithDiscriminator_generatesSealedClassWithDiscriminatorProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SEALED_DISCRIMINATOR_CLASSES, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+        Path petModel = Paths.get(outputPath + "/Pet.kt");
+
+        assertFileContains(
+                petModel,
+                "sealed class Pet(",
+                "open val petType: kotlin.String",
+                "@JsonTypeInfo",
+                "property = \"petType\"",
+                "visible = true",
+                "@JsonSubTypes"
+        );
+    }
+
+    @Test
+    public void oneOfWithDiscriminator_generatesChildrenWithOverrideDiscriminatorProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SEALED_DISCRIMINATOR_CLASSES, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        Path catModel = Paths.get(outputPath + "/Cat.kt");
+        assertFileContains(
+                catModel,
+                "data class Cat(",
+                "override val petType: kotlin.String = \"cat\"",
+                ") : Pet(petType = petType)"
+        );
+        assertFileNotContains(
+                catModel,
+                "petType: kotlin.String?",
+                "petType: kotlin.Any"
+        );
+
+        Path dogModel = Paths.get(outputPath + "/Dog.kt");
+        assertFileContains(
+                dogModel,
+                "data class Dog(",
+                "override val petType: kotlin.String = \"dog\"",
+                ") : Pet(petType = petType)"
+        );
+        assertFileNotContains(
+                dogModel,
+                "petType: kotlin.String?",
+                "petType: kotlin.Any"
+        );
+    }
+
+    @Test
+    public void allOfWithDiscriminator_generatesSealedClassWithProperties() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SEALED_DISCRIMINATOR_CLASSES, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+        Path petModel = Paths.get(outputPath + "/Pet.kt");
+
+        assertFileContains(
+                petModel,
+                "sealed class Pet(",
+                "open val name: kotlin.String",
+                "open val petType: kotlin.String",
+                "@JsonTypeInfo",
+                "visible = true"
+        );
+    }
+
+    @Test
+    public void allOfWithDiscriminator_generatesChildrenWithOverrideProperties() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SEALED_DISCRIMINATOR_CLASSES, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        Path catModel = Paths.get(outputPath + "/Cat.kt");
+        assertFileContains(
+                catModel,
+                "data class Cat(",
+                "override val name: kotlin.String",
+                "override val petType: kotlin.String",
+                ") : Pet(name = name, petType = petType)"
+        );
+
+        Path dogModel = Paths.get(outputPath + "/Dog.kt");
+        assertFileContains(
+                dogModel,
+                "data class Dog(",
+                "override val name: kotlin.String",
+                "override val petType: kotlin.String",
+                ") : Pet(name = name, petType = petType)"
+        );
+    }
+
+    @Test
+    public void polymorphismWithoutDiscriminator_generatesRegularDataClass() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SEALED_DISCRIMINATOR_CLASSES, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+        Path petModel = Paths.get(outputPath + "/Pet.kt");
+
+        assertFileContains(
+                petModel,
+                "data class Pet("
+        );
+        assertFileNotContains(
+                petModel,
+                "sealed class",
+                "@JsonTypeInfo",
+                "@JsonSubTypes"
+        );
+    }
+
+    @Test
+    public void fixJacksonJsonTypeInfoInheritance_canBeDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_SEALED_DISCRIMINATOR_CLASSES, true);
+        codegen.additionalProperties().put(FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, false);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+        Path petModel = Paths.get(outputPath + "/Pet.kt");
+
+        assertFileContains(
+                petModel,
+                "visible = false"
+        );
     }
 }
 
