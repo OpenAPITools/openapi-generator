@@ -123,6 +123,9 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "tools.jackson.core:jackson-databind:$jackson3_version"
     {{/useJackson3}}
+    {{#useJspecify}}
+    implementation "org.jspecify:jspecify:1.0.0"
+    {{/useJspecify}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     {{#useBeanValidation}}
     implementation "jakarta.validation:jakarta.validation-api:$beanvalidation_version"

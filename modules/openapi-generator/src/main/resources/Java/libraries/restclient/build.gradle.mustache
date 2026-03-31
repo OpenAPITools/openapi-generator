@@ -143,6 +143,11 @@ dependencies {
     {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/useJackson3}}
+    {{^useSpringBoot4}}
+    {{#useJspecify}}
+    implementation "org.jspecify:jspecify:1.0.0"
+    {{/useJspecify}}
+    {{/useSpringBoot4}}
     {{#joda}}
     implementation "{{jacksonPackage}}.datatype:jackson-datatype-joda:$jackson_version"
     implementation "joda-time:joda-time:$jodatime_version"
