@@ -141,9 +141,6 @@ ext {
     jakarta_annotation_version = "1.3.5"
     bean_validation_version = "2.0.2"
     {{/useJakartaEe}}
-    {{#useJspecify}}
-    implementation "org.jspecify:jspecify:1.0.0"
-    {{/useJspecify}}
     {{/useSpringBoot4}}
     jodatime_version = "2.9.9"
     junit_version = "5.10.2"
@@ -174,6 +171,9 @@ dependencies {
     {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/useJackson3}}
+    {{#useJspecify}}
+    implementation "org.jspecify:jspecify:1.0.0"
+    {{/useJspecify}}
     {{#joda}}
     implementation "{{jacksonPackage}}.datatype:jackson-datatype-joda:$jackson_version"
     implementation "joda-time:joda-time:$jodatime_version"
