@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -3831,7 +3833,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_13052.yaml", additionalProperties);
 
         // Custom Pageable model should be used instead of Spring's Pageable
@@ -3849,7 +3851,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "none");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Pageable should be added but no annotation imports
@@ -3912,7 +3914,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Test operation listAllPets which has no parameters except pageable
@@ -4018,15 +4020,15 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         File petApi = files.get("PetApi.kt");
-        
+
         // Operation with x-spring-paginated should have Pageable
         assertFileContains(petApi.toPath(), "fun findPetsByStatus(");
         assertFileContains(petApi.toPath(), "pageable: Pageable");
-        
+
         // Operation without x-spring-paginated should NOT have Pageable
         assertFileContains(petApi.toPath(), "fun addPet(");
         // Verify addPet doesn't have pageable (it has body param only)
@@ -4035,7 +4037,7 @@ public class KotlinSpringServerCodegenTest {
             content.indexOf("fun addPet("),
             content.indexOf(")", content.indexOf("fun addPet(")) + 1
         );
-        Assert.assertFalse(addPetMethod.contains("pageable"), 
+        Assert.assertFalse(addPetMethod.contains("pageable"),
             "addPet should not have pageable parameter");
     }
 
@@ -4045,7 +4047,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(SERVICE_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Test that pageable is in service interface
@@ -4064,7 +4066,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Verify exact parameter ordering: allParams -> request -> pageable
@@ -4075,12 +4077,12 @@ public class KotlinSpringServerCodegenTest {
         int methodStart = content.indexOf("fun findPetsByStatus(");
         int methodEnd = content.indexOf("): ResponseEntity", methodStart);
         String methodSignature = content.substring(methodStart, methodEnd);
-        
+
         // Verify order: status param comes before request, request comes before pageable
         int statusPos = methodSignature.indexOf("status:");
         int requestPos = methodSignature.indexOf("request:");
         int pageablePos = methodSignature.indexOf("pageable:");
-        
+
         Assert.assertTrue(statusPos > 0, "status parameter should exist");
         Assert.assertTrue(requestPos > statusPos, "request should come after status");
         Assert.assertTrue(pageablePos > requestPos, "pageable should come after request");
@@ -4093,7 +4095,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(DELEGATE_PATTERN, "true");
         additionalProperties.put(INTERFACE_ONLY, "false");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Verify that interface method calls delegate with pageable parameter
@@ -5009,6 +5011,47 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
         assertFileNotContains(pomPath, "jackson-datatype-jsr310");
     }
+
+    @Test
+    public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_14418.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.IMPLICIT_HEADERS, "true");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File testApi = files.get("TestApi.kt");
+        String content = Files.readString(testApi.toPath());
+        String methodPattern = "fun test\\s*\\(.*?\\)";
+        Pattern pattern = Pattern.compile(methodPattern);
+
+        Matcher matcher = pattern.matcher(content);
+        Assert.assertTrue(matcher.find(), "Method 'test' should be found in generated file");
+
+        String methodSignature = matcher.group();
+        Assert.assertFalse(methodSignature.contains("testHeader"),
+            "Header param 'testHeader' should NOT be in method signature when implicitHeaders=true");
+
+        Assert.assertTrue(content.contains("@Parameters"),
+            "@Parameters annotation should be present");
+        Assert.assertTrue(content.contains("testHeader"),
+            "Header name 'testHeader' should appear in the annotation");
+    }
 }
-
-
