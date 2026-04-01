@@ -22,12 +22,14 @@ type ExampleEnum string
 const (
 	EXAMPLEENUM_EXAMPLE1 ExampleEnum = "example1"
 	EXAMPLEENUM_EXAMPLE2 ExampleEnum = "example2"
+	EXAMPLEENUM_UNKNOWN_DEFAULT_OPEN_API ExampleEnum = "unknown_default_open_api"
 )
 
 // All allowed values of ExampleEnum enum
 var AllowedExampleEnumEnumValues = []ExampleEnum{
 	"example1",
 	"example2",
+	"unknown_default_open_api",
 }
 
 func (v *ExampleEnum) UnmarshalJSON(src []byte) error {
@@ -44,7 +46,8 @@ func (v *ExampleEnum) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid ExampleEnum", value)
+	*v = EXAMPLEENUM_UNKNOWN_DEFAULT_OPEN_API
+	return nil
 }
 
 // NewExampleEnumFromValue returns a pointer to a valid ExampleEnum
