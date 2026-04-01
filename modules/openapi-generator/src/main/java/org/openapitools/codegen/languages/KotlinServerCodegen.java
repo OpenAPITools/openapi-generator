@@ -18,12 +18,36 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.models.Operation;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenDiscriminator;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -32,9 +56,6 @@ import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
 
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
@@ -703,31 +724,44 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     }
 
     @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (!Objects.equals(library, Constants.JAXRS_SPEC) || useTags) {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            return;
+        }
+
+        final String basePath = StringUtils.substringBefore(resourcePath.startsWith("/") ? resourcePath.substring(1) : resourcePath, "/");
+        if (!StringUtils.isEmpty(basePath)) {
+            co.subresourceOperation = !co.path.isEmpty();
+        }
+        co.baseName = basePath;
+        if (StringUtils.isEmpty(co.baseName) || co.baseName.chars().anyMatch(ch -> ch == '{' || ch == '}')) {
+            co.baseName = "default";
+        }
+        final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
+        opList.add(co);
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
-        // For JAXRS_SPEC library, compute commonPath when useTags=true, otherwise default to "/"
+        // For JAXRS_SPEC library, compute commonPath for all library modes
         if (operations != null && Objects.equals(library, Constants.JAXRS_SPEC)) {
-            if (useTags) {
-                String commonPath = null;
-                List<CodegenOperation> ops = operations.getOperation();
-                for (CodegenOperation operation : ops) {
-                    if (commonPath == null) {
-                        commonPath = operation.path;
-                    } else {
-                        commonPath = getCommonPath(commonPath, operation.path);
-                    }
+            List<CodegenOperation> ops = operations.getOperation();
+            // Compute commonPath from operations in this group (called once per API class)
+            String commonPath = null;
+            for (CodegenOperation operation : ops) {
+                if (commonPath == null) {
+                    commonPath = operation.path;
+                } else {
+                    commonPath = getCommonPath(commonPath, operation.path);
                 }
-                for (CodegenOperation co : ops) {
-                    co.path = StringUtils.removeStart(co.path, commonPath);
-                    co.subresourceOperation = co.path.length() > 1;
-                }
-                objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
-            } else {
-                for (CodegenOperation co : operations.getOperation()) {
-                    co.subresourceOperation = !co.path.isEmpty();
-                }
-                objs.put("commonPath", "/");
             }
+            for (CodegenOperation co : ops) {
+                co.path = StringUtils.removeStart(co.path, commonPath);
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
         }
         // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
@@ -801,8 +835,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
      */
     private boolean usesJacksonSerialization() {
         return Constants.JAVALIN5.equals(library) ||
-               Constants.JAVALIN6.equals(library) ||
-               Constants.JAXRS_SPEC.equals(library);
+                Constants.JAVALIN6.equals(library) ||
+                Constants.JAXRS_SPEC.equals(library);
     }
 
     private boolean isKtor2Or3() {
