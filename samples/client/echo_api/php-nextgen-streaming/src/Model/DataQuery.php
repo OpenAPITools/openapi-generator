@@ -38,7 +38,6 @@ use OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
- * @implements ArrayAccess<string, mixed>
  */
 class DataQuery extends Query
 {
