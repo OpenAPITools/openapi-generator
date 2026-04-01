@@ -5,9 +5,9 @@ An order for a pets from the pet store
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **long** |  | [optional] 
-**PetId** | **long** |  | [optional] 
-**Quantity** | **int** |  | [optional] 
+**Id** | **long?** |  | [optional] 
+**PetId** | **long?** |  | [optional] 
+**Quantity** | **int?** |  | [optional] 
 **ShipDate** | **DateTime** |  | [optional] 
 **Status** | **string** | Order Status | [optional] 
 **Complete** | **bool** |  | [optional] [default to false]

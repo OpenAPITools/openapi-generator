@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [DataMember(Name = "breed", EmitDefaultValue = false)]
-        public string Breed { get; set; }
+        public string? Breed { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

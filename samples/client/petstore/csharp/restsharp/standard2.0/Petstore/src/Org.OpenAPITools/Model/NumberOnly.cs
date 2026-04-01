@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
-        public decimal JustNumber { get; set; }
+        public decimal? JustNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -109,7 +109,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
+                if (this.JustNumber != null)
+                {
+                    hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

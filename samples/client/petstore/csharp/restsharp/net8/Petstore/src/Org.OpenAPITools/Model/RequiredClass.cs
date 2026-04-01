@@ -191,6 +191,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines NotrequiredNotnullableEnumIntegerOnly
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum NotrequiredNotnullableEnumIntegerOnlyEnum
         {
             /// <summary>
@@ -466,18 +467,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "required_notnullable_outerEnumDefaultValue", IsRequired = true, EmitDefaultValue = true)]
         public OuterEnumDefaultValue RequiredNotnullableOuterEnumDefaultValue { get; set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNullableOuterEnumDefaultValue
-        /// </summary>
-        [DataMember(Name = "notrequired_nullable_outerEnumDefaultValue", EmitDefaultValue = true)]
-        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue { get; set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNotnullableOuterEnumDefaultValue
-        /// </summary>
-        [DataMember(Name = "notrequired_notnullable_outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiredClass" /> class.
         /// </summary>
@@ -645,7 +634,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
         [DataMember(Name = "not_required_notnullableinteger_prop", EmitDefaultValue = false)]
-        public int NotRequiredNotnullableintegerProp { get; set; }
+        public int? NotRequiredNotnullableintegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableStringProp
@@ -663,13 +652,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableStringProp
         /// </summary>
         [DataMember(Name = "notrequired_nullable_string_prop", EmitDefaultValue = true)]
-        public string NotrequiredNullableStringProp { get; set; }
+        public string? NotrequiredNullableStringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NotrequiredNotnullableStringProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_string_prop", EmitDefaultValue = false)]
-        public string NotrequiredNotnullableStringProp { get; set; }
+        public string? NotrequiredNotnullableStringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableBooleanProp
@@ -693,7 +682,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableBooleanProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_boolean_prop", EmitDefaultValue = true)]
-        public bool NotrequiredNotnullableBooleanProp { get; set; }
+        public bool? NotrequiredNotnullableBooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableDateProp
@@ -717,7 +706,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNotnullableDateProp
         /// </summary>
         [DataMember(Name = "not_required_notnullable_date_prop", EmitDefaultValue = false)]
-        public DateOnly NotRequiredNotnullableDateProp { get; set; }
+        public DateOnly? NotRequiredNotnullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableDatetimeProp
@@ -741,7 +730,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableDatetimeProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_datetime_prop", EmitDefaultValue = false)]
-        public DateTime NotrequiredNotnullableDatetimeProp { get; set; }
+        public DateTime? NotrequiredNotnullableDatetimeProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableOuterEnumDefaultValue
+        /// </summary>
+        [DataMember(Name = "notrequired_nullable_outerEnumDefaultValue", EmitDefaultValue = true)]
+        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue { get; set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNotnullableOuterEnumDefaultValue
+        /// </summary>
+        [DataMember(Name = "notrequired_notnullable_outerEnumDefaultValue", EmitDefaultValue = false)]
+        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableUuid
@@ -777,7 +778,7 @@ namespace Org.OpenAPITools.Model
         <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         */
         [DataMember(Name = "notrequired_notnullable_uuid", EmitDefaultValue = false)]
-        public Guid NotrequiredNotnullableUuid { get; set; }
+        public Guid? NotrequiredNotnullableUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableArrayOfString
@@ -906,7 +907,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.NotRequiredNullableIntegerProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                if (this.NotRequiredNotnullableintegerProp != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                }
                 if (this.RequiredNullableStringProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableStringProp.GetHashCode();
@@ -932,7 +936,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.NotrequiredNullableBooleanProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                if (this.NotrequiredNotnullableBooleanProp != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                }
                 if (this.RequiredNullableDateProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableDateProp.GetHashCode();
@@ -979,8 +986,14 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumString.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNullableOuterEnumDefaultValue.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNotnullableOuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNullableOuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableOuterEnumDefaultValue.GetHashCode();
+                if (this.NotrequiredNullableOuterEnumDefaultValue != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableOuterEnumDefaultValue.GetHashCode();
+                }
+                if (this.NotrequiredNotnullableOuterEnumDefaultValue != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableOuterEnumDefaultValue.GetHashCode();
+                }
                 if (this.RequiredNullableUuid != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableUuid.GetHashCode();

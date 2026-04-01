@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Size
         /// </summary>
         [DataMember(Name = "size", EmitDefaultValue = false)]
-        public string Size { get; set; }
+        public string? Size { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

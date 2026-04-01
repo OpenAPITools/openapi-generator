@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
-        public decimal LengthCm { get; set; }
+        public decimal? LengthCm { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -98,7 +98,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                if (this.LengthCm != null)
+                {
+                    hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                }
                 return hashCode;
             }
         }

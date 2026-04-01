@@ -49,19 +49,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name = "number", EmitDefaultValue = false)]
-        public decimal Number { get; set; }
+        public decimal? Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float { get; set; }
+        public float? Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double { get; set; }
+        public double? Double { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -111,15 +111,18 @@ namespace Org.OpenAPITools.Model
             return 
                 (
                     this.Number == input.Number ||
-                    this.Number.Equals(input.Number)
+                    (this.Number != null &&
+                    this.Number.Equals(input.Number))
                 ) && 
                 (
                     this.Float == input.Float ||
-                    this.Float.Equals(input.Float)
+                    (this.Float != null &&
+                    this.Float.Equals(input.Float))
                 ) && 
                 (
                     this.Double == input.Double ||
-                    this.Double.Equals(input.Double)
+                    (this.Double != null &&
+                    this.Double.Equals(input.Double))
                 );
         }
 
@@ -132,9 +135,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                if (this.Number != null)
+                {
+                    hashCode = (hashCode * 59) + this.Number.GetHashCode();
+                }
+                if (this.Float != null)
+                {
+                    hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                }
+                if (this.Double != null)
+                {
+                    hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -146,14 +158,14 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Double (double) maximum
-            if (this.Double > (double)50.2)
+            // Double (double?) maximum
+            if (this.Double > (double?)50.2)
             {
                 yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 50.2.", new [] { "Double" });
             }
 
-            // Double (double) minimum
-            if (this.Double < (double)0.8)
+            // Double (double?) minimum
+            if (this.Double < (double?)0.8)
             {
                 yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 0.8.", new [] { "Double" });
             }

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **ArrayString** | **List&lt;string&gt;** |  | [optional] 
 **ArrayStringNullable** | **List&lt;string&gt;** |  | [optional] 
 **ArrayStringExtensionNullable** | **List&lt;string&gt;** |  | [optional] 
-**StringNullable** | **string** |  | [optional] 
+**StringNullable** | **string?** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

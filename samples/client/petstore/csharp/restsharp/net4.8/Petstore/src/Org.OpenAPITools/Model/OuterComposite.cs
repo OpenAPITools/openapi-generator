@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name = "my_number", EmitDefaultValue = false)]
-        public decimal MyNumber { get; set; }
+        public decimal? MyNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MyString
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
-        public bool MyBoolean { get; set; }
+        public bool? MyBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -124,12 +124,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
+                if (this.MyNumber != null)
+                {
+                    hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
+                }
                 if (this.MyString != null)
                 {
                     hashCode = (hashCode * 59) + this.MyString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                if (this.MyBoolean != null)
+                {
+                    hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

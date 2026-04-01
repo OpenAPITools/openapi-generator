@@ -180,6 +180,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines EnumIntegerOnly
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumIntegerOnlyEnum
         {
             /// <summary>
@@ -224,30 +225,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "enum_number", EmitDefaultValue = false)]
         public EnumNumberEnum? EnumNumber { get; set; }
-
-        /// <summary>
-        /// Gets or Sets OuterEnum
-        /// </summary>
-        [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
-        public OuterEnum? OuterEnum { get; set; }
-
-        /// <summary>
-        /// Gets or Sets OuterEnumInteger
-        /// </summary>
-        [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
-        public OuterEnumInteger? OuterEnumInteger { get; set; }
-
-        /// <summary>
-        /// Gets or Sets OuterEnumDefaultValue
-        /// </summary>
-        [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? OuterEnumDefaultValue { get; set; }
-
-        /// <summary>
-        /// Gets or Sets OuterEnumIntegerDefaultValue
-        /// </summary>
-        [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
@@ -281,6 +258,30 @@ namespace Org.OpenAPITools.Model
             this.OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Gets or Sets OuterEnum
+        /// </summary>
+        [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
+        public OuterEnum? OuterEnum { get; set; }
+
+        /// <summary>
+        /// Gets or Sets OuterEnumInteger
+        /// </summary>
+        [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
+        public OuterEnumInteger? OuterEnumInteger { get; set; }
+
+        /// <summary>
+        /// Gets or Sets OuterEnumDefaultValue
+        /// </summary>
+        [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
+        public OuterEnumDefaultValue? OuterEnumDefaultValue { get; set; }
+
+        /// <summary>
+        /// Gets or Sets OuterEnumIntegerDefaultValue
+        /// </summary>
+        [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
+        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -353,10 +354,22 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + this.EnumInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.EnumIntegerOnly.GetHashCode();
                 hashCode = (hashCode * 59) + this.EnumNumber.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnum.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                if (this.OuterEnum != null)
+                {
+                    hashCode = (hashCode * 59) + this.OuterEnum.GetHashCode();
+                }
+                if (this.OuterEnumInteger != null)
+                {
+                    hashCode = (hashCode * 59) + this.OuterEnumInteger.GetHashCode();
+                }
+                if (this.OuterEnumDefaultValue != null)
+                {
+                    hashCode = (hashCode * 59) + this.OuterEnumDefaultValue.GetHashCode();
+                }
+                if (this.OuterEnumIntegerDefaultValue != null)
+                {
+                    hashCode = (hashCode * 59) + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

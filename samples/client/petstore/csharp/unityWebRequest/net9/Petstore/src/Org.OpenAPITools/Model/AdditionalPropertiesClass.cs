@@ -69,19 +69,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Anytype1
         /// </summary>
         [DataMember(Name = "anytype_1", EmitDefaultValue = true)]
-        public Object Anytype1 { get; set; }
+        public Object? Anytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype1 { get; set; }
+        public Object? MapWithUndeclaredPropertiesAnytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype2 { get; set; }
+        public Object? MapWithUndeclaredPropertiesAnytype2 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [DataMember(Name = "empty_map", EmitDefaultValue = false)]
-        public Object EmptyMap { get; set; }
+        public Object? EmptyMap { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesString

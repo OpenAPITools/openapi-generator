@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string VarClient { get; set; }
+        public string? VarClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

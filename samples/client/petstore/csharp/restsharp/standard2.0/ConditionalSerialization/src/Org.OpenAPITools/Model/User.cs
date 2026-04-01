@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public long? Id
         {
             get{ return _Id;}
             set
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private long? _Id;
         private bool _flagId;
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name = "userStatus", EmitDefaultValue = false)]
-        public int UserStatus
+        public int? UserStatus
         {
             get{ return _UserStatus;}
             set
@@ -294,7 +294,7 @@ namespace Org.OpenAPITools.Model
                 _flagUserStatus = true;
             }
         }
-        private int _UserStatus;
+        private int? _UserStatus;
         private bool _flagUserStatus;
 
         /// <summary>
@@ -474,7 +474,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.Username != null)
                 {
                     hashCode = (hashCode * 59) + this.Username.GetHashCode();
@@ -499,7 +502,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Phone.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                if (this.UserStatus != null)
+                {
+                    hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                }
                 if (this.ObjectWithNoDeclaredProps != null)
                 {
                     hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.GetHashCode();

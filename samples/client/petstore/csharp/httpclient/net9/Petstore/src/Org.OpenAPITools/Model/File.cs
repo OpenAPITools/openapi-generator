@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
-        public string SourceURI { get; set; }
+        public string? SourceURI { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
