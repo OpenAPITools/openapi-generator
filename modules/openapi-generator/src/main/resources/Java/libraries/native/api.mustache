@@ -924,7 +924,7 @@ public class {{classname}} {
     }
     {{#allParams}}
     {{>nullable_var_annotations}}{{! prevent indent}}
-    public{{>nullableDataType}} {{paramName}}() {
+    public {{>nullableDataType}} {{paramName}}() {
       return {{paramName}};
     }
     {{/allParams}}

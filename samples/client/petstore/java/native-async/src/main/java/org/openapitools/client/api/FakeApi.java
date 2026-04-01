@@ -2332,27 +2332,27 @@ public class FakeApi {
       this.int64Group = builder.int64Group;
     }
     @javax.annotation.Nonnull
-    publicInteger requiredStringGroup() {
+    public Integer requiredStringGroup() {
       return requiredStringGroup;
     }
     @javax.annotation.Nonnull
-    publicBoolean requiredBooleanGroup() {
+    public Boolean requiredBooleanGroup() {
       return requiredBooleanGroup;
     }
     @javax.annotation.Nonnull
-    publicLong requiredInt64Group() {
+    public Long requiredInt64Group() {
       return requiredInt64Group;
     }
     @javax.annotation.Nullable
-    publicInteger stringGroup() {
+    public Integer stringGroup() {
       return stringGroup;
     }
     @javax.annotation.Nullable
-    publicBoolean booleanGroup() {
+    public Boolean booleanGroup() {
       return booleanGroup;
     }
     @javax.annotation.Nullable
-    publicLong int64Group() {
+    public Long int64Group() {
       return int64Group;
     }
     public static Builder newBuilder() {
