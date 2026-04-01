@@ -38,7 +38,7 @@ interface UserApi {
     @GET
     @Path("/user/login")
     @Produces("application/xml", "application/json")
-    fun loginUser(@QueryParam("username")   username: kotlin.String,@QueryParam("password")   password: kotlin.String): io.smallrye.mutiny.Uni<Response>
+    fun loginUser(@QueryParam("username") username: kotlin.String,@QueryParam("password") password: kotlin.String): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/user/logout")

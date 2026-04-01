@@ -22,17 +22,17 @@ interface PetApi {
 
     @DELETE
     @Path("/pet/{petId}")
-    fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")   apiKey: kotlin.String?): io.smallrye.mutiny.Uni<Response>
+    fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")  apiKey: kotlin.String?): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/findByStatus")
     @Produces("application/xml", "application/json")
-    fun findPetsByStatus(@QueryParam("status")   status: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
+    fun findPetsByStatus(@QueryParam("status") status: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/findByTags")
     @Produces("application/xml", "application/json")
-    fun findPetsByTags(@QueryParam("tags")   tags: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
+    fun findPetsByTags(@QueryParam("tags") tags: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/{petId}")

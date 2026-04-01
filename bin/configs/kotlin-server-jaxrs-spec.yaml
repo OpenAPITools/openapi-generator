@@ -6,3 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-server
 additionalProperties:
   useCoroutines: "true"
   useTags: "true"
+  implicitHeaders: "true"
