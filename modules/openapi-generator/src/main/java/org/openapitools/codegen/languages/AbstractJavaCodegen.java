@@ -858,6 +858,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         writePropertyBack(JAVAX_PACKAGE, "jakarta");
     }
 
+    /**
+     * Configure the generator for jspecify.
+     *
+     * override Nullable import to use the jspecify version.
+     * add package-info.java to the model and api packages.
+     */
     protected void applyJspecify() {
         importMapping.put("Nullable", "org.jspecify.annotations.Nullable");
         if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODELS))) {
@@ -2682,11 +2688,25 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         this.jSpecifyNullableLambda = new JSpecifyNullableLambda();
-        // Add jSpecify nullable annotation in the correct location before or inside a declartion
+        // Add jSpecify nullable annotation in the correct location before or inside a declaration
+        // use cases:
+        //
+        // private {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // private @Nullable Time param
+        // private java.time.@Nullable Time
+        // private Time param
+        //
+        // {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // @Nullable Time param
+        // java.time.@Nullable Time
+        // Time param
+        //
+        // {{#lambda.jSpecifyNullable}}@Nullable {{/lambda.jSpecifyNullable}}{{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}}
+        // @Nullable Time
+        // @java.time.@Nullable Time
         Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
             String dataType = fragment.execute();
-            if (jSpecifyNullableLambda.keptNullable) {
-                jSpecifyNullableLambda.keptNullable = false;
+            if (jSpecifyNullableLambda.keptNullable != null ) {
                 int idx = dataType.lastIndexOf('.');
                 if (idx > 0) {
                     // generate declaration like java.time.@Nullable Timestamp
@@ -2694,16 +2714,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     writer.write("@Nullable ");
                     writer.write(dataType.substring(idx + 1));
                 } else {
-                    if (dataType.startsWith(" ")) {
-                        writer.write(" @Nullable");
-                        writer.write(dataType);
-                    } else {
-                        writer.write("@Nullable ");
-                        writer.write(dataType);
-                    }
+                    writer.write("@Nullable ");
+                    writer.write(dataType);
                 }
+                jSpecifyNullableLambda.keptNullable = null;
             } else {
                 writer.write(dataType);
+//                writer.write(" ");
             }
         };
         return super.addMustacheLambdas()
@@ -2718,7 +2735,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     class JSpecifyNullableLambda implements Mustache.Lambda {
         private String nullableAnnotation = "@Nullable";
         // remember if @Nullable is needed
-        boolean keptNullable = false;
+        String keptNullable = null;
 
         public void setNullableAnnotation(String nullableAnnotation) {
             this.nullableAnnotation = nullableAnnotation;
@@ -2726,11 +2743,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         @Override
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-            keptNullable = false;
+            keptNullable = null;
             String value = fragment.execute();
             if (useJspecify) {
                 if (value.startsWith(nullableAnnotation)) {
-                    keptNullable = true;
+                    keptNullable = value;
                     int idx = nullableAnnotation.length();
                     // trim left
                     while (idx < value.length() && value.charAt(idx) == ' ') {

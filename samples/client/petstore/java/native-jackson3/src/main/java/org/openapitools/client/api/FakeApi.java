@@ -1974,17 +1974,17 @@ public class FakeApi {
    */
   public void testGroupParameters(APITestGroupParametersRequest apiRequest, Map<String, String> headers) throws ApiException {
     @javax.annotation.Nonnull
-     Integer requiredStringGroup = apiRequest.requiredStringGroup();
+    Integer requiredStringGroup = apiRequest.requiredStringGroup();
     @javax.annotation.Nonnull
-     Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
+    Boolean requiredBooleanGroup = apiRequest.requiredBooleanGroup();
     @javax.annotation.Nonnull
-     Long requiredInt64Group = apiRequest.requiredInt64Group();
+    Long requiredInt64Group = apiRequest.requiredInt64Group();
     @javax.annotation.Nullable
-     Integer stringGroup = apiRequest.stringGroup();
+    Integer stringGroup = apiRequest.stringGroup();
     @javax.annotation.Nullable
-     Boolean booleanGroup = apiRequest.booleanGroup();
+    Boolean booleanGroup = apiRequest.booleanGroup();
     @javax.annotation.Nullable
-     Long int64Group = apiRequest.int64Group();
+    Long int64Group = apiRequest.int64Group();
     testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, headers);
   }
 
@@ -2199,27 +2199,27 @@ public class FakeApi {
       this.int64Group = builder.int64Group;
     }
     @javax.annotation.Nonnull
-    public Integer requiredStringGroup() {
+    publicInteger requiredStringGroup() {
       return requiredStringGroup;
     }
     @javax.annotation.Nonnull
-    public Boolean requiredBooleanGroup() {
+    publicBoolean requiredBooleanGroup() {
       return requiredBooleanGroup;
     }
     @javax.annotation.Nonnull
-    public Long requiredInt64Group() {
+    publicLong requiredInt64Group() {
       return requiredInt64Group;
     }
     @javax.annotation.Nullable
-    public Integer stringGroup() {
+    publicInteger stringGroup() {
       return stringGroup;
     }
     @javax.annotation.Nullable
-    public Boolean booleanGroup() {
+    publicBoolean booleanGroup() {
       return booleanGroup;
     }
     @javax.annotation.Nullable
-    public Long int64Group() {
+    publicLong int64Group() {
       return int64Group;
     }
     public static Builder newBuilder() {
