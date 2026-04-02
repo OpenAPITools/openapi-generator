@@ -24,6 +24,13 @@ import io.swagger.annotations.ApiModelProperty
  * @param bark 
  * @param breed 
  * @param likesFetch Whether the dog enjoys fetching
+ * @param name 
+ * @param photoUrls 
+ * @param petType 
+ * @param id 
+ * @param category 
+ * @param tags 
+ * @param color 
  */
 data class Dog(
 
@@ -77,7 +84,7 @@ data class Dog(
             @JsonCreator
             fun forValue(value: kotlin.String): Breed {
                 return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Dog'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Breed'")
             }
         }
     }
