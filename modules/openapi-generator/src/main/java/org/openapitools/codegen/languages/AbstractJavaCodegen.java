@@ -2724,7 +2724,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             } else {
                 writer.write(dataType);
-//                writer.write(" ");
             }
         };
         return super.addMustacheLambdas()
