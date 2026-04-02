@@ -2692,21 +2692,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // use cases:
         //
         // private {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // ->
         // private @Nullable Time param
         // private java.time.@Nullable Time
         // private Time param
         //
         // {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // ->
         // @Nullable Time param
         // java.time.@Nullable Time
         // Time param
         //
         // {{#lambda.jSpecifyNullable}}@Nullable {{/lambda.jSpecifyNullable}}{{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}}
+        // ->
         // @Nullable Time
         // @java.time.@Nullable Time
+        // Time
+
         Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
             String dataType = fragment.execute();
-            if (jSpecifyNullableLambda.keptNullable != null ) {
+            if (jSpecifyNullableLambda.isSetAndClear()) {
                 int idx = dataType.lastIndexOf('.');
                 if (idx > 0) {
                     // generate declaration like java.time.@Nullable Timestamp
@@ -2717,7 +2722,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     writer.write("@Nullable ");
                     writer.write(dataType);
                 }
-                jSpecifyNullableLambda.keptNullable = null;
             } else {
                 writer.write(dataType);
 //                writer.write(" ");
@@ -2734,9 +2738,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     class JSpecifyNullableLambda implements Mustache.Lambda {
         private String nullableAnnotation = "@Nullable";
-        // remember if @Nullable is needed
-        String keptNullable = null;
+        // remember @Nullable annotation value when jspecify is used.
+        private String keptNullable = null;
 
+        /**
+         * Override default nullable annotation, for example with a full qualified className
+         *
+         * @param nullableAnnotation annotation used by the generator, for example @jakarta.annotation.Nullable
+         */
         public void setNullableAnnotation(String nullableAnnotation) {
             this.nullableAnnotation = nullableAnnotation;
         }
@@ -2757,6 +2766,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             writer.write(value);
+        }
+
+        public boolean isSetAndClear() {
+            boolean isSet = keptNullable != null;
+            keptNullable = null;
+            return isSet;
         }
     }
 

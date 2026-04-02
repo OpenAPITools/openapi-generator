@@ -4255,7 +4255,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify(String library, Boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+    public void testJspecify(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         "containerDefaultToNull", true,
