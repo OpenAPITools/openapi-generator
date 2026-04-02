@@ -42,14 +42,15 @@ export class DefaultService extends BaseService {
      * @param ids Ids
      * @param filter Filter
      * @param country Filter
+     * @param tags Tags
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Response>;
-    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Response>>;
-    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Response>>;
-    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Response>;
+    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Response>>;
+    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Response>>;
+    public searchExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
 
@@ -75,6 +76,15 @@ export class DefaultService extends BaseService {
             localVarQueryParameters,
             'country',
             <any>country,
+            QueryParamStyle.Form,
+            true,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'tags',
+            <any>tags,
             QueryParamStyle.Form,
             true,
         );
@@ -126,14 +136,15 @@ export class DefaultService extends BaseService {
      * @param ids Ids
      * @param filter Filter
      * @param country Filter
+     * @param tags Tags
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Response>;
-    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Response>>;
-    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Response>>;
-    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Response>;
+    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Response>>;
+    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Response>>;
+    public searchNotExplode(ids?: Array<number>, filter?: Filter, country?: string, tags?: Set<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
 
@@ -159,6 +170,15 @@ export class DefaultService extends BaseService {
             localVarQueryParameters,
             'country',
             <any>country,
+            QueryParamStyle.Form,
+            false,
+        );
+
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'tags',
+            <any>tags,
             QueryParamStyle.Form,
             false,
         );
