@@ -1,6 +1,6 @@
 import * as petstore from 'ts-petstore-client'
-import { BASE_URL } from './server';
-import { expect } from "chai";
+import {BASE_URL} from './server';
+import {expect} from "chai";
 
 const server = new petstore.ServerConfiguration(BASE_URL, {})
 const configuration = petstore.createConfiguration({
@@ -18,6 +18,6 @@ describe("Test oneOf API methods", () => {
 
     it("With discriminator", async () => {
         const response = await DefaultApi.testDiscriminator();
-        expect(response).to.be.instanceof(petstore.Dog);
+        expect(response).to.be.instanceof(petstore.Cat);
     })
 })
