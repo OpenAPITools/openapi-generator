@@ -1,11 +1,12 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "Node16",
         "target": "es6",
         "noImplicitAny": true,
         "sourceMap": false,
         "esModuleInterop": true,
         "outDir": "dist",
+        "moduleResolution": "node16",
         "types": [
             "mocha",
             "node"
