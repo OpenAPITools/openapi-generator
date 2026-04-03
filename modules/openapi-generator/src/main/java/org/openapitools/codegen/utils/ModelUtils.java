@@ -1094,6 +1094,39 @@ public class ModelUtils {
     }
 
     /**
+     * Return the list of all schemas in the entire OpenAPI document, including inline schemas
+     * defined in path operations (request bodies, responses, parameters, headers, callbacks)
+     * and schemas under components/schemas. Results are deduplicated by identity.
+     * This is a superset of {@link #getAllSchemas(OpenAPI)}.
+     *
+     * @param openAPI specification
+     * @return schemas a deduplicated list of all schemas in the document
+     */
+    public static List<Schema> getAllSchemasInDocument(OpenAPI openAPI) {
+        List<Schema> allSchemas = new ArrayList<Schema>();
+        Set<Schema> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+
+        // Visit schemas reachable from paths (inline + $ref targets)
+        visitOpenAPI(openAPI, (s, mimeType) -> {
+            if (seen.add(s)) {
+                allSchemas.add(s);
+            }
+        });
+
+        // Also visit components/schemas entries not reachable from any path
+        List<String> refSchemas = new ArrayList<String>();
+        getSchemas(openAPI).forEach((key, schema) -> {
+            visitSchema(openAPI, schema, null, refSchemas, (s, mimeType) -> {
+                if (seen.add(s)) {
+                    allSchemas.add(s);
+                }
+            });
+        });
+
+        return allSchemas;
+    }
+
+    /**
      * If a RequestBody contains a reference to another RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      *
      * @param openAPI     specification being checked
