@@ -18,6 +18,6 @@ describe("Test oneOf API methods", () => {
 
     it("With discriminator", async () => {
         const response = await DefaultApi.testDiscriminator();
-        expect(response).to.be.instanceof(petstore.Cat);
+        expect(response).to.be.instanceof(petstore.Dog);
     })
 })
