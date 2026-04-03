@@ -47,7 +47,7 @@ class UserApi {
     @GET
     @Path("/login")
     @Produces("application/xml", "application/json")
-    suspend fun loginUser(@QueryParam("username")   username: kotlin.String,@QueryParam("password")   password: kotlin.String): Response {
+    suspend fun loginUser(@QueryParam("username") username: kotlin.String,@QueryParam("password") password: kotlin.String): Response {
         return Response.ok().entity("magic!").build();
     }
 

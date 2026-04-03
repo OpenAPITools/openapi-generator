@@ -540,7 +540,7 @@ public class KotlinServerCodegenTest {
     }
 
     @Test
-    public void useTags_false_operationsGroupedByPathBaseForJaxrsSpecLibrary() throws IOException {
+    public void useTags_false_classNameFromTagsAndRootPathForJaxrsSpecLibrary() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -557,13 +557,39 @@ public class KotlinServerCodegenTest {
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
         Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
 
-        assertFileContains(
-                petApi,
-                "class PetApi"
+        assertFileContains(petApi,
+                "class PetApi",
+                "@Path(\"/\")",
+                "@Path(\"/pet\")",
+                "@Path(\"/pet/{petId}\")"
         );
-        assertFileNotContains(
-                petApi,
-                "class DefaultApi"
+        assertFileNotContains(petApi, "@Path(\"/pet\")".replace("/pet", "/store"));
+    }
+
+    @Test
+    public void useTags_notSpecified_behavesLikeUseTagsFalseForJaxrsSpecLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        // useTags intentionally NOT set — must default to false
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        assertFileContains(petApi,
+                "class PetApi",
+                "@Path(\"/\")",
+                "@Path(\"/pet\")",
+                "@Path(\"/pet/{petId}\")"
         );
+        assertFileNotContains(petApi, "@Path(\"/store\")");
     }
 }

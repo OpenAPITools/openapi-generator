@@ -2300,6 +2300,10 @@ public class ModelUtils {
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
+            // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
+            if (subSchema.getDescription() == null && schema.getDescription() != null) {
+                subSchema.setDescription(schema.getDescription());
+            }
             if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
                 subSchema.setNullable(true);
             }

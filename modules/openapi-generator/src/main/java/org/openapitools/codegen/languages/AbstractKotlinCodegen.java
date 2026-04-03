@@ -30,6 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.EscapeChar;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -66,6 +67,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String SCHEMA_IMPLEMENTS_FIELDS = "schemaImplementsFields";
     public static final String X_KOTLIN_IMPLEMENTS_SKIP = "xKotlinImplementsSkip";
     public static final String X_KOTLIN_IMPLEMENTS_FIELDS_SKIP = "xKotlinImplementsFieldsSkip";
+    public static final String IMPLICIT_HEADERS = "implicitHeaders";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
@@ -81,6 +83,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    @Setter
     protected boolean parcelizeModels = false;
     @Getter @Setter
     protected boolean serializableModel = false;
@@ -111,6 +114,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Getter
     @Setter
     protected Map<String, List<String>> xKotlinImplementsFieldsSkip = new HashMap<>();
+    @Setter
+    protected boolean implicitHeaders = false;
 
     public AbstractKotlinCodegen() {
         super();
@@ -294,6 +299,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
+        cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods.", implicitHeaders));
     }
 
     @Override
@@ -452,6 +458,43 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        handleImplicitHeaders(objs);
+        return objs;
+    }
+
+    protected void handleImplicitHeaders(OperationsMap objs) {
+        if (!implicitHeaders) {
+            return;
+        }
+
+        objs.getOperations().getOperation().forEach(this::handleImplicitHeaders);
+    }
+
+    /**
+     * This method removes all implicit header parameters from the list of parameters
+     *
+     * @param operation - operation to be processed
+     */
+    private void handleImplicitHeaders(CodegenOperation operation) {
+        if (operation.allParams.isEmpty()) {
+            return;
+        }
+        final ArrayList<CodegenParameter> copy = new ArrayList<>(operation.allParams);
+        operation.allParams.clear();
+
+        for (CodegenParameter p : copy) {
+            if (p.isHeaderParam) {
+                operation.implicitHeadersParams.add(p);
+                operation.headerParams.removeIf(header -> header.baseName.equals(p.baseName));
+                LOGGER.debug("Update operation [{}]. Remove header [{}] because it's marked to be implicit", operation.operationId, p.baseName);
+            } else {
+                operation.allParams.add(p);
+            }
+        }
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 
@@ -587,18 +630,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } else {
             applyJackson2Package();
         }
+
+        convertPropertyToBooleanAndWriteBack(IMPLICIT_HEADERS, this::setImplicitHeaders);
     }
 
     protected boolean isModelMutable() {
         return Boolean.TRUE.equals(additionalProperties.get(MODEL_MUTABLE));
-    }
-
-    public Boolean getParcelizeModels() {
-        return parcelizeModels;
-    }
-
-    public void setParcelizeModels(Boolean parcelizeModels) {
-        this.parcelizeModels = parcelizeModels;
     }
 
     public boolean nonPublicApi() {

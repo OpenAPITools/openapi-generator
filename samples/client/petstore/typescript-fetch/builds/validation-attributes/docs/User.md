@@ -14,6 +14,7 @@ Name | Type
 `email` | string
 `password` | string
 `phone` | string
+`nickname` | string
 `userStatus` | number
 
 ## Example
@@ -30,6 +31,7 @@ const example = {
   "email": null,
   "password": null,
   "phone": null,
+  "nickname": null,
   "userStatus": null,
 } satisfies User
 

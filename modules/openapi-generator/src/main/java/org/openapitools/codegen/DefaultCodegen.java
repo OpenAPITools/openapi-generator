@@ -507,7 +507,8 @@ public class DefaultCodegen implements CodegenConfig {
             // add the model to the discriminator's mapping so templates have access to more than just the string to string mapping
             if (model.discriminator != null && model.discriminator.getMappedModels() != null) {
                 for (CodegenDiscriminator.MappedModel mappedModel : model.discriminator.getMappedModels()) {
-                    CodegenModel mappedCodegenModel = ModelUtils.getModelByName(mappedModel.getModelName(), objs);
+                    String lookupName = mappedModel.getSchemaName() != null ? mappedModel.getSchemaName() : mappedModel.getModelName();
+                    CodegenModel mappedCodegenModel = ModelUtils.getModelByName(lookupName, objs);
                     mappedModel.setModel(mappedCodegenModel);
                 }
             }
@@ -3574,7 +3575,7 @@ public class DefaultCodegen implements CodegenConfig {
                     once(LOGGER).warn("'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}",
                             composedSchemaName, discPropName, modelName, msgSuffix);
                 }
-                MappedModel mm = new MappedModel(modelName, toModelName(modelName));
+                MappedModel mm = new MappedModel(modelName, toModelName(modelName), modelName, false);
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
                 if (cs == null) { // cannot lookup the model based on the name
@@ -3583,7 +3584,7 @@ public class DefaultCodegen implements CodegenConfig {
                     Map<String, Object> vendorExtensions = cs.getExtensions();
                     if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey(X_DISCRIMINATOR_VALUE)) {
                         String xDiscriminatorValue = (String) vendorExtensions.get(X_DISCRIMINATOR_VALUE);
-                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), true);
+                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), modelName, true);
                         descendentSchemas.add(mm);
                     }
                 }
@@ -3641,7 +3642,7 @@ public class DefaultCodegen implements CodegenConfig {
                             .map(ve -> ve.get(X_DISCRIMINATOR_VALUE))
                             .map(discriminatorValue -> (String) discriminatorValue)
                             .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
+            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), currentSchemaName, !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
         return descendentSchemas;
@@ -3687,7 +3688,7 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     name = e.getValue();
                 }
-                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), true));
+                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), name, true));
             }
         }
 

@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |generateStubImplClasses|Generate Stub Impl Classes| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
+|implicitHeaders|Skip header parameters in the generated API methods.| |false|
 |modelMutable|Create mutable models| |false|
 |moduleClassName|Name of the generated module class| |OpenApiModule|
 |packageName|Generated artifact package name.| |org.openapitools|

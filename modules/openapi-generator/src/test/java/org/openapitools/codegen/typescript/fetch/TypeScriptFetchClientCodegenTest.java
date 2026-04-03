@@ -459,6 +459,19 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(modelsIndex, "[property: string]:");
     }
 
+    @Test(description = "Verify pattern is not HTML-escaped in validationAttributes")
+    public void testValidationAttributesPatternIsNotHtmlEscaped() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, true);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/validation-attributes.yaml");
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileNotContains(modelsIndex, "pattern: '/^[a-z&amp;]+$/'");
+        TestUtils.assertFileContains(modelsIndex, "pattern: '/^[a-z&]+$/'");
+    }
+
     @Test(description = "Verify withRequestOptsInInterface=true (default) includes RequestOpts in interface")
     public void testRequestOptsInInterfaceByDefault() throws IOException {
         Map<String, Object> properties = new HashMap<>();

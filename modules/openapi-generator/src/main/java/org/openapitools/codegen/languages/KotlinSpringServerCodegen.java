@@ -1317,10 +1317,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         }
                     }
                 }
-
-//                if(implicitHeaders){
-//                    removeHeadersFromAllParams(operation.allParams);
-//                }
             });
 
             // Add imports for sealed interfaces if feature is enabled
@@ -1344,6 +1340,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
             }
         }
+
+        handleImplicitHeaders(objs);
 
         return objs;
     }

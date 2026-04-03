@@ -131,7 +131,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jackson-version>2.21.1</jackson-version>
-        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <spring-boot-version>3.5.11</spring-boot-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <reactor-version>3.5.12</reactor-version>

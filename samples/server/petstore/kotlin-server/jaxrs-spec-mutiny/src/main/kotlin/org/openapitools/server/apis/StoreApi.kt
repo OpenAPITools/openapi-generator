@@ -10,26 +10,26 @@ import java.io.InputStream
 
 
 
-@Path("/store")
+@Path("/")
 @javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.22.0-SNAPSHOT")
 interface StoreApi {
 
     @DELETE
-    @Path("/order/{orderId}")
+    @Path("/store/order/{orderId}")
     fun deleteOrder(@PathParam("orderId") orderId: kotlin.String): io.smallrye.mutiny.Uni<Response>
 
     @GET
-    @Path("/inventory")
+    @Path("/store/inventory")
     @Produces("application/json")
     fun getInventory(): io.smallrye.mutiny.Uni<Response>
 
     @GET
-    @Path("/order/{orderId}")
+    @Path("/store/order/{orderId}")
     @Produces("application/xml", "application/json")
     fun getOrderById(@PathParam("orderId") orderId: kotlin.Long): io.smallrye.mutiny.Uni<Response>
 
     @POST
-    @Path("/order")
+    @Path("/store/order")
     @Produces("application/xml", "application/json")
     fun placeOrder( body: Order): io.smallrye.mutiny.Uni<Response>
 }

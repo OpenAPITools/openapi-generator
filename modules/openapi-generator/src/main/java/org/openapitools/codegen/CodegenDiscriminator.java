@@ -76,16 +76,25 @@ public class CodegenDiscriminator {
         // is converted to a sanitized, internal representation within codegen.
         @Getter @Setter
         private String modelName;
+        // The raw schema name as it appears in the OAS document, before any
+        // modelNamePrefix/Suffix transformation.
+        @Getter
+        private String schemaName;
 
         @Getter @Setter
         private CodegenModel model;
 
         private final boolean explicitMapping;
 
-        public MappedModel(String mappingName, String modelName, boolean explicitMapping) {
+        public MappedModel(String mappingName, String modelName, String schemaName, boolean explicitMapping) {
             this.mappingName = mappingName;
             this.modelName = modelName;
+            this.schemaName = schemaName;
             this.explicitMapping = explicitMapping;
+        }
+
+        public MappedModel(String mappingName, String modelName, boolean explicitMapping) {
+            this(mappingName, modelName, null, explicitMapping);
         }
 
         public boolean isExplicitMapping() {
