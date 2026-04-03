@@ -6,7 +6,7 @@
         "sourceMap": false,
         "esModuleInterop": true,
         "outDir": "dist",
-        "moduleResolution": "Node16",
+        "moduleResolution": "node16",
         "types": [
             "mocha",
             "node"
