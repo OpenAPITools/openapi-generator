@@ -2,8 +2,8 @@
   "compilerOptions": {
     "strict": true,
     /* Basic Options */
-    "target": "es5",
-    "moduleResolution": "node",
+    "target": "ES2018",
+    "moduleResolution": "node16",
     "declaration": true,
     "typeRoots": [
         "node_modules/@types"
