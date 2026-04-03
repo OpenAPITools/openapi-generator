@@ -984,6 +984,18 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-client-tests-one-0f</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/one-of</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
