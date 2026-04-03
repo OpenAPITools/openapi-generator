@@ -33,6 +33,7 @@ on:
       #- samples/openapi3/client/petstore/typescript/tests/browser/**
       #- samples/openapi3/client/petstore/typescript/builds/nullable-enum/**
       - samples/openapi3/client/petstore/typescript/builds/one-of/**
+      - samples/openapi3/client/petstore/typescript/tests/one-of/**
       - samples/client/petstore/typescript-fetch/builds/default/**
       - samples/client/petstore/typescript-fetch/builds/es6-target/**
       - samples/client/petstore/typescript-fetch/builds/with-npm-version/**
@@ -70,6 +71,7 @@ on:
       #- samples/openapi3/client/petstore/typescript/tests/browser/**
       #- samples/openapi3/client/petstore/typescript/builds/nullable-enum/**
       - samples/openapi3/client/petstore/typescript/builds/one-of/**
+      - samples/openapi3/client/petstore/typescript/tests/one-of/**
       - samples/client/petstore/typescript-fetch/builds/default/**
       - samples/client/petstore/typescript-fetch/builds/es6-target/**
       - samples/client/petstore/typescript-fetch/builds/with-npm-version/**
@@ -122,6 +124,7 @@ jobs:
           #- samples/openapi3/client/petstore/typescript/tests/browser/
           #- samples/openapi3/client/petstore/typescript/builds/nullable-enum/
           - samples/openapi3/client/petstore/typescript/builds/one-of/
+          - samples/openapi3/client/petstore/typescript/tests/one-of/
           - samples/client/petstore/typescript-fetch/builds/default/
           - samples/client/petstore/typescript-fetch/builds/es6-target/
           - samples/client/petstore/typescript-fetch/builds/with-npm-version/
