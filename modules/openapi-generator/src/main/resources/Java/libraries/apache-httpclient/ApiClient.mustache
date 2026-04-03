@@ -16,7 +16,12 @@ import tools.jackson.databind.json.JsonMapper;
 {{/useJackson3}}
 import java.time.OffsetDateTime;
 import {{jacksonPackage}}.core.type.TypeReference;
-import {{jacksonPackage}}.core.JsonProcessingException;
+{{^useJackson3}}
+import com.fasterxml.jackson.core.JsonProcessingException;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+{{/useJackson3}}
 {{#openApiNullable}}
 {{^useJackson3}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
@@ -576,7 +581,16 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   public ApiClient setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
     // Also set the date format for model (de)serialization with Date properties.
+    {{^useJackson3}}
     this.objectMapper.setDateFormat((DateFormat) dateFormat.clone());
+    {{/useJackson3}}
+    {{#useJackson3}}
+    if (this.objectMapper instanceof JsonMapper) {
+      this.objectMapper = ((JsonMapper) this.objectMapper).rebuild().defaultDateFormat((DateFormat) dateFormat.clone()).build();
+    } else {
+      throw new UnsupportedOperationException("setDateFormat is only supported when objectMapper is a JsonMapper instance");
+    }
+    {{/useJackson3}}
     return this;
   }
 
@@ -826,7 +840,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     if (isJsonMime(mimeType)) {
       try {
         return new StringEntity(objectMapper.writeValueAsString(obj), contentType.withCharset(StandardCharsets.UTF_8));
-      } catch (JsonProcessingException e) {
+      } catch ({{^useJackson3}}JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} e) {
         throw new ApiException(e);
       }
     } else if (mimeType.equals(ContentType.MULTIPART_FORM_DATA.getMimeType())) {
