@@ -18,7 +18,12 @@ import java.time.OffsetDateTime;
 import {{jacksonPackage}}.core.type.TypeReference;
 import {{jacksonPackage}}.core.JsonProcessingException;
 {{#openApiNullable}}
+{{^useJackson3}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/useJackson3}}
+{{#useJackson3}}
+import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
+{{/useJackson3}}
 {{/openApiNullable}}
 
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
@@ -175,6 +180,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         {{#joda}}
         .addModule(new JodaModule())
         {{/joda}}
+        {{#openApiNullable}}
+        .addModule(new JsonNullableJackson3Module())
+        {{/openApiNullable}}
         .addModule(new RFC3339JavaTimeModule())
         .defaultDateFormat(ApiClient.buildDefaultDateFormat())
         .build();

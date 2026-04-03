@@ -335,7 +335,6 @@
         </dependency>
         {{/joda}}
         <!-- Note: jackson-datatype-jsr310 is included in jackson-databind for Jackson 3 -->
-        <!-- Note: jackson-databind-nullable is not yet available for Jackson 3 -->
         {{/useJackson3}}
         {{#useBeanValidation}}
         <!-- Bean Validation API support -->
@@ -404,6 +403,9 @@
         {{#useJackson3}}
         <jackson3-version>3.1.0</jackson3-version>
         <jackson-annotations-version>2.21</jackson-annotations-version>
+        {{#openApiNullable}}
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
+        {{/openApiNullable}}
         {{/useJackson3}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>

@@ -131,6 +131,9 @@ ext {
     {{#useJackson3}}
     jackson3_version = "3.1.0"
     jackson_annotations_version = "2.21"
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.10"
+    {{/openApiNullable}}
     {{/useJackson3}}
     jakarta_annotation_version = "1.3.5"
     httpclient_version = "5.1.3"
@@ -160,6 +163,9 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "tools.jackson.core:jackson-databind:$jackson3_version"
     implementation "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$jackson3_version"
+    {{#openApiNullable}}
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
     {{#joda}}
     implementation "tools.jackson.datatype:jackson-datatype-joda:$jackson3_version"
     {{/joda}}
