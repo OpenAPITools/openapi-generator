@@ -80,7 +80,9 @@ public class FakeApi {
                 
             })
         })
-    public Response createXmlItem(@Valid @NotNull XmlItem xmlItem) {
+    public Response createXmlItem(
+
+  @Valid @NotNull XmlItem xmlItem) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -95,7 +97,9 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Boolean.class))
             })
         })
-    public Response fakeOuterBooleanSerialize(@Valid Boolean body) {
+    public Response fakeOuterBooleanSerialize(
+
+  @Valid Boolean body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -110,7 +114,9 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = OuterComposite.class))
             })
         })
-    public Response fakeOuterCompositeSerialize(@Valid OuterComposite body) {
+    public Response fakeOuterCompositeSerialize(
+
+  @Valid OuterComposite body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -125,7 +131,9 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = BigDecimal.class))
             })
         })
-    public Response fakeOuterNumberSerialize(@Valid BigDecimal body) {
+    public Response fakeOuterNumberSerialize(
+
+  @Valid BigDecimal body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -140,7 +148,9 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = String.class))
             })
         })
-    public Response fakeOuterStringSerialize(@Valid String body) {
+    public Response fakeOuterStringSerialize(
+
+  @Valid String body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -155,7 +165,9 @@ public class FakeApi {
                 
             })
         })
-    public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body) {
+    public Response testBodyWithFileSchema(
+
+  @Valid @NotNull FileSchemaTestClass body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -170,7 +182,11 @@ public class FakeApi {
                 
             })
         })
-    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User body) {
+    public Response testBodyWithQueryParams(@QueryParam("query")   @NotNull   String query
+
+,
+
+  @Valid @NotNull User body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -185,7 +201,9 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response testClientModel(@Valid @NotNull Client body) {
+    public Response testClientModel(
+
+  @Valid @NotNull Client body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -204,7 +222,35 @@ public class FakeApi {
                 
             })
         })
-    public Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string, @FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  LocalDateTime dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback) {
+    public Response testEndpointParameters(
+
+@FormParam(value = "number")  BigDecimal number,
+
+@FormParam(value = "double")  Double _double,
+
+@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,
+
+@FormParam(value = "byte")  byte[] _byte,
+
+@FormParam(value = "integer")  Integer integer,
+
+@FormParam(value = "int32")  Integer int32,
+
+@FormParam(value = "int64")  Long int64,
+
+@FormParam(value = "float")  Float _float,
+
+@FormParam(value = "string")  String string,
+
+ @FormParam(value = "binary") InputStream binaryInputStream,
+
+@FormParam(value = "date")  LocalDate date,
+
+@FormParam(value = "dateTime")  LocalDateTime dateTime,
+
+@FormParam(value = "password")  String password,
+
+@FormParam(value = "callback")  String paramCallback) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -221,7 +267,21 @@ public class FakeApi {
                 
             })
         })
-    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public Response testEnumParameters(
+
+@HeaderParam("enum_header_string_array")     @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")    @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string array)")  List<String> enumQueryStringArray
+
+,@QueryParam("enum_query_string")   @DefaultValue("-efg")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string)")  String enumQueryString
+
+,@QueryParam("enum_query_integer")    @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Integer enumQueryInteger
+
+,@QueryParam("enum_query_double")    @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Double enumQueryDouble
+
+,
+
+@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,
+
+@FormParam(value = "enum_form_string")  String enumFormString) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -234,7 +294,19 @@ public class FakeApi {
                 
             })
         })
-    public Response testGroupParameters(@QueryParam("required_string_group") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Integer in group parameters")  Long int64Group) {
+    public Response testGroupParameters(@QueryParam("required_string_group")   @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required String in group parameters")  Integer requiredStringGroup
+
+,
+
+@HeaderParam("required_boolean_group")   @NotNull   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group")   @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required Integer in group parameters")  Long requiredInt64Group
+
+,@QueryParam("string_group")    @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="String in group parameters")  Integer stringGroup
+
+,
+
+@HeaderParam("boolean_group")     @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")    @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Integer in group parameters")  Long int64Group
+
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -249,7 +321,9 @@ public class FakeApi {
                 
             })
         })
-    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param) {
+    public Response testInlineAdditionalProperties(
+
+  @Valid @NotNull Map<String, String> param) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -264,7 +338,11 @@ public class FakeApi {
                 
             })
         })
-    public Response testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2) {
+    public Response testJsonFormData(
+
+@FormParam(value = "param")  String param,
+
+@FormParam(value = "param2")  String param2) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -278,7 +356,17 @@ public class FakeApi {
                 
             })
         })
-    public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context) {
+    public Response testQueryParameterCollectionFormat(@QueryParam("pipe")   @NotNull   List<String> pipe
+
+,@QueryParam("ioutil")   @NotNull   List<String> ioutil
+
+,@QueryParam("http")   @NotNull   List<String> http
+
+,@QueryParam("url")   @NotNull   List<String> url
+
+,@QueryParam("context")   @NotNull   List<String> context
+
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -296,7 +384,13 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = ModelApiResponse.class))
             })
         })
-    public Response uploadFileWithRequiredFile(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
+    public Response uploadFileWithRequiredFile(
+@PathParam("petId")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId
+,
+
+ @FormParam(value = "requiredFile") InputStream requiredFileInputStream,
+
+@FormParam(value = "additionalMetadata")  String additionalMetadata) {
         return Response.ok().entity("magic!").build();
     }
 }

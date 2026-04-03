@@ -70,7 +70,12 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The instance started successfully", response = Void.class)
     })
-    public Response fakeHttpSignatureTest(@Valid @NotNull Pet pet,@QueryParam("query_1")  @ApiParam("query parameter")  String query1,@HeaderParam("header_1")   @ApiParam("header parameter") String header1) {
+    public Response fakeHttpSignatureTest(
+            @Valid @NotNull Pet pet, @QueryParam("query_1") @ApiParam("query parameter") String query1
+
+            ,
+
+            @HeaderParam("header_1") @ApiParam("header parameter") String header1) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -82,7 +87,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class)
     })
-    public Response fakeOuterBooleanSerialize(@Valid Boolean body) {
+    public Response fakeOuterBooleanSerialize(
+
+  @Valid Boolean body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -94,7 +101,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
-    public Response fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite) {
+    public Response fakeOuterCompositeSerialize(
+
+  @Valid OuterComposite outerComposite) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -106,7 +115,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class)
     })
-    public Response fakeOuterNumberSerialize(@Valid BigDecimal body) {
+    public Response fakeOuterNumberSerialize(
+
+  @Valid BigDecimal body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -118,7 +129,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class)
     })
-    public Response fakeOuterStringSerialize(@Valid String body) {
+    public Response fakeOuterStringSerialize(
+
+  @Valid String body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -130,7 +143,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output enum (int)", response = OuterObjectWithEnumProperty.class)
     })
-    public Response fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
+    public Response fakePropertyEnumIntegerSerialize(
+
+  @Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -152,7 +167,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
+    public Response testAdditionalPropertiesReference(
+
+  @Valid @NotNull Map<String, Object> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -163,7 +180,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithBinary(@Valid File body) {
+    public Response testBodyWithBinary(
+
+  @Valid File body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -174,7 +193,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass fileSchemaTestClass) {
+    public Response testBodyWithFileSchema(
+
+  @Valid @NotNull FileSchemaTestClass fileSchemaTestClass) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -185,7 +206,11 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User user) {
+    public Response testBodyWithQueryParams(@QueryParam("query")   @NotNull   String query
+
+,
+
+  @Valid @NotNull User user) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -196,7 +221,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClientModel(@Valid @NotNull Client client) {
+    public Response testClientModel(
+
+  @Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -210,7 +237,35 @@ public class FakeApi {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class)
     })
-    public Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string, @FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  Date dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback) {
+    public Response testEndpointParameters(
+
+@FormParam(value = "number")  BigDecimal number,
+
+@FormParam(value = "double")  Double _double,
+
+@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,
+
+@FormParam(value = "byte")  byte[] _byte,
+
+@FormParam(value = "integer")  Integer integer,
+
+@FormParam(value = "int32")  Integer int32,
+
+@FormParam(value = "int64")  Long int64,
+
+@FormParam(value = "float")  Float _float,
+
+@FormParam(value = "string")  String string,
+
+ @FormParam(value = "binary") InputStream binaryInputStream,
+
+@FormParam(value = "date")  LocalDate date,
+
+@FormParam(value = "dateTime")  Date dateTime,
+
+@FormParam(value = "password")  String password,
+
+@FormParam(value = "callback")  String paramCallback) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -224,7 +279,23 @@ public class FakeApi {
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class)
     })
-    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@QueryParam("enum_query_model_array")   List<EnumClass> enumQueryModelArray,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public Response testEnumParameters(
+
+@HeaderParam("enum_header_string_array")     @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")    @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray
+
+,@QueryParam("enum_query_string")   @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString
+
+,@QueryParam("enum_query_integer")    @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger
+
+,@QueryParam("enum_query_double")    @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble
+
+,@QueryParam("enum_query_model_array")     List<EnumClass> enumQueryModelArray
+
+,
+
+@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,
+
+@FormParam(value = "enum_form_string")  String enumFormString) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -236,7 +307,19 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Something wrong", response = Void.class)
     })
-    public Response testGroupParameters(@QueryParam("required_string_group") @NotNull  @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull  @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")  @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")  @ApiParam("Integer in group parameters")  Long int64Group) {
+    public Response testGroupParameters(@QueryParam("required_string_group")   @NotNull  @ApiParam("Required String in group parameters")  Integer requiredStringGroup
+
+,
+
+@HeaderParam("required_boolean_group")   @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group")   @NotNull  @ApiParam("Required Integer in group parameters")  Long requiredInt64Group
+
+,@QueryParam("string_group")    @ApiParam("String in group parameters")  Integer stringGroup
+
+,
+
+@HeaderParam("boolean_group")     @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")    @ApiParam("Integer in group parameters")  Long int64Group
+
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -247,7 +330,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody) {
+    public Response testInlineAdditionalProperties(
+
+  @Valid @NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -258,7 +343,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineFreeformAdditionalProperties(@Valid @NotNull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+    public Response testInlineFreeformAdditionalProperties(
+
+  @Valid @NotNull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -269,7 +356,11 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2) {
+    public Response testJsonFormData(
+
+@FormParam(value = "param")  String param,
+
+@FormParam(value = "param2")  String param2) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -280,7 +371,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testNullable(@Valid @NotNull ChildWithNullable childWithNullable) {
+    public Response testNullable(
+
+  @Valid @NotNull ChildWithNullable childWithNullable) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -290,7 +383,21 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context,@QueryParam("allowEmpty") @NotNull   String allowEmpty,@QueryParam("language")   Map<String, String> language) {
+    public Response testQueryParameterCollectionFormat(@QueryParam("pipe")   @NotNull   List<String> pipe
+
+,@QueryParam("ioutil")   @NotNull   List<String> ioutil
+
+,@QueryParam("http")   @NotNull   List<String> http
+
+,@QueryParam("url")   @NotNull   List<String> url
+
+,@QueryParam("context")   @NotNull   List<String> context
+
+,@QueryParam("allowEmpty")   @NotNull   String allowEmpty
+
+,@QueryParam("language")     Map<String, String> language
+
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -301,7 +408,9 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testStringMapReference(@Valid @NotNull Map<String, String> requestBody) {
+    public Response testStringMapReference(
+
+  @Valid @NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -317,7 +426,13 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
     })
-    public Response uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
+    public Response uploadFileWithRequiredFile(
+@PathParam("petId")   @ApiParam("ID of pet to update") Long petId
+,
+
+ @FormParam(value = "requiredFile") InputStream requiredFileInputStream,
+
+@FormParam(value = "additionalMetadata")  String additionalMetadata) {
         return Response.ok().entity("magic!").build();
     }
 }

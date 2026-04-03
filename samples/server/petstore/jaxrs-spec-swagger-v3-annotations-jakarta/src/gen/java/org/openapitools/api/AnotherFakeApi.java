@@ -31,7 +31,9 @@ public class AnotherFakeApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response call123testSpecialTags(@Valid @NotNull Client client) {
+    public Response call123testSpecialTags(
+
+  @Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 }

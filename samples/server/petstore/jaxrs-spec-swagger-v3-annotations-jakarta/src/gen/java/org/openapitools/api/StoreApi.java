@@ -32,7 +32,9 @@ public class StoreApi {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Order not found")
     })
-    public Response deleteOrder(@PathParam("order_id") String orderId) {
+    public Response deleteOrder(
+@PathParam("order_id")   String orderId
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -56,7 +58,9 @@ public class StoreApi {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Order not found")
     })
-    public Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId) {
+    public Response getOrderById(
+@PathParam("order_id")   @Min(1L) @Max(5L) Long orderId
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -69,7 +73,9 @@ public class StoreApi {
         @ApiResponse(responseCode = "200", description = "successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid Order")
     })
-    public Response placeOrder(@Valid @NotNull Order order) {
+    public Response placeOrder(
+
+  @Valid @NotNull Order order) {
         return Response.ok().entity("magic!").build();
     }
 }
