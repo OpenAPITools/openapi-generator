@@ -4,6 +4,7 @@
     /* Basic Options */
     "target": "ES2018",
     "moduleResolution": "node16",
+    "module": "Node16",
     "declaration": true,
     "typeRoots": [
         "node_modules/@types"
