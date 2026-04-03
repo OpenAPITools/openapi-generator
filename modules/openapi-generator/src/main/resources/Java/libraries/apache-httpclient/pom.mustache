@@ -244,6 +244,7 @@
         </dependency>
 
         <!-- JSON processing: jackson -->
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -295,6 +296,47 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{/useJackson3}}
+        {{#useJackson3}}
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotations-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{^useJakartaEe}}
+        <dependency>
+            <groupId>tools.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{/useJakartaEe}}
+        {{#useJakartaEe}}
+        <dependency>
+            <groupId>tools.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{/useJakartaEe}}
+        {{#joda}}
+        <dependency>
+            <groupId>tools.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{/joda}}
+        <!-- Note: jackson-datatype-jsr310 is included in jackson-databind for Jackson 3 -->
+        <!-- Note: jackson-databind-nullable is not yet available for Jackson 3 -->
+        {{/useJackson3}}
         {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
@@ -351,12 +393,18 @@
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
         <httpclient-version>5.2.1</httpclient-version>
+        {{^useJackson3}}
         <jackson-version>2.21.1</jackson-version>
         <jackson-annotations-version>2.21</jackson-annotations-version>
         <jackson-databind-version>2.21.1</jackson-databind-version>
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         {{/openApiNullable}}
+        {{/useJackson3}}
+        {{#useJackson3}}
+        <jackson3-version>3.1.0</jackson3-version>
+        <jackson-annotations-version>2.21</jackson-annotations-version>
+        {{/useJackson3}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
