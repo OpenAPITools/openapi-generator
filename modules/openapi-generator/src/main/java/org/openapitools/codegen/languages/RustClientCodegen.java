@@ -905,7 +905,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         this.additionalProperties.put("hasUUIDs", hasUUIDs);
-        this.additionalProperties.put("hasChronoType", hasChronoTypes);
+        this.additionalProperties.put("hasChronoTypes", hasChronoTypes);
         return objs;
     }
 
@@ -923,6 +923,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         return checkForPropertiesRecursively(properties, (property) -> property.isDate || property.isDateTime);
     }
 
+    /**
+     * Recursively searches for a condition in a property
+     * @param properties the {@link CodegenProperty} to recursively search for
+     * @param propertyCheck the {@link Function} to be applied to check an individual {@link CodegenProperty} for a match
+     * @return true if there is at least one match, false if there is no match
+     */
     private boolean checkForPropertiesRecursively(List<CodegenProperty> properties, Function<CodegenProperty, Boolean> propertyCheck){
         for (CodegenProperty property : properties) {
             if (propertyCheck.apply(property)) {
