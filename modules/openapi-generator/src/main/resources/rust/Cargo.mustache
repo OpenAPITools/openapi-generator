@@ -45,9 +45,9 @@ url = "^2.5"
 {{#hasUUIDs}}
 uuid = { version = "^1.8", features = ["serde", "v4"] }
 {{/hasUUIDs}}
-{{#hasChronoTypes}}
+{{#usesChronoTypes}}
 chrono = { version = "^0.4",  features = ["serde"] }
-{{/hasChronoTypes}}
+{{/usesChronoTypes}}
 {{#hyper}}
 {{#hyper0x}}
 hyper = { version = "~0.14", features = ["full"] }

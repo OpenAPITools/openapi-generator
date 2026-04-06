@@ -55,6 +55,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Setter(AccessLevel.PRIVATE) private boolean supportMiddleware = false;
     @Setter(AccessLevel.PRIVATE) private boolean useSerdePathToError = false;
     @Setter(AccessLevel.PRIVATE) private boolean supportTokenSource = false;
+    private boolean useChrono = true;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
     @Setter private boolean preferUnsignedInt = false;
@@ -74,6 +75,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
     public static final String USE_SERDE_PATH_TO_ERROR = "useSerdePathToError";
     public static final String SUPPORT_TOKEN_SOURCE = "supportTokenSource";
+    public static final String USE_CHRONO = "useChrono";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
@@ -94,7 +96,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     private boolean hasUUIDs = false;
     // The API has at least one Chrono type.
     // If the API does not contain any Dates or DateTimes we do not need to depend on the `chrono` crate
-    private boolean hasChronoTypes = false;
+    private boolean usesChronoTypes = false;
 
     @Override
     public CodegenType getTag() {
@@ -186,8 +188,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("map", "std::collections::HashMap");
         typeMapping.put("UUID", "uuid::Uuid");
         typeMapping.put("URI", "String");
+        // Temporarily set the default to chrono. Then when `processOpts` is called it will update to not use chrono if specified
         typeMapping.put("date", "chrono::NaiveDate");
         typeMapping.put("DateTime", "chrono::NaiveDateTime");
+
         typeMapping.put("password", "String");
         typeMapping.put("decimal", "String");
 
@@ -220,6 +224,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_TOKEN_SOURCE, "If set, add support for google-cloud-token. This option is for 'reqwest' and 'reqwest-trait' library only and requires the 'supportAsync' option", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(USE_CHRONO, "If set, use chrono to represent date time objects (`chrono::NaiveDate` for `date` and `chrono::NaiveDateTime` for `date-time`)", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
@@ -466,6 +472,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             this.setSupportTokenSource(convertPropertyToBoolean(SUPPORT_TOKEN_SOURCE));
         }
         writePropertyBack(SUPPORT_TOKEN_SOURCE, getSupportTokenSource());
+
+        if (additionalProperties.containsKey(USE_CHRONO)) {
+            this.setUseChrono(convertPropertyToBoolean(USE_CHRONO));
+        }
+        writePropertyBack(USE_CHRONO, isUseChrono());
 
         if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
             this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
@@ -784,11 +795,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
             // Check for Chrono Types
-            for (CodegenParameter param : operation.allParams) {
-                if (!hasChronoTypes && (param.isDate || param.isDateTime)) {
-                    LOGGER.debug("Found Chrono Type in operation Parameter: {}", param.paramName);
-                    hasChronoTypes = true;
-                    break;
+            if(isUseChrono()){
+                for (CodegenParameter param : operation.allParams) {
+                    if (!usesChronoTypes && (param.isDate || param.isDateTime)) {
+                        LOGGER.debug("Found Chrono Type in operation Parameter: {}", param.paramName);
+                        usesChronoTypes = true;
+                        break;
+                    }
                 }
             }
 
@@ -893,11 +906,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }
         }
 
-        if (!hasChronoTypes) {
+        if (isUseChrono() && !usesChronoTypes) {
             for (var map : allModels) {
                 CodegenModel m = map.getModel();
                 if (m.getIsDate() || hasChronoTypeInProperties(m.vars)) {
-                    hasChronoTypes = true;
+                    usesChronoTypes = true;
                     LOGGER.debug("Found Chrono Type in model: {}", m.name);
                     break;
                 }
@@ -905,7 +918,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         this.additionalProperties.put("hasUUIDs", hasUUIDs);
-        this.additionalProperties.put("hasChronoTypes", hasChronoTypes);
+        this.additionalProperties.put("usesChronoTypes", isUseChrono() && usesChronoTypes);
         return objs;
     }
 
@@ -979,5 +992,21 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static <K, V> boolean hasDuplicateValues(Map<K, V> map) {
         Set<V> uniqueValues = new HashSet<>(map.values());
         return uniqueValues.size() < map.size();
+    }
+
+
+    private boolean isUseChrono() {
+        return useChrono;
+    }
+
+    private void setUseChrono(boolean useChrono) {
+        this.useChrono = useChrono;
+        if(isUseChrono()){
+            typeMapping.put("date", "chrono::NaiveDate");
+            typeMapping.put("DateTime", "chrono::NaiveDateTime");
+        }else{
+            typeMapping.put("date", "String");
+            typeMapping.put("DateTime", "String");
+        }
     }
 }
