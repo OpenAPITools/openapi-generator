@@ -190,7 +190,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("URI", "String");
         // Temporarily set the default to chrono. Then when `processOpts` is called it will update to not use chrono if specified
         typeMapping.put("date", "chrono::NaiveDate");
-        typeMapping.put("DateTime", "chrono::NaiveDateTime");
+        typeMapping.put("DateTime", "chrono::DateTime<chrono::FixedOffset>");
 
         typeMapping.put("password", "String");
         typeMapping.put("decimal", "String");
@@ -224,7 +224,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_TOKEN_SOURCE, "If set, add support for google-cloud-token. This option is for 'reqwest' and 'reqwest-trait' library only and requires the 'supportAsync' option", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(USE_CHRONO, "If set, use chrono to represent date time objects (`chrono::NaiveDate` for `date` and `chrono::NaiveDateTime` for `date-time`)", SchemaTypeUtil.BOOLEAN_TYPE)
+        cliOptions.add(new CliOption(USE_CHRONO, "If set, use chrono to represent date time objects (`chrono::NaiveDate` for `date` and `chrono::DateTime<chrono::FixedOffset>>` for `date-time`)", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
@@ -1003,7 +1003,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         this.useChrono = useChrono;
         if(isUseChrono()){
             typeMapping.put("date", "chrono::NaiveDate");
-            typeMapping.put("DateTime", "chrono::NaiveDateTime");
+            typeMapping.put("DateTime", "chrono::DateTime<chrono::FixedOffset>");
         }else{
             typeMapping.put("date", "String");
             typeMapping.put("DateTime", "String");
