@@ -45,6 +45,7 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
@@ -91,6 +92,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     // The API has at least one UUID type.
     // If the API does not contain any UUIDs we do not need depend on the `uuid` crate
     private boolean hasUUIDs = false;
+    // The API has at least one Chrono type.
+    // If the API does not contain any Dates or DateTimes we do not need to depend on the `chrono` crate
+    private boolean hasChronoTypes = false;
 
     @Override
     public CodegenType getTag() {
@@ -182,8 +186,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("map", "std::collections::HashMap");
         typeMapping.put("UUID", "uuid::Uuid");
         typeMapping.put("URI", "String");
-        typeMapping.put("date", "string");
-        typeMapping.put("DateTime", "String");
+        typeMapping.put("date", "chrono::NaiveDate");
+        typeMapping.put("DateTime", "chrono::NaiveDateTime");
         typeMapping.put("password", "String");
         typeMapping.put("decimal", "String");
 
@@ -772,9 +776,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
 
+            // Check for UUIDs
             for (var param : operation.allParams) {
                 if (!hasUUIDs && param.isUuid) {
                     hasUUIDs = true;
+                    break;
+                }
+            }
+            // Check for Chrono Types
+            for (CodegenParameter param : operation.allParams) {
+                if (!hasChronoTypes && (param.isDate || param.isDateTime)) {
+                    LOGGER.debug("Found Chrono Type in operation Parameter: {}", param.paramName);
+                    hasChronoTypes = true;
                     break;
                 }
             }
@@ -874,13 +887,25 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 CodegenModel m = map.getModel();
                 if (m.getIsUuid() || hasUuidInProperties(m.vars)) {
                     hasUUIDs = true;
-                    LOGGER.debug("found UUID in model: " + m.name);
+                    LOGGER.debug("Found UUID in model: {}", m.name);
+                    break;
+                }
+            }
+        }
+
+        if (!hasChronoTypes) {
+            for (var map : allModels) {
+                CodegenModel m = map.getModel();
+                if (m.getIsDate() || hasChronoTypeInProperties(m.vars)) {
+                    hasChronoTypes = true;
+                    LOGGER.debug("Found Chrono Type in model: {}", m.name);
                     break;
                 }
             }
         }
 
         this.additionalProperties.put("hasUUIDs", hasUUIDs);
+        this.additionalProperties.put("hasChronoType", hasChronoTypes);
         return objs;
     }
 
@@ -888,18 +913,29 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
      * Recursively searches for a model's properties for a UUID type field.
      */
     private boolean hasUuidInProperties(List<CodegenProperty> properties) {
+        return checkForPropertiesRecursively(properties, (property) -> property.isUuid);
+    }
+
+    /**
+     * Recursively searches for a model's properties for a Date or DateTime type field.
+     */
+    private boolean hasChronoTypeInProperties(List<CodegenProperty> properties) {
+        return checkForPropertiesRecursively(properties, (property) -> property.isDate || property.isDateTime);
+    }
+
+    private boolean checkForPropertiesRecursively(List<CodegenProperty> properties, Function<CodegenProperty, Boolean> propertyCheck){
         for (CodegenProperty property : properties) {
-            if (property.isUuid) {
+            if (propertyCheck.apply(property)) {
                 return true;
             }
             // Check nested properties
-            if (property.items != null && hasUuidInProperties(Collections.singletonList(property.items))) {
+            if (property.items != null && checkForPropertiesRecursively(Collections.singletonList(property.items), propertyCheck)) {
                 return true;
             }
-            if (property.additionalProperties != null && hasUuidInProperties(Collections.singletonList(property.additionalProperties))) {
+            if (property.additionalProperties != null && checkForPropertiesRecursively(Collections.singletonList(property.additionalProperties), propertyCheck)) {
                 return true;
             }
-            if (property.vars != null && hasUuidInProperties(property.vars)) {
+            if (property.vars != null && checkForPropertiesRecursively(property.vars, propertyCheck)) {
                 return true;
             }
         }
