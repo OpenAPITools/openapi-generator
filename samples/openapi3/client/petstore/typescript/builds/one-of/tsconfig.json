@@ -2,9 +2,9 @@
   "compilerOptions": {
     "strict": true,
     /* Basic Options */
-    "target": "ES2018",
-    "moduleResolution": "node16",
-    "module": "Node16",
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "declaration": true,
     "typeRoots": [
         "node_modules/@types"
