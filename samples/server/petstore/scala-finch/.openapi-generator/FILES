@@ -1,3 +1,4 @@
+.scalafmt.conf
 README.md
 build.sbt
 project/build.properties
