@@ -12,6 +12,9 @@
 package org.openapitools.client.model
 
 import java.time.OffsetDateTime
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import org.openapitools.client.core.JsonSupport._
 
   /**
    * Pet Order
@@ -26,6 +29,37 @@ case class Order(
   status: Option[OrderEnums.Status] = None,
   complete: Option[Boolean] = None
 )
+object Order {
+  implicit val encoderOrder: Encoder[Order] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.petId.map(v => "petId" -> v.asJson),
+        t.quantity.map(v => "quantity" -> v.asJson),
+        t.shipDate.map(v => "shipDate" -> v.asJson),
+        t.status.map(v => "status" -> v.asJson),
+        t.complete.map(v => "complete" -> v.asJson)
+      ).flatten
+    }
+  }
+  implicit val decoderOrder: Decoder[Order] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      petId <- c.downField("petId").as[Option[Long]]
+      quantity <- c.downField("quantity").as[Option[Int]]
+      shipDate <- c.downField("shipDate").as[Option[OffsetDateTime]]
+      status <- c.downField("status").as[Option[OrderEnums.Status]]
+      complete <- c.downField("complete").as[Option[Boolean]]
+    } yield Order(
+      id = id,
+      petId = petId,
+      quantity = quantity,
+      shipDate = shipDate,
+      status = status,
+      complete = complete
+    )
+  }
+}
 
 object OrderEnums {
 

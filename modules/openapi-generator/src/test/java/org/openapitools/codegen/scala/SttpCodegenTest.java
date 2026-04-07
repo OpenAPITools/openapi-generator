@@ -111,6 +111,73 @@ public class SttpCodegenTest {
     }
 
     @Test
+    public void circeSerdeWithMixedCaseFields() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/mixed-case-fields.yaml", null, new ParseOptions()).getOpenAPI();
+
+        ScalaSttpClientCodegen codegen = new ScalaSttpClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("jsonLibrary", "circe");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+        generator.opts(input).generate();
+
+        Path modelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/MixedCaseModel.scala");
+        Path jsonSupportPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/JsonSupport.scala");
+
+        // Model should have camelCase Scala field names in the case class
+        assertFileContains(modelPath, "firstName");
+        assertFileContains(modelPath, "phoneNumber");
+        assertFileContains(modelPath, "lastName");
+        assertFileContains(modelPath, "zipCode");
+        assertFileContains(modelPath, "address");
+
+        // Encoder should use original baseName for JSON keys
+        assertFileContains(modelPath, "\"first-name\"");    // kebab-case preserved
+        assertFileContains(modelPath, "\"phone_number\"");   // snake_case preserved
+        assertFileContains(modelPath, "\"lastName\"");       // camelCase preserved
+        assertFileContains(modelPath, "\"ZipCode\"");        // PascalCase preserved
+        assertFileContains(modelPath, "\"address\"");        // lowercase preserved
+
+        // Decoder should use original baseName in downField
+        assertFileContains(modelPath, "c.downField(\"first-name\")");
+        assertFileContains(modelPath, "c.downField(\"phone_number\")");
+        assertFileContains(modelPath, "c.downField(\"ZipCode\")");
+
+        // Model should have explicit encoder/decoder companion object
+        assertFileContains(modelPath, "object MixedCaseModel");
+        assertFileContains(modelPath, "implicit val encoderMixedCaseModel");
+        assertFileContains(modelPath, "implicit val decoderMixedCaseModel");
+
+        // Model should import JsonSupport for enum implicits
+        assertFileContains(modelPath, "import org.openapitools.client.core.JsonSupport._");
+
+        // JsonSupport should NOT use AutoDerivation (we have explicit instances now)
+        assertFileNotContains(jsonSupportPath, "AutoDerivation");
+
+        // AdditionalTypeSerializers should have File and Any codecs for circe
+        Path additionalSerializersPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/AdditionalTypeSerializers.scala");
+        assertFileContains(additionalSerializersPath, "FileDecoder");
+        assertFileContains(additionalSerializersPath, "FileEncoder");
+        assertFileContains(additionalSerializersPath, "AnyDecoder");
+        assertFileContains(additionalSerializersPath, "AnyEncoder");
+    }
+
+    @Test
     public void headerSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

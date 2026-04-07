@@ -11,6 +11,9 @@
  */
 package org.openapitools.client.model
 
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import org.openapitools.client.core.JsonSupport._
 
   /**
    * An uploaded response
@@ -21,4 +24,26 @@ case class ApiResponse(
   `type`: Option[String] = None,
   message: Option[String] = None
 )
+object ApiResponse {
+  implicit val encoderApiResponse: Encoder[ApiResponse] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        t.code.map(v => "code" -> v.asJson),
+        t.`type`.map(v => "type" -> v.asJson),
+        t.message.map(v => "message" -> v.asJson)
+      ).flatten
+    }
+  }
+  implicit val decoderApiResponse: Decoder[ApiResponse] = Decoder.instance { c =>
+    for {
+      code <- c.downField("code").as[Option[Int]]
+      `type` <- c.downField("type").as[Option[String]]
+      message <- c.downField("message").as[Option[String]]
+    } yield ApiResponse(
+      code = code,
+      `type` = `type`,
+      message = message
+    )
+  }
+}
 

@@ -11,6 +11,9 @@
  */
 package org.openapitools.client.model
 
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import org.openapitools.client.core.JsonSupport._
 
 case class PropertyNameMapping(
   `httpDebugOperation`: Option[String] = None,
@@ -18,4 +21,29 @@ case class PropertyNameMapping(
   `type`: Option[String] = None,
   `typeWithUnderscore`: Option[String] = None
 )
+object PropertyNameMapping {
+  implicit val encoderPropertyNameMapping: Encoder[PropertyNameMapping] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        t.`httpDebugOperation`.map(v => "http_debug_operation" -> v.asJson),
+        t.`underscoreType`.map(v => "_type" -> v.asJson),
+        t.`type`.map(v => "type" -> v.asJson),
+        t.`typeWithUnderscore`.map(v => "type_" -> v.asJson)
+      ).flatten
+    }
+  }
+  implicit val decoderPropertyNameMapping: Decoder[PropertyNameMapping] = Decoder.instance { c =>
+    for {
+      `httpDebugOperation` <- c.downField("http_debug_operation").as[Option[String]]
+      `underscoreType` <- c.downField("_type").as[Option[String]]
+      `type` <- c.downField("type").as[Option[String]]
+      `typeWithUnderscore` <- c.downField("type_").as[Option[String]]
+    } yield PropertyNameMapping(
+      `httpDebugOperation` = `httpDebugOperation`,
+      `underscoreType` = `underscoreType`,
+      `type` = `type`,
+      `typeWithUnderscore` = `typeWithUnderscore`
+    )
+  }
+}
 
