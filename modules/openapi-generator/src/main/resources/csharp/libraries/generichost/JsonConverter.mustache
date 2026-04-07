@@ -251,8 +251,11 @@
                         {{^isNumeric}}
                         {{^isDate}}
                         {{^isDateTime}}
+                        {{#isArray}}
                             {{#items.isEnum}}
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}null);
+                            else
                             {
                                 var {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}Items = new List<{{#items.isInnerEnum}}{{classname}}.{{/items.isInnerEnum}}{{{items.datatypeWithEnum}}}>();
                                 while (utf8JsonReader.Read())
@@ -269,6 +272,10 @@
                             {{^items.isEnum}}
                             {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref utf8JsonReader, jsonSerializerOptions){{^isNullable}}{{nrt!}}{{/isNullable}});
                             {{/items.isEnum}}
+                        {{/isArray}}
+                        {{^isArray}}
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref utf8JsonReader, jsonSerializerOptions){{^isNullable}}{{nrt!}}{{/isNullable}});
+                        {{/isArray}}
                         {{/isDateTime}}
                         {{/isDate}}
                         {{/isNumeric}}
