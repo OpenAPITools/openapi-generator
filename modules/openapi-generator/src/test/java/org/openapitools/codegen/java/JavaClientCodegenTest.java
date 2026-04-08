@@ -2149,7 +2149,15 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString());
         consumer.accept(configurator);
         return new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .stream().collect(Collectors.toMap(JavaClientCodegenTest::getUniqueName, Function.identity()));
+    }
+
+    private static String getUniqueName(File file) {
+        String name = file.getName();
+        if ("package-info.java".equals(name)) {
+            return file.getParentFile().getName() + "/" + name;
+        }
+        return name;
     }
 
     @Test
@@ -4310,5 +4318,72 @@ public class JavaClientCodegenTest {
                 "if (v instanceof java.util.ArrayList) {",
                 "o.getClass().getEnumConstants() != null"
         );
+    }
+
+    @DataProvider(name = "jspecifyLibraries")
+    public Object[][] jspecifyLibraries() {
+        return new Object[][]{
+                {"restclient", false, true},
+                {"restclient", true, false},
+                {"webclient", false, true},
+                {"webclient", true, false},
+                {"resttemplate", false, true},
+                {"resttemplate", true, true},
+                {"native", false, true}
+        };
+    }
+
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        "containerDefaultToNull", true,
+                        USE_SPRING_BOOT4, useSpringBoot4
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .setValidateSpec(false)
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant")
+                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
+
+        if (hasJspecifyDependency) {
+            assertThat(files.get("build.gradle")).content()
+                    .contains("implementation \"org.jspecify:jspecify:1.0.0\"");
+            assertThat(files.get("pom.xml")).content()
+                    .contains(
+                            "<groupId>org.jspecify</groupId>",
+                            "<artifactId>jspecify</artifactId>",
+                            "<version>1.0.0</version>");
+        } else {
+            assertThat(files.get("build.gradle")).content()
+                    .doesNotContain("org.jspecify");
+            assertThat(files.get("pom.xml")).content()
+                    .doesNotContain("org.jspecify");
+        }
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "private java.time.@Nullable Instant dt;",
+                        "setDt(java.time.@Nullable Instant dt)",
+                        "dt(java.time.@Nullable Instant dt)",
+                        "setBinary(@Nullable File binary)",
+                        "public @Nullable File getBinary()",
+                        "List<java.time.@Nullable Instant> getListOfDt()",
+                        "setListOfDt(List<java.time.@Nullable Instant> listOfDt)"
+                );
+        if (!RESTTEMPLATE.equals(library)) {
+            JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                    .fileContains(
+                            "import org.jspecify.annotations.Nullable;",
+                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie)"
+                    );
+        }
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("client/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+
     }
 }

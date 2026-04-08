@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  description: test fully qualified name and jspecify
+  title: jspecify
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /foo/{dtParam}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: dtParam
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: dtQuery
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: cookie
+        name: dtCookie
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Foo"
+          description: response
+      x-accepts:
+      - application/json
+  /upload:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/_upload_post_request"
+        description: file
+      responses:
+        default:
+          description: ok
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    Foo:
+      example:
+        dt: 2000-01-23T04:56:07.000+00:00
+        number: 0.8008281904610115
+        binary: ""
+        listOfDt:
+        - 2000-01-23T04:56:07.000+00:00
+        - 2000-01-23T04:56:07.000+00:00
+        listMinIntems:
+        - 2000-01-23T04:56:07.000+00:00
+        - 2000-01-23T04:56:07.000+00:00
+        requiredDt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        dt:
+          format: date-time
+          type: string
+        binary:
+          format: binary
+          type: string
+        listOfDt:
+          items:
+            format: date-time
+            type: string
+          type: array
+        listMinIntems:
+          items:
+            format: date-time
+            type: string
+          minItems: 1
+          type: array
+        requiredDt:
+          format: date-time
+          type: string
+        number:
+          type: number
+      required:
+      - requiredDt
+    _upload_post_request:
+      properties:
+        file:
+          format: binary
+          type: string
+      type: object
+

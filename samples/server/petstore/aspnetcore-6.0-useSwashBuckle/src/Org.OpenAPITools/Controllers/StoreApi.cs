@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
@@ -35,7 +36,16 @@ namespace Org.OpenAPITools.Controllers
         [HttpDelete]
         [Route("/v2/store/order/{orderId}")]
         [ValidateModelState]
-        public abstract IActionResult DeleteOrder([FromRoute (Name = "orderId")][Required]string orderId);
+        public virtual IActionResult DeleteOrder([FromRoute (Name = "orderId")][Required]string orderId)
+        {
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Returns pet inventories by status
@@ -47,7 +57,19 @@ namespace Org.OpenAPITools.Controllers
         [Authorize(Policy = "api_key")]
         [ValidateModelState]
         [ProducesResponseType(statusCode: 200, type: typeof(Dictionary<string, int>))]
-        public abstract IActionResult GetInventory();
+        public virtual IActionResult GetInventory()
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default);
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<Dictionary<string, int>>(exampleJson)
+            : new Dictionary<string, int>();
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
 
         /// <summary>
         /// Find purchase order by ID
@@ -61,7 +83,25 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/store/order/{orderId}")]
         [ValidateModelState]
         [ProducesResponseType(statusCode: 200, type: typeof(Order))]
-        public abstract IActionResult GetOrderById([FromRoute (Name = "orderId")][Required][Range(1, 5)]long orderId);
+        public virtual IActionResult GetOrderById([FromRoute (Name = "orderId")][Required][Range(1, 5)]long orderId)
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default);
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+            string exampleJson = null;
+            exampleJson = "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}";
+            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<Order>(exampleJson)
+            : default;
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
 
         /// <summary>
         /// Place an order for a pet
@@ -74,6 +114,22 @@ namespace Org.OpenAPITools.Controllers
         [Consumes("application/json")]
         [ValidateModelState]
         [ProducesResponseType(statusCode: 200, type: typeof(Order))]
-        public abstract IActionResult PlaceOrder([FromBody]Order order);
+        public virtual IActionResult PlaceOrder([FromBody]Order order)
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default);
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+            string exampleJson = null;
+            exampleJson = "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}";
+            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<Order>(exampleJson)
+            : default;
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
     }
 }

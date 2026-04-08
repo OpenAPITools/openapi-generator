@@ -16,34 +16,116 @@ import Alamofire{{/useAlamofire}}
 {{/swiftUseApiNamespace}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{projectName}}APIConfiguration: @unchecked Sendable {
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var basePath: String{{#useVapor}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: HTTPHeaders
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiClient: Vapor.Client?
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> ()
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var contentConfiguration: ContentConfiguration{{/useVapor}}{{^useVapor}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: [String: String]
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential?
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var requestBuilderFactory: RequestBuilderFactory
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiResponseQueue: DispatchQueue
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var codableHelper: CodableHelper
 
-    /// Configures the range of HTTP status codes that will result in a successful response
+    // MARK: - Private state
+
+    private struct State {
+        var basePath: String{{#useVapor}}
+        var customHeaders: HTTPHeaders
+        var apiClient: Vapor.Client?
+        var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> ()
+        var contentConfiguration: ContentConfiguration{{/useVapor}}{{^useVapor}}
+        var customHeaders: [String: String]
+        var credential: URLCredential?
+        var requestBuilderFactory: RequestBuilderFactory
+        var apiResponseQueue: DispatchQueue
+        var codableHelper: CodableHelper
+        var successfulStatusCodeRange: Range<Int>{{#useURLSession}}
+        var interceptor: OpenAPIInterceptor{{/useURLSession}}{{#useAlamofire}}
+        var interceptor: RequestInterceptor?
+        var dataResponseSerializer: AnyResponseSerializer<Data>
+        var stringResponseSerializer: AnyResponseSerializer<String>{{/useAlamofire}}{{/useVapor}}
+    }
+
+    private let _state: OpenAPIMutex<State>
+
+    // MARK: - Public interface
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var basePath: String {
+        get { _state.value.basePath }
+        set { _state.withValue { $0.basePath = newValue } }
+    }{{#useVapor}}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: HTTPHeaders {
+        get { _state.value.customHeaders }
+        set { _state.withValue { $0.customHeaders = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiClient: Vapor.Client? {
+        get { _state.value.apiClient }
+        set { _state.withValue { $0.apiClient = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> () {
+        get { _state.value.apiWrapper }
+        set { _state.withValue { $0.apiWrapper = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var contentConfiguration: ContentConfiguration {
+        get { _state.value.contentConfiguration }
+        set { _state.withValue { $0.contentConfiguration = newValue } }
+    }{{/useVapor}}{{^useVapor}}
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: [String: String] {
+        get { _state.value.customHeaders }
+        set { _state.withValue { $0.customHeaders = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential? {
+        get { _state.value.credential }
+        set { _state.withValue { $0.credential = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var requestBuilderFactory: RequestBuilderFactory {
+        get { _state.value.requestBuilderFactory }
+        set { _state.withValue { $0.requestBuilderFactory = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiResponseQueue: DispatchQueue {
+        get { _state.value.apiResponseQueue }
+        set { _state.withValue { $0.apiResponseQueue = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var codableHelper: CodableHelper {
+        get { _state.value.codableHelper }
+        set { _state.withValue { $0.codableHelper = newValue } }
+    }
+
+    /// Configures the range of HTTP status codes that will result in a successful response.
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var successfulStatusCodeRange: Range<Int>{{#useURLSession}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var successfulStatusCodeRange: Range<Int> {
+        get { _state.value.successfulStatusCodeRange }
+        set { _state.withValue { $0.successfulStatusCodeRange = newValue } }
+    }{{#useURLSession}}
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: OpenAPIInterceptor{{/useURLSession}}{{#useAlamofire}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: OpenAPIInterceptor {
+        get { _state.value.interceptor }
+        set { _state.withValue { $0.interceptor = newValue } }
+    }{{/useURLSession}}{{#useAlamofire}}
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: RequestInterceptor?
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var interceptor: RequestInterceptor? {
+        get { _state.value.interceptor }
+        set { _state.withValue { $0.interceptor = newValue } }
+    }
 
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
-    /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var dataResponseSerializer: AnyResponseSerializer<Data>
+    /// If unchanged, Alamofires default `DataResponseSerializer` will be used.
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var dataResponseSerializer: AnyResponseSerializer<Data> {
+        get { _state.value.dataResponseSerializer }
+        set { _state.withValue { $0.dataResponseSerializer = newValue } }
+    }
+
     /// ResponseSerializer that will be used by the generator for `String` responses
     ///
-    /// If unchanged, Alamofires default `StringResponseSerializer` will be used. 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var stringResponseSerializer: AnyResponseSerializer<String>{{/useAlamofire}}{{/useVapor}}
+    /// If unchanged, Alamofires default `StringResponseSerializer` will be used.
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var stringResponseSerializer: AnyResponseSerializer<String> {
+        get { _state.value.stringResponseSerializer }
+        set { _state.withValue { $0.stringResponseSerializer = newValue } }
+    }{{/useAlamofire}}{{/useVapor}}
+
+    // MARK: - Init
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(
         basePath: String = "{{{basePath}}}",{{#useVapor}}
@@ -62,29 +144,32 @@ import Alamofire{{/useAlamofire}}
         dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer()),
         stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer()){{/useAlamofire}}{{/useVapor}}
     ) {
-        self.basePath = basePath{{#useVapor}}
-        self.customHeaders = customHeaders
-        self.apiClient = apiClient
-        self.apiWrapper = apiWrapper
-        self.contentConfiguration = contentConfiguration{{/useVapor}}{{^useVapor}}
-        self.customHeaders = customHeaders
-        self.credential = credential
-        self.requestBuilderFactory = requestBuilderFactory
-        self.apiResponseQueue = apiResponseQueue
-        self.codableHelper = codableHelper
-        self.successfulStatusCodeRange = successfulStatusCodeRange{{#useURLSession}}
-        self.interceptor = interceptor{{/useURLSession}}{{#useAlamofire}}
-        self.interceptor = interceptor
-        self.dataResponseSerializer = dataResponseSerializer
-        self.stringResponseSerializer = stringResponseSerializer{{/useAlamofire}}{{/useVapor}}
+        _state = OpenAPIMutex(State(
+            basePath: basePath,{{#useVapor}}
+            customHeaders: customHeaders,
+            apiClient: apiClient,
+            apiWrapper: apiWrapper,
+            contentConfiguration: contentConfiguration{{/useVapor}}{{^useVapor}}
+            customHeaders: customHeaders,
+            credential: credential,
+            requestBuilderFactory: requestBuilderFactory,
+            apiResponseQueue: apiResponseQueue,
+            codableHelper: codableHelper,
+            successfulStatusCodeRange: successfulStatusCodeRange{{#useURLSession}},
+            interceptor: interceptor{{/useURLSession}}{{#useAlamofire}},
+            interceptor: interceptor,
+            dataResponseSerializer: dataResponseSerializer,
+            stringResponseSerializer: stringResponseSerializer{{/useAlamofire}}{{/useVapor}}
+        ))
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static let shared = {{projectName}}APIConfiguration()
 }{{^useVapor}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential?
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var headers: [String: String]
+
+    // MARK: - Immutable properties
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let parameters: [String: any Sendable]?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let method: String
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let URLString: String
@@ -92,24 +177,62 @@ import Alamofire{{/useAlamofire}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let requiresAuthentication: Bool
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let apiConfiguration: {{projectName}}APIConfiguration
 
-    /// Optional block to obtain a reference to the request's progress instance when available.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var onProgressReady: ((Progress) -> Void)?
+    // MARK: - Private mutable state
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared) {
+    private struct MutableState {
+        var credential: URLCredential? = nil
+        var headers: [String: String]
+        var onProgressReady: ((Progress) -> Void)? = nil
+    }
+
+    private let _state: OpenAPIMutex<MutableState>
+
+    // MARK: - Public mutable interface
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential? {
+        get { _state.value.credential }
+        set { _state.withValue { $0.credential = newValue } }
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var headers: [String: String] {
+        get { _state.value.headers }
+        set { _state.withValue { $0.headers = newValue } }
+    }
+
+    /// Optional block to obtain a reference to the request's progress instance when available.
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var onProgressReady: ((Progress) -> Void)? {
+        get { _state.value.onProgressReady }
+        set { _state.withValue { $0.onProgressReady = newValue } }
+    }
+
+    // MARK: - Init
+
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(
+        method: String,
+        URLString: String,
+        parameters: [String: any Sendable]?,
+        headers: [String: String] = [:],
+        requiresAuthentication: Bool,
+        apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared
+    ) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
-        self.headers = headers
         self.requiresAuthentication = requiresAuthentication
         self.apiConfiguration = apiConfiguration
+        self._state = OpenAPIMutex(MutableState(headers: headers))
 
         addHeaders(apiConfiguration.customHeaders)
         addCredential()
     }
 
+    // MARK: - Public methods
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addHeaders(_ aHeaders: [String: String]) {
-        for (header, value) in aHeaders {
-            headers[header] = value
+        _state.withValue { state in
+            for (header, value) in aHeaders {
+                state.headers[header] = value
+            }
         }
     }
 
@@ -168,13 +291,15 @@ import Alamofire{{/useAlamofire}}
     {{/useAsyncAwait}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
-            headers[name] = value
+            _state.withValue { $0.headers[name] = value }
         }
         return self
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func addCredential() {
-        credential = apiConfiguration.credential
+        _state.withValue { [apiConfiguration] state in
+            state.credential = apiConfiguration.credential
+        }
     }
 }
 

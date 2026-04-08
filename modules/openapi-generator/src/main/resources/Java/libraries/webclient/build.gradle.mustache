@@ -155,6 +155,11 @@ ext {
     {{^useJackson3}}
     jackson_version = "2.21.1"
     {{/useJackson3}}
+    {{^useSpringBoot4}}
+    {{#useJspecify}}
+    implementation "org.jspecify:jspecify:1.0.0"
+    {{/useJspecify}}
+    {{/useSpringBoot4}}
     jackson_annotations_version = "2.21"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.10"
