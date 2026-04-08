@@ -159,8 +159,8 @@ public class SttpCodegenTest {
         assertFileContains(mixedCaseModelPath, "implicit val decoderMixedCaseModel");
 
         Path binaryModelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/BinaryPayload.scala");
-        assertFileContains(binaryModelPath, "data: Option[java.io.File]");
-        assertFileContains(binaryModelPath, "metadata: Option[Any]");
+        assertFileContains(binaryModelPath, "data: Option[File]");
+        assertFileContains(binaryModelPath, "metadata: Option[io.circe.Json]");
         assertFileContains(binaryModelPath, "c.downField(\"data\")");
         assertFileContains(binaryModelPath, "c.downField(\"metadata\")");
         assertFileContains(binaryModelPath, "implicit val encoderBinaryPayload");
