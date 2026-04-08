@@ -25,7 +25,6 @@ trait AdditionalTypeSerializers {
   implicit final lazy val FileDecoder: Decoder[File] = Decoder[Array[Byte]].emap { bytes =>
     try {
       val tmpFile = File.createTempFile("download", ".tmp")
-      tmpFile.deleteOnExit()
       Files.write(tmpFile.toPath, bytes)
       Right(tmpFile)
     } catch {
@@ -41,6 +40,12 @@ trait AdditionalTypeSerializers {
 
   implicit final lazy val AnyEncoder: Encoder[Any] = Encoder.instance {
     case json: Json => json
+    case b: Boolean => Json.fromBoolean(b)
+    case n: Int => Json.fromInt(n)
+    case n: Long => Json.fromLong(n)
+    case n: Double => Json.fromDoubleOrNull(n)
+    case n: BigDecimal => Json.fromBigDecimal(n)
+    case s: String => Json.fromString(s)
     case other => Json.fromString(other.toString)
   }
 }
