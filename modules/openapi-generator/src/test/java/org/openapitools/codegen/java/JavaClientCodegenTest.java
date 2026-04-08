@@ -4269,12 +4269,14 @@ public class JavaClientCodegenTest {
 
         if (hasJspecifyDependency) {
             assertThat(files.get("build.gradle")).content()
-                    .contains("implementation \"org.jspecify:jspecify:1.0.0\"");
+                    .contains("implementation \"org.jspecify:jspecify:1.0.0\"")
+                    .doesNotContain("findbugs");
             assertThat(files.get("pom.xml")).content()
                     .contains(
                             "<groupId>org.jspecify</groupId>",
                             "<artifactId>jspecify</artifactId>",
-                            "<version>1.0.0</version>");
+                            "<version>1.0.0</version>")
+                    .doesNotContain("findbugs");
         } else {
             assertThat(files.get("build.gradle")).content()
                     .doesNotContain("org.jspecify");
