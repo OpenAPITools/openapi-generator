@@ -121,6 +121,7 @@ ext {
     spring_web_version = "7.0.5"
     jakarta_annotation_version = "3.0.0"
     {{/useSpringBoot4}}
+    bean_validation_version = "3.1.1"
     jodatime_version = "2.14.0"
     junit_version = "5.10.2"
 }
@@ -156,6 +157,9 @@ dependencies {
     implementation "{{jacksonPackage}}.dataformat:jackson-dataformat-xml:$jackson_version"
     {{/withXml}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    {{#useBeanValidation}}
+    implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
+    {{/useBeanValidation}}
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }
