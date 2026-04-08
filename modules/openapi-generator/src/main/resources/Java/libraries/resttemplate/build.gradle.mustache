@@ -153,7 +153,9 @@ dependencies {
     {{#swagger2AnnotationLibrary}}
     implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
     {{/swagger2AnnotationLibrary}}
+    {{^useJspecify}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
+    {{/useJspecify}}
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"
     implementation "{{jacksonPackage}}.core:jackson-core:$jackson_version"

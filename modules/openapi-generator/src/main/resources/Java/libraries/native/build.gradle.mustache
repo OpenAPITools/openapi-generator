@@ -110,7 +110,9 @@ dependencies {
     {{#swagger2AnnotationLibrary}}
     implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
     {{/swagger2AnnotationLibrary}}
+    {{^useJspecify}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
+    {{/useJspecify}}
     {{^useJackson3}}
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
