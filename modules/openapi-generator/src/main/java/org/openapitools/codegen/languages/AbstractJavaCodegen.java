@@ -1786,7 +1786,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = type + ".fromValue(\"" + example + "\")";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
-            example = "new " + type + "()";
+            // if useOneOfInterfaces is enabled and the type is a generated oneOf interface,
+            // we cannot instantiate it with 'new', so we use null instead
+            if (useOneOfInterfaces && oneOfInterfaceNames.contains(type)) {
+                example = "null";
+            } else {
+                example = "new " + type + "()";
+            }
         }
 
         if (example == null) {

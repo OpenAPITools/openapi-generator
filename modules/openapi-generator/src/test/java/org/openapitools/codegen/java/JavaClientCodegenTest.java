@@ -4480,4 +4480,33 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterfaceShouldntInstantiateInterfaceInApiDoc_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(client)
+                .setAdditionalProperties(Map.of("useOneOfInterfaces", "true"))
+                .setInputSpec("src/test/resources/bugs/issue_17419_readme.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        // In every generated Markdown file (README.md, api_doc, etc.) the example for a
+        // oneOf interface parameter must not contain "new MyOperationRequest()" since
+        // interfaces cannot be instantiated with 'new'.
+        files.stream()
+                .filter(f -> f.getName().endsWith(".md"))
+                .forEach(f -> TestUtils.assertFileNotContains(f.toPath(),
+                        "new MyOperationRequest()"
+                ));
+    }
+
 }
