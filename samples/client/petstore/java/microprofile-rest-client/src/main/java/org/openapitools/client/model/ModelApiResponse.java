@@ -143,4 +143,3 @@ public class ModelApiResponse  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

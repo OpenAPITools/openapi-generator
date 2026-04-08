@@ -94,7 +94,7 @@ public class BarApiExample {
         defaultClient.setBasePath("http://localhost:8080");
         
         BarApi apiInstance = new BarApi(defaultClient);
-        BarCreate barCreate = new BarCreate(); // BarCreate | 
+        BarCreate barCreate = null; // BarCreate | 
         try {
             Bar result = apiInstance.createBar(barCreate);
             System.out.println(result);

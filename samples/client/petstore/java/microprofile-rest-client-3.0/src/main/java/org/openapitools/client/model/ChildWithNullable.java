@@ -98,4 +98,3 @@ public class ChildWithNullable extends ParentWithNullable {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-
