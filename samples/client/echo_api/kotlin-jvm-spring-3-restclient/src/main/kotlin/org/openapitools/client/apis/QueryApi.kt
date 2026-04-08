@@ -75,10 +75,10 @@ open class QueryApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (enumNonrefStringQuery != null) {
-                    put("enum_nonref_string_query", listOf(enumNonrefStringQuery.toString()))
+                    put("enum_nonref_string_query", listOf("${ enumNonrefStringQuery.value }"))
                 }
                 if (enumRefStringQuery != null) {
-                    put("enum_ref_string_query", listOf(enumRefStringQuery.toString()))
+                    put("enum_ref_string_query", listOf("${ enumRefStringQuery.value }"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -124,7 +124,7 @@ open class QueryApi(client: RestClient) : ApiClient(client) {
                     put("date_query", listOf(parseDateToQueryString(dateQuery)))
                 }
                 if (stringQuery != null) {
-                    put("string_query", listOf(stringQuery.toString()))
+                    put("string_query", listOf("$stringQuery"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -164,13 +164,13 @@ open class QueryApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (integerQuery != null) {
-                    put("integer_query", listOf(integerQuery.toString()))
+                    put("integer_query", listOf("$integerQuery"))
                 }
                 if (booleanQuery != null) {
-                    put("boolean_query", listOf(booleanQuery.toString()))
+                    put("boolean_query", listOf("$booleanQuery"))
                 }
                 if (stringQuery != null) {
-                    put("string_query", listOf(stringQuery.toString()))
+                    put("string_query", listOf("$stringQuery"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -210,7 +210,7 @@ open class QueryApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
+                    put("query_object", listOf("$queryObject"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -250,7 +250,7 @@ open class QueryApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
+                    put("query_object", listOf("$queryObject"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -290,7 +290,7 @@ open class QueryApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
+                    put("query_object", listOf("$queryObject"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
