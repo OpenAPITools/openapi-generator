@@ -6610,29 +6610,32 @@ public class SpringCodegenTest {
     @DataProvider(name = "jspecifyLibraries")
     public Object[][] jspecifyLibraries() {
         return new Object[][]{
-                {SPRING_BOOT, false, "FooApi.java"},
-                {SPRING_BOOT, true, "FooApi.java"},
-                {SPRING_CLOUD_LIBRARY, false, "FooApi.java"},
-                {SPRING_CLOUD_LIBRARY, true, "FooApi.java"},
-                {SPRING_HTTP_INTERFACE, true, "DefaultApi.java"}
+                {SPRING_BOOT, 2, "FooApi.java"},
+                {SPRING_BOOT, 3, "FooApi.java"},
+                {SPRING_BOOT, 4, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 2, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 4, "FooApi.java"},
+                {SPRING_HTTP_INTERFACE, 3, "DefaultApi.java"},
+                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java"}
         };
     }
 
     @Test(dataProvider = "jspecifyLibraries")
-    public void testJspecify(String library, boolean useSpringBoot4, String fooApiFilename) throws IOException {
+    public void testJspecify(String library, int springBootVersion, String fooApiFilename) throws IOException {
+        String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
-                        "containerDefaultToNull", true,
-                        "openApiNullable", false,
+                        CONTAINER_DEFAULT_TO_NULL, true,
+                        OPENAPI_NULLABLE, false,
                         USE_BEANVALIDATION, true,
-                        USE_SPRING_BOOT3, !useSpringBoot4,
-                        USE_SPRING_BOOT4, useSpringBoot4
+                        springVersionProperty, springBootVersion > 2
                 ),
                 codegenConfigurator ->
                         codegenConfigurator
                                 .addTypeMapping("OffsetDateTime", "java.time.Instant"));
 
-        if (useSpringBoot4) {
+        if (springBootVersion == 4) {
             assertThat(files.get("pom.xml")).content()
                     .doesNotContain("jspecify")
                     .doesNotContain("findbugs");
