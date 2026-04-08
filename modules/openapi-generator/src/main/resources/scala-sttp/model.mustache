@@ -31,6 +31,7 @@ case class {{classname}}(
 )
 {{#circe}}
 object {{classname}} {
+{{#hasVars}}
   implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance { t =>
     Json.fromFields{
       Seq(
@@ -51,6 +52,15 @@ object {{classname}} {
       {{/vars}}
     )
   }
+{{/hasVars}}
+{{^hasVars}}
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance { _ =>
+    Json.fromFields(Seq.empty)
+  }
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { _ =>
+    Right({{classname}}())
+  }
+{{/hasVars}}
 }
 {{/circe}}
 {{/isEnum}}
