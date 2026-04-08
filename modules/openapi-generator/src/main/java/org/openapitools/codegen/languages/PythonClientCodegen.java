@@ -49,6 +49,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
     public static final String POETRY1_FALLBACK = "poetry1";
     public static final String LAZY_IMPORTS = "lazyImports";
+    public static final String BUILD_SYSTEM = "buildSystem";
 
     @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -153,6 +154,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
         cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(BUILD_SYSTEM, "Build system to use in pyproject.toml (setuptools, hatchling).").defaultValue("setuptools"));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -269,6 +271,13 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (additionalProperties.containsKey(LAZY_IMPORTS)) {
             additionalProperties.put(LAZY_IMPORTS, Boolean.valueOf(additionalProperties.get(LAZY_IMPORTS).toString()));
+        }
+
+        if (additionalProperties.containsKey(BUILD_SYSTEM)) {
+            String buildSystem = (String) additionalProperties.get(BUILD_SYSTEM);
+            if ("hatchling".equals(buildSystem)) {
+                additionalProperties.put("hatchling", true);
+            }
         }
 
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
