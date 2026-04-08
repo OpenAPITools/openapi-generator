@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -42,6 +44,10 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     public ScalaFinchServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -209,12 +215,12 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getName() {
-        return "scala-finch";
+        return "scala-finch-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Scala server application with Finch.";
+        return "Generates a Scala server application with Finch. IMPORTANT: this generator has been deprecated.";
     }
 
     @Override

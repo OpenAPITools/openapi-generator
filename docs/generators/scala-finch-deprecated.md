@@ -1,17 +1,17 @@
 ---
-title: Documentation for the scala-finch Generator
+title: Documentation for the scala-finch-deprecated Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | scala-finch | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator name | scala-finch-deprecated | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
 | generator type | SERVER | |
 | generator language | Scala | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Scala server application with Finch. | |
+| helpTxt | Generates a Scala server application with Finch. IMPORTANT: this generator has been deprecated. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
