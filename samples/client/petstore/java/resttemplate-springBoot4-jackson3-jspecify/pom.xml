@@ -209,8 +209,6 @@
     </profiles>
 
     <dependencies>
-
-
         <!-- HTTP client: Spring RestTemplate -->
         <dependency>
             <groupId>org.springframework</groupId>
