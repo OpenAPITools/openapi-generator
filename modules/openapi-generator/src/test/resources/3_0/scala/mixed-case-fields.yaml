@@ -28,3 +28,11 @@ components:
           type: string
         address:
           type: string
+    BinaryPayload:
+      type: object
+      properties:
+        data:
+          type: string
+          format: binary
+        metadata:
+          type: object

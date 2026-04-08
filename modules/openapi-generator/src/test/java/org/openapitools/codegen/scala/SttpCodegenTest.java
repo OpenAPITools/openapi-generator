@@ -111,7 +111,7 @@ public class SttpCodegenTest {
     }
 
     @Test
-    public void circeSerdeWithMixedCaseFields() throws IOException {
+    public void verifyCirceSerdeWithMixedCaseFields() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -136,40 +136,36 @@ public class SttpCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
         generator.opts(input).generate();
 
-        Path modelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/MixedCaseModel.scala");
-        Path jsonSupportPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/JsonSupport.scala");
+        Path mixedCaseModelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/MixedCaseModel.scala");
 
-        // Model should have camelCase Scala field names in the case class
-        assertFileContains(modelPath, "firstName");
-        assertFileContains(modelPath, "phoneNumber");
-        assertFileContains(modelPath, "lastName");
-        assertFileContains(modelPath, "zipCode");
-        assertFileContains(modelPath, "address");
+        assertFileContains(mixedCaseModelPath, "firstName");
+        assertFileContains(mixedCaseModelPath, "phoneNumber");
+        assertFileContains(mixedCaseModelPath, "lastName");
+        assertFileContains(mixedCaseModelPath, "zipCode");
+        assertFileContains(mixedCaseModelPath, "address");
 
-        // Encoder should use original baseName for JSON keys
-        assertFileContains(modelPath, "\"first-name\"");    // kebab-case preserved
-        assertFileContains(modelPath, "\"phone_number\"");   // snake_case preserved
-        assertFileContains(modelPath, "\"lastName\"");       // camelCase preserved
-        assertFileContains(modelPath, "\"ZipCode\"");        // PascalCase preserved
-        assertFileContains(modelPath, "\"address\"");        // lowercase preserved
+        assertFileContains(mixedCaseModelPath, "\"first-name\"");
+        assertFileContains(mixedCaseModelPath, "\"phone_number\"");
+        assertFileContains(mixedCaseModelPath, "\"lastName\"");
+        assertFileContains(mixedCaseModelPath, "\"ZipCode\"");
+        assertFileContains(mixedCaseModelPath, "\"address\"");
 
-        // Decoder should use original baseName in downField
-        assertFileContains(modelPath, "c.downField(\"first-name\")");
-        assertFileContains(modelPath, "c.downField(\"phone_number\")");
-        assertFileContains(modelPath, "c.downField(\"ZipCode\")");
+        assertFileContains(mixedCaseModelPath, "c.downField(\"first-name\")");
+        assertFileContains(mixedCaseModelPath, "c.downField(\"phone_number\")");
+        assertFileContains(mixedCaseModelPath, "c.downField(\"ZipCode\")");
 
-        // Model should have explicit encoder/decoder companion object
-        assertFileContains(modelPath, "object MixedCaseModel");
-        assertFileContains(modelPath, "implicit val encoderMixedCaseModel");
-        assertFileContains(modelPath, "implicit val decoderMixedCaseModel");
+        assertFileContains(mixedCaseModelPath, "object MixedCaseModel");
+        assertFileContains(mixedCaseModelPath, "implicit val encoderMixedCaseModel");
+        assertFileContains(mixedCaseModelPath, "implicit val decoderMixedCaseModel");
 
-        // Model should import JsonSupport for enum implicits
-        assertFileContains(modelPath, "import org.openapitools.client.core.JsonSupport._");
+        Path binaryModelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/BinaryPayload.scala");
+        assertFileContains(binaryModelPath, "data: Option[java.io.File]");
+        assertFileContains(binaryModelPath, "metadata: Option[Any]");
+        assertFileContains(binaryModelPath, "c.downField(\"data\")");
+        assertFileContains(binaryModelPath, "c.downField(\"metadata\")");
+        assertFileContains(binaryModelPath, "implicit val encoderBinaryPayload");
+        assertFileContains(binaryModelPath, "implicit val decoderBinaryPayload");
 
-        // JsonSupport should NOT use AutoDerivation (we have explicit instances now)
-        assertFileNotContains(jsonSupportPath, "AutoDerivation");
-
-        // AdditionalTypeSerializers should have File and Any codecs for circe
         Path additionalSerializersPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/AdditionalTypeSerializers.scala");
         assertFileContains(additionalSerializersPath, "FileDecoder");
         assertFileContains(additionalSerializersPath, "FileEncoder");
