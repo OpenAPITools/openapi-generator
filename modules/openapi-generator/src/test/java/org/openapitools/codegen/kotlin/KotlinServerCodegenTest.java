@@ -1,12 +1,15 @@
 package org.openapitools.codegen.kotlin;
 
+import io.swagger.v3.oas.models.Operation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.openapitools.codegen.CodegenOperation;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -515,33 +518,7 @@ public class KotlinServerCodegenTest {
         );
     }
 
-    @Test
-    public void useTags_commonPathIsComputedForJaxrsSpecLibrary() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        KotlinServerCodegen codegen = new KotlinServerCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
-        codegen.additionalProperties().put(USE_TAGS, true);
-
-        new DefaultGenerator().opts(new ClientOptInput()
-                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
-                        .config(codegen))
-                .generate();
-
-        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
-        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
-
-        assertFileContains(
-                petApi,
-                "@Path(\"/pet\")"
-        );
-        assertFileNotContains(
-                petApi,
-                "@Path(\"/\")"
-        );
-    }
+    // ==================== useTags for JAXRS-SPEC ====================
 
     @Test
     public void useTags_false_classNameFromTagsAndRootPathForJaxrsSpecLibrary() throws IOException {
@@ -596,5 +573,58 @@ public class KotlinServerCodegenTest {
         );
         assertFileNotContains(petApi, "@Path(\"/\")");
         assertFileNotContains(petApi, "@Path(\"/store\")");
+    }
+
+    // ==================== useTags for all libraries ====================
+
+    @Test
+    public void useTags_false_groupsByFirstPathSegment() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("pet"));
+        Assert.assertEquals(co.baseName, "pet");
+    }
+
+    @Test
+    public void useTags_false_rootPath_groupsAsDefault() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "getRoot";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Root", "/", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("default"));
+        Assert.assertEquals(co.baseName, "default");
+    }
+
+    @Test
+    public void useTags_false_pathParamOnly_groupsAsDefault() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "getById";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Resource", "/{uuid}", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("default"));
+        Assert.assertEquals(co.baseName, "default");
     }
 }

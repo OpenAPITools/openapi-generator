@@ -17,11 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.Operation;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -96,38 +94,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Getter
     @Setter
     private boolean fixJacksonJsonTypeInfoInheritance = true;
-
-    // This is here to potentially warn the user when an option is not supported by the target framework.
-    private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
-            .put(Constants.KTOR, Arrays.asList(
-                    Constants.AUTOMATIC_HEAD_REQUESTS,
-                    Constants.CONDITIONAL_HEADERS,
-                    Constants.HSTS,
-                    Constants.CORS,
-                    Constants.COMPRESSION,
-                    Constants.RESOURCES,
-                    Constants.METRICS,
-                    Constants.OMIT_GRADLE_WRAPPER
-            ))
-            .put(Constants.KTOR2, Arrays.asList(
-                    Constants.AUTOMATIC_HEAD_REQUESTS,
-                    Constants.CONDITIONAL_HEADERS,
-                    Constants.HSTS,
-                    Constants.CORS,
-                    Constants.COMPRESSION,
-                    Constants.RESOURCES,
-                    Constants.METRICS,
-                    Constants.OMIT_GRADLE_WRAPPER
-            ))
-            .put(Constants.JAXRS_SPEC, Arrays.asList(
-                    USE_BEANVALIDATION,
-                    USE_TAGS,
-                    Constants.USE_COROUTINES,
-                    Constants.USE_MUTINY,
-                    Constants.RETURN_RESPONSE,
-                    Constants.INTERFACE_ONLY
-            ))
-            .build();
 
     /**
      * Constructs an instance of `KotlinServerCodegen`.
@@ -429,7 +395,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
         public static final String USE_TAGS = "useTags";
-        public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames.";
     }
 
     @Override
@@ -729,7 +695,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (!Objects.equals(library, Constants.JAXRS_SPEC) || useTags) {
+        if (useTags) {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
             return;
         }
