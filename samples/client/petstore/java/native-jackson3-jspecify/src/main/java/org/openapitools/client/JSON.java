@@ -110,7 +110,7 @@ public class JSON {
         // Get the value of the discriminator property, if present in the input payload.
         node = node.get(discriminatorName);
         if (node != null && node.isValueNode()) {
-          String discrValue = node.asText();
+          String discrValue = node.asString();
           if (discrValue != null) {
             return discrValue;
           }
