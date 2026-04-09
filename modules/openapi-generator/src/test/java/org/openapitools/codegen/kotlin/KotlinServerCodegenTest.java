@@ -30,12 +30,12 @@ import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RETURN_RESPONSE;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
 
 public class KotlinServerCodegenTest {
@@ -226,7 +226,6 @@ public class KotlinServerCodegenTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, true);
         codegen.additionalProperties().put(USE_JAKARTA_EE, true);
         codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
-        codegen.additionalProperties().put(USE_TAGS, true);
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue18177-array.yaml"))
                         .config(codegen))
@@ -572,14 +571,14 @@ public class KotlinServerCodegenTest {
     }
 
     @Test
-    public void useTags_notSpecified_behavesLikeUseTagsFalseForJaxrsSpecLibrary() throws IOException {
+    public void useTags_notSpecified_behavesLikeUseTagsTrueForJaxrsSpecLibrary() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         KotlinServerCodegen codegen = new KotlinServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
-        // useTags intentionally NOT set — must default to false
+        // useTags intentionally NOT set — must default to true
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
@@ -595,6 +594,7 @@ public class KotlinServerCodegenTest {
                 "@Path(\"/findByStatus\")",
                 "@Path(\"/{petId}\")"
         );
+        assertFileNotContains(petApi, "@Path(\"/\")");
         assertFileNotContains(petApi, "@Path(\"/store\")");
     }
 }

@@ -57,6 +57,8 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
+
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
@@ -85,7 +87,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
-    private boolean useTags = false;
+    private boolean useTags = true;
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
@@ -193,7 +195,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
         addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
-        addSwitch(USE_TAGS, USE_TAGS_DESC, useTags);
+        addSwitch(USE_TAGS, Constants.USE_TAGS_DESC, useTags);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
         addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
         addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
@@ -426,6 +428,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String IS_KTOR = "isKtor";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
+        public static final String USE_TAGS = "useTags";
+        public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames. This option is currently supported only when using jaxrs-spec library.";
     }
 
     @Override
@@ -730,16 +734,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             return;
         }
 
-        final String basePath = StringUtils.substringBefore(resourcePath.startsWith("/") ? resourcePath.substring(1) : resourcePath, "/");
-        if (!StringUtils.isEmpty(basePath)) {
-            co.subresourceOperation = !co.path.isEmpty();
+        String basePath = StringUtils.substringBefore(resourcePath.startsWith("/") ? resourcePath.substring(1) : resourcePath, "/");
+        if (StringUtils.isEmpty(basePath) || basePath.chars().anyMatch(ch -> ch == '{' || ch == '}')) {
+            basePath = "default";
         }
-        co.baseName = basePath;
-        if (StringUtils.isEmpty(co.baseName) || co.baseName.chars().anyMatch(ch -> ch == '{' || ch == '}')) {
-            co.baseName = "default";
-        }
-        final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
-        opList.add(co);
+        super.addOperationToGroup(basePath, resourcePath, operation, co, operations);
     }
 
     @Override

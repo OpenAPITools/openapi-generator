@@ -5,4 +5,3 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/parameter-test-spec.
 templateDir: modules/openapi-generator/src/main/resources/kotlin-server
 additionalProperties:
   useCoroutines: "true"
-  useTags: "true"

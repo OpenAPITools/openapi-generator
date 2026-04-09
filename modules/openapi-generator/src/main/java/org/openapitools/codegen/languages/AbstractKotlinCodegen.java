@@ -61,8 +61,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
     public static final String JACKSON3_PACKAGE = "tools.jackson";
     public static final String JACKSON_PACKAGE = "jacksonPackage";
-    public static final String USE_TAGS = "useTags";
-    public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames";
     public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String SCHEMA_IMPLEMENTS_FIELDS = "schemaImplementsFields";
     public static final String X_KOTLIN_IMPLEMENTS_SKIP = "xKotlinImplementsSkip";
