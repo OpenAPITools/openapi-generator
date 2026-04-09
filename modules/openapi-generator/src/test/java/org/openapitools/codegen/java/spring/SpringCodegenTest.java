@@ -62,6 +62,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
+import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BOOT4;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -6606,31 +6607,53 @@ public class SpringCodegenTest {
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
     }
 
-    @Test
-    public void testJspecify() throws IOException {
-        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", SPRING_BOOT,
+    @DataProvider(name = "jspecifyLibraries")
+    public Object[][] jspecifyLibraries() {
+        return new Object[][]{
+                {SPRING_BOOT, 2, "FooApi.java"},
+                {SPRING_BOOT, 3, "FooApi.java"},
+                {SPRING_BOOT, 4, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 2, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 4, "FooApi.java"},
+                {SPRING_HTTP_INTERFACE, 3, "DefaultApi.java"},
+                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java"}
+        };
+    }
+
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify(String library, int springBootVersion, String fooApiFilename) throws IOException {
+        String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
-                        "containerDefaultToNull", true,
-                        "openApiNullable", false,
+                        CONTAINER_DEFAULT_TO_NULL, true,
+                        OPENAPI_NULLABLE, false,
                         USE_BEANVALIDATION, true,
-                        USE_SPRING_BOOT3, false
+                        springVersionProperty, springBootVersion > 2
                 ),
                 codegenConfigurator ->
                         codegenConfigurator
                                 .addTypeMapping("OffsetDateTime", "java.time.Instant"));
 
-        assertThat(files.get("pom.xml")).content()
-                .contains(
-                        "<groupId>org.jspecify</groupId>",
-                        "<artifactId>jspecify</artifactId>",
-                        "<version>1.0.0</version>");
+        if (springBootVersion == 4) {
+            assertThat(files.get("pom.xml")).content()
+                    .doesNotContain("jspecify")
+                    .doesNotContain("findbugs");
+        } else {
+            assertThat(files.get("pom.xml")).content()
+                    .contains(
+                            "<groupId>org.jspecify</groupId>",
+                            "<artifactId>jspecify</artifactId>",
+                            "<version>1.0.0</version>")
+                    .doesNotContain("findbugs");
+        }
         JavaFileAssert.assertThat(files.get("Foo.java"))
                 .fileContains(
                         "private java.time.@Nullable Instant dt;",
                         "private org.springframework.core.io.@Nullable Resource binary",
                         "setBinary(org.springframework.core.io.@Nullable Resource binary)"
                 );
-        JavaFileAssert.assertThat(files.get("FooApi.java"))
+        JavaFileAssert.assertThat(files.get(fooApiFilename))
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",

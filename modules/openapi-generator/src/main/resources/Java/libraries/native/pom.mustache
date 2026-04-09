@@ -263,6 +263,7 @@
         <!-- Note: jackson-datatype-jsr310 is included in jackson-databind for Jackson 3 -->
         <!-- Note: jackson-databind-nullable is not yet available for Jackson 3 -->
         {{/useJackson3}}
+        {{^useJspecify}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -270,6 +271,7 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+        {{/useJspecify}}
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>

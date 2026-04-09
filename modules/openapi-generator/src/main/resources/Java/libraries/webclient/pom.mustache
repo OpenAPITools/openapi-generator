@@ -86,6 +86,7 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
         {{/swagger2AnnotationLibrary}}
+        {{^useJspecify}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -94,6 +95,7 @@
             <version>3.0.2</version>
         </dependency>
 
+        {{/useJspecify}}
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>

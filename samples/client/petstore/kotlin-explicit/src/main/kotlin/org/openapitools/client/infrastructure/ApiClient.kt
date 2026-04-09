@@ -466,11 +466,11 @@ public open class ApiClient(public val baseUrl: String, public val client: Call.
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime -> parseDateToQueryString(value)
-        is OffsetTime -> parseDateToQueryString(value)
-        is LocalDateTime -> parseDateToQueryString(value)
-        is LocalDate -> parseDateToQueryString(value)
-        is LocalTime -> parseDateToQueryString(value)
+        is OffsetDateTime -> parseDateToQueryString<OffsetDateTime>(value)
+        is OffsetTime -> parseDateToQueryString<OffsetTime>(value)
+        is LocalDateTime -> parseDateToQueryString<LocalDateTime>(value)
+        is LocalDate -> parseDateToQueryString<LocalDate>(value)
+        is LocalTime -> parseDateToQueryString<LocalTime>(value)
         else -> value.toString()
     }
 

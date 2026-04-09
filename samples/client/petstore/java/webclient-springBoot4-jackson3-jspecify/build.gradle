@@ -123,7 +123,6 @@ ext {
 }
 
 dependencies {
-    implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.projectreactor:reactor-core:$reactor_version"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor.netty:reactor-netty-http:$reactor_netty_version"

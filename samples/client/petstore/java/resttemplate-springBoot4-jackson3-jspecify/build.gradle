@@ -107,7 +107,6 @@ ext {
 }
 
 dependencies {
-    implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"
     implementation "tools.jackson.core:jackson-core:$jackson_version"

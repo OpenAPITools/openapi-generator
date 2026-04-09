@@ -209,14 +209,6 @@
     </profiles>
 
     <dependencies>
-
-        <!-- @Nullable annotation -->
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
-        </dependency>
-
         <!-- HTTP client: Spring RestTemplate -->
         <dependency>
             <groupId>org.springframework</groupId>
