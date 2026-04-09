@@ -2643,6 +2643,22 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testQueryParamsExploded_whenQueryParamIsNull_restclient() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/issue_17555.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/DepartmentApi.java"), "if (filter != null) {");
+    }
+
+    @Test
     public void generateAllArgsConstructor() {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
                 Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
