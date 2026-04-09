@@ -11,7 +11,7 @@
  */
 package org.openapitools.client.model
 
-import io.circe.{Decoder, Encoder, Json}
+import io.circe.{Decoder, DecodingFailure, Encoder, Json}
 import io.circe.syntax._
 import org.openapitools.client.core.JsonSupport._
 

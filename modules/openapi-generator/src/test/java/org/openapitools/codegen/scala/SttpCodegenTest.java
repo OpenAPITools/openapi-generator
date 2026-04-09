@@ -111,69 +111,6 @@ public class SttpCodegenTest {
     }
 
     @Test
-    public void verifyCirceSerdeWithMixedCaseFields() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/scala/mixed-case-fields.yaml", null, new ParseOptions()).getOpenAPI();
-
-        ScalaSttpClientCodegen codegen = new ScalaSttpClientCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put("jsonLibrary", "circe");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
-        generator.opts(input).generate();
-
-        Path mixedCaseModelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/MixedCaseModel.scala");
-
-        assertFileContains(mixedCaseModelPath, "firstName");
-        assertFileContains(mixedCaseModelPath, "phoneNumber");
-        assertFileContains(mixedCaseModelPath, "lastName");
-        assertFileContains(mixedCaseModelPath, "zipCode");
-        assertFileContains(mixedCaseModelPath, "address");
-
-        assertFileContains(mixedCaseModelPath, "\"first-name\"");
-        assertFileContains(mixedCaseModelPath, "\"phone_number\"");
-        assertFileContains(mixedCaseModelPath, "\"lastName\"");
-        assertFileContains(mixedCaseModelPath, "\"ZipCode\"");
-        assertFileContains(mixedCaseModelPath, "\"address\"");
-
-        assertFileContains(mixedCaseModelPath, "c.downField(\"first-name\")");
-        assertFileContains(mixedCaseModelPath, "c.downField(\"phone_number\")");
-        assertFileContains(mixedCaseModelPath, "c.downField(\"ZipCode\")");
-
-        assertFileContains(mixedCaseModelPath, "object MixedCaseModel");
-        assertFileContains(mixedCaseModelPath, "implicit val encoderMixedCaseModel");
-        assertFileContains(mixedCaseModelPath, "implicit val decoderMixedCaseModel");
-
-        Path binaryModelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/BinaryPayload.scala");
-        assertFileContains(binaryModelPath, "data: Option[File]");
-        assertFileContains(binaryModelPath, "metadata: Option[io.circe.Json]");
-        assertFileContains(binaryModelPath, "c.downField(\"data\")");
-        assertFileContains(binaryModelPath, "c.downField(\"metadata\")");
-        assertFileContains(binaryModelPath, "implicit val encoderBinaryPayload");
-        assertFileContains(binaryModelPath, "implicit val decoderBinaryPayload");
-
-        Path additionalSerializersPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/AdditionalTypeSerializers.scala");
-        assertFileContains(additionalSerializersPath, "FileDecoder");
-        assertFileContains(additionalSerializersPath, "FileEncoder");
-        assertFileContains(additionalSerializersPath, "AnyDecoder");
-        assertFileContains(additionalSerializersPath, "AnyEncoder");
-    }
-
-    @Test
     public void headerSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

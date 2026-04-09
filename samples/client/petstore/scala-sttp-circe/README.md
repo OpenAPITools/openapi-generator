@@ -91,13 +91,16 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [Animal](Animal.md)
  - [ApiResponse](ApiResponse.md)
  - [Category](Category.md)
+ - [Collar](Collar.md)
  - [EnumTest](EnumTest.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
  - [PropertyNameMapping](PropertyNameMapping.md)
  - [Tag](Tag.md)
+ - [Treat](Treat.md)
  - [User](User.md)
 
 
