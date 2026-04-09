@@ -157,6 +157,24 @@ paths:
         - petstore_auth:
             - 'read:pets'
       deprecated: true
+  '/pet/request':
+      post:
+          operationId: createPetRequest
+          security: []
+          tags: [ pet ]
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PetRequest'
+          responses:
+            '201':
+              description: Pet created successfully
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/PetRequest'
   '/pet/{petId}':
     get:
       tags:
@@ -742,6 +760,37 @@ components:
             - sold
       xml:
         name: Pet
+    PetRequest:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+    CatRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetRequest'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+    DogRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetRequest'
+        - type: object
+          properties:
+            bark:
+              type: string
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource
