@@ -11,6 +11,9 @@
  */
 package org.openapitools.client.model
 
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import org.openapitools.client.core.JsonSupport._
 
   /**
    * a User
@@ -27,4 +30,41 @@ case class User(
   /* User Status */
   userStatus: Option[Int] = None
 )
+object User {
+  implicit val encoderUser: Encoder[User] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.username.map(v => "username" -> v.asJson),
+        t.firstName.map(v => "firstName" -> v.asJson),
+        t.lastName.map(v => "lastName" -> v.asJson),
+        t.email.map(v => "email" -> v.asJson),
+        t.password.map(v => "password" -> v.asJson),
+        t.phone.map(v => "phone" -> v.asJson),
+        t.userStatus.map(v => "userStatus" -> v.asJson)
+      ).flatten
+    }
+  }
+  implicit val decoderUser: Decoder[User] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      username <- c.downField("username").as[Option[String]]
+      firstName <- c.downField("firstName").as[Option[String]]
+      lastName <- c.downField("lastName").as[Option[String]]
+      email <- c.downField("email").as[Option[String]]
+      password <- c.downField("password").as[Option[String]]
+      phone <- c.downField("phone").as[Option[String]]
+      userStatus <- c.downField("userStatus").as[Option[Int]]
+    } yield User(
+      id = id,
+      username = username,
+      firstName = firstName,
+      lastName = lastName,
+      email = email,
+      password = password,
+      phone = phone,
+      userStatus = userStatus
+    )
+  }
+}
 

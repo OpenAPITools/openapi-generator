@@ -539,15 +539,8 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setClassModifier() {
-        // CHeck for class modifier if not present set the default value.
+        // Check for class modifier if not present set the default value.
         setCliOption(classModifier);
-
-        // If class modifier is abstract then the methods need to be abstract too.
-        if ("abstract".equals(classModifier.getOptValue())) {
-            operationModifier.setOptValue(classModifier.getOptValue());
-            additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
-        }
     }
 
     private void setOperationModifier() {

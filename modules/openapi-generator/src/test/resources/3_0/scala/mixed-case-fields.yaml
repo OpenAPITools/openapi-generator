@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: Mixed Case Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      operationId: getTest
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedCaseModel'
+components:
+  schemas:
+    MixedCaseModel:
+      type: object
+      properties:
+        first-name:
+          type: string
+        phone_number:
+          type: string
+        lastName:
+          type: string
+        ZipCode:
+          type: string
+        address:
+          type: string
+    BinaryPayload:
+      type: object
+      properties:
+        data:
+          type: string
+          format: binary
+        metadata:
+          type: object

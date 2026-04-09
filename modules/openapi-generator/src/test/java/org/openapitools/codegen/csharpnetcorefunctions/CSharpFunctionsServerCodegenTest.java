@@ -37,4 +37,39 @@ public class CSharpFunctionsServerCodegenTest {
         // Assert.assertEquals(codegen.toEnumVarName("FOO-BAR", "string"), "FooBar");
         // Assert.assertEquals(codegen.toEnumVarName("FOO_BAR", "string"), "FooBar");
     }
+
+    @Test
+    public void abstractClassUsesDefaultVirtualOperations() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("classModifier", "abstract");
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("classModifier"), "abstract");
+        Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "virtual");
+        Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.TRUE);
+    }
+
+    @Test
+    public void abstractOperationsDisableBodyGeneration() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("classModifier", "abstract");
+        codegen.additionalProperties().put("operationModifier", "abstract");
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "abstract");
+        Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.FALSE);
+    }
+
+    @Test
+    public void libraryBuildUsesDefaultVirtualOperations() {
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
+        codegen.additionalProperties().put("buildTarget", "library");
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("operationModifier"), "virtual");
+        Assert.assertEquals(codegen.additionalProperties().get("generateBody"), Boolean.TRUE);
+    }
 }

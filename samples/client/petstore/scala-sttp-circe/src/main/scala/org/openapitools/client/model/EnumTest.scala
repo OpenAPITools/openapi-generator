@@ -11,12 +11,37 @@
  */
 package org.openapitools.client.model
 
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import org.openapitools.client.core.JsonSupport._
 
 case class EnumTest(
   emails: Option[Seq[String]] = None,
   search: Option[EnumTestEnums.Search] = None,
   sortBy: Option[Seq[EnumTestEnums.SortBy]] = None
 )
+object EnumTest {
+  implicit val encoderEnumTest: Encoder[EnumTest] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        t.emails.map(v => "emails" -> v.asJson),
+        t.search.map(v => "search" -> v.asJson),
+        t.sortBy.map(v => "sort_by" -> v.asJson)
+      ).flatten
+    }
+  }
+  implicit val decoderEnumTest: Decoder[EnumTest] = Decoder.instance { c =>
+    for {
+      emails <- c.downField("emails").as[Option[Seq[String]]]
+      search <- c.downField("search").as[Option[EnumTestEnums.Search]]
+      sortBy <- c.downField("sort_by").as[Option[Seq[EnumTestEnums.SortBy]]]
+    } yield EnumTest(
+      emails = emails,
+      search = search,
+      sortBy = sortBy
+    )
+  }
+}
 
 object EnumTestEnums {
 

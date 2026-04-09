@@ -8,6 +8,8 @@ on:
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
+      - samples/client/petstore/java/native-jackson3-jspecify/**
+      - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify/**
       - samples/client/others/java/webclient-sealedInterface/**
       - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
@@ -21,6 +23,8 @@ on:
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
+      - samples/client/petstore/java/native-jackson3-jspecify/**
+      - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify/**
       - samples/client/others/java/webclient-sealedInterface/**
       - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
@@ -44,6 +48,8 @@ jobs:
           - samples/client/petstore/java/restclient-nullable-arrays
           - samples/client/petstore/java/restclient-springBoot4-jackson2
           - samples/client/petstore/java/restclient-springBoot4-jackson3
+          - samples/client/petstore/java/restclient-springBoot4-jackson3-jspecify
+          - samples/client/petstore/java/native-jackson3-jspecify
           - samples/client/petstore/java/restclient-swagger2
           - samples/client/petstore/java/restclient-useSingleRequestParameter
           - samples/client/petstore/java/restclient-useSingleRequestParameter-static

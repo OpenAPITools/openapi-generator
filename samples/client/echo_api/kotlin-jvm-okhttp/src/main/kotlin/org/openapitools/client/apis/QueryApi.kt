@@ -225,10 +225,10 @@ open class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (datetimeQuery != null) {
-                    put("datetime_query", listOf(parseDateToQueryString(datetimeQuery)))
+                    put("datetime_query", listOf(parseDateToQueryString<java.time.OffsetDateTime>(datetimeQuery)))
                 }
                 if (dateQuery != null) {
-                    put("date_query", listOf(parseDateToQueryString(dateQuery)))
+                    put("date_query", listOf(parseDateToQueryString<java.time.LocalDate>(dateQuery)))
                 }
                 if (stringQuery != null) {
                     put("string_query", listOf(stringQuery.toString()))

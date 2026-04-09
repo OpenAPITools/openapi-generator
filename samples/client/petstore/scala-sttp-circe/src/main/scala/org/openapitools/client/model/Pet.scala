@@ -11,6 +11,9 @@
  */
 package org.openapitools.client.model
 
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import org.openapitools.client.core.JsonSupport._
 
   /**
    * a Pet
@@ -25,6 +28,37 @@ case class Pet(
   /* pet status in the store */
   status: Option[PetEnums.Status] = None
 )
+object Pet {
+  implicit val encoderPet: Encoder[Pet] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.category.map(v => "category" -> v.asJson),
+        Some("name" -> t.name.asJson),
+        Some("photoUrls" -> t.photoUrls.asJson),
+        t.tags.map(v => "tags" -> v.asJson),
+        t.status.map(v => "status" -> v.asJson)
+      ).flatten
+    }
+  }
+  implicit val decoderPet: Decoder[Pet] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      category <- c.downField("category").as[Option[Category]]
+      name <- c.downField("name").as[String]
+      photoUrls <- c.downField("photoUrls").as[Seq[String]]
+      tags <- c.downField("tags").as[Option[Seq[Tag]]]
+      status <- c.downField("status").as[Option[PetEnums.Status]]
+    } yield Pet(
+      id = id,
+      category = category,
+      name = name,
+      photoUrls = photoUrls,
+      tags = tags,
+      status = status
+    )
+  }
+}
 
 object PetEnums {
 

@@ -11,6 +11,9 @@
  */
 package org.openapitools.client.model
 
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import org.openapitools.client.core.JsonSupport._
 
   /**
    * Pet Tag
@@ -20,4 +23,23 @@ case class Tag(
   id: Option[Long] = None,
   name: Option[String] = None
 )
+object Tag {
+  implicit val encoderTag: Encoder[Tag] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        t.id.map(v => "id" -> v.asJson),
+        t.name.map(v => "name" -> v.asJson)
+      ).flatten
+    }
+  }
+  implicit val decoderTag: Decoder[Tag] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Option[Long]]
+      name <- c.downField("name").as[Option[String]]
+    } yield Tag(
+      id = id,
+      name = name
+    )
+  }
+}
 

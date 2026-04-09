@@ -327,6 +327,8 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         if (!additionalProperties.containsKey(EXCLUDE_SBT) && !Boolean.parseBoolean((String) additionalProperties.get(EXCLUDE_SBT))) {
             supportingFiles.add(new SupportingFile("build.sbt", "", "build.sbt"));
             supportingFiles.add(new SupportingFile("build.properties", "project", "build.properties"));
+            supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+            supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         }
     }
 

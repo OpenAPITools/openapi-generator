@@ -151,7 +151,7 @@ The following generators are available:
 * [rust-server-deprecated](generators/rust-server-deprecated.md)  
 * [scala-akka-http-server (beta)](generators/scala-akka-http-server.md)  
 * [scala-cask](generators/scala-cask.md)  
-* [scala-finch](generators/scala-finch.md)  
+* [scala-finch-deprecated (deprecated)](generators/scala-finch-deprecated.md)  
 * [scala-http4s-server](generators/scala-http4s-server.md)  
 * [scala-lagom-server-deprecated (deprecated)](generators/scala-lagom-server-deprecated.md)  
 * [scala-play-server](generators/scala-play-server.md)  

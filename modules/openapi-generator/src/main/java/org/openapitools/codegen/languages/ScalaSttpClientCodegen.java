@@ -108,10 +108,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp";
 
-        String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
-
-        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
-
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
@@ -147,7 +143,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("ByteArray", "Array[Byte]");
-        typeMapping.put("AnyType", jsonValueClass);
+        typeMapping.put("AnyType", "Any");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
@@ -165,6 +161,11 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         invokerPackage = PACKAGE_PROPERTY.getInvokerPackage(additionalProperties);
         apiPackage = PACKAGE_PROPERTY.getApiPackage(additionalProperties);
         modelPackage = PACKAGE_PROPERTY.getModelPackage(additionalProperties);
+
+        String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
+        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
+        typeMapping.put("object", jsonValueClass);
+        typeMapping.put("AnyType", jsonValueClass);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));

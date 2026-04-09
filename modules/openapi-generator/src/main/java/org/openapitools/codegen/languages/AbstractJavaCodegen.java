@@ -22,8 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -58,6 +60,8 @@ import org.slf4j.LoggerFactory;
 import javax.lang.model.SourceVersion;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -104,6 +108,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String USE_JSPECIFY = "useJspecify";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
     public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
 
@@ -216,6 +221,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     @Getter @Setter
     protected boolean useBeanValidation = false;
+    @Getter
+    @Setter
+    protected boolean useJspecify;
+    protected JSpecifyNullableLambda jSpecifyNullableLambda;
+
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -597,6 +607,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
+        convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -845,6 +856,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     protected void applyJakartaPackage() {
         writePropertyBack(JAVAX_PACKAGE, "jakarta");
+    }
+
+    /**
+     * Configure the generator for jspecify.
+     *
+     * override Nullable import to use the jspecify version.
+     * add package-info.java to the model and api packages.
+     */
+    protected void applyJspecify() {
+        importMapping.put("Nullable", "org.jspecify.annotations.Nullable");
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODELS))) {
+            supportingFiles.add(new SupportingFile("modelPackageInfo.mustache",
+                    (sourceFolder + File.separator + modelPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_APIS))) {
+            supportingFiles.add(new SupportingFile("apiPackageInfo.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
     }
 
     @Override
@@ -2652,5 +2683,104 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             throw new RuntimeException(sb.toString());
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        this.jSpecifyNullableLambda = new JSpecifyNullableLambda();
+        // Add jSpecify nullable annotation in the correct location before or inside a declaration
+        // use cases:
+        //
+        // private {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // ->
+        // private @Nullable Time param
+        // private java.time.@Nullable Time
+        // private Time param
+        //
+        // {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // ->
+        // @Nullable Time param
+        // java.time.@Nullable Time
+        // Time param
+        //
+        // {{#lambda.jSpecifyNullable}}@Nullable {{/lambda.jSpecifyNullable}}{{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}}
+        // ->
+        // @Nullable Time
+        // @java.time.@Nullable Time
+        // Time
+
+        Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
+            String dataType = fragment.execute();
+            if (jSpecifyNullableLambda.isSetAndClear()) {
+                int idx = dataType.lastIndexOf('.');
+                if (idx > 0) {
+                    // generate declaration like java.time.@Nullable Timestamp
+                    writer.write(dataType.substring(0, idx + 1));
+                    writer.write("@Nullable ");
+                    writer.write(dataType.substring(idx + 1));
+                } else {
+                    writer.write("@Nullable ");
+                    writer.write(dataType);
+                }
+            } else {
+                writer.write(dataType);
+            }
+        };
+        return super.addMustacheLambdas()
+                .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
+                .put("jSpecifyNullable", jSpecifyNullableLambda);
+
+    }
+
+    /**
+     * for Jspecify, remove @Nullable before the datatype and set keptNullable to true if done.
+     */
+    class JSpecifyNullableLambda implements Mustache.Lambda {
+        private String nullableAnnotation = "@Nullable";
+        // remember @Nullable annotation value when jspecify is used.
+        private String keptNullable = null;
+
+        /**
+         * Override default nullable annotation, for example with a full qualified className
+         *
+         * @param nullableAnnotation annotation used by the generator, for example @jakarta.annotation.Nullable
+         */
+        public void setNullableAnnotation(String nullableAnnotation) {
+            this.nullableAnnotation = nullableAnnotation;
+        }
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            keptNullable = null;
+            String value = fragment.execute();
+            if (useJspecify) {
+                if (value.startsWith(nullableAnnotation)) {
+                    keptNullable = value;
+                    int idx = nullableAnnotation.length();
+                    // trim left
+                    while (idx < value.length() && value.charAt(idx) == ' ') {
+                        idx ++;
+                    }
+                    value = value.substring(idx);
+                }
+            }
+            writer.write(value);
+        }
+
+        public boolean isSetAndClear() {
+            boolean isSet = keptNullable != null;
+            keptNullable = null;
+            return isSet;
+        }
+    }
+
+    /**
+     * Adds Nullable import if any parameter is nullable or optional.
+     */
+    protected void addNullableImportForOperation(CodegenOperation codegenOperation) {
+        codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
     }
 }
