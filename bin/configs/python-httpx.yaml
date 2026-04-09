@@ -4,6 +4,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/python
 library: httpx
 additionalProperties:
+  buildSystem: hatchling
   packageName: petstore_api
   mapNumberTo: float
   poetry1: false
