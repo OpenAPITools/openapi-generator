@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 build.gradle.kts
 gradle/wrapper/gradle-wrapper.jar
@@ -18,4 +17,3 @@ src/main/kotlin/org/openapitools/configuration/ValidSort.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
 src/main/kotlin/org/openapitools/model/PetSort.kt
 src/main/resources/application.yaml
-src/test/kotlin/org/openapitools/api/PetApiTest.kt
