@@ -3058,6 +3058,36 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void contractWithUriEnumContainsEnumConverterWithUriImport() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum_uri.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+                .hasImports("java.net.URI")
+                .fileContains("Converter<URI, ExampleUriEnum>")
+                .assertMethod("exampleUriEnumConverter");
+    }
+
+    @Test
+    public void contractWithUuidEnumContainsEnumConverterWithUuidImport() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum_uuid.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+                .hasImports("java.util.UUID")
+                .fileContains("Converter<UUID, ExampleUuidEnum>")
+                .assertMethod("exampleUuidEnumConverter");
+    }
+
+    @Test
+    public void contractWithNumberEnumContainsEnumConverterWithBigDecimalImport() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum_number.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+                .hasImports("java.math.BigDecimal")
+                .fileContains("Converter<BigDecimal, ExampleNumberEnum>")
+                .assertMethod("exampleNumberEnumConverter");
+    }
+
+    @Test
     public void contractWithoutEnumDoesNotContainEnumConverter() throws IOException {
         Map<String, File> output = generateFromContract("src/test/resources/3_0/generic.yaml", SPRING_BOOT);
 

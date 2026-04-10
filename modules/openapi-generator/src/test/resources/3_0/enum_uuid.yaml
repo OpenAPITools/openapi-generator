@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: API with UUID enum.
+  version: 1.0.0
+paths:
+  /resources:
+    get:
+      summary: Returns resources.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resource'
+components:
+  schemas:
+    Resource:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ExampleUuidEnum'
+    ExampleUuidEnum:
+      type: string
+      format: uuid
+      description: Example of an Enum with UUID values
+      enum:
+        - "d6a8f2b0-1c34-4e56-a789-0abcdef12345"
+        - "e7b9c3d1-2d45-5f67-b890-1bcdef023456"
+
