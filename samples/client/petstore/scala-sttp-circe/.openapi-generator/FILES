@@ -12,8 +12,10 @@ src/main/scala/org/openapitools/client/core/DateSerializers.scala
 src/main/scala/org/openapitools/client/core/JsonSupport.scala
 src/main/scala/org/openapitools/client/model/Animal.scala
 src/main/scala/org/openapitools/client/model/ApiResponse.scala
+src/main/scala/org/openapitools/client/model/Cat.scala
 src/main/scala/org/openapitools/client/model/Category.scala
 src/main/scala/org/openapitools/client/model/Collar.scala
+src/main/scala/org/openapitools/client/model/Dog.scala
 src/main/scala/org/openapitools/client/model/EnumTest.scala
 src/main/scala/org/openapitools/client/model/Kennel.scala
 src/main/scala/org/openapitools/client/model/Order.scala

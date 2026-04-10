@@ -15,10 +15,7 @@ import io.circe.{Decoder, DecodingFailure, Encoder, Json}
 import io.circe.syntax._
 import org.openapitools.client.core.JsonSupport._
 
-sealed trait Animal {
-  def className: String
-  def color: Option[String]
-}
+trait Animal
 object Animal {
   implicit val encoderAnimal: Encoder[Animal] = Encoder.instance {
     case obj: Cat => obj.asJson.mapObject(("className" -> "CAT".asJson) +: _)
@@ -32,61 +29,4 @@ object Animal {
     }
   }
 }
-
-case class Cat(
-  className: String,
-  color: Option[String] = None,
-  declawed: Option[Boolean] = None
-) extends Animal
-object Cat {
-  implicit val encoderCat: Encoder[Cat] = Encoder.instance { t =>
-    Json.fromFields{
-      Seq(
-        Some("className" -> t.className.asJson),
-        t.color.map(v => "color" -> v.asJson),
-        t.declawed.map(v => "declawed" -> v.asJson)
-      ).flatten
-    }
-  }
-  implicit val decoderCat: Decoder[Cat] = Decoder.instance { c =>
-    for {
-      className <- c.downField("className").as[String]
-      color <- c.downField("color").as[Option[String]]
-      declawed <- c.downField("declawed").as[Option[Boolean]]
-    } yield Cat(
-      className = className,
-      color = color,
-      declawed = declawed
-    )
-  }
-}
-
-case class Dog(
-  className: String,
-  color: Option[String] = None,
-  breed: Option[String] = None
-) extends Animal
-object Dog {
-  implicit val encoderDog: Encoder[Dog] = Encoder.instance { t =>
-    Json.fromFields{
-      Seq(
-        Some("className" -> t.className.asJson),
-        t.color.map(v => "color" -> v.asJson),
-        t.breed.map(v => "breed" -> v.asJson)
-      ).flatten
-    }
-  }
-  implicit val decoderDog: Decoder[Dog] = Decoder.instance { c =>
-    for {
-      className <- c.downField("className").as[String]
-      color <- c.downField("color").as[Option[String]]
-      breed <- c.downField("breed").as[Option[String]]
-    } yield Dog(
-      className = className,
-      color = color,
-      breed = breed
-    )
-  }
-}
-
 

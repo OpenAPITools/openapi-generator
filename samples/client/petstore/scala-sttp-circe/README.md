@@ -93,8 +93,10 @@ Class | Method | HTTP request | Description
 
  - [Animal](Animal.md)
  - [ApiResponse](ApiResponse.md)
+ - [Cat](Cat.md)
  - [Category](Category.md)
  - [Collar](Collar.md)
+ - [Dog](Dog.md)
  - [EnumTest](EnumTest.md)
  - [Kennel](Kennel.md)
  - [Order](Order.md)
