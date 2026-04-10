@@ -1,0 +1,202 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore - Sort Validation Test
+  description: Test spec for generateSortValidation feature
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io/v2
+tags:
+  - name: pet
+    description: Everything about your Pets
+paths:
+  /pet/findByStatusWithSort:
+    get:
+      tags:
+        - pet
+      summary: Find pets with explicit x-spring-paginated and inline sort enum
+      operationId: findPetsWithSortEnum
+      x-spring-paginated: true
+      parameters:
+        - name: status
+          in: query
+          description: Status filter
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum:
+              - "id,asc"
+              - "id,desc"
+              - "name,asc"
+              - "name,desc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findAutoDetectedWithSort:
+    get:
+      tags:
+        - pet
+      summary: Find pets with auto-detected pagination and sort enum
+      operationId: findPetsAutoDetectedWithSort
+      parameters:
+        - name: status
+          in: query
+          description: Status filter
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum:
+              - "id,asc"
+              - "id,desc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithRefSort:
+    get:
+      tags:
+        - pet
+      summary: Find pets with x-spring-paginated and $ref sort enum
+      operationId: findPetsWithRefSort
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            $ref: '#/components/schemas/PetSort'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithoutSortEnum:
+    get:
+      tags:
+        - pet
+      summary: Find pets with pagination but sort has no enum constraint
+      operationId: findPetsWithoutSortEnum
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order (no enum constraint)
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findNonPaginatedWithSortEnum:
+    get:
+      tags:
+        - pet
+      summary: Find pets without pagination but sort param has enum — no sort validation expected
+      operationId: findPetsNonPaginatedWithSortEnum
+      parameters:
+        - name: sort
+          in: query
+          description: Sort order with enum but no pagination
+          schema:
+            type: string
+            enum:
+              - "id,asc"
+              - "id,desc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    PetSort:
+      type: string
+      enum:
+        - "id,asc"
+        - "id,desc"
+        - "createdAt,asc"
+        - "createdAt,desc"
+    Pet:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+          description: pet status in the store

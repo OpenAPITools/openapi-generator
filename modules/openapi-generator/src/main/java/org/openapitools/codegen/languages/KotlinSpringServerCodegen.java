@@ -22,6 +22,9 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -98,6 +101,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
+    public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
 
@@ -164,6 +168,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Setter private boolean useResponseEntity = true;
     @Setter private boolean autoXSpringPaginated = false;
+    @Setter private boolean generateSortValidation = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
 
@@ -179,6 +184,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private Map<String, List<String>> modelToSealedInterfaces = new HashMap<>();
     private Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
     private boolean sealedInterfacesFileWritten = false;
+
+    // Map from operationId to allowed sort values for @ValidSort annotation generation
+    private Map<String, List<String>> sortValidationEnums = new HashMap<>();
 
     public KotlinSpringServerCodegen() {
         super();
@@ -272,6 +280,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
         addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
+        addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to paginated operations whose 'sort' parameter has enum values. Requires useBeanValidation=true and library=spring-boot.", generateSortValidation);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -704,6 +713,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setAutoXSpringPaginated(convertPropertyToBoolean(AUTO_X_SPRING_PAGINATED));
         }
         writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
+        if (additionalProperties.containsKey(GENERATE_SORT_VALIDATION) && library.equals(SPRING_BOOT)) {
+            this.setGenerateSortValidation(convertPropertyToBoolean(GENERATE_SORT_VALIDATION));
+        }
+        writePropertyBack(GENERATE_SORT_VALIDATION, generateSortValidation);
         if (isUseSpringBoot3() && isUseSpringBoot4()) {
             throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
         }
@@ -1042,6 +1055,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
+                // Before removal, capture sort enum values for @ValidSort if generateSortValidation is enabled
+                if (generateSortValidation && useBeanValidation && sortValidationEnums.containsKey(codegenOperation.operationId)) {
+                    List<String> allowedSortValues = sortValidationEnums.get(codegenOperation.operationId);
+                    String allowedValuesStr = allowedSortValues.stream()
+                            .map(v -> "\"" + v.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
+                            .collect(Collectors.joining(", "));
+                    String validSortAnnotation = "@ValidSort(allowedValues = [" + allowedValuesStr + "])";
+
+                    Object existingAnnotation = codegenOperation.vendorExtensions.get("x-operation-extra-annotation");
+                    List<String> existingAnnotations = DefaultCodegen.getObjectAsStringList(existingAnnotation);
+                    List<String> updatedAnnotations = new ArrayList<>(existingAnnotations);
+                    updatedAnnotations.add(validSortAnnotation);
+                    codegenOperation.vendorExtensions.put("x-operation-extra-annotation", updatedAnnotations);
+
+                    codegenOperation.imports.add("ValidSort");
+                }
                 codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
                 codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
             }
@@ -1056,6 +1085,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (SPRING_BOOT.equals(library) && ModelUtils.containsEnums(this.openAPI)) {
             supportingFiles.add(new SupportingFile("converter.mustache",
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.kt"));
+        }
+
+        if (SPRING_BOOT.equals(library) && generateSortValidation && useBeanValidation) {
+            scanSortValidationEnums(openAPI);
         }
 
         if (!additionalProperties.containsKey(TITLE)) {
@@ -1121,6 +1154,78 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         // TODO: Handle tags
+    }
+
+    /**
+     * Scans the OpenAPI spec for paginated operations whose 'sort' parameter has enum values,
+     * builds the {@link #sortValidationEnums} registry, and registers the ValidSort.kt supporting file.
+     * Called from {@link #preprocessOpenAPI} when {@code generateSortValidation} is enabled.
+     */
+    private void scanSortValidationEnums(OpenAPI openAPI) {
+        if (openAPI.getPaths() == null) {
+            return;
+        }
+        boolean foundAny = false;
+        for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
+            for (Operation operation : pathEntry.getValue().readOperations()) {
+                String operationId = operation.getOperationId();
+                if (operationId == null || !willBePageable(operation)) {
+                    continue;
+                }
+                if (operation.getParameters() == null) {
+                    continue;
+                }
+                for (Parameter param : operation.getParameters()) {
+                    if (!"sort".equals(param.getName())) {
+                        continue;
+                    }
+                    Schema<?> schema = param.getSchema();
+                    if (schema == null) {
+                        continue;
+                    }
+                    if (schema.get$ref() != null) {
+                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+                    }
+                    if (schema == null || schema.getEnum() == null || schema.getEnum().isEmpty()) {
+                        continue;
+                    }
+                    List<String> enumValues = schema.getEnum().stream()
+                            .map(Object::toString)
+                            .collect(Collectors.toList());
+                    sortValidationEnums.put(operationId, enumValues);
+                    foundAny = true;
+                }
+            }
+        }
+        if (foundAny) {
+            importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
+            supportingFiles.add(new SupportingFile("validSort.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", File.separator), "ValidSort.kt"));
+        }
+    }
+
+    /**
+     * Returns true if the given operation will have a Pageable parameter injected — either because
+     * it has {@code x-spring-paginated: true} explicitly, or because {@link #autoXSpringPaginated}
+     * is enabled and the operation has all three default pagination query parameters (page, size, sort).
+     */
+    private boolean willBePageable(Operation operation) {
+        if (operation.getExtensions() != null) {
+            Object paginated = operation.getExtensions().get("x-spring-paginated");
+            if (Boolean.FALSE.equals(paginated)) {
+                return false;
+            }
+            if (Boolean.TRUE.equals(paginated)) {
+                return true;
+            }
+        }
+        if (autoXSpringPaginated && operation.getParameters() != null) {
+            Set<String> paramNames = operation.getParameters().stream()
+                    .map(Parameter::getName)
+                    .collect(Collectors.toSet());
+            return paramNames.containsAll(Arrays.asList("page", "size", "sort"));
+        }
+        return false;
     }
 
     @Override

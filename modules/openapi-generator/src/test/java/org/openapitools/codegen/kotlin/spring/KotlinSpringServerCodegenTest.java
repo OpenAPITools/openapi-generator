@@ -4162,6 +4162,143 @@ public class KotlinSpringServerCodegenTest {
 
     // ========== AUTO X-SPRING-PAGINATED TESTS ==========
 
+    // ========== GENERATE SORT VALIDATION TESTS ==========
+
+    @Test
+    public void generateSortValidationAddsAnnotationForExplicitPaginated() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])");
+        assertFileContains(petApi.toPath(), "import org.openapitools.configuration.ValidSort");
+    }
+
+    @Test
+    public void generateSortValidationAddsAnnotationForAutoDetectedPaginated() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\"])");
+    }
+
+    @Test
+    public void generateSortValidationHandlesRefSortEnum() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"createdAt,asc\", \"createdAt,desc\"])");
+    }
+
+    @Test
+    public void generateSortValidationDoesNotAnnotateNonPaginatedOperation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsNonPaginatedWithSortEnum has sort enum but NO pagination — must not get @ValidSort
+        int methodStart = content.indexOf("fun findPetsNonPaginatedWithSortEnum(");
+        Assert.assertTrue(methodStart >= 0, "findPetsNonPaginatedWithSortEnum method should exist");
+        String methodBlock = content.substring(Math.max(0, methodStart - 500), methodStart);
+        Assert.assertFalse(methodBlock.contains("@ValidSort"),
+            "Non-paginated operation should not have @ValidSort even if sort param has enum values");
+    }
+
+    @Test
+    public void generateSortValidationDoesNotAnnotateWhenSortHasNoEnum() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithoutSortEnum has pagination but sort has NO enum values
+        int methodStart = content.indexOf("fun findPetsWithoutSortEnum(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithoutSortEnum method should exist");
+        String methodBlock = content.substring(Math.max(0, methodStart - 500), methodStart);
+        Assert.assertFalse(methodBlock.contains("@ValidSort"),
+            "Paginated operation with non-enum sort should not have @ValidSort");
+    }
+
+    @Test
+    public void generateSortValidationGeneratesValidSortFile() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File validSortFile = files.get("ValidSort.kt");
+        Assert.assertNotNull(validSortFile, "ValidSort.kt should be generated when generateSortValidation=true");
+        assertFileContains(validSortFile.toPath(), "annotation class ValidSort");
+        assertFileContains(validSortFile.toPath(), "class SortValidator");
+        assertFileContains(validSortFile.toPath(), "val allowedValues: Array<String>");
+        assertFileContains(validSortFile.toPath(), "allowedValues.toSet()");
+    }
+
+    @Test
+    public void generateSortValidationDoesNotGenerateValidSortFileWhenDisabled() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        // NOT setting GENERATE_SORT_VALIDATION (defaults to false)
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        Assert.assertNull(files.get("ValidSort.kt"), "ValidSort.kt should NOT be generated when generateSortValidation=false");
+        File petApi = files.get("PetApi.kt");
+        assertFileNotContains(petApi.toPath(), "@ValidSort");
+    }
+
+    @Test
+    public void generateSortValidationDoesNotGenerateValidSortFileWhenBeanValidationDisabled() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+        additionalProperties.put(USE_BEANVALIDATION, "false");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        Assert.assertNull(files.get("ValidSort.kt"), "ValidSort.kt should NOT be generated when useBeanValidation=false");
+        File petApi = files.get("PetApi.kt");
+        assertFileNotContains(petApi.toPath(), "@ValidSort");
+    }
+
     @Test
     public void autoXSpringPaginatedDetectsAllThreeParams() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
