@@ -248,7 +248,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
         Map<String, CodegenModel> allModels = collectAllModels(modelsMap);
         synthesizeOneOfFromDiscriminator(allModels);
-        Map<String, Integer> refCounts = countOneOfReferences(allModels);
+        Map<String, Integer> refCounts = countModelReferences(allModels);
         markOneOfTraits(modelsMap, allModels, refCounts);
         removeInlinedModels(modelsMap);
 
@@ -298,13 +298,26 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     /**
-     * Count how many oneOf parents reference each child, used to determine
-     * whether a child can be inlined (only if referenced by exactly one parent).
+     * Count how many times each model is referenced - both as a oneOf member and as a
+     * property type. A child can only be inlined if it's referenced exactly once (by its
+     * oneOf parent) and not used as a property type elsewhere.
      */
-    private Map<String, Integer> countOneOfReferences(Map<String, CodegenModel> allModels) {
-        return allModels.values().stream()
+    private Map<String, Integer> countModelReferences(Map<String, CodegenModel> allModels) {
+        Map<String, Integer> counts = new HashMap<>();
+
+        // Count oneOf parent references
+        allModels.values().stream()
                 .flatMap(m -> m.oneOf.stream())
-                .collect(java.util.stream.Collectors.toMap(name -> name, name -> 1, Integer::sum));
+                .forEach(name -> counts.merge(name, 1, Integer::sum));
+
+        // Count property-type references (prevents inlining models used as field types)
+        allModels.values().stream()
+                .flatMap(m -> m.vars.stream())
+                .map(prop -> prop.dataType)
+                .filter(allModels::containsKey)
+                .forEach(name -> counts.merge(name, 1, Integer::sum));
+
+        return counts;
     }
 
     /**
