@@ -62,6 +62,12 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
 
             generate.outputDir.set(project.layout.buildDirectory.dir("generate-resources/main").map { it.asFile.path })
 
+            val openApiGeneratorClasspath = configurations.create("openApiGeneratorClasspath") {
+                isCanBeConsumed = false
+                isCanBeResolved = true
+                description = "Extra jars for the OpenAPI Generator worker (custom generators)"
+            }
+
             tasks.apply {
                 register("openApiGenerators", GeneratorsTask::class.java).configure {
                     group = pluginGroup
@@ -92,6 +98,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     group = pluginGroup
                     description =
                         "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
+
+                    generatorClasspath.setFrom(openApiGeneratorClasspath)
 
                     verbose.set(generate.verbose)
                     validateSpec.set(generate.validateSpec)
@@ -126,6 +134,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     nameMappings.set(generate.nameMappings)
                     modelNameMappings.set(generate.modelNameMappings)
                     parameterNameMappings.set(generate.parameterNameMappings)
+                    enumNameMappings.set(generate.enumNameMappings)
+                    operationIdNameMappings.set(generate.operationIdNameMappings)
                     openapiNormalizer.set(generate.openapiNormalizer)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)

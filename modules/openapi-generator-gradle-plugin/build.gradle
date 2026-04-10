@@ -47,6 +47,7 @@ dependencies {
 tasks.named("test", Test).configure {
     useTestNG()
     testLogging.showStandardStreams = false
+    systemProperty("openApiGeneratorVersion", openApiGeneratorVersion)
 
     beforeTest { descriptor ->
         logger.lifecycle("Running test: " + descriptor)
