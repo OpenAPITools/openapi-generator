@@ -1237,13 +1237,13 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileNotContains(files.get("RequiredProperties.java").toPath(), "@JsonCreator");
     }
     
-        @Test
+    @Test
     public void testDiscriminatorMappingUsedInJsonTypeName() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/jaxrs/pestore.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/jaxrs/petstore.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
 
