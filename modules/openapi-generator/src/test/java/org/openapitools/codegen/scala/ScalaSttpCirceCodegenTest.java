@@ -129,6 +129,41 @@ public class ScalaSttpCirceCodegenTest {
                 "Dog.scala should not exist (inlined in Animal.scala)");
     }
 
+    @Test(description = "container-wrapped model ref (Seq[Dog]) prevents inlining of oneOf child")
+    public void verifyContainerWrappedRefPreventsInlining() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        generateFromSpec("src/test/resources/3_0/scala-sttp-circe/petstore.yaml", output);
+
+        // Dog is referenced both as a oneOf child of Animal AND as Seq[Dog] in Kennel.dogs.
+        // Since not all children can be inlined, Animal becomes a regular trait (not sealed).
+        // Both Dog and Cat get their own files.
+        Path dogPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Dog.scala");
+        Assert.assertTrue(dogPath.toFile().exists(),
+                "Dog.scala must exist as a separate file (used as array element in Kennel)");
+        assertFileContains(dogPath, "case class Dog");
+        assertFileContains(dogPath, "extends Animal");
+
+        // Cat also gets its own file (regular trait = no inlining)
+        Path catPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Cat.scala");
+        Assert.assertTrue(catPath.toFile().exists(),
+                "Cat.scala must exist (Animal is a regular trait, no children inlined)");
+        assertFileContains(catPath, "case class Cat");
+        assertFileContains(catPath, "extends Animal");
+
+        // Animal is a regular trait (not sealed) because not all children can be inlined
+        Path animalPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Animal.scala");
+        assertFileContains(animalPath, "trait Animal");
+        assertFileNotContains(animalPath, "case class Cat");
+        assertFileNotContains(animalPath, "case class Dog");
+
+        // Kennel should reference Dog via Seq
+        Path kennelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Kennel.scala");
+        assertFileContains(kennelPath, "dogs: Option[Seq[Dog]]");
+    }
+
     @Test(description = "oneOf + discriminator generates sealed trait (standard pattern)")
     public void verifyOneOfDiscriminator() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

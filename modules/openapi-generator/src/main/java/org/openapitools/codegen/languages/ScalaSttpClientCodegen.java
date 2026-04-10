@@ -310,12 +310,18 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 .flatMap(m -> m.oneOf.stream())
                 .forEach(name -> counts.merge(name, 1, Integer::sum));
 
-        // Count property-type references (prevents inlining models used as field types)
+        // Count property-type references (prevents inlining models used as field types).
+        // Check both dataType and complexType
         allModels.values().stream()
                 .flatMap(m -> m.vars.stream())
-                .map(prop -> prop.dataType)
-                .filter(allModels::containsKey)
-                .forEach(name -> counts.merge(name, 1, Integer::sum));
+                .forEach(prop -> {
+                    if (prop.dataType != null && allModels.containsKey(prop.dataType)) {
+                        counts.merge(prop.dataType, 1, Integer::sum);
+                    }
+                    if (prop.complexType != null && allModels.containsKey(prop.complexType)) {
+                        counts.merge(prop.complexType, 1, Integer::sum);
+                    }
+                });
 
         return counts;
     }
@@ -324,9 +330,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
      * Mark oneOf parents as sealed/regular traits with discriminator vendor extensions,
      * and configure child models for inlining.
      */
-    private void markOneOfTraits(Map<String, ModelsMap> modelsMap,
-                                 Map<String, CodegenModel> allModels,
-                                 Map<String, Integer> refCounts) {
+    private void markOneOfTraits(
+        Map<String, ModelsMap> modelsMap,
+        Map<String, CodegenModel> allModels,
+        Map<String, Integer> refCounts) {
         for (ModelsMap mm : modelsMap.values()) {
             for (ModelMap modelMap : mm.getModels()) {
                 CodegenModel model = modelMap.getModel();
@@ -345,16 +352,26 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private void configureOneOfModel(CodegenModel parent,
-                                     Map<String, CodegenModel> allModels,
-                                     Map<String, Integer> refCounts) {
+    private void configureOneOfModel(
+        CodegenModel parent,
+        Map<String, CodegenModel> allModels,
+        Map<String, Integer> refCounts) {
         List<CodegenModel> inlineableMembers = new ArrayList<>();
         Set<String> childImports = new HashSet<>();
 
         for (String childName : parent.oneOf) {
             CodegenModel child = allModels.get(childName);
-            if (child != null && isInlineable(child, refCounts)) {
-                markChildForInlining(child, parent);
+            if (child == null) continue;
+
+            // All children extend the parent trait
+            child.getVendorExtensions().put("x-oneOfParent", parent.classname);
+            if (parent.discriminator != null) {
+                child.getVendorExtensions().put("x-parentDiscriminatorName",
+                        parent.discriminator.getPropertyName());
+            }
+
+            if (isInlineable(child, refCounts)) {
+                child.getVendorExtensions().put("x-isOneOfMember", true);
                 inlineableMembers.add(child);
                 if (child.imports != null) {
                     childImports.addAll(child.imports);
@@ -376,15 +393,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 && refCounts.getOrDefault(child.classname, 0) == 1;
     }
 
-    private void markChildForInlining(CodegenModel child, CodegenModel parent) {
-        child.getVendorExtensions().put("x-isOneOfMember", true);
-        child.getVendorExtensions().put("x-oneOfParent", parent.classname);
-        if (parent.discriminator != null) {
-            child.getVendorExtensions().put("x-parentDiscriminatorName",
-                    parent.discriminator.getPropertyName());
-        }
-    }
-
     private void buildDiscriminatorEntries(CodegenModel parent, Map<String, CodegenModel> allModels) {
         List<Map<String, String>> entries = parent.oneOf.stream()
                 .map(allModels::get)
@@ -394,8 +402,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         parent.getVendorExtensions().put("x-discriminator-entries", entries);
     }
 
-    private void markAsSealedTrait(CodegenModel parent, List<CodegenModel> members,
-                                   Set<String> childImports) {
+    private void markAsSealedTrait(
+        CodegenModel parent,
+        List<CodegenModel> members,
+        Set<String> childImports) {
         parent.getVendorExtensions().put("x-isSealedTrait", true);
         parent.getVendorExtensions().put("x-oneOfMembers", members);
 
@@ -411,8 +421,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         parent.getVendorExtensions().put("x-isRegularTrait", true);
         for (CodegenModel member : partialMembers) {
             member.getVendorExtensions().remove("x-isOneOfMember");
-            member.getVendorExtensions().remove("x-oneOfParent");
-            member.getVendorExtensions().remove("x-parentDiscriminatorName");
         }
     }
 

@@ -15,6 +15,7 @@ src/main/scala/org/openapitools/client/model/ApiResponse.scala
 src/main/scala/org/openapitools/client/model/Category.scala
 src/main/scala/org/openapitools/client/model/Collar.scala
 src/main/scala/org/openapitools/client/model/EnumTest.scala
+src/main/scala/org/openapitools/client/model/Kennel.scala
 src/main/scala/org/openapitools/client/model/Order.scala
 src/main/scala/org/openapitools/client/model/Pet.scala
 src/main/scala/org/openapitools/client/model/PropertyNameMapping.scala

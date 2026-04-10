@@ -886,3 +886,12 @@ components:
       properties:
         reflective:
           type: boolean
+    Kennel:
+      type: object
+      properties:
+        name:
+          type: string
+        dogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dog'

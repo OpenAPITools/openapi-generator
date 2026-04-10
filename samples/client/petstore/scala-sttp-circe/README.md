@@ -96,6 +96,7 @@ Class | Method | HTTP request | Description
  - [Category](Category.md)
  - [Collar](Collar.md)
  - [EnumTest](EnumTest.md)
+ - [Kennel](Kennel.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
  - [PropertyNameMapping](PropertyNameMapping.md)
