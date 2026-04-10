@@ -22,8 +22,6 @@ import {{packageName}}.infrastructure.ApiPrincipal
 
 {{#operations}}
 fun Route.{{classname}}() {
-    val empty = mutableMapOf<String, Any?>()
-
 {{#operation}}
     {{#hasAuthMethods}}
         {{#authMethods}}

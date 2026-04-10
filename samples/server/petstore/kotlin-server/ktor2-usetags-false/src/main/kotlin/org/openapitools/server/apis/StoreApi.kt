@@ -30,8 +30,6 @@ import org.openapitools.server.models.Order
 
 fun Route.StoreApi() {
     val gson = Gson()
-    val empty = mutableMapOf<String, Any?>()
-
     delete<Paths.deleteOrder> {
         call.respond(HttpStatusCode.NotImplemented)
         
@@ -60,7 +58,7 @@ fun Route.StoreApi() {
         }"""
         
         when (exampleContentType) {
-            "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+            "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
@@ -79,7 +77,7 @@ fun Route.StoreApi() {
         }"""
         
         when (exampleContentType) {
-            "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+            "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
