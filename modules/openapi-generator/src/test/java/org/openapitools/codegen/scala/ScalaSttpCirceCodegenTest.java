@@ -156,6 +156,7 @@ public class ScalaSttpCirceCodegenTest {
         // Animal is a regular trait (not sealed) because not all children can be inlined
         Path animalPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Animal.scala");
         assertFileContains(animalPath, "trait Animal");
+        assertFileNotContains(animalPath, "sealed trait Animal");
         assertFileNotContains(animalPath, "case class Cat");
         assertFileNotContains(animalPath, "case class Dog");
 
