@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 
-@JsonTypeName("Cat")
+@JsonTypeName("CAT")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "Cat", propOrder =
     { "declawed"
