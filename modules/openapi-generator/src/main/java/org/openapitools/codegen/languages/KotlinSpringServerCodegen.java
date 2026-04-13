@@ -1059,27 +1059,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
-                // Before removal, capture sort enum values for @ValidSort if generateSortValidation is enabled
+                // Build pageable parameter annotations (@ValidSort, @PageableDefault, @SortDefault.SortDefaults)
+                List<String> pageableAnnotations = new ArrayList<>();
+
                 if (generateSortValidation && useBeanValidation && sortValidationEnums.containsKey(codegenOperation.operationId)) {
                     List<String> allowedSortValues = sortValidationEnums.get(codegenOperation.operationId);
                     String allowedValuesStr = allowedSortValues.stream()
                             .map(v -> "\"" + v.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
                             .collect(Collectors.joining(", "));
-                    String validSortAnnotation = "@ValidSort(allowedValues = [" + allowedValuesStr + "])";
-
-                    Object existingAnnotation = codegenOperation.vendorExtensions.get("x-operation-extra-annotation");
-                    List<String> existingAnnotations = DefaultCodegen.getObjectAsStringList(existingAnnotation);
-                    List<String> updatedAnnotations = new ArrayList<>(existingAnnotations);
-                    updatedAnnotations.add(validSortAnnotation);
-                    codegenOperation.vendorExtensions.put("x-operation-extra-annotation", updatedAnnotations);
-
+                    pageableAnnotations.add("@ValidSort(allowedValues = [" + allowedValuesStr + "])");
                     codegenOperation.imports.add("ValidSort");
                 }
 
                 // Generate @PageableDefault / @SortDefault.SortDefaults annotations if defaults are present
                 if (pageableDefaultsRegistry.containsKey(codegenOperation.operationId)) {
                     PageableDefaultsData defaults = pageableDefaultsRegistry.get(codegenOperation.operationId);
-                    List<String> pageableAnnotations = new ArrayList<>();
 
                     if (defaults.page != null || defaults.size != null) {
                         List<String> attrs = new ArrayList<>();
@@ -1097,10 +1091,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         codegenOperation.imports.add("SortDefault");
                         codegenOperation.imports.add("Sort");
                     }
+                }
 
-                    if (!pageableAnnotations.isEmpty()) {
-                        codegenOperation.vendorExtensions.put("x-pageable-extra-annotation", pageableAnnotations);
-                    }
+                if (!pageableAnnotations.isEmpty()) {
+                    codegenOperation.vendorExtensions.put("x-pageable-extra-annotation", pageableAnnotations);
                 }
                 codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
                 codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));

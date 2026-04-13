@@ -4177,6 +4177,21 @@ public class KotlinSpringServerCodegenTest {
         File petApi = files.get("PetApi.kt");
         assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])");
         assertFileContains(petApi.toPath(), "import org.openapitools.configuration.ValidSort");
+
+        // @ValidSort must be a parameter annotation — appears in the 500-char window AFTER `fun findPetsWithSortEnum(`
+        String content = Files.readString(petApi.toPath());
+        int methodStart = content.indexOf("fun findPetsWithSortEnum(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithSortEnum method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])"),
+                "@ValidSort should appear as a parameter annotation (inside the method signature, after `fun`)");
+        Assert.assertTrue(paramBlock.contains("pageable: Pageable"),
+                "findPetsWithSortEnum should have a pageable: Pageable parameter");
+
+        // @ValidSort must NOT be a method-level annotation (not in the 500-char prefix before `fun`)
+        String prefixBlock = content.substring(Math.max(0, methodStart - 500), methodStart);
+        Assert.assertFalse(prefixBlock.contains("@ValidSort"),
+                "@ValidSort should be a parameter annotation, not a method-level annotation");
     }
 
     @Test
@@ -4265,7 +4280,8 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(validSortFile.toPath(), "annotation class ValidSort");
         assertFileContains(validSortFile.toPath(), "class SortValidator");
         assertFileContains(validSortFile.toPath(), "val allowedValues: Array<String>");
-        assertFileContains(validSortFile.toPath(), "allowedValues.toSet()");
+        assertFileContains(validSortFile.toPath(), "DIRECTION_ASC_SUFFIX");
+        assertFileContains(validSortFile.toPath(), "DIRECTION_DESC_SUFFIX");
     }
 
     @Test
