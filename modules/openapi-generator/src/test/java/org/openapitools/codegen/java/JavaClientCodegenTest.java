@@ -4325,4 +4325,32 @@ public class JavaClientCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
 
     }
+
+    @Test
+    public void testGeoJsonObjectDoesNotContainCoordinates() {
+        // The generated GeoJsonObject class should not have a 'coordinates' field,
+        // even though both Polygon and MultiPolygon (its oneOf subtypes) define one.
+        // Polygon has coordinates: List<Double>, MultiPolygon has coordinates: List<List<Double>>,
+        // so the types are incompatible and the field must not be pulled up to the parent.
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/geojson_discriminator.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(newTempFolder().toString());
+
+        Map<String, File> files = new DefaultGenerator()
+                .opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate()
+                .stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // GeoJsonObject must not expose coordinates — the types differ across oneOf variants
+        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
+                .fileDoesNotContain("coordinates");
+
+        // Each subtype must still carry its own coordinates field
+        JavaFileAssert.assertThat(files.get("Polygon.java"))
+                .assertProperty("coordinates");
+        JavaFileAssert.assertThat(files.get("MultiPolygon.java"))
+                .assertProperty("coordinates");
+    }
 }
