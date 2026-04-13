@@ -30,12 +30,12 @@ public interface StoreApi {
      * @return Order not found
      */
     @DELETE
-    @Path("/order/{order_id}")
+    @Path("/order/{orderId}")
     @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    void deleteOrder(@PathParam("order_id") @ApiParam("ID of the order that needs to be deleted") String orderId);
+    void deleteOrder(@PathParam("orderId") @ApiParam("ID of the order that needs to be deleted") String orderId);
 
 
     /**
@@ -64,30 +64,31 @@ public interface StoreApi {
      * @return Order not found
      */
     @GET
-    @Path("/order/{order_id}")
+    @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    Order getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId);
+    Order getOrderById(@PathParam("orderId") @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId);
 
 
     /**
      * 
      *
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return successful operation
      * @return Invalid Order
      */
     @POST
     @Path("/order")
+    @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Place an order for a pet", notes = "", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    Order placeOrder(@Valid @NotNull Order body);
+    Order placeOrder(@Valid @NotNull Order order);
 
 }

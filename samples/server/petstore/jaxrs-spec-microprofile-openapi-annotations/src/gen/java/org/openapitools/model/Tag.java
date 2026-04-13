@@ -11,9 +11,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
+/**
+ * A tag for a pet
+ **/
 
-
-@org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
+@org.eclipse.microprofile.openapi.annotations.media.Schema(title="Pet Tag", description="A tag for a pet")
 @JsonTypeName("Tag")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Tag  implements Serializable {

@@ -3,7 +3,6 @@ package org.openapitools.api;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import java.util.Set;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -27,28 +26,28 @@ public interface PetApi {
     /**
      * 
      *
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @return successful operation
      * @return Invalid input
      */
     @POST
     @Consumes({ "application/json", "application/xml" })
+    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Add a new pet to the store", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    void addPet(@Valid @NotNull Pet body);
+    Pet addPet(@Valid @NotNull Pet pet);
 
 
     /**
      * 
      *
      * @param petId Pet id to delete
-     * @return successful operation
      * @return Invalid pet value
      */
     @DELETE
@@ -62,7 +61,6 @@ public interface PetApi {
         @io.swagger.annotations.ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
     })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
     void deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId);
 
@@ -79,7 +77,6 @@ public interface PetApi {
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma separated strings", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
     @ApiResponses(value = { 
@@ -100,13 +97,12 @@ public interface PetApi {
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
-        @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "Set") })
-    Set<Pet> findPetsByTags(@QueryParam("tags") @NotNull  @ApiParam("Tags to filter by")  Set<String> tags);
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "List") })
+    List<Pet> findPetsByTags(@QueryParam("tags") @NotNull  @ApiParam("Tags to filter by")  List<String> tags);
 
 
     /**
@@ -134,7 +130,7 @@ public interface PetApi {
     /**
      * 
      *
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @return successful operation
      * @return Invalid ID supplied
      * @return Pet not found
@@ -142,17 +138,18 @@ public interface PetApi {
      */
     @PUT
     @Consumes({ "application/json", "application/xml" })
+    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Update an existing pet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    void updatePet(@Valid @NotNull Pet body);
+    Pet updatePet(@Valid @NotNull Pet pet);
 
 
     /**

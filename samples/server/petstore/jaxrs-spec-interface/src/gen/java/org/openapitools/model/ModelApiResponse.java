@@ -15,8 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
-
-
+/**
+ * Describes the result of uploading an image resource
+ **/
+@ApiModel(description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelApiResponse  implements Serializable {
