@@ -4299,6 +4299,111 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(petApi.toPath(), "@ValidSort");
     }
 
+    // ========== PAGEABLE DEFAULTS TESTS ==========
+
+    @Test
+    public void pageableDefaultsGeneratesSortDefaultsForSingleDescField() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(),
+                "@SortDefault.SortDefaults(SortDefault(sort = [\"name\"], direction = Sort.Direction.DESC))");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Sort");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.web.SortDefault");
+    }
+
+    @Test
+    public void pageableDefaultsGeneratesSortDefaultsForSingleAscField() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(),
+                "@SortDefault.SortDefaults(SortDefault(sort = [\"id\"], direction = Sort.Direction.ASC))");
+    }
+
+    @Test
+    public void pageableDefaultsGeneratesSortDefaultsForMixedDirections() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(),
+                "@SortDefault.SortDefaults(SortDefault(sort = [\"name\"], direction = Sort.Direction.DESC), SortDefault(sort = [\"id\"], direction = Sort.Direction.ASC))");
+    }
+
+    @Test
+    public void pageableDefaultsGeneratesPageableDefaultForPageAndSize() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "@PageableDefault(page = 0, size = 25)");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.web.PageableDefault");
+    }
+
+    @Test
+    public void pageableDefaultsGeneratesBothAnnotationsWhenAllDefaultsPresent() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        int methodStart = content.indexOf("fun findPetsWithAllDefaults(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithAllDefaults method should exist");
+        String methodBlock = content.substring(Math.max(0, methodStart - 500), methodStart + 500);
+
+        Assert.assertTrue(methodBlock.contains("@PageableDefault(page = 0, size = 10)"),
+                "findPetsWithAllDefaults should have @PageableDefault(page = 0, size = 10)");
+        Assert.assertTrue(methodBlock.contains(
+                "@SortDefault.SortDefaults(SortDefault(sort = [\"name\"], direction = Sort.Direction.DESC), SortDefault(sort = [\"id\"], direction = Sort.Direction.ASC))"),
+                "findPetsWithAllDefaults should have @SortDefault.SortDefaults with both fields");
+    }
+
+    @Test
+    public void pageableDefaultsDoesNotAnnotateNonPageableOperation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsNonPaginatedWithSortEnum has no x-spring-paginated, so no pageable annotations
+        int methodStart = content.indexOf("fun findPetsNonPaginatedWithSortEnum(");
+        Assert.assertTrue(methodStart >= 0, "findPetsNonPaginatedWithSortEnum method should exist");
+        String methodBlock = content.substring(Math.max(0, methodStart - 500), methodStart);
+        Assert.assertFalse(methodBlock.contains("@SortDefault"),
+                "Non-paginated operation should not have @SortDefault");
+        Assert.assertFalse(methodBlock.contains("@PageableDefault"),
+                "Non-paginated operation should not have @PageableDefault");
+    }
+
     @Test
     public void autoXSpringPaginatedDetectsAllThreeParams() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();

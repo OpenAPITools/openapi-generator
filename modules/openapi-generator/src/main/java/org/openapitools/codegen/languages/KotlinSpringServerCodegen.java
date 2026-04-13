@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
@@ -187,6 +188,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     // Map from operationId to allowed sort values for @ValidSort annotation generation
     private Map<String, List<String>> sortValidationEnums = new HashMap<>();
+
+    // Map from operationId to pageable defaults for @PageableDefault/@SortDefault annotation generation
+    private Map<String, PageableDefaultsData> pageableDefaultsRegistry = new HashMap<>();
 
     public KotlinSpringServerCodegen() {
         super();
@@ -1071,6 +1075,33 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                     codegenOperation.imports.add("ValidSort");
                 }
+
+                // Generate @PageableDefault / @SortDefault.SortDefaults annotations if defaults are present
+                if (pageableDefaultsRegistry.containsKey(codegenOperation.operationId)) {
+                    PageableDefaultsData defaults = pageableDefaultsRegistry.get(codegenOperation.operationId);
+                    List<String> pageableAnnotations = new ArrayList<>();
+
+                    if (defaults.page != null || defaults.size != null) {
+                        List<String> attrs = new ArrayList<>();
+                        if (defaults.page != null) attrs.add("page = " + defaults.page);
+                        if (defaults.size != null) attrs.add("size = " + defaults.size);
+                        pageableAnnotations.add("@PageableDefault(" + String.join(", ", attrs) + ")");
+                        codegenOperation.imports.add("PageableDefault");
+                    }
+
+                    if (!defaults.sortDefaults.isEmpty()) {
+                        List<String> sortEntries = defaults.sortDefaults.stream()
+                                .map(sf -> "SortDefault(sort = [\"" + sf.field + "\"], direction = Sort.Direction." + sf.direction + ")")
+                                .collect(Collectors.toList());
+                        pageableAnnotations.add("@SortDefault.SortDefaults(" + String.join(", ", sortEntries) + ")");
+                        codegenOperation.imports.add("SortDefault");
+                        codegenOperation.imports.add("Sort");
+                    }
+
+                    if (!pageableAnnotations.isEmpty()) {
+                        codegenOperation.vendorExtensions.put("x-pageable-extra-annotation", pageableAnnotations);
+                    }
+                }
                 codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
                 codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
             }
@@ -1089,6 +1120,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (SPRING_BOOT.equals(library) && generateSortValidation && useBeanValidation) {
             scanSortValidationEnums(openAPI);
+        }
+
+        if (SPRING_BOOT.equals(library)) {
+            scanPageableDefaults(openAPI);
         }
 
         if (!additionalProperties.containsKey(TITLE)) {
@@ -1154,6 +1189,115 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         // TODO: Handle tags
+    }
+
+    /**
+     * Scans the OpenAPI spec for pageable operations whose page/size/sort parameters have default values,
+     * builds the {@link #pageableDefaultsRegistry}, and registers required import mappings.
+     * Called from {@link #preprocessOpenAPI} for all spring-boot generations.
+     */
+    private void scanPageableDefaults(OpenAPI openAPI) {
+        if (openAPI.getPaths() == null) {
+            return;
+        }
+        for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
+            for (Operation operation : pathEntry.getValue().readOperations()) {
+                String operationId = operation.getOperationId();
+                if (operationId == null || !willBePageable(operation)) {
+                    continue;
+                }
+                if (operation.getParameters() == null) {
+                    continue;
+                }
+                Integer pageDefault = null;
+                Integer sizeDefault = null;
+                List<SortFieldDefault> sortDefaults = new ArrayList<>();
+
+                for (Parameter param : operation.getParameters()) {
+                    Schema<?> schema = param.getSchema();
+                    if (schema == null) {
+                        continue;
+                    }
+                    if (schema.get$ref() != null) {
+                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+                    }
+                    if (schema == null || schema.getDefault() == null) {
+                        continue;
+                    }
+                    Object defaultValue = schema.getDefault();
+                    switch (param.getName()) {
+                        case "page":
+                            if (defaultValue instanceof Number) {
+                                pageDefault = ((Number) defaultValue).intValue();
+                            }
+                            break;
+                        case "size":
+                            if (defaultValue instanceof Number) {
+                                sizeDefault = ((Number) defaultValue).intValue();
+                            }
+                            break;
+                        case "sort":
+                            List<String> sortValues = new ArrayList<>();
+                            if (defaultValue instanceof String) {
+                                sortValues.add((String) defaultValue);
+                            } else if (defaultValue instanceof ArrayNode) {
+                                ((ArrayNode) defaultValue).forEach(node -> sortValues.add(node.asText()));
+                            } else if (defaultValue instanceof List) {
+                                for (Object item : (List<?>) defaultValue) {
+                                    sortValues.add(item.toString());
+                                }
+                            }
+                            for (String sortStr : sortValues) {
+                                String[] parts = sortStr.split(",", 2);
+                                String field = parts[0].trim();
+                                String direction = parts.length > 1 ? parts[1].trim().toUpperCase(Locale.ROOT) : "ASC";
+                                sortDefaults.add(new SortFieldDefault(field, direction));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                PageableDefaultsData data = new PageableDefaultsData(pageDefault, sizeDefault, sortDefaults);
+                if (data.hasAny()) {
+                    pageableDefaultsRegistry.put(operationId, data);
+                }
+            }
+        }
+        if (!pageableDefaultsRegistry.isEmpty()) {
+            importMapping.putIfAbsent("PageableDefault", "org.springframework.data.web.PageableDefault");
+            importMapping.putIfAbsent("SortDefault", "org.springframework.data.web.SortDefault");
+            importMapping.putIfAbsent("Sort", "org.springframework.data.domain.Sort");
+        }
+    }
+
+    /** Carries a parsed sort field and its direction (always "ASC" or "DESC") from the spec default. */
+    private static final class SortFieldDefault {
+        final String field;
+        final String direction;
+
+        SortFieldDefault(String field, String direction) {
+            this.field = field;
+            this.direction = direction;
+        }
+    }
+
+    /** Carries parsed default values for page, size, and sort fields from a pageable operation. */
+    private static final class PageableDefaultsData {
+        final Integer page;
+        final Integer size;
+        final List<SortFieldDefault> sortDefaults;
+
+        PageableDefaultsData(Integer page, Integer size, List<SortFieldDefault> sortDefaults) {
+            this.page = page;
+            this.size = size;
+            this.sortDefaults = sortDefaults;
+        }
+
+        boolean hasAny() {
+            return page != null || size != null || !sortDefaults.isEmpty();
+        }
     }
 
     /**

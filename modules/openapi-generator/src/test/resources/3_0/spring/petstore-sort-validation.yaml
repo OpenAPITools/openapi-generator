@@ -178,6 +178,174 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+
+  # ---- Pageable defaults test cases ----
+
+  /pet/findWithSortDefaultOnly:
+    get:
+      tags:
+        - pet
+      summary: Find pets — sort default only (single field DESC, no page/size defaults)
+      operationId: findPetsWithSortDefaultOnly
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+            default: "name,desc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithSortDefaultAsc:
+    get:
+      tags:
+        - pet
+      summary: Find pets — sort default only (single field, no explicit direction defaults to ASC)
+      operationId: findPetsWithSortDefaultAsc
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+            default: "id"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithMixedSortDefaults:
+    get:
+      tags:
+        - pet
+      summary: Find pets — multiple sort defaults with mixed directions (array sort param)
+      operationId: findPetsWithMixedSortDefaults
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+            default:
+              - "name,desc"
+              - "id,asc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithPageSizeDefaultsOnly:
+    get:
+      tags:
+        - pet
+      summary: Find pets — page and size defaults only, no sort default
+      operationId: findPetsWithPageSizeDefaultsOnly
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 25
+        - name: sort
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithAllDefaults:
+    get:
+      tags:
+        - pet
+      summary: Find pets — page, size, and mixed sort defaults all present
+      operationId: findPetsWithAllDefaults
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 10
+        - name: sort
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+            default:
+              - "name,desc"
+              - "id,asc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
 components:
   schemas:
     PetSort:
