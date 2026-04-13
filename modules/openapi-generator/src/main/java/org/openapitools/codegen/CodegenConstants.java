@@ -489,4 +489,5 @@ public class CodegenConstants {
     public static final String X_DISCRIMINATOR_VALUE = "x-discriminator-value";
     public static final String X_ONE_OF_NAME = "x-one-of-name";
     public static final String X_NULLABLE = "x-nullable";
+    public static final String X_SETTER_EXTRA_ANNOTATION = "x-setter-extra-annotation";
 }

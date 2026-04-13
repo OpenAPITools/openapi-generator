@@ -17,18 +17,44 @@
 
 package org.openapitools.codegen.java;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.ByteArraySchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.DateTimeSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
@@ -36,9 +62,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.util.List;
+import static org.openapitools.codegen.CodegenConstants.X_SETTER_EXTRA_ANNOTATION;
 
 public class JavaModelTest {
 
@@ -169,6 +193,39 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
+    }
+
+    @Test(description = "convert a model with set property and declared setter extension")
+    public void setPropertyWithDeclaredSetterExtensionTest() {
+        var declaredSetterExtension = "@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = org.openapitools.tools.TrimmingStringSetDeserializer.class)";
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("urls",
+                               new ArraySchema()
+                                       .items(new StringSchema())
+                                       .uniqueItems(true)
+                                       .extensions(Map.of(X_SETTER_EXTRA_ANNOTATION, declaredSetterExtension))
+                )
+                .addRequiredItem("id");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenProperty property = cm.vars.get(0);
+
+        Assert.assertTrue(
+                property.isSetSetterExtensionDeclared,
+                "Expected to be discovered if a setter annotation is declared"
+        );
+        Assert.assertListContains(
+                new ArrayList<>(property.getVendorExtensions().entrySet()),
+                extension ->
+                        extension.getKey().equals(X_SETTER_EXTRA_ANNOTATION)
+                                && ((String) extension.getValue()).contains(declaredSetterExtension),
+                "Expected to have a setter extension if its annotation is declared"
+        );
     }
 
     @Test(description = "convert a model with a map property")
