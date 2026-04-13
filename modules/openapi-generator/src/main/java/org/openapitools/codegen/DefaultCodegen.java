@@ -2814,7 +2814,9 @@ public class DefaultCodegen implements CodegenConfig {
                         Map<String, Schema> newProperties = new LinkedHashMap<>();
                         addProperties(newProperties, required, refSchema, new HashSet<>());
                         mergeProperties(properties, newProperties);
-                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
+                        Map<String, Schema> newAllProperties = new LinkedHashMap<>();
+                        addProperties(newAllProperties, allRequired, refSchema, new HashSet<>());
+                        mergeProperties(allProperties, newAllProperties);
                     }
                 }
 
@@ -2896,15 +2898,29 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Combines all previously-detected type entries for a schema with newly-discovered ones, to ensure
      * that schema for items like enum include all possible values.
+     *
+     * Properties that appear in multiple sub-schemas with incompatible types are dropped so that a
+     * parent schema (e.g. a discriminator base type) does not inherit a field whose type differs
+     * across its oneOf variants.
      */
     private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties) {
         // https://github.com/OpenAPITools/openapi-generator/issues/12545
         if (null != existingProperties && null != newProperties) {
-            Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
-            newProperties.forEach((key, value) ->
-                    existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
-            );
+            newProperties.forEach((key, value) -> {
+                if (!existingProperties.containsKey(key)) {
+                    // Property not seen before: pull it up from this sub-schema.
+                    existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)));
+                } else if (!isSchemasTypeCompatible(existingProperties.get(key), value)) {
+                    // Same property name but incompatible types across sub-schemas: drop it so the
+                    // parent does not end up with an ambiguous field (e.g. coordinates: number[]
+                    // in Polygon vs coordinates: number[][] in MultiPolygon).
+                    existingProperties.remove(key);
+                }
+                // Compatible type already present: keep the existing entry unchanged.
+            });
+            // Merge enum values for the 'type' discriminator property if it is still present.
+            Schema existingType = existingProperties.get("type");
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
                     // ensure all interface enum types are added to schema
@@ -2915,6 +2931,25 @@ public class DefaultCodegen implements CodegenConfig {
                 existingProperties.put("type", existingType);
             }
         }
+    }
+
+    /**
+     * Returns true when two schemas share the same base type and, for array types, the same
+     * item-type structure.  Used by {@link #mergeProperties} to decide whether a property that
+     * appears in more than one oneOf/anyOf sub-schema can safely be pulled up into the parent.
+     */
+    private boolean isSchemasTypeCompatible(Schema schema1, Schema schema2) {
+        if (schema1 == null && schema2 == null) return true;
+        if (schema1 == null || schema2 == null) return false;
+        String type1 = ModelUtils.getType(schema1);
+        String type2 = ModelUtils.getType(schema2);
+        if (!Objects.equals(type1, type2)) {
+            return false;
+        }
+        if ("array".equals(type1)) {
+            return isSchemasTypeCompatible(schema1.getItems(), schema2.getItems());
+        }
+        return true;
     }
 
     protected void updateModelForObject(CodegenModel m, Schema schema) {
