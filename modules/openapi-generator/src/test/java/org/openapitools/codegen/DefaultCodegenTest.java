@@ -5107,6 +5107,25 @@ public class DefaultCodegenTest {
         assertTrue(openIdScheme.isOpenId);
     }
 
+    @Test
+    public void testGeoJsonObjectDoesNotContainCoordinates() {
+        // GeoJsonObject with a discriminator and oneOf (Polygon, MultiPolygon)
+        // should not have the 'coordinates' field, even though both subtypes define it (but with incompatible types).
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/geojson_discriminator.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("GeoJsonObject");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel geoJsonObject = codegen.fromModel("GeoJsonObject", schema);
+
+        boolean coordinatesInVars = geoJsonObject.vars.stream()
+                .anyMatch(cp -> "coordinates".equals(cp.baseName));
+        boolean coordinatesInAllVars = geoJsonObject.allVars.stream()
+                .anyMatch(cp -> "coordinates".equals(cp.baseName));
+        assertFalse(coordinatesInVars);
+        assertFalse(coordinatesInAllVars);
+    }
+
     private List<String> getRequiredVars(CodegenModel model) {
         return getNames(model.getRequiredVars());
     }
