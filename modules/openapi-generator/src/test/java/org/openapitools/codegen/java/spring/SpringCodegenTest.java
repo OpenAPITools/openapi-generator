@@ -6664,4 +6664,35 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
     }
+
+
+    @DataProvider(name = "replaceOneOf")
+    public Object[][] replaceOneOf() {
+        return new Object[][]{
+                {"src/test/resources/3_0/spring/issue_23527.yaml"},
+                {"src/test/resources/3_0/spring/issue_23527_1.yaml"},
+                {"src/test/resources/3_0/spring/issue_23527_2.yaml"}
+        };
+    }
+
+    @Test(dataProvider = "replaceOneOf" )
+    void replaceOneOfByDiscriminatorMapping(String file) throws IOException {
+        Map<String, File> files = generateFromContract(file, SPRING_BOOT, Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+
+        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String type")
+                .fileDoesNotContain("coordinates")
+                .assertTypeAnnotations()
+                .containsWithName("JsonSubTypes")
+        ;
+
+        JavaFileAssert.assertThat(files.get("Polygon.java"))
+                .extendsClass("GeoJsonObject")
+                .doesNotImplementInterfaces("GeoJsonObject")
+                .fileContains("List<Double> coordinates");
+
+    }
 }

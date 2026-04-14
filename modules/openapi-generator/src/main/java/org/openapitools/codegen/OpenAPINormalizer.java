@@ -78,6 +78,10 @@ public class OpenAPINormalizer {
     // are removed as most generators cannot handle such case at the moment
     final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY";
 
+    // when set to true, oneOf is removed and is converted into mappings in a discriminator mapping
+    final String REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING = "REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING";
+
+
     // when set to true, oneOf/anyOf with either string or enum string as sub schemas will be simplified
     // to just string
     final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
@@ -214,6 +218,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
+        ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -1053,6 +1058,8 @@ public class OpenAPINormalizer {
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
+        schema = processReplaceOneOfByMapping(schema);
+
         // if it's still a oneOf, loop through the sub-schemas
         if (schema.getOneOf() != null) {
             for (int i = 0; i < schema.getOneOf().size(); i++) {
@@ -1568,6 +1575,33 @@ public class OpenAPINormalizer {
 
         return schema;
     }
+
+
+    protected Schema processReplaceOneOfByMapping(Schema schema) {
+        if (!getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
+            return schema;
+        }
+
+        if (schema.getDiscriminator() != null) {
+            Discriminator discriminator = schema.getDiscriminator();
+            if (discriminator.getMapping() == null) {
+                Map<String, String> mapping = new TreeMap<>();
+                discriminator.setMapping(mapping);
+                for (Object oneOfObject : schema.getOneOf()) {
+                    Schema oneOf = (Schema) oneOfObject;
+                    String ref = oneOf.get$ref();
+                    if (ref != null) {
+                        String name = ref.contains("/") ? ref.substring(ref.lastIndexOf('/') + 1) : ref;
+                        mapping.put(name, oneOf.get$ref());
+                    }
+                }
+            }
+
+            schema.setOneOf(null);
+        }
+        return schema;
+    }
+
 
     /**
      * Set nullable to true in array/set if needed.

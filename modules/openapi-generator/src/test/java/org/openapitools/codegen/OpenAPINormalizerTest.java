@@ -16,6 +16,9 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -1500,6 +1503,31 @@ public class OpenAPINormalizerTest {
             schema.setRequired(null);
             return super.normalizeSchema(schema, visitedSchemas);
         }
+    }
+
+    @Test
+    public void testREPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING() {
+        // to test array schema processing in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/spring/issue_23527.yaml");
+
+        Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+        dump(openAPI);
+    }
+
+    private void dump(OpenAPI openAPI) {
+
+        ObjectMapper mapper = Yaml.mapper();
+        String yaml = null;
+        try {
+            yaml = mapper.writeValueAsString(openAPI);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(yaml);
+
     }
 
 }

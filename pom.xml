@@ -23,6 +23,15 @@
         <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
         <url>https://github.com/openapitools/openapi-generator</url>
     </scm>
+    <modules>
+        <module>modules/openapi-generator-core</module>
+        <module>modules/openapi-generator</module>
+        <module>modules/openapi-generator-cli</module>
+        <module>modules/openapi-generator-maven-plugin</module>
+        <!--                <module>modules/openapi-generator-gradle-plugin</module>-->
+        <!--                <module>modules/openapi-generator-mill-plugin</module>-->
+        <!--                <module>modules/openapi-generator-online</module>-->
+    </modules>
     <developers>
         <!-- original author of the project -->
         <developer>
@@ -408,7 +417,6 @@
                 <plugin>
                     <groupId>com.gradle</groupId>
                     <artifactId>develocity-maven-extension</artifactId>
-                    <version>${develocity-maven-extension.version}</version>
                     <configuration>
                         <develocity>
                             <normalization>
@@ -1235,7 +1243,6 @@
         <commons-io.version>2.20.0</commons-io.version>
         <commons-lang.version>3.18.0</commons-lang.version>
         <commons-text.version>1.10.0</commons-text.version>
-        <develocity-maven-extension.version>1.23.2</develocity-maven-extension.version>
         <diffutils.version>1.3.0</diffutils.version>
         <generex.version>1.0.2</generex.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>

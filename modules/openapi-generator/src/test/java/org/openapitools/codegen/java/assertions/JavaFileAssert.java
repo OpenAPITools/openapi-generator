@@ -59,6 +59,36 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
+    public JavaFileAssert extendsClass(String... parentClass) {
+        Set<String> expectedClasses = Stream.of(parentClass)
+                .collect(Collectors.toSet());
+
+        Set<String> actualParents = actual.getType(0)
+                .asClassOrInterfaceDeclaration().getExtendedTypes()
+                .stream()
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .collect(Collectors.toSet());
+
+        Assertions.assertThat(actualParents)
+                .withFailMessage("Expected type %s to extends %s, but found %s",
+                        actual.getType(0).getName().asString(), expectedClasses, actualParents)
+                .isEqualTo(expectedClasses);
+        return this;
+    }
+
+    public JavaFileAssert doesNotExtendsClasses() {
+        Set<String> actualParents = actual.getType(0)
+                .asClassOrInterfaceDeclaration().getExtendedTypes()
+                .stream()
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .collect(Collectors.toSet());
+        Assertions.assertThat(actualParents)
+                .withFailMessage("Expected type %s to extends a class, but found %s",
+                        actual.getType(0).getName().asString(), actualParents)
+                .isEmpty();
+        return this;
+    }
+
     public JavaFileAssert implementsInterfaces(String... implementedInterfaces) {
         Set<String> expectedInterfaces = Stream.of(implementedInterfaces)
                 .collect(Collectors.toSet());

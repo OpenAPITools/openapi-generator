@@ -651,6 +651,13 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true
 ```
 
+- `REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING``: when set to true, oneOf is removed and is converted into mappings in a discriminator mapping.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g spring -i modules/openapi-generator/src/test/resources/3_0/spring/issue_23527.yaml -o /tmp/java-spring/ --openapi-normalizer REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING=true
+```
+
 - `FILTER`
 
 The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
