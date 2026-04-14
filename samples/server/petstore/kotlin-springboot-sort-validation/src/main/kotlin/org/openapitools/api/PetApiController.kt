@@ -6,6 +6,7 @@ import org.openapitools.model.Pet
 import org.openapitools.model.PetSort
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.SortDefault
+import org.openapitools.configuration.ValidPageable
 import org.openapitools.configuration.ValidSort
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -91,7 +92,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT],
         produces = ["application/json"]
     )
-    fun findPetsWithPageAndSizeConstraint(pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithPageAndSizeConstraint(@ValidPageable(maxSize = 50, maxPage = 999) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsWithPageAndSizeConstraint(), HttpStatus.valueOf(200))
     }
 
@@ -124,7 +125,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [PATH_FIND_PETS_WITH_SIZE_CONSTRAINT],
         produces = ["application/json"]
     )
-    fun findPetsWithSizeConstraint(pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithSizeConstraint(@ValidPageable(maxSize = 100) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsWithSizeConstraint(), HttpStatus.valueOf(200))
     }
 

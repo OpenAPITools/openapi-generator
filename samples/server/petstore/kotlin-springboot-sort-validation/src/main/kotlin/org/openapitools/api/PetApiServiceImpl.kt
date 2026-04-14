@@ -6,6 +6,7 @@ import org.openapitools.model.Pet
 import org.openapitools.model.PetSort
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.SortDefault
+import org.openapitools.configuration.ValidPageable
 import org.openapitools.configuration.ValidSort
 import org.springframework.stereotype.Service
 @Service

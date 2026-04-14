@@ -12,5 +12,6 @@ additionalProperties:
   beanValidations: "true"
   useSpringBoot3: "true"
   generateSortValidation: "true"
+  generatePageableConstraintValidation: "true"
   useTags: "true"
   requestMappingMode: api_interface
