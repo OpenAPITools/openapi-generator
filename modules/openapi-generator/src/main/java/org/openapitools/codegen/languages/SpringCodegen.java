@@ -358,12 +358,15 @@ public class SpringCodegen extends AbstractJavaCodegen
                 + "Only applies when library=spring-boot.",
                 autoXSpringPaginated));
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
-                "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to paginated operations "
-                + "whose 'sort' parameter has enum values. Requires useBeanValidation=true and library=spring-boot.",
+                "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
+                + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
+                + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. "
+                + "Requires useBeanValidation=true and library=spring-boot.",
                 generateSortValidation));
         cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION,
                 "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to "
-                + "paginated operations whose 'page' or 'size' parameter has a maximum constraint. "
+                + "the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. "
+                + "The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. "
                 + "Requires useBeanValidation=true and library=spring-boot.",
                 generatePageableConstraintValidation));
 
