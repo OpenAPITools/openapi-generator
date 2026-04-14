@@ -17,7 +17,6 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
@@ -103,6 +102,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
     public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
+    public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
 
@@ -170,6 +170,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useResponseEntity = true;
     @Setter private boolean autoXSpringPaginated = false;
     @Setter private boolean generateSortValidation = false;
+    @Setter private boolean generatePageableConstraintValidation = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
 
@@ -190,7 +191,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private Map<String, List<String>> sortValidationEnums = new HashMap<>();
 
     // Map from operationId to pageable defaults for @PageableDefault/@SortDefault annotation generation
-    private Map<String, PageableDefaultsData> pageableDefaultsRegistry = new HashMap<>();
+    private Map<String, SpringPageableScanUtils.PageableDefaultsData> pageableDefaultsRegistry = new HashMap<>();
+
+    // Map from operationId to pageable constraints for @ValidPageable annotation generation
+    private Map<String, SpringPageableScanUtils.PageableConstraintsData> pageableConstraintsRegistry = new HashMap<>();
 
     public KotlinSpringServerCodegen() {
         super();
@@ -285,6 +289,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
         addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
         addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to paginated operations whose 'sort' parameter has enum values. Requires useBeanValidation=true and library=spring-boot.", generateSortValidation);
+        addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to paginated operations whose 'page' or 'size' parameter has a maximum constraint. Requires useBeanValidation=true and library=spring-boot.", generatePageableConstraintValidation);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -721,6 +726,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setGenerateSortValidation(convertPropertyToBoolean(GENERATE_SORT_VALIDATION));
         }
         writePropertyBack(GENERATE_SORT_VALIDATION, generateSortValidation);
+        if (additionalProperties.containsKey(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION) && library.equals(SPRING_BOOT)) {
+            this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
+        }
+        writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, generatePageableConstraintValidation);
         if (isUseSpringBoot3() && isUseSpringBoot4()) {
             throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
         }
@@ -1059,8 +1068,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
-                // Build pageable parameter annotations (@ValidSort, @PageableDefault, @SortDefault.SortDefaults)
+                // Build pageable parameter annotations (@ValidPageable, @ValidSort, @PageableDefault, @SortDefault.SortDefaults)
                 List<String> pageableAnnotations = new ArrayList<>();
+
+                if (generatePageableConstraintValidation && useBeanValidation && pageableConstraintsRegistry.containsKey(codegenOperation.operationId)) {
+                    SpringPageableScanUtils.PageableConstraintsData constraints = pageableConstraintsRegistry.get(codegenOperation.operationId);
+                    List<String> attrs = new ArrayList<>();
+                    if (constraints.maxSize >= 0) attrs.add("maxSize = " + constraints.maxSize);
+                    if (constraints.maxPage >= 0) attrs.add("maxPage = " + constraints.maxPage);
+                    pageableAnnotations.add("@ValidPageable(" + String.join(", ", attrs) + ")");
+                    codegenOperation.imports.add("ValidPageable");
+                }
 
                 if (generateSortValidation && useBeanValidation && sortValidationEnums.containsKey(codegenOperation.operationId)) {
                     List<String> allowedSortValues = sortValidationEnums.get(codegenOperation.operationId);
@@ -1073,7 +1091,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                 // Generate @PageableDefault / @SortDefault.SortDefaults annotations if defaults are present
                 if (pageableDefaultsRegistry.containsKey(codegenOperation.operationId)) {
-                    PageableDefaultsData defaults = pageableDefaultsRegistry.get(codegenOperation.operationId);
+                    SpringPageableScanUtils.PageableDefaultsData defaults = pageableDefaultsRegistry.get(codegenOperation.operationId);
 
                     if (defaults.page != null || defaults.size != null) {
                         List<String> attrs = new ArrayList<>();
@@ -1113,11 +1131,30 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (SPRING_BOOT.equals(library) && generateSortValidation && useBeanValidation) {
-            scanSortValidationEnums(openAPI);
+            sortValidationEnums = SpringPageableScanUtils.scanSortValidationEnums(openAPI, autoXSpringPaginated);
+            if (!sortValidationEnums.isEmpty()) {
+                importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
+                supportingFiles.add(new SupportingFile("validSort.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", File.separator), "ValidSort.kt"));
+            }
         }
 
         if (SPRING_BOOT.equals(library)) {
-            scanPageableDefaults(openAPI);
+            pageableDefaultsRegistry = SpringPageableScanUtils.scanPageableDefaults(openAPI, autoXSpringPaginated);
+            if (!pageableDefaultsRegistry.isEmpty()) {
+                importMapping.putIfAbsent("PageableDefault", "org.springframework.data.web.PageableDefault");
+                importMapping.putIfAbsent("SortDefault", "org.springframework.data.web.SortDefault");
+                importMapping.putIfAbsent("Sort", "org.springframework.data.domain.Sort");
+            }
+        }
+
+        if (SPRING_BOOT.equals(library) && generatePageableConstraintValidation && useBeanValidation) {
+            pageableConstraintsRegistry = SpringPageableScanUtils.scanPageableConstraints(openAPI, autoXSpringPaginated);
+            if (!pageableConstraintsRegistry.isEmpty()) {
+                importMapping.putIfAbsent("ValidPageable", configPackage + ".ValidPageable");
+                supportingFiles.add(new SupportingFile("validPageable.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", File.separator), "ValidPageable.kt"));
+            }
         }
 
         if (!additionalProperties.containsKey(TITLE)) {
@@ -1186,184 +1223,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     /**
-     * Scans the OpenAPI spec for pageable operations whose page/size/sort parameters have default values,
-     * builds the {@link #pageableDefaultsRegistry}, and registers required import mappings.
-     * Called from {@link #preprocessOpenAPI} for all spring-boot generations.
-     */
-    private void scanPageableDefaults(OpenAPI openAPI) {
-        if (openAPI.getPaths() == null) {
-            return;
-        }
-        for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
-            for (Operation operation : pathEntry.getValue().readOperations()) {
-                String operationId = operation.getOperationId();
-                if (operationId == null || !willBePageable(operation)) {
-                    continue;
-                }
-                if (operation.getParameters() == null) {
-                    continue;
-                }
-                Integer pageDefault = null;
-                Integer sizeDefault = null;
-                List<SortFieldDefault> sortDefaults = new ArrayList<>();
-
-                for (Parameter param : operation.getParameters()) {
-                    Schema<?> schema = param.getSchema();
-                    if (schema == null) {
-                        continue;
-                    }
-                    if (schema.get$ref() != null) {
-                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
-                    }
-                    if (schema == null || schema.getDefault() == null) {
-                        continue;
-                    }
-                    Object defaultValue = schema.getDefault();
-                    switch (param.getName()) {
-                        case "page":
-                            if (defaultValue instanceof Number) {
-                                pageDefault = ((Number) defaultValue).intValue();
-                            }
-                            break;
-                        case "size":
-                            if (defaultValue instanceof Number) {
-                                sizeDefault = ((Number) defaultValue).intValue();
-                            }
-                            break;
-                        case "sort":
-                            List<String> sortValues = new ArrayList<>();
-                            if (defaultValue instanceof String) {
-                                sortValues.add((String) defaultValue);
-                            } else if (defaultValue instanceof ArrayNode) {
-                                ((ArrayNode) defaultValue).forEach(node -> sortValues.add(node.asText()));
-                            } else if (defaultValue instanceof List) {
-                                for (Object item : (List<?>) defaultValue) {
-                                    sortValues.add(item.toString());
-                                }
-                            }
-                            for (String sortStr : sortValues) {
-                                String[] parts = sortStr.split(",", 2);
-                                String field = parts[0].trim();
-                                String direction = parts.length > 1 ? parts[1].trim().toUpperCase(Locale.ROOT) : "ASC";
-                                sortDefaults.add(new SortFieldDefault(field, direction));
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                PageableDefaultsData data = new PageableDefaultsData(pageDefault, sizeDefault, sortDefaults);
-                if (data.hasAny()) {
-                    pageableDefaultsRegistry.put(operationId, data);
-                }
-            }
-        }
-        if (!pageableDefaultsRegistry.isEmpty()) {
-            importMapping.putIfAbsent("PageableDefault", "org.springframework.data.web.PageableDefault");
-            importMapping.putIfAbsent("SortDefault", "org.springframework.data.web.SortDefault");
-            importMapping.putIfAbsent("Sort", "org.springframework.data.domain.Sort");
-        }
-    }
-
-    /** Carries a parsed sort field and its direction (always "ASC" or "DESC") from the spec default. */
-    private static final class SortFieldDefault {
-        final String field;
-        final String direction;
-
-        SortFieldDefault(String field, String direction) {
-            this.field = field;
-            this.direction = direction;
-        }
-    }
-
-    /** Carries parsed default values for page, size, and sort fields from a pageable operation. */
-    private static final class PageableDefaultsData {
-        final Integer page;
-        final Integer size;
-        final List<SortFieldDefault> sortDefaults;
-
-        PageableDefaultsData(Integer page, Integer size, List<SortFieldDefault> sortDefaults) {
-            this.page = page;
-            this.size = size;
-            this.sortDefaults = sortDefaults;
-        }
-
-        boolean hasAny() {
-            return page != null || size != null || !sortDefaults.isEmpty();
-        }
-    }
-
-    /**
-     * Scans the OpenAPI spec for paginated operations whose 'sort' parameter has enum values,
-     * builds the {@link #sortValidationEnums} registry, and registers the ValidSort.kt supporting file.
-     * Called from {@link #preprocessOpenAPI} when {@code generateSortValidation} is enabled.
-     */
-    private void scanSortValidationEnums(OpenAPI openAPI) {
-        if (openAPI.getPaths() == null) {
-            return;
-        }
-        boolean foundAny = false;
-        for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
-            for (Operation operation : pathEntry.getValue().readOperations()) {
-                String operationId = operation.getOperationId();
-                if (operationId == null || !willBePageable(operation)) {
-                    continue;
-                }
-                if (operation.getParameters() == null) {
-                    continue;
-                }
-                for (Parameter param : operation.getParameters()) {
-                    if (!"sort".equals(param.getName())) {
-                        continue;
-                    }
-                    Schema<?> schema = param.getSchema();
-                    if (schema == null) {
-                        continue;
-                    }
-                    if (schema.get$ref() != null) {
-                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
-                    }
-                    if (schema == null || schema.getEnum() == null || schema.getEnum().isEmpty()) {
-                        continue;
-                    }
-                    List<String> enumValues = schema.getEnum().stream()
-                            .map(Object::toString)
-                            .collect(Collectors.toList());
-                    sortValidationEnums.put(operationId, enumValues);
-                    foundAny = true;
-                }
-            }
-        }
-        if (foundAny) {
-            importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
-            supportingFiles.add(new SupportingFile("validSort.mustache",
-                    (sourceFolder + File.separator + configPackage).replace(".", File.separator), "ValidSort.kt"));
-        }
-    }
-
-    /**
-     * Returns true if the given operation will have a Pageable parameter injected — either because
-     * it has {@code x-spring-paginated: true} explicitly, or because {@link #autoXSpringPaginated}
-     * is enabled and the operation has all three default pagination query parameters (page, size, sort).
+     * Returns true if the given operation will have a Pageable parameter injected.
+     * Delegates to {@link SpringPageableScanUtils#willBePageable}.
      */
     private boolean willBePageable(Operation operation) {
-        if (operation.getExtensions() != null) {
-            Object paginated = operation.getExtensions().get("x-spring-paginated");
-            if (Boolean.FALSE.equals(paginated)) {
-                return false;
-            }
-            if (Boolean.TRUE.equals(paginated)) {
-                return true;
-            }
-        }
-        if (autoXSpringPaginated && operation.getParameters() != null) {
-            Set<String> paramNames = operation.getParameters().stream()
-                    .map(Parameter::getName)
-                    .collect(Collectors.toSet());
-            return paramNames.containsAll(Arrays.asList("page", "size", "sort"));
-        }
-        return false;
+        return SpringPageableScanUtils.willBePageable(operation, autoXSpringPaginated);
     }
 
     @Override

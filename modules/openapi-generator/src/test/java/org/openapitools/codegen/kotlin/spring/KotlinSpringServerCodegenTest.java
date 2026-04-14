@@ -4160,6 +4160,104 @@ public class KotlinSpringServerCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 
+    // ========== GENERATE PAGEABLE CONSTRAINT VALIDATION TESTS ==========
+
+    @Test
+    public void generatePageableConstraintValidationAddsSizeConstraint() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithSizeConstraint has maximum: 100 on size only
+        int methodStart = content.indexOf("fun findPetsWithSizeConstraint(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithSizeConstraint method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidPageable(maxSize = 100)"),
+                "@ValidPageable(maxSize = 100) should appear on the pageable parameter");
+        Assert.assertFalse(paramBlock.contains("maxPage"),
+                "maxPage should not appear when only size has a maximum constraint");
+
+        assertFileContains(petApi.toPath(), "import org.openapitools.configuration.ValidPageable");
+    }
+
+    @Test
+    public void generatePageableConstraintValidationAddsPageAndSizeConstraint() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithPageAndSizeConstraint has maximum: 999 on page and maximum: 50 on size
+        int methodStart = content.indexOf("fun findPetsWithPageAndSizeConstraint(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithPageAndSizeConstraint method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidPageable(maxSize = 50, maxPage = 999)"),
+                "@ValidPageable(maxSize = 50, maxPage = 999) should appear on the pageable parameter");
+    }
+
+    @Test
+    public void generatePageableConstraintValidationGeneratesValidPageableFile() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File validPageableFile = files.get("ValidPageable.kt");
+        Assert.assertNotNull(validPageableFile, "ValidPageable.kt should be generated when generatePageableConstraintValidation=true");
+        assertFileContains(validPageableFile.toPath(), "annotation class ValidPageable");
+        assertFileContains(validPageableFile.toPath(), "class PageableConstraintValidator");
+        assertFileContains(validPageableFile.toPath(), "val maxSize: Int");
+        assertFileContains(validPageableFile.toPath(), "val maxPage: Int");
+        assertFileContains(validPageableFile.toPath(), "NO_LIMIT");
+    }
+
+    @Test
+    public void generatePageableConstraintValidationDoesNotGenerateFileWhenDisabled() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        // NOT setting GENERATE_PAGEABLE_CONSTRAINT_VALIDATION (defaults to false)
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        Assert.assertNull(files.get("ValidPageable.kt"), "ValidPageable.kt should NOT be generated when generatePageableConstraintValidation=false");
+        File petApi = files.get("PetApi.kt");
+        assertFileNotContains(petApi.toPath(), "@ValidPageable");
+    }
+
+    @Test
+    public void generatePageableConstraintValidationDoesNotGenerateFileWhenBeanValidationDisabled() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+        additionalProperties.put(USE_BEANVALIDATION, "false");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        Assert.assertNull(files.get("ValidPageable.kt"), "ValidPageable.kt should NOT be generated when useBeanValidation=false");
+        File petApi = files.get("PetApi.kt");
+        assertFileNotContains(petApi.toPath(), "@ValidPageable");
+    }
+
     // ========== AUTO X-SPRING-PAGINATED TESTS ==========
 
     // ========== GENERATE SORT VALIDATION TESTS ==========
