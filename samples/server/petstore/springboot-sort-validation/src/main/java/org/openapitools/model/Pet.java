@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-04-14T22:14:55.893424340Z[UTC]", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-04-14T23:14:13.089173701Z[UTC]", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Pet implements Serializable {
 
   private static final long serialVersionUID = 1L;

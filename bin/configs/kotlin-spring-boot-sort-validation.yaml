@@ -13,5 +13,6 @@ additionalProperties:
   useSpringBoot3: "true"
   generateSortValidation: "true"
   generatePageableConstraintValidation: "true"
+  hideGenerationTimestamp: "true"
   useTags: "true"
   requestMappingMode: api_interface

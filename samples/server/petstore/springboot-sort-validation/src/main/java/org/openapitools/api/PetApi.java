@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-04-14T22:14:55.893424340Z[UTC]", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-04-14T23:14:13.089173701Z[UTC]", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Validated
 @RequestMapping("${openapi.openAPIPetstoreSortValidationTest.base-path:/v2}")
 public interface PetApi {
