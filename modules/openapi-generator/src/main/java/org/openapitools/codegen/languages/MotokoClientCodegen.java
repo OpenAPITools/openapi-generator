@@ -32,9 +32,11 @@ import java.util.*;
 public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String USE_DFX = "useDfx";
+    public static final String USE_ICP = "useIcp";
 
     protected String projectName = "OpenAPI";
     protected boolean useDfx = false;
+    protected boolean useIcp = false;
 
     @Override
     public CodegenType getTag() {
@@ -146,6 +148,7 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(CliOption.newString(PROJECT_NAME, "Project name for generated code"));
         cliOptions.add(CliOption.newBoolean(USE_DFX, "Generate code for dfx with ic:aaaaa-aa imports", useDfx));
+        cliOptions.add(CliOption.newBoolean(USE_ICP, "Generate icp.yaml for deployment with icp-cli (canary; replaces dfx)", useIcp));
 
         // Enable inline enum resolution to create model files for inline enum parameters
         // This ensures type-safe enum variants instead of raw Text types
@@ -164,6 +167,14 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
             setUseDfx(convertPropertyToBooleanAndWriteBack(USE_DFX));
         }
         additionalProperties.put(USE_DFX, useDfx);
+
+        if (additionalProperties.containsKey(USE_ICP)) {
+            setUseIcp(convertPropertyToBooleanAndWriteBack(USE_ICP));
+        }
+        additionalProperties.put(USE_ICP, useIcp);
+        if (useIcp) {
+            supportingFiles.add(new SupportingFile("icp.yaml.mustache", "", "icp.yaml"));
+        }
     }
 
     @Override
@@ -226,6 +237,14 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public boolean getUseDfx() {
         return useDfx;
+    }
+
+    public void setUseIcp(boolean useIcp) {
+        this.useIcp = useIcp;
+    }
+
+    public boolean getUseIcp() {
+        return useIcp;
     }
 
     @Override

@@ -74,6 +74,20 @@ The generated API client makes HTTP outcalls using the Internet Computer's manag
 
 **Important:** Before calling any API endpoints, ensure your canister has sufficient cycles:
 
+{{#useIcp}}
+For local development with icp-cli:
+```bash
+icp network start -d    # local replica auto-seeds cycles — no fabrication needed
+icp deploy              # build + deploy
+```
+
+For mainnet:
+```bash
+icp cycles balance -n ic   # check balance
+icp deploy -e ic           # deploy to mainnet
+```
+{{/useIcp}}
+{{^useIcp}}
 For local development:
 ```bash
 # Get your canister ID
@@ -84,5 +98,6 @@ dfx ledger fabricate-cycles --canister "$CANISTER_ID" --amount 100000000000000
 ```
 
 For production deployment, you'll need to fund your canister with cycles through the NNS or cycles wallet.
+{{/useIcp}}
 
 Each HTTP outcall typically costs around 20-50 million cycles depending on the request/response size.
