@@ -1406,6 +1406,12 @@ components:
         name:
           type: string
           example: doggie
+        nickname:
+          type: string
+          description: Optional nickname for the pet
+          examples:
+            - buddy
+            - pal
         photoUrls:
           type: array
           xml:

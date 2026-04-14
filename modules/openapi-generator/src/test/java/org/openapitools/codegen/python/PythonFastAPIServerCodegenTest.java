@@ -4,6 +4,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.PythonFastAPIServerCodegen;
@@ -23,6 +24,13 @@ import static org.openapitools.codegen.TestUtils.assertFileExists;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class PythonFastAPIServerCodegenTest {
+
+    /** Exposes protected toPythonExample for unit testing. */
+    private static class TestableFastAPICodegen extends PythonFastAPIServerCodegen {
+        public String exposeToPythonExample(CodegenProperty cp) {
+            return toPythonExample(cp);
+        }
+    }
 
     // Helper function, intended to reduce boilerplate
     static private String generateFiles(DefaultCodegen codegen, String filePath) throws IOException {
@@ -76,5 +84,25 @@ public class PythonFastAPIServerCodegenTest {
         assertFileExists(model);
         assertFileContains(model, "name: StrictStr = Field(json_schema_extra={\"examples\": [\"doggie\"]})");
         assertFileNotContains(model, "json_schema_extra={\"examples\": [\"''\"]}");
+    }
+
+    @Test(description = "toPythonExample picks first entry from plural examples array in jsonSchema")
+    public void testToPythonExampleWithPluralExamples() {
+        final TestableFastAPICodegen codegen = new TestableFastAPICodegen();
+        CodegenProperty cp = new CodegenProperty();
+        cp.name = "nickname";
+        cp.jsonSchema = "{\"type\": \"string\", \"examples\": [\"buddy\", \"pal\"]}";
+
+        Assert.assertEquals(codegen.exposeToPythonExample(cp), "\"buddy\"");
+    }
+
+    @Test(description = "toPythonExample prefers singular example over plural examples in jsonSchema")
+    public void testToPythonExamplePrefersExampleOverExamples() {
+        final TestableFastAPICodegen codegen = new TestableFastAPICodegen();
+        CodegenProperty cp = new CodegenProperty();
+        cp.name = "nickname";
+        cp.jsonSchema = "{\"type\": \"string\", \"example\": \"doggie\", \"examples\": [\"buddy\", \"pal\"]}";
+
+        Assert.assertEquals(codegen.exposeToPythonExample(cp), "\"doggie\"");
     }
 }

@@ -683,7 +683,15 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
         try {
             Map<String, Object> schema = Json.mapper().readValue(jsonSchema, Map.class);
-            return schema.get("example");
+            Object example = schema.get("example");
+            if (example != null) {
+                return example;
+            }
+            Object examples = schema.get("examples");
+            if (examples instanceof List && !((List<?>) examples).isEmpty()) {
+                return ((List<?>) examples).get(0);
+            }
+            return null;
         } catch (Exception e) {
             return null;
         }
