@@ -142,7 +142,7 @@ public class JavaJersey3ErrorEntityTest {
             java.io.InputStream is = getClass().getClassLoader()
                 .getResourceAsStream(JERSEY3_TEMPLATE_DIR + templateName);
             if (is != null) {
-                return new String(is.readAllBytes());
+                return new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
             }
         } catch (Exception ignored) {}
         
