@@ -1369,7 +1369,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     try {
       return deserialize(response, errorType);
     } catch (Exception e) {
-      return String.format("Failed deserializing error entity: %s", e.toString());
+      return null;
     }
   }
 
