@@ -1,0 +1,22 @@
+{{#models}}
+{{#model}}
+// {{classname}}.mo
+{{#description}}
+/// {{{description}}}
+{{/description}}
+/// Enum values: {{#allowableValues}}{{#enumVars}}#{{name}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+
+module {
+    public type {{classname}} = {
+{{#allowableValues}}
+{{#enumVars}}
+        {{#enumDescription}}
+        /// {{{enumDescription}}}
+        {{/enumDescription}}
+        #{{name}};
+{{/enumVars}}
+{{/allowableValues}}
+    };
+}
+{{/model}}
+{{/models}}

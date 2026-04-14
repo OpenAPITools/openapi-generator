@@ -1,0 +1,296 @@
+// {{classname}}.mo
+{{#description}}
+/// {{{description}}}
+{{/description}}
+
+import Text "mo:core/Text";
+import Int "mo:core/Int";
+import Blob "mo:core/Blob";
+import Array "mo:core/Array";
+import Error "mo:core/Error";
+import Base64 "mo:core/Base64";
+import { JSON } "mo:serde";
+{{#useDfx}}
+// FIXME: destructuring on `actor` types is not implemented yet for shared functions
+//        type error [M0114], object pattern cannot consume actor type
+import { type http_request_args; type http_request_result; type http_header } "ic:aaaaa-aa";
+import Mgnt__ = "ic:aaaaa-aa";
+{{/useDfx}}
+{{#imports}}
+{{#isMap}}import { type Map; fromIter } "mo:core/pure/Map";
+{{/isMap}}{{^isMappedType}}import { type {{classname}}; JSON = {{classname}} } "../Models/{{classname}}";
+{{/isMappedType}}
+{{/imports}}
+import { type Config } "../Config";
+
+module {
+{{#useDfx}}
+    type http_method = {
+        #get;
+        #head;
+        #post;
+        // TODO: PUT and DELETE are now supported by the management canister in
+        //   non-replicated mode, but dfx doesn't expose these methods yet.
+        //   Uncomment once dfx support lands:
+        // #put;
+        // #delete;
+    };
+
+    let http_request = Mgnt__.http_request;
+
+{{/useDfx}}
+{{^useDfx}}
+    // Management Canister interface for HTTP outcalls
+    // Based on types in https://github.com/dfinity/sdk/blob/master/src/dfx/src/util/ic.did
+    type http_header = {
+        name : Text;
+        value : Text;
+    };
+
+    type http_method = {
+        #get;
+        #head;
+        #post;
+        #put;    // Non-replicated only (is_replicated forced to ?false in generated code)
+        #delete; // Non-replicated only (is_replicated forced to ?false in generated code)
+    };
+
+    type http_request_args = {
+        url : Text;
+        max_response_bytes : ?Nat64;
+        method : http_method;
+        headers : [http_header];
+        body : ?Blob;
+        transform : ?{
+            function : shared query ({ response : http_request_result; context : Blob }) -> async http_request_result;
+            context : Blob;
+        };
+        is_replicated : ?Bool;
+    };
+
+    type http_request_result = {
+        status : Nat;
+        headers : [http_header];
+        body : Blob;
+    };
+
+    let http_request = (actor "aaaaa-aa" : actor { http_request : (http_request_args) -> async http_request_result }).http_request;
+
+{{/useDfx}}
+
+{{#operations}}
+{{#operation}}
+    {{#summary}}
+    /// {{{summary}}}
+    {{/summary}}
+    {{#notes}}
+    ///
+    /// {{{notes}}}
+    {{/notes}}
+    public func {{operationId}}(config : Config{{#allParams}}, {{paramName}} : {{#isNullable}}?{{/isNullable}}{{dataType}}{{/allParams}}) : async* {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}(){{/returnType}} {
+        let {baseUrl; cycles} = config;
+        let baseUrl__ = baseUrl # "{{path}}"{{#pathParams}}
+            |> Text.replace(_, #text "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", {{#vendorExtensions.x-is-oneof-type}}{{{dataType}}}.toText({{paramName}}){{/vendorExtensions.x-is-oneof-type}}{{^vendorExtensions.x-is-oneof-type}}{{#isEnum}}{{{dataType}}}.toJSON({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toJSON({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toJSON({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}{{#isInteger}}Int.toText({{paramName}}){{/isInteger}}{{^isInteger}}debug_show({{paramName}}){{/isInteger}}{{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}}{{/vendorExtensions.x-is-oneof-type}}){{/pathParams}}{{#queryParams}}{{#-first}}
+            # "?"{{/-first}}{{^-first}} # "&"{{/-first}} # "{{baseName}}=" # {{#vendorExtensions.x-is-oneof-type}}{{{dataType}}}.toText({{paramName}}){{/vendorExtensions.x-is-oneof-type}}{{^vendorExtensions.x-is-oneof-type}}{{#isEnum}}{{{dataType}}}.toJSON({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toJSON({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toJSON({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}{{#isInteger}}Int.toText({{paramName}}){{/isInteger}}{{^isInteger}}debug_show({{paramName}}){{/isInteger}}{{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}}{{/vendorExtensions.x-is-oneof-type}}{{/queryParams}};
+
+        // Add API key as query parameter if using apiKey auth
+        let url = switch (config.auth) {
+            {{#apiKeyQueryName}}
+            case (?#apiKey(key)) {
+                let separator = if (Text.contains(baseUrl__, #text "?")) "&" else "?";
+                baseUrl__ # separator # "{{apiKeyQueryName}}=" # key
+            };
+            {{/apiKeyQueryName}}
+            case _ baseUrl__;
+        };
+
+        let baseHeaders = [
+            { name = "Content-Type"; value = "application/json; charset=utf-8" }{{#headerParams}},
+            { name = "{{baseName}}"; value = {{#isEnum}}{{{dataType}}}.toJSON({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toJSON({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toJSON({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}debug_show({{paramName}}){{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}} }{{/headerParams}}
+        ];
+
+        // Build authentication headers based on auth type
+        let authHeaders = switch (config.auth) {
+            case (?#bearer(token)) {
+                [{ name = "Authorization"; value = "Bearer " # token }]
+            };
+            case (?#apiKey(key)) {
+                {{#apiKeyHeaderName}}
+                // API key goes in header
+                [{ name = "{{apiKeyHeaderName}}"; value = key }]
+                {{/apiKeyHeaderName}}
+                {{^apiKeyHeaderName}}
+                // API key goes in query parameter, not header
+                []
+                {{/apiKeyHeaderName}}
+            };
+            case (?#basicAuth({user; password})) {
+                let encoded = Base64.encode(Text.encodeUtf8(user # ":" # password));
+                [{ name = "Authorization"; value = "Basic " # encoded }]
+            };
+            case null [];
+        };
+
+        let headers = Array.flatten<http_header>([
+            baseHeaders,
+            authHeaders
+        ]);
+
+        let request : http_request_args = { config with
+            url;
+            method = #{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}};
+            headers;
+            {{#isPut}}is_replicated = ?false; // PUT requires non-replicated mode on IC
+            {{/isPut}}{{#isDelete}}is_replicated = ?false; // DELETE requires non-replicated mode on IC
+            {{/isDelete}}body = {{#bodyParam}}do ? {
+                let jsonValue = {{#vendorExtensions.x-body-is-array}}{{#vendorExtensions.x-body-array-element-is-primitive}}{{paramName}}{{/vendorExtensions.x-body-array-element-is-primitive}}{{^vendorExtensions.x-body-array-element-is-primitive}}Array.map<{{{vendorExtensions.x-body-base-type}}}, {{{vendorExtensions.x-body-base-type}}}.JSON>({{paramName}}, {{{vendorExtensions.x-body-base-type}}}.toJSON){{/vendorExtensions.x-body-array-element-is-primitive}}{{/vendorExtensions.x-body-is-array}}{{^vendorExtensions.x-body-is-array}}{{#vendorExtensions.x-body-is-primitive}}{{paramName}}{{/vendorExtensions.x-body-is-primitive}}{{^vendorExtensions.x-body-is-primitive}}{{dataType}}.toJSON({{paramName}}){{/vendorExtensions.x-body-is-primitive}}{{/vendorExtensions.x-body-is-array}};
+                let candidBlob = to_candid(jsonValue);
+                let #ok(jsonText) = JSON.toText(candidBlob, [], null) else throw Error.reject("Failed to serialize to JSON");
+                Text.encodeUtf8(jsonText)
+            }{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+        };
+
+        // Call the management canister's http_request method with cycles
+        {{#returnType}}let response : http_request_result = {{/returnType}}{{^returnType}}ignore {{/returnType}}await (with cycles) http_request(request);
+
+        {{#returnType}}
+        // Check HTTP status code before parsing
+        if (response.status >= 200 and response.status < 300) {
+            // Success response (2xx): parse as expected return type
+            (switch (Text.decodeUtf8(response.body)) {
+                case (?text) text;
+                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to decode response body as UTF-8");
+            }) |>
+            (switch (JSON.fromText(_, null)) {
+                case (#ok(blob)) blob;
+                case (#err(msg)) throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to parse JSON: " # msg);
+            }) |>
+            {{#vendorExtensions.x-return-is-array}}
+            {{#vendorExtensions.x-return-array-element-is-primitive}}
+            from_candid(_) : ?[{{{vendorExtensions.x-return-base-type}}}] |>
+            (switch (_) {
+                case (?result) result;
+                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+            })
+            {{/vendorExtensions.x-return-array-element-is-primitive}}
+            {{^vendorExtensions.x-return-array-element-is-primitive}}
+            from_candid(_) : ?[{{{vendorExtensions.x-return-base-type}}}.JSON] |>
+            (switch (_) {
+                case (?jsonArray) {
+                    let converted = Array.filterMap<{{{vendorExtensions.x-return-base-type}}}.JSON, {{{vendorExtensions.x-return-base-type}}}>(jsonArray, {{{vendorExtensions.x-return-base-type}}}.fromJSON);
+                    if (converted.size() != jsonArray.size()) {
+                        throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to convert some array elements to {{{vendorExtensions.x-return-base-type}}}");
+                    };
+                    converted
+                };
+                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+            })
+            {{/vendorExtensions.x-return-array-element-is-primitive}}
+            {{/vendorExtensions.x-return-is-array}}
+            {{^vendorExtensions.x-return-is-array}}
+            {{#vendorExtensions.x-return-is-primitive}}
+            from_candid(_) : ?{{{returnType}}} |>
+            (switch (_) {
+                case (?result) result;
+                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+            })
+            {{/vendorExtensions.x-return-is-primitive}}
+            {{^vendorExtensions.x-return-is-primitive}}
+            {{#vendorExtensions.x-return-is-map}}
+            from_candid(_) : ?[(Text, {{{vendorExtensions.x-return-map-value-type}}})] |>
+            (switch (_) {
+                case (?pairs) fromIter<Text, {{{vendorExtensions.x-return-map-value-type}}}>(pairs.values(), Text.compare);
+                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+            })
+            {{/vendorExtensions.x-return-is-map}}
+            {{^vendorExtensions.x-return-is-map}}
+            from_candid(_) : ?{{{returnType}}}.JSON |>
+            (switch (_) {
+                case (?jsonValue) {
+                    switch ({{{returnType}}}.fromJSON(jsonValue)) {
+                        case (?value) value;
+                        case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to convert response to {{{returnType}}}");
+                    }
+                };
+                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+            })
+            {{/vendorExtensions.x-return-is-map}}
+            {{/vendorExtensions.x-return-is-primitive}}
+            {{/vendorExtensions.x-return-is-array}}
+        } else {
+            // Error response (4xx, 5xx): parse error models and throw
+            let responseText = switch (Text.decodeUtf8(response.body)) {
+                case (?text) text;
+                case null "";  // Empty body for some errors (e.g., 404)
+            };
+
+            {{#responses}}
+            {{^is2xx}}
+            {{#dataType}}
+            // Try parsing {{code}} response as {{{dataType}}}
+            if (response.status == {{code}}) {
+                let errorDetail = if (responseText != "") {
+                    switch (JSON.fromText(responseText, null)) {
+                        case (#ok(blob)) {
+                            let parsedJson : ?{{{dataType}}}.JSON = from_candid(blob);
+                            switch (parsedJson) {
+                                case (?jsonValue) {
+                                    switch ({{{dataType}}}.fromJSON(jsonValue)) {
+                                        case (?err) " - " # debug_show(err);
+                                        case null " - " # responseText;
+                                    }
+                                };
+                                case null " - " # responseText;
+                            };
+                        };
+                        case (#err(_)) " - " # responseText;
+                    };
+                } else { "" };
+                throw Error.reject("HTTP {{code}}: {{message}}" # errorDetail);
+            };
+            {{/dataType}}
+            {{^dataType}}
+            // {{code}}: {{message}} (no response body model defined)
+            if (response.status == {{code}}) {
+                throw Error.reject("HTTP {{code}}: {{message}}");
+            };
+            {{/dataType}}
+            {{/is2xx}}
+            {{/responses}}
+
+            // Fallback for status codes not defined in OpenAPI spec
+            throw Error.reject("HTTP " # Int.toText(response.status) # ": Unexpected error" #
+                (if (responseText != "") { " - " # responseText } else { "" }));
+        }
+        {{/returnType}}
+    };
+
+{{/operation}}
+{{/operations}}
+
+    let operations__ = {
+{{#operations}}
+{{#operation}}
+        {{operationId}};
+{{/operation}}
+{{/operations}}
+    };
+
+    public module class {{classname}}(config : Config) {
+{{#operations}}
+{{#operation}}
+        {{#summary}}
+        /// {{{summary}}}
+        {{/summary}}
+        {{#notes}}
+        ///
+        /// {{{notes}}}
+        {{/notes}}
+        public func {{operationId}}({{#allParams}}{{^-first}}, {{/-first}}{{paramName}} : {{#isNullable}}?{{/isNullable}}{{dataType}}{{/allParams}}) : async {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}(){{/returnType}} {
+            await* operations__.{{operationId}}(config{{#allParams}}, {{paramName}}{{/allParams}})
+        };
+
+{{/operation}}
+{{/operations}}
+    }
+}
