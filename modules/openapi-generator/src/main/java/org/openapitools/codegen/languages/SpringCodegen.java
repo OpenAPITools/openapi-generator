@@ -1258,11 +1258,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     List<String> sortEntries = defaults.sortDefaults.stream()
                             .map(sf -> "@SortDefault(sort = {\"" + sf.field + "\"}, direction = Sort.Direction." + sf.direction + ")")
                             .collect(Collectors.toList());
-                    if (sortEntries.size() == 1) {
-                        pageableAnnotations.add("@SortDefault.SortDefaults(" + sortEntries.get(0) + ")");
-                    } else {
-                        pageableAnnotations.add("@SortDefault.SortDefaults({" + String.join(", ", sortEntries) + "})");
-                    }
+                    pageableAnnotations.add("@SortDefault.SortDefaults({" + String.join(", ", sortEntries) + "})");
                     codegenOperation.imports.add("SortDefault");
                     codegenOperation.imports.add("Sort");
                 }

@@ -6888,7 +6888,7 @@ public class SpringCodegenTest {
 
         // findPetsWithSortDefaultOnly: sort default "name,desc" → @SortDefault.SortDefaults generated
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-                .fileContains("@SortDefault.SortDefaults(");
+                .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC)})");
     }
 
     @Test
@@ -6906,6 +6906,6 @@ public class SpringCodegenTest {
         // → @PageableDefault + @SortDefault.SortDefaults both present
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .fileContains("@PageableDefault(page = 0, size = 10)")
-                .fileContains("@SortDefault.SortDefaults(");
+                .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC), @SortDefault(sort = {\"id\"}, direction = Sort.Direction.ASC)})");
     }
 }
