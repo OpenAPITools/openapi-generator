@@ -147,8 +147,8 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("AnyType", "Text");
 
         cliOptions.add(CliOption.newString(PROJECT_NAME, "Project name for generated code"));
-        cliOptions.add(CliOption.newBoolean(USE_DFX, "Generate code for dfx with ic:aaaaa-aa imports", useDfx));
-        cliOptions.add(CliOption.newBoolean(USE_ICP, "Generate icp.yaml for deployment with icp-cli (canary; replaces dfx)", useIcp));
+        cliOptions.add(CliOption.newBoolean(USE_DFX, "Use ic:aaaaa-aa imports (dfx toolchain). Mutually exclusive with useIcp.", useDfx));
+        cliOptions.add(CliOption.newBoolean(USE_ICP, "Use ic:aaaaa-aa imports and generate icp.yaml (icp-cli toolchain; replaces dfx). Mutually exclusive with useDfx.", useIcp));
 
         // Enable inline enum resolution to create model files for inline enum parameters
         // This ensures type-safe enum variants instead of raw Text types
@@ -170,6 +170,9 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(USE_ICP)) {
             setUseIcp(convertPropertyToBooleanAndWriteBack(USE_ICP));
+        }
+        if (useDfx && useIcp) {
+            throw new IllegalArgumentException("useDfx and useIcp are mutually exclusive — pick one toolchain");
         }
         additionalProperties.put(USE_ICP, useIcp);
         if (useIcp) {
