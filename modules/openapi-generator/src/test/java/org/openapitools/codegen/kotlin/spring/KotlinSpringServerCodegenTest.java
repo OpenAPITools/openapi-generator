@@ -3919,7 +3919,7 @@ public class KotlinSpringServerCodegenTest {
 
         // Test operation listAllPets which has no parameters except pageable
         File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "fun listAllPets(@Parameter(hidden = true) pageable: Pageable)");
+        assertFileContains(petApi.toPath(), "fun listAllPets(@PageableDefault(page = 0, size = 20) @Parameter(hidden = true) pageable: Pageable)");
     }
 
     @Test
