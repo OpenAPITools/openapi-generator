@@ -91,14 +91,12 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dictProperty": dict(
-                (_k,
-                        [CreatureInfo.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("dictProperty", {}).items()
-            )
+            "dictProperty": {
+                _k: [CreatureInfo.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["dictProperty"].items()
+            }
+            if obj.get("dictProperty") is not None
+            else None
         })
         return _obj
 
