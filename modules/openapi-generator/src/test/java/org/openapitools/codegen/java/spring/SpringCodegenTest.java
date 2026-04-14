@@ -6664,4 +6664,248 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
     }
+
+    // -------------------------------------------------------------------------
+    // autoXSpringPaginated tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void autoXSpringPaginatedDetectsAllThreeParams() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAutoDetect has page+size+sort → Pageable should be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithAutoDetect")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedManualFalseTakesPrecedence() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsManualFalse has x-spring-paginated: false → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsManualFalse")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedCaseSensitiveMatching() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsCaseSensitive uses Page/Size/Sort (capital) → must NOT auto-detect
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsCaseSensitive")
+                .doesNotHaveParameter("pageable");
+    }
+
+    // -------------------------------------------------------------------------
+    // generateSortValidation tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void generateSortValidationAddsAnnotationAndGeneratesFile() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // ValidSort.java must be generated
+        assertThat(files).containsKey("ValidSort.java");
+
+        // findPetsWithSortEnum has explicit x-spring-paginated + sort enum → @ValidSort applied with all 4 values
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"")
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationUsesJavaArraySyntax() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // The generated API file must use Java {} array syntax (not Kotlin [])
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {");
+    }
+
+    @Test
+    public void generateSortValidationWithAutoDetect() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsAutoDetectedWithSort: auto-detected + sort enum → ValidSort applied with Java {} syntax
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationNotAppliedWhenNoSortEnum() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithoutSortEnum: paginated but sort has no enum → no @ValidSort
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithoutSortEnum")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("ValidSort");
+    }
+
+    // -------------------------------------------------------------------------
+    // generatePageableConstraintValidation tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void generatePageableConstraintValidationAddsAnnotationAndGeneratesFile() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // ValidPageable.java must be generated
+        assertThat(files).containsKey("ValidPageable.java");
+
+        // findPetsWithSizeConstraint: size maximum=100 → @ValidPageable(maxSize = 100)
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithSizeConstraint")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ValidPageable", Map.of("maxSize", "100"));
+    }
+
+    @Test
+    public void generatePageableConstraintValidationWithBothConstraints() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithPageAndSizeConstraint: page maximum=999, size maximum=50
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithPageAndSizeConstraint")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ValidPageable", Map.of("maxSize", "50", "maxPage", "999"));
+    }
+
+    // -------------------------------------------------------------------------
+    // @PageableDefault / @SortDefault tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void pageableDefaultAnnotationApplied() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithPageSizeDefaultsOnly: page=0, size=25 → @PageableDefault(page = 0, size = 25)
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithPageSizeDefaultsOnly")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("PageableDefault", Map.of("page", "0", "size", "25"));
+    }
+
+    @Test
+    public void sortDefaultAnnotationApplied() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithSortDefaultOnly: sort default "name,desc" → @SortDefault.SortDefaults generated
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@SortDefault.SortDefaults(");
+    }
+
+    @Test
+    public void sortDefaultAndPageableDefaultBothApplied() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAllDefaults: page=0, size=10, sort=["name,desc","id,asc"]
+        // → @PageableDefault + @SortDefault.SortDefaults both present
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@PageableDefault(page = 0, size = 10)")
+                .fileContains("@SortDefault.SortDefaults(");
+    }
 }
