@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class PythonFastAPIServerCodegenTest {
 
@@ -53,5 +54,27 @@ public class PythonFastAPIServerCodegenTest {
 
         assertFileExists(p);
         assertFileContains(p, "body: Optional[Dict[str, Any]] = Body(None, description=\"\"),");
+    }
+
+    @Test(description = "request body examples are rendered into FastAPI Body metadata")
+    public void testRequestBodyExampleInBodyMetadata() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-fastapi/petstore-with-examples.yaml");
+        final Path p = Paths.get(outputPath + "src/openapi_server/apis/user_api.py");
+
+        assertFileExists(p);
+        assertFileContains(p, "user: Annotated[List[User], Field(description=\"List of user object\")] = Body(None, description=\"List of user object\", examples=[[{\"username\": \"foo\"}, {\"username\": \"bar\"}]])");
+        assertFileNotContains(p, "examples=[[[],");
+    }
+
+    @Test(description = "schema property examples are rendered into FastAPI metadata")
+    public void testSchemaPropertyExamplesInMetadata() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-fastapi/petstore-with-examples.yaml");
+        final Path model = Paths.get(outputPath + "src/openapi_server/models/pet.py");
+
+        assertFileExists(model);
+        assertFileContains(model, "name: StrictStr = Field(json_schema_extra={\"examples\": [\"doggie\"]})");
+        assertFileNotContains(model, "json_schema_extra={\"examples\": [\"''\"]}");
     }
 }
