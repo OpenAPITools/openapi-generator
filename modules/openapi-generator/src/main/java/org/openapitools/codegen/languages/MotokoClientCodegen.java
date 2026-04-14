@@ -175,6 +175,8 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
         if (useIcp) {
             supportingFiles.add(new SupportingFile("icp.yaml.mustache", "", "icp.yaml"));
         }
+        // useImportedInterface: true when either useDfx or useIcp — both use moc with ic:aaaaa-aa imports
+        additionalProperties.put("useImportedInterface", useDfx || useIcp);
     }
 
     @Override

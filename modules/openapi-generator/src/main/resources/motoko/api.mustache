@@ -10,12 +10,12 @@ import Array "mo:core/Array";
 import Error "mo:core/Error";
 import Base64 "mo:core/Base64";
 import { JSON } "mo:serde";
-{{#useDfx}}
+{{#useImportedInterface}}
 // FIXME: destructuring on `actor` types is not implemented yet for shared functions
 //        type error [M0114], object pattern cannot consume actor type
 import { type http_request_args; type http_request_result; type http_header } "ic:aaaaa-aa";
 import Mgnt__ = "ic:aaaaa-aa";
-{{/useDfx}}
+{{/useImportedInterface}}
 {{#imports}}
 {{#isMap}}import { type Map; fromIter } "mo:core/pure/Map";
 {{/isMap}}{{^isMappedType}}import { type {{classname}}; JSON = {{classname}} } "../Models/{{classname}}";
@@ -24,23 +24,13 @@ import Mgnt__ = "ic:aaaaa-aa";
 import { type Config } "../Config";
 
 module {
-{{#useDfx}}
-    type http_method = {
-        #get;
-        #head;
-        #post;
-        // TODO: PUT and DELETE are supported in non-replicated mode but not yet
-        //   exposed via ic:aaaaa-aa imports. Uncomment once the interface is updated:
-        // #put;
-        // #delete;
-    };
-
+{{#useImportedInterface}}
     let http_request = Mgnt__.http_request;
 
-{{/useDfx}}
-{{^useDfx}}
+{{/useImportedInterface}}
+{{^useImportedInterface}}
     // Management Canister interface for HTTP outcalls
-    // Based on types in https://github.com/dfinity/sdk/blob/master/src/dfx/src/util/ic.did
+    // Based on https://github.com/dfinity/interface-spec/blob/master/spec/ic.did
     type http_header = {
         name : Text;
         value : Text;
@@ -75,7 +65,7 @@ module {
 
     let http_request = (actor "aaaaa-aa" : actor { http_request : (http_request_args) -> async http_request_result }).http_request;
 
-{{/useDfx}}
+{{/useImportedInterface}}
 
 {{#operations}}
 {{#operation}}
