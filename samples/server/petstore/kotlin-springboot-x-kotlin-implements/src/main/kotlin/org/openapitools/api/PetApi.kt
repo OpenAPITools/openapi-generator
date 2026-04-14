@@ -7,6 +7,7 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -170,7 +171,7 @@ interface PetApi {
         produces = ["application/json"]
     )
     fun listAllPetsPaginated(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
-        @ApiParam(hidden = true) pageable: Pageable): ResponseEntity<List<Pet>>
+        @PageableDefault(page = 0, size = 20) @ApiParam(hidden = true) pageable: Pageable): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(

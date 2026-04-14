@@ -1,8 +1,11 @@
 package org.openapitools.api
 
 import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
 import org.openapitools.model.PetSort
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.SortDefault
 import org.openapitools.configuration.ValidSort
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -60,19 +63,94 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
 
-    @ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"])
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithAllDefaults"
+        value = [PATH_FIND_PETS_WITH_ALL_DEFAULTS],
+        produces = ["application/json"]
+    )
+    fun findPetsWithAllDefaults(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC), SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithAllDefaults(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithMixedSortDefaults"
+        value = [PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS],
+        produces = ["application/json"]
+    )
+    fun findPetsWithMixedSortDefaults(@SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC), SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithMixedSortDefaults(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithPageAndSizeConstraint"
+        value = [PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT],
+        produces = ["application/json"]
+    )
+    fun findPetsWithPageAndSizeConstraint(pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithPageAndSizeConstraint(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithPageSizeDefaultsOnly"
+        value = [PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY],
+        produces = ["application/json"]
+    )
+    fun findPetsWithPageSizeDefaultsOnly(@PageableDefault(page = 0, size = 25) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithPageSizeDefaultsOnly(), HttpStatus.valueOf(200))
+    }
+
+
     @RequestMapping(
         method = [RequestMethod.GET],
         // "/pet/findWithRefSort"
         value = [PATH_FIND_PETS_WITH_REF_SORT],
         produces = ["application/json"]
     )
-    fun findPetsWithRefSort(pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithRefSort(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsWithRefSort(), HttpStatus.valueOf(200))
     }
 
 
-    @ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"])
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithSizeConstraint"
+        value = [PATH_FIND_PETS_WITH_SIZE_CONSTRAINT],
+        produces = ["application/json"]
+    )
+    fun findPetsWithSizeConstraint(pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithSizeConstraint(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithSortDefaultAsc"
+        value = [PATH_FIND_PETS_WITH_SORT_DEFAULT_ASC],
+        produces = ["application/json"]
+    )
+    fun findPetsWithSortDefaultAsc(@SortDefault.SortDefaults(SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithSortDefaultAsc(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithSortDefaultOnly"
+        value = [PATH_FIND_PETS_WITH_SORT_DEFAULT_ONLY],
+        produces = ["application/json"]
+    )
+    fun findPetsWithSortDefaultOnly(@SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC)) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithSortDefaultOnly(), HttpStatus.valueOf(200))
+    }
+
+
     @RequestMapping(
         method = [RequestMethod.GET],
         // "/pet/findByStatusWithSort"
@@ -81,7 +159,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     fun findPetsWithSortEnum(
         @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
-        pageable: Pageable
+        @ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable
     ): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsWithSortEnum(status), HttpStatus.valueOf(200))
     }
@@ -93,7 +171,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [PATH_FIND_PETS_WITHOUT_SORT_ENUM],
         produces = ["application/json"]
     )
-    fun findPetsWithoutSortEnum(pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithoutSortEnum(@PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsWithoutSortEnum(), HttpStatus.valueOf(200))
     }
 
@@ -101,7 +179,14 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         //for your own safety never directly reuse these path definitions in tests
         const val PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT: String = "/pet/findAutoDetectedWithSort"
         const val PATH_FIND_PETS_NON_PAGINATED_WITH_SORT_ENUM: String = "/pet/findNonPaginatedWithSortEnum"
+        const val PATH_FIND_PETS_WITH_ALL_DEFAULTS: String = "/pet/findWithAllDefaults"
+        const val PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS: String = "/pet/findWithMixedSortDefaults"
+        const val PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT: String = "/pet/findWithPageAndSizeConstraint"
+        const val PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY: String = "/pet/findWithPageSizeDefaultsOnly"
         const val PATH_FIND_PETS_WITH_REF_SORT: String = "/pet/findWithRefSort"
+        const val PATH_FIND_PETS_WITH_SIZE_CONSTRAINT: String = "/pet/findWithSizeConstraint"
+        const val PATH_FIND_PETS_WITH_SORT_DEFAULT_ASC: String = "/pet/findWithSortDefaultAsc"
+        const val PATH_FIND_PETS_WITH_SORT_DEFAULT_ONLY: String = "/pet/findWithSortDefaultOnly"
         const val PATH_FIND_PETS_WITH_SORT_ENUM: String = "/pet/findByStatusWithSort"
         const val PATH_FIND_PETS_WITHOUT_SORT_ENUM: String = "/pet/findWithoutSortEnum"
     }
