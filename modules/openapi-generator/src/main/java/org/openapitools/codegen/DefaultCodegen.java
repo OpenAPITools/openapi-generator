@@ -7028,17 +7028,31 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name");
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription");
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name", dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription", dataType);
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key) {
+    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
         if (vendorExtensions.containsKey(extensionKey)) {
-            List<String> values = (List<String>) vendorExtensions.get(extensionKey);
-            int size = Math.min(enumVars.size(), values.size());
-            for (int i = 0; i < size; i++) {
-                enumVars.get(i).put(key, values.get(i));
+            Object extensionValue = vendorExtensions.get(extensionKey);
+            if (extensionValue instanceof List) {
+                List<String> values = (List<String>) extensionValue;
+                int size = Math.min(enumVars.size(), values.size());
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put(key, values.get(i));
+                }
+            } else if (extensionValue instanceof Map) {
+                Map<String, String> valueMap = (Map<String, String>) extensionValue;
+                for (Map<String, Object> enumVar : enumVars) {
+                    String enumValue = (String) enumVar.get("value");
+                    for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+                        if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
+                            enumVar.put(key, entry.getValue());
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
