@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.*;
@@ -1024,6 +1025,63 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return codegenParameter;
     }
 
+    private String getIntegerDataType(String format,
+                                      BigInteger minimum,
+                                      boolean exclusiveMinimum,
+                                      BigInteger maximum,
+                                      boolean exclusiveMaximum,
+                                      boolean explicitUnsigned) {
+        boolean unsigned = explicitUnsigned || canFitIntoUnsigned(minimum, exclusiveMinimum);
+
+        if (StringUtils.isEmpty(format)) {
+            return bestFittingIntegerType(
+                    minimum,
+                    exclusiveMinimum,
+                    maximum,
+                    exclusiveMaximum,
+                    true);
+        }
+
+        switch (format) {
+            // custom integer formats (legacy)
+            case "uint32":
+                return "u32";
+            case "uint64":
+                return "u64";
+            case "int32":
+                return unsigned ? "u32" : "i32";
+            case "int64":
+                return unsigned ? "u64" : "i64";
+            default:
+                LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", format);
+                return bestFittingIntegerType(
+                        minimum,
+                        exclusiveMinimum,
+                        maximum,
+                        exclusiveMaximum,
+                        true);
+        }
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        if (Objects.equals(p.getType(), "integer")) {
+            BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
+            BigInteger maximum = Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null);
+            boolean explicitUnsigned = ModelUtils.isUnsignedIntegerSchema(p) || ModelUtils.isUnsignedLongSchema(p);
+
+            return getIntegerDataType(
+                    p.getFormat(),
+                    minimum,
+                    Optional.ofNullable(p.getExclusiveMinimum()).orElse(false),
+                    maximum,
+                    Optional.ofNullable(p.getExclusiveMaximum()).orElse(false),
+                    explicitUnsigned);
+        }
+
+        return super.getSchemaType(p);
+    }
+
     @Override
     public String toInstantiationType(final Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -1113,13 +1171,17 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         // Integer type fitting
-        if (Objects.equals(property.baseType, "integer")) {
+        if (Boolean.TRUE.equals(property.isInteger) || Boolean.TRUE.equals(property.isLong) || Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong")) {
             BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
             BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-            property.dataType = bestFittingIntegerType(
-                    minimum, property.getExclusiveMinimum(),
-                    maximum, property.getExclusiveMaximum(),
-                    true);
+            boolean explicitUnsigned = Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong");
+            property.dataType = getIntegerDataType(
+                    property.dataFormat,
+                    minimum,
+                    property.getExclusiveMinimum(),
+                    maximum,
+                    property.getExclusiveMaximum(),
+                    explicitUnsigned);
         }
 
         property.name = underscore(property.name);
