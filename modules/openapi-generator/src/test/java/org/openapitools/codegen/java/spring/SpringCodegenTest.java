@@ -6720,6 +6720,125 @@ public class SpringCodegenTest {
                 .doesNotHaveParameter("pageable");
     }
 
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingPage() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingPage: missing 'page' param → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingPage")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSize() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingSize: missing 'size' param → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingSize")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSort() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingSort: missing 'sort' param → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingSort")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedOnlyForSpringBoot() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        // spring-cloud generates a Feign client — auto-detect should not apply there
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", "spring-cloud", props);
+
+        File petApiClient = files.get("PetApiClient.java");
+        if (petApiClient != null) {
+            String content = java.nio.file.Files.readString(petApiClient.toPath());
+            assertThat(content).doesNotContain("Pageable pageable");
+        }
+    }
+
+    @Test
+    public void autoXSpringPaginatedDisabledByDefault() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        // NOT setting AUTO_X_SPRING_PAGINATED (defaults to false)
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAutoDetect: should NOT get Pageable when autoXSpringPaginated is not enabled
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithAutoDetect")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedWorksWithManualTrue() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsManualTrue: explicit x-spring-paginated: true → Pageable must be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsManualTrue")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoParamsDoesNotDetect() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsNoParams: no params at all → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsNoParams")
+                .doesNotHaveParameter("pageable");
+    }
+
     // -------------------------------------------------------------------------
     // generateSortValidation tests
     // -------------------------------------------------------------------------
