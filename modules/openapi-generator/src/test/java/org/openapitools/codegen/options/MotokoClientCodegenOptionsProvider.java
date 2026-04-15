@@ -17,6 +17,8 @@ public class MotokoClientCodegenOptionsProvider implements OptionsProvider {
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_VALUE = "true";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE = "true";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String USE_DFX_VALUE = "false";
+    public static final String USE_ICP_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -36,6 +38,8 @@ public class MotokoClientCodegenOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, LEGACY_DISCRIMINATOR_BEHAVIOR_VALUE)
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(MotokoClientCodegen.USE_DFX, USE_DFX_VALUE)
+                .put(MotokoClientCodegen.USE_ICP, USE_ICP_VALUE)
                 .build();
     }
 

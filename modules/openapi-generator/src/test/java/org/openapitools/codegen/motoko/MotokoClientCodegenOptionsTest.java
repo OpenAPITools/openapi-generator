@@ -37,6 +37,8 @@ public class MotokoClientCodegenOptionsTest extends AbstractOptionsTest {
         verify(codegen).setLegacyDiscriminatorBehavior(parseBoolean(LEGACY_DISCRIMINATOR_BEHAVIOR_VALUE));
         verify(codegen).setDisallowAdditionalPropertiesIfNotPresent(parseBoolean(DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE));
         verify(codegen).setEnumUnknownDefaultCase(parseBoolean(ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(codegen).setUseDfx(parseBoolean(USE_DFX_VALUE));
+        verify(codegen).setUseIcp(parseBoolean(USE_ICP_VALUE));
     }
 }
 
