@@ -1,0 +1,42 @@
+# Minimal OpenAPI 3.1 spec: optional query with enum $ref + default (components.parameters).
+# Repro pattern: omitting the query key should behave like the declared default; php-symfony
+# may still validate null as enum type before business logic. See project troubleshooting doc.
+openapi: 3.1.0
+info:
+  title: Optional enum query ref with default (php-symfony repro)
+  version: '1.0'
+paths:
+  /pets/feed-hints:
+    get:
+      operationId: listFeedHints
+      parameters:
+        - $ref: '#/components/parameters/ToneQuery'
+        - name: limit
+          in: query
+          required: false
+          description: Integer optional query with default (often generated correctly).
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+            maximum: 50
+      responses:
+        '200':
+          description: OK
+components:
+  parameters:
+    ToneQuery:
+      name: tone
+      in: query
+      required: false
+      description: Optional filter; default applies when the query key is omitted.
+      schema:
+        $ref: '#/components/schemas/PetAnnouncementTone'
+        default: friendly
+  schemas:
+    PetAnnouncementTone:
+      type: string
+      enum:
+        - friendly
+        - formal

@@ -66,7 +66,7 @@ module OpenapiClient
         fail ArgumentError, "Missing the required parameter 'enum_ref_string_path' when calling PathApi.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path"
       end
       # resource path
-      local_var_path = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'.sub('{' + 'path_string' + '}', CGI.escape(path_string.to_s)).sub('{' + 'path_integer' + '}', CGI.escape(path_integer.to_s)).sub('{' + 'enum_nonref_string_path' + '}', CGI.escape(enum_nonref_string_path.to_s)).sub('{' + 'enum_ref_string_path' + '}', CGI.escape(enum_ref_string_path.to_s))
+      local_var_path = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'.sub('{path_string}', CGI.escape(path_string.to_s)).sub('{path_integer}', CGI.escape(path_integer.to_s)).sub('{enum_nonref_string_path}', CGI.escape(enum_nonref_string_path.to_s)).sub('{enum_ref_string_path}', CGI.escape(enum_ref_string_path.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}

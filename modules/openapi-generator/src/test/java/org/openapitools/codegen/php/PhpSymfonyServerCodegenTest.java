@@ -216,12 +216,20 @@ public class PhpSymfonyServerCodegenTest {
         Assert.assertTrue(
                 apiContent.contains("use Org\\OpenAPITools\\Petstore\\Model\\PetModelPetStatus;"),
                 "Expected enum model import");
+        // This spec sets default: available on the enum $ref; the handler must be non-nullable (no leading "?" /
+        // "|null") because the controller always supplies a value after applying the OpenAPI default.
         Assert.assertTrue(
-                apiContent.contains("?PetModelPetStatus $status"),
-                "Expected enum ref query param to use short class in type hint");
+                Pattern.compile("public function listPets\\(\\s*PetModelPetStatus\\s+\\$status,").matcher(apiContent).find(),
+                "Expected defaulted enum-ref query param to use short non-nullable class in type hint");
+        Assert.assertFalse(
+                Pattern.compile("public function listPets\\(\\s*\\?PetModelPetStatus\\s+\\$status").matcher(apiContent).find(),
+                "Defaulted enum-ref query param must not use nullable type hint (?PetModelPetStatus)");
         Assert.assertTrue(
+                Pattern.compile("@param\\s+PetModelPetStatus\\s+\\$status\\b").matcher(apiContent).find(),
+                "PHPDoc @param should use short PetModelPetStatus without |null when OpenAPI default is set");
+        Assert.assertFalse(
                 Pattern.compile("@param\\s+PetModelPetStatus\\|null\\s+\\$status\\b").matcher(apiContent).find(),
-                "PHPDoc @param should use short PetModelPetStatus|null (consistent with use import)");
+                "PHPDoc must not document |null for enum ref when OpenAPI default is set");
         Assert.assertFalse(
                 apiContent.contains("?\\Org\\OpenAPITools\\Petstore\\Model\\PetModelPetStatus $status"),
                 "Signature must not use leading-backslash FQCN when a matching use import exists");
@@ -230,6 +238,92 @@ public class PhpSymfonyServerCodegenTest {
                 "PHPDoc @param must not use leading-backslash FQCN for enum ref");
 
         assertGeneratedPhpSyntaxValid(apiInterfaceFile);
+
+        output.deleteOnExit();
+    }
+
+    /**
+     * Optional {@code in: query} parameter: {@code required: false}, schema is an enum {@code $ref} with a valid
+     * {@code default} (see OpenAPI 3.x). Omitting the query key must be equivalent to sending that default; the
+     * generated controller must not reject the request in validation solely because the value was absent.
+     * <p>
+     * Spec: {@code src/test/resources/3_1/php-symfony/optional-enum-query-ref-default.yaml}. Product doc:
+     * {@code php-symfony.md} section &quot;可选 query：带默认值的非必填枚举 {@code $ref} 缺省却仍被拒绝&quot;.
+     * <p>
+     * Expected generated behavior (any one is acceptable):
+     * <ul>
+     *   <li>Pass the OpenAPI default into {@code Request::query->get} for {@code tone}, and/or</li>
+     *   <li>Apply the Elvis default line ({@code $tone = $tone?:...}) after the read (see {@code api_controller.mustache}), and/or</li>
+     *   <li>Wrap enum {@code Assert\\Type} in {@code Assert\\Optional} for non-required enum refs (see {@code api_input_validation.mustache}).</li>
+     * </ul>
+     * Also asserts the integer optional {@code limit} parameter still receives {@code get('limit', 10)} as a control.
+     * <p>
+     * <b>Note:</b> This test fails on the generator until optional enum-ref query parameters expose
+     * {@link org.openapitools.codegen.CodegenParameter#defaultValue} (or equivalent) so templates apply the OpenAPI
+     * default and/or skip strict {@code Assert\\Type} on {@code null}. It is intended to lock the fix described in the
+     * php-symfony troubleshooting doc.
+     */
+    @Test
+    public void testOptionalEnumRefQueryParameterWithDefaultAppliesOpenApiSemantics() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("invokerPackage", "Org\\OpenAPITools\\FeedHints");
+        properties.put(AbstractPhpCodegen.SRC_BASE_PATH, "src");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("php-symfony")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_1/php-symfony/optional-enum-query-ref-default.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        File apiInterfaceFile = files.stream()
+                .filter(f -> "DefaultApiInterface.php".equals(f.getName()) && f.getPath().contains("Api" + File.separator))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("DefaultApiInterface.php not generated"));
+        String apiContent = Files.readString(apiInterfaceFile.toPath(), StandardCharsets.UTF_8);
+        Assert.assertTrue(
+                Pattern.compile("public function listFeedHints\\(\\s*PetAnnouncementTone\\s+\\$tone,").matcher(apiContent).find(),
+                "Expected defaulted enum-ref query param to use short non-nullable class in API interface type hint");
+        Assert.assertFalse(
+                Pattern.compile("public function listFeedHints\\(\\s*\\?PetAnnouncementTone\\s+\\$tone").matcher(apiContent).find(),
+                "Defaulted enum-ref query param must not use nullable type hint (?PetAnnouncementTone)");
+        Assert.assertTrue(
+                Pattern.compile("@param\\s+PetAnnouncementTone\\s+\\$tone\\b").matcher(apiContent).find(),
+                "PHPDoc @param should use PetAnnouncementTone without |null when OpenAPI default is set");
+        Assert.assertFalse(
+                Pattern.compile("@param\\s+PetAnnouncementTone\\|null\\s+\\$tone\\b").matcher(apiContent).find(),
+                "PHPDoc must not document |null for enum ref when OpenAPI default is set");
+        assertGeneratedPhpSyntaxValid(apiInterfaceFile);
+
+        File controllerFile = files.stream()
+                .filter(f -> "DefaultController.php".equals(f.getName()) && f.getPath().contains("Controller" + File.separator))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("DefaultController.php not generated"));
+
+        String controller = Files.readString(controllerFile.toPath(), StandardCharsets.UTF_8);
+
+        Assert.assertTrue(
+                controller.contains("$request->query->get('limit', 10)"),
+                "Integer optional query with default should pass default as second argument to query->get (control case)");
+
+        boolean defaultInGet = Pattern.compile("\\$request->query->get\\('tone',\\s*").matcher(controller).find();
+        boolean elvisDefault = Pattern.compile("\\$tone\\s*=\\s*\\$tone\\?:").matcher(controller).find();
+        boolean optionalEnumTypeAssert =
+                controller.contains("new Assert\\Optional(")
+                        && controller.contains("PetAnnouncementTone");
+
+        Assert.assertTrue(
+                defaultInGet || elvisDefault || optionalEnumTypeAssert,
+                "Omitted optional enum-ref query with OpenAPI default must apply default (get/Elvis) and/or use "
+                        + "Assert\\Optional around enum Type so null is valid before default is applied; "
+                        + "see optional-enum-query-ref-default.yaml and php-symfony troubleshooting doc");
+
+        assertGeneratedPhpSyntaxValid(controllerFile);
 
         output.deleteOnExit();
     }
