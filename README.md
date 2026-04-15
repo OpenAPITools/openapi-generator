@@ -41,7 +41,7 @@
 
 If you find OpenAPI Generator useful for work, please consider asking your company to support this Open Source project by [becoming a sponsor](https://opencollective.com/openapi_generator). You can also individually sponsor the project by [becoming a backer](https://opencollective.com/openapi_generator).
 
-## Thank you to our bronze sponsors!
+#### Thank you to our bronze sponsors!
 
 [<img align="left" src="https://openapi-generator.tech/img/companies/namsor.png" width="128" height="128">](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img align="left" src="https://openapi-generator.tech/img/companies/lightbow.png" width="128" height="128">](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
