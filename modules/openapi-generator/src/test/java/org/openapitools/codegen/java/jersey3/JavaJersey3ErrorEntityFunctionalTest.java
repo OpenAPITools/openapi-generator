@@ -41,7 +41,7 @@ import static org.testng.Assert.*;
 public class JavaJersey3ErrorEntityFunctionalTest {
 
     private static final String JERSEY3_TEMPLATE_DIR = 
-        "modules/openapi-generator/src/main/resources/Java/libraries/jersey3/";
+        "src/main/resources/Java/libraries/jersey3/";
 
     /**
      * Verify generated code includes errorEntity field in ApiException
