@@ -92,6 +92,14 @@ class PetApiValidationTest {
         }.andExpect { status { isBadRequest() } }
     }
 
+    @Test
+    fun `ValidPageable - unpaged Pageable is allowed (no params, no PageableDefault)`() {
+        // When no pagination parameters are supplied and no @PageableDefault is configured,
+        // Spring resolves Pageable.unpaged(). The validator must not throw and must return valid.
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_SIZE_CONSTRAINT}")
+            .andExpect { status { isOk() } }
+    }
+
     // ── @ValidPageable — size and page constraints combined ───────────────────
     // Endpoint: GET /pet/findWithPageAndSizeConstraint  maxSize = 50, maxPage = 999
 
