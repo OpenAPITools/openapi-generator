@@ -1,0 +1,16 @@
+.openapi-generator-ignore
+README.md
+mops.toml
+src/Apis/PetApi.mo
+src/Apis/StoreApi.mo
+src/Apis/UserApi.mo
+src/Config.mo
+src/Models/ApiResponse.mo
+src/Models/Category.mo
+src/Models/FindPetsByStatusStatusParameterInner.mo
+src/Models/Order.mo
+src/Models/OrderStatus.mo
+src/Models/Pet.mo
+src/Models/PetStatus.mo
+src/Models/Tag.mo
+src/Models/User.mo

@@ -1,0 +1,18 @@
+[toolchain]
+moc = "1.4.1"
+
+[package]
+name = "petstore-client-nodfx"
+version = "1.0.0"
+description = "Generated Motoko client for OpenAPI Petstore"
+license = "Apache-2.0"
+files = ["src/Config.mo", "src/Apis/**/*.mo", "src/Models/**/*.mo"]
+
+[dependencies]
+core = "2.4.0"
+serde = "3.5.0"
+"cbor@4.1.0" = "4.1.0"
+"itertools@0.2.2" = "0.2.2" # because for serde
+base = "0.16.0" # because serde uses json.mo submodule
+xtended-numbers = "2.3.0"
+"sha2@0.1.6" = "0.1.6"
