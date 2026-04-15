@@ -102,3 +102,7 @@ components:
           type: string
           format: date
           default: '2021-01-01'
+        feedingTime:
+          type: string
+          format: time-local
+          default: '10:15:30'
