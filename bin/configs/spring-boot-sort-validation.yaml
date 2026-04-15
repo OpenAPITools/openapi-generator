@@ -14,6 +14,7 @@ additionalProperties:
   skipDefaultInterface: "true"
   useSpringBoot3: "true"
   generateSortValidation: "true"
+  hideGenerationTimestamp: "true"
   generatePageableConstraintValidation: "true"
   useTags: "true"
   requestMappingMode: api_interface
