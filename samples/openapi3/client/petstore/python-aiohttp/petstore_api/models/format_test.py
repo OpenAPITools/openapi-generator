@@ -44,7 +44,7 @@ class FormatTest(BaseModel):
     binary: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None
     var_date: date = Field(alias="date")
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
-    uuid: Optional[UUID] = None
+    uuid: Optional[UUID] = Field(default=None, json_schema_extra={"examples": ["72f98069-206d-4f12-9f12-3d1e525a8e84"]})
     password: Annotated[str, Field(min_length=10, strict=True, max_length=64)]
     pattern_with_digits: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
