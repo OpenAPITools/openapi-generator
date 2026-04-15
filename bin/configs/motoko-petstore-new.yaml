@@ -1,9 +1,0 @@
-generatorName: motoko
-outputDir: samples/client/petstore/motoko
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/motoko
-artifactId: petstore-client
-artifactVersion: 1.0.0
-additionalProperties:
-  hideGenerationTimestamp: "true"
-  useDfx: true
