@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gets or Sets PetSort
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-04-15T16:33:13.225084415Z[UTC]", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-04-15T20:51:04.118456741Z[UTC]", comments = "Generator version: 7.22.0-SNAPSHOT")
 public enum PetSort implements Serializable {
   
   ID_ASC("id,asc"),

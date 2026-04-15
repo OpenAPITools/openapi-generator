@@ -10,7 +10,7 @@ additionalProperties:
   serviceImplementation: "false"
   serializableModel: "true"
   useBeanValidation: "true"
-  interfaceOnly: "true"
+  interfaceOnly: "false"
   skipDefaultInterface: "true"
   useSpringBoot3: "true"
   generateSortValidation: "true"
