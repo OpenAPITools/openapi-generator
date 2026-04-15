@@ -1033,13 +1033,19 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                                       boolean explicitUnsigned) {
         boolean unsigned = explicitUnsigned || canFitIntoUnsigned(minimum, exclusiveMinimum);
 
+        if (explicitUnsigned && !canFitIntoUnsigned(minimum, exclusiveMinimum)) {
+            // Preserve explicit unsigned intent (e.g. x-unsigned) even when no lower bound is provided.
+            minimum = BigInteger.ZERO;
+            exclusiveMinimum = false;
+        }
+
         if (StringUtils.isEmpty(format)) {
             return bestFittingIntegerType(
                     minimum,
                     exclusiveMinimum,
                     maximum,
                     exclusiveMaximum,
-                    true);
+                    unsigned);
         }
 
         switch (format) {
@@ -1059,8 +1065,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         exclusiveMinimum,
                         maximum,
                         exclusiveMaximum,
-                        true);
+                        unsigned);
         }
+    }
+
+    private boolean hasExplicitUnsignedExtension(Map<String, Object> extensions) {
+        return extensions != null && Boolean.TRUE.equals(extensions.get("x-unsigned"));
     }
 
     @Override
@@ -1068,7 +1078,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         if (Objects.equals(p.getType(), "integer")) {
             BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
             BigInteger maximum = Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null);
-            boolean explicitUnsigned = ModelUtils.isUnsignedIntegerSchema(p) || ModelUtils.isUnsignedLongSchema(p);
+            boolean explicitUnsigned = ModelUtils.isUnsignedIntegerSchema(p)
+                    || ModelUtils.isUnsignedLongSchema(p)
+                    || hasExplicitUnsignedExtension(p.getExtensions());
 
             return getIntegerDataType(
                     p.getFormat(),
@@ -1174,7 +1186,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         if (Boolean.TRUE.equals(property.isInteger) || Boolean.TRUE.equals(property.isLong) || Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong")) {
             BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
             BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-            boolean explicitUnsigned = Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong");
+            boolean explicitUnsigned = Objects.equals(property.baseType, "UnsignedInteger")
+                    || Objects.equals(property.baseType, "UnsignedLong")
+                    || hasExplicitUnsignedExtension(property.vendorExtensions);
             property.dataType = getIntegerDataType(
                     property.dataFormat,
                     minimum,

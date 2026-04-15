@@ -63,23 +63,35 @@ public class RustAxumServerCodegenTest {
         schema.setFormat("uint32");
         Assert.assertEquals(codegen.getSchemaType(schema), "u32");
 
+        schema = new IntegerSchema();
         schema.setFormat("uint64");
         Assert.assertEquals(codegen.getSchemaType(schema), "u64");
 
+        schema = new IntegerSchema();
         schema.setFormat("int32");
         schema.setMinimum(BigDecimal.ZERO);
         Assert.assertEquals(codegen.getSchemaType(schema), "u32");
 
+        schema = new IntegerSchema();
         schema.setFormat("int64");
+        schema.setMinimum(BigDecimal.ZERO);
         Assert.assertEquals(codegen.getSchemaType(schema), "u64");
 
+        schema = new IntegerSchema();
         schema.setFormat(null);
+        schema.setMinimum(BigDecimal.ZERO);
         schema.setMaximum(BigDecimal.valueOf(255));
         Assert.assertEquals(codegen.getSchemaType(schema), "u8");
 
+        schema = new IntegerSchema();
         schema.setExtensions(new HashMap<>());
         schema.getExtensions().put("x-unsigned", true);
-        schema.setMaximum(null);
+        Assert.assertEquals(codegen.getSchemaType(schema), "u32");
+
+        schema = new IntegerSchema();
+        schema.setFormat("custom");
+        schema.setExtensions(new HashMap<>());
+        schema.getExtensions().put("x-unsigned", true);
         Assert.assertEquals(codegen.getSchemaType(schema), "u32");
     }
 
@@ -101,6 +113,7 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "pub positive_int32: u32");
         TestUtils.assertFileContains(modelsPath, "pub positive_int64: u64");
         TestUtils.assertFileContains(modelsPath, "pub small_positive: u8");
+        TestUtils.assertFileContains(modelsPath, "pub explicit_unsigned: u32");
         TestUtils.assertFileContains(modelsPath, "pub struct GetIntegersQueryParams");
     }
 }
