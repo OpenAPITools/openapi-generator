@@ -10,6 +10,17 @@ components:
         default: []
         items:
           $ref: '#/components/schemas/PetSortEnum'
+    PetSortParamNonExploded:
+      name: sort
+      in: query
+      required: false
+      style: form
+      explode: false
+      description: Sort order — non-exploded multi-column (e.g. sort=id,asc,name,desc), each token pair must match the allowed enum values
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/PetSortEnum'
   schemas:
     PetSortEnum:
       type: string

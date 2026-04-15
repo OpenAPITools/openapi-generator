@@ -4483,6 +4483,31 @@ public class KotlinSpringServerCodegenTest {
                 "findPetsWithExternalParamRefArraySort should have a pageable: Pageable parameter");
     }
 
+    @Test
+    public void generateSortValidationWorksForNonExplodedExternalParamRefArraySort() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithNonExplodedExternalParamRefArraySort: sort param $ref to external file,
+        // explode: false — Spring parses ?sort=id,asc,name,desc as sequential token pairs.
+        // @ValidSort validation works the same way since it operates on the deserialized Pageable.
+        int methodStart = content.indexOf("fun findPetsWithNonExplodedExternalParamRefArraySort(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithNonExplodedExternalParamRefArraySort method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"name,asc\", \"name,desc\", \"id,asc\", \"id,desc\"])"),
+                "@ValidSort with PetSortEnum values should appear even for non-exploded array sort param");
+        Assert.assertTrue(paramBlock.contains("pageable: Pageable"),
+                "findPetsWithNonExplodedExternalParamRefArraySort should have a pageable: Pageable parameter");
+    }
+
     // ========== PAGEABLE DEFAULTS TESTS ==========
 
     @Test

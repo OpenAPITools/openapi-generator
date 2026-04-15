@@ -512,6 +512,34 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+  /pet/findWithNonExplodedExternalParamRefArraySort:
+    get:
+      tags:
+        - pet
+      summary: Find pets with x-spring-paginated and non-exploded sort param referenced from an external components file
+      operationId: findPetsWithNonExplodedExternalParamRefArraySort
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - $ref: './petstore-sort-validation-components.yaml#/components/parameters/PetSortParamNonExploded'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
 components:
   schemas:
     PetSort:
