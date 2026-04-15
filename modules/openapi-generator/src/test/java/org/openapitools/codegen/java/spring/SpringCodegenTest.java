@@ -6805,6 +6805,113 @@ public class SpringCodegenTest {
                 .doesNotContainWithName("ValidSort");
     }
 
+    @Test
+    public void generateSortValidationWorksForArraySortEnum() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithArraySortEnum: sort is type:array, items have inline enum → @ValidSort with Java {} syntax
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithArraySortEnum")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"")
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationWorksForArraySortRefEnum() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithArraySortRefEnum: sort is type:array, items $ref to PetSort enum → @ValidSort with PetSort values
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithArraySortRefEnum")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"")
+                .fileContains("\"createdAt,asc\"")
+                .fileContains("\"createdAt,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationWorksForExternalParamRefArraySort() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithExternalParamRefArraySort: sort param $ref to external components file,
+        // type:array with items $ref to PetSortEnum in the same external file
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithExternalParamRefArraySort")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationWorksForNonExplodedExternalParamRefArraySort() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithNonExplodedExternalParamRefArraySort: sort param $ref to external file,
+        // explode: false — @ValidSort works identically since it validates the deserialized Pageable
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithNonExplodedExternalParamRefArraySort")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"");
+    }
+
     // -------------------------------------------------------------------------
     // generatePageableConstraintValidation tests
     // -------------------------------------------------------------------------
