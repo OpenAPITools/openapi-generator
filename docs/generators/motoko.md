@@ -27,7 +27,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectName|Project name for generated code| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|useDfx|Generate code for dfx with ic:aaaaa-aa imports| |false|
+|useDfx|Use ic:aaaaa-aa imports (dfx toolchain). Mutually exclusive with useIcp.| |false|
+|useIcp|Use ic:aaaaa-aa imports and generate icp.yaml (icp-cli toolchain; replaces dfx). Mutually exclusive with useDfx.| |false|
 
 ## IMPORT MAPPING
 
