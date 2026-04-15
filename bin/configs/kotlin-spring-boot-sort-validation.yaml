@@ -7,7 +7,7 @@ additionalProperties:
   documentationProvider: none
   annotationLibrary: none
   useSwaggerUI: "false"
-  serviceImplementation: "true"
+  serviceImplementation: "false"
   serializableModel: "true"
   useBeanValidation: "true"
   interfaceOnly: "true"
