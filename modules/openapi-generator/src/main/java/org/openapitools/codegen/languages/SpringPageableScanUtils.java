@@ -151,10 +151,21 @@ public final class SpringPageableScanUtils {
                     if (schema.get$ref() != null) {
                         schema = ModelUtils.getReferencedSchema(openAPI, schema);
                     }
-                    if (schema == null || schema.getEnum() == null || schema.getEnum().isEmpty()) {
+                    if (schema == null) {
                         continue;
                     }
-                    List<String> enumValues = schema.getEnum().stream()
+                    // If the top-level schema is an array, the enum lives on its items
+                    Schema<?> enumSchema = schema;
+                    if (schema.getItems() != null) {
+                        enumSchema = schema.getItems();
+                        if (enumSchema.get$ref() != null) {
+                            enumSchema = ModelUtils.getReferencedSchema(openAPI, enumSchema);
+                        }
+                    }
+                    if (enumSchema == null || enumSchema.getEnum() == null || enumSchema.getEnum().isEmpty()) {
+                        continue;
+                    }
+                    List<String> enumValues = enumSchema.getEnum().stream()
                             .map(Object::toString)
                             .collect(Collectors.toList());
                     result.put(operationId, enumValues);

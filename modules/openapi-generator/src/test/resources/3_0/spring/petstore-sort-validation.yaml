@@ -407,6 +407,111 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+  /pet/findWithArraySortEnum:
+    get:
+      tags:
+        - pet
+      summary: Find pets with x-spring-paginated and array sort param with inline enum on items
+      operationId: findPetsWithArraySortEnum
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order (multi-column, each element must be an allowed value)
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - "id,asc"
+                - "id,desc"
+                - "name,asc"
+                - "name,desc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithArraySortRefEnum:
+    get:
+      tags:
+        - pet
+      summary: Find pets with x-spring-paginated and array sort param whose items use a $ref enum
+      operationId: findPetsWithArraySortRefEnum
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order (multi-column, items $ref to PetSort enum)
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/PetSort'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithExternalParamRefArraySort:
+    get:
+      tags:
+        - pet
+      summary: Find pets with x-spring-paginated and sort param referenced from an external components file
+      operationId: findPetsWithExternalParamRefArraySort
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - $ref: './petstore-sort-validation-components.yaml#/components/parameters/PetSortParam'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
 components:
   schemas:
     PetSort:

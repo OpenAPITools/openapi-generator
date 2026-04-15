@@ -4413,6 +4413,76 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(petApi.toPath(), "@ValidSort");
     }
 
+    @Test
+    public void generateSortValidationWorksForArraySortEnum() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithArraySortEnum: sort is type:array, items have inline enum → @ValidSort applied with Kotlin [] syntax
+        int methodStart = content.indexOf("fun findPetsWithArraySortEnum(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithArraySortEnum method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])"),
+                "@ValidSort with all four enum values should appear on the pageable parameter");
+        Assert.assertTrue(paramBlock.contains("pageable: Pageable"),
+                "findPetsWithArraySortEnum should have a pageable: Pageable parameter");
+    }
+
+    @Test
+    public void generateSortValidationWorksForArraySortRefEnum() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithArraySortRefEnum: sort is type:array, items $ref to PetSort enum → @ValidSort with PetSort values
+        int methodStart = content.indexOf("fun findPetsWithArraySortRefEnum(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithArraySortRefEnum method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"createdAt,asc\", \"createdAt,desc\"])"),
+                "@ValidSort with PetSort enum values should appear on the pageable parameter");
+    }
+
+    @Test
+    public void generateSortValidationWorksForExternalParamRefArraySort() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithExternalParamRefArraySort: sort param $ref to external components file,
+        // which defines type:array with items $ref to PetSortEnum in the same external file
+        int methodStart = content.indexOf("fun findPetsWithExternalParamRefArraySort(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithExternalParamRefArraySort method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = ["),
+                "@ValidSort should appear when sort param is resolved from an external $ref parameter");
+        Assert.assertTrue(paramBlock.contains("\"name,asc\"") || paramBlock.contains("\"id,asc\""),
+                "@ValidSort should contain the enum values from the external PetSortEnum schema");
+        Assert.assertTrue(paramBlock.contains("pageable: Pageable"),
+                "findPetsWithExternalParamRefArraySort should have a pageable: Pageable parameter");
+    }
+
     // ========== PAGEABLE DEFAULTS TESTS ==========
 
     @Test
