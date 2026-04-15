@@ -5946,4 +5946,39 @@ public class KotlinSpringServerCodegenTest {
                 "override val vehicleType: VehicleType = VehicleType.TRUCK"
         );
     }
+
+    @Test
+    public void testSealedResponseInterfacesWithDeclarativeHttpInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "true");
+        codegen.additionalProperties().put(REACTIVE, "false");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/DefaultApi.kt"),
+                "import org.openapitools.model.CreateUserResponse",
+                "import org.openapitools.model.GetUserResponse",
+                "fun createUser(",
+                "): ResponseEntity<CreateUserResponse>",
+                "fun getUser(",
+                "): ResponseEntity<GetUserResponse>");
+    }
 }
