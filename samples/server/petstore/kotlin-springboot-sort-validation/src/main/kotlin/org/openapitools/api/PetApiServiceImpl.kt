@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
 import org.openapitools.model.PetSort
+import org.openapitools.model.PetSortEnum
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.SortDefault
 import org.openapitools.configuration.ValidPageable
@@ -24,7 +25,23 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
+    override fun findPetsWithArraySortEnum(): List<Pet> {
+        TODO("Implement me")
+    }
+
+    override fun findPetsWithArraySortRefEnum(): List<Pet> {
+        TODO("Implement me")
+    }
+
+    override fun findPetsWithExternalParamRefArraySort(): List<Pet> {
+        TODO("Implement me")
+    }
+
     override fun findPetsWithMixedSortDefaults(): List<Pet> {
+        TODO("Implement me")
+    }
+
+    override fun findPetsWithNonExplodedExternalParamRefArraySort(): List<Pet> {
         TODO("Implement me")
     }
 

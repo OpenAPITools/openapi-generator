@@ -1,6 +1,7 @@
 package org.openapitools.configuration
 
 import org.openapitools.model.PetSort
+import org.openapitools.model.PetSortEnum
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,6 +21,12 @@ class EnumConverterConfiguration {
     fun petSortConverter(): Converter<kotlin.String, PetSort> {
         return object: Converter<kotlin.String, PetSort> {
             override fun convert(source: kotlin.String): PetSort = PetSort.forValue(source)
+        }
+    }
+    @Bean(name = ["org.openapitools.configuration.EnumConverterConfiguration.petSortEnumConverter"])
+    fun petSortEnumConverter(): Converter<kotlin.String, PetSortEnum> {
+        return object: Converter<kotlin.String, PetSortEnum> {
+            override fun convert(source: kotlin.String): PetSortEnum = PetSortEnum.forValue(source)
         }
     }
 

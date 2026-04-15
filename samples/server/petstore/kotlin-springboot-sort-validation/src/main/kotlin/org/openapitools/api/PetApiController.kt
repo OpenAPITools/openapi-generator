@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
 import org.openapitools.model.PetSort
+import org.openapitools.model.PetSortEnum
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.SortDefault
 import org.openapitools.configuration.ValidPageable
@@ -77,12 +78,56 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
     @RequestMapping(
         method = [RequestMethod.GET],
+        // "/pet/findWithArraySortEnum"
+        value = [PATH_FIND_PETS_WITH_ARRAY_SORT_ENUM],
+        produces = ["application/json"]
+    )
+    fun findPetsWithArraySortEnum(@ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithArraySortEnum(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithArraySortRefEnum"
+        value = [PATH_FIND_PETS_WITH_ARRAY_SORT_REF_ENUM],
+        produces = ["application/json"]
+    )
+    fun findPetsWithArraySortRefEnum(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithArraySortRefEnum(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithExternalParamRefArraySort"
+        value = [PATH_FIND_PETS_WITH_EXTERNAL_PARAM_REF_ARRAY_SORT],
+        produces = ["application/json"]
+    )
+    fun findPetsWithExternalParamRefArraySort(@ValidSort(allowedValues = ["name,asc", "name,desc", "id,asc", "id,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithExternalParamRefArraySort(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
         // "/pet/findWithMixedSortDefaults"
         value = [PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS],
         produces = ["application/json"]
     )
     fun findPetsWithMixedSortDefaults(@SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC), SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsWithMixedSortDefaults(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithNonExplodedExternalParamRefArraySort"
+        value = [PATH_FIND_PETS_WITH_NON_EXPLODED_EXTERNAL_PARAM_REF_ARRAY_SORT],
+        produces = ["application/json"]
+    )
+    fun findPetsWithNonExplodedExternalParamRefArraySort(@ValidSort(allowedValues = ["name,asc", "name,desc", "id,asc", "id,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsWithNonExplodedExternalParamRefArraySort(), HttpStatus.valueOf(200))
     }
 
 
@@ -181,7 +226,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         const val PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT: String = "/pet/findAutoDetectedWithSort"
         const val PATH_FIND_PETS_NON_PAGINATED_WITH_SORT_ENUM: String = "/pet/findNonPaginatedWithSortEnum"
         const val PATH_FIND_PETS_WITH_ALL_DEFAULTS: String = "/pet/findWithAllDefaults"
+        const val PATH_FIND_PETS_WITH_ARRAY_SORT_ENUM: String = "/pet/findWithArraySortEnum"
+        const val PATH_FIND_PETS_WITH_ARRAY_SORT_REF_ENUM: String = "/pet/findWithArraySortRefEnum"
+        const val PATH_FIND_PETS_WITH_EXTERNAL_PARAM_REF_ARRAY_SORT: String = "/pet/findWithExternalParamRefArraySort"
         const val PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS: String = "/pet/findWithMixedSortDefaults"
+        const val PATH_FIND_PETS_WITH_NON_EXPLODED_EXTERNAL_PARAM_REF_ARRAY_SORT: String = "/pet/findWithNonExplodedExternalParamRefArraySort"
         const val PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT: String = "/pet/findWithPageAndSizeConstraint"
         const val PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY: String = "/pet/findWithPageSizeDefaultsOnly"
         const val PATH_FIND_PETS_WITH_REF_SORT: String = "/pet/findWithRefSort"

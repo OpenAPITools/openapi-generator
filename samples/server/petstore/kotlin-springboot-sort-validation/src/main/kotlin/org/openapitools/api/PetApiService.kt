@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
 import org.openapitools.model.PetSort
+import org.openapitools.model.PetSortEnum
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.SortDefault
 import org.openapitools.configuration.ValidPageable
@@ -41,12 +42,44 @@ interface PetApiService {
     fun findPetsWithAllDefaults(): List<Pet>
 
     /**
+     * GET /pet/findWithArraySortEnum : Find pets with x-spring-paginated and array sort param with inline enum on items
+     *
+     * @return successful operation (status code 200)
+     * @see PetApi#findPetsWithArraySortEnum
+     */
+    fun findPetsWithArraySortEnum(): List<Pet>
+
+    /**
+     * GET /pet/findWithArraySortRefEnum : Find pets with x-spring-paginated and array sort param whose items use a $ref enum
+     *
+     * @return successful operation (status code 200)
+     * @see PetApi#findPetsWithArraySortRefEnum
+     */
+    fun findPetsWithArraySortRefEnum(): List<Pet>
+
+    /**
+     * GET /pet/findWithExternalParamRefArraySort : Find pets with x-spring-paginated and sort param referenced from an external components file
+     *
+     * @return successful operation (status code 200)
+     * @see PetApi#findPetsWithExternalParamRefArraySort
+     */
+    fun findPetsWithExternalParamRefArraySort(): List<Pet>
+
+    /**
      * GET /pet/findWithMixedSortDefaults : Find pets — multiple sort defaults with mixed directions (array sort param)
      *
      * @return successful operation (status code 200)
      * @see PetApi#findPetsWithMixedSortDefaults
      */
     fun findPetsWithMixedSortDefaults(): List<Pet>
+
+    /**
+     * GET /pet/findWithNonExplodedExternalParamRefArraySort : Find pets with x-spring-paginated and non-exploded sort param referenced from an external components file
+     *
+     * @return successful operation (status code 200)
+     * @see PetApi#findPetsWithNonExplodedExternalParamRefArraySort
+     */
+    fun findPetsWithNonExplodedExternalParamRefArraySort(): List<Pet>
 
     /**
      * GET /pet/findWithPageAndSizeConstraint : Find pets — both page and size have maximum constraints
