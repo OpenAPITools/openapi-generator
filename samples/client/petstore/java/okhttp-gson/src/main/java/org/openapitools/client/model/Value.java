@@ -174,7 +174,7 @@ public class Value extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * List<Scalar>, Scalar
+     * List&lt;Scalar&gt;, Scalar
      *
      * It could be an instance of the 'oneOf' schemas.
      */
@@ -198,9 +198,9 @@ public class Value extends AbstractOpenApiSchema {
 
     /**
      * Get the actual instance, which can be the following:
-     * List<Scalar>, Scalar
+     * List&lt;Scalar&gt;, Scalar
      *
-     * @return The actual instance (List<Scalar>, Scalar)
+     * @return The actual instance (List&lt;Scalar&gt;, Scalar)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -215,17 +215,19 @@ public class Value extends AbstractOpenApiSchema {
      * @return The actual instance of `Scalar`
      * @throws ClassCastException if the instance is not `Scalar`
      */
+    @SuppressWarnings("unchecked")
     public Scalar getScalar() throws ClassCastException {
         return (Scalar)super.getActualInstance();
     }
 
     /**
-     * Get the actual instance of `List<Scalar>`. If the actual instance is not `List<Scalar>`,
+     * Get the actual instance of `List&lt;Scalar&gt;`. If the actual instance is not `List&lt;Scalar&gt;`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `List<Scalar>`
-     * @throws ClassCastException if the instance is not `List<Scalar>`
+     * @return The actual instance of `List&lt;Scalar&gt;`
+     * @throws ClassCastException if the instance is not `List&lt;Scalar&gt;`
      */
+    @SuppressWarnings("unchecked")
     public List<Scalar> getListScalar() throws ClassCastException {
         return (List<Scalar>)super.getActualInstance();
     }

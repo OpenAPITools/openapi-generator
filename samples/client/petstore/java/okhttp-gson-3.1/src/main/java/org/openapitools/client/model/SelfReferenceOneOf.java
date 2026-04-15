@@ -201,6 +201,7 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
@@ -212,6 +213,7 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Boolean`
      * @throws ClassCastException if the instance is not `Boolean`
      */
+    @SuppressWarnings("unchecked")
     public Boolean getBoolean() throws ClassCastException {
         return (Boolean)super.getActualInstance();
     }

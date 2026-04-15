@@ -201,6 +201,7 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
@@ -212,6 +213,7 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
