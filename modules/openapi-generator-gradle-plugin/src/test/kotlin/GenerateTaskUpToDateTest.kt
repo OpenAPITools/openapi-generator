@@ -9,23 +9,28 @@ import kotlin.test.assertEquals
 class GenerateTaskUpToDateTest : TestBase() {
 
     @DataProvider(name = "gradle_version_provider")
-    private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(arrayOf("8.14.4"), arrayOf("8.14.4"))
+    private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(
+        arrayOf("8.14.4", "STRING"),
+        arrayOf("8.14.4", "FILE")
+    )
 
     // inputSpec tests
 
-    private val inputSpecExtensionContents = """
+    private fun inputSpecExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
         """.trimIndent()
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `inputSpec - no file changes - should be up-to-date`(gradleVersion: String) {
-        runShouldBeUpToDateTest(gradleVersion, inputSpecExtensionContents)
+    fun `inputSpec - no file changes - should be up-to-date`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        runShouldBeUpToDateTest(gradleVersion, inputSpecExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `inputSpec - has file changes - should execute`(gradleVersion: String) {
-        runShouldExecuteTest(gradleVersion, inputSpecExtensionContents) {
+    fun `inputSpec - has file changes - should execute`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+        runShouldExecuteTest(gradleVersion, inputSpecExtensionContents(propertyFormat)) {
             val inputSpec = File(temp, "spec.yaml")
             val newContents = inputSpec.readText().replace("version: 1.0.0", "version: 1.0.1")
             inputSpec.writeText(newContents)
@@ -34,10 +39,10 @@ class GenerateTaskUpToDateTest : TestBase() {
 
     // templateDir tests
 
-    private val templateDirExtensionContents = """
+    private fun templateDirExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        templateDir = file("templateDir").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        templateDir = ${"templateDir".toPropertyReference(format)}
         """.trimIndent()
 
     private fun initializeTemplateDirTest(): File {
@@ -47,25 +52,27 @@ class GenerateTaskUpToDateTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `templateDir - no file changes - should be up-to-date`(gradleVersion: String) {
+    fun `templateDir - no file changes - should be up-to-date`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeTemplateDirTest()
-        runShouldBeUpToDateTest(gradleVersion, templateDirExtensionContents)
+        runShouldBeUpToDateTest(gradleVersion, templateDirExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `templateDir - has file changes - should execute`(gradleVersion: String) {
+    fun `templateDir - has file changes - should execute`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         val templateFile = initializeTemplateDirTest()
-        runShouldExecuteTest(gradleVersion, templateDirExtensionContents) {
+        runShouldExecuteTest(gradleVersion, templateDirExtensionContents(propertyFormat)) {
             templateFile.writeText("new contents")
         }
     }
 
     // configFile tests
 
-    private val configFileExtensionContents = """
+    private fun configFileExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        configFile = file("configFile").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        configFile = ${"configFile".toPropertyReference(format)}
         """.trimIndent()
 
     private fun initializeConfigFileTest(): File {
@@ -73,25 +80,27 @@ class GenerateTaskUpToDateTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `configFile - no file changes - should be up-to-date`(gradleVersion: String) {
+    fun `configFile - no file changes - should be up-to-date`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeConfigFileTest()
-        runShouldBeUpToDateTest(gradleVersion, configFileExtensionContents)
+        runShouldBeUpToDateTest(gradleVersion, configFileExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `configFile - has file changes - should execute`(gradleVersion: String) {
+    fun `configFile - has file changes - should execute`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         val configFile = initializeConfigFileTest()
-        runShouldExecuteTest(gradleVersion, configFileExtensionContents) {
+        runShouldExecuteTest(gradleVersion, configFileExtensionContents(propertyFormat)) {
             configFile.writeText("""{"foo":"baz"}""")
         }
     }
 
     // ignoreFileOverride tests
 
-    private val ignoreFileOverrideExtensionContents = """
+    private fun ignoreFileOverrideExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        ignoreFileOverride = file(".openapi-generator-ignore").absolutePath
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
+        ignoreFileOverride = ${".openapi-generator-ignore".toPropertyReference(format)}
         """.trimIndent()
 
     private fun initializeIgnoreFileTest(): File {
@@ -99,15 +108,17 @@ class GenerateTaskUpToDateTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `ignoreFileOverride - no file changes - should be up-to-date`(gradleVersion: String) {
+    fun `ignoreFileOverride - no file changes - should be up-to-date`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         initializeIgnoreFileTest()
-        runShouldBeUpToDateTest(gradleVersion, ignoreFileOverrideExtensionContents)
+        runShouldBeUpToDateTest(gradleVersion, ignoreFileOverrideExtensionContents(propertyFormat))
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `ignoreFileOverride - has file changes - should execute`(gradleVersion: String) {
+    fun `ignoreFileOverride - has file changes - should execute`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         val ignoreFileOverride = initializeIgnoreFileTest()
-        runShouldExecuteTest(gradleVersion, ignoreFileOverrideExtensionContents) {
+        runShouldExecuteTest(gradleVersion, ignoreFileOverrideExtensionContents(propertyFormat)) {
             ignoreFileOverride.writeText(".new_file_to_ignore")
         }
     }

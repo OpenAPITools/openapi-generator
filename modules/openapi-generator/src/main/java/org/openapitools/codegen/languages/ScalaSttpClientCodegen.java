@@ -94,6 +94,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.allOf
+                )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
@@ -240,9 +244,207 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
      */
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
-        postProcessUpdateImports(processed);
-        return processed;
+        Map<String, ModelsMap> modelsMap = super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModels = collectAllModels(modelsMap);
+        synthesizeOneOfFromDiscriminator(allModels);
+        Map<String, Integer> refCounts = countModelReferences(allModels);
+        markOneOfTraits(modelsMap, allModels, refCounts);
+        removeInlinedModels(modelsMap);
+
+        postProcessUpdateImports(modelsMap);
+        return modelsMap;
+    }
+
+    /**
+     * Collect all CodegenModels by classname for lookup.
+     */
+    private Map<String, CodegenModel> collectAllModels(Map<String, ModelsMap> modelsMap) {
+        return modelsMap.values().stream()
+                .flatMap(mm -> mm.getModels().stream())
+                .map(ModelMap::getModel)
+                .collect(java.util.stream.Collectors.toMap(m -> m.classname, m -> m, (a, b) -> a));
+    }
+
+    /**
+     * For specs that use allOf+discriminator (children reference parent via allOf, parent has
+     * discriminator.mapping but no oneOf), synthesize the oneOf set from the discriminator mapping.
+     * This allows the standard oneOf processing logic to handle both patterns uniformly.
+     */
+    private void synthesizeOneOfFromDiscriminator(Map<String, CodegenModel> allModels) {
+        for (CodegenModel model : allModels.values()) {
+            if (!model.oneOf.isEmpty() || model.discriminator == null) {
+                continue;
+            }
+
+            if (model.discriminator.getMappedModels() != null
+                    && !model.discriminator.getMappedModels().isEmpty()) {
+                for (CodegenDiscriminator.MappedModel mapped : model.discriminator.getMappedModels()) {
+                    model.oneOf.add(mapped.getModelName());
+                }
+            } else if (model.discriminator.getMapping() != null) {
+                for (String ref : model.discriminator.getMapping().values()) {
+                    String modelName = ref.contains("/") ? ref.substring(ref.lastIndexOf('/') + 1) : ref;
+                    if (allModels.containsKey(modelName)) {
+                        model.oneOf.add(modelName);
+                    }
+                }
+            }
+
+            if (!model.oneOf.isEmpty()) {
+                model.getVendorExtensions().put("x-synthesized-oneOf", true);
+            }
+        }
+    }
+
+    /**
+     * Count how many times each model is referenced - both as a oneOf member and as a
+     * property type. A child can only be inlined if it's referenced exactly once (by its
+     * oneOf parent) and not used as a property type elsewhere.
+     */
+    private Map<String, Integer> countModelReferences(Map<String, CodegenModel> allModels) {
+        Map<String, Integer> counts = new HashMap<>();
+
+        // Count oneOf parent references
+        allModels.values().stream()
+                .flatMap(m -> m.oneOf.stream())
+                .forEach(name -> counts.merge(name, 1, Integer::sum));
+
+        // Count property-type references (prevents inlining models used as field types).
+        // Check both dataType and complexType
+        allModels.values().stream()
+                .flatMap(m -> m.vars.stream())
+                .forEach(prop -> {
+                    if (prop.dataType != null && allModels.containsKey(prop.dataType)) {
+                        counts.merge(prop.dataType, 1, Integer::sum);
+                    }
+                    if (prop.complexType != null && allModels.containsKey(prop.complexType)) {
+                        counts.merge(prop.complexType, 1, Integer::sum);
+                    }
+                });
+
+        return counts;
+    }
+
+    /**
+     * Mark oneOf parents as sealed/regular traits with discriminator vendor extensions,
+     * and configure child models for inlining.
+     */
+    private void markOneOfTraits(
+        Map<String, ModelsMap> modelsMap,
+        Map<String, CodegenModel> allModels,
+        Map<String, Integer> refCounts) {
+        for (ModelsMap mm : modelsMap.values()) {
+            for (ModelMap modelMap : mm.getModels()) {
+                CodegenModel model = modelMap.getModel();
+
+                if (!model.oneOf.isEmpty()) {
+                    configureOneOfModel(model, allModels, refCounts);
+                }
+
+                if (model.discriminator != null) {
+                    model.getVendorExtensions().put("x-use-discr", true);
+                    if (model.discriminator.getMapping() != null) {
+                        model.getVendorExtensions().put("x-use-discr-mapping", true);
+                    }
+                }
+            }
+        }
+    }
+
+    private void configureOneOfModel(
+        CodegenModel parent,
+        Map<String, CodegenModel> allModels,
+        Map<String, Integer> refCounts) {
+        List<CodegenModel> inlineableMembers = new ArrayList<>();
+        Set<String> childImports = new HashSet<>();
+
+        for (String childName : parent.oneOf) {
+            CodegenModel child = allModels.get(childName);
+            if (child == null) continue;
+
+            // All children extend the parent trait
+            child.getVendorExtensions().put("x-oneOfParent", parent.classname);
+            if (parent.discriminator != null) {
+                child.getVendorExtensions().put("x-parentDiscriminatorName",
+                        parent.discriminator.getPropertyName());
+            }
+
+            if (isInlineable(child, refCounts)) {
+                child.getVendorExtensions().put("x-isOneOfMember", true);
+                inlineableMembers.add(child);
+                if (child.imports != null) {
+                    childImports.addAll(child.imports);
+                }
+            }
+        }
+
+        buildDiscriminatorEntries(parent, allModels);
+
+        if (!inlineableMembers.isEmpty() && inlineableMembers.size() == parent.oneOf.size()) {
+            markAsSealedTrait(parent, inlineableMembers, childImports);
+        } else {
+            markAsRegularTrait(parent, inlineableMembers);
+        }
+    }
+
+    private boolean isInlineable(CodegenModel child, Map<String, Integer> refCounts) {
+        return (child.oneOf == null || child.oneOf.isEmpty())
+                && refCounts.getOrDefault(child.classname, 0) == 1;
+    }
+
+    private void buildDiscriminatorEntries(CodegenModel parent, Map<String, CodegenModel> allModels) {
+        List<Map<String, String>> entries = parent.oneOf.stream()
+                .map(allModels::get)
+                .filter(Objects::nonNull)
+                .map(child -> Map.of("classname", child.classname, "schemaName", child.name))
+                .collect(java.util.stream.Collectors.toList());
+        parent.getVendorExtensions().put("x-discriminator-entries", entries);
+    }
+
+    private void markAsSealedTrait(
+        CodegenModel parent,
+        List<CodegenModel> members,
+        Set<String> childImports) {
+        parent.getVendorExtensions().put("x-isSealedTrait", true);
+        parent.getVendorExtensions().put("x-oneOfMembers", members);
+
+        if (parent.getVendorExtensions().containsKey("x-synthesized-oneOf")
+                && parent.vars != null && !parent.vars.isEmpty()) {
+            parent.getVendorExtensions().put("x-hasOwnVars", true);
+        }
+
+        mergeChildImports(parent, childImports);
+    }
+
+    private void markAsRegularTrait(CodegenModel parent, List<CodegenModel> partialMembers) {
+        parent.getVendorExtensions().put("x-isRegularTrait", true);
+        for (CodegenModel member : partialMembers) {
+            member.getVendorExtensions().remove("x-isOneOfMember");
+        }
+    }
+
+    private void mergeChildImports(CodegenModel parent, Set<String> childImports) {
+        if (childImports.isEmpty()) return;
+        Set<String> existing = parent.imports != null ? new HashSet<>(parent.imports) : new HashSet<>();
+        childImports.removeAll(existing);
+        if (!childImports.isEmpty()) {
+            if (parent.imports == null) {
+                parent.imports = new HashSet<>();
+            }
+            parent.imports.addAll(childImports);
+        }
+    }
+
+    /**
+     * Remove models that were inlined into their parent sealed trait -
+     * they don't need separate files.
+     */
+    private void removeInlinedModels(Map<String, ModelsMap> modelsMap) {
+        modelsMap.entrySet().removeIf(entry ->
+            entry.getValue().getModels().stream()
+                .anyMatch(m -> m.getModel().getVendorExtensions().containsKey("x-isOneOfMember"))
+        );
     }
 
     /**

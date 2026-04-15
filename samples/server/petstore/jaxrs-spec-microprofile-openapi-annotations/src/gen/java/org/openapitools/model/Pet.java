@@ -1,11 +1,8 @@
 package org.openapitools.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import java.io.Serializable;
@@ -19,16 +16,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
+/**
+ * A pet for sale in the pet store
+ **/
 
-
-@org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
+@org.eclipse.microprofile.openapi.annotations.media.Schema(title="a Pet", description="A pet for sale in the pet store")
 @JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Pet  implements Serializable {
   private Long id;
   private Category category;
   private String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
+  private @Valid List<String> photoUrls = new ArrayList<>();
   private @Valid List<@Valid Tag> tags = new ArrayList<>();
   public enum StatusEnum {
 
@@ -94,7 +93,7 @@ public class Pet  implements Serializable {
   @JsonCreator
   public Pet(
     @JsonProperty(required = true, value = "name") String name,
-    @JsonProperty(required = true, value = "photoUrls") Set<String> photoUrls
+    @JsonProperty(required = true, value = "photoUrls") List<String> photoUrls
   ) {
     this.name = name;
     this.photoUrls = photoUrls;
@@ -159,7 +158,7 @@ public class Pet  implements Serializable {
 
   /**
    **/
-  public Pet photoUrls(Set<String> photoUrls) {
+  public Pet photoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -167,19 +166,18 @@ public class Pet  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty(required = true, value = "photoUrls")
-  @NotNull public Set<String> getPhotoUrls() {
+  @NotNull public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
   @JsonProperty(required = true, value = "photoUrls")
-  @JsonDeserialize(as = LinkedHashSet.class)
-  public void setPhotoUrls(Set<String> photoUrls) {
+  public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
-      this.photoUrls = new LinkedHashSet<>();
+      this.photoUrls = new ArrayList<>();
     }
 
     this.photoUrls.add(photoUrlsItem);
@@ -316,7 +314,7 @@ public class Pet  implements Serializable {
     private Long id;
     private Category category;
     private String name;
-    private Set<String> photoUrls = new LinkedHashSet<>();
+    private List<String> photoUrls = new ArrayList<>();
     private List<Tag> tags = new ArrayList<>();
     private StatusEnum status;
     protected abstract B self();
@@ -335,7 +333,7 @@ public class Pet  implements Serializable {
       this.name = name;
       return self();
     }
-    public B photoUrls(Set<String> photoUrls) {
+    public B photoUrls(List<String> photoUrls) {
       this.photoUrls = photoUrls;
       return self();
     }

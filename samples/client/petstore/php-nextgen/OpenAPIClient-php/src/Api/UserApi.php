@@ -1008,7 +1008,7 @@ class UserApi
         // path params
         if ($username !== null) {
             $resourcePath = str_replace(
-                '{' . 'username' . '}',
+                '{username}',
                 ObjectSerializer::toPathValue($username),
                 $resourcePath
             );
@@ -1287,7 +1287,7 @@ class UserApi
         // path params
         if ($username !== null) {
             $resourcePath = str_replace(
-                '{' . 'username' . '}',
+                '{username}',
                 ObjectSerializer::toPathValue($username),
                 $resourcePath
             );
@@ -2047,7 +2047,7 @@ class UserApi
         // path params
         if ($username !== null) {
             $resourcePath = str_replace(
-                '{' . 'username' . '}',
+                '{username}',
                 ObjectSerializer::toPathValue($username),
                 $resourcePath
             );

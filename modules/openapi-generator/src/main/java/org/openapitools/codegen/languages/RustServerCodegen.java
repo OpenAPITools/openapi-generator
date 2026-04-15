@@ -70,6 +70,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     protected String externCrateName;
     protected Map<String, Map<String, String>> pathSetMap = new HashMap();
     protected Map<String, Map<String, String>> callbacksPathSetMap = new HashMap();
+    protected Set<String> globalOperationIds = new HashSet<>();
 
     private static final String uuidType = "uuid::Uuid";
     private static final String bytesType = "swagger::ByteArray";
@@ -583,8 +584,20 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         String underscoredOperationId = underscore(op.operationId);
-        op.vendorExtensions.put("x-operation-id", underscoredOperationId);
-        op.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId.toUpperCase(Locale.ROOT));
+        // Deduplicate x-operation-id across all tag groups. All operations are merged into a single
+        // mod.rs, so handle_<x-operation-id>() functions must be globally unique, not just per-tag.
+        String uniqueOperationId = underscoredOperationId;
+        int opIdCounter = 0;
+        while (globalOperationIds.contains(uniqueOperationId)) {
+            uniqueOperationId = underscoredOperationId + "_" + opIdCounter;
+            opIdCounter++;
+        }
+        globalOperationIds.add(uniqueOperationId);
+        if (!uniqueOperationId.equals(underscoredOperationId)) {
+            LOGGER.warn("generated unique x-operation-id `{}` for operationId `{}`", uniqueOperationId, op.operationId);
+        }
+        op.vendorExtensions.put("x-operation-id", uniqueOperationId);
+        op.vendorExtensions.put("x-uppercase-operation-id", uniqueOperationId.toUpperCase(Locale.ROOT));
         String vendorExtensionPath = op.path.replace("{", ":").replace("}", "");
         op.vendorExtensions.put("x-path", vendorExtensionPath);
         op.vendorExtensions.put("x-path-id", pathId);

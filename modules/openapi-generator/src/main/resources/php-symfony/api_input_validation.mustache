@@ -39,7 +39,7 @@
     {{/isFile}}
     {{^isFile}}
     {{#isEnumRef}}
-        $asserts[] = new Assert\Type("\{{modelPackage}}\{{dataType}}");
+        $asserts[] = new Assert\Type('\{{{modelPackage}}}\{{{dataType}}}');
     {{/isEnumRef}}
     {{^isEnumRef}}
         $asserts[] = new Assert\Type('{{dataType}}');

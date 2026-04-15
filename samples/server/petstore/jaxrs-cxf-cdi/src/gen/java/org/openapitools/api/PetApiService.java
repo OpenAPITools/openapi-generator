@@ -8,6 +8,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.openapitools.model.PetRequest;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import javax.ws.rs.core.SecurityContext;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public interface PetApiService {
       public Response addPet(Pet pet, SecurityContext securityContext);
+      public Response createPetRequest(PetRequest petRequest, SecurityContext securityContext);
       public Response deletePet(Long petId, SecurityContext securityContext);
       public Response findPetsByStatus(List<String> status, SecurityContext securityContext);
       @Deprecated public Response findPetsByTags(List<String> tags, SecurityContext securityContext);

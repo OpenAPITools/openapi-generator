@@ -1858,7 +1858,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue(Boolean.FALSE.toString());
         Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
         enumUnknownDefaultCaseOpts.put("false",
-                "No changes to the enum's are made, this is the default option.");
+                "No changes to the enums are made, this is the default option.");
         enumUnknownDefaultCaseOpts.put("true",
                 "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
         enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);

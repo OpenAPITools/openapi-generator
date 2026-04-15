@@ -397,7 +397,7 @@ class PathApi
         // path params
         if ($path_string !== null) {
             $resourcePath = str_replace(
-                '{' . 'path_string' . '}',
+                '{path_string}',
                 ObjectSerializer::toPathValue($path_string),
                 $resourcePath
             );
@@ -405,7 +405,7 @@ class PathApi
         // path params
         if ($path_integer !== null) {
             $resourcePath = str_replace(
-                '{' . 'path_integer' . '}',
+                '{path_integer}',
                 ObjectSerializer::toPathValue($path_integer),
                 $resourcePath
             );
@@ -413,7 +413,7 @@ class PathApi
         // path params
         if ($enum_nonref_string_path !== null) {
             $resourcePath = str_replace(
-                '{' . 'enum_nonref_string_path' . '}',
+                '{enum_nonref_string_path}',
                 ObjectSerializer::toPathValue($enum_nonref_string_path),
                 $resourcePath
             );
@@ -421,7 +421,7 @@ class PathApi
         // path params
         if ($enum_ref_string_path !== null) {
             $resourcePath = str_replace(
-                '{' . 'enum_ref_string_path' . '}',
+                '{enum_ref_string_path}',
                 ObjectSerializer::toPathValue($enum_ref_string_path->value),
                 $resourcePath
             );

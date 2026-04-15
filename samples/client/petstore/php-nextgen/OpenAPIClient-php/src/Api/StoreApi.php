@@ -306,7 +306,7 @@ class StoreApi
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{' . 'order_id' . '}',
+                '{order_id}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
@@ -851,7 +851,7 @@ class StoreApi
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{' . 'order_id' . '}',
+                '{order_id}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );

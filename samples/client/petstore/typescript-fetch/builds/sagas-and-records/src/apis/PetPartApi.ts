@@ -60,7 +60,7 @@ export class PetPartApi extends runtime.BaseAPI {
 
 
         let urlPath = `/fake_petParts/{fake_petPart-id}/part-type`;
-        urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
+        urlPath = urlPath.replace('{fake_petPart-id}', encodeURIComponent(String(requestParameters['fakePetPartId'])));
 
         return {
             path: urlPath,
@@ -146,7 +146,7 @@ export class PetPartApi extends runtime.BaseAPI {
 
 
         let urlPath = `/fake_petParts/{fake_petPart-id}/matching-parts`;
-        urlPath = urlPath.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters['fakePetPartId'])));
+        urlPath = urlPath.replace('{fake_petPart-id}', encodeURIComponent(String(requestParameters['fakePetPartId'])));
 
         return {
             path: urlPath,

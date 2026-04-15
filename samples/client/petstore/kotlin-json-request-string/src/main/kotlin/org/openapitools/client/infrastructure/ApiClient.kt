@@ -288,7 +288,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         }
 
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
-        val body = response.body
+        val body = response.body ?: return null
 
         if (T::class.java == Unit::class.java) {
             // No need to parse the body when we're not interested in the body
