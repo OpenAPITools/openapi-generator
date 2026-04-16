@@ -103,6 +103,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
     public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
+    public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
 
@@ -171,6 +172,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean autoXSpringPaginated = false;
     @Setter private boolean generateSortValidation = false;
     @Setter private boolean generatePageableConstraintValidation = false;
+    @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
 
@@ -195,6 +197,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     // Map from operationId to pageable constraints for @ValidPageable annotation generation
     private Map<String, SpringPageableScanUtils.PageableConstraintsData> pageableConstraintsRegistry = new HashMap<>();
+
+    // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
+    private Map<String, PagedModelScanUtils.DetectedPagedModel> pagedModelRegistry = new HashMap<>();
 
     public KotlinSpringServerCodegen() {
         super();
@@ -290,6 +295,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
         addSwitch(GENERATE_SORT_VALIDATION, "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library=spring-boot.", generateSortValidation);
         addSwitch(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library=spring-boot.", generatePageableConstraintValidation);
+        addSwitch(SUBSTITUTE_GENERIC_PAGED_MODEL,
+                "Detect schemas that represent paginated responses (an object with a 'content' array property and a "
+                + "pagination-metadata property) and replace their generated references with "
+                + "org.springframework.data.web.PagedModel<T>. The detected page schemas and the pagination metadata "
+                + "schema are suppressed from code generation. Only applies when library=spring-boot.",
+                substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -730,6 +741,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
         }
         writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, generatePageableConstraintValidation);
+        if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL) && library.equals(SPRING_BOOT)) {
+            this.setSubstituteGenericPagedModel(convertPropertyToBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL));
+        }
+        writePropertyBack(SUBSTITUTE_GENERIC_PAGED_MODEL, substituteGenericPagedModel);
         if (isUseSpringBoot3() && isUseSpringBoot4()) {
             throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
         }
@@ -1118,6 +1133,28 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
             }
         }
+
+        // If substituteGenericPagedModel is enabled, replace paged-model return types
+        // with org.springframework.data.web.PagedModel<T>.
+        if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()
+                && codegenOperation.returnBaseType != null) {
+            PagedModelScanUtils.DetectedPagedModel detected =
+                    pagedModelRegistry.get(codegenOperation.returnBaseType);
+            if (detected != null) {
+                String oldType = codegenOperation.returnType;
+                String newBaseType = "PagedModel<" + detected.itemSchemaName + ">";
+                codegenOperation.returnType = newBaseType;
+                codegenOperation.returnBaseType = "PagedModel";
+                // Clear any container flag — PagedModel is not itself a List/array
+                codegenOperation.returnContainer = null;
+                // Remove stale import for the suppressed paged schema and add PagedModel
+                codegenOperation.imports.remove(detected.schemaName);
+                codegenOperation.imports.add("PagedModel");
+                LOGGER.info("substituteGenericPagedModel: operation '{}': replacing return type '{}' with PagedModel<{}>",
+                        codegenOperation.operationId, oldType, detected.itemSchemaName);
+            }
+        }
+
         return codegenOperation;
     }
 
@@ -1154,6 +1191,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 importMapping.putIfAbsent("ValidPageable", configPackage + ".ValidPageable");
                 supportingFiles.add(new SupportingFile("validPageable.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", File.separator), "ValidPageable.kt"));
+            }
+        }
+
+        if (SPRING_BOOT.equals(library) && substituteGenericPagedModel) {
+            pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
+            if (!pagedModelRegistry.isEmpty()) {
+                importMapping.putIfAbsent("PagedModel", "org.springframework.data.web.PagedModel");
+                LOGGER.info("substituteGenericPagedModel: detected {} paged-model schema(s): {}",
+                        pagedModelRegistry.size(), pagedModelRegistry.keySet());
             }
         }
 
@@ -1255,6 +1301,41 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
             model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties"));
         }
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
+            // Collect the pagination metadata schema names to suppress (deduplicated)
+            Set<String> metaSchemasToSuppress = new HashSet<>();
+            for (PagedModelScanUtils.DetectedPagedModel detected : pagedModelRegistry.values()) {
+                if (detected.metaSchemaName != null) {
+                    metaSchemasToSuppress.add(detected.metaSchemaName);
+                }
+            }
+
+            // Suppress each detected paged schema
+            for (Map.Entry<String, PagedModelScanUtils.DetectedPagedModel> entry : pagedModelRegistry.entrySet()) {
+                String schemaName = entry.getKey();
+                PagedModelScanUtils.DetectedPagedModel detected = entry.getValue();
+                if (objs.remove(schemaName) != null) {
+                    LOGGER.info("substituteGenericPagedModel: suppressing model '{}' — replaced by PagedModel<{}>",
+                            schemaName, detected.itemSchemaName);
+                }
+            }
+
+            // Suppress the pagination metadata schema(s)
+            for (String metaName : metaSchemasToSuppress) {
+                if (objs.remove(metaName) != null) {
+                    LOGGER.info("substituteGenericPagedModel: suppressing pagination metadata model '{}'"
+                            + " — replaced by PagedModel.PageMetadata", metaName);
+                }
+            }
+        }
+
+        return objs;
     }
 
     @Override

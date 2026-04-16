@@ -7134,4 +7134,142 @@ public class SpringCodegenTest {
                 .fileContains("@PageableDefault(page = 0, size = 10)")
                 .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC), @SortDefault(sort = {\"id\"}, direction = Sort.Direction.ASC)})");
     }
+
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_isDisabledByDefault() throws IOException {
+        // Without the option the paged schemas are generated as-is
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        // NOT setting SUBSTITUTE_GENERIC_PAGED_MODEL
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // UserPage and PageMeta must still be generated
+        assertThat(files).containsKey("UserPage.java");
+        assertThat(files).containsKey("PageMeta.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_suppressesPagedSchemas() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // Detected paged schemas must NOT appear as generated model files
+        assertThat(files).doesNotContainKey("UserPage.java");
+        assertThat(files).doesNotContainKey("OrderPage.java");
+        assertThat(files).doesNotContainKey("PetPageAllOf.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_suppressesPaginationMetadataSchema() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // The shared pagination-metadata schema (PageMeta) must also be suppressed
+        assertThat(files).doesNotContainKey("PageMeta.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_keepsNonPagedSchemas() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // Plain domain schemas and non-paged wrappers must still be generated
+        assertThat(files).containsKey("User.java");
+        assertThat(files).containsKey("Pet.java");
+        assertThat(files).containsKey("UserList.java");
+        assertThat(files).containsKey("SearchResult.java");
+        assertThat(files).containsKey("PetSort.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_replacesReturnTypeInOperation() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // listUsers returns UserPage → must be replaced with PagedModel<User>
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<User>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_replacesExternalRefPagedSchema() throws IOException {
+        // OrderPage uses PageMetadata from an external file — must still be detected and replaced
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        assertThat(files).doesNotContainKey("OrderPage.java");
+        JavaFileAssert.assertThat(files.get("OrderApi.java"))
+                .assertMethod("listOrders")
+                .hasReturnType("ResponseEntity<PagedModel<Order>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_replacesAllOfPagedSchema() throws IOException {
+        // PetPageAllOf uses the allOf detection path
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        assertThat(files).doesNotContainKey("PetPageAllOf.java");
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("listPetsPaged")
+                .hasReturnType("ResponseEntity<PagedModel<Pet>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_importsPagedModelInApiFile() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // The api file must import PagedModel
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .fileContains("import org.springframework.data.web.PagedModel");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_doesNotReplaceNonPagedReturnType() throws IOException {
+        // findPets returns a plain array — must not be replaced
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPets")
+                .hasReturnType("ResponseEntity<List<Pet>>");
+    }
+
+    /** Common properties shared by all substituteGenericPagedModel tests. */
+    private Map<String, Object> commonPagedModelProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
+        return props;
+    }
 }
