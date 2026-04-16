@@ -53,6 +53,7 @@ class PageableConstraintValidator : ConstraintValidator<ValidPageable, Pageable>
 
     override fun isValid(pageable: Pageable?, context: ConstraintValidatorContext): Boolean {
         if (pageable == null) return true
+        if (!pageable.isPaged) return true
 
         var valid = true
         context.disableDefaultConstraintViolation()

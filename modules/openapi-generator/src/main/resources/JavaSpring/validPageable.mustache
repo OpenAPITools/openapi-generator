@@ -66,6 +66,10 @@ public @interface ValidPageable {
                 return true;
             }
 
+            if (!pageable.isPaged()) {
+                return true;
+            }
+
             boolean valid = true;
             context.disableDefaultConstraintViolation();
 

@@ -24,7 +24,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
  * Language-agnostic utility methods for scanning OpenAPI specs for Spring Pageable-related
  * features: sort enum validation, pageable defaults, and pageable constraints (max page/size).
  *
- * <p>Used by both {@link KotlinSpringServerCodegen} and (future) Java Spring codegen to share
+ * <p>Used by both kotlin {@link KotlinSpringServerCodegen} and java {@link SpringCodegen} to share
  * scan logic. Only the mustache templates and their registration remain language-specific.</p>
  */
 public final class SpringPageableScanUtils {
