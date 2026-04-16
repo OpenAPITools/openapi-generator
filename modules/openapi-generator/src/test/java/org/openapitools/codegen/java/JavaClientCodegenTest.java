@@ -4337,7 +4337,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test(dataProvider = "replaceOneOf" )
-    void replaceOneOfByDiscriminatorMapping(String file) throws IOException {
+    void replaceOneOfByDiscriminatorMapping(String file) {
         Map<String, File> files = generateFromContract(file, APACHE, Map.of(),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
 
@@ -4355,4 +4355,64 @@ public class JavaClientCodegenTest {
                 .fileContains("List<Double> coordinates");
 
     }
+    @Test
+    void issue_23276() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_23276.yaml", APACHE, Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+
+        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String type")
+                .fileDoesNotContain("coordinates")
+                .assertTypeAnnotations()
+                .containsWithName("JsonSubTypes");
+
+        JavaFileAssert.assertThat(files.get("Polygon.java"))
+                .extendsClass("GeoJsonObject")
+                .doesNotImplementInterfaces("GeoJsonObject")
+                .fileContains("List<Double> coordinates");
+    }
+
+    @Test
+    void issue_15() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/composed-oneof.yaml", APACHE,
+                Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
+                        .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
+
+        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String type")
+                .fileDoesNotContain("coordinates")
+                .assertTypeAnnotations()
+                .containsWithName("JsonSubTypes");
+
+        JavaFileAssert.assertThat(files.get("Polygon.java"))
+                .extendsClass("GeoJsonObject")
+                .doesNotImplementInterfaces("GeoJsonObject")
+                .fileContains("List<Double> coordinates");
+    }
+
+
+    @Test
+    void issue_912() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_912.yaml", APACHE,
+                Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
+                        .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
+
+
+    }
+
+    @Test
+    void issue_19261() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_19261.yaml", APACHE,
+                Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
+                        .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
+
+    }
+
 }

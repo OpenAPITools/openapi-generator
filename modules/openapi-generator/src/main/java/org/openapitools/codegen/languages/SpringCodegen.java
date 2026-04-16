@@ -845,10 +845,15 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        if (isSpringCodegen()) {
+            Map<String, String> newImport = Map.of("import", importMapping.get("Nullable"));
+            objs.getImports().add(newImport);
+        }
         final OperationMap operations = objs.getOperations();
         if (operations != null) {
             final List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
+
                 final List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     for (final CodegenResponse resp : responses) {
@@ -894,6 +899,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
+
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);

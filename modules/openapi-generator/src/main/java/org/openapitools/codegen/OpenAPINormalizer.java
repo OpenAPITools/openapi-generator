@@ -644,6 +644,10 @@ public class OpenAPINormalizer {
 
                 // normalize the schemas
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
+
+                if (getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
+                    ensureInheritance(schema, schemaName);
+                }
             }
         }
     }
@@ -1577,31 +1581,74 @@ public class OpenAPINormalizer {
     }
 
 
+    /**
+     * Ensure inheritance is correctly defined for OneOf and Discriminators.
+     *
+     * For schemas containing oneOf and discriminator.propertyName:
+     * Create the mappings as $refs
+     * Remove OneOf
+     *
+     * For referenced schemas, ensure that there is an allOf with this schema.
+     */
     protected Schema processReplaceOneOfByMapping(Schema schema) {
         if (!getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
             return schema;
         }
-
-        if (schema.getDiscriminator() != null) {
-            Discriminator discriminator = schema.getDiscriminator();
+        Discriminator discriminator = schema.getDiscriminator();
+        if (discriminator != null) {
             if (discriminator.getMapping() == null) {
-                Map<String, String> mapping = new TreeMap<>();
-                discriminator.setMapping(mapping);
+                Map<String, String> mappings = new TreeMap<>();
+                discriminator.setMapping(mappings);
                 for (Object oneOfObject : schema.getOneOf()) {
                     Schema oneOf = (Schema) oneOfObject;
-                    String ref = oneOf.get$ref();
-                    if (ref != null) {
-                        String name = ref.contains("/") ? ref.substring(ref.lastIndexOf('/') + 1) : ref;
-                        mapping.put(name, oneOf.get$ref());
+                    String refSchema = oneOf.get$ref();
+                    if (refSchema != null) {
+                        String name = refSchema.contains("/") ? refSchema.substring(refSchema.lastIndexOf('/') + 1) : refSchema;
+                        mappings.put(name, refSchema);
                     }
                 }
             }
+
 
             schema.setOneOf(null);
         }
         return schema;
     }
 
+
+    protected void ensureInheritance(Schema parent, String parentName) {
+        Discriminator discriminator = parent.getDiscriminator();
+        if (discriminator != null && discriminator.getMapping() != null) {
+            for (String mapping : discriminator.getMapping().keySet()) {
+                Schema child = ModelUtils.getSchema(openAPI, mapping);
+                if (child != null) {
+                    ensureInheritance(parent, child, parentName);
+                }
+            }
+        }
+    }
+
+    protected void ensureInheritance(Schema parent, Schema child, String parentName) {
+        List<Schema> allOf = child.getAllOf();
+        if (allOf != null) {
+            if (hasParent(child, parent)) {
+                return;
+            }
+        } else {
+            allOf = new ArrayList<>();
+            child.setAllOf(allOf);
+        }
+        Schema refToParent = new Schema<>().$ref("#/components/schemas/" + parentName);
+        allOf.add(refToParent);
+    }
+
+    private boolean hasParent(Schema child, Schema parent) {
+        List<Schema> allOf = child.getAllOf();
+        if (allOf != null) {
+            return allOf.stream().anyMatch(s -> hasParent(s, parent));
+        }
+        return false;
+    }
 
     /**
      * Set nullable to true in array/set if needed.

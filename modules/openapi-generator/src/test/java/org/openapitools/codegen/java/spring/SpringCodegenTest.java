@@ -62,6 +62,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
+import static org.openapitools.codegen.languages.JavaClientCodegen.APACHE;
 import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BOOT4;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
@@ -6694,5 +6695,22 @@ public class SpringCodegenTest {
                 .doesNotImplementInterfaces("GeoJsonObject")
                 .fileContains("List<Double> coordinates");
 
+    }
+
+    @Test
+    void issue_19261() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_19261.yaml", SPRING_BOOT,
+                Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+
+    }
+
+    @Test
+    void issue_22013() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_22013.yaml", SPRING_BOOT,
+                Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+
+        assertFileContains(files.get("SomeEndponintApiController.java").toPath(),".Nullable");
     }
 }

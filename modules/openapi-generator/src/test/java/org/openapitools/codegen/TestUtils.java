@@ -15,6 +15,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -342,14 +343,23 @@ public class TestUtils {
     }
 
     public static Path newTempFolder() {
-        final Path tempDir;
+        File file = new File("c:\\temp\\generated");
+        file.mkdir();
         try {
-            tempDir = Files.createTempDirectory("test");
+            FileUtils.cleanDirectory(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        tempDir.toFile().deleteOnExit();
 
-        return tempDir;
+        return file.toPath();
+//        final Path tempDir;
+//        try {
+//            tempDir = Files.createTempDirectory("test");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        tempDir.toFile().deleteOnExit();
+//
+//        return tempDir;
     }
 }
