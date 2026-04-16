@@ -9,7 +9,7 @@ additionalProperties:
   useSwaggerUI: "false"
   serializableModel: "true"
   useBeanValidation: "true"
-  interfaceOnly: "false"
+  interfaceOnly: "true"
   skipDefaultInterface: "true"
   useSpringBoot3: "true"
   hideGenerationTimestamp: "true"
