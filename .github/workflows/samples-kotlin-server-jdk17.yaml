@@ -12,6 +12,7 @@ on:
       - 'samples/server/petstore/kotlin-spring-declarative*/**'
       - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       - 'samples/server/petstore/kotlin-springboot-sort-validation/**'
+      - 'samples/server/petstore/kotlin-springboot-paged-model/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
@@ -25,6 +26,7 @@ on:
       - 'samples/server/petstore/kotlin-spring-declarative*/**'
       - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       - 'samples/server/petstore/kotlin-springboot-sort-validation/**'
+      - 'samples/server/petstore/kotlin-springboot-paged-model/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -65,6 +67,7 @@ jobs:
           - samples/server/petstore/kotlin-spring-declarative-interface-wrapped
           - samples/server/petstore/kotlin-spring-sealed-interfaces
           - samples/server/petstore/kotlin-springboot-sort-validation
+          - samples/server/petstore/kotlin-springboot-paged-model
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:

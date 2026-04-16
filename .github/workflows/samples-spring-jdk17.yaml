@@ -15,6 +15,7 @@ on:
       - samples/server/petstore/springboot-file-delegate-optional/**
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
       - samples/server/petstore/springboot-sort-validation/**
+      - samples/server/petstore/springboot-paged-model/**
       - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
   pull_request:
@@ -31,6 +32,7 @@ on:
       - samples/server/petstore/springboot-file-delegate-optional/**
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
       - samples/server/petstore/springboot-sort-validation/**
+      - samples/server/petstore/springboot-paged-model/**
       - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
 jobs:
@@ -55,6 +57,7 @@ jobs:
           - samples/server/petstore/springboot-file-delegate-optional
           - samples/server/petstore/springboot-petstore-with-api-response-examples
           - samples/server/petstore/springboot-sort-validation
+          - samples/server/petstore/springboot-paged-model
           - samples/openapi3/server/petstore/spring-boot-oneof-sealed
           - samples/openapi3/server/petstore/spring-boot-oneof-interface
     steps:
