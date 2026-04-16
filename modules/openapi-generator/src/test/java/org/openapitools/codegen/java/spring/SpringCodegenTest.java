@@ -7158,27 +7158,27 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void substituteGenericPagedModel_suppressesPagedSchemas() throws IOException {
+    public void substituteGenericPagedModel_keepsPagedSchemas() throws IOException {
+        // Paged schema classes must still be generated — springdoc @ApiResponse annotations reference them
         Map<String, Object> props = commonPagedModelProps();
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
 
-        // Detected paged schemas must NOT appear as generated model files
-        assertThat(files).doesNotContainKey("UserPage.java");
-        assertThat(files).doesNotContainKey("OrderPage.java");
-        assertThat(files).doesNotContainKey("PetPageAllOf.java");
+        assertThat(files).containsKey("UserPage.java");
+        assertThat(files).containsKey("OrderPage.java");
+        assertThat(files).containsKey("PetPageAllOf.java");
     }
 
     @Test
-    public void substituteGenericPagedModel_suppressesPaginationMetadataSchema() throws IOException {
+    public void substituteGenericPagedModel_keepsPaginationMetadataSchema() throws IOException {
+        // The shared pagination-metadata schema must also remain generated
         Map<String, Object> props = commonPagedModelProps();
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
 
-        // The shared pagination-metadata schema (PageMeta) must also be suppressed
-        assertThat(files).doesNotContainKey("PageMeta.java");
+        assertThat(files).containsKey("PageMeta.java");
     }
 
     @Test
@@ -7211,13 +7211,12 @@ public class SpringCodegenTest {
 
     @Test
     public void substituteGenericPagedModel_replacesExternalRefPagedSchema() throws IOException {
-        // OrderPage uses PageMetadata from an external file — must still be detected and replaced
+        // OrderPage uses PageMetadata from an external file — must still be detected and return type replaced
         Map<String, Object> props = commonPagedModelProps();
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
 
-        assertThat(files).doesNotContainKey("OrderPage.java");
         JavaFileAssert.assertThat(files.get("OrderApi.java"))
                 .assertMethod("listOrders")
                 .hasReturnType("ResponseEntity<PagedModel<Order>>");
@@ -7231,22 +7230,22 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
 
-        assertThat(files).doesNotContainKey("PetPageAllOf.java");
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("listPetsPaged")
                 .hasReturnType("ResponseEntity<PagedModel<Pet>>");
     }
 
     @Test
-    public void substituteGenericPagedModel_importsPagedModelInApiFile() throws IOException {
+    public void substituteGenericPagedModel_importsPagedModelAndItemTypeInApiFile() throws IOException {
         Map<String, Object> props = commonPagedModelProps();
 
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
 
-        // The api file must import PagedModel
+        // The api file must import both PagedModel and the item type
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .fileContains("import org.springframework.data.web.PagedModel");
+                .fileContains("import org.springframework.data.web.PagedModel")
+                .fileContains("import org.openapitools.model.User");
     }
 
     @Test

@@ -5527,22 +5527,25 @@ public class KotlinSpringServerCodegenTest {
         assertThat(files).containsKey("PageMeta.kt");
     }
 
+
     @Test
-    public void substituteGenericPagedModel_suppressesPagedSchemas() throws IOException {
+    public void substituteGenericPagedModel_keepsPagedSchemas() throws IOException {
+        // Paged schema classes must still be generated — springdoc @ApiResponse annotations reference them
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", commonKotlinPagedModelProps());
 
-        assertThat(files).doesNotContainKey("UserPage.kt");
-        assertThat(files).doesNotContainKey("OrderPage.kt");
-        assertThat(files).doesNotContainKey("PetPageAllOf.kt");
+        assertThat(files).containsKey("UserPage.kt");
+        assertThat(files).containsKey("OrderPage.kt");
+        assertThat(files).containsKey("PetPageAllOf.kt");
     }
 
     @Test
-    public void substituteGenericPagedModel_suppressesPaginationMetadataSchema() throws IOException {
+    public void substituteGenericPagedModel_keepsPaginationMetadataSchema() throws IOException {
+        // The shared pagination-metadata schema must also remain generated
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", commonKotlinPagedModelProps());
 
-        assertThat(files).doesNotContainKey("PageMeta.kt");
+        assertThat(files).containsKey("PageMeta.kt");
     }
 
     @Test
@@ -5571,11 +5574,10 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void substituteGenericPagedModel_replacesExternalRefPagedSchema() throws IOException {
-        // OrderPage uses PageMetadata from an external file — must still be detected
+        // OrderPage uses PageMetadata from an external file — must still be detected and return type replaced
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", commonKotlinPagedModelProps());
 
-        assertThat(files).doesNotContainKey("OrderPage.kt");
         File orderApi = files.get("OrderApi.kt");
         assertThat(orderApi).isNotNull();
         String content = Files.readString(orderApi.toPath());
@@ -5587,7 +5589,6 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", commonKotlinPagedModelProps());
 
-        assertThat(files).doesNotContainKey("PetPageAllOf.kt");
         File petApi = files.get("PetApi.kt");
         assertThat(petApi).isNotNull();
         String content = Files.readString(petApi.toPath());
@@ -5595,7 +5596,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void substituteGenericPagedModel_importsPagedModelInApiFile() throws IOException {
+    public void substituteGenericPagedModel_importsPagedModelAndItemTypeInApiFile() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", commonKotlinPagedModelProps());
 
@@ -5603,6 +5604,7 @@ public class KotlinSpringServerCodegenTest {
         assertThat(userApi).isNotNull();
         String content = Files.readString(userApi.toPath());
         assertThat(content).contains("import org.springframework.data.web.PagedModel");
+        assertThat(content).contains("import org.openapitools.model.User");
     }
 
     @Test

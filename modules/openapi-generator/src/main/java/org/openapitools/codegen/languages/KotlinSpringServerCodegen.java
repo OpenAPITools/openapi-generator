@@ -1147,8 +1147,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 codegenOperation.returnBaseType = "PagedModel";
                 // Clear any container flag — PagedModel is not itself a List/array
                 codegenOperation.returnContainer = null;
-                // Remove stale import for the suppressed paged schema and add PagedModel
-                codegenOperation.imports.remove(detected.schemaName);
+                // Keep the paged schema import (needed for @ApiResponse / springdoc annotations)
+                // Add item type import (needed for PagedModel<User> in method signature)
+                codegenOperation.imports.add(detected.itemSchemaName);
                 codegenOperation.imports.add("PagedModel");
                 LOGGER.info("substituteGenericPagedModel: operation '{}': replacing return type '{}' with PagedModel<{}>",
                         codegenOperation.operationId, oldType, detected.itemSchemaName);
@@ -1308,31 +1309,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         objs = super.postProcessAllModels(objs);
 
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
-            // Collect the pagination metadata schema names to suppress (deduplicated)
-            Set<String> metaSchemasToSuppress = new HashSet<>();
-            for (PagedModelScanUtils.DetectedPagedModel detected : pagedModelRegistry.values()) {
-                if (detected.metaSchemaName != null) {
-                    metaSchemasToSuppress.add(detected.metaSchemaName);
-                }
-            }
-
-            // Suppress each detected paged schema
-            for (Map.Entry<String, PagedModelScanUtils.DetectedPagedModel> entry : pagedModelRegistry.entrySet()) {
-                String schemaName = entry.getKey();
-                PagedModelScanUtils.DetectedPagedModel detected = entry.getValue();
-                if (objs.remove(schemaName) != null) {
-                    LOGGER.info("substituteGenericPagedModel: suppressing model '{}' — replaced by PagedModel<{}>",
-                            schemaName, detected.itemSchemaName);
-                }
-            }
-
-            // Suppress the pagination metadata schema(s)
-            for (String metaName : metaSchemasToSuppress) {
-                if (objs.remove(metaName) != null) {
-                    LOGGER.info("substituteGenericPagedModel: suppressing pagination metadata model '{}'"
-                            + " — replaced by PagedModel.PageMetadata", metaName);
-                }
-            }
+            LOGGER.info("substituteGenericPagedModel: detected {} paged-model schema(s): {} — models kept for @ApiResponse annotations",
+                    pagedModelRegistry.size(), pagedModelRegistry.keySet());
         }
 
         return objs;
