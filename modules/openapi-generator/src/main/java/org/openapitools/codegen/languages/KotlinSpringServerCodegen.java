@@ -1147,10 +1147,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 codegenOperation.returnBaseType = "PagedModel";
                 // Clear any container flag — PagedModel is not itself a List/array
                 codegenOperation.returnContainer = null;
-                // Keep the paged schema import (needed for @ApiResponse / springdoc annotations)
                 // Add item type import (needed for PagedModel<User> in method signature)
                 codegenOperation.imports.add(detected.itemSchemaName);
                 codegenOperation.imports.add("PagedModel");
+                // Remove paged schema import when no annotations are generated —
+                // the class is suppressed and not referenced anywhere
+                if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
+                    codegenOperation.imports.remove(detected.schemaName);
+                }
                 LOGGER.info("substituteGenericPagedModel: operation '{}': replacing return type '{}' with PagedModel<{}>",
                         codegenOperation.operationId, oldType, detected.itemSchemaName);
             }
@@ -1309,8 +1313,33 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         objs = super.postProcessAllModels(objs);
 
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
-            LOGGER.info("substituteGenericPagedModel: detected {} paged-model schema(s): {} — models kept for @ApiResponse annotations",
-                    pagedModelRegistry.size(), pagedModelRegistry.keySet());
+            if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
+                // No @ApiResponse annotations are generated when annotationLibrary=none,
+                // so paged schemas are not referenced anywhere → safe to suppress.
+                Set<String> metaSchemasToSuppress = new HashSet<>();
+                for (PagedModelScanUtils.DetectedPagedModel detected : pagedModelRegistry.values()) {
+                    if (detected.metaSchemaName != null) {
+                        metaSchemasToSuppress.add(detected.metaSchemaName);
+                    }
+                }
+                for (Map.Entry<String, PagedModelScanUtils.DetectedPagedModel> entry : pagedModelRegistry.entrySet()) {
+                    String schemaName = entry.getKey();
+                    PagedModelScanUtils.DetectedPagedModel detected = entry.getValue();
+                    if (objs.remove(schemaName) != null) {
+                        LOGGER.info("substituteGenericPagedModel: suppressing model '{}' — replaced by PagedModel<{}>",
+                                schemaName, detected.itemSchemaName);
+                    }
+                }
+                for (String metaName : metaSchemasToSuppress) {
+                    if (objs.remove(metaName) != null) {
+                        LOGGER.info("substituteGenericPagedModel: suppressing pagination metadata model '{}'"
+                                + " — replaced by PagedModel.PageMetadata", metaName);
+                    }
+                }
+            } else {
+                LOGGER.info("substituteGenericPagedModel: keeping paged-model schemas (annotationLibrary={}) — @ApiResponse annotations reference them",
+                        getAnnotationLibrary().toCliOptValue());
+            }
         }
 
         return objs;

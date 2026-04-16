@@ -5630,4 +5630,33 @@ public class KotlinSpringServerCodegenTest {
         props.put(SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
         return props;
     }
+
+    /** Properties with annotations disabled — triggers model suppression. */
+    private Map<String, Object> noAnnotationKotlinPagedModelProps() {
+        Map<String, Object> props = commonKotlinPagedModelProps();
+        props.put(DOCUMENTATION_PROVIDER, "none");
+        props.put(ANNOTATION_LIBRARY, "none");
+        return props;
+    }
+
+    @Test
+    public void substituteGenericPagedModel_suppressesPagedSchemasWhenNoAnnotations() throws IOException {
+        // With annotationLibrary=none, @ApiResponse is not generated → paged schemas not referenced
+        // → they should be suppressed to avoid generating unused classes
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", noAnnotationKotlinPagedModelProps());
+
+        assertThat(files).doesNotContainKey("UserPage.kt");
+        assertThat(files).doesNotContainKey("OrderPage.kt");
+        assertThat(files).doesNotContainKey("PetPageAllOf.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_suppressesPageMetaWhenNoAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", noAnnotationKotlinPagedModelProps());
+
+        assertThat(files).doesNotContainKey("PageMeta.kt");
+        assertThat(files).doesNotContainKey("PageMetadata.kt");
+    }
 }
