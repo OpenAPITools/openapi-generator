@@ -7,7 +7,7 @@ validateSpec: false
 additionalProperties:
   groupId: org.openapitools.openapi3
   documentationProvider: springdoc
-  interfaceOnly: false
+  interfaceOnly: true
   artifactId: springboot
   snapshotVersion: "true"
   useSpringBoot4: true
