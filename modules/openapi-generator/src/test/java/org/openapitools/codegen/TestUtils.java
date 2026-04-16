@@ -182,8 +182,9 @@ public class TestUtils {
 
     /**
      * Count occurrences of the given text
+     *
      * @param content content of the file
-     * @param text text to find
+     * @param text    text to find
      * @return
      */
     public static int countOccurrences(String content, String text) {
@@ -358,12 +359,24 @@ public class TestUtils {
     /**
      * Returns a collector that collects files into a {@link TreeMap} sorted by file name,
      * using case-insensitive ordering (but accepting both keys - e.g. "application" and "Application").
-     * This is used to have files sorted by name (case-insensitive) to simplify lookup during test debugging.
+     * This is used to have files sorted by name (case-insensitive) to improve developer experience during test debugging.
      */
     @NotNull
     public static Collector<File, ?, TreeMap<String, File>> collectToCaseInsensitiveOrderedCaseSensitiveKeyMap() {
+        return collectToCaseInsensitiveOrderedCaseSensitiveKeyMap(File::getName);
+    }
+
+    /**
+     * Returns a collector that collects files into a {@link TreeMap} sorted by file name,
+     * using case-insensitive ordering (but accepting both keys - e.g. "application" and "Application").
+     * This is used to have files sorted by name (case-insensitive) to improve developer experience during test debugging.
+     */
+    @NotNull
+    public static Collector<File, ?, TreeMap<String, File>> collectToCaseInsensitiveOrderedCaseSensitiveKeyMap(
+            Function<File, String> keyMapper
+    ) {
         return Collectors.toMap(
-                File::getName,
+                keyMapper,
                 Function.identity(),
                 (existing, replacement) -> {
                     throw new IllegalStateException("Duplicate key: " + existing);

@@ -2069,7 +2069,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString());
         consumer.accept(configurator);
         return new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(JavaClientCodegenTest::getUniqueName, Function.identity()));
+                .stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap(JavaClientCodegenTest::getUniqueName));
     }
 
     private static String getUniqueName(File file) {

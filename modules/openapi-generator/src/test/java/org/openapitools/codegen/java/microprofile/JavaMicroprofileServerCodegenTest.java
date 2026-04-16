@@ -253,7 +253,7 @@ public class JavaMicroprofileServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(input).generate();
 
         Map<String, File> filesMap = files.stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         validateJavaSourceFiles(files);
 

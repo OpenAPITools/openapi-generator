@@ -142,7 +142,7 @@ public class PhpNextgenClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         List<String> objectSerializerContent = Files
                 .readAllLines(files.get("ObjectSerializer.php").toPath())

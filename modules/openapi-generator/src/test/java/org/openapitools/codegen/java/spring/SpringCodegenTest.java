@@ -54,7 +54,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,9 +64,7 @@ import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BO
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class SpringCodegenTest {
 
@@ -1107,7 +1104,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         System.out.println("Generated files:");
         files.keySet().stream().sorted().forEach(System.out::println);
@@ -1379,7 +1376,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata generation
         List<File> files = generator.opts(input).generate();
 
-        return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
+        return files.stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
     }
 
     /*
@@ -3167,7 +3164,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         return generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(this::getUniqueName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap(this::getUniqueName));
     }
 
     private String getUniqueName(File file) {
@@ -6542,7 +6539,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata generation
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
                 .hasImports("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
@@ -6571,7 +6568,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata generation
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
                 .hasImports("tools.jackson.databind.annotation.JsonDeserialize");
@@ -6600,7 +6597,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata generation
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"))
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
