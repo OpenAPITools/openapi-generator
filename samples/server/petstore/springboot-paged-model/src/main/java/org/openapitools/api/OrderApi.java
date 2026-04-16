@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import org.springframework.lang.Nullable;
+import org.openapitools.model.Order;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
