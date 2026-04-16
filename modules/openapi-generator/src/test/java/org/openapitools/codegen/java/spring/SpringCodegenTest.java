@@ -6664,4 +6664,10 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
     }
+
+    @Test
+    void testNullableAnnotationOnController() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT);
+        assertFileContains(files.get("UserApiController.java").toPath(), "import org.springframework.lang.Nullable;", "@Nullable");
+    }
 }
