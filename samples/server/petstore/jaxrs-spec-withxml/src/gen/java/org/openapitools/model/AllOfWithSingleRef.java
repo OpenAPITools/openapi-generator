@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("AllOfWithSingleRef")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "AllOfWithSingleRef", propOrder =
     { "username", "singleRefType"
     })
@@ -119,10 +119,7 @@ public class AllOfWithSingleRef  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -160,4 +157,3 @@ public class AllOfWithSingleRef  implements Serializable {
     }
   }
 }
-

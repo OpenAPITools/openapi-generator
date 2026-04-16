@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * OneOf1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class OneOf1 {
   public static final String SERIALIZED_NAME_MESSAGE1 = "message1";
   @SerializedName(SERIALIZED_NAME_MESSAGE1)
@@ -112,10 +112,7 @@ public class OneOf1 {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 

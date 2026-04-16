@@ -304,6 +304,8 @@ samples/client/petstore/ocaml/_build/
 samples/client/petstore/ocaml-fake-petstore/_build/
 samples/client/petstore/ocaml-oneOf-primitive/_build/
 samples/client/petstore/ocaml-additional-properties/_build/
+samples/client/petstore/ocaml-enum-in-composed-schema/_build/
+samples/client/petstore/ocaml-recursion-test/_build/
 
 # jetbrain http client
 samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json

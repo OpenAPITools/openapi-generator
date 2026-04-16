@@ -19,7 +19,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="Model for testing reserved words")
 @JsonTypeName("Return")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelReturn  implements Serializable {
   private Integer _return;
 
@@ -82,10 +82,7 @@ public class ModelReturn  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -118,4 +115,3 @@ public class ModelReturn  implements Serializable {
     }
   }
 }
-

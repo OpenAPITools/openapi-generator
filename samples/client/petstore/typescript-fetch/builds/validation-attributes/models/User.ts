@@ -62,12 +62,49 @@ export interface User {
      */
     phone?: string;
     /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    nickname?: string;
+    /**
      * User Status
      * @type {number}
      * @memberof User
      */
     userStatus?: number;
 }
+export const UserPropertyValidationAttributesMap: {
+    [property: string]: {
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+    password: {
+        maxLength: 256,
+        minLength: 8,
+    },
+    nickname: {
+        pattern: '/^[a-z&]+$/',
+    },
+    userStatus: {
+        maximum: 100,
+        exclusiveMaximum: true,
+        minimum: 0,
+        exclusiveMinimum: true,
+        multipleOf: 10,
+    },
+}
+
 
 /**
  * Check if a given object implements the User interface.
@@ -93,6 +130,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': json['email'] == null ? undefined : json['email'],
         'password': json['password'] == null ? undefined : json['password'],
         'phone': json['phone'] == null ? undefined : json['phone'],
+        'nickname': json['nickname'] == null ? undefined : json['nickname'],
         'userStatus': json['userStatus'] == null ? undefined : json['userStatus'],
     };
 }
@@ -115,35 +153,8 @@ export function UserToJSONTyped(value?: User | null, ignoreDiscriminator: boolea
         'email': value['email'],
         'password': value['password'],
         'phone': value['phone'],
+        'nickname': value['nickname'],
         'userStatus': value['userStatus'],
     };
-}
-
-export const UserPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-    password: {
-        maxLength: 256,
-        minLength: 8,
-    },
-    userStatus: {
-        maximum: 100,
-        exclusiveMaximum: true,
-        minimum: 0,
-        exclusiveMinimum: true,
-        multipleOf: 10,
-    },
 }
 

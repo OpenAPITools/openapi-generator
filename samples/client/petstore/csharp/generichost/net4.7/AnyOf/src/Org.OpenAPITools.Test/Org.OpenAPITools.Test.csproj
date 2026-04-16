@@ -5,6 +5,9 @@
     <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
     <TargetFramework>net47</TargetFramework>
     <IsPackable>false</IsPackable>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>CS0612</WarningsNotAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

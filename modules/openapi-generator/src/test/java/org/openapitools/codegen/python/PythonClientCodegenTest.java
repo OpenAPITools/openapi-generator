@@ -660,6 +660,57 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileNotContains(pyprojectPath, "license = { text = \"Apache-2.0\" }");
     }
 
+    @Test(description = "UUID property with pattern should import field_validator")
+    public void testUuidWithPatternImportsFieldValidator() throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_uuid_with_pattern.yaml");
+        final Path p = Paths.get(outputPath + "openapi_client/models/uuid_with_pattern.py");
+
+        assertFileExists(p);
+        assertFileContains(p, "from pydantic import BaseModel, ConfigDict, field_validator");
+    }
+
+    @Test(description = "Verify default buildSystem uses setuptools")
+    public void testDefaultBuildSystemSetuptools() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+        TestUtils.assertFileContains(pyprojectPath, "requires = [\"setuptools\"]");
+        TestUtils.assertFileContains(pyprojectPath, "build-backend = \"setuptools.build_meta\"");
+    }
+
+    @Test(description = "Verify buildSystem=hatchling uses hatchling")
+    public void testBuildSystemHatchling() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("buildSystem", "hatchling");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+        TestUtils.assertFileContains(pyprojectPath, "requires = [\"hatchling\"]");
+        TestUtils.assertFileContains(pyprojectPath, "build-backend = \"hatchling.build\"");
+    }
+
     @Test(description = "Verify non-poetry1 mode uses object notation for license")
     public void testNonPoetry1LicenseFormat() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

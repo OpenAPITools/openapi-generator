@@ -23,6 +23,7 @@ const (
 	OUTERENUM_PLACED OuterEnum = "placed"
 	OUTERENUM_APPROVED OuterEnum = "approved"
 	OUTERENUM_SHIPPED OuterEnum = "delivered"
+	OUTERENUM_UNKNOWN_DEFAULT_OPEN_API OuterEnum = "unknown_default_open_api"
 )
 
 // All allowed values of OuterEnum enum
@@ -30,6 +31,7 @@ var AllowedOuterEnumEnumValues = []OuterEnum{
 	"placed",
 	"approved",
 	"delivered",
+	"unknown_default_open_api",
 }
 
 func (v *OuterEnum) UnmarshalJSON(src []byte) error {
@@ -46,7 +48,8 @@ func (v *OuterEnum) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid OuterEnum", value)
+	*v = OUTERENUM_UNKNOWN_DEFAULT_OPEN_API
+	return nil
 }
 
 // NewOuterEnumFromValue returns a pointer to a valid OuterEnum

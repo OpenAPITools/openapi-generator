@@ -28,6 +28,7 @@ jobs:
           - samples/client/petstore/csharp/generichost/latest/Tags
           - samples/client/petstore/csharp/generichost/latest/HelloWorld
           - samples/client/petstore/csharp/generichost/latest/OneOfList
+          - samples/client/petstore/csharp/generichost/latest/UseDateTimeOffset
           - samples/client/petstore/csharp/generichost/net10/AllOf
           - samples/client/petstore/csharp/generichost/net10/AnyOf
           - samples/client/petstore/csharp/generichost/net10/AnyOfNoCompare
@@ -48,7 +49,7 @@ jobs:
           # - samples/client/petstore/csharp/unityWebRequest/net10/Petstore
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5.1.0
+      - uses: actions/setup-dotnet@v5.2.0
         with:
           dotnet-version: '10.x'
       - name: Build

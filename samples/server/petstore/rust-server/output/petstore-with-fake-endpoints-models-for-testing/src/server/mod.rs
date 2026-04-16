@@ -365,6 +365,237 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
             // TestSpecialTags - PATCH /another-fake/dummy
             hyper::Method::PATCH if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => {
+                handle_test_special_tags(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // Call123example - GET /fake/operation-with-numeric-id
+            hyper::Method::GET if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => {
+                handle_call123example(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // FakeOuterBooleanSerialize - POST /fake/outer/boolean
+            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
+                handle_fake_outer_boolean_serialize(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // FakeOuterCompositeSerialize - POST /fake/outer/composite
+            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => {
+                handle_fake_outer_composite_serialize(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // FakeOuterNumberSerialize - POST /fake/outer/number
+            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => {
+                handle_fake_outer_number_serialize(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // FakeOuterStringSerialize - POST /fake/outer/string
+            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => {
+                handle_fake_outer_string_serialize(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
+            hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => {
+                handle_fake_response_with_numerical_description(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // TestBodyWithQueryParams - PUT /fake/body-with-query-params
+            hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
+                handle_test_body_with_query_params(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // TestClientModel - PATCH /fake
+            hyper::Method::PATCH if path.matched(paths::ID_FAKE) => {
+                handle_test_client_model(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // TestEndpointParameters - POST /fake
+            hyper::Method::POST if path.matched(paths::ID_FAKE) => {
+                handle_test_endpoint_parameters(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // TestEnumParameters - GET /fake
+            hyper::Method::GET if path.matched(paths::ID_FAKE) => {
+                handle_test_enum_parameters(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
+            hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => {
+                handle_test_inline_additional_properties(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // TestJsonFormData - GET /fake/jsonFormData
+            hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => {
+                handle_test_json_form_data(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
+            hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
+                handle_hyphen_param(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // TestClassname - PATCH /fake_classname_test
+            hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
+                handle_test_classname(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // AddPet - POST /pet
+            hyper::Method::POST if path.matched(paths::ID_PET) => {
+                handle_add_pet(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // FindPetsByStatus - GET /pet/findByStatus
+            hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => {
+                handle_find_pets_by_status(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // FindPetsByTags - GET /pet/findByTags
+            hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => {
+                handle_find_pets_by_tags(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // UpdatePet - PUT /pet
+            hyper::Method::PUT if path.matched(paths::ID_PET) => {
+                handle_update_pet(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // DeletePet - DELETE /pet/{petId}
+            hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => {
+                handle_delete_pet(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // GetPetById - GET /pet/{petId}
+            hyper::Method::GET if path.matched(paths::ID_PET_PETID) => {
+                handle_get_pet_by_id(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // UpdatePetWithForm - POST /pet/{petId}
+            hyper::Method::POST if path.matched(paths::ID_PET_PETID) => {
+                handle_update_pet_with_form(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // UploadFile - POST /pet/{petId}/uploadImage
+            hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
+                handle_upload_file(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // GetInventory - GET /store/inventory
+            hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => {
+                handle_get_inventory(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // PlaceOrder - POST /store/order
+            hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => {
+                handle_place_order(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // DeleteOrder - DELETE /store/order/{order_id}
+            hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+                handle_delete_order(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // GetOrderById - GET /store/order/{order_id}
+            hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+                handle_get_order_by_id(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // CreateUser - POST /user
+            hyper::Method::POST if path.matched(paths::ID_USER) => {
+                handle_create_user(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // CreateUsersWithArrayInput - POST /user/createWithArray
+            hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => {
+                handle_create_users_with_array_input(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // CreateUsersWithListInput - POST /user/createWithList
+            hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => {
+                handle_create_users_with_list_input(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // LoginUser - GET /user/login
+            hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => {
+                handle_login_user(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // LogoutUser - GET /user/logout
+            hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => {
+                handle_logout_user(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // DeleteUser - DELETE /user/{username}
+            hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => {
+                handle_delete_user(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // GetUserByName - GET /user/{username}
+            hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => {
+                handle_get_user_by_name(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // UpdateUser - PUT /user/{username}
+            hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => {
+                handle_update_user(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            _ if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_JSONFORMDATA) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_NUMBER) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_OUTER_STRING) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => method_not_allowed(),
+            _ if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_FINDBYSTATUS) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_FINDBYTAGS) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_PETID) => method_not_allowed(),
+            _ if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => method_not_allowed(),
+            _ if path.matched(paths::ID_STORE_INVENTORY) => method_not_allowed(),
+            _ if path.matched(paths::ID_STORE_ORDER) => method_not_allowed(),
+            _ if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_CREATEWITHARRAY) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_CREATEWITHLIST) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_LOGIN) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_LOGOUT) => method_not_allowed(),
+            _ if path.matched(paths::ID_USER_USERNAME) => method_not_allowed(),
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(BoxBody::new(http_body_util::Empty::new()))
+                        .expect("Unable to create Not Found response"))
+            }
+        }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+            self.validation,
+            self.multipart_form_size_limit
+        ))
+    }
+}
+
+#[allow(unused_variables)]
+async fn handle_test_special_tags<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -445,10 +676,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // Call123example - GET /fake/operation-with-numeric-id
-            hyper::Method::GET if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => {
+#[allow(unused_variables)]
+async fn handle_call123example<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.call123example(
                                         &context
                                     ).await;
@@ -475,10 +721,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // FakeOuterBooleanSerialize - POST /fake/outer/boolean
-            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
+#[allow(unused_variables)]
+async fn handle_fake_outer_boolean_serialize<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -546,10 +807,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // FakeOuterCompositeSerialize - POST /fake/outer/composite
-            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => {
+#[allow(unused_variables)]
+async fn handle_fake_outer_composite_serialize<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -617,10 +893,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // FakeOuterNumberSerialize - POST /fake/outer/number
-            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => {
+#[allow(unused_variables)]
+async fn handle_fake_outer_number_serialize<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -688,10 +979,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // FakeOuterStringSerialize - POST /fake/outer/string
-            hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => {
+#[allow(unused_variables)]
+async fn handle_fake_outer_string_serialize<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -759,10 +1065,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
-            hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => {
+#[allow(unused_variables)]
+async fn handle_fake_response_with_numerical_description<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.fake_response_with_numerical_description(
                                         &context
                                     ).await;
@@ -789,10 +1110,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // TestBodyWithQueryParams - PUT /fake/body-with-query-params
-            hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
+#[allow(unused_variables)]
+async fn handle_test_body_with_query_params<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_query = query_params.iter().filter(|e| e.0 == "query").map(|e| e.1.clone())
@@ -894,10 +1230,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // TestClientModel - PATCH /fake
-            hyper::Method::PATCH if path.matched(paths::ID_FAKE) => {
+#[allow(unused_variables)]
+async fn handle_test_client_model<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -978,10 +1329,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // TestEndpointParameters - POST /fake
-            hyper::Method::POST if path.matched(paths::ID_FAKE) => {
+#[allow(unused_variables)]
+async fn handle_test_endpoint_parameters<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -1080,10 +1446,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // TestEnumParameters - GET /fake
-            hyper::Method::GET if path.matched(paths::ID_FAKE) => {
+#[allow(unused_variables)]
+async fn handle_test_enum_parameters<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Header parameters
                 let param_enum_header_string_array = headers.get(HeaderName::from_static("enum_header_string_array"));
 
@@ -1245,10 +1626,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
-            hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => {
+#[allow(unused_variables)]
+async fn handle_test_inline_additional_properties<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1320,10 +1716,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // TestJsonFormData - GET /fake/jsonFormData
-            hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => {
+#[allow(unused_variables)]
+async fn handle_test_json_form_data<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -1371,10 +1782,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
-            hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
+#[allow(unused_variables)]
+async fn handle_hyphen_param<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -1425,10 +1851,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // TestClassname - PATCH /fake_classname_test
-            hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
+#[allow(unused_variables)]
+async fn handle_test_classname<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -1519,10 +1960,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // AddPet - POST /pet
-            hyper::Method::POST if path.matched(paths::ID_PET) => {
+#[allow(unused_variables)]
+async fn handle_add_pet<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -1626,10 +2082,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // FindPetsByStatus - GET /pet/findByStatus
-            hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => {
+#[allow(unused_variables)]
+async fn handle_find_pets_by_status<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -1705,10 +2176,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // FindPetsByTags - GET /pet/findByTags
-            hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => {
+#[allow(unused_variables)]
+async fn handle_find_pets_by_tags<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -1784,10 +2270,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // UpdatePet - PUT /pet
-            hyper::Method::PUT if path.matched(paths::ID_PET) => {
+#[allow(unused_variables)]
+async fn handle_update_pet<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -1901,10 +2402,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // DeletePet - DELETE /pet/{petId}
-            hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => {
+#[allow(unused_variables)]
+async fn handle_delete_pet<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -2006,10 +2522,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // GetPetById - GET /pet/{petId}
-            hyper::Method::GET if path.matched(paths::ID_PET_PETID) => {
+#[allow(unused_variables)]
+async fn handle_get_pet_by_id<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -2087,10 +2618,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // UpdatePetWithForm - POST /pet/{petId}
-            hyper::Method::POST if path.matched(paths::ID_PET_PETID) => {
+#[allow(unused_variables)]
+async fn handle_update_pet_with_form<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -2192,10 +2738,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // UploadFile - POST /pet/{petId}/uploadImage
-            hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
+#[allow(unused_variables)]
+async fn handle_upload_file<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -2397,10 +2958,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // GetInventory - GET /store/inventory
-            hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => {
+#[allow(unused_variables)]
+async fn handle_get_inventory<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
                         Some(ref authorization) => authorization,
@@ -2444,10 +3020,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // PlaceOrder - POST /store/order
-            hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => {
+#[allow(unused_variables)]
+async fn handle_place_order<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2533,10 +3124,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // DeleteOrder - DELETE /store/order/{order_id}
-            hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+#[allow(unused_variables)]
+async fn handle_delete_order<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -2592,10 +3198,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // GetOrderById - GET /store/order/{order_id}
-            hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+#[allow(unused_variables)]
+async fn handle_get_order_by_id<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -2663,10 +3284,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // CreateUser - POST /user
-            hyper::Method::POST if path.matched(paths::ID_USER) => {
+#[allow(unused_variables)]
+async fn handle_create_user<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2740,10 +3376,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // CreateUsersWithArrayInput - POST /user/createWithArray
-            hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => {
+#[allow(unused_variables)]
+async fn handle_create_users_with_array_input<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2817,10 +3468,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // CreateUsersWithListInput - POST /user/createWithList
-            hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => {
+#[allow(unused_variables)]
+async fn handle_create_users_with_list_input<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2894,10 +3560,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // LoginUser - GET /user/login
-            hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => {
+#[allow(unused_variables)]
+async fn handle_login_user<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_username = query_params.iter().filter(|e| e.0 == "username").map(|e| e.1.clone())
@@ -3027,10 +3708,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // LogoutUser - GET /user/logout
-            hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => {
+#[allow(unused_variables)]
+async fn handle_logout_user<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.logout_user(
                                         &context
                                     ).await;
@@ -3057,10 +3753,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // DeleteUser - DELETE /user/{username}
-            hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => {
+#[allow(unused_variables)]
+async fn handle_delete_user<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -3116,10 +3827,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // GetUserByName - GET /user/{username}
-            hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => {
+#[allow(unused_variables)]
+async fn handle_get_user_by_name<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -3187,10 +3913,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // UpdateUser - PUT /user/{username}
-            hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => {
+#[allow(unused_variables)]
+async fn handle_update_user<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -3293,47 +4034,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
-
-            _ if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_JSONFORMDATA) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_OUTER_NUMBER) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_OUTER_STRING) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => method_not_allowed(),
-            _ if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => method_not_allowed(),
-            _ if path.matched(paths::ID_PET) => method_not_allowed(),
-            _ if path.matched(paths::ID_PET_FINDBYSTATUS) => method_not_allowed(),
-            _ if path.matched(paths::ID_PET_FINDBYTAGS) => method_not_allowed(),
-            _ if path.matched(paths::ID_PET_PETID) => method_not_allowed(),
-            _ if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => method_not_allowed(),
-            _ if path.matched(paths::ID_STORE_INVENTORY) => method_not_allowed(),
-            _ if path.matched(paths::ID_STORE_ORDER) => method_not_allowed(),
-            _ if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => method_not_allowed(),
-            _ if path.matched(paths::ID_USER) => method_not_allowed(),
-            _ if path.matched(paths::ID_USER_CREATEWITHARRAY) => method_not_allowed(),
-            _ if path.matched(paths::ID_USER_CREATEWITHLIST) => method_not_allowed(),
-            _ if path.matched(paths::ID_USER_LOGIN) => method_not_allowed(),
-            _ if path.matched(paths::ID_USER_LOGOUT) => method_not_allowed(),
-            _ if path.matched(paths::ID_USER_USERNAME) => method_not_allowed(),
-                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                        .body(BoxBody::new(http_body_util::Empty::new()))
-                        .expect("Unable to create Not Found response"))
-            }
-        }
-        Box::pin(run(
-            self.api_impl.clone(),
-            req,
-            self.validation,
-            self.multipart_form_size_limit
-        ))
-    }
 }
 
 /// Request parser for `Api`.

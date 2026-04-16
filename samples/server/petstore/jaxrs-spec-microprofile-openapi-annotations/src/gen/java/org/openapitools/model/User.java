@@ -11,11 +11,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
+/**
+ * A User who is purchasing from the pet store
+ **/
 
-
-@org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
+@org.eclipse.microprofile.openapi.annotations.media.Schema(title="a User", description="A User who is purchasing from the pet store")
 @JsonTypeName("User")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class User  implements Serializable {
   private Long id;
   private String username;
@@ -240,10 +242,7 @@ public class User  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -311,4 +310,3 @@ public class User  implements Serializable {
     }
   }
 }
-

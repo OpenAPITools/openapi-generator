@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.Client;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,18 +11,18 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link AnotherFakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public interface AnotherFakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -41,6 +40,7 @@ public interface AnotherFakeApiDelegate {
     default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> client,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
+    
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -49,6 +49,8 @@ public interface AnotherFakeApiDelegate {
                 break;
             }
         }
+    
+
         return result.then(client).then(Mono.empty());
 
     }

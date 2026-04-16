@@ -10,19 +10,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Order
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Order {
 
   private @Nullable Long id;
@@ -91,6 +91,7 @@ public class Order {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -111,6 +112,7 @@ public class Order {
     return petId;
   }
 
+  @JsonProperty("petId")
   public void setPetId(@Nullable Long petId) {
     this.petId = petId;
   }
@@ -131,6 +133,7 @@ public class Order {
     return quantity;
   }
 
+  @JsonProperty("quantity")
   public void setQuantity(@Nullable Integer quantity) {
     this.quantity = quantity;
   }
@@ -151,6 +154,7 @@ public class Order {
     return shipDate;
   }
 
+  @JsonProperty("shipDate")
   public void setShipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
@@ -171,6 +175,7 @@ public class Order {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -191,6 +196,7 @@ public class Order {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
@@ -236,10 +242,7 @@ public class Order {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

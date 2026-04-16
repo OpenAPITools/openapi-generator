@@ -258,7 +258,6 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
-
         for (CodegenOperation operation : operations) {
 
             if (operation.hasConsumes) {
@@ -276,6 +275,8 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
             // http method verb conversion (e.g. PUT => Put)
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
+
+        handleImplicitHeaders(objs);
 
         return objs;
     }

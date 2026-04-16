@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets String
         /// </summary>
-        public string? String { get { return this.StringOption; } set { this.StringOption = new(value); } }
+        public string? String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Bool
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Bool
         /// </summary>
-        public bool? Bool { get { return this.BoolOption; } set { this.BoolOption = new(value); } }
+        public bool? Bool { get { return this.BoolOption.Value; } set { this.BoolOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int
         /// </summary>
-        public int? Int { get { return this.IntOption; } set { this.IntOption = new(value); } }
+        public int? Int { get { return this.IntOption.Value; } set { this.IntOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Decimal
@@ -97,7 +97,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
-        public decimal? Decimal { get { return this.DecimalOption; } set { this.DecimalOption = new(value); } }
+        public decimal? Decimal { get { return this.DecimalOption.Value; } set { this.DecimalOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MixedSubId
@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MixedSubId
         /// </summary>
-        public MixedSubId? MixedSubId { get { return this.MixedSubIdOption; } set { this.MixedSubIdOption = new(value); } }
+        public MixedSubId? MixedSubId { get { return this.MixedSubIdOption.Value; } set { this.MixedSubIdOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

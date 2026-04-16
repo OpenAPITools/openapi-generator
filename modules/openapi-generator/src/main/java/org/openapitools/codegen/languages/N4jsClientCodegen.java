@@ -595,7 +595,11 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     private String numericEnumValuesToEnumTypeUnion(List<Number> values) {
         List<String> stringValues = new ArrayList<>();
         for (Number value : values) {
-            stringValues.add(value.toString());
+            if (value == null) {
+                LOGGER.warn("An enum value was null. See https://github.com/swagger-api/swagger-core/issues/4223");
+            } else {
+                stringValues.add(value.toString());
+            }
         }
         return enumValuesToEnumTypeUnion(stringValues, "number");
     }

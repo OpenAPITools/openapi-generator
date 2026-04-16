@@ -1,4 +1,4 @@
-# # ChildWithNullable
+# ChildWithNullable
 
 ## Properties
 

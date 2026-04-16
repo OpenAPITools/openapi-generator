@@ -1,0 +1,6 @@
+generatorName: typescript-nestjs-server
+outputDir: samples/server/petstore/typescript-nestjs-server/builds/parameters
+inputSpec: modules/openapi-generator/src/test/resources/3_0/parameter-test-spec.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-nestjs-server
+additionalProperties:
+  "useSingleRequestParameter" : true

@@ -81,10 +81,11 @@ public class {{classname}}Controller implements {{classname}} {
 {{^isDelegate}}
     {{^reactive}}
 
+    @Nullable
     private final NativeWebRequest request;
 
     @Autowired
-    public {{classname}}Controller(NativeWebRequest request) {
+    public {{classname}}Controller(@Nullable NativeWebRequest request) {
         this.request = request;
     }
 
@@ -123,7 +124,7 @@ public class {{classname}}Controller implements {{classname}} {
     public {{#responseWrapper}}{{.}}<{{/responseWrapper}}{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
-        {{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore {{/springFoxDocumentationProvider}}{{#springDocDocumentationProvider}}@ParameterObject {{/springDocDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
+        {{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}}{{#springDocDocumentationProvider}}@ParameterObject {{/springDocDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
     ) {
     {{^isDelegate}}
         {{^async}}

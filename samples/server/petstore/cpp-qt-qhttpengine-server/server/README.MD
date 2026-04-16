@@ -10,12 +10,9 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.0
-- Generator version: 7.20.0-SNAPSHOT
+- Generator version: 7.22.0-SNAPSHOT
 
 ## QHTTPEngine
-
-[![Build Status](https://travis-ci.org/nitroshare/qhttpengine.svg?branch=master)](https://travis-ci.org/nitroshare/qhttpengine)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://opensource.org/licenses/MIT)
 
 Simple set of classes for developing HTTP server applications in Qt.
 

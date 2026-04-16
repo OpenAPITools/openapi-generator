@@ -11,8 +11,8 @@ import java.io.InputStream
 
 
 
-@Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.20.0-SNAPSHOT")
+@Path("/pet")
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.22.0-SNAPSHOT")
 class PetApi {
 
     @POST
@@ -22,23 +22,27 @@ class PetApi {
     }
 
     @DELETE
-    suspend fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")   apiKey: kotlin.String?): Response {
+    @Path("/{petId}")
+    suspend fun deletePet(@PathParam("petId") petId: kotlin.Long): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
+    @Path("/findByStatus")
     @Produces("application/xml", "application/json")
-    suspend fun findPetsByStatus(@QueryParam("status")   status: kotlin.collections.List<kotlin.String>): Response {
+    suspend fun findPetsByStatus(@QueryParam("status") status: kotlin.collections.List<kotlin.String>): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
+    @Path("/findByTags")
     @Produces("application/xml", "application/json")
-    suspend fun findPetsByTags(@QueryParam("tags")   tags: kotlin.collections.List<kotlin.String>): Response {
+    suspend fun findPetsByTags(@QueryParam("tags") tags: kotlin.collections.List<kotlin.String>): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
+    @Path("/{petId}")
     @Produces("application/xml", "application/json")
     suspend fun getPetById(@PathParam("petId") petId: kotlin.Long): Response {
         return Response.ok().entity("magic!").build();
@@ -51,12 +55,14 @@ class PetApi {
     }
 
     @POST
+    @Path("/{petId}")
     @Consumes("application/x-www-form-urlencoded")
     suspend fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "name") name: kotlin.String?,@FormParam(value = "status") status: kotlin.String?): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
+    @Path("/{petId}/uploadImage")
     @Consumes("multipart/form-data")
     @Produces("application/json")
     suspend fun uploadFile(@PathParam("petId") petId: kotlin.Long,@FormParam(value = "additionalMetadata") additionalMetadata: kotlin.String?, @FormParam(value = "file") fileInputStream: InputStream?): Response {

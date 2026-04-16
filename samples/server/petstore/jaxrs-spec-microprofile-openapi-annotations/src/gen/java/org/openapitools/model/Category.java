@@ -11,14 +11,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
+/**
+ * A category for a pet
+ **/
 
-
-@org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
+@org.eclipse.microprofile.openapi.annotations.media.Schema(title="Pet category", description="A category for a pet")
 @JsonTypeName("Category")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Category  implements Serializable {
   private Long id;
-  private String name = "default-name";
+  private String name;
 
   protected Category(CategoryBuilder<?, ?> b) {
     this.id = b.id;
@@ -26,13 +28,6 @@ public class Category  implements Serializable {
   }
 
   public Category() {
-  }
-
-  @JsonCreator
-  public Category(
-    @JsonProperty(required = true, value = "name") String name
-  ) {
-    this.name = name;
   }
 
   /**
@@ -62,13 +57,13 @@ public class Category  implements Serializable {
   }
 
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty(required = true, value = "name")
-  @NotNull public String getName() {
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
+  @JsonProperty("name")
+   @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")public String getName() {
     return name;
   }
 
-  @JsonProperty(required = true, value = "name")
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -108,10 +103,7 @@ public class Category  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -134,7 +126,7 @@ public class Category  implements Serializable {
 
   public static abstract class CategoryBuilder<C extends Category, B extends CategoryBuilder<C, B>>  {
     private Long id;
-    private String name = "default-name";
+    private String name;
     protected abstract B self();
 
     public abstract C build();
@@ -149,4 +141,3 @@ public class Category  implements Serializable {
     }
   }
 }
-

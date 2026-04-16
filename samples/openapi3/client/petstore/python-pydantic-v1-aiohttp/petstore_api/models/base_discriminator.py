@@ -66,7 +66,7 @@ class BaseDiscriminator(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Union(Info, PrimitiveString):
+    def from_json(cls, json_str: str) -> Union[Info, PrimitiveString]:
         """Create an instance of BaseDiscriminator from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -79,7 +79,7 @@ class BaseDiscriminator(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Union(Info, PrimitiveString):
+    def from_dict(cls, obj: dict) -> Union[Info, PrimitiveString]:
         """Create an instance of BaseDiscriminator from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)

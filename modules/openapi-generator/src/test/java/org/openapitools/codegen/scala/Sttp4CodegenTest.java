@@ -53,4 +53,40 @@ public class Sttp4CodegenTest {
         assertFileContains(path, ".header(\"X-Api-Key\", apiKeyHeader)");
         assertFileContains(path, ".cookie(\"apikey\", apiKeyCookie)");
     }
+
+    @Test
+    public void verifyDateTimeLocalGeneratesLocalDateTime() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/scala/date-time-local.yaml", null, new ParseOptions()).getOpenAPI();
+
+        ScalaSttp4ClientCodegen codegen = new ScalaSttp4ClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        Path modelPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Event.scala");
+        // date-time-local maps to LocalDateTime
+        assertFileContains(modelPath, "import java.time.LocalDateTime");
+        assertFileContains(modelPath, "startTime: LocalDateTime");
+        assertFileContains(modelPath, "endTime: Option[LocalDateTime]");
+        // date-time maps to OffsetDateTime
+        assertFileContains(modelPath, "import java.time.OffsetDateTime");
+        assertFileContains(modelPath, "createdAt: OffsetDateTime");
+        assertFileContains(modelPath, "updatedAt: Option[OffsetDateTime]");
+    }
 }

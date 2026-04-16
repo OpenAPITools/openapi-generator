@@ -32,6 +32,26 @@ export interface Category {
      */
     name?: string;
 }
+export const CategoryPropertyValidationAttributesMap: {
+    [property: string]: {
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+    name: {
+        pattern: '/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/',
+    },
+}
+
 
 /**
  * Check if a given object implements the Category interface.
@@ -69,25 +89,5 @@ export function CategoryToJSONTyped(value?: Category | null, ignoreDiscriminator
         'id': value['id'],
         'name': value['name'],
     };
-}
-
-export const CategoryPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-    name: {
-        pattern: '/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/',
-    },
 }
 

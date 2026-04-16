@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 
-@JsonTypeName("Dog")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@JsonTypeName("DOG")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "Dog", propOrder =
     { "breed"
     })
@@ -106,10 +106,7 @@ public class Dog extends Animal implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -139,4 +136,3 @@ public class Dog extends Animal implements Serializable {
     }
   }
 }
-

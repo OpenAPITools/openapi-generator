@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Count
         /// </summary>
         [JsonPropertyName("count")]
-        public decimal? Count { get { return this.CountOption; } set { this.CountOption = new Option<decimal?>(value); } }
+        public decimal? Count { get { return this.CountOption.Value; } set { this.CountOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

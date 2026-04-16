@@ -16,17 +16,20 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
+import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
+import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,6 +38,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -670,6 +677,53 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "Spring Boot 4 should use Jackson 3 datetime property path")
+    public void useSpringBoot4JacksonDateTimeProperty() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // Spring Boot 4 uses Jackson 3, which moved WRITE_DATES_AS_TIMESTAMPS to
+        // spring.jackson.datatype.datetime instead of spring.jackson.serialization
+        Path applicationYaml = Paths.get(outputPath + "/src/main/resources/application.yaml");
+        assertFileContains(applicationYaml, "datatype:");
+        assertFileContains(applicationYaml, "datetime:");
+        assertFileContains(applicationYaml, "WRITE_DATES_AS_TIMESTAMPS: false");
+        assertFileNotContains(applicationYaml, "serialization:");
+    }
+
+    @Test(description = "Spring Boot 3 should use Jackson 2 serialization property path")
+    public void useSpringBoot3JacksonSerializationProperty() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT3, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // Spring Boot 3 uses Jackson 2, which has WRITE_DATES_AS_TIMESTAMPS under
+        // spring.jackson.serialization
+        Path applicationYaml = Paths.get(outputPath + "/src/main/resources/application.yaml");
+        assertFileContains(applicationYaml, "serialization:");
+        assertFileContains(applicationYaml, "WRITE_DATES_AS_TIMESTAMPS: false");
+        assertFileNotContains(applicationYaml, "datatype:");
+    }
+
     @Test(description = "multi-line descriptions should be supported for operations")
     public void multiLineOperationDescription() throws IOException {
         testMultiLineOperationDescription(false);
@@ -755,7 +809,8 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER1.toCliOptValue());
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGFOX.toCliOptValue());
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue3596-use-correct-get-annotation-target.yaml"))
@@ -3254,20 +3309,6 @@ public class KotlinSpringServerCodegenTest {
                                         "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
                                         "@PathVariable"
                                 )
-                },
-                { DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
-                                        "@PathVariable"
-                                ),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
-                                        "@PathVariable"
-                                )
                 }
         };
     }
@@ -3696,23 +3737,6 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void springPaginatedWithSpringFox() throws Exception {
-        Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(USE_TAGS, "true");
-        additionalProperties.put(DOCUMENTATION_PROVIDER, "springfox");
-        additionalProperties.put(INTERFACE_ONLY, "true");
-        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
-
-        File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
-        assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
-        assertFileContains(petApi.toPath(), "pageable: Pageable");
-        assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
-    }
-
-    @Test
     public void springPaginatedQueryParamsRemoved() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
@@ -3808,7 +3832,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_13052.yaml", additionalProperties);
 
         // Custom Pageable model should be used instead of Spring's Pageable
@@ -3826,7 +3850,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "none");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Pageable should be added but no annotation imports
@@ -3837,24 +3861,6 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(petApi.toPath(), "import org.springdoc.api.annotations.ParameterObject");
         assertFileNotContains(petApi.toPath(), "@ApiIgnore pageable");
         assertFileNotContains(petApi.toPath(), "@ParameterObject pageable");
-    }
-
-    @Test
-    public void springPaginatedWithSwagger1AnnotationLibrary() throws Exception {
-        Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(USE_TAGS, "true");
-        additionalProperties.put(DOCUMENTATION_PROVIDER, "springfox");
-        additionalProperties.put(ANNOTATION_LIBRARY, "swagger1");
-        additionalProperties.put(INTERFACE_ONLY, "true");
-        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
-
-        // Test with swagger1 annotations
-        File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
-        assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
-        assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
     }
 
     @Test
@@ -3907,7 +3913,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Test operation listAllPets which has no parameters except pageable
@@ -4013,15 +4019,15 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         File petApi = files.get("PetApi.kt");
-        
+
         // Operation with x-spring-paginated should have Pageable
         assertFileContains(petApi.toPath(), "fun findPetsByStatus(");
         assertFileContains(petApi.toPath(), "pageable: Pageable");
-        
+
         // Operation without x-spring-paginated should NOT have Pageable
         assertFileContains(petApi.toPath(), "fun addPet(");
         // Verify addPet doesn't have pageable (it has body param only)
@@ -4030,7 +4036,7 @@ public class KotlinSpringServerCodegenTest {
             content.indexOf("fun addPet("),
             content.indexOf(")", content.indexOf("fun addPet(")) + 1
         );
-        Assert.assertFalse(addPetMethod.contains("pageable"), 
+        Assert.assertFalse(addPetMethod.contains("pageable"),
             "addPet should not have pageable parameter");
     }
 
@@ -4040,7 +4046,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(USE_TAGS, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(SERVICE_INTERFACE, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Test that pageable is in service interface
@@ -4059,7 +4065,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Verify exact parameter ordering: allParams -> request -> pageable
@@ -4070,12 +4076,12 @@ public class KotlinSpringServerCodegenTest {
         int methodStart = content.indexOf("fun findPetsByStatus(");
         int methodEnd = content.indexOf("): ResponseEntity", methodStart);
         String methodSignature = content.substring(methodStart, methodEnd);
-        
+
         // Verify order: status param comes before request, request comes before pageable
         int statusPos = methodSignature.indexOf("status:");
         int requestPos = methodSignature.indexOf("request:");
         int pageablePos = methodSignature.indexOf("pageable:");
-        
+
         Assert.assertTrue(statusPos > 0, "status parameter should exist");
         Assert.assertTrue(requestPos > statusPos, "request should come after status");
         Assert.assertTrue(pageablePos > requestPos, "pageable should come after request");
@@ -4088,7 +4094,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(DELEGATE_PATTERN, "true");
         additionalProperties.put(INTERFACE_ONLY, "false");
-        
+
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
         // Verify that interface method calls delegate with pageable parameter
@@ -4459,6 +4465,592 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
             "findPetsNoParams should NOT have pageable when there are no pagination params");
     }
+
+    @Test
+    public void testSealedResponseInterfaces() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify sealed interfaces are declared in the model package
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt"),
+                "sealed interface CreateUserResponse",
+                "sealed interface GetUserResponse");
+
+        // Verify API file imports the sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
+                "import org.openapitools.model.CreateUserResponse",
+                "import org.openapitools.model.GetUserResponse");
+
+        // Verify API methods use sealed interfaces as return types
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
+                "fun createUser(",
+                "): ResponseEntity<CreateUserResponse>",
+                "fun getUser(",
+                "): ResponseEntity<GetUserResponse>");
+
+        // Verify User model implements both sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/User.kt"),
+                "data class User(",
+                ": CreateUserResponse, GetUserResponse");
+
+        // Verify ConflictResponse implements CreateUserResponse
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ConflictResponse.kt"),
+                "data class ConflictResponse(",
+                ": CreateUserResponse");
+
+        // Verify ErrorResponse implements both sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ErrorResponse.kt"),
+                "data class ErrorResponse(",
+                ": CreateUserResponse, GetUserResponse");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "false");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify sealed interfaces file is NOT generated when feature is disabled
+        File sealedInterfacesFile = new File(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt");
+        Assert.assertFalse(sealedInterfacesFile.exists(), "SealedResponseInterfaces.kt should not exist when feature is disabled");
+
+        // Verify models do NOT implement sealed interfaces when disabled
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/User.kt"),
+                ": CreateUserResponse",
+                ": GetUserResponse");
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ConflictResponse.kt"),
+                ": CreateUserResponse");
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ErrorResponse.kt"),
+                ": CreateUserResponse",
+                ": GetUserResponse");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesNoDuplicates() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces-duplicates.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify Order model does NOT have duplicate sealed interface implementations
+        Path orderFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Order.kt");
+        String orderContent = Files.readString(orderFile);
+
+        // Count occurrences of "PlaceOrderResponse" in the class declaration line
+        // Should appear exactly once, not multiple times
+        String classDeclaration = orderContent.lines()
+                .filter(line -> line.contains("data class Order") || line.contains(") : "))
+                .collect(Collectors.joining("\n"));
+
+        // Count how many times PlaceOrderResponse appears
+        long placeOrderCount = classDeclaration.chars()
+                .filter(c -> c == ',')
+                .count() + 1; // Number of interfaces = number of commas + 1
+
+        // Should have PlaceOrderResponse and GetOrderByIdResponse, not duplicates
+        Assert.assertTrue(classDeclaration.contains("PlaceOrderResponse"),
+                "Order should implement PlaceOrderResponse");
+        Assert.assertTrue(classDeclaration.contains("GetOrderByIdResponse"),
+                "Order should implement GetOrderByIdResponse");
+
+        // Check for duplicate imports
+        long importCount = orderContent.lines()
+                .filter(line -> line.contains("import org.openapitools.model.PlaceOrderResponse"))
+                .count();
+        Assert.assertEquals(importCount, 1L, "PlaceOrderResponse should be imported exactly once, not " + importCount);
+
+        // Verify no duplicate interface implementations
+        // The pattern should be ") : InterfaceA, InterfaceB {" not ") : InterfaceA, InterfaceA, InterfaceB, InterfaceB {"
+        Assert.assertFalse(classDeclaration.matches(".*PlaceOrderResponse.*,\\s*PlaceOrderResponse.*"),
+                "PlaceOrderResponse should not appear twice in implements list");
+        Assert.assertFalse(classDeclaration.matches(".*GetOrderByIdResponse.*,\\s*GetOrderByIdResponse.*"),
+                "GetOrderByIdResponse should not appear twice in implements list");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesVoidResponse() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces-void-response.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Read generated SealedResponseInterfaces.kt
+        Path sealedInterfacesPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt");
+        String sealedInterfacesContent = new String(Files.readAllBytes(sealedInterfacesPath), StandardCharsets.UTF_8);
+
+        // CreateUserResponse should NOT be generated (void response operation)
+        Assert.assertFalse(sealedInterfacesContent.contains("sealed interface CreateUserResponse"),
+                "CreateUserResponse should not be generated for operations with no response content");
+
+        // CreatePetResponse should be generated (has response content)
+        Assert.assertTrue(sealedInterfacesContent.contains("sealed interface CreatePetResponse"),
+                "CreatePetResponse should be generated for operations with response content");
+
+        // Read generated Pet.kt
+        Path petPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        String petContent = new String(Files.readAllBytes(petPath), StandardCharsets.UTF_8);
+
+        // Pet should implement CreatePetResponse
+        Assert.assertTrue(petContent.contains("import org.openapitools.model.CreatePetResponse"),
+                "Pet should import CreatePetResponse");
+        Assert.assertTrue(petContent.contains(") : CreatePetResponse {") || petContent.contains(") : CreatePetResponse"),
+                "Pet should implement CreatePetResponse");
+    }
+
+    @Test
+    public void testDeprecatedAnnotationOnInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
+                "@Deprecated(message=\"Operation is deprecated\") @RequestMapping("
+        );
+    }
+
+    @Test
+    public void testDeprecatedAnnotationOnController() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
+                "@Deprecated(message=\"Operation is deprecated\") @RequestMapping("
+        );
+    }
+
+    @Test
+    public void testCompanionObjectDefaultIsFalse() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(COMPANION_OBJECT), false);
+    }
+
+    @Test
+    public void testCompanionObjectGeneratesCompanionInModel() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(COMPANION_OBJECT, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt"),
+                "companion object { }"
+        );
+    }
+
+    @Test
+    public void shouldRefuseJackson3WithoutSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "false");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate);
+    }
+
+    @Test
+    public void shouldRefuseSpringBoot3AndSpringBoot4Together() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT3, "true");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate);
+    }
+
+    @Test
+    public void shouldRefuseOpenApiNullableWithJackson3() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put("openApiNullable", "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate);
+    }
+
+    @Test
+    public void shouldUseJakartaImportsWithSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path modelPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(modelPath, "jakarta.validation");
+        assertFileNotContains(modelPath, "javax.validation");
+    }
+
+    @Test
+    public void shouldGenerateSpringBoot4PomWithJackson3Deps() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path pomPath = Paths.get(outputPath + "/pom.xml");
+        assertFileContains(pomPath, "spring-boot-starter-parent");
+        assertFileContains(pomPath, "4.0.1");
+        assertFileContains(pomPath, "tools.jackson.dataformat");
+        assertFileContains(pomPath, "tools.jackson.module");
+        assertFileNotContains(pomPath, "jackson-datatype-jsr310");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.dataformat");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
+    }
+
+    @Test
+    public void shouldDefaultToJackson3WhenSpringBoot4Enabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        // useJackson3 is NOT set — should default to true
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path pomPath = Paths.get(outputPath + "/pom.xml");
+        assertFileContains(pomPath, "tools.jackson.dataformat");
+        assertFileContains(pomPath, "tools.jackson.module");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.dataformat");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
+        assertFileNotContains(pomPath, "jackson-datatype-jsr310");
+    }
+
+    @Test
+    public void shouldDeclareSpringdocVersionWhenSwaggerUIDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.toCliOptValue());
+        codegen.additionalProperties().put(SwaggerUIFeatures.USE_SWAGGER_UI, false);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path pomPath = Paths.get(outputPath + "/pom.xml");
+        String pomContent = new String(Files.readAllBytes(pomPath), StandardCharsets.UTF_8);
+        String propertiesBlock = pomContent.substring(
+                pomContent.indexOf("<properties>"),
+                pomContent.indexOf("</properties>"));
+        assertThat(propertiesBlock).contains("<springdoc-openapi.version>");
+    }
+
+    @Test
+    public void shouldNotUseLegacyOAuth2WithSpringBoot4CloudLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("spring-cloud");
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path clientConfigPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/configuration/ClientConfiguration.kt");
+        // Legacy OAuth2 classes must NOT be present
+        assertFileNotContains(clientConfigPath, "DefaultOAuth2ClientContext");
+        assertFileNotContains(clientConfigPath, "OAuth2FeignRequestInterceptor");
+        assertFileNotContains(clientConfigPath, "ClientCredentialsResourceDetails");
+        assertFileNotContains(clientConfigPath, "AuthorizationCodeResourceDetails");
+        assertFileNotContains(clientConfigPath, "ImplicitResourceDetails");
+        assertFileNotContains(clientConfigPath, "ResourceOwnerPasswordResourceDetails");
+
+        // Modern OAuth2 client classes MUST be present
+        assertFileContains(clientConfigPath, "OAuth2AuthorizedClientManager");
+        assertFileContains(clientConfigPath, "AuthorizedClientServiceOAuth2AuthorizedClientManager");
+        assertFileContains(clientConfigPath, "OAuth2AuthorizeRequest");
+        assertFileContains(clientConfigPath, "OAuth2AuthorizedClientService");
+        assertFileContains(clientConfigPath, "ClientRegistrationRepository");
+        assertFileContains(clientConfigPath, "OAuth2RequestInterceptor");
+    }
+
+    @Test
+    public void shouldDefaultToJackson3WhenSpringBoot4EnabledViaSetter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        // Set via setter, NOT additionalProperties
+        codegen.setUseSpringBoot4(true);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path pomPath = Paths.get(outputPath + "/pom.xml");
+        assertFileContains(pomPath, "tools.jackson.dataformat");
+        assertFileContains(pomPath, "tools.jackson.module");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.dataformat");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
+        assertFileNotContains(pomPath, "jackson-datatype-jsr310");
+    }
+
+    @Test
+    public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_14418.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.IMPLICIT_HEADERS, "true");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File testApi = files.get("TestApi.kt");
+        String content = Files.readString(testApi.toPath());
+        String methodPattern = "fun test\\s*\\(.*?\\)";
+        Pattern pattern = Pattern.compile(methodPattern);
+
+        Matcher matcher = pattern.matcher(content);
+        Assert.assertTrue(matcher.find(), "Method 'test' should be found in generated file");
+
+        String methodSignature = matcher.group();
+        Assert.assertFalse(methodSignature.contains("testHeader"),
+            "Header param 'testHeader' should NOT be in method signature when implicitHeaders=true");
+
+        Assert.assertTrue(content.contains("@Parameters"),
+            "@Parameters annotation should be present");
+        Assert.assertTrue(content.contains("testHeader"),
+            "Header name 'testHeader' should appear in the annotation");
+    }
 }
-
-

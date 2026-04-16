@@ -55,5 +55,6 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setGenerateMarshalJSON(GoClientOptionsProvider.GENERATE_MARSHAL_JSON_VALUE);
         verify(clientCodegen).setGenerateUnmarshalJSON(GoClientOptionsProvider.GENERATE_UNMARSHAL_JSON_VALUE);
         verify(clientCodegen).setUseDefaultValuesForRequiredVars(GoClientOptionsProvider.USE_DEFAULT_VALUES_FOR_REQUIRED_VARS_VALUE);
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(GoClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

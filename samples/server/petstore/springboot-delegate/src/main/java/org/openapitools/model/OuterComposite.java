@@ -4,24 +4,23 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class OuterComposite {
 
   private @Nullable BigDecimal myNumber;
@@ -53,12 +52,13 @@ public class OuterComposite {
    * @return myNumber
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_number")
   public @Nullable BigDecimal getMyNumber() {
     return myNumber;
   }
 
+  @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -73,12 +73,13 @@ public class OuterComposite {
    * @return myString
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_string")
   public @Nullable String getMyString() {
     return myString;
   }
 
+  @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
   }
@@ -93,12 +94,13 @@ public class OuterComposite {
    * @return myBoolean
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_boolean")
   public @Nullable Boolean getMyBoolean() {
     return myBoolean;
   }
 
+  @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
@@ -138,10 +140,7 @@ public class OuterComposite {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

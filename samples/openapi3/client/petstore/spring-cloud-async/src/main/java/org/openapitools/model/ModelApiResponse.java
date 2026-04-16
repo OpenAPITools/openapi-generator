@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Describes the result of uploading an image resource
@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private @Nullable Integer code;
@@ -47,6 +47,7 @@ public class ModelApiResponse {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
   }
@@ -67,6 +68,7 @@ public class ModelApiResponse {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(@Nullable String type) {
     this.type = type;
   }
@@ -87,6 +89,7 @@ public class ModelApiResponse {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(@Nullable String message) {
     this.message = message;
   }
@@ -126,10 +129,7 @@ public class ModelApiResponse {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

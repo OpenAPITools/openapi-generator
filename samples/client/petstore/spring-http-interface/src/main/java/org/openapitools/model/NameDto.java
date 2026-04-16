@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class NameDto {
 
   private Integer name;
@@ -49,6 +49,7 @@ public class NameDto {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -68,6 +69,7 @@ public class NameDto {
     return snakeCase;
   }
 
+  @JsonProperty("snake_case")
   public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
@@ -87,6 +89,7 @@ public class NameDto {
     return property;
   }
 
+  @JsonProperty("property")
   public void setProperty(@Nullable String property) {
     this.property = property;
   }
@@ -106,6 +109,7 @@ public class NameDto {
     return _123number;
   }
 
+  @JsonProperty("123Number")
   public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;
   }
@@ -147,10 +151,7 @@ public class NameDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

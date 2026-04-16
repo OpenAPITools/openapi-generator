@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -13,18 +11,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Pet {
 
   private String atType = "Pet";
@@ -62,12 +61,13 @@ public class Pet {
    * @return atType
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }
 
+  @JsonProperty("@type")
   public void setAtType(String atType) {
     this.atType = atType;
   }
@@ -82,12 +82,13 @@ public class Pet {
    * @return age
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")
   public Integer getAge() {
     return age;
   }
 
+  @JsonProperty("age")
   public void setAge(Integer age) {
     this.age = age;
   }
@@ -102,12 +103,13 @@ public class Pet {
    * @return happy
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("happy")
   public Boolean getHappy() {
     return happy;
   }
 
+  @JsonProperty("happy")
   public void setHappy(Boolean happy) {
     this.happy = happy;
   }
@@ -122,12 +124,13 @@ public class Pet {
    * @return price
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("price")
   public BigDecimal getPrice() {
     return price;
   }
 
+  @JsonProperty("price")
   public void setPrice(BigDecimal price) {
     this.price = price;
   }
@@ -142,12 +145,13 @@ public class Pet {
    * @return lastFeed
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
 
+  @JsonProperty("lastFeed")
   public void setLastFeed(OffsetDateTime lastFeed) {
     this.lastFeed = lastFeed;
   }
@@ -162,12 +166,13 @@ public class Pet {
    * @return dateOfBirth
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }
 
+  @JsonProperty("dateOfBirth")
   public void setDateOfBirth(LocalDate dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
@@ -213,10 +218,7 @@ public class Pet {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

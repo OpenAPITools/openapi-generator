@@ -7,6 +7,7 @@ import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import org.openapitools.model.PetRequest;
 
 import java.util.List;
 
@@ -20,10 +21,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class PetApiServiceImpl implements PetApiService {
       @Override
       public Response addPet(Pet pet, SecurityContext securityContext) {
+      // do some magic!
+      return Response.ok().entity("magic!").build();
+  }
+      @Override
+      public Response createPetRequest(PetRequest petRequest, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

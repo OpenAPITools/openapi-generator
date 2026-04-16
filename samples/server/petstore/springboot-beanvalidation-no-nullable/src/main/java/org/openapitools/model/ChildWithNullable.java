@@ -8,24 +8,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.ParentWithNullable;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ChildWithNullable
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable {
 
   private @Nullable String otherProperty;
@@ -40,12 +39,13 @@ public class ChildWithNullable extends ParentWithNullable {
    * @return otherProperty
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "otherProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("otherProperty")
   public @Nullable String getOtherProperty() {
     return otherProperty;
   }
 
+  @JsonProperty("otherProperty")
   public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }
@@ -93,10 +93,7 @@ public class ChildWithNullable extends ParentWithNullable {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

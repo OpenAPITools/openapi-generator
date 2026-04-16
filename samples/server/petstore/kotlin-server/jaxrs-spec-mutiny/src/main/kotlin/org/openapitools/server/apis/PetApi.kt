@@ -12,7 +12,7 @@ import java.io.InputStream
 
 
 @Path("/")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.22.0-SNAPSHOT")
 interface PetApi {
 
     @POST
@@ -22,17 +22,17 @@ interface PetApi {
 
     @DELETE
     @Path("/pet/{petId}")
-    fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")   apiKey: kotlin.String?): io.smallrye.mutiny.Uni<Response>
+    fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")  apiKey: kotlin.String?): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/findByStatus")
     @Produces("application/xml", "application/json")
-    fun findPetsByStatus(@QueryParam("status")   status: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
+    fun findPetsByStatus(@QueryParam("status") status: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/findByTags")
     @Produces("application/xml", "application/json")
-    fun findPetsByTags(@QueryParam("tags")   tags: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
+    fun findPetsByTags(@QueryParam("tags") tags: kotlin.collections.List<kotlin.String>): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/pet/{petId}")

@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Test Enum in Composed Schema
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      operationId: getTest
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestModel'
+components:
+  schemas:
+    TestModel:
+      type: object
+      properties:
+        name:
+          type: string
+        config:
+          anyOf:
+            - allOf:
+                - type: object
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - type1
+                        - type2
+                        - type3
+                    options:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+                          enum:
+                            - value1
+                            - value2
+                            - value3
+        optionalUrl:
+          anyOf:
+            - type: string
+              format: uri
+            - type: string
+              enum:
+                - ""

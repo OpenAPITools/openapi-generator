@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * SelfReferenceAdditionalProperties
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class SelfReferenceAdditionalProperties {
   public static final String SERIALIZED_NAME_DUMMY = "dummy";
   @SerializedName(SERIALIZED_NAME_DUMMY)
@@ -155,10 +155,7 @@ public class SelfReferenceAdditionalProperties {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 

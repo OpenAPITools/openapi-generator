@@ -36,11 +36,11 @@ public class HasOnlyReadOnly  {
   
   public static final String JSON_PROPERTY_BAR = "bar";
   
-  private String bar;
+  protected String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
   
-  private String foo;
+  protected String foo;
 
 
   public HasOnlyReadOnly() {
@@ -106,10 +106,7 @@ public class HasOnlyReadOnly  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

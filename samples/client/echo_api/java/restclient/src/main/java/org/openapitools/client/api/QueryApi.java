@@ -30,7 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient.ResponseSpec;
 import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class QueryApi {
     private ApiClient apiClient;
 
@@ -306,12 +306,14 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        if (queryObject != null) {
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -595,7 +597,9 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
+        if (queryObject != null) {
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -666,12 +670,14 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        if (queryObject != null) {
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"

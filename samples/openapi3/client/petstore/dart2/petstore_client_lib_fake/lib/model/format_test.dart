@@ -269,10 +269,14 @@ class FormatTest {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "FormatTest[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "FormatTest[$key]" has a null value in JSON.');
-        });
+        assert(json.containsKey(r'number'), 'Required key "FormatTest[number]" is missing from JSON.');
+        assert(json[r'number'] != null, 'Required key "FormatTest[number]" has a null value in JSON.');
+        assert(json.containsKey(r'byte'), 'Required key "FormatTest[byte]" is missing from JSON.');
+        assert(json[r'byte'] != null, 'Required key "FormatTest[byte]" has a null value in JSON.');
+        assert(json.containsKey(r'date'), 'Required key "FormatTest[date]" is missing from JSON.');
+        assert(json[r'date'] != null, 'Required key "FormatTest[date]" has a null value in JSON.');
+        assert(json.containsKey(r'password'), 'Required key "FormatTest[password]" is missing from JSON.');
+        assert(json[r'password'] != null, 'Required key "FormatTest[password]" has a null value in JSON.');
         return true;
       }());
 

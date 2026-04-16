@@ -31,7 +31,7 @@ import javax.annotation.Generated;
   AdditionalPropertiesArray.JSON_PROPERTY_NAME
 })
 @JsonTypeName("AdditionalPropertiesArray")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class AdditionalPropertiesArray extends HashMap<String, List> {
     public static final String JSON_PROPERTY_NAME = "name";
@@ -95,10 +95,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
 }

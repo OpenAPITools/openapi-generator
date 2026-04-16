@@ -35,13 +35,13 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class ModelApiResponse  {
   
   @JsonbProperty("code")
-  private Integer code;
+  protected Integer code;
 
   @JsonbProperty("type")
-  private String type;
+  protected String type;
 
   @JsonbProperty("message")
-  private String message;
+  protected String message;
 
 
   /**
@@ -143,10 +143,7 @@ public class ModelApiResponse  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

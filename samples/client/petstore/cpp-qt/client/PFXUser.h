@@ -30,13 +30,13 @@ namespace test_namespace {
 class PFXUser : public PFXObject {
 public:
     PFXUser();
-    PFXUser(QString json);
+    PFXUser(const QString &json);
     ~PFXUser() override;
 
     QString asJson() const override;
     QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    void fromJson(QString jsonString) override;
+    void fromJson(const QString &jsonString) override;
 
     qint64 getId() const;
     void setId(const qint64 &id);

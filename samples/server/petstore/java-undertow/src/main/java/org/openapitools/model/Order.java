@@ -25,7 +25,7 @@ import java.util.Date;
  */
 
 @ApiModel(description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Order   {
   
   private Long id;
@@ -201,10 +201,7 @@ public class Order   {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

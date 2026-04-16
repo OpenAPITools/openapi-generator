@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "FormatTest", propOrder =
     { "integer", "int32", "int64", "number", "_float", "_double", "decimal", "string", "_byte", "binary", "date", "dateTime", "uuid", "password", "patternWithDigits", "patternWithDigitsAndDelimiter"
     })
@@ -486,10 +486,7 @@ public class FormatTest  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -597,4 +594,3 @@ public class FormatTest  implements Serializable {
     }
   }
 }
-

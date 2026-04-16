@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Replaces duplicate line break characters in a fragment with single line break.
+ * Trim trailing white spaces in a fragment with single line break.
  * <p>
  * Register:
  * <pre>

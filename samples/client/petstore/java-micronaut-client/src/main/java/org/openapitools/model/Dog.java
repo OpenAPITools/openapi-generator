@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   Dog.JSON_PROPERTY_BREED
 })
 @JsonTypeName("Dog")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @Introspected
 public class Dog extends Animal {
     public static final String JSON_PROPERTY_BREED = "breed";
@@ -93,10 +93,7 @@ public class Dog extends Animal {
      * (except the first line).
      */
     private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
     @Override

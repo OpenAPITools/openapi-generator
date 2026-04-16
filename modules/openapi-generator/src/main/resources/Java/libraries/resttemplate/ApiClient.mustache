@@ -3,8 +3,8 @@
 package {{invokerPackage}};
 
 {{#withXml}}
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import {{jacksonPackage}}.dataformat.xml.XmlMapper;
+import {{jacksonPackage}}.dataformat.xml.ser.ToXmlGenerator;
 {{/withXml}}
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Age
         /// </summary>
         [JsonPropertyName("age")]
-        public int? Age { get { return this.AgeOption; } set { this.AgeOption = new Option<int?>(value); } }
+        public int? Age { get { return this.AgeOption.Value; } set { this.AgeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of BoosterSeat
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BoosterSeat
         /// </summary>
         [JsonPropertyName("boosterSeat")]
-        public bool? BoosterSeat { get { return this.BoosterSeatOption; } set { this.BoosterSeatOption = new Option<bool?>(value); } }
+        public bool? BoosterSeat { get { return this.BoosterSeatOption.Value; } set { this.BoosterSeatOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

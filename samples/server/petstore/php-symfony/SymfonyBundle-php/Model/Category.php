@@ -49,7 +49,7 @@ class Category
      * @var int|null
      * @SerializedName("id")
      * @Type("int")
-    */
+     */
     #[Assert\Type("int")]
     protected ?int $id = null;
 
@@ -57,7 +57,7 @@ class Category
      * @var string|null
      * @SerializedName("name")
      * @Type("string")
-    */
+     */
     #[Assert\Type("string")]
     #[Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")]
     protected ?string $name = null;
@@ -85,12 +85,12 @@ class Category
     }
 
     /**
-    * Sets id.
-    *
-    * @param int|null $id
-    *
-    * @return $this
-    */
+     * Sets id.
+     *
+     * @param int|null $id
+     *
+     * @return $this
+     */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
@@ -112,12 +112,12 @@ class Category
     }
 
     /**
-    * Sets name.
-    *
-    * @param string|null $name
-    *
-    * @return $this
-    */
+     * Sets name.
+     *
+     * @param string|null $name
+     *
+     * @return $this
+     */
     public function setName(?string $name = null): self
     {
         $this->name = $name;

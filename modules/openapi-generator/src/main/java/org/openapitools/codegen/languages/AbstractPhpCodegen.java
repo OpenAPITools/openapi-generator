@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -636,6 +637,48 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             }
         }
 
+        // OAS 3.x: `default` may appear alongside `$ref` on the same schema (e.g. optional query param whose schema
+        // references an enum model). That wrapper is often not classified as string/number here, but still carries
+        // the default OpenAPI value — needed so Mustache can emit `query->get(..., <default>)` for php-symfony.
+        if (p.getDefault() != null) {
+            return defaultValueToPhpLiteral(p.getDefault());
+        }
+
+        return null;
+    }
+
+    /**
+     * Converts a JSON Schema {@code default} value to a PHP expression suitable for templates (e.g. second argument to
+     * {@code query->get}). Only safe scalar literals are supported; unknown types log a warning and yield {@code null}
+     * so we do not emit broken PHP from {@code Object#toString()}.
+     */
+    private String defaultValueToPhpLiteral(Object def) {
+        if (def == null) {
+            return null;
+        }
+        if (def instanceof String) {
+            return "'" + escapeTextInSingleQuotes((String) def) + "'";
+        }
+        if (def instanceof Boolean) {
+            return Boolean.TRUE.equals(def) ? "true" : "false";
+        }
+        if (def instanceof BigDecimal) {
+            return ((BigDecimal) def).toPlainString();
+        }
+        if (def instanceof Number) {
+            String s = def.toString();
+            if (s.contains("Infinity") || s.contains("NaN")) {
+                LOGGER.warn("Unsupported numeric default for PHP literal: {}", def);
+                return null;
+            }
+            return s;
+        }
+        if (def instanceof Character) {
+            return "'" + escapeTextInSingleQuotes(String.valueOf((Character) def)) + "'";
+        }
+        LOGGER.warn(
+                "Cannot convert OpenAPI default of type {} to a PHP literal; omitting defaultValue",
+                def.getClass().getName());
         return null;
     }
 

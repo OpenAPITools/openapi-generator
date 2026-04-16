@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +13,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -24,7 +23,7 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private @Nullable File file;
@@ -42,12 +41,13 @@ public class FileSchemaTestClass {
    * @return file
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "file", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("file")
   public @Nullable File getFile() {
     return file;
   }
 
+  @JsonProperty("file")
   public void setFile(@Nullable File file) {
     this.file = file;
   }
@@ -70,12 +70,13 @@ public class FileSchemaTestClass {
    * @return files
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("files")
   public List<@Valid File> getFiles() {
     return files;
   }
 
+  @JsonProperty("files")
   public void setFiles(List<@Valid File> files) {
     this.files = files;
   }
@@ -113,10 +114,7 @@ public class FileSchemaTestClass {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

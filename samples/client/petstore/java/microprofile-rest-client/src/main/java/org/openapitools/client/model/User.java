@@ -32,31 +32,31 @@ import javax.json.bind.annotation.JsonbCreator;
 public class User  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("username")
-  private String username;
+  protected String username;
 
   @JsonbProperty("firstName")
-  private String firstName;
+  protected String firstName;
 
   @JsonbProperty("lastName")
-  private String lastName;
+  protected String lastName;
 
   @JsonbProperty("email")
-  private String email;
+  protected String email;
 
   @JsonbProperty("password")
-  private String password;
+  protected String password;
 
   @JsonbProperty("phone")
-  private String phone;
+  protected String phone;
 
  /**
   * User Status
   */
   @JsonbProperty("userStatus")
-  private Integer userStatus;
+  protected Integer userStatus;
 
 
   /**
@@ -268,10 +268,7 @@ public class User  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 
