@@ -5656,7 +5656,9 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", noAnnotationKotlinPagedModelProps());
 
-        assertThat(files).doesNotContainKey("PageMeta.kt");
+        // PageMetadata is only referenced by OrderPage (which is suppressed) → suppressed
         assertThat(files).doesNotContainKey("PageMetadata.kt");
+        // PageMeta is referenced by SearchResult (a non-paged schema) → must be kept
+        assertThat(files).containsKey("PageMeta.kt");
     }
 }

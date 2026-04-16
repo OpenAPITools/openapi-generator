@@ -1316,12 +1316,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
                 // No @ApiResponse annotations are generated when annotationLibrary=none,
                 // so paged schemas are not referenced anywhere → safe to suppress.
-                Set<String> metaSchemasToSuppress = new HashSet<>();
+                Set<String> metaSchemasToCheck = new HashSet<>();
                 for (PagedModelScanUtils.DetectedPagedModel detected : pagedModelRegistry.values()) {
                     if (detected.metaSchemaName != null) {
-                        metaSchemasToSuppress.add(detected.metaSchemaName);
+                        metaSchemasToCheck.add(detected.metaSchemaName);
                     }
                 }
+                // Remove paged schemas first so reference checks below reflect the post-suppression state.
                 for (Map.Entry<String, PagedModelScanUtils.DetectedPagedModel> entry : pagedModelRegistry.entrySet()) {
                     String schemaName = entry.getKey();
                     PagedModelScanUtils.DetectedPagedModel detected = entry.getValue();
@@ -1330,8 +1331,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                                 schemaName, detected.itemSchemaName);
                     }
                 }
-                for (String metaName : metaSchemasToSuppress) {
-                    if (objs.remove(metaName) != null) {
+                // Suppress meta schemas only when no remaining (non-suppressed) schema references them.
+                // Example: if SearchResult has a 'page: PageMeta' property, PageMeta must be kept.
+                for (String metaName : metaSchemasToCheck) {
+                    boolean referencedElsewhere = objs.values().stream()
+                            .flatMap(mm -> mm.getModels().stream())
+                            .map(ModelMap::getModel)
+                            .anyMatch(cm -> cm.imports.contains(metaName));
+                    if (referencedElsewhere) {
+                        LOGGER.info("substituteGenericPagedModel: keeping pagination metadata model '{}'"
+                                + " — referenced by a non-paged schema", metaName);
+                    } else if (objs.remove(metaName) != null) {
                         LOGGER.info("substituteGenericPagedModel: suppressing pagination metadata model '{}'"
                                 + " — replaced by PagedModel.PageMetadata", metaName);
                     }

@@ -7297,7 +7297,9 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, noAnnotationPagedModelProps());
 
-        assertThat(files).doesNotContainKey("PageMeta.java");
+        // PageMetadata is only referenced by OrderPage (which is suppressed) → suppressed
         assertThat(files).doesNotContainKey("PageMetadata.java");
+        // PageMeta is referenced by SearchResult (a non-paged schema) → must be kept
+        assertThat(files).containsKey("PageMeta.java");
     }
 }
