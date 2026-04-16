@@ -6668,6 +6668,7 @@ public class SpringCodegenTest {
     @Test
     void testNullableAnnotationOnController() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT);
-        assertFileContains(files.get("UserApiController.java").toPath(), "import org.springframework.lang.Nullable;", "@Nullable");
+        // revert invalid @Nullable annotation
+        assertFileNotContains(files.get("UserApiController.java").toPath(), "import org.springframework.lang.Nullable;", "@Nullable");
     }
 }
