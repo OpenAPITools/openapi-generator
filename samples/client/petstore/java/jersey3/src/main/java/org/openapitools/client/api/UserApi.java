@@ -11,9 +11,6 @@ import jakarta.ws.rs.core.GenericType;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -87,9 +84,10 @@ public class UserApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("UserApi.createUser", "/user", "POST", new ArrayList<>(), user,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * Creates list of users with given input array
@@ -103,7 +101,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithArrayInput(@jakarta.annotation.Nonnull List<@Valid User> user) throws ApiException {
+  public void createUsersWithArrayInput(@jakarta.annotation.Nonnull List<User> user) throws ApiException {
     createUsersWithArrayInputWithHttpInfo(user);
   }
 
@@ -120,7 +118,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(@jakarta.annotation.Nonnull List<@Valid User> user) throws ApiException {
+  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws ApiException {
     // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
@@ -128,9 +126,10 @@ public class UserApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("UserApi.createUsersWithArrayInput", "/user/createWithArray", "POST", new ArrayList<>(), user,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * Creates list of users with given input array
@@ -144,7 +143,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithListInput(@jakarta.annotation.Nonnull List<@Valid User> user) throws ApiException {
+  public void createUsersWithListInput(@jakarta.annotation.Nonnull List<User> user) throws ApiException {
     createUsersWithListInputWithHttpInfo(user);
   }
 
@@ -161,7 +160,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(@jakarta.annotation.Nonnull List<@Valid User> user) throws ApiException {
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws ApiException {
     // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
@@ -169,9 +168,10 @@ public class UserApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("UserApi.createUsersWithListInput", "/user/createWithList", "POST", new ArrayList<>(), user,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * Delete user
@@ -216,9 +216,10 @@ public class UserApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("UserApi.deleteUser", localVarPath, "DELETE", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * Get user by user name
@@ -266,10 +267,11 @@ public class UserApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<User> localVarReturnType = new GenericType<User>() {};
     return apiClient.invokeAPI("UserApi.getUserByName", localVarPath, "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Logs user into the system
@@ -322,10 +324,11 @@ public class UserApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI("UserApi.loginUser", "/user/login", "GET", localVarQueryParams, null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Logs out current logged in user session
@@ -357,9 +360,10 @@ public class UserApi {
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("UserApi.logoutUser", "/user/logout", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * Updated user
@@ -409,8 +413,9 @@ public class UserApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("UserApi.updateUser", localVarPath, "PUT", new ArrayList<>(), user,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
 }

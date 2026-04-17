@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -29,8 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -77,7 +73,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -106,8 +101,6 @@ public class ObjectWithDeprecatedFields {
    */
   @Deprecated
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -137,8 +130,6 @@ public class ObjectWithDeprecatedFields {
    */
   @Deprecated
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -176,7 +167,6 @@ public class ObjectWithDeprecatedFields {
    */
   @Deprecated
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_BARS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -198,12 +188,22 @@ public class ObjectWithDeprecatedFields {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
+    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
+        Objects.equals(this.id, objectWithDeprecatedFields.id) &&
+        Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
+        Objects.equals(this.bars, objectWithDeprecatedFields.bars);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(uuid, id, deprecatedRef, bars);
   }
 
   @Override

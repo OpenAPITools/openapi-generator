@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -25,8 +23,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -60,8 +56,6 @@ public class IsoscelesTriangle {
    * @return shapeType
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-
   @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -87,8 +81,6 @@ public class IsoscelesTriangle {
    * @return triangleType
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-
   @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -109,12 +101,20 @@ public class IsoscelesTriangle {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    IsoscelesTriangle isoscelesTriangle = (IsoscelesTriangle) o;
+    return Objects.equals(this.shapeType, isoscelesTriangle.shapeType) &&
+        Objects.equals(this.triangleType, isoscelesTriangle.triangleType);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(shapeType, triangleType);
   }
 
   @Override

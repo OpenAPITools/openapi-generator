@@ -1,4 +1,4 @@
-# petstore-jersey3
+# openapi-java-client
 
 OpenAPI Petstore
 
@@ -41,7 +41,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>petstore-jersey3</artifactId>
+  <artifactId>openapi-java-client</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -53,12 +53,12 @@ Add this dependency to your project's build file:
 
 ```groovy
   repositories {
-    mavenCentral()     // Needed if the 'petstore-jersey3' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'petstore-jersey3' jar has been published to the local maven repo.
+    mavenCentral()     // Needed if the 'openapi-java-client' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'openapi-java-client' jar has been published to the local maven repo.
   }
 
   dependencies {
-     implementation "org.openapitools:petstore-jersey3:1.0.0"
+     implementation "org.openapitools:openapi-java-client:1.0.0"
   }
 ```
 
@@ -72,7 +72,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-- `target/petstore-jersey3-1.0.0.jar`
+- `target/openapi-java-client-1.0.0.jar`
 - `target/lib/*.jar`
 
 ## Getting Started

@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -25,8 +23,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -61,7 +57,6 @@ public class Apple {
    * @return cultivar
    */
   @jakarta.annotation.Nullable
- @Pattern(regexp="^[a-zA-Z\\s]*$")
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -87,7 +82,6 @@ public class Apple {
    * @return origin
    */
   @jakarta.annotation.Nullable
- @Pattern(regexp="/^[A-Z\\s]*$/i")
   @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -108,12 +102,20 @@ public class Apple {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Apple apple = (Apple) o;
+    return Objects.equals(this.cultivar, apple.cultivar) &&
+        Objects.equals(this.origin, apple.origin);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(cultivar, origin);
   }
 
   @Override

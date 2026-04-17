@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -33,8 +31,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -282,7 +278,6 @@ public class EnumTest {
    * @return enumString
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -308,8 +303,6 @@ public class EnumTest {
    * @return enumStringRequired
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-
   @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -335,7 +328,6 @@ public class EnumTest {
    * @return enumInteger
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -361,7 +353,6 @@ public class EnumTest {
    * @return enumIntegerOnly
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_ENUM_INTEGER_ONLY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -387,7 +378,6 @@ public class EnumTest {
    * @return enumNumber
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_ENUM_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -413,8 +403,6 @@ public class EnumTest {
    * @return outerEnum
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonIgnore
 
   public OuterEnum getOuterEnum() {
@@ -448,8 +436,6 @@ public class EnumTest {
    * @return outerEnumInteger
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -475,8 +461,6 @@ public class EnumTest {
    * @return outerEnumDefaultValue
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -502,8 +486,6 @@ public class EnumTest {
    * @return outerEnumIntegerDefaultValue
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -524,7 +506,22 @@ public class EnumTest {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EnumTest enumTest = (EnumTest) o;
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumIntegerOnly, enumTest.enumIntegerOnly) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        equalsNullable(this.outerEnum, enumTest.outerEnum) &&
+        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
+        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
+        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -533,7 +530,7 @@ public class EnumTest {
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumIntegerOnly, enumNumber, hashCodeNullable(outerEnum), outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

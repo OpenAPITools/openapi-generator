@@ -10,9 +10,6 @@ import jakarta.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.FooGetDefaultResponse;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -80,9 +77,10 @@ public class DefaultApi {
   public ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo() throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<FooGetDefaultResponse> localVarReturnType = new GenericType<FooGetDefaultResponse>() {};
     return apiClient.invokeAPI("DefaultApi.fooGet", "/foo", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
 }

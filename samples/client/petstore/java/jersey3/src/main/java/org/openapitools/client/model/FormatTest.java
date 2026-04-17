@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -30,8 +28,6 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -138,7 +134,6 @@ public class FormatTest {
    * @return integer
    */
   @jakarta.annotation.Nullable
- @Min(10) @Max(100)
   @JsonProperty(value = JSON_PROPERTY_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -166,7 +161,6 @@ public class FormatTest {
    * @return int32
    */
   @jakarta.annotation.Nullable
- @Min(20) @Max(200)
   @JsonProperty(value = JSON_PROPERTY_INT32, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -192,7 +186,6 @@ public class FormatTest {
    * @return int64
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_INT64, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -220,9 +213,6 @@ public class FormatTest {
    * @return number
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-  @Valid
- @DecimalMin("32.1") @DecimalMax("543.2")
   @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -250,7 +240,6 @@ public class FormatTest {
    * @return _float
    */
   @jakarta.annotation.Nullable
- @DecimalMin("54.3") @DecimalMax("987.6")
   @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -278,7 +267,6 @@ public class FormatTest {
    * @return _double
    */
   @jakarta.annotation.Nullable
- @DecimalMin("67.8") @DecimalMax("123.4")
   @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -304,8 +292,6 @@ public class FormatTest {
    * @return decimal
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_DECIMAL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -331,7 +317,6 @@ public class FormatTest {
    * @return string
    */
   @jakarta.annotation.Nullable
- @Pattern(regexp="/[a-z]/i")
   @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -357,8 +342,6 @@ public class FormatTest {
    * @return _byte
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-
   @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -384,8 +367,6 @@ public class FormatTest {
    * @return binary
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_BINARY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -411,9 +392,6 @@ public class FormatTest {
    * @return date
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -439,8 +417,6 @@ public class FormatTest {
    * @return dateTime
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -466,8 +442,6 @@ public class FormatTest {
    * @return uuid
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -493,8 +467,6 @@ public class FormatTest {
    * @return password
    */
   @jakarta.annotation.Nonnull
-  @NotNull
- @Size(min=10,max=64)
   @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -520,7 +492,6 @@ public class FormatTest {
    * @return patternWithDigits
    */
   @jakarta.annotation.Nullable
- @Pattern(regexp="^\\d{10}$")
   @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -546,7 +517,6 @@ public class FormatTest {
    * @return patternWithDigitsAndDelimiter
    */
   @jakarta.annotation.Nullable
- @Pattern(regexp="/^image_\\d{1,3}$/i")
   @JsonProperty(value = JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -567,12 +537,34 @@ public class FormatTest {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FormatTest formatTest = (FormatTest) o;
+    return Objects.equals(this.integer, formatTest.integer) &&
+        Objects.equals(this.int32, formatTest.int32) &&
+        Objects.equals(this.int64, formatTest.int64) &&
+        Objects.equals(this.number, formatTest.number) &&
+        Objects.equals(this._float, formatTest._float) &&
+        Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
+        Objects.equals(this.string, formatTest.string) &&
+        Arrays.equals(this._byte, formatTest._byte) &&
+        Objects.equals(this.binary, formatTest.binary) &&
+        Objects.equals(this.date, formatTest.date) &&
+        Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override

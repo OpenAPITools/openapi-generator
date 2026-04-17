@@ -12,9 +12,6 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -89,9 +86,10 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json", "application/xml");
     String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("PetApi.addPet", "/pet", "POST", new ArrayList<>(), pet,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
   /**
    * Deletes a pet
@@ -143,9 +141,10 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
     String[] localVarAuthNames = new String[] {"petstore_auth"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("PetApi.deletePet", localVarPath, "DELETE", new ArrayList<>(), null,
                                localVarHeaderParams, new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
   /**
    * Finds Pets by status
@@ -193,10 +192,11 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
     String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
     return apiClient.invokeAPI("PetApi.findPetsByStatus", "/pet/findByStatus", "GET", localVarQueryParams, null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Finds Pets by tags
@@ -248,10 +248,11 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
     String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
     return apiClient.invokeAPI("PetApi.findPetsByTags", "/pet/findByTags", "GET", localVarQueryParams, null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Find pet by ID
@@ -300,10 +301,11 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
     String[] localVarAuthNames = new String[] {"api_key"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<Pet> localVarReturnType = new GenericType<Pet>() {};
     return apiClient.invokeAPI("PetApi.getPetById", localVarPath, "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Update an existing pet
@@ -347,9 +349,10 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json", "application/xml");
     String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("PetApi.updatePet", "/pet", "PUT", new ArrayList<>(), pet,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
   /**
    * Updates a pet in the store with form data
@@ -406,9 +409,10 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
     String[] localVarAuthNames = new String[] {"petstore_auth"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("PetApi.updatePetWithForm", localVarPath, "POST", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
   /**
    * uploads an image
@@ -466,10 +470,11 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType("multipart/form-data");
     String[] localVarAuthNames = new String[] {"petstore_auth"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI("PetApi.uploadFile", localVarPath, "POST", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * uploads an image (required)
@@ -528,9 +533,10 @@ public class PetApi {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType("multipart/form-data");
     String[] localVarAuthNames = new String[] {"petstore_auth"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI("PetApi.uploadFileWithRequiredFile", localVarPath, "POST", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
 }
