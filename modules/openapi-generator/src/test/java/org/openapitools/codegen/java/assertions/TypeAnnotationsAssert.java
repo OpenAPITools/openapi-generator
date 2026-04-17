@@ -26,7 +26,7 @@ public class TypeAnnotationsAssert extends AbstractAnnotationsAssert<TypeAnnotat
      * @param name name of the annotation. For example "Nullable";
      */
     public TypeAnnotationsAssert doesNotImportAnnotation(final String name) {
-        String pattern = "import\\s+[\\w.]+(\\.\\*)?" + Pattern.quote(name) + ";";
+        String pattern = "import\\s+[\\w.]+\\." + Pattern.quote(name) + ";";
         this.toType().fileDoesNotContainPattern(pattern);
         return this;
     }
@@ -37,7 +37,7 @@ public class TypeAnnotationsAssert extends AbstractAnnotationsAssert<TypeAnnotat
      * @param name name of the annotation. For example "Nullable";
      */
     public TypeAnnotationsAssert doesImportAnnotation(final String name) {
-        String pattern = "import\\s+[\\w.]+(\\.\\*)?" + Pattern.quote(name) + ";";
+        String pattern = "import\\s+[\\w.]+\\." + Pattern.quote(name) + ";";
         this.toType().fileContainsPattern(pattern);
         return this;
     }
