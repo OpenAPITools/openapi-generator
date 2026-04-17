@@ -38,7 +38,7 @@ paths:
                   mapping:
                     a-type: '#/components/schemas/ObjA'
                     b-type: '#/components/schemas/ObjB'
-#        required: true
+        required: true
       responses:
         '201':
           description: OK
