@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOfAllOfLinkListColumn1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
@@ -166,10 +166,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
@@ -204,16 +201,16 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      // ensure the json data is an array
-      if (!jsonObj.get("value").isJsonArray()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
+      if (jsonObj.get("value") != null) {
+        if (!jsonObj.get("value").isJsonArray()) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
+        }
+        JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
+        // validate the required field `value` (array)
+        for (int i = 0; i < jsonArrayvalue.size(); i++) {
+          AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
+        }
       }
-
-      JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
-      // validate the required field `value` (array)
-      for (int i = 0; i < jsonArrayvalue.size(); i++) {
-        AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
-      };
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

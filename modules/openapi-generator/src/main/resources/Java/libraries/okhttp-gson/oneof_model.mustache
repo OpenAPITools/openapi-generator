@@ -316,7 +316,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     * {{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}}
      *
      * It could be an instance of the 'oneOf' schemas.
      */
@@ -354,9 +354,9 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     /**
      * Get the actual instance, which can be the following:
-     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     * {{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}}
      *
-     * @return The actual instance ({{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}})
+     * @return The actual instance ({{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}})
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -368,12 +368,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{#oneOf}}
     {{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     /**
-     * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
+     * Get the actual instance of `{{dataType}}`. If the actual instance is not `{{dataType}}`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `{{{dataType}}}`
-     * @throws ClassCastException if the instance is not `{{{dataType}}}`
+     * @return The actual instance of `{{dataType}}`
+     * @throws ClassCastException if the instance is not `{{dataType}}`
      */
+    @SuppressWarnings("unchecked")
     public {{{dataType}}} get{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
     }

@@ -491,6 +491,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(RESPONSE_AS, responseAs);
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_PROMISE_KIT)) {
             additionalProperties.put("usePromiseKit", true);
+            LOGGER.warn("NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. " +
+                        "If you are still using it, please share your use case here: " +
+                        "https://github.com/OpenAPITools/openapi-generator/issues/22791");
         }
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_RX_SWIFT)) {
             additionalProperties.put("useRxSwift", true);
@@ -670,6 +673,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     infrastructureFolder,
                     "OpenAPIDateWithoutTime.swift"));
         }
+        supportingFiles.add(new SupportingFile("OpenAPIMutex.mustache",
+                infrastructureFolder,
+                "OpenAPIMutex.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 infrastructureFolder,
                 "APIs.swift"));

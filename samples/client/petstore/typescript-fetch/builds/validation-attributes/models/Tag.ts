@@ -32,6 +32,23 @@ export interface Tag {
      */
     name?: string;
 }
+export const TagPropertyValidationAttributesMap: {
+    [property: string]: {
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+}
+
 
 /**
  * Check if a given object implements the Tag interface.
@@ -69,22 +86,5 @@ export function TagToJSONTyped(value?: Tag | null, ignoreDiscriminator: boolean 
         'id': value['id'],
         'name': value['name'],
     };
-}
-
-export const TagPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
 }
 

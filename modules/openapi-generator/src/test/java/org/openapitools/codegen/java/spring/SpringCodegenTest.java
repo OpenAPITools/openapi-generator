@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.MapAssert;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -61,6 +62,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
+import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BOOT4;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -680,7 +682,6 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
         codegen.setDelegatePattern(true);
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
@@ -694,7 +695,7 @@ public class SpringCodegenTest {
                 .assertMethod("multipartArray", "List<MultipartFile>")
                 .assertParameter("files").hasType("List<MultipartFile>")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"Many files\""))
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"files\"", "description", "\"Many files\""))
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"files\"", "required", "false"));
 
         // UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
@@ -709,7 +710,7 @@ public class SpringCodegenTest {
                 .assertMethod("multipartSingle", "MultipartFile")
                 .assertParameter("file").hasType("MultipartFile")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"One file\""))
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"file\"", "description", "\"One file\""))
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "false"));
 
         // Check that api validates mixed multipart request
@@ -718,7 +719,7 @@ public class SpringCodegenTest {
                 .assertParameter("status").hasType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
-                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\"", "description", "\"\"", "required", "true"))
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\"", "required", "true"))
                 .toParameter().toMethod()
                 .assertParameter("file").hasType("MultipartFile")
@@ -735,11 +736,163 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testSpringBoot3ReactiveDefaultsToIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>", "ServerWebExchange")
+                .assertParameter("exchange").hasType("ServerWebExchange")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("hidden", "true"))
+                .doesNotContainWithName("ApiIgnore");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest")
+                .hasImports("org.springframework.web.server.ServerWebExchange");
+    }
+
+    @Test
+    public void testSpringBootReactiveDefaultsToIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(false);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>", "ServerWebExchange")
+                .assertParameter("exchange").hasType("ServerWebExchange")
+                .assertParameterAnnotations()
+                .containsWithName("Parameter");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest",
+                        "springfox.documentation.annotations.ApiIgnore",
+                        "javax.servlet.http.HttpServletRequest")
+                .hasImports("org.springframework.web.server.ServerWebExchange");
+    }
+
+
+    @Test
+    public void testSpringBoot3ReactiveIncludeHttpRequestContextFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "false");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "Mono<User>", "ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+    }
+
+    @Test
+    public void testSpringBootReactiveIncludeHttpRequestContextFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(false);
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "false");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "Mono<User>", "ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest",
+                        "javax.servlet.http.HttpServletRequest",
+                        "org.springframework.web.server.ServerWebExchange",
+                        "springfox.documentation.annotations.ApiIgnore");
+    }
+
+    @Test
+    public void testSpringBoot3BlockingDefaultsToIncludeHttpRequestContextFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(false);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "User");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "User", "HttpServletRequest");
+    }
+
+
+    @Test
+    public void testSpringBoot3BlockingIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(false);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "User");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("jakarta.servlet.http.HttpServletRequest")
+                .hasNoImports("javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "User", "HttpServletRequest")
+                .assertParameter("servletRequest").hasType("HttpServletRequest")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("hidden", "true"))
+                .doesNotContainWithName("ApiIgnore");
+    }
+
+
+    @Test
+    public void testSpringBootBlockingIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(false);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(false);
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "User");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("javax.servlet.http.HttpServletRequest")
+                .hasNoImports("springfox.documentation.annotations.ApiIgnore",
+                        "jakarta.servlet.http.HttpServletRequest",
+                        "org.springframework.web.server.ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "User", "HttpServletRequest")
+                .assertParameter("servletRequest").hasType("HttpServletRequest")
+                .assertParameterAnnotations()
+                .containsWithName("Parameter");
+    }
+
+
+    @Test
     public void testReactiveMultipartBoot() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
         codegen.setDelegatePattern(true);
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
@@ -754,7 +907,7 @@ public class SpringCodegenTest {
             .assertMethod("multipartArray", "Flux<Part>", "ServerWebExchange")
             .assertParameter("files").hasType("Flux<Part>")
             .assertParameterAnnotations()
-            .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"Many files\""))
+            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"files\"", "description", "\"Many files\""))
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"files\"", "required", "false"));
 
         // UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
@@ -769,7 +922,7 @@ public class SpringCodegenTest {
             .assertMethod("multipartSingle", "Part", "ServerWebExchange")
             .assertParameter("file").hasType("Part")
             .assertParameterAnnotations()
-            .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"One file\""))
+            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"file\"", "description", "\"One file\""))
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "false"));
 
         // Check that api validates mixed multipart request
@@ -778,7 +931,7 @@ public class SpringCodegenTest {
             .assertParameter("status").hasType("MultipartMixedStatus")
             .assertParameterAnnotations()
             .containsWithName("Valid")
-            .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
+            .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"status\"", "description", "\"\""))
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"status\"", "required", "true"))
             .toParameter().toMethod()
             .assertParameter("file").hasType("Part")
@@ -820,6 +973,48 @@ public class SpringCodegenTest {
                 .assertMethod("putAdditionalProperty", "String", "Integer")
                 .toFileAssert()
                 .assertMethod("getAdditionalProperty", "String").hasReturnType("Integer");
+    }
+
+    @Test
+    public void testXImplements() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .implementsInterfaces("com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip");
+    }
+
+    @Test
+    public void testXImplementsSkip() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        String interfaceToSkip = "com.custompackage.InterfaceToSkip";
+        codegen.additionalProperties().put(X_IMPLEMENTS_SKIP, List.of(interfaceToSkip));
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .implementsInterfaces("com.custompackage.InterfaceToKeep")
+                .doesNotImplementInterfaces(interfaceToSkip);
+    }
+
+    @Test
+    public void testSchemaImplements() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        String fooInterface = "com.custompackage.FooInterface";
+        String fooAnotherInterface = "com.custompackage.FooAnotherInterface";
+        String anotherInterface = "com.custompackage.AnimalAnotherInterface";
+        codegen.additionalProperties().put(SCHEMA_IMPLEMENTS, Map.of(
+                "Foo", List.of(fooInterface, fooAnotherInterface), /* add multiple interfaces (as list) */
+                "Animal", anotherInterface)); /* add just one interface */
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .implementsInterfaces(anotherInterface, "com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip")
+                .doesNotImplementInterfaces("com.custompackage.SubstitutedInterface");
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .implementsInterfaces(fooInterface, fooAnotherInterface);
     }
 
     @Test
@@ -891,6 +1086,60 @@ public class SpringCodegenTest {
         File notExisting = files.get("PetApi.java");
         assertThat(notExisting).isNull();
     }
+
+    @Test
+    public void shouldGenerateExclusiveMinMaxForOAS31() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/exclusive-min-max.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        System.out.println("Generated files:");
+        files.keySet().stream().sorted().forEach(System.out::println);
+
+
+        File apiFile = files.get("XApi.java");
+        assertThat(apiFile).isNotNull();
+
+        String content = Files.readString(apiFile.toPath());
+
+        var param = openAPI.getPaths()
+                .get("/x").getGet().getParameters().get(0);
+
+        var schema = (io.swagger.v3.oas.models.media.Schema<?>) param.getSchema();
+
+        System.out.println("minimum=" + schema.getMinimum());
+        System.out.println("maximum=" + schema.getMaximum());
+        System.out.println("exclusiveMinimum=" + schema.getExclusiveMinimum());
+        System.out.println("exclusiveMaximum=" + schema.getExclusiveMaximum());
+        System.out.println("exclusiveMinimum class=" + (schema.getExclusiveMinimum() == null ? null : schema.getExclusiveMinimum().getClass()));
+
+        System.out.println("schema extensions=" + schema.getExtensions());
+
+        assertThat(content).contains("@DecimalMin");
+        assertThat(content).contains("\"0\"");
+        assertThat(content).contains("@DecimalMax");
+        assertThat(content).contains("\"10\"");
+        assertThat(content).contains("inclusive = false");
+        assertThat(content).doesNotContain("inclusive = true");
+    }
+
 
     @Test
     public void shouldUseTagsForClassname() throws IOException {
@@ -973,6 +1222,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put("useSpringBoot3", false);
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -1537,7 +1787,6 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -1552,13 +1801,13 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
-                .fileContains("allowableValues = \"0, 1\"", "@PathVariable");
+                .fileContains("@PathVariable(\"status\")");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"))
-                .fileContains("allowableValues = \"sleeping, awake\"", "@PathVariable");
+                .fileContains("@PathVariable(\"refCondition\")");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"))
-                .fileContains("allowableValues = \"sleeping, awake\"", "@PathVariable");
+                .fileContains("@PathVariable(\"condition\")");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GiraffesApi.java"))
-                .fileContains("allowableValues = \"0, 1\"", "@PathVariable");
+                .fileContains("@PathVariable(\"refStatus\")");
     }
 
     @Test
@@ -1596,21 +1845,9 @@ public class SpringCodegenTest {
     /**
      * Define documentation providers to test
      */
-    private final static String SPRINGFOX = "springfox";
-    private final static String SPRINGFOX_DESTINATIONFILE = "SpringFoxConfiguration.java";
-    private final static String SPRINGFOX_TEMPLATEFILE = "openapiDocumentationConfig.mustache";
     private final static String SPRINGDOC = "springdoc";
     private final static String SPRINGDOC_DESTINATIONFILE = "SpringDocConfiguration.java";
     private final static String SPRINGDOC_TEMPLATEFILE = "springdocDocumentationConfig.mustache";
-
-    /**
-     * test whether OpenAPIDocumentationConfig.java is generated
-     * fix issue #10287
-     */
-    @Test
-    public void testConfigFileGeneration_springfox() {
-        testConfigFileCommon(SPRINGFOX, SPRINGFOX_DESTINATIONFILE, SPRINGFOX_TEMPLATEFILE);
-    }
 
     /**
      * test whether SpringDocDocumentationConfig.java is generated
@@ -1913,10 +2150,10 @@ public class SpringCodegenTest {
     @Test
     public void testImportMappings() {
         final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put("useSpringBoot3", false);
         codegen.processOpts();
         Assert.assertEquals(codegen.importMapping().get("org.springframework.core.io.Resource"), "org.springframework.core.io.Resource");
         Assert.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
-        Assert.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
         Assert.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
     }
 
@@ -1957,15 +2194,7 @@ public class SpringCodegenTest {
                             "@Operation( operationId = \"getSingleTag\", summary = \"Single Tag\", tags = { \"tag1\" }, responses = {");
                     assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
                             "@Operation( operationId = \"getMultipleTags\", summary = \"Multiple Tags\", tags = { \"tag1\", \"tag2\" }, responses = {");
-                }},
-                {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(), (Consumer<String>) outputPath -> {
-                    assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/NoneApi.java"),
-                            "@ApiOperation( value = \"No Tag\", nickname = \"getNone\", notes = \"\", response = ");
-                    assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SingleApi.java"),
-                            "@ApiOperation( tags = { \"tag1\" }, value = \"Single Tag\", nickname = \"getSingleTag\", notes = \"\", response = ");
-                    assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/MultipleApi.java"),
-                            "@ApiOperation( tags = { \"tag1\", \"tag2\" }, value = \"Multiple Tags\", nickname = \"getMultipleTags\", notes = \"\", response = ");
-                }},
+                }}
         };
     }
 
@@ -2286,6 +2515,8 @@ public class SpringCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put("useSpringBoot3", false);
+
         Map<String, File> files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
@@ -2541,6 +2772,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+        codegen.additionalProperties().put("useSpringBoot3", false);
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
@@ -2639,6 +2871,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
+        codegen.additionalProperties().put("useSpringBoot3", false);
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
@@ -2935,7 +3168,15 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         return generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(this::getUniqueName, Function.identity()));
+    }
+
+    private String getUniqueName(File file) {
+        String name = file.getName();
+        if ("package-info.java".equals(name)) {
+            return file.getParentFile().getName() + "/" + name;
+        }
+        return name;
     }
 
     @Test
@@ -5117,6 +5358,7 @@ public class SpringCodegenTest {
                 .fileContains("@Nullable Set<String> stringSet")
                 .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
                 .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
+                .fileContains("private String toIndentedString(@Nullable Object o)")
                 .fileDoesNotContain("private List<@Valid TagDto> tags = new ArrayList<>()")
                 .fileDoesNotContain("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
                 .fileDoesNotContain("private List<String> stringList = new ArrayList<>()")
@@ -6173,5 +6415,253 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(apiFile).fileContains(
             "import io.swagger.v3.oas.annotations.media.Schema;"
         );
+    }
+
+    @Test
+    public void testExtensionsOnSchema_issue9183() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_9138_resolve_extensions_on_schema.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest")
+                .assertParameter("groupObj")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"[a-zA-Z]\"",
+                        "message", "\"Only letters\""
+                                                                         ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"[0-9a-fA-F]\"",
+                        "message", "\"Only numbers and letters a-f\""
+                                                                         ));
+    }
+
+    @Test
+    public void shouldAddNullableImportForArrayTypeModels() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-with-spring-pageable.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // AnimalFarm is an array-type model with no properties (issue #22788)
+        JavaFileAssert.assertThat(files.get("AnimalFarm.java"))
+                .hasImports("org.springframework.lang.Nullable");
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .hasImports("org.springframework.lang.Nullable");
+    }
+
+    @Test
+    public void shouldRefuseJackson3WithoutSpringboot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "false");
+        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        Generator generator = new DefaultGenerator()
+                .opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate);
+    }
+
+    @Test
+    public void shouldImportJackson2JsonDeserializeForUniqueItemsWhenJackson3NotSet() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
+                .hasImports("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
+    }
+
+    @Test
+    public void shouldImportJackson3JsonDeserializeForUniqueItemsWhenJackson3Set() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
+                .hasImports("tools.jackson.databind.annotation.JsonDeserialize");
+    }
+
+    @Test
+    public void shouldNotHaveDocumentationAnnotationWhenUsingLibrarySpringHttpInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        codegen.setAnnotationLibrary(AnnotationLibrary.SWAGGER2);
+        codegen.setDocumentationProvider(DocumentationProvider.SPRINGDOC);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"))
+                .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
+    }
+
+    @DataProvider(name = "jspecifyLibraries")
+    public Object[][] jspecifyLibraries() {
+        return new Object[][]{
+                {SPRING_BOOT, 2, "FooApi.java"},
+                {SPRING_BOOT, 3, "FooApi.java"},
+                {SPRING_BOOT, 4, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 2, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 4, "FooApi.java"},
+                {SPRING_HTTP_INTERFACE, 3, "DefaultApi.java"},
+                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java"}
+        };
+    }
+
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify(String library, int springBootVersion, String fooApiFilename) throws IOException {
+        String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        CONTAINER_DEFAULT_TO_NULL, true,
+                        OPENAPI_NULLABLE, false,
+                        USE_BEANVALIDATION, true,
+                        springVersionProperty, springBootVersion > 2
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant"));
+
+        if (springBootVersion == 4) {
+            assertThat(files.get("pom.xml")).content()
+                    .doesNotContain("jspecify")
+                    .doesNotContain("findbugs");
+        } else {
+            assertThat(files.get("pom.xml")).content()
+                    .contains(
+                            "<groupId>org.jspecify</groupId>",
+                            "<artifactId>jspecify</artifactId>",
+                            "<version>1.0.0</version>")
+                    .doesNotContain("findbugs");
+        }
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .fileContains(
+                        "private java.time.@Nullable Instant dt;",
+                        "private org.springframework.core.io.@Nullable Resource binary",
+                        "setBinary(org.springframework.core.io.@Nullable Resource binary)"
+                );
+        JavaFileAssert.assertThat(files.get(fooApiFilename))
+                .fileContains(
+                        "java.time.@Nullable Instant dtParam",
+                        "java.time.@Nullable Instant dtQuery",
+                        "java.time.@Nullable Instant dtCookie"
+                );
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
     }
 }

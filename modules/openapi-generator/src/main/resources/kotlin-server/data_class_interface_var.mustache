@@ -1,0 +1,4 @@
+{{#description}}
+    /* {{{.}}} */
+{{/description}}
+    open val {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{^defaultValue}}{{^required}} = null{{/required}}{{/defaultValue}}

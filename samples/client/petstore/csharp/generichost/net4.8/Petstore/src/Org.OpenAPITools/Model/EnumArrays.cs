@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [JsonPropertyName("just_symbol")]
-        public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<JustSymbolEnum?>(value); } }
+        public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption.Value; } set { this.JustSymbolOption = new Option<JustSymbolEnum?>(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayEnum
@@ -200,7 +200,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get { return this.ArrayEnumOption; } set { this.ArrayEnumOption = new Option<List<EnumArrays.ArrayEnumEnum>>(value); } }
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get { return this.ArrayEnumOption.Value; } set { this.ArrayEnumOption = new Option<List<EnumArrays.ArrayEnumEnum>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

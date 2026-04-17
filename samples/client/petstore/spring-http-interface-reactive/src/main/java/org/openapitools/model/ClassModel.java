@@ -17,7 +17,7 @@ import jakarta.annotation.Generated;
  * Model for testing model with \&quot;_class\&quot; property
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ClassModel {
 
   private @Nullable String propertyClass;
@@ -37,6 +37,7 @@ public class ClassModel {
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
@@ -71,11 +72,8 @@ public class ClassModel {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

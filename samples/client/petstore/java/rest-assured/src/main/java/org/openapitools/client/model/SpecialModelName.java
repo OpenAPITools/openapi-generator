@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
@@ -59,6 +59,7 @@ public class SpecialModelName {
   public void set$SpecialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -91,10 +92,7 @@ public class SpecialModelName {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

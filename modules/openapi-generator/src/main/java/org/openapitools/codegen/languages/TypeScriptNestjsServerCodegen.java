@@ -120,8 +120,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.").defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript compatible with Angular (see ngVersion option)."));
-        this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS compatible with Angular (see ngVersion option)."));
+        this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript."));
+        this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS."));
     }
 
     @Override
@@ -156,6 +156,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("api-implementations.mustache", "", "api-implementations.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", "", "api.module.ts"));
         supportingFiles.add(new SupportingFile("controllers.mustache", "controllers", "index.ts"));
+        supportingFiles.add(new SupportingFile("cookies-decorator.mustache", "decorators", "cookies-decorator.ts"));
+        supportingFiles.add(new SupportingFile("headers-decorator.mustache", "decorators", "headers-decorator.ts"));
+        supportingFiles.add(new SupportingFile("decorators.mustache", "decorators", "index.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
@@ -173,7 +176,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         additionalProperties.put(NEST_VERSION, nestVersion);
 
         if (additionalProperties.containsKey(NPM_NAME)) {
-            if(!additionalProperties.containsKey(NPM_VERSION)) {
+            if (!additionalProperties.containsKey(NPM_VERSION)) {
                 additionalProperties.put(NPM_VERSION, "0.0.0");
             }
 
@@ -274,7 +277,21 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     }
 
     private boolean isLanguagePrimitive(String type) {
-        return languageSpecificPrimitives.contains(type);
+        return languageSpecificPrimitives.contains(type) || isInlineUnion(type);
+    }
+
+    /**
+     * <p>
+     * Determines if the given type is an inline union of strings, described as an enum without being an explicit component in OpenAPI spec.
+     * </p>
+     * Example input that matches: {@code "'A' | 'B'" }
+     *
+     * @param type The Typescript type to evaluate.
+     */
+    private boolean isInlineUnion(String type) {
+        return Arrays.stream(type.split("\\|"))
+                .map(String::trim)
+                .allMatch(value -> value.matches("([\"'].*[\"'])"));
     }
 
     private boolean isLanguageGenericType(String type) {
@@ -294,6 +311,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = applyLocalTypeMapping(parameter.dataType);
+        if ("undefined".equals(parameter.defaultValue)) {
+            parameter.defaultValue = null;
+        }
     }
 
     @Override
@@ -343,8 +363,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             // Collect imports from parameters
             if (operation.allParams != null) {
                 for (CodegenParameter param : operation.allParams) {
-                    if(param.dataType != null) {
-                        if(isLanguageGenericType(param.dataType)) {
+                    if (param.dataType != null) {
+                        if (isLanguageGenericType(param.dataType)) {
                             // Extract generic type and add to imports if its not a primitive
                             String genericType = extractGenericType(param.dataType);
                             if (genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
@@ -366,10 +386,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
                 if (isLanguageGenericType(operation.returnType)) {
                     // Extract generic type and add to imports if it's not a primitive
                     String genericType = extractGenericType(operation.returnType);
-                    if (genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
+                    if (needToImport(operation.returnType) && genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
                         allImports.add(genericType);
                     }
-                } else {
+                } else if (needToImport(operation.returnType)) {
                     allImports.add(operation.returnType);
                 }
             }
@@ -397,10 +417,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             return null;
         }
         String genericType = type.substring(startAngleBracketIndex + 1, endAngleBracketIndex);
-        if(isLanguageGenericType(genericType)) {
+        if (isLanguageGenericType(genericType)) {
             return extractGenericType(type);
         }
-        if(genericType.contains("|")) {
+        if (genericType.contains("|")) {
             return null;
         }
         return genericType;
@@ -429,7 +449,11 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
                     String[] parts = name.split(" \\| ");
-                    Collections.addAll(newImports, parts);
+                    for (String part : parts) {
+                        if (needToImport(part)) {
+                            newImports.add(part);
+                        }
+                    }
                 } else {
                     newImports.add(name);
                 }

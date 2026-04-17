@@ -162,6 +162,7 @@ export class RequestContext {
 export interface ResponseBody {
     text(): Promise<string>;
     binary(): Promise<Buffer>;
+    stream(): ReadableStream<Uint8Array> | null;
 }
 
 /**
@@ -177,6 +178,10 @@ export class SelfDecodingBody implements ResponseBody {
     async text(): Promise<string> {
         const data: Buffer = await this.dataSource;
         return data.toString();
+    }
+
+    stream(): ReadableStream<Uint8Array> | null {
+        return null;
     }
 }
 

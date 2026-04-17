@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -178,6 +178,7 @@ public class EnumArrays {
     this.arrayEnum = arrayEnum;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -211,10 +212,7 @@ public class EnumArrays {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

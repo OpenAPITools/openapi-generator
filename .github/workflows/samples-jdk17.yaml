@@ -10,10 +10,13 @@ on:
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/openapi3/server/petstore/springboot-3-include-http-request-context/**
+      - samples/server/petstore/springboot-x-implements-skip/**
       - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
@@ -27,10 +30,13 @@ on:
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/openapi3/server/petstore/springboot-3-include-http-request-context/**
+      - samples/server/petstore/springboot-x-implements-skip/**
       - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
@@ -50,10 +56,13 @@ jobs:
           - samples/client/petstore/spring-http-interface
           - samples/client/petstore/spring-http-interface-reactive-noResponseEntity
           - samples/client/petstore/spring-http-interface-noResponseEntity
+          - samples/client/petstore/spring-http-interface-useHttpServiceProxyFactoryInterfacesConfigurator
           - samples/client/petstore/java/webclient-jakarta
           - samples/client/petstore/java/microprofile-rest-client-outer-enum
           # servers
           - samples/openapi3/server/petstore/springboot-3
+          - samples/openapi3/server/petstore/springboot-3-include-http-request-context
+          - samples/server/petstore/springboot-x-implements-skip
           - samples/server/petstore/java-camel/
           - samples/server/petstore/java-helidon-server/v3/mp/
           - samples/server/petstore/java-helidon-server/v3/se

@@ -18,16 +18,26 @@ import feign.Response;
 import feign.Types;
 import feign.jackson.JacksonDecoder;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openapitools.client.model.ApiResponse;
 
 public class ApiResponseDecoder extends JacksonDecoder {
+
+    private static final Pattern FILENAME_PATTERN =
+            Pattern.compile("filename=\"([^\"]+)\"|filename=([^\\s;]+)");
 
     public ApiResponseDecoder(ObjectMapper mapper) {
         super(mapper);
@@ -35,16 +45,72 @@ public class ApiResponseDecoder extends JacksonDecoder {
 
     @Override
     public Object decode(Response response, Type type) throws IOException {
-        //Detects if the type is an instance of the parameterized class ApiResponse
         if (type instanceof ParameterizedType && Types.getRawType(type).isAssignableFrom(ApiResponse.class)) {
-            //The ApiResponse class has a single type parameter, the Dto class itself
             Type responseBodyType = ((ParameterizedType) type).getActualTypeArguments()[0];
-            Object body = super.decode(response, responseBodyType);
+            Object body = isBinaryType(responseBodyType)
+                    ? decodeBinary(response, responseBodyType)
+                    : super.decode(response, responseBodyType);
             Map<String, Collection<String>> responseHeaders = Collections.unmodifiableMap(response.headers());
             return new ApiResponse<>(response.status(), responseHeaders, body);
-        } else {
-            //The response is not encapsulated in the ApiResponse, decode the Dto as normal
-            return super.decode(response, type);
         }
+
+        if (isBinaryType(type)) {
+            return decodeBinary(response, type);
+        }
+
+        return super.decode(response, type);
+    }
+
+    private boolean isBinaryType(Type type) {
+        Class<?> raw = Types.getRawType(type);
+        return File.class.isAssignableFrom(raw)
+                || byte[].class.isAssignableFrom(raw)
+                || InputStream.class.isAssignableFrom(raw);
+    }
+
+    private Object decodeBinary(Response response, Type type) throws IOException {
+        Class<?> raw = Types.getRawType(type);
+        if (response.body() == null) {
+            return null;
+        }
+        if (byte[].class.isAssignableFrom(raw)) {
+            return response.body().asInputStream().readAllBytes();
+        }
+        if (InputStream.class.isAssignableFrom(raw)) {
+            return response.body().asInputStream();
+        }
+        return downloadToTempFile(response);
+    }
+
+    private File downloadToTempFile(Response response) throws IOException {
+        String filename = extractFilename(response);
+        File file;
+        if (filename != null) {
+            // Sanitize: strip path components to prevent path traversal
+            String safeName = Paths.get(filename).getFileName().toString();
+            java.nio.file.Path tempDir = Files.createTempDirectory("feign-download");
+            file = Files.createFile(tempDir.resolve(safeName)).toFile();
+            tempDir.toFile().deleteOnExit();
+        } else {
+            file = Files.createTempFile("download-", "").toFile();
+        }
+        file.deleteOnExit();
+        try (InputStream is = response.body().asInputStream()) {
+            Files.copy(is, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+        return file;
+    }
+
+    private String extractFilename(Response response) {
+        Collection<String> dispositions = response.headers().get("Content-Disposition");
+        if (dispositions == null) return null;
+        for (String disposition : dispositions) {
+            Matcher m = FILENAME_PATTERN.matcher(disposition);
+            if (m.find()) {
+                // Group 1: quoted filename (may contain spaces), Group 2: unquoted token
+                return m.group(1) != null ? m.group(1) : m.group(2);
+            }
+        }
+        return null;
     }
 }

@@ -108,14 +108,16 @@ kotlin {
     explicitApi()
 }
 {{/explicitApi}}
-{{#jvm-spring-webclient}}{{#useSpringBoot3}}
+{{#jvm-spring-webclient}}
+{{#useSpringBoot3}}
 
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
-{{/useSpringBoot3}}{{/jvm-spring-webclient}}
+{{/useSpringBoot3}}
+{{/jvm-spring-webclient}}
 {{#jvm-spring-restclient}}
 
 kotlin {
@@ -219,7 +221,6 @@ dependencies {
     {{/jackson}}
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
-    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     {{#jvm-vertx}}
     implementation "io.vertx:vertx-web-client:$vertx_version"
     implementation "io.vertx:vertx-core:$vertx_version"
@@ -229,6 +230,10 @@ dependencies {
     implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
     {{/useCoroutines}}
     {{/jvm-vertx}}
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    {{#jvm-spring}}
+    testImplementation "org.springframework.boot:spring-boot-test:$spring_boot_version"
+    {{/jvm-spring}}
 }
 {{#kotlinx_serialization}}
 

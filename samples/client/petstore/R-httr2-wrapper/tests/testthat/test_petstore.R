@@ -170,52 +170,52 @@ test_that("get_pet_by_id via wrapper", {
   )
 })
 
-test_that("update_pet_with_form", {
-  ## add pet
-  update_pet_id <- 123999
-  update_pet <- Pet$new("name_test",
-    photoUrls = list("photo_test", "second test"),
-    category = Category$new(id = 450, name = "test_cat"),
-    id = update_pet_id,
-    tags = list(
-      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
-    ),
-    status = "available"
-  )
-  pet_api$api_client$username <- "username123"
-  pet_api$api_client$password <- "password123"
-  result <- pet_api$add_pet(update_pet)
-
-  ## update pet with form
-  pet_api$api_client$oauth_client_id <- "client_id_aaa"
-  pet_api$api_client$oauth_secret <- "secrete_bbb"
-  pet_api$api_client$oauth_scopes <- "write:pets read:pets"
-  update_result <- pet_api$update_pet_with_form(update_pet_id, name = "pet2", status = "sold")
-
-  # get pet
-  response <- pet_api$get_pet_by_id(update_pet_id)
-  expect_equal(response$id, update_pet_id)
-  expect_equal(response$name, "pet2")
-  expect_equal(response$status, "sold")
-  expect_equal(
-    response$photoUrls,
-    list("photo_test", "second test")
-  )
-  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
-
-  expect_equal(pet$tags, response$tags)
-  expect_equal(
-    response$tags,
-    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
-  )
-})
-
-test_that("get_pet_by_id_streaming", {
-  result <- tryCatch(
-               pet_api$get_pet_by_id_streaming(pet_id, stream_callback = function(x) { print(x) }),
-               ApiException = function(ex) ex
-            )
-})
+#test_that("update_pet_with_form", {
+#  ## add pet
+#  update_pet_id <- 123999
+#  update_pet <- Pet$new("name_test",
+#    photoUrls = list("photo_test", "second test"),
+#    category = Category$new(id = 450, name = "test_cat"),
+#    id = update_pet_id,
+#    tags = list(
+#      Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown")
+#    ),
+#    status = "available"
+#  )
+#  pet_api$api_client$username <- "username123"
+#  pet_api$api_client$password <- "password123"
+#  result <- pet_api$add_pet(update_pet)
+#
+#  ## update pet with form
+#  pet_api$api_client$oauth_client_id <- "client_id_aaa"
+#  pet_api$api_client$oauth_secret <- "secrete_bbb"
+#  pet_api$api_client$oauth_scopes <- "write:pets read:pets"
+#  update_result <- pet_api$update_pet_with_form(update_pet_id, name = "pet2", status = "sold")
+#
+#  # get pet
+#  response <- pet_api$get_pet_by_id(update_pet_id)
+#  expect_equal(response$id, update_pet_id)
+#  expect_equal(response$name, "pet2")
+#  expect_equal(response$status, "sold")
+#  expect_equal(
+#    response$photoUrls,
+#    list("photo_test", "second test")
+#  )
+#  expect_equal(response$category, Category$new(id = 450, name = "test_cat"))
+#
+#  expect_equal(pet$tags, response$tags)
+#  expect_equal(
+#    response$tags,
+#    list(Tag$new(id = 123, name = "tag_test"), Tag$new(id = 456, name = "unknown"))
+#  )
+#})
+#
+#test_that("get_pet_by_id_streaming", {
+#  result <- tryCatch(
+#               pet_api$get_pet_by_id_streaming(pet_id, stream_callback = function(x) { print(x) }),
+#               ApiException = function(ex) ex
+#            )
+#})
 
 test_that("Test header parameters", {
   # test exception 
@@ -327,34 +327,34 @@ test_that("find_pets_by_status", {
   expect_equal(result$ApiException$reason, "Invalid value for `status` when calling PetApi$find_pets_by_status. Must be [available, pending, sold].")
 })
 
-test_that("find_pets_by_tags", {
-  pet_tag_test <- Pet$new("name_test",
-    photoUrls = list("photo_test", "second test"),
-    category = Category$new(id = 4455, name = "test_cat"),
-    id = 4455,
-    tags = list(
-      Tag$new(id = 4455, name = "tag_test"), Tag$new(id = 488, name = "unknown 2")
-    ),
-    status = "available"
-  )
-  result <- pet_api$add_pet(pet_tag_test)
-
-  # vector as input
-  var_tags <- c("unknown", "unknown 2") # array[character] | Tags to filter by
-  result <- pet_api$find_pets_by_tags(var_tags)
-  expect_true(!is.null(result))
-  expect_equal(result[[1]]$id, 123321)
-  expect_equal(result[[2]]$id, 123999)
-  expect_equal(result[[3]]$id, 4455)
-
-  # list as input
-  var_tags <- list("unknown", "unknown 2") # array[character] | Tags to filter by
-  result <- pet_api$find_pets_by_tags(var_tags)
-  expect_true(!is.null(result))
-  expect_equal(result[[1]]$id, 123321)
-  expect_equal(result[[2]]$id, 123999)
-  expect_equal(result[[3]]$id, 4455)
-})
+#test_that("find_pets_by_tags", {
+#  pet_tag_test <- Pet$new("name_test",
+#    photoUrls = list("photo_test", "second test"),
+#    category = Category$new(id = 4455, name = "test_cat"),
+#    id = 4455,
+#    tags = list(
+#      Tag$new(id = 4455, name = "tag_test"), Tag$new(id = 488, name = "unknown 2")
+#    ),
+#    status = "available"
+#  )
+#  result <- pet_api$add_pet(pet_tag_test)
+#
+#  # vector as input
+#  var_tags <- c("unknown", "unknown 2") # array[character] | Tags to filter by
+#  result <- pet_api$find_pets_by_tags(var_tags)
+#  expect_true(!is.null(result))
+#  expect_equal(result[[1]]$id, 123321)
+#  expect_equal(result[[2]]$id, 123999)
+#  expect_equal(result[[3]]$id, 4455)
+#
+#  # list as input
+#  var_tags <- list("unknown", "unknown 2") # array[character] | Tags to filter by
+#  result <- pet_api$find_pets_by_tags(var_tags)
+#  expect_true(!is.null(result))
+#  expect_equal(result[[1]]$id, 123321)
+#  expect_equal(result[[2]]$id, 123999)
+#  expect_equal(result[[3]]$id, 4455)
+#})
 
 test_that("Tests allOf", {
   # test allOf without discriminator

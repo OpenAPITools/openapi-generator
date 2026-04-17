@@ -6,7 +6,7 @@ object AdditionalTypeSerializers {
     import org.json4s.{Serializer, CustomSerializer, JNull, MappingException}
     import org.json4s.JsonAST.JString
       case object URISerializer extends CustomSerializer[URI]( _ => ( {
-        case JString(s) => 
+        case JString(s) =>
           try new URI(s)
           catch {
             case _: URISyntaxException =>

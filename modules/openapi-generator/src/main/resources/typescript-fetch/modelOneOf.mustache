@@ -70,15 +70,15 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
-            return json.map(value => new Date(json);
+        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
+            return json.map(value => new Date(value));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(json)) {
-        if (json.every(item => !(isNaN(new Date(json).getTime()))) {
-            return json.map(value => new Date(json);
+        if (json.every(item => !(isNaN(new Date(item).getTime())))) {
+            return json.map(value => new Date(value));
         }
     }
     {{/isDateTimeType}}
@@ -188,14 +188,14 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#isDateType}}
     if (Array.isArray(value)) {
         if (value.every(item => item instanceof Date) {
-            return value.map(value => value.toISOString().substring(0,10)));
+            return value.map(value => value.toISOString().substring(0,10));
         }
     }
     {{/isDateType}}
     {{#isDateTimeType}}
     if (Array.isArray(value)) {
-        if (value.every(item => item instanceof Date) {
-            return value.map(value => value.toISOString();
+        if (value.every(item => item instanceof Date)) {
+            return value.map(item => item.toISOString());
         }
     }
     {{/isDateTimeType}}

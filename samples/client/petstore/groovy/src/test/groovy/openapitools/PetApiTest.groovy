@@ -1,6 +1,7 @@
 package openapitools
 
 import org.junit.Test
+import org.junit.Ignore
 import org.openapitools.api.PetApi
 import org.openapitools.model.Category
 import org.openapitools.model.Pet
@@ -48,7 +49,7 @@ class PetApiTest extends GroovyTestCase  {
         def pet = new Pet()
         pet.setId(this.petId)
         pet.setName("groovy client updatetest")
-        pet.setStatus("pending")
+        pet.setStatus(Pet.StatusEnum.pending)
         this.petApi.updatePet(pet) {
         }
         {
@@ -60,7 +61,7 @@ class PetApiTest extends GroovyTestCase  {
             def petGetted = (Pet)it
             assertEquals(this.petId, petGetted.getId())
             assertEquals("groovy client updatetest", petGetted.getName())
-            assertEquals("pending", petGetted.getStatus())
+            assertEquals(Pet.StatusEnum.pending, petGetted.getStatus())
         }
         {
             statusCode, message ->
@@ -69,25 +70,25 @@ class PetApiTest extends GroovyTestCase  {
 
         this.petApi.updatePetWithForm(this.petId, "groovy client updatetestwithform", "sold") {
         }
-                {
-                    statusCode, message ->
-                        assertEquals(200, statusCode)
-                };
+        {
+            statusCode, message ->
+                assertEquals(200, statusCode)
+        };
 
         this.petApi.getPetById(this.petId) {
             def petGetted = (Pet)it
             assertEquals(this.petId, petGetted.getId())
             assertEquals("groovy client updatetestwithform", petGetted.getName())
-            assertEquals("sold", petGetted.getStatus())
+            assertEquals(Pet.StatusEnum.sold, petGetted.getStatus())
         }
-                {
-                    statusCode, message ->
-                        assertEquals(200, statusCode)
-                };
+        {
+            statusCode, message ->
+            assertEquals(200, statusCode)
+        };
 
         this.petApi.deletePet(this.petId, "apiKey") {
         }
-{
+        {
             statusCode, message ->
                 assertEquals(200, statusCode)
         };
@@ -96,7 +97,7 @@ class PetApiTest extends GroovyTestCase  {
         this.petApi.getPetById(this.petId) {
             assertEquals(404, 200)
         }
-{
+        {
             statusCode, message ->
                 assertEquals(404, statusCode)
         };
@@ -113,7 +114,6 @@ class PetApiTest extends GroovyTestCase  {
             statusCode, message ->
                 assertEquals(200, statusCode)
         };
-
     }
 
 }

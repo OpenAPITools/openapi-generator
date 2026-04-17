@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.models
@@ -62,11 +70,15 @@ enum class StringEnumRef(@get:JsonValue val value: kotlin.String) {
          */
         @JvmStatic
         @JsonCreator
-        fun decode(data: kotlin.Any?): StringEnumRef? = data?.let {
-          val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
-            it == value || normalizedData == "$value".lowercase()
+        fun decode(data: kotlin.Any?): StringEnumRef {
+          if (data == null) {
+            throw IllegalArgumentException("Value for StringEnumRef cannot be null")
           }
+          val normalizedData = "$data".lowercase()
+          return entries.firstOrNull { value ->
+            data == value || normalizedData == "$value".lowercase()
+          }
+            ?: unknown_default_open_api
         }
     }
 }

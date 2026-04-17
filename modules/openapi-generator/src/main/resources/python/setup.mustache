@@ -1,7 +1,4 @@
-# coding: utf-8
-
 {{>partial_header}}
-
 
 from setuptools import setup, find_packages  # noqa: H301
 
@@ -13,7 +10,7 @@ from setuptools import setup, find_packages  # noqa: H301
 # http://pypi.python.org/pypi/setuptools
 NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
-PYTHON_REQUIRES = ">= 3.9"
+PYTHON_REQUIRES = ">= 3.10"
 REQUIRES = [
 {{^async}}
     "urllib3 >= 2.1.0, < 3.0.0",
@@ -33,7 +30,7 @@ REQUIRES = [
     "pem >= 19.3.0",
     "pycryptodome >= 3.9.0",
 {{/hasHttpSignatureMethods}}
-    "pydantic >= 2",
+    "pydantic >= 2.11",
     "typing-extensions >= 4.7.1",
 {{#lazyImports}}
     "lazy-imports >= 1, < 2",

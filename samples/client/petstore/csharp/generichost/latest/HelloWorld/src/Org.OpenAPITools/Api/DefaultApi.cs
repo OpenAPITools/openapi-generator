@@ -12,7 +12,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -244,7 +246,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/helloWorld"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/helloWorld");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/helloWorld");
 
                     if (helloWorldPostRequest.IsSet)
                         httpRequestMessageLocalVar.Content = (helloWorldPostRequest.Value as object) is System.IO.Stream stream

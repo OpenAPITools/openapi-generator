@@ -22,7 +22,7 @@ class PetApi : public Service {
 public:
     PetApi() = default;
 
-    virtual ~PetApi() = default;
+    virtual ~PetApi();
 
     /**
     * Add a new pet to the store.

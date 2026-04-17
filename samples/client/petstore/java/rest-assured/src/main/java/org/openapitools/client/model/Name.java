@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -136,6 +136,7 @@ public class Name {
 
 
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -173,10 +174,7 @@ public class Name {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

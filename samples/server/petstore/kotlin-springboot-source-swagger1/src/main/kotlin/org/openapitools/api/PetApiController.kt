@@ -3,6 +3,8 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import io.swagger.annotations.ApiResponse
@@ -47,7 +49,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 405, message = "Invalid input")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_ADD_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_ADD_PET],
         consumes = ["application/json", "application/xml"]
     )
     fun addPet(
@@ -64,15 +67,18 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
         value = [ApiResponse(code = 400, message = "Invalid pet value")])
+    @ApiImplicitParams(value = [
+        ApiImplicitParam(name = "api_key", value = "",  dataType = "kotlin.String", paramType = "header")
+    ])
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
+        // "/pet/{petId}"
+        value = [PATH_DELETE_PET]
     )
     fun deletePet(
-        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long
     ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
+        return ResponseEntity(service.deletePet(petId), HttpStatus.valueOf(400))
     }
 
 
@@ -87,7 +93,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid status value")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
+        // "/pet/findByStatus"
+        value = [PATH_FIND_PETS_BY_STATUS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
@@ -106,9 +113,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid tag value")])
+    @Deprecated(message="Operation is deprecated")
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
+        // "/pet/findByTags"
+        value = [PATH_FIND_PETS_BY_TAGS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
@@ -128,7 +137,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_GET_PET_BY_ID],
         produces = ["application/xml", "application/json"]
     )
     fun getPetById(
@@ -147,7 +157,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found"),ApiResponse(code = 405, message = "Validation exception")])
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_UPDATE_PET],
         consumes = ["application/json", "application/xml"]
     )
     fun updatePet(
@@ -166,7 +177,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 405, message = "Invalid input")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_UPDATE_PET_WITH_FORM],
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithForm(
@@ -188,7 +200,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse::class)])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
+        // "/pet/{petId}/uploadImage"
+        value = [PATH_UPLOAD_FILE],
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )

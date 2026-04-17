@@ -42,7 +42,8 @@ class FakeApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_ANNOTATIONS /* "/fake/annotations" */],
+        // "/fake/annotations"
+        value = [PATH_ANNOTATIONS],
         consumes = ["application/json"]
     )
     fun annotations(
@@ -61,7 +62,8 @@ class FakeApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_PET_WITH_FORM_NUMBER /* "/fake/annotations" */],
+        // "/fake/annotations"
+        value = [PATH_UPDATE_PET_WITH_FORM_NUMBER],
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithFormNumber(

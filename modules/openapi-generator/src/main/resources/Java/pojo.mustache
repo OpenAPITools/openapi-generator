@@ -24,6 +24,9 @@
 @JsonTypeName("{{name}}")
 {{/hasDiscriminatorWithNonEmptyMapping}}
 {{/isClassnameSanitized}}
+{{#additionalPropertiesType}}
+@JsonFormat(shape=JsonFormat.Shape.OBJECT)
+{{/additionalPropertiesType}}
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
@@ -281,6 +284,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isReadOnly}}
 
   {{/vars}}
+{{>additional_properties}}
+
   {{#parent}}
   {{#readWriteVars}}
   {{#isOverridden}}
@@ -358,10 +363,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
    * (except the first line).
    */
   private{{#jsonb}} static{{/jsonb}} String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 {{#supportUrlQuery}}
 

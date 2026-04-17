@@ -16,6 +16,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Bool>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Bool> {
         let deferred = Promise<Bool>.pending()
         fakeOuterBooleanSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -60,6 +61,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<OuterComposite>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<OuterComposite> {
         let deferred = Promise<OuterComposite>.pending()
         fakeOuterCompositeSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -104,6 +106,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Double>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterNumberSerialize(body: Double? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Double> {
         let deferred = Promise<Double>.pending()
         fakeOuterNumberSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -148,6 +151,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<String>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func fakeOuterStringSerialize(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<String> {
         let deferred = Promise<String>.pending()
         fakeOuterStringSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -192,6 +196,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testBodyWithFileSchemaWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -237,6 +242,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testBodyWithQueryParams(query: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -285,6 +291,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Client>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testClientModel(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
         testClientModelWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -344,6 +351,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, apiConfiguration: apiConfiguration).execute { result in
@@ -498,6 +506,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, apiConfiguration: apiConfiguration).execute { result in
@@ -570,6 +579,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, apiConfiguration: apiConfiguration).execute { result in
@@ -628,6 +638,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testInlineAdditionalProperties(param: [String: String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testInlineAdditionalPropertiesWithRequestBuilder(param: param, apiConfiguration: apiConfiguration).execute { result in
@@ -674,6 +685,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func testJsonFormData(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testJsonFormDataWithRequestBuilder(param: param, param2: param2, apiConfiguration: apiConfiguration).execute { result in

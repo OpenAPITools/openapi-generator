@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Category: Sendable, Codable, ParameterConvertible, Hashable {
+public struct Category: Sendable, Codable, Hashable {
 
     public var id: Int64?
     public var name: String? = "default-name"
@@ -32,5 +32,4 @@ public struct Category: Sendable, Codable, ParameterConvertible, Hashable {
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension Category: Identifiable {}

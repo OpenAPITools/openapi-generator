@@ -47,7 +47,7 @@ import java.util.StringJoiner;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @javax.annotation.Nullable
@@ -409,6 +409,7 @@ public class DefaultValue {
     this.stringNullable = JsonNullable.<String>of(stringNullable);
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -465,10 +466,7 @@ public class DefaultValue {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**

@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ResponseObjectWithDifferentFieldNames")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNamesDto {
 
   private @Nullable String normalPropertyName;
@@ -45,6 +45,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return normalPropertyName;
   }
 
+  @JsonProperty("normalPropertyName")
   public void setNormalPropertyName(@Nullable String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
   }
@@ -64,6 +65,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return UPPER_CASE_PROPERTY_SNAKE;
   }
 
+  @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public void setUPPERCASEPROPERTYSNAKE(@Nullable String UPPER_CASE_PROPERTY_SNAKE) {
     this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
   }
@@ -83,6 +85,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return lowerCasePropertyDashes;
   }
 
+  @JsonProperty("lower-case-property-dashes")
   public void setLowerCasePropertyDashes(@Nullable String lowerCasePropertyDashes) {
     this.lowerCasePropertyDashes = lowerCasePropertyDashes;
   }
@@ -102,6 +105,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return propertyNameWithSpaces;
   }
 
+  @JsonProperty("property name with spaces")
   public void setPropertyNameWithSpaces(@Nullable String propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;
   }
@@ -142,11 +146,8 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

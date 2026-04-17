@@ -29,6 +29,20 @@ pub enum TestsFileResponseGetError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`tests_inline_enum_boxing_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`tests_inline_enum_boxing_post`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsInlineEnumBoxingPostError {
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`tests_type_testing_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -93,6 +107,84 @@ pub async fn tests_file_response_get(configuration: &configuration::Configuratio
     } else {
         let content = resp.text().await?;
         let entity: Option<TestsFileResponseGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Tests inline enum query parameters
+pub async fn tests_inline_enum_boxing_get(configuration: &configuration::Configuration, status: Option<&str>) -> Result<Vec<models::ModelWithInlineEnum>, Error<TestsInlineEnumBoxingGetError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_query_status = status;
+
+    let uri_str = format!("{}/tests/inlineEnumBoxing", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref param_value) = p_query_status {
+        req_builder = req_builder.query(&[("status", &param_value.to_string())]);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_path_to_error::deserialize(&mut serde_json::Deserializer::from_str(&content)).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::ModelWithInlineEnum&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::ModelWithInlineEnum&gt;`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TestsInlineEnumBoxingGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Regression test to ensure inline enum fields are not wrapped in Box::new() in model constructors
+pub async fn tests_inline_enum_boxing_post(configuration: &configuration::Configuration, model_with_inline_enum: models::ModelWithInlineEnum) -> Result<models::ModelWithInlineEnum, Error<TestsInlineEnumBoxingPostError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_body_model_with_inline_enum = model_with_inline_enum;
+
+    let uri_str = format!("{}/tests/inlineEnumBoxing", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    req_builder = req_builder.json(&p_body_model_with_inline_enum);
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_path_to_error::deserialize(&mut serde_json::Deserializer::from_str(&content)).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ModelWithInlineEnum`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::ModelWithInlineEnum`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TestsInlineEnumBoxingPostError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

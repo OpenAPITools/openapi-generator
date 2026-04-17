@@ -1,0 +1,42 @@
+openapi: "3.0.0"
+info:
+  title: Nested Maps Test
+  description: Test case for nested map types (Record<string, Record<string, string>>)
+  version: "1.0.0"
+paths:
+  /test:
+    get:
+      summary: Test endpoint with nested maps
+      operationId: getNestedMaps
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestModel'
+
+components:
+  schemas:
+    # Inner map: Record<string, string>
+    Record_string.string_:
+      type: object
+      additionalProperties:
+        type: string
+
+    # Outer map: Record<string, Record<string, string>>
+    Record_string.Record_string.string__:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/Record_string.string_"
+
+    # Model that uses the nested map
+    TestModel:
+      type: object
+      properties:
+        id:
+          type: string
+        simpleMap:
+          $ref: "#/components/schemas/Record_string.string_"
+        nestedMap:
+          $ref: "#/components/schemas/Record_string.Record_string.string__"

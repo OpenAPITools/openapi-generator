@@ -34,6 +34,12 @@ import feign.jackson.JacksonEncoder;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 {{/gson}}
+{{#feign-okhttp}}
+import feign.okhttp.OkHttpClient;
+{{/feign-okhttp}}
+{{#feign-hc5}}
+import feign.hc5.ApacheHttp5Client;
+{{/feign-hc5}}
 import feign.slf4j.Slf4jLogger;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
@@ -65,12 +71,24 @@ public class ApiClient {
   protected String basePath = "{{{basePath}}}";
   protected Map<String, RequestInterceptor> apiAuthorizations;
   protected Feign.Builder feignBuilder;
+  {{#feign-okhttp}}
+  private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
+  {{/feign-okhttp}}
+  {{#feign-hc5}}
+  private static final ApacheHttp5Client APACHE_HTTP5_CLIENT = new ApacheHttp5Client();
+  {{/feign-hc5}}
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
     {{#jackson}}
     objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
+                {{#feign-okhttp}}
+                .client(OK_HTTP_CLIENT)
+                {{/feign-okhttp}}
+                {{#feign-hc5}}
+                .client(APACHE_HTTP5_CLIENT)
+                {{/feign-hc5}}
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new ApiResponseDecoder(objectMapper))
                 {{#hasOAuthMethods}}
@@ -81,6 +99,12 @@ public class ApiClient {
     {{/jackson}}
     {{#gson}}
     feignBuilder = Feign.builder()
+        {{#feign-okhttp}}
+        .client(OK_HTTP_CLIENT)
+        {{/feign-okhttp}}
+        {{#feign-hc5}}
+        .client(APACHE_HTTP5_CLIENT)
+        {{/feign-hc5}}
         .encoder(new FormEncoder(new GsonEncoder()))
         .decoder(new GsonDecoder())
         {{#hasOAuthMethods}}

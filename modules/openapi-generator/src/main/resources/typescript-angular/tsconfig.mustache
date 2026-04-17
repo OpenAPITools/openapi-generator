@@ -8,7 +8,7 @@
         {{^supportsES6}}
         "downlevelIteration": true,
         {{/supportsES6}}
-        "moduleResolution": "node",
+        "moduleResolution": "{{#ngVersion21}}bundler{{/ngVersion21}}{{^ngVersion21}}node{{/ngVersion21}}",
         "removeComments": true,
         "strictNullChecks": true,
         "exactOptionalPropertyTypes": true,

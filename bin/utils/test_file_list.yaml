@@ -10,7 +10,7 @@
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ClientTest.java"
   sha256: 325fdd5d7e2c97790c0fb44f712ab7b2ba022d7e1a5b0056f47b07f342682b6d
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java"
-  sha256: 67941355a0a27ed9ff9318b1caa103e78b81b9aff61b594b18be5cd2bb9f6591
+  sha256: b1b1d31e0df17f0b68cf2747a4a53879f12acb1bf2860e45385c679c1efe9894
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/api/PetApiTest.java"
   sha256: 8b1b8f2a2ad00ccb090873a94a5f73e328b98317d2ec715f53bd7a1accb2a023
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/PetTest.java"
@@ -62,3 +62,7 @@
   sha256: b2093528aac971193f2863a70f46eea45cf8bda79120b133a614599e80d8b46d
 - filename: "samples/server/petstore/rust-axum/output/openapi-v3/tests/oneof_untagged.rs"
   sha256: 1d3fb01f65e98290b1d3eece28014c7d3e3f2fdf18e7110249d3c591cc4642ab
+- filename: "samples/client/petstore/kotlin-jvm-spring-3-restclient/src/test/kotlin/org/openapitools/integration/PetApiTest.kt"
+  sha256: 82a6be39c1ed3dada96dfa1833a6709834cb3f9f9d50a19cbd9d49699e46df4f
+- filename: "samples/client/petstore/kotlin-jvm-spring-3-restclient/src/test/kotlin/org/openapitools/integration/UserApiTest.kt"
+  sha256: bc64fb94857a3598e1332f1278307c3078ea9ec4b4aa75690e6eda86e9729a8d

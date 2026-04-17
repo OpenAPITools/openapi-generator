@@ -233,6 +233,45 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
             // CallbackCallbackWithHeaderPost - POST /{$request.query.url}/callback-with-header
             hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => {
+                handle_callback_callback_with_header_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // CallbackCallbackPost - POST /{$request.query.url}/callback
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => {
+                handle_callback_callback_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            _ if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => method_not_allowed(),
+            _ if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => method_not_allowed(),
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(BoxBody::new(http_body_util::Empty::new()))
+                        .expect("Unable to create Not Found response"))
+            }
+        }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+            self.validation
+        ))
+    }
+}
+
+#[allow(unused_variables)]
+async fn handle_callback_callback_with_header_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -291,10 +330,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // CallbackCallbackPost - POST /{$request.query.url}/callback
-            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => {
+#[allow(unused_variables)]
+async fn handle_callback_callback_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Path parameters
                 let path: &str = uri.path();
                 let path_params =
@@ -332,21 +385,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
-
-            _ if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => method_not_allowed(),
-            _ if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => method_not_allowed(),
-                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                        .body(BoxBody::new(http_body_util::Empty::new()))
-                        .expect("Unable to create Not Found response"))
-            }
-        }
-        Box::pin(run(
-            self.api_impl.clone(),
-            req,
-            self.validation
-        ))
-    }
 }
 
 /// Request parser for `Api`.

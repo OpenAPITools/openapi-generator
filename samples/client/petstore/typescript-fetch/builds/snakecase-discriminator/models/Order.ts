@@ -45,7 +45,7 @@ export interface Order {
     shipDate?: Date;
     /**
      * Order Status
-     * @type {string}
+     * @type {OrderStatusEnum}
      * @memberof Order
      */
     status?: OrderStatusEnum;

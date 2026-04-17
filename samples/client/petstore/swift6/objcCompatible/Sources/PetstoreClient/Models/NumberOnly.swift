@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class NumberOnly: NSObject, Codable, ParameterConvertible {
+@objcMembers public final class NumberOnly: NSObject, Codable, @unchecked Sendable {
 
     public var justNumber: Double?
 

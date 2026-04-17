@@ -1,0 +1,30 @@
+
+# Test that two operations in different tags with the same operationId (after snake_case
+# normalization) produce distinct x-operation-id values, avoiding a Rust compile error
+# from duplicate handle_<x-operation-id>() functions in the same mod.rs.
+openapi: 3.1.1
+info:
+  title: Duplicate OperationId Test
+  description: Spec with two operations that normalize to the same snake_case operation ID
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /foo/bar:
+    get:
+      operationId: fooBar
+      summary: First operation
+      tags:
+        - TagA
+      responses:
+        "200":
+          description: OK
+  /foo/baz:
+    get:
+      operationId: foo_bar
+      summary: Second operation - normalizes to same snake_case as fooBar
+      tags:
+        - TagB
+      responses:
+        "200":
+          description: OK

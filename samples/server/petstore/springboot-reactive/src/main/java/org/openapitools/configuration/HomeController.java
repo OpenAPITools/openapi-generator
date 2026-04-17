@@ -18,14 +18,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Controller
 public class HomeController {
 
-    static final String API_DOCS_PATH = "/v2/api-docs";
-
-    @GetMapping(value = "/swagger-config.yaml", produces = "text/plain")
-    @ResponseBody
-    public String swaggerConfig() {
-        return "url: " + API_DOCS_PATH + "\n";
-    }
-
     @Bean
     RouterFunction<ServerResponse> index() {
         return route(

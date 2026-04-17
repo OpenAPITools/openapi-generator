@@ -134,7 +134,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.STABLE)
+                .stability(Stability.DEPRECATED)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "swift";
@@ -429,6 +429,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+
+        LOGGER.warn("IMPORTANT: This generator has been deprecated. Please use `swift6` instead");
 
         if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");

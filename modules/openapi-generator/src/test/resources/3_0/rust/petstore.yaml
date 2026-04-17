@@ -719,6 +719,50 @@ paths:
             application/json:
               schema:
                 type: string
+  '/tests/inlineEnumBoxing':
+    post:
+      tags:
+        - testing
+      summary: 'Test for inline enum fields not being boxed in model constructors'
+      description: 'Regression test to ensure inline enum fields are not wrapped in Box::new() in model constructors'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelWithInlineEnum'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelWithInlineEnum'
+    get:
+      tags:
+        - testing
+      summary: 'Get model with inline enums'
+      description: 'Tests inline enum query parameters'
+      parameters:
+        - name: status
+          in: query
+          description: Filter by status (inline enum)
+          required: false
+          schema:
+            type: string
+            enum:
+              - draft
+              - published
+              - archived
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelWithInlineEnum'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -1128,6 +1172,38 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Order'
             - $ref: '#/components/schemas/Order'
+    ModelWithInlineEnum:
+      type: object
+      required:
+        - status
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Model ID
+        status:
+          type: string
+          description: Status with inline enum (tests inline enum not being boxed in constructor)
+          enum:
+            - draft
+            - published
+            - archived
+        priority:
+          type: string
+          description: Priority level (optional inline enum)
+          enum:
+            - low
+            - medium
+            - high
+            - critical
+        metadata:
+          type: object
+          description: Optional metadata object
+          properties:
+            tags:
+              type: array
+              items:
+                type: string
     Page:
       type: object
       properties:

@@ -164,7 +164,7 @@ export interface Pet {
     optionalTags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
+     * @type {PetStatusEnum}
      * @memberof Pet
      */
     status: PetStatusEnum;

@@ -1132,6 +1132,23 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testEnumDiscriminatorWithDescriptionOverridden3_1() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml");
+        new OpenAPINormalizer(openAPI, Map.of()).normalize();
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+
+        Schema fruit = openAPI.getComponents().getSchemas().get("Fruit");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel fruitModel = codegen.fromModel("Fruit", fruit);
+        assertTrue(fruitModel.getHasDiscriminatorWithNonEmptyMapping());
+        assertTrue(fruitModel.discriminator.getIsEnum());
+        assertEquals("FruitType", fruitModel.discriminator.getPropertyType());
+        assertEquals("test", fruitModel.getVars().get(0).description);
+        assertTrue(fruitModel.getVars().get(0).isEnumRef);
+    }
+
+    @Test
     public void testParentName() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
@@ -1661,6 +1678,47 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         assertThat(cm.discriminator.getPropertyType()).isEqualTo("TransferFruitTypeEnumDto");
+    }
+
+    @Test
+    public void testDiscriminatorMappedModelWithModelNameSuffix() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setOpenAPI(openAPI);
+        codegen.setModelNameSuffix("Dto");
+
+        // Build allProcessedModels map keyed by raw schema name (as DefaultGenerator does)
+        Map<String, ModelsMap> allProcessedModels = new TreeMap<>();
+        String[] schemaNames = {"FruitReqDisc", "AppleReqDisc", "BananaReqDisc"};
+        for (String name : schemaNames) {
+            Schema schema = openAPI.getComponents().getSchemas().get(name);
+            CodegenModel cm = codegen.fromModel(name, schema);
+            ModelMap mo = new ModelMap();
+            mo.setModel(cm);
+            ModelsMap models = new ModelsMap();
+            models.setModels(Collections.singletonList(mo));
+            allProcessedModels.put(name, models);
+        }
+
+        // Verify schemaName is stored and differs from modelName
+        CodegenModel fruitModel = ModelUtils.getModelByName("FruitReqDisc", allProcessedModels);
+        assertNotNull(fruitModel.discriminator);
+        for (CodegenDiscriminator.MappedModel mm : fruitModel.discriminator.getMappedModels()) {
+            assertNotNull(mm.getSchemaName(),
+                    "MappedModel.getSchemaName() should not be null for " + mm.getModelName());
+            assertNotEquals(mm.getSchemaName(), mm.getModelName(),
+                    "schemaName should differ from modelName when modelNameSuffix is set");
+        }
+
+        // Verify postProcessAllModels resolves MappedModel.model via schemaName
+        Map<String, ModelsMap> result = codegen.postProcessAllModels(allProcessedModels);
+        fruitModel = ModelUtils.getModelByName("FruitReqDisc", result);
+        for (CodegenDiscriminator.MappedModel mm : fruitModel.discriminator.getMappedModels()) {
+            assertNotNull(mm.getModel(),
+                    "MappedModel.getModel() should not be null for " + mm.getModelName()
+                            + " (mappingName=" + mm.getMappingName() + ")");
+        }
     }
 
     @Test

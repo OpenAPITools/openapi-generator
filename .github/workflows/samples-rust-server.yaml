@@ -48,24 +48,39 @@ jobs:
         run: |
           set -e
 
-          # Iterate through each example and test various features
-          for package in $(find . -maxdepth 1 -mindepth 1 -type d)
+          # Iterate through each package and test various features
+          for package in $(find output -maxdepth 1 -mindepth 1 -type d)
           do
+            pushd $package
             # Not all versions have a server example
             if test -f examples/server/main.rs; then
-              cargo build --example server --features="server"
+              cargo build --example ${package##*/}-server --features="server"
+            fi
+            # Not all versions have a client example
+            if test -f examples/client/main.rs; then
+              cargo build --example ${package##*/}-client --features="client"
             fi
             # Test the CLI works if present
             if test -f bin/cli.rs; then
               cargo build --bin ${package##*/} --features cli
-              target/debug/${package##*/} --help
+              ../../target/debug/${package##*/} --help
             fi
             # Test the validate feature if it exists
             if cargo read-manifest | grep -q '"validate"'; then
               cargo build --features validate --all-targets
             fi
+            # Test TLS features if they exist
+            if cargo read-manifest | grep -q '"client-tls"'; then
+              # Client without TLS (HTTP-only)
+              cargo build --no-default-features --features=client --lib
+              # Client with TLS (using native-tls)
+              cargo build --no-default-features --features=client,client-tls --lib
+              # Server without TLS
+              cargo build --no-default-features --features=server --lib
+            fi
             cargo fmt
             cargo test
             cargo clippy
             cargo doc
+            popd
           done

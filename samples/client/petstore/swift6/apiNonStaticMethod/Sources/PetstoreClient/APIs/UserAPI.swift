@@ -8,9 +8,7 @@
 import Foundation
 @preconcurrency import PromiseKit
 @preconcurrency import RxSwift
-#if canImport(Combine)
 import Combine
-#endif
 
 open class UserAPI {
     public let apiConfiguration: PetstoreClientAPIConfiguration
@@ -42,6 +40,7 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func createUser(body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUserWithRequestBuilder(body: body).execute { result in
@@ -85,8 +84,6 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUser(body: User) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUserWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -108,7 +105,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Create user
@@ -116,7 +112,6 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUser(body: User) async throws(ErrorResponse) {
         return try await createUserWithRequestBuilder(body: body).execute().body
     }
@@ -188,6 +183,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func createUsersWithArrayInput(body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
@@ -231,8 +227,6 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithArrayInput(body: [User]) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -254,7 +248,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Creates list of users with given input array
@@ -262,7 +255,6 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithArrayInput(body: [User]) async throws(ErrorResponse) {
         return try await createUsersWithArrayInputWithRequestBuilder(body: body).execute().body
     }
@@ -333,6 +325,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func createUsersWithListInput(body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUsersWithListInputWithRequestBuilder(body: body).execute { result in
@@ -376,8 +369,6 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithListInput(body: [User]) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -399,7 +390,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Creates list of users with given input array
@@ -407,7 +397,6 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithListInput(body: [User]) async throws(ErrorResponse) {
         return try await createUsersWithListInputWithRequestBuilder(body: body).execute().body
     }
@@ -478,6 +467,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func deleteUser(username: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deleteUserWithRequestBuilder(username: username).execute { result in
@@ -521,8 +511,6 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteUser(username: String) -> AnyPublisher<Void, Error> {
         let requestBuilder = deleteUserWithRequestBuilder(username: username)
         let requestTask = requestBuilder.requestTask
@@ -544,7 +532,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Delete user
@@ -552,7 +539,6 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteUser(username: String) async throws(ErrorResponse) {
         return try await deleteUserWithRequestBuilder(username: username).execute().body
     }
@@ -627,6 +613,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: Promise<User>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func getUserByName(username: String) -> Promise<User> {
         let deferred = Promise<User>.pending()
         getUserByNameWithRequestBuilder(username: username).execute { result in
@@ -670,8 +657,6 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: AnyPublisher<User, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUserByName(username: String) -> AnyPublisher<User, Error> {
         let requestBuilder = getUserByNameWithRequestBuilder(username: username)
         let requestTask = requestBuilder.requestTask
@@ -693,7 +678,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Get user by user name
@@ -701,7 +685,6 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: User
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUserByName(username: String) async throws(ErrorResponse) -> User {
         return try await getUserByNameWithRequestBuilder(username: username).execute().body
     }
@@ -777,6 +760,7 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: Promise<String>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func loginUser(username: String, password: String) -> Promise<String> {
         let deferred = Promise<String>.pending()
         loginUserWithRequestBuilder(username: username, password: password).execute { result in
@@ -822,8 +806,6 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: AnyPublisher<String, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func loginUser(username: String, password: String) -> AnyPublisher<String, Error> {
         let requestBuilder = loginUserWithRequestBuilder(username: username, password: password)
         let requestTask = requestBuilder.requestTask
@@ -845,7 +827,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Logs user into the system
@@ -854,7 +835,6 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: String
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func loginUser(username: String, password: String) async throws(ErrorResponse) -> String {
         return try await loginUserWithRequestBuilder(username: username, password: password).execute().body
     }
@@ -930,6 +910,7 @@ open class UserAPI {
      
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func logoutUser() -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         logoutUserWithRequestBuilder().execute { result in
@@ -971,8 +952,6 @@ open class UserAPI {
      
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func logoutUser() -> AnyPublisher<Void, Error> {
         let requestBuilder = logoutUserWithRequestBuilder()
         let requestTask = requestBuilder.requestTask
@@ -994,14 +973,12 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Logs out current logged in user session
      
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func logoutUser() async throws(ErrorResponse) {
         return try await logoutUserWithRequestBuilder().execute().body
     }
@@ -1072,6 +1049,7 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func updateUser(username: String, body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updateUserWithRequestBuilder(username: username, body: body).execute { result in
@@ -1117,8 +1095,6 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func updateUser(username: String, body: User) -> AnyPublisher<Void, Error> {
         let requestBuilder = updateUserWithRequestBuilder(username: username, body: body)
         let requestTask = requestBuilder.requestTask
@@ -1140,7 +1116,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Updated user
@@ -1149,7 +1124,6 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func updateUser(username: String, body: User) async throws(ErrorResponse) {
         return try await updateUserWithRequestBuilder(username: username, body: body).execute().body
     }

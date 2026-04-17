@@ -35,10 +35,10 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class HasOnlyReadOnly  {
   
   @JsonbProperty("bar")
-  private String bar;
+  protected String bar;
 
   @JsonbProperty("foo")
-  private String foo;
+  protected String foo;
 
 
   public HasOnlyReadOnly() {
@@ -108,10 +108,7 @@ public class HasOnlyReadOnly  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

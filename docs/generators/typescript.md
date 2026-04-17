@@ -24,7 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
 |enumPropertyNamingReplaceSpecialChar|Set to true to replace '-' and '+' symbols with 'minus_' and 'plus_' in enum of type string| |false|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |fileContentDataType|Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)| |Buffer|
 |framework|Specify the framework which should be used in the client code.|<dl><dt>**fetch-api**</dt><dd>fetch-api</dd><dt>**jquery**</dt><dd>jquery</dd></dl>|fetch-api|
 |importFileExtension|File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html). Defaults to '.ts' when 'platform' is set to 'deno'.| |null|
@@ -42,6 +42,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
+|typescriptMajorVersion|Specify the major version of TypeScript to use in the client code. Default is 5.| |5|
 |useErasableSyntax|Use erasable syntax for the generated code. This is a temporary feature and will be removed in the future.| |false|
 |useInversify|Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.| |false|
 |useObjectParameters|Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.| |false|

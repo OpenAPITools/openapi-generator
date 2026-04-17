@@ -189,8 +189,8 @@ font-style: italic;
     <div class="license-url">https://www.apache.org/licenses/LICENSE-2.0.html</div>
   <h2>Access</h2>
     <ol>
-      <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
       <li>OAuth AuthorizationUrl:http://petstore.swagger.io/api/oauth/dialogTokenUrl:</li>
+      <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
     </ol>
 
   <h2><a name="__Methods">Methods</a></h2>
@@ -286,11 +286,19 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Pet>
   <id>123456789</id>
+  <Category>
+    <id>123456789</id>
+    <name>aeiou</name>
+  </Category>
   <name>doggie</name>
   <photoUrls>
     <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
+    <Tag>
+      <id>123456789</id>
+      <name>aeiou</name>
+    </Tag>
   </tags>
   <status>aeiou</status>
 </Pet></code></pre>
@@ -378,7 +386,7 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
+    <pre class="example"><code>[ {
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -394,16 +402,40 @@ font-style: italic;
     "id" : 1
   } ],
   "status" : "available"
-}</code></pre>
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+} ]</code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Pet>
   <id>123456789</id>
+  <Category>
+    <id>123456789</id>
+    <name>aeiou</name>
+  </Category>
   <name>doggie</name>
   <photoUrls>
     <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
+    <Tag>
+      <id>123456789</id>
+      <name>aeiou</name>
+    </Tag>
   </tags>
   <status>aeiou</status>
 </Pet></code></pre>
@@ -454,7 +486,7 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
+    <pre class="example"><code>[ {
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -470,16 +502,40 @@ font-style: italic;
     "id" : 1
   } ],
   "status" : "available"
-}</code></pre>
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+} ]</code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Pet>
   <id>123456789</id>
+  <Category>
+    <id>123456789</id>
+    <name>aeiou</name>
+  </Category>
   <name>doggie</name>
   <photoUrls>
     <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
+    <Tag>
+      <id>123456789</id>
+      <name>aeiou</name>
+    </Tag>
   </tags>
   <status>aeiou</status>
 </Pet></code></pre>
@@ -551,11 +607,19 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Pet>
   <id>123456789</id>
+  <Category>
+    <id>123456789</id>
+    <name>aeiou</name>
+  </Category>
   <name>doggie</name>
   <photoUrls>
     <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
+    <Tag>
+      <id>123456789</id>
+      <name>aeiou</name>
+    </Tag>
   </tags>
   <status>aeiou</status>
 </Pet></code></pre>
@@ -1034,7 +1098,7 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">User <a href="#User">User</a> (required)</div>
+      <div class="param">User array[<a href="#User">User</a>] (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 
@@ -1070,7 +1134,7 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">User <a href="#User">User</a> (required)</div>
+      <div class="param">User array[<a href="#User">User</a>] (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 

@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -151,6 +152,9 @@ public class OpenAPINormalizer {
     boolean updateNumberToNullable;
     boolean updateBooleanToNullable;
 
+    // when set to true, sort model properties by name to ensure deterministic output
+    final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
+
     // ============= end of rules =============
 
     /**
@@ -209,6 +213,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
+        ruleNames.add(SORT_MODEL_PROPERTIES);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -356,6 +361,7 @@ public class OpenAPINormalizer {
         normalizeComponentsSecuritySchemes();
         normalizeComponentsSchemas();
         normalizeComponentsResponses();
+        normalizeComponentsHeaders();
     }
 
     /**
@@ -558,8 +564,21 @@ public class OpenAPINormalizer {
 
         for (String headerKey : headers.keySet()) {
             Header h = headers.get(headerKey);
-            Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
-            h.setSchema(updatedHeader);
+            if (h.getSchema() != null) { // not a $ref header
+                // example of header class
+                //    description: null
+                //    required: null
+                //    deprecated: null
+                //    style: null
+                //    explode: null
+                //    schema: null
+                //    examples: null
+                //    example: null
+                //    content: null
+                //    $ref: #/components/headers/Location
+                Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
+                h.setSchema(updatedHeader);
+            }
         }
     }
 
@@ -639,6 +658,18 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Normalizes schemas in component's headers.
+     */
+    protected void normalizeComponentsHeaders() {
+        Map<String, Header> headers = openAPI.getComponents().getHeaders();
+        if (headers == null) {
+            return;
+        }
+
+        normalizeHeaders(headers);
+    }
+
+    /**
      * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
      *
      * @param name   Schema name
@@ -696,7 +727,7 @@ public class OpenAPINormalizer {
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         // normalize reference schema
-        if (StringUtils.isNotEmpty(schema.get$ref())) {
+        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             normalizeReferenceSchema(schema);
         }
 
@@ -742,7 +773,7 @@ public class OpenAPINormalizer {
             }
 
             if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-                normalizeProperties(schema.getProperties(), visitedSchemas);
+                normalizeProperties(schema, visitedSchemas);
             }
 
             if (schema.getAdditionalProperties() != null) {
@@ -751,7 +782,7 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
@@ -773,6 +804,13 @@ public class OpenAPINormalizer {
      * @param schema         Schema
      */
     protected void normalizeReferenceSchema(Schema schema) {
+        if (schema.getType() != null || schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // clears type(s) given that $ref is set
+            schema.setType(null);
+            schema.setTypes(null);
+            LOGGER.warn("Type(s) cleared (set to null) given $ref is set to {}.", schema.get$ref());
+        }
+
         if (schema.getTitle() != null || schema.getDescription() != null
                 || schema.getNullable() != null || schema.getDefault() != null || schema.getDeprecated() != null
                 || schema.getMaximum() != null || schema.getMinimum() != null
@@ -854,10 +892,19 @@ public class OpenAPINormalizer {
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    protected void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
+    protected void normalizeProperties(Schema schema, Set<Schema> visitedSchemas) {
+        Map<String, Schema> properties = schema.getProperties();
         if (properties == null) {
             return;
         }
+
+        // Sort properties by name if rule is enabled
+        if (getRule(SORT_MODEL_PROPERTIES)) {
+            Map<String, Schema> sortedProperties = new TreeMap<>(properties);
+            schema.setProperties(sortedProperties);
+            properties = sortedProperties;
+        }
+
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
 
@@ -1063,7 +1110,7 @@ public class OpenAPINormalizer {
     protected Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
         // loop through properties, if any
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema, visitedSchemas);
         }
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
@@ -1510,10 +1557,12 @@ public class OpenAPINormalizer {
             }
 
             schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
-
             if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
-                // TODO convert oneOf const to enum
-                schema.setOneOf(null);
+                if (schema.getSpecVersion().equals(SpecVersion.V30)) {
+                    schema.setOneOf(null);
+                } //else {
+                    // TODO convert oneOf const/deprecated to enum
+               // }
             }
         }
 
@@ -1743,6 +1792,8 @@ public class OpenAPINormalizer {
             return null;
         }
 
+        normalizeExclusiveMinMax31(schema);
+
         if (schema instanceof JsonSchema &&
                 schema.get$schema() == null &&
                 schema.getTypes() == null && schema.getType() == null) {
@@ -1790,6 +1841,9 @@ public class OpenAPINormalizer {
                 as.setXml(schema.getXml());
                 as.setNullable(schema.getNullable());
                 as.setUniqueItems(schema.getUniqueItems());
+                as.setDeprecated(schema.getDeprecated());
+                as.setReadOnly(schema.getReadOnly());
+                as.setWriteOnly(schema.getWriteOnly());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema
                     if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
@@ -1828,7 +1882,7 @@ public class OpenAPINormalizer {
                         schema.addAnyOfItem(new BooleanSchema());
                         break;
                     default:
-                        LOGGER.error("Type {} not yet supported in openapi-normalizer to process OpenAPI 3.1 spec with multiple types.");
+                        LOGGER.error("Type {} not yet supported in openapi-normalizer to process OpenAPI 3.1 spec with multiple types.", String.valueOf(type));
                         LOGGER.error("Please report the issue via https://github.com/OpenAPITools/openapi-generator/issues/new/.");
                 }
             }
@@ -1836,6 +1890,51 @@ public class OpenAPINormalizer {
 
         return schema;
     }
+
+    private void normalizeExclusiveMinMax31(Schema<?> schema) {
+        if (schema == null || schema.get$ref() != null) return;
+
+        // OAS 3.1 numeric exclusiveMinimum
+        BigDecimal exclusiveMinValue = schema.getExclusiveMinimumValue();
+        if (exclusiveMinValue != null) {
+            BigDecimal minimum = schema.getMinimum();
+
+            if (minimum == null) {
+                schema.setMinimum(exclusiveMinValue);
+                schema.setExclusiveMinimum(Boolean.TRUE);
+            } else {
+                int cmp = exclusiveMinValue.compareTo(minimum);
+
+                if (cmp > 0) {
+                    schema.setMinimum(exclusiveMinValue);
+                    schema.setExclusiveMinimum(Boolean.TRUE);
+                } else if (cmp == 0) {
+                    schema.setExclusiveMinimum(Boolean.TRUE);
+                }
+            }
+        }
+
+        // OAS 3.1 numeric exclusiveMaximum
+        BigDecimal exclusiveMaxValue = schema.getExclusiveMaximumValue();
+        if (exclusiveMaxValue != null) {
+            BigDecimal maximum = schema.getMaximum();
+
+            if (maximum == null) {
+                schema.setMaximum(exclusiveMaxValue);
+                schema.setExclusiveMaximum(Boolean.TRUE);
+            } else {
+                int cmp = exclusiveMaxValue.compareTo(maximum);
+
+                if (cmp < 0) {
+                    schema.setMaximum(exclusiveMaxValue);
+                    schema.setExclusiveMaximum(Boolean.TRUE);
+                } else if (cmp == 0) {
+                    schema.setExclusiveMaximum(Boolean.TRUE);
+                }
+            }
+        }
+    }
+
 
     // ===================== end of rules =====================
 

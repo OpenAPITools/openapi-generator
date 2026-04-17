@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
   @jakarta.annotation.Nullable
@@ -67,6 +67,7 @@ public class ModelReturn {
     this._return = _return;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -98,10 +99,7 @@ public class ModelReturn {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

@@ -51,7 +51,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
     public static final String AXIOS_VERSION = "axiosVersion";
-    public static final String DEFAULT_AXIOS_VERSION = "^1.6.1";
+    public static final String DEFAULT_AXIOS_VERSION = "^1.13.5";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
 
     @Getter @Setter

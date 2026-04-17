@@ -154,7 +154,7 @@ Serializers serializers = (_$serializers.toBuilder()
       )
       ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
-        () => MapBuilder<String, JsonObject>(),
+        () => MapBuilder<String, JsonObject?>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType(int)]),

@@ -2,6 +2,8 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import io.swagger.annotations.ApiResponse
@@ -45,7 +47,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USER /* "/user" */]
+        // "/user"
+        value = [PATH_CREATE_USER]
     )
     fun createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody body: User
@@ -62,7 +65,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */]
+        // "/user/createWithArray"
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT]
     )
     fun createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>
@@ -79,7 +83,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */]
+        // "/user/createWithList"
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT]
     )
     fun createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>
@@ -96,7 +101,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_USER /* "/user/{username}" */]
+        // "/user/{username}"
+        value = [PATH_DELETE_USER]
     )
     fun deleteUser(
         @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String
@@ -114,7 +120,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
+        // "/user/{username}"
+        value = [PATH_GET_USER_BY_NAME],
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName(
@@ -133,7 +140,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_LOGIN_USER /* "/user/login" */],
+        // "/user/login"
+        value = [PATH_LOGIN_USER],
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
@@ -152,7 +160,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 200, message = "successful operation")])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_LOGOUT_USER /* "/user/logout" */]
+        // "/user/logout"
+        value = [PATH_LOGOUT_USER]
     )
     fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(service.logoutUser(), HttpStatus.valueOf(200))
@@ -167,7 +176,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [ApiResponse(code = 400, message = "Invalid user supplied"),ApiResponse(code = 404, message = "User not found")])
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_USER /* "/user/{username}" */]
+        // "/user/{username}"
+        value = [PATH_UPDATE_USER]
     )
     fun updateUser(
         @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,

@@ -416,7 +416,7 @@ public class CodegenConstants {
 
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
-            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
+            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. " +
                     "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
 
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
@@ -456,6 +456,7 @@ public class CodegenConstants {
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
 
     public static final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
+    public static final String DEFAULT_TO_EMPTY_CONTAINER_DESC = "Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values";
 
     // Vendor extensions
     public static final String X_INTERNAL = "x-internal";

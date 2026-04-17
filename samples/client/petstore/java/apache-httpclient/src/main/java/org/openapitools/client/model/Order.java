@@ -38,7 +38,7 @@ import java.util.StringJoiner;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -254,6 +254,7 @@ public class Order {
     this.complete = complete;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -295,10 +296,7 @@ public class Order {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
   /**

@@ -17,6 +17,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func deleteOrder(orderId: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deleteOrderWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration).execute { result in
@@ -65,6 +66,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<[String: Int]>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func getInventory(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<[String: Int]> {
         let deferred = Promise<[String: Int]>.pending()
         getInventoryWithRequestBuilder(apiConfiguration: apiConfiguration).execute { result in
@@ -113,6 +115,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Order>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func getOrderById(orderId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
         getOrderByIdWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration).execute { result in
@@ -162,6 +165,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Order>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func placeOrder(body: Order, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
         placeOrderWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in

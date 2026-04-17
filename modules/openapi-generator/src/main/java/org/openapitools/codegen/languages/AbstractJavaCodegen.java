@@ -25,6 +25,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -51,20 +52,23 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.SourceVersion;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -92,6 +96,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String X_IMPLEMENTS_SKIP = "xImplementsSkip";
+    public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS = "additionalOneOfTypeAnnotations";
     public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
@@ -102,7 +108,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String IMPLICIT_HEADERS_REGEX = "implicitHeadersRegex";
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String USE_JSPECIFY = "useJspecify";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
+    public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
@@ -179,6 +187,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected boolean parentOverridden = false;
     @Getter @Setter
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    @Getter
+    @Setter
+    protected List<String> xImplementsSkip = new ArrayList<>();
+    @Getter
+    @Setter
+    protected Map<String, List<String>> schemaImplements = new HashMap<>();
     protected Map<String, Boolean> lombokAnnotations = null;
     @Getter @Setter
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
@@ -199,12 +213,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean jackson = false;
     @Getter @Setter
     protected boolean generateBuilders;
+    @Getter @Setter
+    protected boolean disableDiscriminatorJsonIgnoreProperties = false;
     /**
      * useBeanValidation has been moved from child generators to AbstractJavaCodegen.
      * The reason is that getBeanValidation needs it
      */
     @Getter @Setter
     protected boolean useBeanValidation = false;
+    @Getter
+    @Setter
+    protected boolean useJspecify;
+    protected JSpecifyNullableLambda jSpecifyNullableLambda;
+
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -346,6 +367,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "Ignore discriminator field type for Jackson serialization", disableDiscriminatorJsonIgnoreProperties));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -376,6 +398,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
+
+        cliOptions.add(CliOption.newString(CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER, CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER_DESC));
     }
 
     @Override
@@ -425,6 +449,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         convertPropertyToBooleanAndWriteBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, this::setGenerateConstructorWithAllArgs);
         convertPropertyToBooleanAndWriteBack(GENERATE_BUILDERS, this::setGenerateBuilders);
+        convertPropertyToBooleanAndWriteBack(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, this::setDisableDiscriminatorJsonIgnoreProperties);
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
@@ -445,6 +470,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToTypeAndWriteBack(ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
                 annotations -> Arrays.asList(annotations.split(";")),
                 this::setAdditionalEnumTypeAnnotations);
+        if (additionalProperties.containsKey(X_IMPLEMENTS_SKIP)) {
+            this.setXImplementsSkip(getPropertyAsStringList(X_IMPLEMENTS_SKIP));
+        }
+        if (additionalProperties.containsKey(SCHEMA_IMPLEMENTS)) {
+            this.setSchemaImplements(getPropertyAsStringListMap(SCHEMA_IMPLEMENTS));
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -576,6 +607,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
+        convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -824,6 +856,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     protected void applyJakartaPackage() {
         writePropertyBack(JAVAX_PACKAGE, "jakarta");
+    }
+
+    /**
+     * Configure the generator for jspecify.
+     *
+     * override Nullable import to use the jspecify version.
+     * add package-info.java to the model and api packages.
+     */
+    protected void applyJspecify() {
+        importMapping.put("Nullable", "org.jspecify.annotations.Nullable");
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODELS))) {
+            supportingFiles.add(new SupportingFile("modelPackageInfo.mustache",
+                    (sourceFolder + File.separator + modelPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
+        if (Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_APIS))) {
+            supportingFiles.add(new SupportingFile("apiPackageInfo.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
+                    "package-info.java"));
+        }
     }
 
     @Override
@@ -1748,8 +1800,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     innerExample = p.items.defaultValue;
                 }
                 example = "Arrays.asList(" + innerExample + ")";
+                if (p.uniqueItems) {
+                    example = "new LinkedHashSet<>(" + example + ")";
+                }
             } else {
-                example = "Arrays.asList()";
+                if (p.uniqueItems) {
+                    example = "new LinkedHashSet<>()";
+                }
+                else {
+                    example = "Arrays.asList()";
+                }
             }
         } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "new HashMap()";
@@ -1993,13 +2053,63 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 listIterator.add(newImportMap);
             }
         }
-
-        // add x-implements for serializable to all models
+        // make sure the x-implements is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (this.serializableModel) {
-                cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
-                ((ArrayList<String>) cm.getVendorExtensions().get(X_IMPLEMENTS)).add("Serializable");
+            if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
+                List<String> xImplements = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
+                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
+            } else {
+                cm.getVendorExtensions().put(X_IMPLEMENTS, new ArrayList<String>());
+            }
+        }
+
+        // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
+        if (!this.xImplementsSkip.isEmpty()) {
+            for (ModelMap mo : objs.getModels()) {
+                CodegenModel cm = mo.getModel();
+                if (!getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS)).isEmpty()) {
+                    List<String> xImplementsInModelOriginal = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
+                    List<String> xImplementsInModelSkipped = xImplementsInModelOriginal
+                            .stream()
+                            .filter(o -> this.xImplementsSkip.contains(o))
+                            .collect(Collectors.toList());
+                    if (!xImplementsInModelSkipped.isEmpty()) {
+                        LOGGER.info("Following interfaces configured via config option '{}' will be skipped for model {}: {}", X_IMPLEMENTS_SKIP, cm.classname, xImplementsInModelSkipped);
+                    }
+                    List<String> xImplementsInModelProcessed = xImplementsInModelOriginal.stream()
+                            .filter(Predicate.not(xImplementsInModelSkipped::contains))
+                            .collect(Collectors.toList());
+                    // implement only the non-skipped interfaces
+                    cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplementsInModelProcessed);
+                }
+            }
+        }
+        // add interfaces defined outside of open api spec
+        if (!this.schemaImplements.isEmpty()) {
+            for (ModelMap mo : objs.getModels()) {
+                CodegenModel cm = mo.getModel();
+                if (this.schemaImplements.containsKey(cm.getSchemaName())) {
+                    LOGGER.info("Adding interface(s) {} configured via config option '{}' to model {}", this.schemaImplements.get(cm.getSchemaName()), SCHEMA_IMPLEMENTS, cm.classname);
+                    List<String> xImplementsInModel = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
+                    List<String> schemaImplements = this.schemaImplements.get(cm.getSchemaName());
+                    List<String> combinedSchemaImplements = Stream.concat(xImplementsInModel.stream(), schemaImplements.stream())
+                            .collect(Collectors.toList());
+                    // Add all the interfaces combined
+                    cm.getVendorExtensions().replace(X_IMPLEMENTS, combinedSchemaImplements);
+                }
+            }
+        }
+
+        // add Serializable to x-implements to all models if configured
+        if (this.serializableModel) {
+            for (ModelMap mo : objs.getModels()) {
+                CodegenModel cm = mo.getModel();
+                List<String> xImplements = new ArrayList<>(getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS)));
+                if (!xImplements.contains("Serializable")) {
+                    xImplements.add("Serializable");
+                }
+                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
             }
         }
 
@@ -2573,5 +2683,104 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             throw new RuntimeException(sb.toString());
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        this.jSpecifyNullableLambda = new JSpecifyNullableLambda();
+        // Add jSpecify nullable annotation in the correct location before or inside a declaration
+        // use cases:
+        //
+        // private {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // ->
+        // private @Nullable Time param
+        // private java.time.@Nullable Time
+        // private Time param
+        //
+        // {{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}} {{param}}
+        // ->
+        // @Nullable Time param
+        // java.time.@Nullable Time
+        // Time param
+        //
+        // {{#lambda.jSpecifyNullable}}@Nullable {{/lambda.jSpecifyNullable}}{{#lambda.jSpecifyDatatype}}{{{dataType}}}{{/lambda.jSpecifyDatatype}}
+        // ->
+        // @Nullable Time
+        // @java.time.@Nullable Time
+        // Time
+
+        Mustache.Lambda jSpecifyDatatypeLambda = (fragment, writer) -> {
+            String dataType = fragment.execute();
+            if (jSpecifyNullableLambda.isSetAndClear()) {
+                int idx = dataType.lastIndexOf('.');
+                if (idx > 0) {
+                    // generate declaration like java.time.@Nullable Timestamp
+                    writer.write(dataType.substring(0, idx + 1));
+                    writer.write("@Nullable ");
+                    writer.write(dataType.substring(idx + 1));
+                } else {
+                    writer.write("@Nullable ");
+                    writer.write(dataType);
+                }
+            } else {
+                writer.write(dataType);
+            }
+        };
+        return super.addMustacheLambdas()
+                .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
+                .put("jSpecifyNullable", jSpecifyNullableLambda);
+
+    }
+
+    /**
+     * for Jspecify, remove @Nullable before the datatype and set keptNullable to true if done.
+     */
+    class JSpecifyNullableLambda implements Mustache.Lambda {
+        private String nullableAnnotation = "@Nullable";
+        // remember @Nullable annotation value when jspecify is used.
+        private String keptNullable = null;
+
+        /**
+         * Override default nullable annotation, for example with a full qualified className
+         *
+         * @param nullableAnnotation annotation used by the generator, for example @jakarta.annotation.Nullable
+         */
+        public void setNullableAnnotation(String nullableAnnotation) {
+            this.nullableAnnotation = nullableAnnotation;
+        }
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            keptNullable = null;
+            String value = fragment.execute();
+            if (useJspecify) {
+                if (value.startsWith(nullableAnnotation)) {
+                    keptNullable = value;
+                    int idx = nullableAnnotation.length();
+                    // trim left
+                    while (idx < value.length() && value.charAt(idx) == ' ') {
+                        idx ++;
+                    }
+                    value = value.substring(idx);
+                }
+            }
+            writer.write(value);
+        }
+
+        public boolean isSetAndClear() {
+            boolean isSet = keptNullable != null;
+            keptNullable = null;
+            return isSet;
+        }
+    }
+
+    /**
+     * Adds Nullable import if any parameter is nullable or optional.
+     */
+    protected void addNullableImportForOperation(CodegenOperation codegenOperation) {
+        codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
     }
 }

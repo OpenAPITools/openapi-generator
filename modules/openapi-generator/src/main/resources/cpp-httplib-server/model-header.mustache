@@ -1,0 +1,249 @@
+{{>License}}
+
+#pragma once
+{{#models}}
+{{#model}}
+// System headers
+#include <nlohmann/json.hpp>
+{{#vendorExtensions.filteredImports}}
+{{{.}}}
+{{/vendorExtensions.filteredImports}}
+
+
+{{#parent}}{{#-first}}// Project headers{{/-first}}
+#include "{{parent}}.h"
+{{/parent}}
+
+namespace {{vendorExtensions.modelNamespace}} {
+
+{{#vendorExtensions.isOneOfSchema}}
+// oneOf schema - type alias for std::variant
+using {{vendorExtensions.modelClassName}} = std::variant<
+    {{#vendorExtensions.oneOfTypes}}{{.}}{{^-last}},
+    {{/-last}}{{/vendorExtensions.oneOfTypes}}>;
+
+// JSON serialization functions (inline for header-only)
+{{#vendorExtensions.discriminatorProperty}}
+inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& obj) {
+    if (!j.contains("{{vendorExtensions.discriminatorProperty}}")) {
+        throw nlohmann::json::type_error::create(302, "Discriminator property '{{vendorExtensions.discriminatorProperty}}' not found in JSON", &j);
+    }
+    std::string discriminatorValue = j["{{vendorExtensions.discriminatorProperty}}"].get<std::string>();
+    {{#vendorExtensions.discriminatorMapping}}
+    if (discriminatorValue == "{{value}}") {
+        obj = j.get<{{key}}>();
+        return;
+    }
+    {{/vendorExtensions.discriminatorMapping}}
+    throw nlohmann::json::type_error::create(302, "Unknown discriminator value: " + discriminatorValue, &j);
+}
+{{/vendorExtensions.discriminatorProperty}}
+{{^vendorExtensions.discriminatorProperty}}
+inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& obj)
+{
+    {{#vendorExtensions.oneOfTypes}}
+    try
+    {
+        obj = j.get<{{.}}>();
+        return;
+    }
+    catch (const nlohmann::json::exception&)
+    {
+        // Type mismatch, try next variant alternative
+    }
+    {{/vendorExtensions.oneOfTypes}}
+    throw nlohmann::json::type_error::create(302, "Could not deserialize into any variant type of {{vendorExtensions.modelClassName}}", &j);
+}
+{{/vendorExtensions.discriminatorProperty}}
+
+inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}& obj)
+{
+    std::visit([&j](const auto& val) { j = nlohmann::json(val); }, obj);
+}
+
+{{/vendorExtensions.isOneOfSchema}}
+{{#vendorExtensions.isAnyOfSchema}}
+// anyOf schema - type alias for std::variant
+using {{vendorExtensions.modelClassName}} = std::variant<
+{{#vendorExtensions.anyOfTypes}}            {{.}}{{^-last}},
+{{/-last}}{{/vendorExtensions.anyOfTypes}} >;
+
+// JSON serialization functions (inline for header-only)
+{{#vendorExtensions.discriminatorProperty}}
+inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& obj) {
+    if (!j.contains("{{vendorExtensions.discriminatorProperty}}")) {
+        throw nlohmann::json::type_error::create(302, "Discriminator property '{{vendorExtensions.discriminatorProperty}}' not found in JSON", &j);
+    }
+    std::string discriminatorValue = j["{{vendorExtensions.discriminatorProperty}}"].get<std::string>();
+    {{#vendorExtensions.discriminatorMapping}}
+    if (discriminatorValue == "{{value}}") {
+        obj = j.get<{{key}}>();
+        return;
+    }
+    {{/vendorExtensions.discriminatorMapping}}
+    throw nlohmann::json::type_error::create(302, "Unknown discriminator value: " + discriminatorValue, &j);
+}
+{{/vendorExtensions.discriminatorProperty}}
+{{^vendorExtensions.discriminatorProperty}}
+inline void from_json(const nlohmann::json& j, {{vendorExtensions.modelClassName}}& obj)
+{
+    {{#vendorExtensions.anyOfTypes}}
+    try
+    {
+        obj = j.get<{{.}}>();
+        return;
+    }
+    catch (const nlohmann::json::exception&)
+    {
+        // Type mismatch, try next variant alternative
+    }
+    {{/vendorExtensions.anyOfTypes}}
+    throw nlohmann::json::type_error::create(302, "Could not deserialize into any variant type of {{vendorExtensions.modelClassName}}", &j);
+}
+{{/vendorExtensions.discriminatorProperty}}
+
+inline void to_json(nlohmann::json& j, const {{vendorExtensions.modelClassName}}& obj)
+{
+    std::visit([&j](const auto& val) { j = nlohmann::json(val); }, obj);
+}
+
+{{/vendorExtensions.isAnyOfSchema}}
+{{^vendorExtensions.isOneOfSchema}}
+{{^vendorExtensions.isAnyOfSchema}}
+{{#vars}}
+{{#isUnionType}}
+// Union type for anyOf/oneOf property
+using {{unionTypeName}} = std::variant<
+{{#unionTypes}}    {{.}}{{^-last}},{{/-last}}
+{{/unionTypes}}>;
+
+// Inline serialization for union type
+inline void to_json(nlohmann::json& j, const {{unionTypeName}}& v)
+{
+    std::visit([&j](const auto& val) { j = nlohmann::json(val); }, v);
+}
+
+inline void from_json(const nlohmann::json& j, {{unionTypeName}}& v)
+{
+    {{#unionTypes}}
+    try
+    {
+        v = j.get<{{.}}>();
+        return;
+    }
+    catch (...)
+    {
+        // Try next type
+    }
+    {{/unionTypes}}
+    throw nlohmann::json::type_error::create(302, "Could not deserialize into any variant type of {{unionTypeName}}", &j);
+}
+
+{{/isUnionType}}
+{{/vars}}
+
+class {{vendorExtensions.modelClassName}}{{#parent}} : public {{parent}}{{/parent}}
+{
+public:
+    {{#vars}}
+    {{#isEnum}}
+    {{#-first}}
+    // ===================
+    // ===== Enums =======
+    // ===================
+    {{/-first}}
+    enum class {{enumName}} {
+        {{#allowableValues.values}}
+        {{.}}{{^-last}},{{/-last}}
+        {{/allowableValues.values}}
+    };
+
+    // Enum conversion functions (definitions in .cpp)
+    static std::string {{enumName}}ToString({{enumName}} value);
+    static {{enumName}} {{enumName}}FromString(const std::string& str);
+
+    {{/isEnum}}
+    {{/vars}}
+
+    {{vendorExtensions.modelClassName}}();
+    virtual ~{{vendorExtensions.modelClassName}}() = default;
+
+    // Getters and setters
+    {{#vars}}
+    [[nodiscard]] {{#isUnionType}}{{unionTypeName}}{{/isUnionType}}{{^isUnionType}}{{{datatypeWithEnum}}}{{/isUnionType}} {{getter}}() const;
+    void {{setter}}(const {{#isUnionType}}{{unionTypeName}}{{/isUnionType}}{{^isUnionType}}{{{datatypeWithEnum}}}{{/isUnionType}}& {{nameInCamelCase}});
+    {{/vars}}
+{{#vars}}{{#isEnum}}{{^isArray}}{{#-first}}
+    // =============================================================================
+    // Friend Enum Serialization Helpers (Required for NLOHMANN JSON serialization)
+    // =============================================================================
+    // These friend functions must be declared inside the class because:
+    // 1. The enum types are nested and don't exist before the class is defined
+    // 2. NLOHMANN macros need custom serialization for enum types (uses ToString/FromString)
+    // 3. The 'friend' keyword makes them free functions in the namespace (not member functions)
+    //    so ADL (Argument-Dependent Lookup) can find them during JSON serialization
+    // =============================================================================
+
+{{/-first}}{{^vendorExtensions.isOptionalEnum}}
+    // Serialization helpers for {{enumName}}
+    friend inline void to_json(nlohmann::json& j, const {{enumName}}& e)
+    {
+        j = {{enumName}}ToString(e);
+    }
+
+    friend inline void from_json(const nlohmann::json& j, {{enumName}}& e)
+    {
+        e = {{enumName}}FromString(j.get<std::string>());
+    }
+{{/vendorExtensions.isOptionalEnum}}
+{{#vendorExtensions.isOptionalEnum}}
+    // Serialization helpers for std::optional<{{enumName}}>
+    friend inline void to_json(nlohmann::json& j, const std::optional<{{enumName}}>& opt)
+    {
+        if (opt.has_value())
+        {
+            j = {{enumName}}ToString(opt.value());
+        }
+        else
+        {
+            j = nullptr;
+        }
+    }
+
+    friend inline void from_json(const nlohmann::json& j, std::optional<{{enumName}}>& opt)
+    {
+        if (j.is_null())
+        {
+            opt = std::nullopt;
+        }
+        else
+        {
+            opt = {{enumName}}FromString(j.get<std::string>());
+        }
+    }
+{{/vendorExtensions.isOptionalEnum}}
+
+{{/isArray}}{{/isEnum}}{{/vars}}
+
+    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE({{vendorExtensions.modelClassName}},
+        {{#vars}} {{nameInCamelCase}}{{^-last}},{{/-last}}{{/vars}})
+
+private:
+    {{#vars}}
+    {{#isUnionType}}
+    {{unionTypeName}} {{nameInCamelCase}};
+    {{/isUnionType}}
+    {{^isUnionType}}
+    {{{datatypeWithEnum}}} {{nameInCamelCase}};
+    {{/isUnionType}}
+    {{/vars}}
+};
+
+{{/vendorExtensions.isAnyOfSchema}}
+{{/vendorExtensions.isOneOfSchema}}
+
+} // namespace {{vendorExtensions.modelNamespace}}
+
+{{/model}}
+{{/models}}

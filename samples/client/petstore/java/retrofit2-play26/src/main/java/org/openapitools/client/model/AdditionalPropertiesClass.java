@@ -45,7 +45,7 @@ import jakarta.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @jakarta.annotation.Nullable
@@ -449,6 +449,7 @@ public class AdditionalPropertiesClass {
     this.anytype3 = anytype3;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -500,10 +501,7 @@ public class AdditionalPropertiesClass {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

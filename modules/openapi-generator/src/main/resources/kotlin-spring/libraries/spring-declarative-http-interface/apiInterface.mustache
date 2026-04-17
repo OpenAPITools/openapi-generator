@@ -6,6 +6,9 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
+{{#useRequestMappingOnInterface}}
+import {{#apiPackage}}{{.}}.{{/apiPackage}}{{classname}}.Companion.BASE_PATH
+{{/useRequestMappingOnInterface}}
 
 {{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.*
@@ -48,7 +51,7 @@ import kotlin.collections.List
 import kotlin.collections.Map
 
 {{#useRequestMappingOnInterface}}
-@HttpExchange("\${api.base-path:{{contextPath}}}")
+@HttpExchange(BASE_PATH) // Generate with 'requestMappingMode' set to 'none' to skip the base path on the interface
 {{/useRequestMappingOnInterface}}
 {{#useBeanValidation}}
 @Validated
@@ -60,7 +63,8 @@ interface {{classname}} {
 }}{{^useResponseEntity}}    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
 {{/useResponseEntity}}{{!
 }}{{#httpMethod}}    @HttpExchange(
-        url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} /* "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}" */,
+        // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
+        url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
         method = "{{httpMethod}}"
     )
     {{/httpMethod}}{{!
@@ -74,9 +78,7 @@ interface {{classname}} {
 {{/operation}}
     companion object {
         //for your own safety never directly reuse these path definitions in tests
-    {{#useRequestMappingOnInterface}}
         const val BASE_PATH: String = "{{=<% %>=}}<%contextPath%><%={{ }}=%>"
-    {{/useRequestMappingOnInterface}}
     {{#operation}}
         const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = "{{{path}}}"
     {{/operation}}

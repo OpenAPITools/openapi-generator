@@ -46,5 +46,6 @@ public class KotlinMiskServerCodegenOptionsTest extends AbstractOptionsTest {
         verify(codegen).setActionRequestContentTypePrefix(KotlinMiskServerCodegenOptionsProvider.ACTION_REQUEST_CONTENT_TYPE_PREFIX);
         verify(codegen).setGenerateStubImplClasses(Boolean.valueOf(KotlinMiskServerCodegenOptionsProvider.GENERATE_STUB_IMPL_CLASSES));
         verify(codegen).setAddModelMoshiJsonAnnotation(Boolean.valueOf(KotlinMiskServerCodegenOptionsProvider.ADD_MODEL_MOSHI_JSON_ANNOTATION));
+        verify(codegen).setImplicitHeaders(Boolean.valueOf(KotlinMiskServerCodegenOptionsProvider.IMPLICIT_HEADERS_VALUE));
     }
 }

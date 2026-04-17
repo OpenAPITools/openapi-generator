@@ -15,6 +15,7 @@ on:
       - samples/client/petstore/typescript-angular-v18-provided-in-root/**
       - samples/client/petstore/typescript-angular-v19-provided-in-root/**
       - samples/client/petstore/typescript-angular-v20-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v21-provided-in-root/**
       - samples/openapi3/client/petstore/typescript/builds/default/**
       # comment out due to build failure
       #- samples/openapi3/client/petstore/typescript/tests/default/**
@@ -54,6 +55,7 @@ on:
       - samples/client/petstore/typescript-angular-v18-provided-in-root/**
       - samples/client/petstore/typescript-angular-v19-provided-in-root/**
       - samples/client/petstore/typescript-angular-v20-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v21-provided-in-root/**
       - samples/openapi3/client/petstore/typescript/builds/default/**
       #- samples/openapi3/client/petstore/typescript/tests/default/**
       - samples/openapi3/client/petstore/typescript/builds/jquery/**
@@ -104,6 +106,7 @@ jobs:
           - samples/client/petstore/typescript-angular-v18-provided-in-root/
           - samples/client/petstore/typescript-angular-v19-provided-in-root/
           - samples/client/petstore/typescript-angular-v20-provided-in-root/
+          - samples/client/petstore/typescript-angular-v21-provided-in-root/
           - samples/openapi3/client/petstore/typescript/builds/default/
           #- samples/openapi3/client/petstore/typescript/tests/default/
           - samples/openapi3/client/petstore/typescript/builds/jquery/

@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -113,6 +113,7 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
+
   @Override
   public BigCat className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);
@@ -158,10 +159,7 @@ public class BigCat extends Cat {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

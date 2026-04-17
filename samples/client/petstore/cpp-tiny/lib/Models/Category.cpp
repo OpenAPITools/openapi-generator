@@ -85,7 +85,7 @@ Category::getId()
 }
 
 void
-Category::setId(long  id)
+Category::setId(long id)
 {
 	this->id = id;
 }
@@ -97,7 +97,7 @@ Category::getName()
 }
 
 void
-Category::setName(std::string  name)
+Category::setName(std::string name)
 {
 	this->name = name;
 }

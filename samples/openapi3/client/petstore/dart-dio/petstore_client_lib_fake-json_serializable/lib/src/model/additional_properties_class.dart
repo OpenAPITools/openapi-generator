@@ -23,6 +23,8 @@ class AdditionalPropertiesClass {
      this.mapProperty,
 
      this.mapOfMapProperty,
+
+     this.mapOfArrayInteger,
   });
 
   @JsonKey(
@@ -49,17 +51,31 @@ class AdditionalPropertiesClass {
 
 
 
+  @JsonKey(
+    
+    name: r'map_of_array_integer',
+    required: false,
+    includeIfNull: false,
+  )
+
+
+  final Map<String, List<int>>? mapOfArrayInteger;
+
+
+
 
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
       other.mapProperty == mapProperty &&
-      other.mapOfMapProperty == mapOfMapProperty;
+      other.mapOfMapProperty == mapOfMapProperty &&
+      other.mapOfArrayInteger == mapOfArrayInteger;
 
     @override
     int get hashCode =>
         mapProperty.hashCode +
-        mapOfMapProperty.hashCode;
+        mapOfMapProperty.hashCode +
+        mapOfArrayInteger.hashCode;
 
   factory AdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$AdditionalPropertiesClassFromJson(json);
 

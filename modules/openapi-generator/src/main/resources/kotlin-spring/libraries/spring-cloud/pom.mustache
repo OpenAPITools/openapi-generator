@@ -7,11 +7,10 @@
     <version>{{artifactVersion}}</version>
     <properties>{{#reactive}}
         <kotlinx-coroutines.version>1.6.1</kotlinx-coroutines.version>{{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
-        <springdoc-openapi.version>1.6.8</springdoc-openapi.version>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
-        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>{{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
-        <swagger-ui.version>4.10.3</swagger-ui.version>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
+        <springdoc-openapi.version>1.6.8</springdoc-openapi.version>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
+        <swagger-ui.version>4.10.3</swagger-ui.version>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
         <swagger-annotations.version>1.6.6</swagger-annotations.version>{{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>2.2.0</swagger-annotations.version>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}{{/springFoxDocumentationProvider}}
+        <swagger-annotations.version>2.2.0</swagger-annotations.version>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <javax-annotation.version>1.3.2</javax-annotation.version>
         <kotlin-test-junit5.version>1.6.21</kotlin-test-junit5.version>
@@ -138,13 +137,7 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core</artifactId>
             <version>${springdoc-openapi.version}</version>
-        </dependency>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
-        <!--SpringFox dependencies -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger2.version}</version>
-        </dependency>{{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
+        </dependency>{{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
@@ -153,7 +146,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator-core</artifactId>
-        </dependency>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
+        </dependency>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -163,7 +156,7 @@
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations.version}</version>
-        </dependency>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}{{/springFoxDocumentationProvider}}
+        </dependency>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -200,12 +193,13 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
-{{#useBeanValidation}}
+        {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-        </dependency>{{/useBeanValidation}}
+        </dependency>
+        {{/useBeanValidation}}
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>

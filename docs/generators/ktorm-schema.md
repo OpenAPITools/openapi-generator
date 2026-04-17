@@ -26,6 +26,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |identifierNamingConvention|Naming convention of Ktorm identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd></dl>|original|
+|implicitHeaders|Skip header parameters in the generated API methods.| |false|
 |importModelPackageName|Package name of the imported models| |org.openapitools.database.models|
 |modelMutable|Create mutable models| |false|
 |packageName|Generated artifact package name.| |org.openapitools.database|

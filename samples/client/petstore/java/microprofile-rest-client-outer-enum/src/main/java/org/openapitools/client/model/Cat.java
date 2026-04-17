@@ -33,13 +33,13 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Cat  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
   @JsonbProperty("status")
-  private Status status;
+  protected Status status;
 
 
   /**
@@ -141,10 +141,7 @@ public class Cat  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -106,6 +106,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String GENERATE_ONEOF_ANYOF_WRAPPERS = "generateOneOfAnyOfWrappers";
 
+    public static final String COMPANION_OBJECT = "companionObject";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
 
@@ -123,6 +125,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected boolean mapFileBinaryToByteArray = false;
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
+    @Setter protected boolean companionObject = false;
 
     protected String authFolder;
 
@@ -286,13 +289,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_BYTE_ARRAY, "Map File and Binary to ByteArray (default: false)").defaultValue(Boolean.FALSE.toString()));
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library), `gson`(serializationLibrary) support this option."));
+        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
+
+        cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
 
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
 
         cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
+
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3,
+            "Use Jackson 3 dependencies (tools.jackson package). Not yet supported for kotlin-client; reserved for future use."));
     }
 
     @Override
@@ -320,6 +328,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public boolean getGenerateOneOfAnyOfWrappers() {
         return generateOneOfAnyOfWrappers;
+    }
+
+    public boolean getCompanionObject() {
+        return companionObject;
     }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
@@ -457,6 +469,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3);
         }
 
+        if (isUseJackson3()) {
+            throw new IllegalArgumentException(
+                "useJackson3 is not yet supported for kotlin-client. Jackson 3 support for kotlin-client will be added in a future release.");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
             setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
             additionalProperties.put(this.serializationLibrary.name(), true);
@@ -482,6 +499,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         } else {
             additionalProperties.put(FAIL_ON_UNKNOWN_PROPERTIES, false);
             setFailOnUnknownProperties(false);
+        }
+
+        if (additionalProperties.containsKey(COMPANION_OBJECT)) {
+            setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
+        } else {
+            additionalProperties.put(COMPANION_OBJECT, companionObject);
         }
 
         commonSupportingFiles();
@@ -567,6 +590,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // We replace paths like `/v1/foo/*` with `/v1/foo/<*>` to avoid this
         additionalProperties.put("sanitizePathComment", new ReplaceAllLambda("\\/\\*", "/<*>"));
         additionalProperties.put("fnToOneOfWrapperName", new ToOneOfWrapperName());
+        additionalProperties.put("fnToValueClassName", new ToValueClassName());
     }
 
     private void processDateLibrary() {
@@ -935,7 +959,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         for (ModelMap mo : objects.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers()) {
+            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers() || getCompanionObject()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
 
@@ -1152,6 +1176,28 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         @Override
         public String formatFragment(String fragment) {
             return toModelName(StringUtils.lowerCase(fragment)) + "Wrapper";
+        }
+    }
+
+    private static class ToValueClassName extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            // Strip generic type parameters and extract simple class names
+            // e.g. "kotlin.collections.List<kotlin.String>" -> "ListStringValue"
+            // e.g. "kotlin.String" -> "StringValue"
+            // e.g. "User" -> "UserValue"
+            StringBuilder sb = new StringBuilder();
+            for (String part : fragment.split("[<>,]")) {
+                String trimmed = part.trim();
+                if (trimmed.isEmpty()) continue;
+                String simpleName = trimmed.contains(".")
+                    ? trimmed.substring(trimmed.lastIndexOf('.') + 1)
+                    : trimmed;
+                sb.append(Character.toUpperCase(simpleName.charAt(0)));
+                sb.append(simpleName.substring(1));
+            }
+            sb.append("Value");
+            return sb.toString();
         }
     }
 

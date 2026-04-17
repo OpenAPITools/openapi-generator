@@ -2137,6 +2137,12 @@ components:
             type: object
             additionalProperties:
               type: string
+        map_of_map_non_primitive_property:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Pet'
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
@@ -2705,6 +2711,15 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/Tag"
+    ArrayOfMapModel:
+      type: object
+      properties:
+        array_of_map_property:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: "#/components/schemas/Tag"
     ArrayOfArrayOfModel:
       type: object
       properties:
@@ -2919,3 +2934,10 @@ components:
       type: string
       enum: [JSON, CSV, XML]
       default: JSON
+    UuidWithPattern:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"

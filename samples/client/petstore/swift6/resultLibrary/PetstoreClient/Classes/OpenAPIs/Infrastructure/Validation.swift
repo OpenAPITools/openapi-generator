@@ -27,23 +27,23 @@ internal struct ArrayRule: Sendable {
     internal var uniqueItems: Bool
 }
 
-internal enum StringValidationErrorKind: Error {
+internal enum StringValidationErrorKind: Error, Sendable {
     case minLength, maxLength, pattern
 }
 
-internal enum NumericValidationErrorKind: Error {
+internal enum NumericValidationErrorKind: Error, Sendable {
     case minimum, maximum, multipleOf
 }
 
-internal enum ArrayValidationErrorKind: Error {
+internal enum ArrayValidationErrorKind: Error, Sendable {
     case minItems, maxItems, uniqueItems
 }
 
-internal struct ValidationError<T: Error & Hashable>: Error {
+internal struct ValidationError<T: Error & Hashable & Sendable>: Error, Sendable {
     internal fileprivate(set) var kinds: Set<T>
 }
 
-internal struct Validator {
+internal struct Validator: Sendable {
     /// Validate a string against a rule.
     /// - Parameter string: The String you wish to validate.
     /// - Parameter rule: The StringRule you wish to use for validation.

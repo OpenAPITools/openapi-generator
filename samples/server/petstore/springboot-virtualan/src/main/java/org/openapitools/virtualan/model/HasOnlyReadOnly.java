@@ -8,20 +8,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * HasOnlyReadOnly
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
   private @Nullable String bar;
@@ -44,6 +44,7 @@ public class HasOnlyReadOnly {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -64,6 +65,7 @@ public class HasOnlyReadOnly {
     return foo;
   }
 
+  @JsonProperty("foo")
   public void setFoo(@Nullable String foo) {
     this.foo = foo;
   }
@@ -100,11 +102,8 @@ public class HasOnlyReadOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

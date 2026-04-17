@@ -53,7 +53,6 @@ test {
     useJUnitPlatform()
 }
 
-
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
@@ -67,6 +66,7 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
     implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    testImplementation "org.springframework.boot:spring-boot-test:$spring_boot_version"
 }
 
 java {

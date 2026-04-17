@@ -6,9 +6,7 @@
 //
 
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
 
 open class StoreAPI {
 
@@ -19,8 +17,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -42,7 +38,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Delete purchase order by ID
@@ -79,8 +74,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<[String: Int], Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<[String: Int], Error> {
         let requestBuilder = getInventoryWithRequestBuilder(apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -102,7 +95,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Returns pet inventories by status
@@ -139,8 +131,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Order, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Order, Error> {
         let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -162,7 +152,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Find purchase order by ID
@@ -200,8 +189,6 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Order, Error>
      */
-    #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Order, Error> {
         let requestBuilder = placeOrderWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -223,7 +210,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Place an order for a pet

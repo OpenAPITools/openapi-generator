@@ -45,6 +45,7 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
@@ -54,6 +55,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Setter(AccessLevel.PRIVATE) private boolean supportMiddleware = false;
     @Setter(AccessLevel.PRIVATE) private boolean useSerdePathToError = false;
     @Setter(AccessLevel.PRIVATE) private boolean supportTokenSource = false;
+    private boolean useChrono = true;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
     @Setter private boolean preferUnsignedInt = false;
@@ -73,6 +75,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
     public static final String USE_SERDE_PATH_TO_ERROR = "useSerdePathToError";
     public static final String SUPPORT_TOKEN_SOURCE = "supportTokenSource";
+    public static final String USE_CHRONO = "useChrono";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
@@ -91,6 +94,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     // The API has at least one UUID type.
     // If the API does not contain any UUIDs we do not need depend on the `uuid` crate
     private boolean hasUUIDs = false;
+    // The API has at least one Chrono type.
+    // If the API does not contain any Dates or DateTimes we do not need to depend on the `chrono` crate
+    private boolean usesChronoTypes = false;
 
     @Override
     public CodegenType getTag() {
@@ -182,8 +188,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("map", "std::collections::HashMap");
         typeMapping.put("UUID", "uuid::Uuid");
         typeMapping.put("URI", "String");
-        typeMapping.put("date", "string");
-        typeMapping.put("DateTime", "String");
+        // Temporarily set the default to chrono. Then when `processOpts` is called it will update to not use chrono if specified
+        typeMapping.put("date", "chrono::NaiveDate");
+        typeMapping.put("DateTime", "chrono::DateTime<chrono::FixedOffset>");
+
         typeMapping.put("password", "String");
         typeMapping.put("decimal", "String");
 
@@ -216,6 +224,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_TOKEN_SOURCE, "If set, add support for google-cloud-token. This option is for 'reqwest' and 'reqwest-trait' library only and requires the 'supportAsync' option", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(USE_CHRONO, "If set, use chrono to represent date time objects (`chrono::NaiveDate` for `date` and `chrono::DateTime<chrono::FixedOffset>>` for `date-time`)", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
@@ -300,7 +310,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     // If the type is an array, extend the name with the inner type to prevent name collisions
                     // in case multiple arrays with different types are defined. If the user has manually specified
                     // a name, use that name instead.
-                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.dataType;
+                    String collectionWithTypeName = toModelName(schema.getType()) + oneOf.containerTypeMapped + oneOf.items.baseType;
                     String oneOfName = Optional.ofNullable(schema.getTitle()).orElse(collectionWithTypeName);
                     oneOf.setName(oneOfName);
                 }
@@ -368,6 +378,45 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     break;
                 }
             }
+
+            // Compute documentation type for each property
+            // This matches the actual generated code type, including HashSet for uniqueItems
+            for (CodegenProperty cp : cm.vars) {
+                String docType;
+
+                if (cp.datatypeWithEnum != null && !cp.datatypeWithEnum.isEmpty()) {
+                    // Use enum type if available (e.g., Vec<UniqueItemArray> instead of Vec<String>)
+                    docType = cp.datatypeWithEnum;
+                } else {
+                    // Use regular dataType
+                    docType = cp.dataType;
+                }
+
+                // Apply uniqueItems logic (matching model.mustache lines 139, 161)
+                // Arrays with uniqueItems=true use HashSet instead of Vec in the generated code
+                if (Boolean.TRUE.equals(cp.getUniqueItems()) && docType.startsWith("Vec<")) {
+                    docType = docType.replace("Vec<", "HashSet<");
+                }
+
+                cp.vendorExtensions.put("x-doc-type", docType);
+
+                // Determine if this type should have a doc link
+                // Only local models should link, not external types from std lib or crates
+                boolean shouldLink = false;
+                if (cp.complexType != null && !cp.complexType.isEmpty()) {
+                    // Check if it's an external type by looking for known prefixes
+                    String[] externalPrefixes = {"std::", "serde_json::", "uuid::", "chrono::", "url::"};
+                    boolean isExternal = false;
+                    for (String prefix : externalPrefixes) {
+                        if (cp.complexType.startsWith(prefix)) {
+                            isExternal = true;
+                            break;
+                        }
+                    }
+                    shouldLink = !isExternal;
+                }
+                cp.vendorExtensions.put("x-should-link", shouldLink);
+            }
         }
         // process enum in models
         return postProcessModelsEnum(objs);
@@ -423,6 +472,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             this.setSupportTokenSource(convertPropertyToBoolean(SUPPORT_TOKEN_SOURCE));
         }
         writePropertyBack(SUPPORT_TOKEN_SOURCE, getSupportTokenSource());
+
+        if (additionalProperties.containsKey(USE_CHRONO)) {
+            this.setUseChrono(convertPropertyToBoolean(USE_CHRONO));
+        }
+        writePropertyBack(USE_CHRONO, isUseChrono());
 
         if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
             this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
@@ -733,21 +787,44 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
 
+            // Check for UUIDs
             for (var param : operation.allParams) {
                 if (!hasUUIDs && param.isUuid) {
                     hasUUIDs = true;
                     break;
                 }
             }
+            // Check for Chrono Types
+            if(isUseChrono()){
+                for (CodegenParameter param : operation.allParams) {
+                    if (!usesChronoTypes && (param.isDate || param.isDateTime)) {
+                        LOGGER.debug("Found Chrono Type in operation Parameter: {}", param.paramName);
+                        usesChronoTypes = true;
+                        break;
+                    }
+                }
+            }
 
             // If we use a file body parameter, we need to include the imports and crates for it
-            // But they should be added only once per file 
+            // But they should be added only once per file
             for (var param: operation.bodyParams) {
                 if (param.isFile && supportAsync && !useAsyncFileStream) {
                     useAsyncFileStream = true;
                     additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
                     operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
                     break;
+                }
+            }
+
+            // Also check form params for file uploads (multipart)
+            if (!useAsyncFileStream) {
+                for (var param: operation.formParams) {
+                    if (param.isFile && supportAsync) {
+                        useAsyncFileStream = true;
+                        additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                        operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
+                        break;
+                    }
                 }
             }
 
@@ -823,13 +900,25 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 CodegenModel m = map.getModel();
                 if (m.getIsUuid() || hasUuidInProperties(m.vars)) {
                     hasUUIDs = true;
-                    LOGGER.debug("found UUID in model: " + m.name);
+                    LOGGER.debug("Found UUID in model: {}", m.name);
+                    break;
+                }
+            }
+        }
+
+        if (isUseChrono() && !usesChronoTypes) {
+            for (var map : allModels) {
+                CodegenModel m = map.getModel();
+                if (m.getIsDate() || hasChronoTypeInProperties(m.vars)) {
+                    usesChronoTypes = true;
+                    LOGGER.debug("Found Chrono Type in model: {}", m.name);
                     break;
                 }
             }
         }
 
         this.additionalProperties.put("hasUUIDs", hasUUIDs);
+        this.additionalProperties.put("usesChronoTypes", isUseChrono() && usesChronoTypes);
         return objs;
     }
 
@@ -837,18 +926,35 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
      * Recursively searches for a model's properties for a UUID type field.
      */
     private boolean hasUuidInProperties(List<CodegenProperty> properties) {
+        return checkForPropertiesRecursively(properties, (property) -> property.isUuid);
+    }
+
+    /**
+     * Recursively searches for a model's properties for a Date or DateTime type field.
+     */
+    private boolean hasChronoTypeInProperties(List<CodegenProperty> properties) {
+        return checkForPropertiesRecursively(properties, (property) -> property.isDate || property.isDateTime);
+    }
+
+    /**
+     * Recursively searches for a condition in a property
+     * @param properties the {@link CodegenProperty} to recursively search for
+     * @param propertyCheck the {@link Function} to be applied to check an individual {@link CodegenProperty} for a match
+     * @return true if there is at least one match, false if there is no match
+     */
+    private boolean checkForPropertiesRecursively(List<CodegenProperty> properties, Function<CodegenProperty, Boolean> propertyCheck){
         for (CodegenProperty property : properties) {
-            if (property.isUuid) {
+            if (propertyCheck.apply(property)) {
                 return true;
             }
             // Check nested properties
-            if (property.items != null && hasUuidInProperties(Collections.singletonList(property.items))) {
+            if (property.items != null && checkForPropertiesRecursively(Collections.singletonList(property.items), propertyCheck)) {
                 return true;
             }
-            if (property.additionalProperties != null && hasUuidInProperties(Collections.singletonList(property.additionalProperties))) {
+            if (property.additionalProperties != null && checkForPropertiesRecursively(Collections.singletonList(property.additionalProperties), propertyCheck)) {
                 return true;
             }
-            if (property.vars != null && hasUuidInProperties(property.vars)) {
+            if (property.vars != null && checkForPropertiesRecursively(property.vars, propertyCheck)) {
                 return true;
             }
         }
@@ -886,5 +992,21 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static <K, V> boolean hasDuplicateValues(Map<K, V> map) {
         Set<V> uniqueValues = new HashSet<>(map.values());
         return uniqueValues.size() < map.size();
+    }
+
+
+    private boolean isUseChrono() {
+        return useChrono;
+    }
+
+    private void setUseChrono(boolean useChrono) {
+        this.useChrono = useChrono;
+        if(isUseChrono()){
+            typeMapping.put("date", "chrono::NaiveDate");
+            typeMapping.put("DateTime", "chrono::DateTime<chrono::FixedOffset>");
+        }else{
+            typeMapping.put("date", "String");
+            typeMapping.put("DateTime", "String");
+        }
     }
 }

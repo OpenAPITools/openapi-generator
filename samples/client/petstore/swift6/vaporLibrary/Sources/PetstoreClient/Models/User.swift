@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class User: Content, Hashable {
+public struct User: Sendable, Content, Hashable {
 
     public var id: Int64?
     public var username: String?
@@ -55,32 +55,7 @@ public final class User: Content, Hashable {
         try container.encodeIfPresent(phone, forKey: .phone)
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
-
-    public static func == (lhs: User, rhs: User) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.username == rhs.username &&
-        lhs.firstName == rhs.firstName &&
-        lhs.lastName == rhs.lastName &&
-        lhs.email == rhs.email &&
-        lhs.password == rhs.password &&
-        lhs.phone == rhs.phone &&
-        lhs.userStatus == rhs.userStatus
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id?.hashValue)
-        hasher.combine(username?.hashValue)
-        hasher.combine(firstName?.hashValue)
-        hasher.combine(lastName?.hashValue)
-        hasher.combine(email?.hashValue)
-        hasher.combine(password?.hashValue)
-        hasher.combine(phone?.hashValue)
-        hasher.combine(userStatus?.hashValue)
-        
-    }
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension User: Identifiable {}

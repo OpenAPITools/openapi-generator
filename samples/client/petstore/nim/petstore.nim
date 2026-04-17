@@ -10,6 +10,7 @@
 # Models
 import petstore/models/model_api_response
 import petstore/models/model_category
+import petstore/models/model_digest_email_frequency
 import petstore/models/model_get_pet_reviews200response
 import petstore/models/model_get_pet_reviews_response_with_presence
 import petstore/models/model_get_pet_stats200response
@@ -25,6 +26,7 @@ import petstore/models/model_pet_positions
 import petstore/models/model_pet_priority
 import petstore/models/model_pet_review
 import petstore/models/model_pet_reviews_response
+import petstore/models/model_pet_statistics
 import petstore/models/model_record_string_before_string_or_null_after_string_or_null_value
 import petstore/models/model_tag
 import petstore/models/model_unfavorite_pet_request
@@ -32,6 +34,7 @@ import petstore/models/model_user
 
 export model_api_response
 export model_category
+export model_digest_email_frequency
 export model_get_pet_reviews200response
 export model_get_pet_reviews_response_with_presence
 export model_get_pet_stats200response
@@ -47,6 +50,7 @@ export model_pet_positions
 export model_pet_priority
 export model_pet_review
 export model_pet_reviews_response
+export model_pet_statistics
 export model_record_string_before_string_or_null_after_string_or_null_value
 export model_tag
 export model_unfavorite_pet_request

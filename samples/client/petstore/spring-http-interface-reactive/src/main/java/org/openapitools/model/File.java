@@ -17,7 +17,7 @@ import jakarta.annotation.Generated;
  * Must be named &#x60;File&#x60; for test.
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class File {
 
   private @Nullable String sourceURI;
@@ -37,6 +37,7 @@ public class File {
     return sourceURI;
   }
 
+  @JsonProperty("sourceURI")
   public void setSourceURI(@Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }
@@ -71,11 +72,8 @@ public class File {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

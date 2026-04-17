@@ -114,7 +114,7 @@ impl<T, A, B, C, ReqBody> Service<Request<ReqBody>> for AddContext<T, A>
         {
             use swagger::auth::api_key_from_header;
 
-            if let Some(header) = api_key_from_header(headers, "") {
+            if let Some(header) = api_key_from_header(headers, "api_key") {
                 let auth_data = AuthData::ApiKey(header);
                 let context = context.push(Some(auth_data));
 

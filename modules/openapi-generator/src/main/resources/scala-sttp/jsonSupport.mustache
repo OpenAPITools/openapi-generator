@@ -42,10 +42,9 @@ object JsonSupport extends SttpJson4sApi {
 {{/json4s}}
 {{#circe}}
 import io.circe.{Decoder, Encoder}
-import io.circe.generic.AutoDerivation
 import sttp.client3.circe.SttpCirceApi
 
-object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers with AdditionalTypeSerializers {
+object JsonSupport extends SttpCirceApi with DateSerializers with AdditionalTypeSerializers {
 
 {{#models}}
 {{#model}}

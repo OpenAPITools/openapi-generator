@@ -21,7 +21,7 @@ class UserApi : public Service {
 public:
     UserApi() = default;
 
-    virtual ~UserApi() = default;
+    virtual ~UserApi();
 
     /**
     * Create user.

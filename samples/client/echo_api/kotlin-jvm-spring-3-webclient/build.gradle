@@ -53,13 +53,11 @@ test {
     useJUnitPlatform()
 }
 
-
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
-
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -69,6 +67,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor:reactor-core:3.7.11"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    testImplementation "org.springframework.boot:spring-boot-test:$spring_boot_version"
 }
 
 java {

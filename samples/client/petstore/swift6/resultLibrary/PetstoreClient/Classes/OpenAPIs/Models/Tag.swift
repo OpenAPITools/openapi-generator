@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Tag: Sendable, Codable, ParameterConvertible, Hashable {
+internal struct Tag: Sendable, Codable, Hashable {
 
     internal private(set) var id: Int64?
     internal private(set) var name: String?
@@ -32,5 +32,4 @@ internal struct Tag: Sendable, Codable, ParameterConvertible, Hashable {
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension Tag: Identifiable {}

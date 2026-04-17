@@ -28,14 +28,16 @@ int main() {
 	char *phone = malloc(strlen(PHONE) + 1);
 	strcpy(phone, PHONE);
 	
-	user_t *newuser = user_create(USER_ID,
+	long userId = USER_ID;
+	int userStatus = USER_STATUS;
+	user_t *newuser = user_create(&userId,
 	                              username,
 	                              firstname,
 	                              lastname,
 	                              email,
 	                              password,
 	                              phone,
-	                              USER_STATUS,
+	                              &userStatus,
 	                              NULL,
 	                              openapi_petstore_preference__cats);
 

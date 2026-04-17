@@ -461,4 +461,27 @@ public class GoClientCodegenTest {
         TestUtils.assertFileContains(apiPath, defaultEnumArrayString);
         TestUtils.assertFileContains(apiPath, defaultValueString);
     }
+
+    @Test
+    public void testEscapingInExamples() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/petstore-with-special-chars-in-examples.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path docPath = Paths.get(output + "/docs/TestAPI.md");
+        // Verify that quotes are properly escaped in parameter examples
+        TestUtils.assertFileContains(docPath, "stringWithQuotes := \"John \\\"Johnny\\\" Doe\"");
+        // Verify that backslashes are properly escaped in parameter examples
+        TestUtils.assertFileContains(docPath, "stringWithBackslash := \"C:\\\\path\\\\to\\\\file\"");
+        // Verify that quotes are properly escaped in email parameter examples
+        TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
+    }
 }

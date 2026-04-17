@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
+|implicitHeaders|Skip header parameters in the generated API methods.| |false|
 |modelMutable|Create mutable models| |false|
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|

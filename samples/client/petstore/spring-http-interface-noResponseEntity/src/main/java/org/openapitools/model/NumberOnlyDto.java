@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("NumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class NumberOnlyDto {
 
   private @Nullable BigDecimal justNumber;
@@ -40,6 +40,7 @@ public class NumberOnlyDto {
     return justNumber;
   }
 
+  @JsonProperty("JustNumber")
   public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
@@ -74,11 +75,8 @@ public class NumberOnlyDto {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
 @JsonTypeName("File")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @javax.annotation.Nullable
@@ -64,6 +64,7 @@ public class ModelFile {
     this.sourceURI = sourceURI;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -95,10 +96,7 @@ public class ModelFile {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

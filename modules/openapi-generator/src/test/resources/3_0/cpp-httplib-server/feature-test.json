@@ -1,0 +1,1279 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "C++ httplib Server Feature Test API",
+    "description": "Comprehensive test specification for all cpp-httplib-server generator features",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "datatypes",
+      "description": "Test all data types"
+    },
+    {
+      "name": "parameters",
+      "description": "Test parameter types and styles"
+    },
+    {
+      "name": "composition",
+      "description": "Test schema composition (allOf, anyOf, oneOf)"
+    },
+    {
+      "name": "security",
+      "description": "Test security schemes"
+    }
+  ],
+  "paths": {
+    "/datatypes/primitives": {
+      "post": {
+        "tags": ["datatypes"],
+        "operationId": "testPrimitiveTypes",
+        "summary": "Test all primitive data types",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimitiveTypes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimitiveTypes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/datatypes/arrays": {
+      "post": {
+        "tags": ["datatypes"],
+        "operationId": "testArrayTypes",
+        "summary": "Test array data types",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArrayTypes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArrayTypes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/datatypes/enums": {
+      "post": {
+        "tags": ["datatypes"],
+        "operationId": "testEnumTypes",
+        "summary": "Test enum types including numeric enums",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnumTypes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnumTypes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/parameters/query/{pathId}": {
+      "get": {
+        "tags": ["parameters"],
+        "operationId": "testQueryParameters",
+        "summary": "Test all query parameter types and styles",
+        "parameters": [
+          {
+            "name": "pathId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "stringParam",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "intParam",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 42
+            }
+          },
+          {
+            "name": "boolParam",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "arrayParam",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "spaceDelimited",
+            "in": "query",
+            "required": false,
+            "style": "spaceDelimited",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "pipeDelimited",
+            "in": "query",
+            "required": false,
+            "style": "pipeDelimited",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "name": "deepObject",
+            "in": "query",
+            "required": false,
+            "style": "deepObject",
+            "explode": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/parameters/headers": {
+      "get": {
+        "tags": ["parameters"],
+        "operationId": "testHeaderParameters",
+        "summary": "Test header parameters",
+        "parameters": [
+          {
+            "name": "X-Api-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Rate-Limit",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "X-Tags",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+        "401": {
+            "description": "NoSuccess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/parameters/cookies": {
+      "get": {
+        "tags": ["parameters"],
+        "operationId": "testCookieParameters",
+        "summary": "Test cookie parameters",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "cookie",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "preferences",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/parameters/combined/{resourceId}": {
+      "post": {
+        "tags": ["parameters"],
+        "operationId": "testAllParameterTypes",
+        "summary": "Test all parameter types combined (path + query + header + cookie + body)",
+        "parameters": [
+          {
+            "name": "resourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "X-Correlation-Id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Client-Version",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "cookie",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userPrefs",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimpleObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "resourceId": {
+                      "type": "integer"
+                    },
+                    "filter": {
+                      "type": "string"
+                    },
+                    "correlationId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/composition/allof": {
+      "post": {
+        "tags": ["composition"],
+        "operationId": "testAllOfComposition",
+        "summary": "Test allOf schema composition",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dog"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dog"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/composition/anyof": {
+      "post": {
+        "tags": ["composition"],
+        "operationId": "testAnyOfComposition",
+        "summary": "Test anyOf schema composition",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StringOrNumber"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringOrNumber"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/composition/oneof": {
+      "post": {
+        "tags": ["composition"],
+        "operationId": "testOneOfComposition",
+        "summary": "Test oneOf schema composition",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentMethod"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentMethod"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/security/apikey": {
+      "get": {
+        "tags": ["security"],
+        "operationId": "testApiKeySecurity",
+        "summary": "Test API Key authentication",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/security/bearer": {
+      "get": {
+        "tags": ["security"],
+        "operationId": "testBearerSecurity",
+        "summary": "Test Bearer token authentication",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/security/basic": {
+      "get": {
+        "tags": ["security"],
+        "operationId": "testBasicSecurity",
+        "summary": "Test Basic authentication",
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/security/oauth2": {
+      "get": {
+        "tags": ["security"],
+        "operationId": "testOAuth2Security",
+        "summary": "Test OAuth2 authentication",
+        "security": [
+          {
+            "OAuth2": ["read:users", "write:users"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/responses/multiple": {
+      "get": {
+        "tags": ["datatypes"],
+        "operationId": "testMultipleResponses",
+        "summary": "Test multiple response status codes",
+        "parameters": [
+          {
+            "name": "scenario",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["success", "created", "notfound", "error"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/responses/nocontent": {
+      "delete": {
+        "tags": ["datatypes"],
+        "operationId": "testNoContentResponse",
+        "summary": "Test 204 No Content response",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content - successful deletion"
+          }
+        }
+      }
+    },
+    "/nullable/optional": {
+      "post": {
+        "tags": ["datatypes"],
+        "operationId": "testNullableOptional",
+        "summary": "Test nullable and optional fields",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NullableOptionalTypes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullableOptionalTypes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nested/objects": {
+      "post": {
+        "tags": ["datatypes"],
+        "operationId": "testNestedObjects",
+        "summary": "Test deeply nested object structures",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Company"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Company"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+              "read:users": "Read user data",
+              "write:users": "Write user data"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "PrimitiveTypes": {
+        "type": "object",
+        "required": ["stringField", "intField", "boolField"],
+        "properties": {
+          "stringField": {
+            "type": "string",
+            "description": "A string field"
+          },
+          "intField": {
+            "type": "integer",
+            "description": "An integer field"
+          },
+          "longField": {
+            "type": "integer",
+            "format": "int64",
+            "description": "A long field"
+          },
+          "floatField": {
+            "type": "number",
+            "format": "float",
+            "description": "A float field"
+          },
+          "doubleField": {
+            "type": "number",
+            "format": "double",
+            "description": "A double field"
+          },
+          "boolField": {
+            "type": "boolean",
+            "description": "A boolean field"
+          },
+          "byteField": {
+            "type": "string",
+            "format": "byte",
+            "description": "A byte field"
+          },
+          "binaryField": {
+            "type": "string",
+            "format": "binary",
+            "description": "A binary field"
+          },
+          "dateField": {
+            "type": "string",
+            "format": "date",
+            "description": "A date field"
+          },
+          "dateTimeField": {
+            "type": "string",
+            "format": "date-time",
+            "description": "A datetime field"
+          },
+          "passwordField": {
+            "type": "string",
+            "format": "password",
+            "description": "A password field"
+          }
+        }
+      },
+      "ArrayTypes": {
+        "type": "object",
+        "properties": {
+          "stringArray": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "intArray": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "objectArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleObject"
+            }
+          },
+          "enumArray": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["red", "green", "blue"]
+            }
+          },
+          "nestedArray": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "EnumTypes": {
+        "type": "object",
+        "properties": {
+          "stringEnum": {
+            "type": "string",
+            "enum": ["pending", "approved", "rejected"]
+          },
+          "numericEnum": {
+            "type": "integer",
+            "enum": [100, 200, 300, 404, 500]
+          },
+          "statusCode": {
+            "type": "string",
+            "enum": ["200", "404", "500"]
+          }
+        }
+      },
+      "SimpleObject": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Animal": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Dog": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Animal"
+          },
+          {
+            "type": "object",
+            "required": ["breed"],
+            "properties": {
+              "breed": {
+                "type": "string"
+              },
+              "barkVolume": {
+                "type": "integer"
+              }
+            }
+          }
+        ]
+      },
+      "StringOrNumber": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "CreditCard": {
+        "type": "object",
+        "required": ["paymentType", "cardNumber", "cardType"],
+        "properties": {
+          "paymentType": {
+            "type": "string"
+          },
+          "cardNumber": {
+            "type": "string"
+          },
+          "cardType": {
+            "type": "string",
+            "enum": ["visa", "mastercard", "amex"]
+          }
+        }
+      },
+      "BankAccount": {
+        "type": "object",
+        "required": ["paymentType", "accountNumber", "bankName"],
+        "properties": {
+          "paymentType": {
+            "type": "string"
+          },
+          "accountNumber": {
+            "type": "string"
+          },
+          "bankName": {
+            "type": "string"
+          }
+        }
+      },
+      "PaymentMethod": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/CreditCard"
+          },
+          {
+            "$ref": "#/components/schemas/BankAccount"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "paymentType",
+          "mapping": {
+            "credit_card": "#/components/schemas/CreditCard",
+            "bank_account": "#/components/schemas/BankAccount"
+          }
+        }
+      },
+      "NullableOptionalTypes": {
+        "type": "object",
+        "required": ["requiredField"],
+        "properties": {
+          "requiredField": {
+            "type": "string"
+          },
+          "optionalField": {
+            "type": "string"
+          },
+          "nullableField": {
+            "type": "string",
+            "nullable": true
+          },
+          "optionalNullableField": {
+            "type": "string",
+            "nullable": true
+          },
+          "fieldWithDefault": {
+            "type": "integer",
+            "default": 42
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "required": ["street", "city"],
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "default": "USA"
+          }
+        }
+      },
+      "Employee": {
+        "type": "object",
+        "required": ["id", "name", "email"],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Department": {
+        "type": "object",
+        "required": ["name", "manager"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "manager": {
+            "$ref": "#/components/schemas/Employee"
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Employee"
+            }
+          }
+        }
+      },
+      "Company": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "headquarters": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "departments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Department"
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "required": ["status", "data"],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "CreatedResponse": {
+        "type": "object",
+        "required": ["status", "id"],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "location": {
+            "type": "string"
+          }
+        }
+      },
+      "NotFoundResponse": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["message"],
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

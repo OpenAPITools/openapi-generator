@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class EnumArrays: Content, Hashable {
+public struct EnumArrays: Sendable, Content, Hashable {
 
     public enum JustSymbol: String, Sendable, Content, Hashable, CaseIterable {
         case greaterThanOrEqualTo = ">="
@@ -37,18 +37,6 @@ public final class EnumArrays: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
-    }
-
-    public static func == (lhs: EnumArrays, rhs: EnumArrays) -> Bool {
-        lhs.justSymbol == rhs.justSymbol &&
-        lhs.arrayEnum == rhs.arrayEnum
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(justSymbol?.hashValue)
-        hasher.combine(arrayEnum?.hashValue)
-        
     }
 }
 

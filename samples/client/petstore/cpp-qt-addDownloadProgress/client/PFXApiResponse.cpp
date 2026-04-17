@@ -20,7 +20,7 @@
 
 namespace test_namespace {
 
-PFXApiResponse::PFXApiResponse(QString json) {
+PFXApiResponse::PFXApiResponse(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -43,7 +43,7 @@ void PFXApiResponse::initializeModel() {
     m_message_isValid = false;
 }
 
-void PFXApiResponse::fromJson(QString jsonString) {
+void PFXApiResponse::fromJson(const QString &jsonString) {
     QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();

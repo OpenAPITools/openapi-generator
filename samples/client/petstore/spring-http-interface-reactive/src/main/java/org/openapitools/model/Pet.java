@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Pet {
 
   private @Nullable Long id;
@@ -108,6 +108,7 @@ public class Pet {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -127,6 +128,7 @@ public class Pet {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(@Nullable Category category) {
     this.category = category;
   }
@@ -146,6 +148,7 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -174,6 +177,7 @@ public class Pet {
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -201,6 +205,7 @@ public class Pet {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -216,8 +221,8 @@ public class Pet {
    * @deprecated
    */
   
-  @JsonProperty("status")
   @Deprecated
+  @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {
     return status;
   }
@@ -226,6 +231,7 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -270,11 +276,8 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

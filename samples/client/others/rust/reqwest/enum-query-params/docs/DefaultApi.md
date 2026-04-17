@@ -21,9 +21,9 @@ Test endpoint with enum query parameters referenced via $ref
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**status** | [**Status**](.md) | Status filter | [required] |
-**time_bucket** | Option<[**TimeBucket**](.md)> | Time aggregation bucket |  |
-**sort_direction** | Option<[**SortDirection**](.md)> | Sort direction |  |
+**status** | [**Status**](Status.md) | Status filter | [required] |
+**time_bucket** | Option<[**TimeBucket**](TimeBucket.md)> | Time aggregation bucket |  |
+**sort_direction** | Option<[**SortDirection**](SortDirection.md)> | Sort direction |  |
 
 ### Return type
 
@@ -52,7 +52,7 @@ Get items with filters
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **category** | Option<**String**> | Item category (inline enum) |  |
-**priority** | Option<[**Priority**](.md)> | Priority level (enum via ref) |  |
+**priority** | Option<[**Priority**](Priority.md)> | Priority level (enum via ref) |  |
 
 ### Return type
 

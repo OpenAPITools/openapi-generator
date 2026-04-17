@@ -27,6 +27,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -620,6 +621,131 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testNormalize31ExclusiveMinMaxNumericOnly() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/x")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // exclusiveMinimum: 0
+        assertEquals(new BigDecimal("0"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("0"), schema.getMinimum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMinimum());
+
+        // exclusiveMaximum: 10
+        assertEquals(new BigDecimal("10"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxStricterThanMinMax() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/foo")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        assertEquals(new BigDecimal("1"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("1"), schema.getMinimum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMinimum());
+
+        assertEquals(new BigDecimal("10"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxEqualToMinMax() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/bar")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // minimum: 0 + exclusiveMinimum: 0 → must remain exclusive
+        assertEquals(new BigDecimal("0"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("0"), schema.getMinimum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMinimum());
+
+        // maximum: 10 + exclusiveMaximum: 10 → must remain exclusive
+        assertEquals(new BigDecimal("10"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxInclusiveStricterThanExclusiveValue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/baz")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // minimum: 5 is stricter than exclusiveMinimum: 0 (x >= 5 dominates x > 0)
+        assertEquals(new BigDecimal("0"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("5"), schema.getMinimum());
+        assertNull(schema.getExclusiveMinimum());
+
+        // maximum: 10 is stricter than exclusiveMaximum: 11 (x <= 10 dominates x < 11)
+        assertEquals(new BigDecimal("11"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertNull(schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxBooleanExclusiveAlreadySet() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/old")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // 3.0-style boolean exclusive flags should remain intact
+        assertEquals(new BigDecimal("0"), schema.getMinimum());
+        assertNull(schema.getExclusiveMinimum());
+
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertNull(schema.getExclusiveMaximum());
+
+        // Ensure numeric 3.1 value fields are not unexpectedly set by normalization
+        assertNull(schema.getExclusiveMinimumValue());
+        assertNull(schema.getExclusiveMaximumValue());
+    }
+
+
+    @Test
     public void testRemoveXInternal() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
         Schema s = openAPI.getComponents().getSchemas().get("Dummy");
@@ -1111,8 +1237,9 @@ public class OpenAPINormalizerTest {
         assertEquals(schema14.getType(), null);
 
         Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
-        // oneOf should have been removed as the schema is essentially a primitive type
-        assertEquals(schema16.getOneOf(), null);
+        assertEquals(schema16.getOneOf().size(),3);
+        assertEquals(((Schema) schema16.getOneOf().get(0)).getConst(), 1);
+        assertEquals(((Schema) schema16.getOneOf().get(0)).getDeprecated(), true);
 
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
@@ -1304,6 +1431,59 @@ public class OpenAPINormalizerTest {
         assertNotNull(inlinePropertyAfter.getProperties());
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedField"));
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedNumber"));
+    }
+
+    @Test
+    public void testSortModelProperties() {
+        // Create a schema with properties in non-alphabetical order
+        Schema schema = new ObjectSchema()
+                .addProperty("zebra", new StringSchema())
+                .addProperty("apple", new StringSchema())
+                .addProperty("mango", new IntegerSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("TestModel", schema);
+
+        // Verify original order (LinkedHashMap preserves insertion order)
+        List<String> originalOrder = new ArrayList<>(schema.getProperties().keySet());
+        assertEquals(originalOrder.get(0), "zebra");
+        assertEquals(originalOrder.get(1), "apple");
+        assertEquals(originalOrder.get(2), "mango");
+
+        // Apply normalizer with SORT_MODEL_PROPERTIES=true
+        Map<String, String> options = new HashMap<>();
+        options.put("SORT_MODEL_PROPERTIES", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // Verify properties are now sorted alphabetically
+        Schema normalizedSchema = openAPI.getComponents().getSchemas().get("TestModel");
+        List<String> sortedOrder = new ArrayList<>(normalizedSchema.getProperties().keySet());
+        assertEquals(sortedOrder.get(0), "apple");
+        assertEquals(sortedOrder.get(1), "mango");
+        assertEquals(sortedOrder.get(2), "zebra");
+    }
+
+    @Test
+    public void testSortModelPropertiesDisabledByDefault() {
+        // Create a schema with properties in non-alphabetical order
+        Schema schema = new ObjectSchema()
+                .addProperty("zebra", new StringSchema())
+                .addProperty("apple", new StringSchema())
+                .addProperty("mango", new IntegerSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("TestModel", schema);
+
+        // Apply normalizer without SORT_MODEL_PROPERTIES (default is false)
+        Map<String, String> options = new HashMap<>();
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // Verify properties retain original order
+        Schema normalizedSchema = openAPI.getComponents().getSchemas().get("TestModel");
+        List<String> order = new ArrayList<>(normalizedSchema.getProperties().keySet());
+        assertEquals(order.get(0), "zebra");
+        assertEquals(order.get(1), "apple");
+        assertEquals(order.get(2), "mango");
     }
 
     public static class RemoveRequiredNormalizer extends OpenAPINormalizer {

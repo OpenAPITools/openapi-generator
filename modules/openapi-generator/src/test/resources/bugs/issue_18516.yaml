@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: test
+  description: Test API
+  version: 1.0.1
+
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Valid response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SomeObject"
+
+components:
+  schemas:
+    SomeObject:
+      type: object
+      required: 
+        - ids
+        - users
+        - user
+        - role
+        - custom
+      properties:
+        ids:
+          type: array
+          nullable: true
+          items:
+            type: integer
+        users:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+        user:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: string
+        role:
+          type: string
+          nullable: true
+          enum:
+            - admin
+            - tenant
+        custom:
+          $ref: "#/components/schemas/customEnum"
+    customEnum:
+      type: string
+      nullable: true
+      enum:
+        - custom
+        

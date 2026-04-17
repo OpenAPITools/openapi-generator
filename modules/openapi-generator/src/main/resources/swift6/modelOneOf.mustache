@@ -1,4 +1,4 @@
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{^useClasses}}Sendable, {{/useClasses}}{{#useClasses}}{{#readonlyProperties}}Sendable, {{/readonlyProperties}}{{/useClasses}}{{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{#useParameterConvertible}}, ParameterConvertible{{/useParameterConvertible}}{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{^useClasses}}Sendable, {{/useClasses}}{{#useClasses}}{{#readonlyProperties}}Sendable, {{/readonlyProperties}}{{/useClasses}}{{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
     {{#oneOf}}
     case type{{#transformArrayType}}{{.}}{{/transformArrayType}}({{.}})
     {{/oneOf}}
@@ -14,14 +14,41 @@
             try container.encode(value)
         {{/oneOf}}
         {{#oneOfUnknownDefaultCase}}
-        case unknownDefaultOpenApi(let type):
+        case .unknownDefaultOpenApi:
             try container.encodeNil()
         {{/oneOfUnknownDefaultCase}}
         }
     }
+{{#discriminator}}
+
+    private enum DiscriminatorCodingKey: String, CodingKey {
+        case {{discriminator.propertyName}} = "{{discriminator.propertyBaseName}}"
+    }
+{{/discriminator}}
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
+{{#discriminator}}        let keyedContainer = try decoder.container(keyedBy: DiscriminatorCodingKey.self)
+        let discriminatorValue = try keyedContainer.decode(String.self, forKey: .{{discriminator.propertyName}})
+
+        switch discriminatorValue {
+        {{#discriminator.mappedModels}}
+        case "{{mappingName}}":
+            self = .type{{#transformArrayType}}{{modelName}}{{/transformArrayType}}(try {{modelName}}(from: decoder))
+        {{/discriminator.mappedModels}}
+        default:
+            {{#oneOfUnknownDefaultCase}}
+            self = .unknownDefaultOpenApi
+            {{/oneOfUnknownDefaultCase}}
+            {{^oneOfUnknownDefaultCase}}
+            throw DecodingError.dataCorrupted(
+                DecodingError.Context(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Unknown discriminator value '\(discriminatorValue)' for {{classname}}"
+                )
+            )
+            {{/oneOfUnknownDefaultCase}}
+        }
+{{/discriminator}}{{^discriminator}}        let container = try decoder.singleValueContainer()
         {{#oneOf}}
         {{#-first}}
         if let value = try? container.decode({{.}}.self) {
@@ -39,5 +66,5 @@
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of {{classname}}"))
             {{/oneOfUnknownDefaultCase}}
         }
-    }
+{{/discriminator}}    }
 }

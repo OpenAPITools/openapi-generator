@@ -18,6 +18,7 @@ using {{packageName}}.{{modelPackage}};
 {{/-first}}
 {{/models}}
 using System.Runtime.CompilerServices;
+using System.Net.Http.Headers;
 
 {{>Assembly}}namespace {{packageName}}.{{clientPackage}}
 {
@@ -309,6 +310,36 @@ using System.Runtime.CompilerServices;
                 return "application/json";
 
             return string.Join(",", accepts);
+        }
+
+        
+
+        /// <summary>
+        /// Select the Accept header's value from the given accepts array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use all of them.
+        /// </summary>
+        /// <param name="accepts">The accepts array to select from.</param>
+        /// <returns>The Accept header values to use.</returns>
+        public static IEnumerable<MediaTypeWithQualityHeaderValue> SelectHeaderAcceptArray(string[] accepts)
+        {
+            if (accepts.Length == 0)
+                {{#net80OrLater}}
+                    return [];
+                {{/net80OrLater}}
+                {{^net80OrLater}}
+                    return Enumerable.Empty<MediaTypeWithQualityHeaderValue>();
+                {{/net80OrLater}}
+
+            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                {{#net80OrLater}}
+                    return [MediaTypeWithQualityHeaderValue.Parse("application/json")];
+                {{/net80OrLater}}
+                {{^net80OrLater}}
+                    return new [] { MediaTypeWithQualityHeaderValue.Parse("application/json") };
+                {{/net80OrLater}}
+
+            return accepts.Select(MediaTypeWithQualityHeaderValue.Parse);
         }
 
         /// <summary>

@@ -186,6 +186,9 @@ export class {{classname}} extends BaseService {
 {{#isOAuth}}
         localVarHeaders = this.configuration.addCredentialToHeaders('{{name}}', 'Authorization', localVarHeaders, 'Bearer ');
 {{/isOAuth}}
+{{#isOpenId}}
+        localVarHeaders = this.configuration.addCredentialToHeaders('{{name}}', 'Authorization', localVarHeaders, 'Bearer ');
+{{/isOpenId}}
 
 {{/authMethods}}
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([

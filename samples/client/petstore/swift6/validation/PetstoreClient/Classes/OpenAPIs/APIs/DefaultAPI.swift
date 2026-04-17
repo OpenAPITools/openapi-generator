@@ -14,7 +14,6 @@ open class DefaultAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Banana
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func rootGet(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Banana {
         return try await rootGetWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }

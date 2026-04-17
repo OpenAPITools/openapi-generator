@@ -37,7 +37,7 @@ public class ClassModel  {
   
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   
-  private String propertyClass;
+  protected String propertyClass;
 
 
   /**
@@ -92,10 +92,7 @@ public class ClassModel  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

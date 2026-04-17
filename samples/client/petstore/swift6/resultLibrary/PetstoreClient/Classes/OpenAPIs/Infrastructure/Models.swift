@@ -69,11 +69,11 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }
 
-internal enum ErrorResponse: Error {
+internal enum ErrorResponse: Error, Sendable {
     case error(Int, Data?, URLResponse?, Error)
 }
 
-internal enum DownloadException: Error {
+internal enum DownloadException: Error, Sendable {
     case responseDataMissing
     case responseFailed
     case requestMissing
@@ -81,7 +81,7 @@ internal enum DownloadException: Error {
     case requestMissingURL
 }
 
-internal enum DecodableRequestBuilderError: Error {
+internal enum DecodableRequestBuilderError: Error, Sendable {
     case emptyDataResponse
     case nilHTTPResponse
     case unsuccessfulHTTPStatusCode
@@ -116,25 +116,20 @@ internal struct Response<T> {
 extension Response : Sendable where T : Sendable {}
 
 internal final class RequestTask: @unchecked Sendable {
-    private let lock = NSRecursiveLock()
-    private var task: URLSessionDataTaskProtocol?
+    private let _state = OpenAPIMutex<URLSessionDataTaskProtocol?>(nil)
 
     internal func set(task: URLSessionDataTaskProtocol) {
-        lock.withLock {
-            self.task = task
-        }
+        _state.withValue { $0 = task }
     }
 
     internal func get() -> URLSessionDataTaskProtocol? {
-        lock.withLock {
-            task
-        }
+        _state.value
     }
 
     internal func cancel() {
-        lock.withLock {
-            task?.cancel()
-            task = nil
+        _state.withValue {
+            $0?.cancel()
+            $0 = nil
         }
     }
 }
