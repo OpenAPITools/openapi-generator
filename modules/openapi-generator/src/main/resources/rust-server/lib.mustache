@@ -3,14 +3,15 @@
 
 use async_trait::async_trait;
 use futures::Stream;
+#[cfg(feature = "mock")]
+use mockall::automock;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
-use swagger::{ApiError, ContextWrapper};
+use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
-use crate::server::Authorization;
 
-
+#[cfg(any(feature = "client", feature = "server"))]
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "{{{basePathWithoutHost}}}";
@@ -27,18 +28,16 @@ pub use auth::{AuthenticationApi, Claims};
     {{#operations}}
       {{#operation}}
 {{>response}}
+
       {{/operation}}
     {{/operations}}
   {{/apis}}
 {{/apiInfo}}
 /// API
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
-        Poll::Ready(Ok(()))
-    }
-
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
@@ -46,10 +45,10 @@ pub trait Api<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -60,11 +59,14 @@ pub trait Api<C: Send + Sync> {
 }
 
 /// API where `Context` isn't passed on every API call
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
-
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
+    // The std::task::Context struct houses a reference to std::task::Waker with the lifetime <'a>.
+    // Adding an anonymous lifetime `'a` to allow mockall to create a mock object with the right lifetimes.
+    // This is needed because the compiler is unable to determine the lifetimes on F's trait bound
+    // where F is the closure created by mockall. We use higher-rank trait bounds here to get around this.
 
     fn context(&self) -> &C;
 
@@ -75,10 +77,10 @@ pub trait ApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -103,10 +105,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T
 
 #[async_trait]
 impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
-    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
-        self.api().poll_ready(cx)
-    }
-
     fn context(&self) -> &C {
         ContextWrapper::context(self)
     }
@@ -118,15 +116,15 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = self.context().clone();
-        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&context).await
+        self.api().{{#exts}}{{{x-operation-id}}}{{/exts}}({{#allParams}}{{{paramName}}}, {{/allParams}}&context).await
     }
 
       {{/operation}}
@@ -145,6 +143,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
             {{#urls}}
               {{#requests}}
 {{>response}}
+
             {{/requests}}
           {{/urls}}
         {{/callbacks}}
@@ -154,11 +153,9 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 {{/apiInfo}}
 
 /// Callback API
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 pub trait CallbackApi<C: Send + Sync> {
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
-        Poll::Ready(Ok(()))
-    }
 
 {{#apiInfo}}
   {{#apis}}
@@ -170,15 +167,15 @@ pub trait CallbackApi<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
         callback_{{.}}: String,
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -192,9 +189,9 @@ pub trait CallbackApi<C: Send + Sync> {
 }
 
 /// Callback API without a `Context`
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 pub trait CallbackApiNoContext<C: Send + Sync> {
-    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
 
     fn context(&self) -> &C;
 
@@ -208,15 +205,15 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
         callback_{{.}}: String,
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -243,9 +240,6 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackContextWra
 
 #[async_trait]
 impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoContext<C> for ContextWrapper<T, C> {
-    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
-        self.api().poll_ready(cx)
-    }
 
     fn context(&self) -> &C {
         ContextWrapper::context(self)
@@ -261,25 +255,25 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoConte
               {{#summary}}
     /// {{{.}}}
               {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
         callback_{{.}}: String,
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = self.context().clone();
-        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
-{{#vendorExtensions}}
+        self.api().{{#exts}}{{{x-operation-id}}}{{/exts}}(
+{{#exts}}
   {{#x-callback-params}}
             callback_{{.}},
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
             {{{paramName}}},
 {{/allParams}}

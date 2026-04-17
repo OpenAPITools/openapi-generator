@@ -43,7 +43,7 @@ use ops_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       Op8GetResponse,
                       Op9GetResponse,
                      };
-use clap::{App, Arg};
+use clap::{Command, Arg};
 
 // NOTE: Set environment variable RUST_LOG to the name of the executable (or "cargo run") to activate console logging for all loglevels.
 //     See https://docs.rs/env_logger/latest/env_logger/  for more details
@@ -66,61 +66,59 @@ use client_auth::build_token;
 fn main() {
     env_logger::init();
 
-    let matches = App::new("client")
-        .arg(Arg::with_name("operation")
+    let matches = Command::new("client")
+        .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .possible_values(&[
-                "Op10Get", 
-                "Op11Get", 
-                "Op12Get", 
-                "Op13Get", 
-                "Op14Get", 
-                "Op15Get", 
-                "Op16Get", 
-                "Op17Get", 
-                "Op18Get", 
-                "Op19Get", 
-                "Op1Get", 
-                "Op20Get", 
-                "Op21Get", 
-                "Op22Get", 
-                "Op23Get", 
-                "Op24Get", 
-                "Op25Get", 
-                "Op26Get", 
-                "Op27Get", 
-                "Op28Get", 
-                "Op29Get", 
-                "Op2Get", 
-                "Op30Get", 
-                "Op31Get", 
-                "Op32Get", 
-                "Op33Get", 
-                "Op34Get", 
-                "Op35Get", 
-                "Op36Get", 
-                "Op37Get", 
-                "Op3Get", 
-                "Op4Get", 
-                "Op5Get", 
-                "Op6Get", 
-                "Op7Get", 
-                "Op8Get", 
-                "Op9Get", 
-            ])
+            .value_parser(Vec::<&str>::from([
+                "Op10Get",
+                "Op11Get",
+                "Op12Get",
+                "Op13Get",
+                "Op14Get",
+                "Op15Get",
+                "Op16Get",
+                "Op17Get",
+                "Op18Get",
+                "Op19Get",
+                "Op1Get",
+                "Op20Get",
+                "Op21Get",
+                "Op22Get",
+                "Op23Get",
+                "Op24Get",
+                "Op25Get",
+                "Op26Get",
+                "Op27Get",
+                "Op28Get",
+                "Op29Get",
+                "Op2Get",
+                "Op30Get",
+                "Op31Get",
+                "Op32Get",
+                "Op33Get",
+                "Op34Get",
+                "Op35Get",
+                "Op36Get",
+                "Op37Get",
+                "Op3Get",
+                "Op4Get",
+                "Op5Get",
+                "Op6Get",
+                "Op7Get",
+                "Op8Get",
+                "Op9Get",
+            ]))
             .required(true)
             .index(1))
-        .arg(Arg::with_name("https")
+        .arg(Arg::new("https")
             .long("https")
             .help("Whether to use HTTPS or not"))
-        .arg(Arg::with_name("host")
+        .arg(Arg::new("host")
             .long("host")
-            .takes_value(true)
             .default_value("localhost")
             .help("Hostname to contact"))
-        .arg(Arg::with_name("port")
+        .arg(Arg::new("port")
             .long("port")
-            .takes_value(true)
             .default_value("8080")
             .help("Port to contact"))
         .get_matches();
@@ -129,53 +127,68 @@ fn main() {
     // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
     // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
     // See https://github.com/Keats/jsonwebtoken for more information
-
     let auth_token = build_token(
             Claims {
-                sub: "tester@acme.com".to_owned(), 
+                sub: "tester@acme.com".to_owned(),
                 company: "ACME".to_owned(),
                 iss: "my_identity_provider".to_owned(),
                 // added a very long expiry time
                 aud: "org.acme.Resource_Server".to_string(),
                 exp: 10000000000,
                 // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-                scopes: [
-                ].join(", ")
-            }, 
+                scopes:
+                  "".to_owned()
+            },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
-        Some(AuthData::Bearer(swagger::auth::Bearer { token: auth_token}))
+        Some(AuthData::Bearer(auth_token))
     } else {
         // No Bearer-token available, so return None
         None
     };
 
-    let is_https = matches.is_present("https");
+    let is_https = matches.contains_id("https");
     let base_url = format!("{}://{}:{}",
         if is_https { "https" } else { "http" },
-        matches.value_of("host").unwrap(),
-        matches.value_of("port").unwrap());
+        matches.get_one::<String>("host").unwrap(),
+        matches.get_one::<u16>("port").unwrap());
 
     let context: ClientContext =
         swagger::make_context!(ContextBuilder, EmptyContext, auth_data, XSpanIdString::default());
 
-    let mut client : Box<dyn ApiNoContext<ClientContext>> = if matches.is_present("https") {
-        // Using Simple HTTPS
-        let client = Box::new(Client::try_new_https(&base_url)
-            .expect("Failed to create HTTPS client"));
-        Box::new(client.with_context(context))
-    } else {
-        // Using HTTP
-        let client = Box::new(Client::try_new_http(
-            &base_url)
-            .expect("Failed to create HTTP client"));
-        Box::new(client.with_context(context))
+    let mut client : Box<dyn ApiNoContext<ClientContext>> = {
+        #[cfg(feature = "client-tls")]
+        {
+            if is_https {
+                // Using HTTPS with native-tls
+                let client = Box::new(Client::try_new_https(&base_url)
+                    .expect("Failed to create HTTPS client"));
+                Box::new(client.with_context(context))
+            } else {
+                // Using HTTP
+                let client = Box::new(Client::try_new_http(&base_url)
+                    .expect("Failed to create HTTP client"));
+                Box::new(client.with_context(context))
+            }
+        }
+
+        #[cfg(not(feature = "client-tls"))]
+        {
+            if is_https {
+                panic!("HTTPS requested but TLS support not enabled. \
+                        Enable the 'client-tls' feature to use HTTPS.");
+            }
+            // Using HTTP only
+            let client = Box::new(Client::try_new_http(&base_url)
+                .expect("Failed to create HTTP client"));
+            Box::new(client.with_context(context))
+        }
     };
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    match matches.value_of("operation") {
+    match matches.get_one::<String>("operation").map(String::as_str) {
         Some("Op10Get") => {
             let result = rt.block_on(client.op10_get(
             ));
