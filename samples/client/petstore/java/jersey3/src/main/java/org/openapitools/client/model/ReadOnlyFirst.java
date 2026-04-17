@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -59,6 +63,7 @@ public class ReadOnlyFirst {
    * @return bar
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -79,6 +84,7 @@ public class ReadOnlyFirst {
    * @return baz
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -99,20 +105,12 @@ public class ReadOnlyFirst {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
-    return Objects.equals(this.bar, readOnlyFirst.bar) &&
-        Objects.equals(this.baz, readOnlyFirst.baz);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar, baz);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -24,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -114,6 +118,7 @@ public class Order {
    * @return id
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -139,6 +144,7 @@ public class Order {
    * @return petId
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -164,6 +170,7 @@ public class Order {
    * @return quantity
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -189,6 +196,8 @@ public class Order {
    * @return shipDate
    */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -214,6 +223,7 @@ public class Order {
    * @return status
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -239,6 +249,7 @@ public class Order {
    * @return complete
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -259,24 +270,12 @@ public class Order {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Order order = (Order) o;
-    return Objects.equals(this.id, order.id) &&
-        Objects.equals(this.petId, order.petId) &&
-        Objects.equals(this.quantity, order.quantity) &&
-        Objects.equals(this.shipDate, order.shipDate) &&
-        Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

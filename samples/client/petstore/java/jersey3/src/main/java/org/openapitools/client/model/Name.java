@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -76,6 +80,8 @@ public class Name {
    * @return name
    */
   @jakarta.annotation.Nonnull
+  @NotNull
+
   @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -96,6 +102,7 @@ public class Name {
    * @return snakeCase
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -116,6 +123,7 @@ public class Name {
    * @return property
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -136,6 +144,7 @@ public class Name {
    * @return _123number
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -151,22 +160,12 @@ public class Name {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Name name = (Name) o;
-    return Objects.equals(this.name, name.name) &&
-        Objects.equals(this.snakeCase, name.snakeCase) &&
-        Objects.equals(this.property, name.property) &&
-        Objects.equals(this._123number, name._123number);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property, _123number);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -37,6 +39,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -78,6 +82,8 @@ public class Drawing {
    * @return mainShape
    */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(value = JSON_PROPERTY_MAIN_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -103,6 +109,8 @@ public class Drawing {
    * @return shapeOrNull
    */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public ShapeOrNull getShapeOrNull() {
@@ -136,6 +144,8 @@ public class Drawing {
    * @return nullableShape
    */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -177,6 +187,8 @@ public class Drawing {
    * @return shapes
    */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(value = JSON_PROPERTY_SHAPES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -234,18 +246,7 @@ public class Drawing {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Drawing drawing = (Drawing) o;
-    return Objects.equals(this.mainShape, drawing.mainShape) &&
-        equalsNullable(this.shapeOrNull, drawing.shapeOrNull) &&
-        equalsNullable(this.nullableShape, drawing.nullableShape) &&
-        Objects.equals(this.shapes, drawing.shapes)&&
-        Objects.equals(this.additionalProperties, drawing.additionalProperties);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -254,7 +255,7 @@ public class Drawing {
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, hashCodeNullable(shapeOrNull), hashCodeNullable(nullableShape), shapes, additionalProperties);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

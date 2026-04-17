@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -62,6 +66,7 @@ public class ModelApiResponse {
    * @return code
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_CODE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -87,6 +92,7 @@ public class ModelApiResponse {
    * @return type
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -112,6 +118,7 @@ public class ModelApiResponse {
    * @return message
    */
   @jakarta.annotation.Nullable
+
   @JsonProperty(value = JSON_PROPERTY_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -132,21 +139,12 @@ public class ModelApiResponse {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(this.code, _apiResponse.code) &&
-        Objects.equals(this.type, _apiResponse.type) &&
-        Objects.equals(this.message, _apiResponse.message);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, type, message);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

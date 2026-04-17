@@ -13,6 +13,12 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -29,6 +35,8 @@ import org.openapitools.client.model.Pig;
 import org.openapitools.client.model.Whale;
 import org.openapitools.client.model.Zebra;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -92,6 +100,26 @@ public class Mammal extends AbstractOpenApiSchema {
         public Mammal deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
+            Mammal newMammal = new Mammal();
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("className");
+            switch (discriminatorValue) {
+                case "Pig":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
+                    newMammal.setActualInstance(deserialized);
+                    return newMammal;
+                case "whale":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
+                    newMammal.setActualInstance(deserialized);
+                    return newMammal;
+                case "zebra":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
+                    newMammal.setActualInstance(deserialized);
+                    return newMammal;
+                default:
+                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
+            }
+
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
@@ -166,7 +194,56 @@ public class Mammal extends AbstractOpenApiSchema {
     public Mammal() {
         super("oneOf", Boolean.FALSE);
     }
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public Mammal putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+    /**
+     * Return true if this mammal object is equal to o.
+     */
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o) && Objects.equals(this.additionalProperties, ((Mammal)o).additionalProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
+    }
     public Mammal(Whale o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

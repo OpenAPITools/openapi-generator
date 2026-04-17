@@ -13,6 +13,12 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -28,6 +34,8 @@ import java.util.Arrays;
 import org.openapitools.client.model.BasquePig;
 import org.openapitools.client.model.DanishPig;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -91,6 +99,22 @@ public class Pig extends AbstractOpenApiSchema {
         public Pig deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
+            Pig newPig = new Pig();
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("className");
+            switch (discriminatorValue) {
+                case "BasquePig":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);
+                    newPig.setActualInstance(deserialized);
+                    return newPig;
+                case "DanishPig":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(DanishPig.class);
+                    newPig.setActualInstance(deserialized);
+                    return newPig;
+                default:
+                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
+            }
+
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
@@ -149,7 +173,56 @@ public class Pig extends AbstractOpenApiSchema {
     public Pig() {
         super("oneOf", Boolean.FALSE);
     }
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public Pig putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+    /**
+     * Return true if this Pig object is equal to o.
+     */
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o) && Objects.equals(this.additionalProperties, ((Pig)o).additionalProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
+    }
     public Pig(BasquePig o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

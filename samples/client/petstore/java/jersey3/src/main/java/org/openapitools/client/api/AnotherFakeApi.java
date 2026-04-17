@@ -10,6 +10,9 @@ import jakarta.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.Client;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -84,10 +87,9 @@ public class AnotherFakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
-    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
     return apiClient.invokeAPI("AnotherFakeApi.call123testSpecialTags", "/another-fake/dummy", "PATCH", new ArrayList<>(), client,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false, localVarErrorTypes);
+                               null, localVarReturnType, false);
   }
 }

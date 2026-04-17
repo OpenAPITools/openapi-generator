@@ -318,24 +318,6 @@
             <artifactId>jersey-apache-connector</artifactId>
             <version>${jersey-version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.tomitribe</groupId>
-            <artifactId>tomitribe-http-signatures</artifactId>
-            <version>${http-signature-version}</version>
-        </dependency>
-        <!-- Bean Validation API support -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>${beanvalidation-version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- For equals and hashCode using reflection -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3-version}</version>
-        </dependency>
 
         <!-- test dependencies -->
         <dependency>
@@ -354,8 +336,6 @@
         <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
-        <commons-lang3-version>3.12.0</commons-lang3-version>
-        <http-signature-version>1.8</http-signature-version>
         <junit-version>5.10.0</junit-version>
         <spotless.version>2.21.0</spotless.version>
     </properties>

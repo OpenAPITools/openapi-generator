@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -26,6 +28,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -44,7 +48,7 @@ public class FileSchemaTestClass {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @jakarta.annotation.Nullable
-  private List<ModelFile> files = new ArrayList<>();
+  private List<@Valid ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() { 
   }
@@ -59,6 +63,8 @@ public class FileSchemaTestClass {
    * @return _file
    */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(value = JSON_PROPERTY_FILE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -74,7 +80,7 @@ public class FileSchemaTestClass {
   }
 
 
-  public FileSchemaTestClass files(@jakarta.annotation.Nullable List<ModelFile> files) {
+  public FileSchemaTestClass files(@jakarta.annotation.Nullable List<@Valid ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -92,17 +98,19 @@ public class FileSchemaTestClass {
    * @return files
    */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
 
   @JsonProperty(value = JSON_PROPERTY_FILES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setFiles(@jakarta.annotation.Nullable List<ModelFile> files) {
+  public void setFiles(@jakarta.annotation.Nullable List<@Valid ModelFile> files) {
     this.files = files;
   }
 
@@ -112,20 +120,12 @@ public class FileSchemaTestClass {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this._file, fileSchemaTestClass._file) &&
-        Objects.equals(this.files, fileSchemaTestClass.files);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_file, files);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
