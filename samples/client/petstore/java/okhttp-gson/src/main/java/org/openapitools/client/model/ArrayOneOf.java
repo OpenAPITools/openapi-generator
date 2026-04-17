@@ -174,7 +174,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * Integer, List<String>
+     * Integer, List&lt;String&gt;
      *
      * It could be an instance of the 'oneOf' schemas.
      */
@@ -198,9 +198,9 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
 
     /**
      * Get the actual instance, which can be the following:
-     * Integer, List<String>
+     * Integer, List&lt;String&gt;
      *
-     * @return The actual instance (Integer, List<String>)
+     * @return The actual instance (Integer, List&lt;String&gt;)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -215,17 +215,19 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
 
     /**
-     * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
+     * Get the actual instance of `List&lt;String&gt;`. If the actual instance is not `List&lt;String&gt;`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `List<String>`
-     * @throws ClassCastException if the instance is not `List<String>`
+     * @return The actual instance of `List&lt;String&gt;`
+     * @throws ClassCastException if the instance is not `List&lt;String&gt;`
      */
+    @SuppressWarnings("unchecked")
     public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
     }

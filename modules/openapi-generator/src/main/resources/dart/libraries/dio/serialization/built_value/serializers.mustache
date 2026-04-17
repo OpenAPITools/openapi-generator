@@ -29,7 +29,7 @@ Serializers serializers = (_$serializers.toBuilder(){{#builtValueSerializers}}
 {{/isArray}}
 {{#isMap}}
         const FullType(BuiltMap, [FullType(String), FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
-        () => MapBuilder<String, {{dataType}}>(),
+        () => MapBuilder<String, {{dataType}}{{#isNullable}}?{{/isNullable}}>(),
 {{/isMap}}
       ){{/builtValueSerializers}}
       {{#models}}{{#model}}{{#vendorExtensions.x-is-parent}}..add({{classname}}.serializer)

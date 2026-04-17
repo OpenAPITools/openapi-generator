@@ -60,7 +60,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                 project
             )
 
-            generate.outputDir.set(project.layout.buildDirectory.dir("generate-resources/main").map { it.asFile.path })
+            generate.outputDir.convention(layout.buildDirectory.dir("generate-resources/main"))
 
             tasks.apply {
                 register("openApiGenerators", GeneratorsTask::class.java).configure {
@@ -84,6 +84,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     description = "Validates an Open API 2.0 or 3.x specification document."
 
                     inputSpec.set(validate.inputSpec)
+                    remoteInputSpec.set(validate.remoteInputSpec)
                     recommend.set(validate.recommend)
                     treatWarningsAsErrors.set(validate.treatWarningsAsErrors)
                 }

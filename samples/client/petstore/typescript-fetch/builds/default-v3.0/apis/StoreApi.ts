@@ -56,7 +56,7 @@ export class StoreApi extends runtime.BaseAPI {
 
 
         let urlPath = `/store/order/{order_id}`;
-        urlPath = urlPath.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters['orderId'])));
+        urlPath = urlPath.replace('{order_id}', encodeURIComponent(String(requestParameters['orderId'])));
 
         return {
             path: urlPath,
@@ -145,7 +145,7 @@ export class StoreApi extends runtime.BaseAPI {
 
 
         let urlPath = `/store/order/{order_id}`;
-        urlPath = urlPath.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters['orderId'])));
+        urlPath = urlPath.replace('{order_id}', encodeURIComponent(String(requestParameters['orderId'])));
 
         return {
             path: urlPath,

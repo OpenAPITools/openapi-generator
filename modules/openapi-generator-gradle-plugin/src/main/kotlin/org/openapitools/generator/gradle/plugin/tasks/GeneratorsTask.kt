@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,11 +17,9 @@
 package org.openapitools.generator.gradle.plugin.tasks
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
-import org.gradle.internal.logging.text.StyledTextOutput
-import org.gradle.internal.logging.text.StyledTextOutputFactory
-import org.gradle.kotlin.dsl.listProperty
 import org.gradle.work.DisableCachingByDefault
 import org.openapitools.codegen.CodegenConfigLoader
 import org.openapitools.codegen.CodegenType
@@ -38,66 +36,57 @@ import org.openapitools.codegen.meta.Stability
  * @author Jim Schubert
  */
 @DisableCachingByDefault(because = "not worth caching")
-open class GeneratorsTask : DefaultTask() {
+abstract class GeneratorsTask : DefaultTask() {
+
     /**
      * A list of stability indexes to include (value: all,beta,stable,experimental,deprecated). Excludes deprecated by default.
      */
     @get:Internal
-    val include = project.objects.listProperty<String>()
+    abstract val include: ListProperty<String>
 
     @TaskAction
     fun doWork() {
         val generators = CodegenConfigLoader.getAll()
 
-        val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-
-        StringBuilder().apply {
-            val types = CodegenType.values()
-
-            val stabilities = if (include.isPresent) {
-                when {
-                    include.get().contains("all") -> Stability.values().toList()
-                    else -> include.get().map { Stability.forDescription(it) }
-                }
+        // Safely extract the includes, falling back to the default if empty or not present
+        val stabilities = include.orNull?.takeIf { it.isNotEmpty() }?.let { includes ->
+            if (includes.contains("all")) {
+                Stability.values().toList()
             } else {
-                Stability.values().filterNot { it == Stability.DEPRECATED }
+                includes.map { Stability.forDescription(it) }
             }
+        } ?: Stability.values().filterNot { it == Stability.DEPRECATED }
 
-            append("The following generators are available:")
+        val sb = StringBuilder()
+        sb.append("The following generators are available:\n\n")
 
-            append(System.lineSeparator())
-            append(System.lineSeparator())
+        for (type in CodegenType.values()) {
+            sb.append(type.name).append(" generators:\n")
 
-            for (type in types) {
-                append(type.name).append(" generators:")
-                append(System.lineSeparator())
+            generators.filter { it.tag == type }
+                .sortedBy { it.name }
+                .forEach { generator ->
+                    val meta: GeneratorMetadata? = generator.generatorMetadata
+                    val shouldInclude = stabilities.contains(meta?.stability)
 
-                generators.filter { it.tag == type }
-                        .sortedBy { it.name }
-                        .forEach { generator ->
+                    if (shouldInclude) {
+                        sb.append("    - ")
+                        sb.append(generator.name)
 
-                            val meta: GeneratorMetadata? = generator.generatorMetadata
-                            val include = stabilities.contains(meta?.stability)
-                            if (include) {
-                                append("    - ")
-                                append(generator.name)
-
-                                meta?.stability?.let {
-                                    if (it != Stability.STABLE) {
-                                        append(" (${it.value()})")
-                                    }
-                                }
-
-                                append(System.lineSeparator())
+                        meta?.stability?.let { stability ->
+                            if (stability != Stability.STABLE) {
+                                sb.append(" (${stability.value()})")
                             }
                         }
 
-                append(System.lineSeparator())
-                append(System.lineSeparator())
-            }
+                        sb.append("\n")
+                    }
+                }
 
-            out.withStyle(StyledTextOutput.Style.Success)
-            out.formatln("%s%n", toString())
+            sb.append("\n\n")
         }
+
+        // Use Gradle's standard lifecycle logger instead of internal StyledTextOutputFactory
+        logger.lifecycle(sb.toString())
     }
 }
