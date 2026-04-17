@@ -84,7 +84,7 @@ if(hasProperty('target') && target == 'android') {
     publishing {
         publications {
             maven(MavenPublication) {
-               artifactId = 'petstore-jersey3'
+               artifactId = 'openapi-java-client'
 
                from components.java
             }
@@ -104,12 +104,9 @@ ext {
     jackson_databind_version = "2.21.1"
     jackson_databind_nullable_version = "0.2.10"
     jakarta_annotation_version = "2.1.0"
-    bean_validation_version = "3.0.2"
     jersey_version = "3.0.4"
     junit_version = "5.8.2"
     scribejava_apis_version = "8.3.1"
-    tomitribe_http_signatures_version = "1.7"
-    commons_lang3_version = "3.17.0"
 }
 
 dependencies {
@@ -126,10 +123,7 @@ dependencies {
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "com.github.scribejava:scribejava-apis:$scribejava_apis_version"
-    implementation "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
-    implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
-    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }

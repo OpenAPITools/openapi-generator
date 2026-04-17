@@ -12,16 +12,13 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-17T15:47:19.299596738+01:00[Africa/Tunis]", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -55,44 +52,48 @@ public class PetApi {
    * Add a new pet to the store
    * 
    * @param pet Pet object that needs to be added to the store (required)
+   * @return Pet
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public void addPet(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
-    addPetWithHttpInfo(pet);
+  public Pet addPet(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
+    return addPetWithHttpInfo(pet).getData();
   }
 
   /**
    * Add a new pet to the store
    * 
    * @param pet Pet object that needs to be added to the store (required)
-   * @return ApiResponse&lt;Void&gt;
+   * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> addPetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
+  public ApiResponse<Pet> addPetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     // Check required parameters
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
     }
 
-    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json", "application/xml");
-    String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    String[] localVarAuthNames = new String[] {"petstore_auth"};
     final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    GenericType<Pet> localVarReturnType = new GenericType<Pet>() {};
     return apiClient.invokeAPI("PetApi.addPet", "/pet", "POST", new ArrayList<>(), pet,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false, localVarErrorTypes);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Deletes a pet
@@ -194,7 +195,7 @@ public class PetApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
-    String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    String[] localVarAuthNames = new String[] {"petstore_auth"};
     final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
     return apiClient.invokeAPI("PetApi.findPetsByStatus", "/pet/findByStatus", "GET", localVarQueryParams, null,
@@ -250,7 +251,7 @@ public class PetApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
-    String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    String[] localVarAuthNames = new String[] {"petstore_auth"};
     final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
     return apiClient.invokeAPI("PetApi.findPetsByTags", "/pet/findByTags", "GET", localVarQueryParams, null,
@@ -314,48 +315,56 @@ public class PetApi {
    * Update an existing pet
    * 
    * @param pet Pet object that needs to be added to the store (required)
+   * @return Pet
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+   * API documentation for the updatePet operation
+   * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
    */
-  public void updatePet(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
-    updatePetWithHttpInfo(pet);
+  public Pet updatePet(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
+    return updatePetWithHttpInfo(pet).getData();
   }
 
   /**
    * Update an existing pet
    * 
    * @param pet Pet object that needs to be added to the store (required)
-   * @return ApiResponse&lt;Void&gt;
+   * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
+   * API documentation for the updatePet operation
+   * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
+  public ApiResponse<Pet> updatePetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws ApiException {
     // Check required parameters
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
     }
 
-    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json", "application/xml");
-    String[] localVarAuthNames = new String[] {"petstore_auth", "http_signature_test"};
+    String[] localVarAuthNames = new String[] {"petstore_auth"};
     final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    GenericType<Pet> localVarReturnType = new GenericType<Pet>() {};
     return apiClient.invokeAPI("PetApi.updatePet", "/pet", "PUT", new ArrayList<>(), pet,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false, localVarErrorTypes);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Updates a pet in the store with form data
@@ -476,69 +485,6 @@ public class PetApi {
     final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI("PetApi.uploadFile", localVarPath, "POST", new ArrayList<>(), null,
-                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
-  }
-  /**
-   * uploads an image (required)
-   * 
-   * @param petId ID of pet to update (required)
-   * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @return ModelApiResponse
-   * @throws ApiException if fails to make API call
-   * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-     </table>
-   */
-  public ModelApiResponse uploadFileWithRequiredFile(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws ApiException {
-    return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata).getData();
-  }
-
-  /**
-   * uploads an image (required)
-   * 
-   * @param petId ID of pet to update (required)
-   * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @return ApiResponse&lt;ModelApiResponse&gt;
-   * @throws ApiException if fails to make API call
-   * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-     </table>
-   */
-  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws ApiException {
-    // Check required parameters
-    if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
-    }
-    if (requiredFile == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
-    }
-
-    // Path parameters
-    String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
-            .replaceAll("\\{petId}", apiClient.escapeString(petId.toString()));
-
-    // Form parameters
-    Map<String, Object> localVarFormParams = new LinkedHashMap<>();
-    if (additionalMetadata != null) {
-      localVarFormParams.put("additionalMetadata", additionalMetadata);
-    }
-    localVarFormParams.put("requiredFile", requiredFile);
-
-    String localVarAccept = apiClient.selectHeaderAccept("application/json");
-    String localVarContentType = apiClient.selectHeaderContentType("multipart/form-data");
-    String[] localVarAuthNames = new String[] {"petstore_auth"};
-    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
-    GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
-    return apiClient.invokeAPI("PetApi.uploadFileWithRequiredFile", localVarPath, "POST", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
                                localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }

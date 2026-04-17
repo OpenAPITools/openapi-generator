@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -29,13 +27,11 @@ import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
 /**
- * Pet
+ * A pet for sale in the pet store
  */
 @JsonPropertyOrder({
   Pet.JSON_PROPERTY_ID,
@@ -45,7 +41,7 @@ import org.openapitools.client.JSON;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-17T15:47:19.299596738+01:00[Africa/Tunis]", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -65,7 +61,7 @@ public class Pet {
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @jakarta.annotation.Nullable
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -105,6 +101,7 @@ public class Pet {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @Deprecated
   @jakarta.annotation.Nullable
   private StatusEnum status;
 
@@ -121,7 +118,6 @@ public class Pet {
    * @return id
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -147,8 +143,6 @@ public class Pet {
    * @return category
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_CATEGORY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -174,8 +168,6 @@ public class Pet {
    * @return name
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-
   @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -209,8 +201,6 @@ public class Pet {
    * @return photoUrls
    */
   @jakarta.annotation.Nonnull
-  @NotNull
-
   @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -226,7 +216,7 @@ public class Pet {
   }
 
 
-  public Pet tags(@jakarta.annotation.Nullable List<@Valid Tag> tags) {
+  public Pet tags(@jakarta.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -244,23 +234,22 @@ public class Pet {
    * @return tags
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<@Valid Tag> getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
 
   @JsonProperty(value = JSON_PROPERTY_TAGS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTags(@jakarta.annotation.Nullable List<@Valid Tag> tags) {
+  public void setTags(@jakarta.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
+  @Deprecated
   public Pet status(@jakarta.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
@@ -269,9 +258,10 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
    */
+  @Deprecated
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -280,6 +270,7 @@ public class Pet {
   }
 
 
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@jakarta.annotation.Nullable StatusEnum status) {
@@ -292,12 +283,24 @@ public class Pet {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(id, category, name, photoUrls, tags, status);
   }
 
   @Override

@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>petstore-jersey3</artifactId>
+    <artifactId>openapi-java-client</artifactId>
     <packaging>jar</packaging>
-    <name>petstore-jersey3</name>
+    <name>openapi-java-client</name>
     <version>1.0.0</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <description>OpenAPI Java</description>
@@ -308,21 +308,9 @@
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.tomitribe</groupId>
-            <artifactId>tomitribe-http-signatures</artifactId>
-            <version>${http-signature-version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
             <version>${scribejava-apis-version}</version>
-        </dependency>
-        <!-- Bean Validation API support -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>${beanvalidation-version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
@@ -334,12 +322,6 @@
             <groupId>org.glassfish.jersey.connectors</groupId>
             <artifactId>jersey-apache-connector</artifactId>
             <version>${jersey-version}</version>
-        </dependency>
-        <!-- For equals and hashCode using reflection -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3-version}</version>
         </dependency>
 
         <!-- test dependencies -->
@@ -360,9 +342,7 @@
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
         <junit-version>5.10.0</junit-version>
-        <http-signature-version>1.8</http-signature-version>
         <scribejava-apis-version>8.3.3</scribejava-apis-version>
-        <commons-lang3-version>3.17.0</commons-lang3-version>
         <spotless.version>2.21.0</spotless.version>
     </properties>
 </project>

@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -80,100 +80,32 @@ import java.util.regex.Pattern;
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
-import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
 /**
  * <p>ApiClient class.</p>
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-17T15:47:19.299596738+01:00[Africa/Tunis]", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   protected static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
   protected Map<String, String> defaultHeaderMap = new HashMap<>();
   protected Map<String, String> defaultCookieMap = new HashMap<>();
-  protected String basePath = "http://petstore.swagger.io:80/v2";
+  protected String basePath = "http://petstore.swagger.io/v2";
   protected String userAgent;
   protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<>(Arrays.asList(
           new ServerConfiguration(
-                  "http://{server}.swagger.io:{port}/v2",
-                  "petstore server",
-                  Stream.<Entry<String, ServerVariable>>of(
-                          new SimpleEntry<>("server", new ServerVariable(
-                                  "No description provided",
-                                  "petstore",
-                                  new LinkedHashSet<>(Arrays.asList(
-                                          "petstore",
-                                          "qa-petstore",
-                                          "dev-petstore"
-                                  ))
-                          )),
-                          new SimpleEntry<>("port", new ServerVariable(
-                                  "No description provided",
-                                  "80",
-                                  new LinkedHashSet<>(Arrays.asList(
-                                          "80",
-                                          "8080"
-                                  ))
-                          ))
-                  ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
-          ),
-          new ServerConfiguration(
-                  "https://localhost:8080/{version}",
-                  "The local server",
-                  Stream.<Entry<String, ServerVariable>>of(
-                          new SimpleEntry<>("version", new ServerVariable(
-                                  "No description provided",
-                                  "v2",
-                                  new LinkedHashSet<>(Arrays.asList(
-                                          "v1",
-                                          "v2"
-                                  ))
-                          ))
-                  ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
-          ),
-          new ServerConfiguration(
-                  "https://127.0.0.1/no_variable",
-                  "The local server without variables",
+                  "http://petstore.swagger.io/v2",
+                  "No description provided",
                   new LinkedHashMap<>()
           )
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
-  protected Map<String, List<ServerConfiguration>> operationServers;
-
-  {
-    Map<String, List<ServerConfiguration>> operationServers = new HashMap<>();
-    operationServers.put("PetApi.addPet", new ArrayList<>(Arrays.asList(
-            new ServerConfiguration(
-                    "http://petstore.swagger.io/v2",
-                    "No description provided",
-                    new LinkedHashMap<>()
-            ),
-            new ServerConfiguration(
-                    "http://path-server-test.petstore.local/v2",
-                    "No description provided",
-                    new LinkedHashMap<>()
-            )
-    )));
-    operationServers.put("PetApi.updatePet", new ArrayList<>(Arrays.asList(
-            new ServerConfiguration(
-                    "http://petstore.swagger.io/v2",
-                    "No description provided",
-                    new LinkedHashMap<>()
-            ),
-            new ServerConfiguration(
-                    "http://path-server-test.petstore.local/v2",
-                    "No description provided",
-                    new LinkedHashMap<>()
-            )
-    )));
-    this.operationServers = operationServers;
-  }
-
+  protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<>();
   protected Map<String, Integer> operationServerIndex = new HashMap<>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<>();
   protected boolean debugging = false;
@@ -229,36 +161,6 @@ public class ApiClient extends JavaTimeFormatter {
       authentications.put("api_key", auth);
     } else {
       authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    }
-    if (authMap != null) {
-      auth = authMap.get("api_key_query");
-    }
-    if (auth instanceof ApiKeyAuth) {
-      authentications.put("api_key_query", auth);
-    } else {
-      authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-    }
-    if (authMap != null) {
-      auth = authMap.get("http_basic_test");
-    }
-    if (auth instanceof HttpBasicAuth) {
-      authentications.put("http_basic_test", auth);
-    } else {
-      authentications.put("http_basic_test", new HttpBasicAuth());
-    }
-    if (authMap != null) {
-      auth = authMap.get("bearer_test");
-    }
-    if (auth instanceof HttpBearerAuth) {
-      authentications.put("bearer_test", auth);
-    } else {
-      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
-    }
-    if (authMap != null) {
-      auth = authMap.get("http_signature_test");
-    }
-    if (auth instanceof HttpSignatureAuth) {
-      authentications.put("http_signature_test", auth);
     }
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
@@ -1251,7 +1153,7 @@ public class ApiClient extends JavaTimeFormatter {
           queryParams,
           allHeaderParams,
           cookieParams,
-          serializeToString(body, formParams, contentType, isBodyNullable),
+          null,
           method,
           target.getUri());
     }
@@ -1352,6 +1254,15 @@ public class ApiClient extends JavaTimeFormatter {
     }
   }
   
+  /**
+   * Deserialize the response body into an error entity based on HTTP status code.
+   * Looks up the error type from the errorTypes map using the response status code,
+   * or falls back to the "default" error type if no match is found.
+   *
+   * @param errorTypes Map of status code strings to GenericType for deserialization
+   * @param response The HTTP response
+   * @return The deserialized error entity, or null if not found or deserialization fails
+   */
   private Object deserializeErrorEntity(Map<String, GenericType> errorTypes, Response response) {
     if (errorTypes == null) {
       return null;

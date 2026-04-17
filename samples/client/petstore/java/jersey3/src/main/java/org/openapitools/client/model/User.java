@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -24,18 +22,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
 /**
- * User
+ * A User who is purchasing from the pet store
  */
 @JsonPropertyOrder({
   User.JSON_PROPERTY_ID,
@@ -45,13 +37,9 @@ import org.openapitools.client.JSON;
   User.JSON_PROPERTY_EMAIL,
   User.JSON_PROPERTY_PASSWORD,
   User.JSON_PROPERTY_PHONE,
-  User.JSON_PROPERTY_USER_STATUS,
-  User.JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS,
-  User.JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE,
-  User.JSON_PROPERTY_ANY_TYPE_PROP,
-  User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
+  User.JSON_PROPERTY_USER_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-17T15:47:19.299596738+01:00[Africa/Tunis]", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -85,19 +73,6 @@ public class User {
   @jakarta.annotation.Nullable
   private Integer userStatus;
 
-  public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
-  @jakarta.annotation.Nullable
-  private Object objectWithNoDeclaredProps;
-
-  public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
-  private JsonNullable<Object> objectWithNoDeclaredPropsNullable = JsonNullable.<Object>undefined();
-
-  public static final String JSON_PROPERTY_ANY_TYPE_PROP = "anyTypeProp";
-  private JsonNullable<Object> anyTypeProp = JsonNullable.<Object>of(null);
-
-  public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
-  private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
-
   public User() { 
   }
 
@@ -111,7 +86,6 @@ public class User {
    * @return id
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -137,7 +111,6 @@ public class User {
    * @return username
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -163,7 +136,6 @@ public class User {
    * @return firstName
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_FIRST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -189,7 +161,6 @@ public class User {
    * @return lastName
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_LAST_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -215,7 +186,6 @@ public class User {
    * @return email
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_EMAIL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -241,7 +211,6 @@ public class User {
    * @return password
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -267,7 +236,6 @@ public class User {
    * @return phone
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_PHONE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -293,7 +261,6 @@ public class User {
    * @return userStatus
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_USER_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -309,156 +276,31 @@ public class User {
   }
 
 
-  public User objectWithNoDeclaredProps(@jakarta.annotation.Nullable Object objectWithNoDeclaredProps) {
-    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
-    return this;
-  }
-
-  /**
-   * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
-   * @return objectWithNoDeclaredProps
-   */
-  @jakarta.annotation.Nullable
-
-  @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Object getObjectWithNoDeclaredProps() {
-    return objectWithNoDeclaredProps;
-  }
-
-
-  @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setObjectWithNoDeclaredProps(@jakarta.annotation.Nullable Object objectWithNoDeclaredProps) {
-    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
-  }
-
-
-  public User objectWithNoDeclaredPropsNullable(@jakarta.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
-    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
-    return this;
-  }
-
-  /**
-   * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
-   * @return objectWithNoDeclaredPropsNullable
-   */
-  @jakarta.annotation.Nullable
-
-  @JsonIgnore
-
-  public Object getObjectWithNoDeclaredPropsNullable() {
-        return objectWithNoDeclaredPropsNullable.orElse(null);
-  }
-
-  @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<Object> getObjectWithNoDeclaredPropsNullable_JsonNullable() {
-    return objectWithNoDeclaredPropsNullable;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
-  public void setObjectWithNoDeclaredPropsNullable_JsonNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
-    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-  }
-
-  public void setObjectWithNoDeclaredPropsNullable(@jakarta.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
-    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
-  }
-
-
-  public User anyTypeProp(@jakarta.annotation.Nullable Object anyTypeProp) {
-    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
-    return this;
-  }
-
-  /**
-   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-   * @return anyTypeProp
-   */
-  @jakarta.annotation.Nullable
-
-  @JsonIgnore
-
-  public Object getAnyTypeProp() {
-        return anyTypeProp.orElse(null);
-  }
-
-  @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<Object> getAnyTypeProp_JsonNullable() {
-    return anyTypeProp;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
-  public void setAnyTypeProp_JsonNullable(JsonNullable<Object> anyTypeProp) {
-    this.anyTypeProp = anyTypeProp;
-  }
-
-  public void setAnyTypeProp(@jakarta.annotation.Nullable Object anyTypeProp) {
-    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
-  }
-
-
-  public User anyTypePropNullable(@jakarta.annotation.Nullable Object anyTypePropNullable) {
-    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
-    return this;
-  }
-
-  /**
-   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
-   * @return anyTypePropNullable
-   */
-  @jakarta.annotation.Nullable
-
-  @JsonIgnore
-
-  public Object getAnyTypePropNullable() {
-        return anyTypePropNullable.orElse(null);
-  }
-
-  @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE, required = false)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<Object> getAnyTypePropNullable_JsonNullable() {
-    return anyTypePropNullable;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
-  public void setAnyTypePropNullable_JsonNullable(JsonNullable<Object> anyTypePropNullable) {
-    this.anyTypePropNullable = anyTypePropNullable;
-  }
-
-  public void setAnyTypePropNullable(@jakarta.annotation.Nullable Object anyTypePropNullable) {
-    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
-  }
-
-
   /**
    * Return true if this User object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
-  }
-
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(this.id, user.id) &&
+        Objects.equals(this.username, user.username) &&
+        Objects.equals(this.firstName, user.firstName) &&
+        Objects.equals(this.lastName, user.lastName) &&
+        Objects.equals(this.email, user.email) &&
+        Objects.equals(this.password, user.password) &&
+        Objects.equals(this.phone, user.phone) &&
+        Objects.equals(this.userStatus, user.userStatus);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
   }
 
   @Override
@@ -473,10 +315,6 @@ public class User {
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
-    sb.append("    objectWithNoDeclaredProps: ").append(toIndentedString(objectWithNoDeclaredProps)).append("\n");
-    sb.append("    objectWithNoDeclaredPropsNullable: ").append(toIndentedString(objectWithNoDeclaredPropsNullable)).append("\n");
-    sb.append("    anyTypeProp: ").append(toIndentedString(anyTypeProp)).append("\n");
-    sb.append("    anyTypePropNullable: ").append(toIndentedString(anyTypePropNullable)).append("\n");
     sb.append("}");
     return sb.toString();
   }

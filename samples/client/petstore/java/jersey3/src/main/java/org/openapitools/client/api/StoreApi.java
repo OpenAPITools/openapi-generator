@@ -10,16 +10,13 @@ import jakarta.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.Order;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-17T15:47:19.299596738+01:00[Africa/Tunis]", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -87,8 +84,8 @@ public class StoreApi {
     }
 
     // Path parameters
-    String localVarPath = "/store/order/{order_id}"
-            .replaceAll("\\{order_id}", apiClient.escapeString(orderId.toString()));
+    String localVarPath = "/store/order/{orderId}"
+            .replaceAll("\\{orderId}", apiClient.escapeString(orderId.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
@@ -176,8 +173,8 @@ public class StoreApi {
     }
 
     // Path parameters
-    String localVarPath = "/store/order/{order_id}"
-            .replaceAll("\\{order_id}", apiClient.escapeString(orderId.toString()));
+    String localVarPath = "/store/order/{orderId}"
+            .replaceAll("\\{orderId}", apiClient.escapeString(orderId.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
