@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -26,8 +24,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -66,8 +62,6 @@ public class OuterComposite {
    * @return myNumber
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -93,7 +87,6 @@ public class OuterComposite {
    * @return myString
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -119,7 +112,6 @@ public class OuterComposite {
    * @return myBoolean
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -140,12 +132,21 @@ public class OuterComposite {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    OuterComposite outerComposite = (OuterComposite) o;
+    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
+        Objects.equals(this.myString, outerComposite.myString) &&
+        Objects.equals(this.myBoolean, outerComposite.myBoolean);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(myNumber, myString, myBoolean);
   }
 
   @Override

@@ -2,7 +2,6 @@
 
 # Pet
 
-A pet for sale in the pet store
 
 ## Properties
 

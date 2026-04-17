@@ -20,9 +20,6 @@ import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -301,7 +298,7 @@ public class FakeApi {
        <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
      </table>
    */
-  public void postArrayOfString(@jakarta.annotation.Nullable List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody) throws ApiException {
+  public void postArrayOfString(@jakarta.annotation.Nullable List<String> requestBody) throws ApiException {
     postArrayOfStringWithHttpInfo(requestBody);
   }
 
@@ -318,7 +315,7 @@ public class FakeApi {
        <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> postArrayOfStringWithHttpInfo(@jakarta.annotation.Nullable List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody) throws ApiException {
+  public ApiResponse<Void> postArrayOfStringWithHttpInfo(@jakarta.annotation.Nullable List<String> requestBody) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
     final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();

@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -40,8 +38,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -115,7 +111,6 @@ public class NullableClass {
    * @return integerProp
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public Integer getIntegerProp() {
@@ -149,8 +144,6 @@ public class NullableClass {
    * @return numberProp
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonIgnore
 
   public BigDecimal getNumberProp() {
@@ -184,7 +177,6 @@ public class NullableClass {
    * @return booleanProp
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public Boolean getBooleanProp() {
@@ -218,7 +210,6 @@ public class NullableClass {
    * @return stringProp
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public String getStringProp() {
@@ -252,8 +243,6 @@ public class NullableClass {
    * @return dateProp
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonIgnore
 
   public LocalDate getDateProp() {
@@ -287,8 +276,6 @@ public class NullableClass {
    * @return datetimeProp
    */
   @jakarta.annotation.Nullable
-  @Valid
-
   @JsonIgnore
 
   public OffsetDateTime getDatetimeProp() {
@@ -334,7 +321,6 @@ public class NullableClass {
    * @return arrayNullableProp
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public List<Object> getArrayNullableProp() {
@@ -380,7 +366,6 @@ public class NullableClass {
    * @return arrayAndItemsNullableProp
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public List<Object> getArrayAndItemsNullableProp() {
@@ -422,7 +407,6 @@ public class NullableClass {
    * @return arrayItemsNullable
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ITEMS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -460,7 +444,6 @@ public class NullableClass {
    * @return objectNullableProp
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public Map<String, Object> getObjectNullableProp() {
@@ -506,7 +489,6 @@ public class NullableClass {
    * @return objectAndItemsNullableProp
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public Map<String, Object> getObjectAndItemsNullableProp() {
@@ -548,7 +530,6 @@ public class NullableClass {
    * @return objectItemsNullable
    */
   @jakarta.annotation.Nullable
-
   @JsonProperty(value = JSON_PROPERTY_OBJECT_ITEMS_NULLABLE, required = false)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -606,7 +587,26 @@ public class NullableClass {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NullableClass nullableClass = (NullableClass) o;
+    return equalsNullable(this.integerProp, nullableClass.integerProp) &&
+        equalsNullable(this.numberProp, nullableClass.numberProp) &&
+        equalsNullable(this.booleanProp, nullableClass.booleanProp) &&
+        equalsNullable(this.stringProp, nullableClass.stringProp) &&
+        equalsNullable(this.dateProp, nullableClass.dateProp) &&
+        equalsNullable(this.datetimeProp, nullableClass.datetimeProp) &&
+        equalsNullable(this.arrayNullableProp, nullableClass.arrayNullableProp) &&
+        equalsNullable(this.arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
+        Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
+        equalsNullable(this.objectNullableProp, nullableClass.objectNullableProp) &&
+        equalsNullable(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable)&&
+        Objects.equals(this.additionalProperties, nullableClass.additionalProperties);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -615,7 +615,7 @@ public class NullableClass {
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(hashCodeNullable(integerProp), hashCodeNullable(numberProp), hashCodeNullable(booleanProp), hashCodeNullable(stringProp), hashCodeNullable(dateProp), hashCodeNullable(datetimeProp), hashCodeNullable(arrayNullableProp), hashCodeNullable(arrayAndItemsNullableProp), arrayItemsNullable, hashCodeNullable(objectNullableProp), hashCodeNullable(objectAndItemsNullableProp), objectItemsNullable, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

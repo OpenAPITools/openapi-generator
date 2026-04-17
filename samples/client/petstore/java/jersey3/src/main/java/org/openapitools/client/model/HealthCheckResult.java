@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -29,8 +27,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -58,7 +54,6 @@ public class HealthCheckResult {
    * @return nullableMessage
    */
   @jakarta.annotation.Nullable
-
   @JsonIgnore
 
   public String getNullableMessage() {
@@ -87,7 +82,14 @@ public class HealthCheckResult {
    */
   @Override
   public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HealthCheckResult healthCheckResult = (HealthCheckResult) o;
+    return equalsNullable(this.nullableMessage, healthCheckResult.nullableMessage);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -96,7 +98,7 @@ public class HealthCheckResult {
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(hashCodeNullable(nullableMessage));
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

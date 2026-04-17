@@ -427,7 +427,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody = Arrays.asList(); // List<@Pattern(regexp = "[A-Z0-9]+")String> | 
+        List<String> requestBody = Arrays.asList(); // List<String> | 
         try {
             apiInstance.postArrayOfString(requestBody);
         } catch (ApiException e) {

@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -31,7 +31,7 @@ import org.openapitools.client.JSON;
 
 
 /**
- * A pet for sale in the pet store
+ * Pet
  */
 @JsonPropertyOrder({
   Pet.JSON_PROPERTY_ID,
@@ -101,7 +101,6 @@ public class Pet {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @Deprecated
   @jakarta.annotation.Nullable
   private StatusEnum status;
 
@@ -249,7 +248,6 @@ public class Pet {
   }
 
 
-  @Deprecated
   public Pet status(@jakarta.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
@@ -258,9 +256,7 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
-   * @deprecated
    */
-  @Deprecated
   @jakarta.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -270,7 +266,6 @@ public class Pet {
   }
 
 
-  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@jakarta.annotation.Nullable StatusEnum status) {
