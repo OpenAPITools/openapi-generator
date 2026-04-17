@@ -44,6 +44,7 @@ public final class SpringPageableScanUtils {
 
     /** Carries a parsed sort field and its direction (always "ASC" or "DESC") from the spec default. */
     public static final class SortFieldDefault {
+
         public final String field;
         public final String direction;
 
