@@ -58,6 +58,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Setter
     protected boolean generateUnmarshalJSON = true;
     @Setter
+    protected boolean generateTypeAliasesForDedupedSchemas = true;
+    @Setter
     protected boolean useDefaultValuesForRequiredVars = false;
 
     @Setter
@@ -792,20 +794,22 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             // Collect reused model properties for type alias generation
             Map<String, String> typeAliasesMap = new LinkedHashMap<>();
-            
+
             for (CodegenProperty cp : codegenProperties) {
-                // Swap dataType and dataTypeAlias so fields use the alias name
-                swapDataTypeAndAlias(cp, typeAliasesMap);
-                
-                // Also swap for array items and update the array's dataType
-                if (cp.items != null && cp.items.dataTypeAlias != null) {
-                    String oldItemsDataType = cp.items.dataType;
-                    swapDataTypeAndAlias(cp.items, typeAliasesMap);
-                    String newItemsDataType = cp.items.dataType;
-                    
-                    // Update the array's dataType to use the new items dataType
-                    if (cp.dataType != null && cp.dataType.contains(oldItemsDataType)) {
-                        cp.dataType = cp.dataType.replace(oldItemsDataType, newItemsDataType);
+                // Swap dataType and dataTypeAlias so fields use the alias name (only if feature is enabled)
+                if (generateTypeAliasesForDedupedSchemas) {
+                    swapDataTypeAndAlias(cp, typeAliasesMap);
+
+                    // Also swap for array items and update the array's dataType
+                    if (cp.items != null && cp.items.dataTypeAlias != null) {
+                        String oldItemsDataType = cp.items.dataType;
+                        swapDataTypeAndAlias(cp.items, typeAliasesMap);
+                        String newItemsDataType = cp.items.dataType;
+
+                        // Update the array's dataType to use the new items dataType
+                        if (cp.dataType != null && cp.dataType.contains(oldItemsDataType)) {
+                            cp.dataType = cp.dataType.replace(oldItemsDataType, newItemsDataType);
+                        }
                     }
                 }
                 
@@ -889,8 +893,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 model.vendorExtensions.putIfAbsent("x-go-generate-unmarshal-json", true);
             }
             
-            // Convert type aliases map to list for template usage
-            if (!typeAliasesMap.isEmpty()) {
+            // Convert type aliases map to list for template usage (only if feature is enabled)
+            if (generateTypeAliasesForDedupedSchemas && !typeAliasesMap.isEmpty()) {
                 List<Map<String, String>> typeAliases = new ArrayList<>();
                 for (Map.Entry<String, String> entry : typeAliasesMap.entrySet()) {
                     if (!entry.getKey().equals(entry.getValue())) {
