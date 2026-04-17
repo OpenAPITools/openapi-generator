@@ -5,6 +5,7 @@ The Rust Server Generator templates use Mustache Partials.
 The following tree shows which templates include which:
 
 - `api_doc.mustache`
+- `bin-cli.mustache`
 - `cargo-config`
 - `Cargo.mustache`
 - `context.mustache`

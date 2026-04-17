@@ -13,7 +13,7 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/xml_array'
+              $ref: "#/components/schemas/xml_array"
       responses:
         "201":
           description: OK
@@ -25,7 +25,7 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/xml_object'
+              $ref: "#/components/schemas/xml_object"
       responses:
         "201":
           description: OK
@@ -40,7 +40,7 @@ paths:
         name: uuid
         required: false
         schema:
-          $ref: '#/components/schemas/UuidObject'
+          $ref: "#/components/schemas/UuidObject"
         style: form
       - description: Some object to pass as query parameter
         explode: false
@@ -48,7 +48,7 @@ paths:
         name: someObject
         required: false
         schema:
-          $ref: '#/components/schemas/ObjectParam'
+          $ref: "#/components/schemas/ObjectParam"
         style: form
       - description: Some list to pass as query parameter
         explode: false
@@ -56,14 +56,14 @@ paths:
         name: someList
         required: false
         schema:
-          $ref: '#/components/schemas/MyIDList'
+          $ref: "#/components/schemas/MyIDList"
         style: form
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: JSON rsp
       summary: Get some stuff with parameters.
   /multiget:
@@ -73,13 +73,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: JSON rsp
         "201":
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/_multiget_get_201_response'
+                $ref: "#/components/schemas/_multiget_get_201_response"
           description: XML rsp
         "202":
           content:
@@ -98,19 +98,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: Duplicate Response long text. One.
         "205":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: Duplicate Response long text. Two.
         "206":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: Duplicate Response long text. Three.
       summary: Get some stuff.
   /xml_other:
@@ -119,13 +119,13 @@ paths:
         content:
           text/xml:
             schema:
-              $ref: '#/components/schemas/anotherXmlObject'
+              $ref: "#/components/schemas/anotherXmlObject"
       responses:
         "201":
           content:
             text/xml:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: OK
         "400":
           description: Bad Request
@@ -134,7 +134,7 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/anotherXmlArray'
+              $ref: "#/components/schemas/anotherXmlArray"
       responses:
         "201":
           description: OK
@@ -146,7 +146,7 @@ paths:
         content:
           application/xml:
             schema:
-              $ref: '#/components/schemas/duplicate_xml_object'
+              $ref: "#/components/schemas/duplicate_xml_object"
       responses:
         "201":
           description: OK
@@ -159,7 +159,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UuidObject'
+                $ref: "#/components/schemas/UuidObject"
           description: Duplicate Response long text. One.
   /required_octet_stream:
     put:
@@ -196,7 +196,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ObjectUntypedProps'
+              $ref: "#/components/schemas/ObjectUntypedProps"
       responses:
         "200":
           description: Check that untyped properties works
@@ -224,7 +224,7 @@ paths:
             Object-Header:
               explode: false
               schema:
-                $ref: '#/components/schemas/ObjectHeader'
+                $ref: "#/components/schemas/ObjectHeader"
               style: simple
         "412":
           description: Precondition Failed
@@ -258,7 +258,7 @@ paths:
         callback:
           '{$request.query.url}/callback':
             post:
-              operationId: callback_CallbackPost
+              operationId: CallbackCallbackPost
               responses:
                 "204":
                   description: OK
@@ -281,7 +281,7 @@ paths:
         callback:
           '{$request.query.url}/callback-with-header':
             post:
-              operationId: callback_CallbackWithHeaderPost
+              operationId: CallbackCallbackWithHeaderPost
               parameters:
               - explode: false
                 in: header
@@ -313,19 +313,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+                $ref: "#/components/schemas/ObjectWithArrayOfObjects"
           description: OK
         "404":
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+                $ref: "#/components/schemas/ObjectWithArrayOfObjects"
           description: NotFound
         "406":
           content:
             application/problem+xml:
               schema:
-                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+                $ref: "#/components/schemas/ObjectWithArrayOfObjects"
           description: NotAcceptable
   /merge-patch-json:
     get:
@@ -334,7 +334,7 @@ paths:
           content:
             application/merge-patch+json:
               schema:
-                $ref: '#/components/schemas/anotherXmlObject'
+                $ref: "#/components/schemas/anotherXmlObject"
           description: merge-patch+json-encoded response
   /enum_in_path/{path_param}:
     get:
@@ -344,7 +344,7 @@ paths:
         name: path_param
         required: true
         schema:
-          $ref: '#/components/schemas/StringEnum'
+          $ref: "#/components/schemas/StringEnum"
         style: simple
       responses:
         "200":
@@ -365,7 +365,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: '#/components/schemas/StringObject'
+            $ref: "#/components/schemas/StringObject"
           type: array
         style: form
       responses:
@@ -387,7 +387,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StringObject'
+                $ref: "#/components/schemas/StringObject"
           description: OK
       tags:
       - repo
@@ -401,7 +401,7 @@ paths:
             example:
               requiredParam: true
             schema:
-              $ref: '#/components/schemas/ObjectParam'
+              $ref: "#/components/schemas/ObjectParam"
         required: true
       responses:
         "200":
@@ -415,7 +415,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_one_of_get_200_response'
+                $ref: "#/components/schemas/_one_of_get_200_response"
           description: Success
   /any-of:
     get:
@@ -427,7 +427,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: '#/components/schemas/AnyOfObject'
+            $ref: "#/components/schemas/AnyOfObject"
           minItems: 1
           type: array
         style: form
@@ -436,19 +436,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnyOfObject'
+                $ref: "#/components/schemas/AnyOfObject"
           description: Success
         "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/12345AnyOfObject'
+                $ref: "#/components/schemas/12345AnyOfObject"
           description: AlternateSuccess
         "202":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_any_of_get_202_response'
+                $ref: "#/components/schemas/_any_of_get_202_response"
           description: AnyOfSuccess
   /json-complex-query-param:
     get:
@@ -457,7 +457,7 @@ paths:
           application/json:
             schema:
               items:
-                $ref: '#/components/schemas/StringObject'
+                $ref: "#/components/schemas/StringObject"
               type: array
         in: query
         name: list-of-strings
@@ -471,27 +471,20 @@ components:
       description: Test containing an anyOf object
       properties:
         requiredAnyOf:
-          $ref: '#/components/schemas/AnyOfObject'
+          $ref: "#/components/schemas/AnyOfObject"
         optionalAnyOf:
-          $ref: '#/components/schemas/12345AnyOfObject'
+          $ref: "#/components/schemas/12345AnyOfObject"
       required:
       - requiredAnyOf
     AnyOfObject:
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        type: string
+      - $ref: "#/components/schemas/AnyOfObject_anyOf"
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf
     "12345AnyOfObject":
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        - '*'
-        type: string
+      - $ref: "#/components/schemas/_12345AnyOfObject_anyOf"
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf that starts with a number
@@ -508,7 +501,7 @@ components:
       type: string
     xml_array:
       items:
-        $ref: '#/components/schemas/xml_inner'
+        $ref: "#/components/schemas/xml_inner"
       type: array
       xml:
         name: CamelXmlArray
@@ -535,7 +528,7 @@ components:
         inner_string:
           type: string
         inner_array:
-          $ref: '#/components/schemas/xml_array'
+          $ref: "#/components/schemas/xml_array"
       required:
       - inner_array
       type: object
@@ -544,7 +537,7 @@ components:
         namespace: http://different.bar
     anotherXmlArray:
       items:
-        $ref: '#/components/schemas/anotherXmlInner'
+        $ref: "#/components/schemas/anotherXmlInner"
       type: array
       xml:
         name: snake_another_xml_array
@@ -572,14 +565,14 @@ components:
       properties:
         objectArray:
           items:
-            $ref: '#/components/schemas/StringObject'
+            $ref: "#/components/schemas/StringObject"
           type: array
       type: object
     StringObject:
       type: string
     MyIDList:
       items:
-        $ref: '#/components/schemas/MyID'
+        $ref: "#/components/schemas/MyID"
       type: array
     MyID:
       type: integer
@@ -699,8 +692,19 @@ components:
         type: array
     _any_of_get_202_response:
       anyOf:
-      - $ref: '#/components/schemas/StringObject'
-      - $ref: '#/components/schemas/UuidObject'
+      - $ref: "#/components/schemas/StringObject"
+      - $ref: "#/components/schemas/UuidObject"
+    AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      type: string
+    _12345AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
   securitySchemes:
     authScheme:
       flows:
