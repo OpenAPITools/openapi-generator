@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Addressable.JSON_PROPERTY_HREF,
   Addressable.JSON_PROPERTY_ID
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public final class Addressable implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -131,10 +131,7 @@ public final class Addressable implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

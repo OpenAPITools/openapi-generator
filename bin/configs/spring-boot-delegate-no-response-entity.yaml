@@ -3,7 +3,7 @@ outputDir: samples/server/petstore/springboot-delegate-no-response-entity
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
-  documentationProvider: springfox
+  #documentationProvider: springdoc
   artifactId: springboot-delegate-no-response-entity
   hideGenerationTimestamp: "true"
   java8: true

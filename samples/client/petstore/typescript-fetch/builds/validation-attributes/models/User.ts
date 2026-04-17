@@ -62,6 +62,12 @@ export interface User {
      */
     phone?: string;
     /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    nickname?: string;
+    /**
      * User Status
      * @type {number}
      * @memberof User
@@ -86,6 +92,9 @@ export const UserPropertyValidationAttributesMap: {
     password: {
         maxLength: 256,
         minLength: 8,
+    },
+    nickname: {
+        pattern: '/^[a-z&]+$/',
     },
     userStatus: {
         maximum: 100,
@@ -121,6 +130,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': json['email'] == null ? undefined : json['email'],
         'password': json['password'] == null ? undefined : json['password'],
         'phone': json['phone'] == null ? undefined : json['phone'],
+        'nickname': json['nickname'] == null ? undefined : json['nickname'],
         'userStatus': json['userStatus'] == null ? undefined : json['userStatus'],
     };
 }
@@ -143,6 +153,7 @@ export function UserToJSONTyped(value?: User | null, ignoreDiscriminator: boolea
         'email': value['email'],
         'password': value['password'],
         'phone': value['phone'],
+        'nickname': value['nickname'],
         'userStatus': value['userStatus'],
     };
 }

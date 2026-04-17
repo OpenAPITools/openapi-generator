@@ -256,6 +256,53 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
             // MultipartRelatedRequestPost - POST /multipart_related_request
             hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => {
+                handle_multipart_related_request_post(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // MultipartRequestPost - POST /multipart_request
+            hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => {
+                handle_multipart_request_post(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
+            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => {
+                handle_multiple_identical_mime_types_post(api_impl, uri, headers, body, context, validation, multipart_form_size_limit).await
+            },
+
+            _ if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPART_REQUEST) => method_not_allowed(),
+            _ if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => method_not_allowed(),
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(BoxBody::new(http_body_util::Empty::new()))
+                        .expect("Unable to create Not Found response"))
+            }
+        }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+            self.validation,
+            self.multipart_form_size_limit
+        ))
+    }
+}
+
+#[allow(unused_variables)]
+async fn handle_multipart_related_request_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -383,10 +430,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // MultipartRequestPost - POST /multipart_request
-            hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => {
+#[allow(unused_variables)]
+async fn handle_multipart_request_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -571,10 +633,25 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
-            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => {
+#[allow(unused_variables)]
+async fn handle_multiple_identical_mime_types_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+    multipart_form_size_limit: Option<u64>,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -677,23 +754,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
-
-            _ if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => method_not_allowed(),
-            _ if path.matched(paths::ID_MULTIPART_REQUEST) => method_not_allowed(),
-            _ if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => method_not_allowed(),
-                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                        .body(BoxBody::new(http_body_util::Empty::new()))
-                        .expect("Unable to create Not Found response"))
-            }
-        }
-        Box::pin(run(
-            self.api_impl.clone(),
-            req,
-            self.validation,
-            self.multipart_form_size_limit
-        ))
-    }
 }
 
 /// Request parser for `Api`.

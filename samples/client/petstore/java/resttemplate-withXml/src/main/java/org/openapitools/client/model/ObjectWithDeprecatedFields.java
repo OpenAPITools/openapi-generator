@@ -42,7 +42,7 @@ import io.github.threetenjaxb.core.*;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @XmlRootElement(name = "ObjectWithDeprecatedFields")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ObjectWithDeprecatedFields")
@@ -232,10 +232,7 @@ public class ObjectWithDeprecatedFields {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

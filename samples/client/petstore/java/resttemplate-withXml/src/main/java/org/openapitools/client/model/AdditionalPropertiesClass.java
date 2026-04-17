@@ -37,7 +37,7 @@ import io.github.threetenjaxb.core.*;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
@@ -163,10 +163,7 @@ public class AdditionalPropertiesClass {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 }

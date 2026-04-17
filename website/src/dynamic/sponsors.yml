@@ -168,3 +168,8 @@
   image: "img/companies/fbpostlikes.png"
   infoLink: "https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
+-
+  caption: "Buy.Fans"
+  image: "img/companies/buyfans.png"
+  infoLink: "https://buy.fans/buy-tiktok-likes/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

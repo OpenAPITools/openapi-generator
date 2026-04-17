@@ -178,4 +178,40 @@ public class TypeScriptAxiosClientCodegenTest {
         // Verify the non-deprecated array property 'nicknames' is also present
         TestUtils.assertFileContains(file, "'nicknames'?: Array<string>");
     }
+
+    @Test
+    public void generatesTrailingCommasInAsConstEnumObjects() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_trailing_commas_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/api.ts");
+        String content = Files.readString(file);
+
+        assertThat(content).contains(
+                "export const ChildCatPetTypeEnum = {\n" +
+                        "    ChildCat: 'ChildCat',\n" +
+                        "} as const;");
+        assertThat(content).contains(
+                "export const OuterEnum = {\n" +
+                        "    Placed: 'placed',\n" +
+                        "    Approved: 'approved',\n" +
+                        "    Delivered: 'delivered',\n" +
+                        "} as const;");
+        assertThat(content).contains(
+                "export const TestEnumParametersEnumHeaderStringEnum = {\n" +
+                        "    Abc: '_abc',\n" +
+                        "    Efg: '-efg',\n" +
+                        "    Xyz: '(xyz)',\n" +
+                        "} as const;");
+    }
 }

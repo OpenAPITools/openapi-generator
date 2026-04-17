@@ -1,0 +1,8 @@
+README.md
+pom.xml
+src/main/java/org/openapitools/api/ApiUtil.java
+src/main/java/org/openapitools/api/FooApi.java
+src/main/java/org/openapitools/api/UploadApi.java
+src/main/java/org/openapitools/api/package-info.java
+src/main/java/org/openapitools/model/Foo.java
+src/main/java/org/openapitools/model/package-info.java

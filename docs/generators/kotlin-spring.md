@@ -31,11 +31,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |declarativeInterfaceReactiveMode|What type of reactive style to use in Spring Http declarative interface|<dl><dt>**coroutines**</dt><dd>Use kotlin-idiomatic 'suspend' functions</dd><dt>**reactor**</dt><dd>Use reactor return wrappers 'Mono' and 'Flux'</dd></dl>|coroutines|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
-|documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springfox**</dt><dd>Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x. Deprecated (for removal); use springdoc instead.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
+|documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |exceptionHandler|generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )| |true|
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
+|implicitHeaders|Skip header parameters in the generated API methods.| |false|
 |includeHttpRequestContext|Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.| |false|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-declarative-http-interface**</dt><dd>Spring Declarative Interface client</dd></dl>|spring-boot|

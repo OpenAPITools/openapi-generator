@@ -1236,5 +1236,75 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         assertFileNotContains(files.get("RequiredProperties.java").toPath(), "@JsonCreator");
     }
+    
+    @Test
+    public void testDiscriminatorMappingUsedInJsonTypeName() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/jaxrs/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Parent model uses its own name
+        JavaFileAssert.assertThat(files.get("PetRequest.java"))
+                .fileContains("@JsonTypeName(\"PetRequest\")");
+
+        // Child models must use the discriminator mapping value (e.g. "CAT"), not the class name (e.g. "CatRequest")
+        JavaFileAssert.assertThat(files.get("CatRequest.java"))
+                .fileContains("@JsonTypeName(\"CAT\")")
+                .fileDoesNotContain("@JsonTypeName(\"CatRequest\")");
+
+        JavaFileAssert.assertThat(files.get("DogRequest.java"))
+                .fileContains("@JsonTypeName(\"DOG\")")
+                .fileDoesNotContain("@JsonTypeName(\"DogRequest\")");
+    }
+
+    @Test
+    public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(OPENAPI_NULLABLE, "true");
+        
+        File output = Files.createTempDirectory("test").toFile();
+        
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("jaxrs-spec")
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/bugs/issue_23251.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        
+        validateJavaSourceFiles(files);
+        
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BugResponse.java");
+        
+        // Assert that the generated model contains JsonNullable fields
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BugResponse.java"),
+            "private JsonNullable<String> nullableField = JsonNullable.<String>undefined();",
+            "private JsonNullable<List<String>> nullableList = JsonNullable.<List<String>>undefined();",
+            "private JsonNullable<List<@Valid NestedResponse>> nullableObjectList = JsonNullable.<List<@Valid NestedResponse>>undefined();"
+        );
+        
+        // Assert that the generated model contains correct add and remove helper methods reference for JsonNullable fields
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BugResponse.java"),
+            "this.nullableList.get().add(nullableListItem);",
+                "this.nullableList.get().remove(nullableListItem);",
+            "this.nullableObjectList.get().add(nullableObjectListItem);",
+            "this.nullableObjectList.get().remove(nullableObjectListItem);");
+        
+        output.deleteOnExit();
+    }
 
 }

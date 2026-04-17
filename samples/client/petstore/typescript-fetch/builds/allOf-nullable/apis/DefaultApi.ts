@@ -48,7 +48,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
 
         let urlPath = `/person/display/{personId}`;
-        urlPath = urlPath.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters['personId'])));
+        urlPath = urlPath.replace('{personId}', encodeURIComponent(String(requestParameters['personId'])));
 
         return {
             path: urlPath,

@@ -327,1112 +327,187 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
             // Op10Get - GET /op10
             hyper::Method::GET if path.matched(paths::ID_OP10) => {
-                                let result = api_impl.op10_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op10GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op10_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op11Get - GET /op11
             hyper::Method::GET if path.matched(paths::ID_OP11) => {
-                                let result = api_impl.op11_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op11GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op11_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op12Get - GET /op12
             hyper::Method::GET if path.matched(paths::ID_OP12) => {
-                                let result = api_impl.op12_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op12GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op12_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op13Get - GET /op13
             hyper::Method::GET if path.matched(paths::ID_OP13) => {
-                                let result = api_impl.op13_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op13GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op13_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op14Get - GET /op14
             hyper::Method::GET if path.matched(paths::ID_OP14) => {
-                                let result = api_impl.op14_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op14GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op14_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op15Get - GET /op15
             hyper::Method::GET if path.matched(paths::ID_OP15) => {
-                                let result = api_impl.op15_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op15GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op15_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op16Get - GET /op16
             hyper::Method::GET if path.matched(paths::ID_OP16) => {
-                                let result = api_impl.op16_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op16GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op16_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op17Get - GET /op17
             hyper::Method::GET if path.matched(paths::ID_OP17) => {
-                                let result = api_impl.op17_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op17GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op17_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op18Get - GET /op18
             hyper::Method::GET if path.matched(paths::ID_OP18) => {
-                                let result = api_impl.op18_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op18GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op18_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op19Get - GET /op19
             hyper::Method::GET if path.matched(paths::ID_OP19) => {
-                                let result = api_impl.op19_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op19GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op19_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op1Get - GET /op1
             hyper::Method::GET if path.matched(paths::ID_OP1) => {
-                                let result = api_impl.op1_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op1GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op1_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op20Get - GET /op20
             hyper::Method::GET if path.matched(paths::ID_OP20) => {
-                                let result = api_impl.op20_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op20GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op20_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op21Get - GET /op21
             hyper::Method::GET if path.matched(paths::ID_OP21) => {
-                                let result = api_impl.op21_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op21GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op21_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op22Get - GET /op22
             hyper::Method::GET if path.matched(paths::ID_OP22) => {
-                                let result = api_impl.op22_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op22GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op22_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op23Get - GET /op23
             hyper::Method::GET if path.matched(paths::ID_OP23) => {
-                                let result = api_impl.op23_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op23GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op23_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op24Get - GET /op24
             hyper::Method::GET if path.matched(paths::ID_OP24) => {
-                                let result = api_impl.op24_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op24GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op24_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op25Get - GET /op25
             hyper::Method::GET if path.matched(paths::ID_OP25) => {
-                                let result = api_impl.op25_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op25GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op25_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op26Get - GET /op26
             hyper::Method::GET if path.matched(paths::ID_OP26) => {
-                                let result = api_impl.op26_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op26GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op26_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op27Get - GET /op27
             hyper::Method::GET if path.matched(paths::ID_OP27) => {
-                                let result = api_impl.op27_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op27GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op27_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op28Get - GET /op28
             hyper::Method::GET if path.matched(paths::ID_OP28) => {
-                                let result = api_impl.op28_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op28GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op28_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op29Get - GET /op29
             hyper::Method::GET if path.matched(paths::ID_OP29) => {
-                                let result = api_impl.op29_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op29GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op29_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op2Get - GET /op2
             hyper::Method::GET if path.matched(paths::ID_OP2) => {
-                                let result = api_impl.op2_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op2GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op2_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op30Get - GET /op30
             hyper::Method::GET if path.matched(paths::ID_OP30) => {
-                                let result = api_impl.op30_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op30GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op30_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op31Get - GET /op31
             hyper::Method::GET if path.matched(paths::ID_OP31) => {
-                                let result = api_impl.op31_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op31GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op31_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op32Get - GET /op32
             hyper::Method::GET if path.matched(paths::ID_OP32) => {
-                                let result = api_impl.op32_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op32GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op32_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op33Get - GET /op33
             hyper::Method::GET if path.matched(paths::ID_OP33) => {
-                                let result = api_impl.op33_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op33GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op33_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op34Get - GET /op34
             hyper::Method::GET if path.matched(paths::ID_OP34) => {
-                                let result = api_impl.op34_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op34GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op34_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op35Get - GET /op35
             hyper::Method::GET if path.matched(paths::ID_OP35) => {
-                                let result = api_impl.op35_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op35GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op35_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op36Get - GET /op36
             hyper::Method::GET if path.matched(paths::ID_OP36) => {
-                                let result = api_impl.op36_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op36GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op36_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op37Get - GET /op37
             hyper::Method::GET if path.matched(paths::ID_OP37) => {
-                                let result = api_impl.op37_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op37GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op37_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op3Get - GET /op3
             hyper::Method::GET if path.matched(paths::ID_OP3) => {
-                                let result = api_impl.op3_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op3GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op3_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op4Get - GET /op4
             hyper::Method::GET if path.matched(paths::ID_OP4) => {
-                                let result = api_impl.op4_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op4GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op4_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op5Get - GET /op5
             hyper::Method::GET if path.matched(paths::ID_OP5) => {
-                                let result = api_impl.op5_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op5GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op5_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op6Get - GET /op6
             hyper::Method::GET if path.matched(paths::ID_OP6) => {
-                                let result = api_impl.op6_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op6GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op6_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op7Get - GET /op7
             hyper::Method::GET if path.matched(paths::ID_OP7) => {
-                                let result = api_impl.op7_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op7GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op7_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op8Get - GET /op8
             hyper::Method::GET if path.matched(paths::ID_OP8) => {
-                                let result = api_impl.op8_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op8GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op8_get(api_impl, uri, headers, body, context, validation).await
             },
 
             // Op9Get - GET /op9
             hyper::Method::GET if path.matched(paths::ID_OP9) => {
-                                let result = api_impl.op9_get(
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                Op9GetResponse::OK
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = body_from_str("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
+                handle_op9_get(api_impl, uri, headers, body, context, validation).await
             },
 
             _ if path.matched(paths::ID_OP1) => method_not_allowed(),
@@ -1483,6 +558,1634 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
             self.validation
         ))
     }
+}
+
+#[allow(unused_variables)]
+async fn handle_op10_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op10_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op10GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op11_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op11_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op11GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op12_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op12_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op12GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op13_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op13_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op13GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op14_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op14_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op14GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op15_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op15_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op15GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op16_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op16_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op16GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op17_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op17_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op17GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op18_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op18_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op18GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op19_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op19_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op19GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op1_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op1_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op1GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op20_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op20_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op20GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op21_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op21_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op21GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op22_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op22_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op22GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op23_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op23_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op23GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op24_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op24_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op24GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op25_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op25_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op25GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op26_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op26_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op26GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op27_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op27_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op27GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op28_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op28_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op28GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op29_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op29_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op29GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op2_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op2_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op2GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op30_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op30_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op30GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op31_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op31_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op31GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op32_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op32_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op32GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op33_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op33_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op33GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op34_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op34_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op34GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op35_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op35_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op35GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op36_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op36_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op36GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op37_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op37_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op37GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op3_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op3_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op3GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op4_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op4_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op4GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op5_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op5_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op5GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op6_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op6_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op6GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op7_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op7_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op7GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op8_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op8_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op8GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+}
+
+#[allow(unused_variables)]
+async fn handle_op9_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+                                let result = api_impl.op9_get(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Op9GetResponse::OK
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
 }
 
 /// Request parser for `Api`.

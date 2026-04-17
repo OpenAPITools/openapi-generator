@@ -30,6 +30,7 @@ import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
+import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.*;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
 
@@ -508,5 +509,87 @@ public class KotlinServerCodegenTest {
                 petModel,
                 "visible = false"
         );
+    }
+
+    @Test
+    public void useTags_commonPathIsComputedForJaxrsSpecLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(USE_TAGS, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        assertFileContains(
+                petApi,
+                "@Path(\"/pet\")"
+        );
+        assertFileNotContains(
+                petApi,
+                "@Path(\"/\")"
+        );
+    }
+
+    @Test
+    public void useTags_false_classNameFromTagsAndRootPathForJaxrsSpecLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(USE_TAGS, false);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        assertFileContains(petApi,
+                "class PetApi",
+                "@Path(\"/\")",
+                "@Path(\"/pet\")",
+                "@Path(\"/pet/{petId}\")"
+        );
+        assertFileNotContains(petApi, "@Path(\"/pet\")".replace("/pet", "/store"));
+    }
+
+    @Test
+    public void useTags_notSpecified_behavesLikeUseTagsFalseForJaxrsSpecLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        // useTags intentionally NOT set — must default to false
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        assertFileContains(petApi,
+                "class PetApi",
+                "@Path(\"/\")",
+                "@Path(\"/pet\")",
+                "@Path(\"/pet/{petId}\")"
+        );
+        assertFileNotContains(petApi, "@Path(\"/store\")");
     }
 }

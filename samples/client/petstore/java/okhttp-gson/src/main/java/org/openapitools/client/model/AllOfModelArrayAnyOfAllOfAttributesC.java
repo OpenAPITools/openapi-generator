@@ -64,7 +64,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(AllOfModelArrayAnyOfAllOfAttributesC.class.getName());
 
@@ -211,6 +211,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      * @return The actual instance of `Pet`
      * @throws ClassCastException if the instance is not `Pet`
      */
+    @SuppressWarnings("unchecked")
     public Pet getPet() throws ClassCastException {
         return (Pet)super.getActualInstance();
     }
@@ -222,6 +223,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      * @return The actual instance of `Order`
      * @throws ClassCastException if the instance is not `Order`
      */
+    @SuppressWarnings("unchecked")
     public Order getOrder() throws ClassCastException {
         return (Order)super.getActualInstance();
     }

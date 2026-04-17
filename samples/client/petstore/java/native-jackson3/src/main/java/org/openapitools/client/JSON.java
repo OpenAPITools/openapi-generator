@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class JSON {
   private ObjectMapper mapper;
 
@@ -78,7 +78,7 @@ public class JSON {
   /**
    * Helper class to register the discriminator mappings.
    */
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
   private static class ClassDiscriminatorMapping {
     // The model class name.
     Class<?> modelClass;
@@ -110,7 +110,7 @@ public class JSON {
         // Get the value of the discriminator property, if present in the input payload.
         node = node.get(discriminatorName);
         if (node != null && node.isValueNode()) {
-          String discrValue = node.asText();
+          String discrValue = node.asString();
           if (discrValue != null) {
             return discrValue;
           }

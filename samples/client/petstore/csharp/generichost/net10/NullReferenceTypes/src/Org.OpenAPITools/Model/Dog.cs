@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [JsonPropertyName("breed")]
-        public string? Breed { get { return this.BreedOption; } set { this.BreedOption = new(value); } }
+        public string? Breed { get { return this.BreedOption.Value; } set { this.BreedOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

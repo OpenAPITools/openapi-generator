@@ -17,18 +17,20 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Optional
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
+import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
+import java.io.File
 
 /**
  * Gradle project level extension object definition for the `generate` task
  *
  * @author Jim Schubert
  */
-open class OpenApiGeneratorGenerateExtension(project: Project) {
+open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     /**
      * The verbosity of generation
      */
@@ -47,7 +49,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * The output target directory into which code will be generated.
      */
-    val outputDir = project.objects.property<String>()
+    val outputDir: DirectoryProperty = project.objects.directoryProperty()
 
     /**
      * The Open API 2.0/3.x specification location.
@@ -56,7 +58,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * changes to any $ref referenced files. Use the `inputSpecRootDirectory` property to have Gradle track changes to
      * an entire directory of spec files.
      */
-    val inputSpec = project.objects.property<String>()
+    val inputSpec: RegularFileProperty = project.objects.fileProperty()
 
     /**
      * Local root folder with spec files.
@@ -64,7 +66,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * By default, a merged spec file will be generated based on the contents of the directory. To disable this, set the
      * `inputSpecRootDirectorySkipMerge` property.
      */
-    val inputSpecRootDirectory = project.objects.property<String>()
+    val inputSpecRootDirectory: DirectoryProperty = project.objects.directoryProperty()
 
     /**
      * Skip bundling all spec files into a merged spec file, if true.
@@ -81,7 +83,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * The template directory holding a custom template.
      */
-    val templateDir = project.objects.property<String>()
+    val templateDir: DirectoryProperty = project.objects.directoryProperty()
 
     /**
      * The template location (which may be a directory or a classpath location) holding custom templates.
@@ -104,7 +106,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * File content should be in a json format { "optionKey":"optionValue", "optionKey1":"optionValue1"...}
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
-    val configFile = project.objects.property<String>()
+    val configFile: RegularFileProperty = project.objects.fileProperty()
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
@@ -167,7 +169,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
-     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml. 
+     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml.
      */
     val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
 
@@ -279,7 +281,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
-    val ignoreFileOverride = project.objects.property<String>()
+    val ignoreFileOverride: RegularFileProperty = project.objects.fileProperty()
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId
@@ -413,22 +415,103 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun applyDefaults() {
-        releaseNote.set("Minor update")
-        inputSpecRootDirectorySkipMerge.set(false)
-        modelNamePrefix.set("")
-        modelNameSuffix.set("")
-        apiNameSuffix.set("")
-        generateModelTests.set(true)
-        generateModelDocumentation.set(true)
-        generateApiTests.set(true)
-        generateApiDocumentation.set(true)
-        configOptions.set(mapOf())
-        validateSpec.set(true)
-        logToStderr.set(false)
-        enablePostProcessFile.set(false)
-        skipValidateSpec.set(false)
-        generateAliasAsModel.set(false)
-        cleanupOutput.set(false)
-        dryRun.set(false)
+        releaseNote.convention("Minor update")
+        inputSpecRootDirectorySkipMerge.convention(false)
+        modelNamePrefix.convention("")
+        modelNameSuffix.convention("")
+        apiNameSuffix.convention("")
+        generateModelTests.convention(true)
+        generateModelDocumentation.convention(true)
+        generateApiTests.convention(true)
+        generateApiDocumentation.convention(true)
+        configOptions.convention(mapOf())
+        validateSpec.convention(true)
+        logToStderr.convention(false)
+        enablePostProcessFile.convention(false)
+        skipValidateSpec.convention(false)
+        generateAliasAsModel.convention(false)
+        cleanupOutput.convention(false)
+        dryRun.convention(false)
+    }
+
+    // ========================================================================
+    // Backwards-compatibility bridge setters for Groovy DSL
+    // These allow Groovy users to use assignment syntax: inputSpec = "path"
+    // For Kotlin DSL, use the extension functions below instead.
+    // ========================================================================
+
+    /** Backwards-compatibility bridge for outputDir */
+    fun setOutputDir(path: String) {
+        outputDir.set(project.layout.projectDirectory.dir(path))
+    }
+
+    /** Backwards-compatibility bridge for inputSpec */
+    fun setInputSpec(path: String) {
+        if (path.isRemoteUri()) {
+            remoteInputSpec.set(path)
+            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
+        } else {
+            inputSpec.set(project.layout.projectDirectory.file(path))
+            remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts
+        }
+    }
+
+    /** Backwards-compatibility bridge for inputSpecRootDirectory */
+    fun setInputSpecRootDirectory(path: String) {
+        inputSpecRootDirectory.set(project.layout.projectDirectory.dir(path))
+    }
+
+    /** Backwards-compatibility bridge for templateDir */
+    fun setTemplateDir(path: String) {
+        templateDir.set(project.layout.projectDirectory.dir(path))
+    }
+
+    /** Backwards-compatibility bridge for configFile */
+    fun setConfigFile(path: String) {
+        configFile.set(project.layout.projectDirectory.file(path))
+    }
+
+    /** Backwards-compatibility bridge for ignoreFileOverride */
+    fun setIgnoreFileOverride(path: String) {
+        ignoreFileOverride.set(project.layout.projectDirectory.file(path))
+    }
+
+    // ========================================================================
+    // Kotlin DSL extension functions for property setters
+    // These allow Kotlin DSL users to call .set(String) on file/directory properties
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting inputSpec with a String path in Kotlin DSL.
+     * Example: inputSpec.set("$rootDir/api.yaml")
+     */
+    fun RegularFileProperty.set(path: String) {
+        if (this === inputSpec) {
+            setInputSpec(path)
+        } else if (this === configFile) {
+            setConfigFile(path)
+        } else if (this === ignoreFileOverride) {
+            setIgnoreFileOverride(path)
+        } else {
+            // Fallback for any other RegularFileProperty
+            this.set(project.layout.projectDirectory.file(path))
+        }
+    }
+
+    /**
+     * Extension function to allow setting directory properties with a String path in Kotlin DSL.
+     * Example: outputDir.set("$buildDir/generated")
+     */
+    fun DirectoryProperty.set(path: String) {
+        if (this === outputDir) {
+            setOutputDir(path)
+        } else if (this === inputSpecRootDirectory) {
+            setInputSpecRootDirectory(path)
+        } else if (this === templateDir) {
+            setTemplateDir(path)
+        } else {
+            // Fallback for any other DirectoryProperty
+            this.set(project.layout.projectDirectory.dir(path))
+        }
     }
 }

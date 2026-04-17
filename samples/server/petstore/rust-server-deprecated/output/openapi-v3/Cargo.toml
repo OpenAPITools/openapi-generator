@@ -66,7 +66,7 @@ anyhow = { version = "1", optional = true }
 clap-verbosity-flag = { version = "0.3", optional = true }
 simple_logger = { version = "2.0", features = ["stderr"], optional = true }
 structopt = { version = "0.3", optional = true }
-tokio = { version = "0.2", features = ["rt-threaded", "macros", "stream"], optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"], optional = true }
 
 # Conversion
 frunk = { version = "0.4.0", optional = true }

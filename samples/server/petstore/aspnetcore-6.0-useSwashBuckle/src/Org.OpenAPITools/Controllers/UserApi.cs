@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
@@ -36,7 +37,14 @@ namespace Org.OpenAPITools.Controllers
         [Authorize(Policy = "api_key")]
         [Consumes("application/json")]
         [ValidateModelState]
-        public abstract IActionResult CreateUser([FromBody]User user);
+        public virtual IActionResult CreateUser([FromBody]User user)
+        {
+
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Creates list of users with given input array
@@ -48,7 +56,14 @@ namespace Org.OpenAPITools.Controllers
         [Authorize(Policy = "api_key")]
         [Consumes("application/json")]
         [ValidateModelState]
-        public abstract IActionResult CreateUsersWithArrayInput([FromBody]List<User> user);
+        public virtual IActionResult CreateUsersWithArrayInput([FromBody]List<User> user)
+        {
+
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Creates list of users with given input array
@@ -60,7 +75,14 @@ namespace Org.OpenAPITools.Controllers
         [Authorize(Policy = "api_key")]
         [Consumes("application/json")]
         [ValidateModelState]
-        public abstract IActionResult CreateUsersWithListInput([FromBody]List<User> user);
+        public virtual IActionResult CreateUsersWithListInput([FromBody]List<User> user)
+        {
+
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Delete user
@@ -73,7 +95,16 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/user/{username}")]
         [Authorize(Policy = "api_key")]
         [ValidateModelState]
-        public abstract IActionResult DeleteUser([FromRoute (Name = "username")][Required]string username);
+        public virtual IActionResult DeleteUser([FromRoute (Name = "username")][Required]string username)
+        {
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Get user by user name
@@ -86,7 +117,25 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [ProducesResponseType(statusCode: 200, type: typeof(User))]
-        public abstract IActionResult GetUserByName([FromRoute (Name = "username")][Required]string username);
+        public virtual IActionResult GetUserByName([FromRoute (Name = "username")][Required]string username)
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default);
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+            string exampleJson = null;
+            exampleJson = "{\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"password\" : \"password\",\n  \"userStatus\" : 6,\n  \"phone\" : \"phone\",\n  \"id\" : 0,\n  \"email\" : \"email\",\n  \"username\" : \"username\"\n}";
+            exampleJson = "<User>\n  <id>123456789</id>\n  <username>aeiou</username>\n  <firstName>aeiou</firstName>\n  <lastName>aeiou</lastName>\n  <email>aeiou</email>\n  <password>aeiou</password>\n  <phone>aeiou</phone>\n  <userStatus>123</userStatus>\n</User>";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<User>(exampleJson)
+            : default;
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
 
         /// <summary>
         /// Logs user into the system
@@ -99,7 +148,21 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/user/login")]
         [ValidateModelState]
         [ProducesResponseType(statusCode: 200, type: typeof(string))]
-        public abstract IActionResult LoginUser([FromQuery (Name = "username")][Required()][RegularExpression("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]string username, [FromQuery (Name = "password")][Required()]string password);
+        public virtual IActionResult LoginUser([FromQuery (Name = "username")][Required()][RegularExpression("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]string username, [FromQuery (Name = "password")][Required()]string password)
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default);
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<string>(exampleJson)
+            : default;
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
 
         /// <summary>
         /// Logs out current logged in user session
@@ -109,7 +172,14 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/user/logout")]
         [Authorize(Policy = "api_key")]
         [ValidateModelState]
-        public abstract IActionResult LogoutUser();
+        public virtual IActionResult LogoutUser()
+        {
+
+            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(0);
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Updated user
@@ -124,6 +194,15 @@ namespace Org.OpenAPITools.Controllers
         [Authorize(Policy = "api_key")]
         [Consumes("application/json")]
         [ValidateModelState]
-        public abstract IActionResult UpdateUser([FromRoute (Name = "username")][Required]string username, [FromBody]User user);
+        public virtual IActionResult UpdateUser([FromRoute (Name = "username")][Required]string username, [FromBody]User user)
+        {
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+            throw new NotImplementedException();
+        }
     }
 }

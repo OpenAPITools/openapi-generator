@@ -388,7 +388,7 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "{{{path}}}"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "{{{path}}}");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "{{{path}}}");
                     {{/servers}}
                     {{#servers}}
                     {{#-first}}

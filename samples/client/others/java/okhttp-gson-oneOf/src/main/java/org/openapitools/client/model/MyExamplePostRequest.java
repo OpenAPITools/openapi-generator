@@ -50,7 +50,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class MyExamplePostRequest extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(MyExamplePostRequest.class.getName());
 
@@ -174,6 +174,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }

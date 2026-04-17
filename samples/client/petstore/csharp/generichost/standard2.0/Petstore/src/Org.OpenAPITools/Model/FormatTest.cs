@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
-        public System.IO.Stream Binary { get { return this.BinaryOption; } set { this.BinaryOption = new Option<System.IO.Stream>(value); } }
+        public System.IO.Stream Binary { get { return this.BinaryOption.Value; } set { this.BinaryOption = new Option<System.IO.Stream>(value); } }
 
         /// <summary>
         /// Used to track the state of DateTime
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>2007-12-03T10:15:30+01:00</example> */
         [JsonPropertyName("dateTime")]
-        public DateTime? DateTime { get { return this.DateTimeOption; } set { this.DateTimeOption = new Option<DateTime?>(value); } }
+        public DateTime? DateTime { get { return this.DateTimeOption.Value; } set { this.DateTimeOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of Decimal
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Decimal
         /// </summary>
         [JsonPropertyName("decimal")]
-        public decimal? Decimal { get { return this.DecimalOption; } set { this.DecimalOption = new Option<decimal?>(value); } }
+        public decimal? Decimal { get { return this.DecimalOption.Value; } set { this.DecimalOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Used to track the state of Double
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Double
         /// </summary>
         [JsonPropertyName("double")]
-        public double? Double { get { return this.DoubleOption; } set { this.DoubleOption = new Option<double?>(value); } }
+        public double? Double { get { return this.DoubleOption.Value; } set { this.DoubleOption = new Option<double?>(value); } }
 
         /// <summary>
         /// Used to track the state of DuplicatePropertyName2
@@ -191,7 +191,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DuplicatePropertyName2
         /// </summary>
         [JsonPropertyName("duplicate_property_name")]
-        public string DuplicatePropertyName2 { get { return this.DuplicatePropertyName2Option; } set { this.DuplicatePropertyName2Option = new Option<string>(value); } }
+        public string DuplicatePropertyName2 { get { return this.DuplicatePropertyName2Option.Value; } set { this.DuplicatePropertyName2Option = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of DuplicatePropertyName
@@ -204,7 +204,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DuplicatePropertyName
         /// </summary>
         [JsonPropertyName("@duplicate_property_name")]
-        public string DuplicatePropertyName { get { return this.DuplicatePropertyNameOption; } set { this.DuplicatePropertyNameOption = new Option<string>(value); } }
+        public string DuplicatePropertyName { get { return this.DuplicatePropertyNameOption.Value; } set { this.DuplicatePropertyNameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Float
@@ -217,7 +217,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [JsonPropertyName("float")]
-        public float? Float { get { return this.FloatOption; } set { this.FloatOption = new Option<float?>(value); } }
+        public float? Float { get { return this.FloatOption.Value; } set { this.FloatOption = new Option<float?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int32
@@ -230,7 +230,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int32
         /// </summary>
         [JsonPropertyName("int32")]
-        public int? Int32 { get { return this.Int32Option; } set { this.Int32Option = new Option<int?>(value); } }
+        public int? Int32 { get { return this.Int32Option.Value; } set { this.Int32Option = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int32Range
@@ -243,7 +243,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int32Range
         /// </summary>
         [JsonPropertyName("int32Range")]
-        public int? Int32Range { get { return this.Int32RangeOption; } set { this.Int32RangeOption = new Option<int?>(value); } }
+        public int? Int32Range { get { return this.Int32RangeOption.Value; } set { this.Int32RangeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int64
@@ -256,7 +256,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64
         /// </summary>
         [JsonPropertyName("int64")]
-        public long? Int64 { get { return this.Int64Option; } set { this.Int64Option = new Option<long?>(value); } }
+        public long? Int64 { get { return this.Int64Option.Value; } set { this.Int64Option = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int64Negative
@@ -269,7 +269,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64Negative
         /// </summary>
         [JsonPropertyName("int64Negative")]
-        public long? Int64Negative { get { return this.Int64NegativeOption; } set { this.Int64NegativeOption = new Option<long?>(value); } }
+        public long? Int64Negative { get { return this.Int64NegativeOption.Value; } set { this.Int64NegativeOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int64NegativeExclusive
@@ -282,7 +282,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64NegativeExclusive
         /// </summary>
         [JsonPropertyName("int64NegativeExclusive")]
-        public long? Int64NegativeExclusive { get { return this.Int64NegativeExclusiveOption; } set { this.Int64NegativeExclusiveOption = new Option<long?>(value); } }
+        public long? Int64NegativeExclusive { get { return this.Int64NegativeExclusiveOption.Value; } set { this.Int64NegativeExclusiveOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int64Positive
@@ -295,7 +295,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64Positive
         /// </summary>
         [JsonPropertyName("int64Positive")]
-        public long? Int64Positive { get { return this.Int64PositiveOption; } set { this.Int64PositiveOption = new Option<long?>(value); } }
+        public long? Int64Positive { get { return this.Int64PositiveOption.Value; } set { this.Int64PositiveOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Int64PositiveExclusive
@@ -308,7 +308,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64PositiveExclusive
         /// </summary>
         [JsonPropertyName("int64PositiveExclusive")]
-        public long? Int64PositiveExclusive { get { return this.Int64PositiveExclusiveOption; } set { this.Int64PositiveExclusiveOption = new Option<long?>(value); } }
+        public long? Int64PositiveExclusive { get { return this.Int64PositiveExclusiveOption.Value; } set { this.Int64PositiveExclusiveOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Integer
@@ -321,7 +321,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [JsonPropertyName("integer")]
-        public int? Integer { get { return this.IntegerOption; } set { this.IntegerOption = new Option<int?>(value); } }
+        public int? Integer { get { return this.IntegerOption.Value; } set { this.IntegerOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithBackslash
@@ -335,7 +335,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>None</value>
         [JsonPropertyName("pattern_with_backslash")]
-        public string PatternWithBackslash { get { return this.PatternWithBackslashOption; } set { this.PatternWithBackslashOption = new Option<string>(value); } }
+        public string PatternWithBackslash { get { return this.PatternWithBackslashOption.Value; } set { this.PatternWithBackslashOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigits
@@ -349,7 +349,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
-        public string PatternWithDigits { get { return this.PatternWithDigitsOption; } set { this.PatternWithDigitsOption = new Option<string>(value); } }
+        public string PatternWithDigits { get { return this.PatternWithDigitsOption.Value; } set { this.PatternWithDigitsOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigitsAndDelimiter
@@ -363,7 +363,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
-        public string PatternWithDigitsAndDelimiter { get { return this.PatternWithDigitsAndDelimiterOption; } set { this.PatternWithDigitsAndDelimiterOption = new Option<string>(value); } }
+        public string PatternWithDigitsAndDelimiter { get { return this.PatternWithDigitsAndDelimiterOption.Value; } set { this.PatternWithDigitsAndDelimiterOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of String
@@ -376,7 +376,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public string String { get { return this.StringOption; } set { this.StringOption = new Option<string>(value); } }
+        public string String { get { return this.StringOption.Value; } set { this.StringOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of StringFormattedAsDecimal
@@ -389,7 +389,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringFormattedAsDecimal
         /// </summary>
         [JsonPropertyName("string_formatted_as_decimal")]
-        public decimal? StringFormattedAsDecimal { get { return this.StringFormattedAsDecimalOption; } set { this.StringFormattedAsDecimalOption = new Option<decimal?>(value); } }
+        public decimal? StringFormattedAsDecimal { get { return this.StringFormattedAsDecimalOption.Value; } set { this.StringFormattedAsDecimalOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedInteger
@@ -402,7 +402,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [JsonPropertyName("unsigned_integer")]
-        public uint? UnsignedInteger { get { return this.UnsignedIntegerOption; } set { this.UnsignedIntegerOption = new Option<uint?>(value); } }
+        public uint? UnsignedInteger { get { return this.UnsignedIntegerOption.Value; } set { this.UnsignedIntegerOption = new Option<uint?>(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedLong
@@ -415,7 +415,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnsignedLong
         /// </summary>
         [JsonPropertyName("unsigned_long")]
-        public ulong? UnsignedLong { get { return this.UnsignedLongOption; } set { this.UnsignedLongOption = new Option<ulong?>(value); } }
+        public ulong? UnsignedLong { get { return this.UnsignedLongOption.Value; } set { this.UnsignedLongOption = new Option<ulong?>(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -429,7 +429,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this.UuidOption; } set { this.UuidOption = new Option<Guid?>(value); } }
+        public Guid? Uuid { get { return this.UuidOption.Value; } set { this.UuidOption = new Option<Guid?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

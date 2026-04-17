@@ -19,6 +19,8 @@
     <PackageReleaseNotes>Minor update</PackageReleaseNotes>
     <Nullable>enable</Nullable>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>CS0612</WarningsNotAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

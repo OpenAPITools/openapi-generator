@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo? String { get { return this.StringOption; } set { this.StringOption = new(value); } }
+        public Foo? String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

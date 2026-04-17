@@ -1,0 +1,41 @@
+name: Samples Java Spring (JDK11)
+
+on:
+  push:
+    paths:
+      # servers
+      - samples/server/petstore/springboot-implicitHeaders/**
+      - samples/server/petstore/springboot-implicitHeaders-annotationLibrary/**
+  pull_request:
+    paths:
+      # servers
+      - samples/server/petstore/springboot-implicitHeaders/**
+      - samples/server/petstore/springboot-implicitHeaders-annotationLibrary/**
+jobs:
+  build:
+    name: Build 
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # servers
+          - samples/server/petstore/springboot-implicitHeaders
+          - samples/server/petstore/springboot-implicitHeaders-annotationLibrary
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - name: Cache maven dependencies
+        uses: actions/cache@v5
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.m2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: mvn clean package --no-transfer-progress

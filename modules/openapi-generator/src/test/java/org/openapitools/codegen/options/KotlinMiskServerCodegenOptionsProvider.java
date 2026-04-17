@@ -33,6 +33,7 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
     public static final String ACTION_REQUEST_CONTENT_TYPE = "contentType<";
     public static final String ACTION_REQUEST_CONTENT_TYPE_PREFIX = "contentTypePrefix<";
     public static final String TESTING_MODULE = "testingModule";
+    public static final String IMPLICIT_HEADERS_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -69,6 +70,7 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
             .put(KotlinMiskServerCodegen.ADD_MODEL_MOSHI_JSON_ANNOTATION, ADD_MODEL_MOSHI_JSON_ANNOTATION)
             .put(KotlinMiskServerCodegen.GENERATE_STUB_IMPL_CLASSES, GENERATE_STUB_IMPL_CLASSES)
             .put(KotlinMiskServerCodegen.TESTING_MODULE, TESTING_MODULE)
+            .put(AbstractKotlinCodegen.IMPLICIT_HEADERS, IMPLICIT_HEADERS_VALUE)
             .build();
     }
 

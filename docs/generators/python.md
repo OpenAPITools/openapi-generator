@@ -10,7 +10,7 @@ title: Documentation for the python Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Python | |
-| generator language version | 3.9+ | |
+| generator language version | 3.10+ | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a Python client library. | |
 
@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|buildSystem|Build system to use in pyproject.toml (setuptools, hatchling).| |setuptools|
 |dateFormat|date format for query parameters| |%Y-%m-%d|
 |datetimeFormat|datetime format for query parameters| |%Y-%m-%dT%H:%M:%S%z|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
