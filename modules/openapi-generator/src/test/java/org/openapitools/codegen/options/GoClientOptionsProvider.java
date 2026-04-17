@@ -39,6 +39,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean WITH_GO_MOD_VALUE = true;
     public static final boolean GENERATE_MARSHAL_JSON_VALUE = true;
     public static final boolean GENERATE_UNMARSHAL_JSON_VALUE = true;
+    public static final boolean GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS_VALUE = true;
     public static final boolean USE_DEFAULT_VALUES_FOR_REQUIRED_VARS_VALUE = true;
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
@@ -64,6 +65,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.WITH_GO_MOD, "true")
                 .put(CodegenConstants.GENERATE_MARSHAL_JSON, "true")
                 .put(CodegenConstants.GENERATE_UNMARSHAL_JSON, "true")
+                .put(CodegenConstants.GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS, "true")
                 .put("generateInterfaces", "true")
                 .put("structPrefix", "true")
                 .put(CodegenConstants.USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "true")
