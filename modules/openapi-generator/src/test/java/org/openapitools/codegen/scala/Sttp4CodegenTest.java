@@ -81,25 +81,27 @@ public class Sttp4CodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        // Test oneOf without discriminator generates sealed trait with semiauto
+        // Test oneOf without discriminator generates sealed trait with wrapper composition
+        // (Dog and Cat are shared across Pet and Animal)
         Path petPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Pet.scala");
         assertFileContains(petPath, "sealed trait Pet");
         assertFileContains(petPath, "object Pet {");
-        assertFileContains(petPath, "import io.circe.generic.semiauto._");
-        assertFileContains(petPath, "// oneOf without discriminator - using semiauto derivation");
-        assertFileContains(petPath, "implicit val encoder: Encoder[Pet] = deriveEncoder");
-        assertFileContains(petPath, "implicit val decoder: Decoder[Pet] = deriveDecoder");
+        assertFileContains(petPath, "case class DogPet(value: Dog) extends Pet");
+        assertFileContains(petPath, "case class CatPet(value: Cat) extends Pet");
+        assertFileContains(petPath, "// oneOf without discriminator (with wrapper composition)");
+        assertFileContains(petPath, "implicit val encoder: Encoder[Pet] = Encoder.instance");
+        assertFileContains(petPath, "Decoder[Dog].map(DogPet.apply)");
+        assertFileContains(petPath, "Decoder[Cat].map(CatPet.apply)");
 
-        // Test oneOf with discriminator uses semiauto with Configuration
+        // Test oneOf with discriminator uses wrapper composition (shared members)
         Path animalPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Animal.scala");
         assertFileContains(animalPath, "sealed trait Animal");
         assertFileContains(animalPath, "object Animal {");
-        assertFileContains(animalPath, "import io.circe.generic.extras.semiauto._");
-        assertFileContains(animalPath, "// oneOf with discriminator - using semiauto derivation with Configuration");
-        assertFileContains(animalPath,
-                "private implicit val config: Configuration = Configuration.default.withDiscriminator(\"petType\")");
-        assertFileContains(animalPath, "implicit val encoder: Encoder[Animal] = deriveConfiguredEncoder");
-        assertFileContains(animalPath, "implicit val decoder: Decoder[Animal] = deriveConfiguredDecoder");
+        assertFileContains(animalPath, "case class DogAnimal(value: Dog) extends Animal");
+        assertFileContains(animalPath, "case class CatAnimal(value: Cat) extends Animal");
+        assertFileContains(animalPath, "// oneOf with discriminator (with wrapper composition)");
+        assertFileContains(animalPath, "implicit val encoder: Encoder[Animal] = Encoder.instance");
+        assertFileContains(animalPath, "c.get[String](\"petType\")");
 
         // Test oneOf with discriminator mapping
         Path vehiclePath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Vehicle.scala");
@@ -144,20 +146,27 @@ public class Sttp4CodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        // Test oneOf without discriminator generates sealed trait with json4s
+        // Test oneOf without discriminator generates sealed trait with json4s wrapper composition
+        // (Dog and Cat are shared across Pet and Animal)
         Path petPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Pet.scala");
         assertFileContains(petPath, "sealed trait Pet");
         assertFileContains(petPath, "object Pet {");
+        assertFileContains(petPath, "case class DogPet(value: Dog) extends Pet");
+        assertFileContains(petPath, "case class CatPet(value: Cat) extends Pet");
         assertFileContains(petPath, "import org.json4s._");
-        assertFileContains(petPath, "// oneOf without discriminator - json4s custom serializer");
+        assertFileContains(petPath, "// oneOf without discriminator - json4s custom serializer (with wrapper composition)");
         assertFileContains(petPath, "implicit object PetSerializer extends Serializer[Pet]");
+        assertFileContains(petPath, "Some(DogPet(x))");
+        assertFileContains(petPath, "Some(CatPet(x))");
         assertFileContains(petPath, "Extraction.extract[Dog](json)");
         assertFileContains(petPath, "Extraction.extract[Cat](json)");
 
-        // Test oneOf with discriminator
+        // Test oneOf with discriminator uses wrapper composition (shared members)
         Path animalPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Animal.scala");
         assertFileContains(animalPath, "sealed trait Animal");
-        assertFileContains(animalPath, "// oneOf with discriminator");
+        assertFileContains(animalPath, "case class DogAnimal(value: Dog) extends Animal");
+        assertFileContains(animalPath, "case class CatAnimal(value: Cat) extends Animal");
+        assertFileContains(animalPath, "// oneOf with discriminator (with wrapper composition)");
         assertFileContains(animalPath, "petType");
     }
 

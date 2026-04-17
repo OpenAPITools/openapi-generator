@@ -315,6 +315,8 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                     // Collect child models for inline generation
                     // Only inline if they are used exclusively by this oneOf parent
                     List<CodegenModel> childModels = new ArrayList<>();
+                    // Collect shared child models that need wrapper composition
+                    List<Map<String, Object>> wrappedMembers = new ArrayList<>();
 
                     for (String childName : cModel.oneOf) {
                         CodegenModel childModel = ModelUtils.getModelByName(childName, processed);
@@ -355,9 +357,36 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                             }
 
                             childModels.add(childModel);
+                        } else if (childModel != null) {
+                            // This child is shared across multiple oneOf parents.
+                            // Use wrapper composition: generate a case class wrapper inside the parent.
+                            Map<String, Object> wrappedMember = new HashMap<>();
+                            wrappedMember.put("classname", childName);
+                            wrappedMember.put("wrapperClassname", childName + cModel.classname);
+                            wrappedMember.put("parentClassname", cModel.classname);
+
+                            // Resolve discriminator value if applicable
+                            if (cModel.discriminator != null) {
+                                String discriminatorValue = childName; // default: class name
+                                if (cModel.discriminator.getMappedModels() != null) {
+                                    for (CodegenDiscriminator.MappedModel mappedModel : cModel.discriminator.getMappedModels()) {
+                                        if (mappedModel.getModelName().equals(childName)) {
+                                            discriminatorValue = mappedModel.getMappingName();
+                                            break;
+                                        }
+                                    }
+                                }
+                                wrappedMember.put("discriminatorValue", discriminatorValue);
+                            }
+
+                            wrappedMembers.add(wrappedMember);
                         }
                     }
                     cModel.getVendorExtensions().put("x-oneOfMembers", childModels);
+                    cModel.getVendorExtensions().put("x-wrappedOneOfMembers", wrappedMembers);
+                    if (!wrappedMembers.isEmpty()) {
+                        cModel.getVendorExtensions().put("x-hasWrappedOneOfMembers", true);
+                    }
                 } else if (cModel.isEnum) {
                     cModel.getVendorExtensions().put("x-isEnum", true);
                 } else {
