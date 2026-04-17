@@ -1619,9 +1619,9 @@ public class OpenAPINormalizer {
         String schemaName = refSchema.contains("/") ? refSchema.substring(refSchema.lastIndexOf('/') + 1) : refSchema;;
         Schema schema = ModelUtils.getSchema(openAPI, schemaName);
         if (schema != null && schema.getExtensions() != null) {
-            String discriminatorValue = Objects.toString(schema.getExtensions().get("x-discriminator-value"), null);
+            Object discriminatorValue = schema.getExtensions().get("x-discriminator-value");
             if (discriminatorValue != null) {
-                return discriminatorValue;
+                return discriminatorValue.toString();
             }
         }
         return schemaName;
