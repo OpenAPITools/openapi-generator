@@ -1514,6 +1514,9 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
         openAPINormalizer.normalize();
 
+        Schema geoJsonObject = openAPI.getComponents().getSchemas().get("GeoJsonObject");
+        Map<String, String> mapping = geoJsonObject.getDiscriminator().getMapping();
+        assertEquals(mapping, Map.of("MultiPolygon", "#/components/schemas/Multi-Polygon", "Polygon", "#/components/schemas/Polygon" ));
     }
 
 
