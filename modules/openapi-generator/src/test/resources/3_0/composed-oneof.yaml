@@ -11,33 +11,33 @@ paths:
       responses:
         '200':
           description: OK
-#          content:
-#            application/json:
-#              schema:
-#                oneOf:
-#                  - $ref: '#/components/schemas/ObjA'
-#                  - $ref: '#/components/schemas/ObjB'
-#                  - $ref: '#/components/schemas/ObjD'
-#                discriminator:
-#                  propertyName: realtype
-#                  mapping:
-#                    a-type: '#/components/schemas/ObjA'
-#                    b-type: '#/components/schemas/ObjB'
-#                    d-type: '#/components/schemas/ObjD'
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ObjA'
+                  - $ref: '#/components/schemas/ObjB'
+                  - $ref: '#/components/schemas/ObjD'
+                discriminator:
+                  propertyName: realtype
+                  mapping:
+                    a-type: '#/components/schemas/ObjA'
+                    b-type: '#/components/schemas/ObjB'
+                    d-type: '#/components/schemas/ObjD'
     post:
       operationId: createState
-#      requestBody:
-#        content:
-#            application/json:
-#              schema:
-#                oneOf:
-#                  - $ref: '#/components/schemas/ObjA'
-#                  - $ref: '#/components/schemas/ObjB'
-#                discriminator:
-#                  propertyName: realtype
-#                  mapping:
-#                    a-type: '#/components/schemas/ObjA'
-#                    b-type: '#/components/schemas/ObjB'
+      requestBody:
+        content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ObjA'
+                  - $ref: '#/components/schemas/ObjB'
+                discriminator:
+                  propertyName: realtype
+                  mapping:
+                    a-type: '#/components/schemas/ObjA'
+                    b-type: '#/components/schemas/ObjB'
 #        required: true
       responses:
         '201':

@@ -1603,7 +1603,7 @@ public class OpenAPINormalizer {
                     Schema oneOf = (Schema) oneOfObject;
                     String refSchema = oneOf.get$ref();
                     if (refSchema != null) {
-                        String name = refSchema.contains("/") ? refSchema.substring(refSchema.lastIndexOf('/') + 1) : refSchema;
+                        String name = getDiscriminatorValue(refSchema);
                         mappings.put(name, refSchema);
                     }
                 }
@@ -1615,12 +1615,26 @@ public class OpenAPINormalizer {
         return schema;
     }
 
+    protected String getDiscriminatorValue(String refSchema) {
+        String schemaName = refSchema.contains("/") ? refSchema.substring(refSchema.lastIndexOf('/') + 1) : refSchema;;
+        Schema schema = ModelUtils.getSchema(openAPI, schemaName);
+        if (schema != null && schema.getExtensions() != null) {
+            String discriminatorValue = String.valueOf(schema.getExtensions().get("x-discriminator-value"));
+            if (discriminatorValue != null) {
+                return discriminatorValue;
+            }
+        }
+        return schemaName;
+    }
+
 
     protected void ensureInheritance(Schema parent, String parentName) {
         Discriminator discriminator = parent.getDiscriminator();
         if (discriminator != null && discriminator.getMapping() != null) {
-            for (String mapping : discriminator.getMapping().keySet()) {
-                Schema child = ModelUtils.getSchema(openAPI, mapping);
+
+            for (String mapping : discriminator.getMapping().values()) {
+                String refSchemaName = getDiscriminatorValue(mapping);
+                Schema child = ModelUtils.getSchema(openAPI, refSchemaName);
                 if (child != null) {
                     ensureInheritance(parent, child, parentName);
                 }
@@ -1629,23 +1643,27 @@ public class OpenAPINormalizer {
     }
 
     protected void ensureInheritance(Schema parent, Schema child, String parentName) {
+        String reference = "#/components/schemas/" + parentName;
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
-            if (hasParent(child, parent)) {
+            if (hasParent(child, parent, reference)) {
                 return;
             }
         } else {
             allOf = new ArrayList<>();
             child.setAllOf(allOf);
         }
-        Schema refToParent = new Schema<>().$ref("#/components/schemas/" + parentName);
+        Schema refToParent = new Schema<>().$ref(reference);
         allOf.add(refToParent);
     }
 
-    private boolean hasParent(Schema child, Schema parent) {
+    private boolean hasParent(Schema child, Schema parent, String reference) {
+        if (child.get$ref() != null && child.get$ref().equals(reference)) {
+            return true;
+        }
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
-            return allOf.stream().anyMatch(s -> hasParent(s, parent));
+            return allOf.stream().anyMatch(s -> hasParent(s, parent, reference));
         }
         return false;
     }

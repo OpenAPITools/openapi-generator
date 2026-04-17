@@ -62,8 +62,6 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/AboType'
-
-
       oneOf:
           - $ref: '#/components/schemas/HomeProduct'
           - $ref: '#/components/schemas/InternetProduct'

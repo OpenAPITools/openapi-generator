@@ -1,4 +1,4 @@
-\openapi: 3.0.3
+openapi: 3.0.3
 info:
   title: GeoJSON Discriminator Test
   version: 1.0.0
@@ -16,7 +16,7 @@ components:
         propertyName: type
       oneOf:
         - $ref: '#/components/schemas/Polygon'
-        - $ref: '#/components/schemas/MultiPolygon'
+        - $ref: '#/components/schemas/Multi-Polygon'
     Polygon:
       allOf:
         - $ref: '#/components/schemas/GeoJsonObject'
@@ -27,7 +27,8 @@ components:
               items:
                 type: number
                 format: double
-    MultiPolygon:
+    Multi-Polygon:
+      x-discriminator-value: MultiPolygon
       allOf:
         - $ref: '#/components/schemas/GeoJsonObject'
         - type: object

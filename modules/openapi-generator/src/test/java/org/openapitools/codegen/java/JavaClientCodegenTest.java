@@ -4330,9 +4330,9 @@ public class JavaClientCodegenTest {
     @DataProvider(name = "replaceOneOf")
     public Object[][] replaceOneOf() {
         return new Object[][]{
-                {"src/test/resources/3_0/spring/issue_23527.yaml"},
-                {"src/test/resources/3_0/spring/issue_23527_1.yaml"},
-                {"src/test/resources/3_0/spring/issue_23527_2.yaml"}
+                {"src/test/resources/3_0/oneOf_issue_23527.yaml"},
+                {"src/test/resources/3_0/oneOf_issue_23527_1.yaml"},
+                {"src/test/resources/3_0/oneOf_issue_23527_2.yaml"}
         };
     }
 
@@ -4355,46 +4355,6 @@ public class JavaClientCodegenTest {
                 .fileContains("List<Double> coordinates");
 
     }
-    @Test
-    void issue_23276() {
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_23276.yaml", APACHE, Map.of(),
-                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
-
-        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
-                .isNormalClass()
-                .doesNotExtendsClasses()
-                .fileContains("String type")
-                .fileDoesNotContain("coordinates")
-                .assertTypeAnnotations()
-                .containsWithName("JsonSubTypes");
-
-        JavaFileAssert.assertThat(files.get("Polygon.java"))
-                .extendsClass("GeoJsonObject")
-                .doesNotImplementInterfaces("GeoJsonObject")
-                .fileContains("List<Double> coordinates");
-    }
-
-    @Test
-    void issue_15() {
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/composed-oneof.yaml", APACHE,
-                Map.of(),
-                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
-                        .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
-
-        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
-                .isNormalClass()
-                .doesNotExtendsClasses()
-                .fileContains("String type")
-                .fileDoesNotContain("coordinates")
-                .assertTypeAnnotations()
-                .containsWithName("JsonSubTypes");
-
-        JavaFileAssert.assertThat(files.get("Polygon.java"))
-                .extendsClass("GeoJsonObject")
-                .doesNotImplementInterfaces("GeoJsonObject")
-                .fileContains("List<Double> coordinates");
-    }
-
 
     @Test
     void issue_912() {
@@ -4402,17 +4362,35 @@ public class JavaClientCodegenTest {
                 Map.of(),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
                         .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
-
+        JavaFileAssert.assertThat(files.get("CatalogEntity.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String entityType")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("include", "JsonTypeInfo.As.PROPERTY", "property", "\"entityType\""))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Folder.class", "name", "\"folder\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Source.class", "name", "\"source\""));
 
     }
 
     @Test
     void issue_19261() {
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_19261.yaml", APACHE,
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_19261.yaml", APACHE,
                 Map.of(),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
                         .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
-
+        JavaFileAssert.assertThat(files.get("Product.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("AboType type")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("include", "JsonTypeInfo.As.PROPERTY", "property", "\"type\""))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "HomeProduct.class", "name", "\"home\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "InternetProduct.class", "name", "\"internet\""));
+        JavaFileAssert.assertThat(files.get("InternetProduct.java"))
+                .extendsClass("Product");
     }
 
 }
