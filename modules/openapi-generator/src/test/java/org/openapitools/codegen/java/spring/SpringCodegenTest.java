@@ -3095,6 +3095,16 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void contractWithUuidEnumShouldGenerateValidEnum() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum_uuid.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("ExampleUuidEnum.java"))
+                .fileContains("UUID.fromString(\"d6a8f2b0-1c34-4e56-a789-0abcdef12345\")")
+                .fileContains("UUID.fromString(\"e7b9c3d1-2d45-5f67-b890-1bcdef023456\")")
+                .fileContains("private final UUID value");
+    }
+
+    @Test
     public void shouldUseTheSameTagNameForTheInterfaceAndTheMethod_issue11570() throws IOException {
         final Map<String, File> output = generateFromContract(
                 "src/test/resources/bugs/issue_11570.yml", SPRING_BOOT, Map.of(INTERFACE_ONLY, "true")

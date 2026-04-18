@@ -2301,6 +2301,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "new BigDecimal(\"" + value + "\")";
         } else if ("URI".equals(datatype)) {
             return "URI.create(\"" + escapeText(value) + "\")";
+        } else if ("UUID".equals(datatype)) {
+            return "UUID.fromString(\"" + escapeText(value) + "\")";
         } else {
             return "\"" + escapeText(value) + "\"";
         }
