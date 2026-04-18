@@ -1591,7 +1591,7 @@ public class OpenAPINormalizer {
      * </ul>
      */
     protected Schema processReplaceOneOfByMapping(Schema schema) {
-        if (!getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
+        if (!getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING) || schema.getOneOf() == null) {
             return schema;
         }
         Discriminator discriminator = schema.getDiscriminator();
@@ -1606,7 +1606,7 @@ public class OpenAPINormalizer {
                 Map<String, String> mappings = new TreeMap<>();
                 discriminator.setMapping(mappings);
                 List<Schema> oneOfs = schema.getOneOf();
-                for (Schema oneOf: oneOfs) {
+                for (Schema oneOf : oneOfs) {
                     String refSchema = oneOf.get$ref();
                     if (refSchema != null) {
                         boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
@@ -1614,9 +1614,16 @@ public class OpenAPINormalizer {
                         mappings.put(name, refSchema);
                     }
                 }
+                // remove oneOf and only keep the new discriminator mapping
+                schema.setOneOf(null);
+            } else if (discriminator.getPropertyName() == null) {
+                LOGGER.warn("Missing property name in discriminator");
+            } else if (discriminator.getMapping() != null && discriminator.getMapping().size() != schema.getOneOf().size()) {
+                LOGGER.warn("Discriminator Mapping size " + discriminator.getMapping().size() + " mismatch with oneOf size " + schema.getOneOf().size());
+            } else {
+                // remove oneOf and only keep the discriminator mapping
+                schema.setOneOf(null);
             }
-            // remove oneOf and only keep the discriminator mapping
-            schema.setOneOf(null);
         }
 
         return schema;
@@ -1690,8 +1697,11 @@ public class OpenAPINormalizer {
             Schema property = properties.get(propertyName);
             if (property != null) {
                 if (toDelete) {
-                    if (schema.getProperties().remove(propertyName) != null && schema.getProperties().isEmpty()) {
-                        schema.setProperties(null);
+                    if (schema.getProperties().remove(propertyName) != null) {
+                        LOGGER.info("property " + propertyName + " has been removed in REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+                        if (schema.getProperties().isEmpty()) {
+                            schema.setProperties(null);
+                        }
                     }
                 }
                 return property;

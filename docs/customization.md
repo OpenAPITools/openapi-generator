@@ -651,7 +651,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true
 ```
 
-- `REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING``: when set to true, oneOf is removed and is converted into mappings in a discriminator mapping.
+- `REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING`: when set to true, oneOf is removed and is converted into mappings in a discriminator mapping.
 
 Example:
 ```
