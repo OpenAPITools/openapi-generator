@@ -1790,7 +1790,6 @@ public class OpenAPINormalizer {
                 if (visitedSchemas.contains(schema)) {
                     return false;
                 }
-                visitedSchemas.add(schema);
                 if (hasParent(parent, schema, reference, visitedSchemas)) {
                     return true;
                 }
