@@ -1767,6 +1767,9 @@ public class OpenAPINormalizer {
      * return true if the child as an allOf referencing the parent scham.
      */
     private boolean hasParent(Schema parent, Schema child, String reference, Set<Schema> visitedSchemas) {
+        if (child == null) {
+            return false;
+        }
         if (child.get$ref() != null && child.get$ref().equals(reference)) {
             return true;
         }
@@ -1777,7 +1780,7 @@ public class OpenAPINormalizer {
                     return false;
                 }
                 visitedSchemas.add(schema);
-                if (hasParent(schema, parent, reference, visitedSchemas)) {
+                if (hasParent(parent, schema, reference, visitedSchemas)) {
                     return true;
                 }
             }
