@@ -1690,7 +1690,7 @@ public class OpenAPINormalizer {
             Schema property = properties.get(propertyName);
             if (property != null) {
                 if (toDelete) {
-                    if (schema.getProperties().remove(propertyName) != null) {
+                    if (schema.getProperties().remove(propertyName) != null && schema.getProperties().isEmpty()) {
                         schema.setProperties(null);
                     }
                 }
@@ -1752,10 +1752,11 @@ public class OpenAPINormalizer {
             child.setAllOf(allOf);
             Schema refToParent = new Schema<>().$ref(reference);
             allOf.add(refToParent);
-            if (child.getProperties() != null) {
+            Map<String, Schema> childProperties = child.getProperties();
+            if (childProperties != null) {
                 // move the properties inside the new allOf.
-                Schema childProperties = new Schema<>().properties(child.getProperties());
-                allOf.add(childProperties);
+                Schema newChildProperties = new Schema<>().properties(childProperties);
+                allOf.add(newChildProperties);
                 child.setProperties(null);
                 child.setType(null);
             }

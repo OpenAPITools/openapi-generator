@@ -16,9 +16,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -29,7 +26,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -1529,7 +1525,11 @@ public class OpenAPINormalizerTest {
         Map<String, String> mapping = vehicle.getDiscriminator().getMapping();
         assertEquals(mapping, Map.of("car", "#/components/schemas/Car", "plane", "#/components/schemas/Plane" ));
         Schema car = openAPI.getComponents().getSchemas().get("Car");
-        assertFalse(car.getProperties().containsKey("type"));
+        assertNull(car.getProperties());
+        assertEquals(car.getAllOf().size(), 2);
+        assertEquals(((Schema)car.getAllOf().get(0)).get$ref(), "#/components/schemas/Vehicle");
+        assertEquals(((Schema)car.getAllOf().get(1)).getProperties().size(), 1);
+        assertEquals(((Schema)car.getAllOf().get(1)).getProperties().keySet(), Set.of("has_4_wheel_drive"));
     }
 
     @Test
