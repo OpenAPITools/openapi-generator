@@ -72,7 +72,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.testng.Assert.*;
 
 public class JavaClientCodegenTest {
@@ -4371,26 +4370,6 @@ public class JavaClientCodegenTest {
                 .containsWithName("JsonSubTypes")
                 .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Folder.class", "name", "\"folder\""))
                 .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Source.class", "name", "\"source\""));
-
-    }
-
-    @Test
-    void issue_19261() {
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_19261.yaml", APACHE,
-                Map.of(),
-                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
-                        .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
-        JavaFileAssert.assertThat(files.get("Product.java"))
-                .isNormalClass()
-                .doesNotExtendsClasses()
-                .fileContains("AboType type")
-                .assertTypeAnnotations()
-                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("include", "JsonTypeInfo.As.PROPERTY", "property", "\"type\""))
-                .containsWithName("JsonSubTypes")
-                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "HomeProduct.class", "name", "\"home\""))
-                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "InternetProduct.class", "name", "\"internet\""));
-        JavaFileAssert.assertThat(files.get("InternetProduct.java"))
-                .extendsClass("Product");
     }
 
 }

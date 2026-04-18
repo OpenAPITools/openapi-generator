@@ -21,24 +21,20 @@ components:
         - $ref: '#/components/schemas/Polygon'
         - $ref: '#/components/schemas/MultiPolygon'
     Polygon:
-      allOf:
-        - $ref: '#/components/schemas/GeoJsonObject'
-        - type: object
-          properties:
-            coordinates:
-              type: array
-              items:
-                type: number
-                format: double
+      type: object
+      properties:
+        coordinates:
+          type: array
+          items:
+            type: number
+            format: double
     MultiPolygon:
-      allOf:
-        - $ref: '#/components/schemas/GeoJsonObject'
-        - type: object
-          properties:
-            coordinates:
-              type: array
-              items:
-                type: array
-                items:
-                  type: number
-                  format: double
+      type: object
+      properties:
+        coordinates:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              format: double

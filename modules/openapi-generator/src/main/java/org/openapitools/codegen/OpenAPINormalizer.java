@@ -646,7 +646,7 @@ public class OpenAPINormalizer {
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
 
                 if (getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
-                    ensureInheritance(schema, schemaName);
+                    ensureInheritanceForDiscriminatorMappings(schema, schemaName);
                 }
             }
         }
@@ -1585,10 +1585,10 @@ public class OpenAPINormalizer {
      * Ensure inheritance is correctly defined for OneOf and Discriminators.
      *
      * For schemas containing oneOf and discriminator.propertyName:
-     * Create the mappings as $refs
-     * Remove OneOf
-     *
-     * For referenced schemas, ensure that there is an allOf with this schema.
+     * <ul>
+     *  <li>Create the mappings as $refs</li>
+     *  <li>Remove OneOf</li>
+     * </ul>
      */
     protected Schema processReplaceOneOfByMapping(Schema schema) {
         if (!getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
@@ -1596,74 +1596,190 @@ public class OpenAPINormalizer {
         }
         Discriminator discriminator = schema.getDiscriminator();
         if (discriminator != null) {
-            if (discriminator.getMapping() == null) {
+            boolean inlineSchema = isInlineSchema(schema);
+            if (inlineSchema) {
+                // the For referenced schemas, ensure that there is an allOf with this schema.
+                LOGGER.warn("Inline oneOf schema not supported by REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+                return schema;
+            }
+            if (discriminator.getMapping() == null && discriminator.getPropertyName() != null) {
                 Map<String, String> mappings = new TreeMap<>();
                 discriminator.setMapping(mappings);
-                for (Object oneOfObject : schema.getOneOf()) {
-                    Schema oneOf = (Schema) oneOfObject;
+                List<Schema> oneOfs = schema.getOneOf();
+                for (Schema oneOf: oneOfs) {
                     String refSchema = oneOf.get$ref();
                     if (refSchema != null) {
-                        String name = getDiscriminatorValue(refSchema);
+                        boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
+                        String name = getDiscriminatorValue(refSchema, discriminator.getPropertyName(), hasProperty);
                         mappings.put(name, refSchema);
                     }
                 }
             }
-
-
+            // remove oneOf and only keep the discriminator mapping
             schema.setOneOf(null);
         }
+
         return schema;
     }
 
-    protected String getDiscriminatorValue(String refSchema) {
-        String schemaName = refSchema.contains("/") ? refSchema.substring(refSchema.lastIndexOf('/') + 1) : refSchema;;
+    private boolean isInlineSchema(Schema schema) {
+        if (openAPI.getComponents()!=null && openAPI.getComponents().getSchemas()!=null) {
+            int identity = System.identityHashCode(schema);
+            for (Schema componentSchema: openAPI.getComponents().getSchemas().values()) {
+                if (System.identityHashCode(componentSchema) == identity) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Best effort to retrieve a good discriminator value.
+     * By order of precedence:
+     * <ul>
+     *  <li>x-discriminator-value</li>
+     *  <li>single enum value for attribute used by the discriminator.propertyName</li>
+     *  <li>hame of the schema</li>
+     * </ul>
+     *
+     * @param refSchema $ref value like #/components/schemas/Dog
+     * @param discriminatorPropertyName name of the property used in the discriminator mapping
+     * @param propertyAlreadyPresent if true, delete the property in the referenced schemas to avoid duplicates
+     *
+     * @return the name
+     */
+    protected String getDiscriminatorValue(String refSchema, String discriminatorPropertyName, boolean propertyAlreadyPresent) {
+        String schemaName = ModelUtils.getSimpleRef(refSchema);
         Schema schema = ModelUtils.getSchema(openAPI, schemaName);
+        Schema property = findProperty(schema, discriminatorPropertyName, propertyAlreadyPresent, new HashSet<>());
         if (schema != null && schema.getExtensions() != null) {
             Object discriminatorValue = schema.getExtensions().get("x-discriminator-value");
             if (discriminatorValue != null) {
                 return discriminatorValue.toString();
             }
         }
+
+        // find the discriminator value as a unique enum value
+        if (property != null) {
+            List enums = property.getEnum();
+            if (enums != null && enums.size() == 1) {
+                return enums.get(0).toString();
+            }
+        }
+
         return schemaName;
     }
 
+    /**
+     * find a property under the schema.
+     *
+     * @param schema
+     * @param propertyName property to find
+     * @param toDelete if true delete the found property
+     * @param visitedSchemas avoid infinite recursion
+     * @return found property or null if not found.
+     */
+    private Schema findProperty(Schema schema, String propertyName, boolean toDelete, HashSet<Object> visitedSchemas) {
+        if (propertyName == null || schema == null || visitedSchemas.contains(schema)) {
+            return null;
+        }
+        visitedSchemas.add(schema);
+        Map<String, Schema>  properties = schema.getProperties();
+        if (properties != null) {
+            Schema property = properties.get(propertyName);
+            if (property != null) {
+                if (toDelete) {
+                    if (schema.getProperties().remove(propertyName) != null) {
+                        schema.setProperties(null);
+                    }
+                }
+                return property;
+            }
+        }
+        List<Schema> allOfs = schema.getAllOf();
+        if (allOfs != null) {
+            for (Schema child : allOfs) {
+                Schema found = findProperty(child, propertyName, toDelete, visitedSchemas);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
 
-    protected void ensureInheritance(Schema parent, String parentName) {
+        return null;
+    }
+
+
+    /**
+     * ensure that all schemas referenced in the discriminator mapping has an allOf to the parent schema.
+     *
+     * This allows DefaultCodeGen to detect inheritance.
+     *
+     * @param parent parent schma
+     * @param parentName name of the parent schema
+     */
+    protected void ensureInheritanceForDiscriminatorMappings(Schema parent, String parentName) {
         Discriminator discriminator = parent.getDiscriminator();
         if (discriminator != null && discriminator.getMapping() != null) {
-
             for (String mapping : discriminator.getMapping().values()) {
-                String refSchemaName = getDiscriminatorValue(mapping);
+                String refSchemaName = ModelUtils.getSimpleRef(mapping);
                 Schema child = ModelUtils.getSchema(openAPI, refSchemaName);
                 if (child != null) {
-                    ensureInheritance(parent, child, parentName);
+                    if (parentName != null) {
+                        ensureInheritanceForDiscriminatorMappings(parent, child, parentName, new HashSet<>());
+                    }
                 }
             }
         }
     }
 
-    protected void ensureInheritance(Schema parent, Schema child, String parentName) {
+    /**
+     * If not already present, add in the child an allOf referencing the parent.
+     */
+    protected void ensureInheritanceForDiscriminatorMappings(Schema parent, Schema child, String parentName, Set<Schema> visitedSchemas) {
         String reference = "#/components/schemas/" + parentName;
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
-            if (hasParent(child, parent, reference)) {
+            if (hasParent(parent, child, reference, visitedSchemas)) {
+                // already done, so no need to add
                 return;
             }
+            Schema refToParent = new Schema<>().$ref(reference);
+            allOf.add(refToParent);
         } else {
             allOf = new ArrayList<>();
             child.setAllOf(allOf);
+            Schema refToParent = new Schema<>().$ref(reference);
+            allOf.add(refToParent);
+            if (child.getProperties() != null) {
+                // move the properties inside the new allOf.
+                Schema childProperties = new Schema<>().properties(child.getProperties());
+                allOf.add(childProperties);
+                child.setProperties(null);
+                child.setType(null);
+            }
         }
-        Schema refToParent = new Schema<>().$ref(reference);
-        allOf.add(refToParent);
     }
 
-    private boolean hasParent(Schema child, Schema parent, String reference) {
+    /**
+     * return true if the child as an allOf referencing the parent scham.
+     */
+    private boolean hasParent(Schema parent, Schema child, String reference, Set<Schema> visitedSchemas) {
         if (child.get$ref() != null && child.get$ref().equals(reference)) {
             return true;
         }
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
-            return allOf.stream().anyMatch(s -> hasParent(s, parent, reference));
+            for (Schema  schema : allOf) {
+                if (visitedSchemas.contains(schema)) {
+                    return false;
+                }
+                visitedSchemas.add(schema);
+                if (hasParent(schema, parent, reference, visitedSchemas)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

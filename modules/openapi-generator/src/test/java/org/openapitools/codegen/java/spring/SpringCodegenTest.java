@@ -6762,4 +6762,12 @@ public class SpringCodegenTest {
                 .isNormalClass()
                 .extendsClass("FruitDto");
     }
+
+    @Test
+    public void issue_14769() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_14769.yaml", SPRING_BOOT,
+                Map.of(MODEL_NAME_SUFFIX, "Dto",
+                        GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+    }
 }

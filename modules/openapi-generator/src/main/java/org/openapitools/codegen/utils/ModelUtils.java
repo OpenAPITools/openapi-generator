@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.util.Yaml;
 import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -2643,6 +2645,22 @@ public class ModelUtils {
             public LinkedHashSet<String> build() {
                 return this.validationSet;
             }
+        }
+    }
+
+
+    /*
+     * Simplest dump of an openApi contract on the console.
+     *
+     * Only use for debugging.
+     */
+    public static void dumpAsYaml(OpenAPI openAPI) {
+        ObjectMapper mapper = Yaml.mapper();
+        try {
+            String yaml = mapper.writeValueAsString(openAPI);
+            System.out.println(yaml);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 }
