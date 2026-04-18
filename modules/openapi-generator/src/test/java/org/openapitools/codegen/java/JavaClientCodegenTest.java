@@ -4352,7 +4352,6 @@ public class JavaClientCodegenTest {
                 .extendsClass("GeoJsonObject")
                 .doesNotImplementInterfaces("GeoJsonObject")
                 .fileContains("List<Double> coordinates");
-
     }
 
     @Test
