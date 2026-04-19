@@ -1065,6 +1065,18 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String getSchemaType(Schema p) {
         if (Objects.equals(p.getType(), "integer")) {
+            final boolean hasNoFormat = StringUtils.isEmpty(p.getFormat());
+            final boolean hasNoBounds = p.getMinimum() == null
+                    && p.getMaximum() == null
+                    && p.getExclusiveMinimum() == null
+                    && p.getExclusiveMaximum() == null;
+
+            // Preserve legacy schema typing for unconstrained integers so alias models
+            // keep their expected model resolution flow.
+            if (hasNoFormat && hasNoBounds) {
+                return super.getSchemaType(p);
+            }
+
             final BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
             final BigInteger maximum = Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null);
 
@@ -1090,6 +1102,45 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         } else {
             return null;
         }
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty property = super.fromProperty(name, p, required);
+        ensureArrayComplexType(property);
+        return property;
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        ensureArrayComplexType(property);
+        return property;
+    }
+
+    private void ensureArrayComplexType(CodegenProperty property) {
+        if (property == null || !property.isArray || StringUtils.isNotBlank(property.complexType) || property.items == null) {
+            return;
+        }
+
+        String candidate = StringUtils.defaultIfBlank(property.items.complexType, property.items.baseType);
+        if (StringUtils.isBlank(candidate)) {
+            candidate = property.items.dataType;
+        }
+        if (StringUtils.isBlank(candidate)) {
+            return;
+        }
+
+        property.complexType = reverseTypeMapping(candidate);
+    }
+
+    private String reverseTypeMapping(String rustType) {
+        for (Map.Entry<String, String> entry : typeMapping.entrySet()) {
+            if (Objects.equals(entry.getValue(), rustType)) {
+                return entry.getKey();
+            }
+        }
+        return rustType;
     }
 
     @Override
