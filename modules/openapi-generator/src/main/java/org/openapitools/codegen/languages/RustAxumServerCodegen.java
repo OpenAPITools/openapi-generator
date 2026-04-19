@@ -1028,16 +1028,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private String getIntegerDataType(String format,
                                       BigInteger minimum,
                                       boolean exclusiveMinimum,
-                                      BigInteger maximum,
-                                      boolean exclusiveMaximum,
-                                      boolean explicitUnsigned) {
-        boolean unsigned = explicitUnsigned || canFitIntoUnsigned(minimum, exclusiveMinimum);
-
-        if (explicitUnsigned && !canFitIntoUnsigned(minimum, exclusiveMinimum)) {
-            // Preserve explicit unsigned intent (e.g. x-unsigned) even when no lower bound is provided.
-            minimum = BigInteger.ZERO;
-            exclusiveMinimum = false;
-        }
+                                      final BigInteger maximum,
+                                      final boolean exclusiveMaximum) {
+        final boolean unsigned = canFitIntoUnsigned(minimum, exclusiveMinimum);
 
         if (StringUtils.isEmpty(format)) {
             return bestFittingIntegerType(
@@ -1069,26 +1062,18 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
-    private boolean hasExplicitUnsignedExtension(Map<String, Object> extensions) {
-        return extensions != null && Boolean.TRUE.equals(extensions.get("x-unsigned"));
-    }
-
     @Override
     public String getSchemaType(Schema p) {
         if (Objects.equals(p.getType(), "integer")) {
-            BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
-            BigInteger maximum = Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null);
-            boolean explicitUnsigned = ModelUtils.isUnsignedIntegerSchema(p)
-                    || ModelUtils.isUnsignedLongSchema(p)
-                    || hasExplicitUnsignedExtension(p.getExtensions());
+            final BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
+            final BigInteger maximum = Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null);
 
             return getIntegerDataType(
                     p.getFormat(),
                     minimum,
                     Optional.ofNullable(p.getExclusiveMinimum()).orElse(false),
                     maximum,
-                    Optional.ofNullable(p.getExclusiveMaximum()).orElse(false),
-                    explicitUnsigned);
+                    Optional.ofNullable(p.getExclusiveMaximum()).orElse(false));
         }
 
         return super.getSchemaType(p);
@@ -1184,18 +1169,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         // Integer type fitting
         if (Boolean.TRUE.equals(property.isInteger) || Boolean.TRUE.equals(property.isLong) || Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong")) {
-            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-            boolean explicitUnsigned = Objects.equals(property.baseType, "UnsignedInteger")
-                    || Objects.equals(property.baseType, "UnsignedLong")
-                    || hasExplicitUnsignedExtension(property.vendorExtensions);
+            final BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
+            final BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
             property.dataType = getIntegerDataType(
                     property.dataFormat,
                     minimum,
                     property.getExclusiveMinimum(),
                     maximum,
-                    property.getExclusiveMaximum(),
-                    explicitUnsigned);
+                    property.getExclusiveMaximum());
         }
 
         property.name = underscore(property.name);

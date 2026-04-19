@@ -82,17 +82,6 @@ public class RustAxumServerCodegenTest {
         schema.setMinimum(BigDecimal.ZERO);
         schema.setMaximum(BigDecimal.valueOf(255));
         Assert.assertEquals(codegen.getSchemaType(schema), "u8");
-
-        schema = new IntegerSchema();
-        schema.setExtensions(new HashMap<>());
-        schema.getExtensions().put("x-unsigned", true);
-        Assert.assertEquals(codegen.getSchemaType(schema), "u32");
-
-        schema = new IntegerSchema();
-        schema.setFormat("custom");
-        schema.setExtensions(new HashMap<>());
-        schema.getExtensions().put("x-unsigned", true);
-        Assert.assertEquals(codegen.getSchemaType(schema), "u32");
     }
 
     @Test
@@ -113,7 +102,7 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "pub positive_int32: u32");
         TestUtils.assertFileContains(modelsPath, "pub positive_int64: u64");
         TestUtils.assertFileContains(modelsPath, "pub small_positive: u8");
-        TestUtils.assertFileContains(modelsPath, "pub explicit_unsigned: u32");
+        TestUtils.assertFileContains(modelsPath, "pub explicit_unsigned: i32");
         TestUtils.assertFileContains(modelsPath, "pub struct GetIntegersQueryParams");
     }
 }
