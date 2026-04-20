@@ -258,6 +258,7 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `EquilateralTriangle`
      * @throws ClassCastException if the instance is not `EquilateralTriangle`
      */
+    @SuppressWarnings("unchecked")
     public EquilateralTriangle getEquilateralTriangle() throws ClassCastException {
         return (EquilateralTriangle)super.getActualInstance();
     }
@@ -269,6 +270,7 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `IsoscelesTriangle`
      * @throws ClassCastException if the instance is not `IsoscelesTriangle`
      */
+    @SuppressWarnings("unchecked")
     public IsoscelesTriangle getIsoscelesTriangle() throws ClassCastException {
         return (IsoscelesTriangle)super.getActualInstance();
     }
@@ -280,6 +282,7 @@ public class Triangle extends AbstractOpenApiSchema {
      * @return The actual instance of `ScaleneTriangle`
      * @throws ClassCastException if the instance is not `ScaleneTriangle`
      */
+    @SuppressWarnings("unchecked")
     public ScaleneTriangle getScaleneTriangle() throws ClassCastException {
         return (ScaleneTriangle)super.getActualInstance();
     }

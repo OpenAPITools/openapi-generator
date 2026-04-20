@@ -183,7 +183,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * List<@Valid OneOf1>, OneOf1
+     * List&lt;@Valid OneOf1&gt;, OneOf1
      *
      * It could be an instance of the 'oneOf' schemas.
      */
@@ -207,9 +207,9 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
 
     /**
      * Get the actual instance, which can be the following:
-     * List<@Valid OneOf1>, OneOf1
+     * List&lt;@Valid OneOf1&gt;, OneOf1
      *
-     * @return The actual instance (List<@Valid OneOf1>, OneOf1)
+     * @return The actual instance (List&lt;@Valid OneOf1&gt;, OneOf1)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -218,12 +218,13 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `List<@Valid OneOf1>`. If the actual instance is not `List<@Valid OneOf1>`,
+     * Get the actual instance of `List&lt;@Valid OneOf1&gt;`. If the actual instance is not `List&lt;@Valid OneOf1&gt;`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `List<@Valid OneOf1>`
-     * @throws ClassCastException if the instance is not `List<@Valid OneOf1>`
+     * @return The actual instance of `List&lt;@Valid OneOf1&gt;`
+     * @throws ClassCastException if the instance is not `List&lt;@Valid OneOf1&gt;`
      */
+    @SuppressWarnings("unchecked")
     public List<@Valid OneOf1> getListOneOf1() throws ClassCastException {
         return (List<@Valid OneOf1>)super.getActualInstance();
     }
@@ -235,6 +236,7 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
      * @return The actual instance of `OneOf1`
      * @throws ClassCastException if the instance is not `OneOf1`
      */
+    @SuppressWarnings("unchecked")
     public OneOf1 getOneOf1() throws ClassCastException {
         return (OneOf1)super.getActualInstance();
     }

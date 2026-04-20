@@ -17,8 +17,11 @@
 
 package org.openapitools.codegen.php;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -243,6 +246,76 @@ public class PhpSymfonyServerCodegenTest {
     }
 
     /**
+     * Guards {@code php-symfony} {@code JmsSerializer.mustache}: invalid query values for a generated PHP
+     * {@code BackedEnum} are deserialized in {@code JmsSerializer::deserializeString()}. The generated
+     * {@code DefaultController} wraps {@code deserialize(...)} with {@code catch (SerializerRuntimeException)},
+     * an alias of {@code JMS\Serializer\Exception\RuntimeException}. Only the unknown-enum branch must throw that
+     * type; other string-deserialization errors may keep using PHP's global {@code RuntimeException}.
+     * <p>
+     * This test asserts the generated {@code JmsSerializer.php} keeps {@code use RuntimeException;} and adds
+     * {@code use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;}, throws
+     * {@code SerializerRuntimeException} for {@code tryFrom} failure, and that {@code DefaultController.php} still
+     * catches {@code SerializerRuntimeException}.
+     * <p>
+     * Spec: {@code src/test/resources/3_1/php-symfony/jms-enum-query-invalid-deserialization.yaml}. Background:
+     * {@code fix_jms_enum_ex.md}.
+     */
+    @Test
+    public void testJmsSerializerUsesJmsRuntimeExceptionForBackedEnumStringDeserializationErrors() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("invokerPackage", "Org\\OpenAPITools\\PetstoreEnum");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("php-symfony")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_1/php-symfony/jms-enum-query-invalid-deserialization.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        File jmsSerializer = files.stream()
+                .filter(f -> "JmsSerializer.php".equals(f.getName()) && f.getPath().contains("Service" + File.separator))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("JmsSerializer.php not generated"));
+
+        String jms = Files.readString(jmsSerializer.toPath(), StandardCharsets.UTF_8);
+
+        Assert.assertTrue(
+                jms.contains("Unknown %s value in %s enum"),
+                "Expected BackedEnum tryFrom failure message in generated JmsSerializer");
+        Assert.assertTrue(
+                Pattern.compile("^use RuntimeException;\\s*$", Pattern.MULTILINE).matcher(jms).find(),
+                "JmsSerializer should keep use RuntimeException for generic unsupported-type errors");
+        Assert.assertTrue(
+                jms.contains("use JMS\\Serializer\\Exception\\RuntimeException as SerializerRuntimeException;"),
+                "JmsSerializer must alias JMS RuntimeException as SerializerRuntimeException (same as DefaultController)");
+        Assert.assertTrue(
+                jms.contains("throw new SerializerRuntimeException(sprintf(\"Unknown %s value in %s enum\", $data, $type));"),
+                "Invalid BackedEnum tryFrom must throw SerializerRuntimeException so DefaultController catch applies");
+
+        File defaultController = files.stream()
+                .filter(f -> "DefaultController.php".equals(f.getName()) && f.getPath().contains("Controller" + File.separator))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("DefaultController.php not generated"));
+        String controller = Files.readString(defaultController.toPath(), StandardCharsets.UTF_8);
+        Assert.assertTrue(
+                controller.contains("use JMS\\Serializer\\Exception\\RuntimeException as SerializerRuntimeException;"),
+                "Expected DefaultController to catch SerializerRuntimeException alias");
+        Assert.assertTrue(
+                controller.contains("catch (SerializerRuntimeException $exception)"),
+                "Expected deserialize() to catch SerializerRuntimeException");
+
+        assertGeneratedPhpSyntaxValid(jmsSerializer);
+        assertGeneratedPhpSyntaxValid(defaultController);
+
+        output.deleteOnExit();
+    }
+
+    /**
      * Optional {@code in: query} parameter: {@code required: false}, schema is an enum {@code $ref} with a valid
      * {@code default} (see OpenAPI 3.x). Omitting the query key must be equivalent to sending that default; the
      * generated controller must not reject the request in validation solely because the value was absent.
@@ -326,6 +399,44 @@ public class PhpSymfonyServerCodegenTest {
         assertGeneratedPhpSyntaxValid(controllerFile);
 
         output.deleteOnExit();
+    }
+
+    /**
+     * Model property: string enum {@code $ref} with sibling {@code default} must produce a valid PHP 8.1 backed-enum
+     * default expression ({@code Type::CASE}), not {@code self::} + FQCN + {@code _CASE} from
+     * {@link AbstractPhpCodegen#toEnumDefaultValue}.
+     * <p>
+     * Spec: {@code src/test/resources/3_1/php-symfony/optional-enum-query-ref-default.yaml} ({@code Pet.HTTP.CreatePetRequest.status}).
+     */
+    @Test
+    public void testModelPropertyEnumRefWithDefaultUsesNativeEnumCaseInCodegen() {
+        final var openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_1/php-symfony/optional-enum-query-ref-default.yaml");
+        final PhpSymfonyServerCodegen codegen = new PhpSymfonyServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        Schema createPet = openAPI.getComponents().getSchemas().get("Pet.HTTP.CreatePetRequest");
+        Assert.assertNotNull(createPet, "Fixture must define Pet.HTTP.CreatePetRequest");
+
+        CodegenModel cm = codegen.fromModel("Pet.HTTP.CreatePetRequest", createPet);
+        codegen.postProcessModels(TestUtils.createCodegenModelWrapper(cm));
+
+        CodegenProperty status = cm.getVars().stream()
+                .filter(v -> "status".equals(v.getName()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Expected status property on CreatePetRequest model"));
+
+        Assert.assertNotNull(
+                status.getDefaultValue(),
+                "Enum ref + OpenAPI default should set CodegenProperty.defaultValue (see AbstractPhpCodegen.toDefaultValue"
+                        + " ref+default handling and updateCodegenPropertyEnum)");
+        Assert.assertFalse(
+                status.getDefaultValue().startsWith("self::"),
+                "Invalid PHP: backed enum default must not use self:: prefix, got: " + status.getDefaultValue());
+        Assert.assertTrue(
+                status.getDefaultValue().contains("::AVAILABLE"),
+                "Expected PetModelPetStatus::AVAILABLE (or FQCN::AVAILABLE), got: " + status.getDefaultValue());
     }
 
     /**

@@ -233,6 +233,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
      * @return The actual instance of `Triangle`
      * @throws ClassCastException if the instance is not `Triangle`
      */
+    @SuppressWarnings("unchecked")
     public Triangle getTriangle() throws ClassCastException {
         return (Triangle)super.getActualInstance();
     }
@@ -244,6 +245,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
      * @return The actual instance of `Quadrilateral`
      * @throws ClassCastException if the instance is not `Quadrilateral`
      */
+    @SuppressWarnings("unchecked")
     public Quadrilateral getQuadrilateral() throws ClassCastException {
         return (Quadrilateral)super.getActualInstance();
     }
