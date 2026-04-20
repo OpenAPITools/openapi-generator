@@ -4346,7 +4346,9 @@ public class JavaClientCodegenTest {
                 .fileContains("String type")
                 .fileDoesNotContain("coordinates")
                 .assertTypeAnnotations()
-                .containsWithName("JsonSubTypes");
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "MultiPolygon.class", "name", "\"MultiPolygon\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Polygon.class", "name", "\"Polygon\""));
 
         JavaFileAssert.assertThat(files.get("Polygon.java"))
                 .extendsClass("GeoJsonObject")
