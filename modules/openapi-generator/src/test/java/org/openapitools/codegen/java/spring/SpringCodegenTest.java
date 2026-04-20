@@ -6770,5 +6770,15 @@ public class SpringCodegenTest {
                 Map.of(MODEL_NAME_SUFFIX, "Dto",
                         GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+
+        JavaFileAssert.assertThat(files.get("VehicleDto.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "CarDto.class", "name", "\"car\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "PlaneDto.class", "name", "\"plane\""));
+
+        JavaFileAssert.assertThat(files.get("CarDto.java"))
+                .isNormalClass()
+                .extendsClass("VehicleDto");
     }
 }

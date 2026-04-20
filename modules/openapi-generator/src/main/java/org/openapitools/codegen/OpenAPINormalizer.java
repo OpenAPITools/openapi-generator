@@ -1773,7 +1773,10 @@ public class OpenAPINormalizer {
             Map<String, Schema> childProperties = child.getProperties();
             if (childProperties != null) {
                 // move the properties inside the new allOf.
-                Schema newChildProperties = new Schema<>().properties(childProperties);
+                Schema newChildProperties = new Schema<>()
+                        .properties(childProperties)
+                        .additionalProperties(child.getAdditionalProperties());
+                ModelUtils.copyMetadata(child, newChildProperties);
                 allOf.add(newChildProperties);
                 child.setProperties(null);
                 child.setType(null);
