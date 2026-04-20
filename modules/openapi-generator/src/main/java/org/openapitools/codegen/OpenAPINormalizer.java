@@ -1745,7 +1745,7 @@ public class OpenAPINormalizer {
                 Schema child = ModelUtils.getSchema(openAPI, refSchemaName);
                 if (child != null) {
                     if (parentName != null) {
-                        ensureInheritanceForDiscriminatorMappings(parent, child, parentName, new HashSet<>());
+                        ensureInheritanceForDiscriminatorMapping(parent, child, parentName, new HashSet<>());
                     }
                 }
             }
@@ -1755,7 +1755,7 @@ public class OpenAPINormalizer {
     /**
      * If not already present, add in the child an allOf referencing the parent.
      */
-    protected void ensureInheritanceForDiscriminatorMappings(Schema parent, Schema child, String parentName, Set<Schema> visitedSchemas) {
+    protected void ensureInheritanceForDiscriminatorMapping(Schema parent, Schema child, String parentName, Set<Schema> visitedSchemas) {
         String reference = "#/components/schemas/" + parentName;
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
@@ -1778,8 +1778,17 @@ public class OpenAPINormalizer {
                         .additionalProperties(child.getAdditionalProperties());
                 ModelUtils.copyMetadata(child, newChildProperties);
                 allOf.add(newChildProperties);
-                child.setProperties(null);
-                child.setType(null);
+                child.properties(null)
+                        .type(null)
+                        .additionalProperties(null)
+                        .description(null)
+                        ._default(null)
+                        .deprecated(null)
+                        .example(null)
+                        .examples(null)
+                        .readOnly(null)
+                        .writeOnly(null)
+                        .title(null);
             }
         }
     }
