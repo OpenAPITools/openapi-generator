@@ -32,7 +32,7 @@ tasks.getByName("jar") {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.9")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.6")
     }
 }
 
