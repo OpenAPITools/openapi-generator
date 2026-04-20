@@ -55,7 +55,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-    implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
     implementation("javax.validation:validation-api")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
