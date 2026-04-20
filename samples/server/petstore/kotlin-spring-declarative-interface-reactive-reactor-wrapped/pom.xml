@@ -26,7 +26,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2021.0.5</version>
+                <version>2023.0.9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
