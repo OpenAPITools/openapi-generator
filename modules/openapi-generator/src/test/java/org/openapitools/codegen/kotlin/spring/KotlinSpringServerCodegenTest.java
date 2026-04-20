@@ -5042,6 +5042,7 @@ public class KotlinSpringServerCodegenTest {
         String methodPattern = "fun test\\s*\\(.*?\\)";
         Pattern pattern = Pattern.compile(methodPattern);
 
+
         Matcher matcher = pattern.matcher(content);
         Assert.assertTrue(matcher.find(), "Method 'test' should be found in generated file");
 
