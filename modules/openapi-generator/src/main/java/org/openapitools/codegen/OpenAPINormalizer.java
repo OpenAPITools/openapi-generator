@@ -1603,25 +1603,31 @@ public class OpenAPINormalizer {
                 return schema;
             }
             if (discriminator.getMapping() == null && discriminator.getPropertyName() != null) {
-                Map<String, String> mappings = new TreeMap<>();
-                discriminator.setMapping(mappings);
                 List<Schema> oneOfs = schema.getOneOf();
+                if (oneOfs.stream().anyMatch(oneOf -> oneOf.get$ref() == null)) {
+                    LOGGER.warn("oneOf should only contain $ref for REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+                    return schema;
+                }
+                Map<String, String> mappings = new TreeMap<>();
+                // is the discriminator qttribute qlready in this schema?
+                // if yes, it will be deleted in references oneOf to avoid duplicates
+                boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
+                discriminator.setMapping(mappings);
                 for (Schema oneOf : oneOfs) {
                     String refSchema = oneOf.get$ref();
-                    if (refSchema != null) {
-                        boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
-                        String name = getDiscriminatorValue(refSchema, discriminator.getPropertyName(), hasProperty);
-                        mappings.put(name, refSchema);
-                    }
+                    String name = getDiscriminatorValue(refSchema, discriminator.getPropertyName(), hasProperty, new HashSet<>(List.of(schema)));
+                    mappings.put(name, refSchema);
+
                 }
                 // remove oneOf and only keep the new discriminator mapping
                 schema.setOneOf(null);
             } else if (discriminator.getPropertyName() == null) {
                 LOGGER.warn("Missing property name in discriminator");
             } else if (discriminator.getMapping() != null && discriminator.getMapping().size() != schema.getOneOf().size()) {
-                LOGGER.warn("Discriminator Mapping size " + discriminator.getMapping().size() + " mismatch with oneOf size " + schema.getOneOf().size());
+                LOGGER.warn("Discriminator mapping size " + discriminator.getMapping().size() + " mismatch with oneOf size " + schema.getOneOf().size());
             } else {
                 // remove oneOf and only keep the discriminator mapping
+                LOGGER.info("Removing oneOf, discriminator mapping takes precedences on OneOfs");
                 schema.setOneOf(null);
             }
         }
@@ -1656,10 +1662,10 @@ public class OpenAPINormalizer {
      *
      * @return the name
      */
-    protected String getDiscriminatorValue(String refSchema, String discriminatorPropertyName, boolean propertyAlreadyPresent) {
+    protected String getDiscriminatorValue(String refSchema, String discriminatorPropertyName, boolean propertyAlreadyPresent, Set<Schema> visitedSchemas) {
         String schemaName = ModelUtils.getSimpleRef(refSchema);
         Schema schema = ModelUtils.getSchema(openAPI, schemaName);
-        Schema property = findProperty(schema, discriminatorPropertyName, propertyAlreadyPresent, new HashSet<>());
+        Schema property = findProperty(schema, discriminatorPropertyName, propertyAlreadyPresent, visitedSchemas);
         if (schema != null && schema.getExtensions() != null) {
             Object discriminatorValue = schema.getExtensions().get("x-discriminator-value");
             if (discriminatorValue != null) {
@@ -1668,6 +1674,7 @@ public class OpenAPINormalizer {
         }
 
         // find the discriminator value as a unique enum value
+        property = ModelUtils.getReferencedSchema(openAPI, property);
         if (property != null) {
             List enums = property.getEnum();
             if (enums != null && enums.size() == 1) {
@@ -1687,14 +1694,15 @@ public class OpenAPINormalizer {
      * @param visitedSchemas avoid infinite recursion
      * @return found property or null if not found.
      */
-    private Schema findProperty(Schema schema, String propertyName, boolean toDelete, HashSet<Object> visitedSchemas) {
+    private Schema findProperty(Schema schema, String propertyName, boolean toDelete, Set<Schema> visitedSchemas) {
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
         if (propertyName == null || schema == null || visitedSchemas.contains(schema)) {
             return null;
         }
         visitedSchemas.add(schema);
         Map<String, Schema>  properties = schema.getProperties();
         if (properties != null) {
-            Schema property = properties.get(propertyName);
+            Schema property = ModelUtils.getReferencedSchema(openAPI, properties.get(propertyName));
             if (property != null) {
                 if (toDelete) {
                     if (schema.getProperties().remove(propertyName) != null) {
@@ -1784,6 +1792,7 @@ public class OpenAPINormalizer {
         if (child.get$ref() != null && child.get$ref().equals(reference)) {
             return true;
         }
+        child = ModelUtils.getReferencedSchema(openAPI, child);
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
             for (Schema  schema : allOf) {

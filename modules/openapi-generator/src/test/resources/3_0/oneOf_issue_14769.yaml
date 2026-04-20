@@ -35,11 +35,15 @@ components:
 
     Plane:
       type: object
-      properties:
-        type:
-          enum:
-            - plane
-        has_reactor:
-          type: boolean
-        nb_passengers:
-          type: integer
+      allOf:
+        - properties:
+            type:
+              $ref: '#/components/schemas/PlaneEnum'
+            has_reactor:
+              type: boolean
+            nb_passengers:
+              type: integer
+    PlaneEnum:
+      type: string
+      enum:
+        - plane

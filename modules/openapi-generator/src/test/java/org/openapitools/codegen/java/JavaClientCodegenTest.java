@@ -4355,7 +4355,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    void issue_912() {
+    void oneOf_issue_912() {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_912.yaml", APACHE,
                 Map.of(),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")

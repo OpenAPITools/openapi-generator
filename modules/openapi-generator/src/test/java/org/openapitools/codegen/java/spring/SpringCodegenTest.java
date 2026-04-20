@@ -6684,13 +6684,14 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Polygon.java"))
                 .extendsClass("GeoJsonObject")
+                .fileDoesNotContain(" type;")
                 .doesNotImplementInterfaces("GeoJsonObject")
                 .fileContains("List<Double> coordinates")
                 .fileDoesNotContain("@JsonSubTypes");
     }
 
     @Test
-    void issue_19261() throws IOException {
+    void oneOf_issue_19261() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_19261.yaml", SPRING_BOOT,
                 Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
@@ -6708,7 +6709,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void issue_22013() throws IOException {
+    void oneOf_issue_22013() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_22013.yaml", SPRING_BOOT,
                 Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
@@ -6727,7 +6728,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void issue_23577() throws IOException {
+    void oneOf_issue_23577() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_23577.yaml", SPRING_BOOT,
                 Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true),
                 codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
@@ -6764,7 +6765,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void issue_14769() throws IOException {
+    void oneOf_issue_14769() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_issue_14769.yaml", SPRING_BOOT,
                 Map.of(MODEL_NAME_SUFFIX, "Dto",
                         GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true),
