@@ -1759,7 +1759,7 @@ public class OpenAPINormalizer {
         String reference = "#/components/schemas/" + parentName;
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
-            if (hasParent(parent, child, reference, visitedSchemas)) {
+            if (isParentReferencedInChild(parent, child, reference, visitedSchemas)) {
                 // already done, so no need to add
                 return;
             }
@@ -1784,22 +1784,22 @@ public class OpenAPINormalizer {
     /**
      * return true if the child as an allOf referencing the parent schema.
      */
-    private boolean hasParent(Schema parent, Schema child, String reference, Set<Schema> visitedSchemas) {
+    private boolean isParentReferencedInChild(Schema parent, Schema child, String reference, Set<Schema> visitedSchemas) {
         if (child == null || visitedSchemas.contains(child)) {
             return false;
         }
-        visitedSchemas.add(child);
         if (child.get$ref() != null && child.get$ref().equals(reference)) {
             return true;
         }
         child = ModelUtils.getReferencedSchema(openAPI, child);
+        if (visitedSchemas.contains(child)) {
+            return false;
+        }
+        visitedSchemas.add(child);
         List<Schema> allOf = child.getAllOf();
         if (allOf != null) {
             for (Schema  schema : allOf) {
-                if (visitedSchemas.contains(schema)) {
-                    return false;
-                }
-                if (hasParent(parent, schema, reference, visitedSchemas)) {
+                if (isParentReferencedInChild(parent, schema, reference, visitedSchemas)) {
                     return true;
                 }
             }
