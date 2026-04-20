@@ -50,8 +50,8 @@ public class JavaJersey3ErrorEntityFunctionalTest {
         String template = readTemplate("apiException.mustache");
         assertNotNull(template);
         
-        // Verify errorEntity field exists
-        assertTrue(template.contains("private Object errorEntity = null"),
+        // Verify errorEntity field exists (transient for serialization safety)
+        assertTrue(template.contains("private transient Object errorEntity = null"),
             "Generated ApiException should have errorEntity field");
         
         // Verify getErrorEntity() method exists

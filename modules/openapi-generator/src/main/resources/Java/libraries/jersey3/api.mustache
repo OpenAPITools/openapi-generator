@@ -197,11 +197,9 @@ public class {{classname}} {
     {{/hasAuthMethods}}
     final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     {{#responses}}
-    {{^-first}}
     {{#dataType}}
     localVarErrorTypes.put("{{code}}", new GenericType<{{{dataType}}}>() {});
     {{/dataType}}
-    {{/-first}}
     {{/responses}}
     {{#returnType}}
     GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
