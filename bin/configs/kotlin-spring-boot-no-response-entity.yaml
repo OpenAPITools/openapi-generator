@@ -9,6 +9,6 @@ additionalProperties:
   useSwaggerUI: "false"
   serviceImplementation: "true"
   serializableModel: "true"
-  beanValidations: "true"
+  useBeanValidation: "true"
   useResponseEntity: "false"
   requestMappingMode: controller

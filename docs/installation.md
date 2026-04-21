@@ -143,6 +143,14 @@ export JAVA_HOME=`/usr/libexec/java_home -v 1.11`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
 
+## JBang
+
+> **Platform(s)**: Linux, macOS, Windows
+
+Use [JBang](https://www.jbang.dev/) to retrieve and run the JAR file using Maven coordinates. 
+
+Run `jbang --java 11 org.openapitools:openapi-generator-cli:LATEST help` to show the usage.
+
 ## Bash Launcher Script
 
 > **Platform(s)**: Linux, macOS, Windows (variable)

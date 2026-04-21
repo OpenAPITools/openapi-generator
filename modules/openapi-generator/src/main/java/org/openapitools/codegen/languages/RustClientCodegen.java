@@ -379,6 +379,16 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
 
+            // Flag structs with integer-enum properties so the template can emit serde_repr import once
+            if (!cm.isEnum) {
+                for (CodegenProperty cp : cm.vars) {
+                    if (cp.isEnum && cp.isInteger) {
+                        cm.vendorExtensions.put("x-rust-has-integer-property-enum", true);
+                        break;
+                    }
+                }
+            }
+
             // Compute documentation type for each property
             // This matches the actual generated code type, including HashSet for uniqueItems
             for (CodegenProperty cp : cm.vars) {

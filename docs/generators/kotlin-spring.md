@@ -34,6 +34,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |exceptionHandler|generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )| |true|
+|generatePageableConstraintValidation|Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library=spring-boot.| |false|
+|generateSortValidation|Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library=spring-boot.| |false|
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |implicitHeaders|Skip header parameters in the generated API methods.| |false|
@@ -56,6 +58,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
+|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a pagination-metadata property) and replace their generated references with org.springframework.data.web.PagedModel&lt;T&gt;. The detected page schemas and the pagination metadata schema are suppressed from code generation. Only applies when library=spring-boot.| |false|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|

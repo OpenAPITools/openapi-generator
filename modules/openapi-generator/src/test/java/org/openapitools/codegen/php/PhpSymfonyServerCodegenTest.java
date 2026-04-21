@@ -17,8 +17,11 @@
 
 package org.openapitools.codegen.php;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -396,6 +399,44 @@ public class PhpSymfonyServerCodegenTest {
         assertGeneratedPhpSyntaxValid(controllerFile);
 
         output.deleteOnExit();
+    }
+
+    /**
+     * Model property: string enum {@code $ref} with sibling {@code default} must produce a valid PHP 8.1 backed-enum
+     * default expression ({@code Type::CASE}), not {@code self::} + FQCN + {@code _CASE} from
+     * {@link AbstractPhpCodegen#toEnumDefaultValue}.
+     * <p>
+     * Spec: {@code src/test/resources/3_1/php-symfony/optional-enum-query-ref-default.yaml} ({@code Pet.HTTP.CreatePetRequest.status}).
+     */
+    @Test
+    public void testModelPropertyEnumRefWithDefaultUsesNativeEnumCaseInCodegen() {
+        final var openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_1/php-symfony/optional-enum-query-ref-default.yaml");
+        final PhpSymfonyServerCodegen codegen = new PhpSymfonyServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        Schema createPet = openAPI.getComponents().getSchemas().get("Pet.HTTP.CreatePetRequest");
+        Assert.assertNotNull(createPet, "Fixture must define Pet.HTTP.CreatePetRequest");
+
+        CodegenModel cm = codegen.fromModel("Pet.HTTP.CreatePetRequest", createPet);
+        codegen.postProcessModels(TestUtils.createCodegenModelWrapper(cm));
+
+        CodegenProperty status = cm.getVars().stream()
+                .filter(v -> "status".equals(v.getName()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Expected status property on CreatePetRequest model"));
+
+        Assert.assertNotNull(
+                status.getDefaultValue(),
+                "Enum ref + OpenAPI default should set CodegenProperty.defaultValue (see AbstractPhpCodegen.toDefaultValue"
+                        + " ref+default handling and updateCodegenPropertyEnum)");
+        Assert.assertFalse(
+                status.getDefaultValue().startsWith("self::"),
+                "Invalid PHP: backed enum default must not use self:: prefix, got: " + status.getDefaultValue());
+        Assert.assertTrue(
+                status.getDefaultValue().contains("::AVAILABLE"),
+                "Expected PetModelPetStatus::AVAILABLE (or FQCN::AVAILABLE), got: " + status.getDefaultValue());
     }
 
     /**
