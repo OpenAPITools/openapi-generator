@@ -72,6 +72,41 @@ components:
           car: '#/components/schemas/Car'
           truck: '#/components/schemas/Truck'
           
+    # OneOf with discriminator using a Scala keyword
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+      discriminator:
+        propertyName: type
+        mapping:
+          circle: '#/components/schemas/Circle'
+          square: '#/components/schemas/Square'
+
+    Circle:
+      type: object
+      required:
+        - type
+        - radius
+      properties:
+        type:
+          type: string
+          const: circle
+        radius:
+          type: number
+
+    Square:
+      type: object
+      required:
+        - type
+        - side
+      properties:
+        type:
+          type: string
+          const: square
+        side:
+          type: number
+
     Car:
       type: object
       required:

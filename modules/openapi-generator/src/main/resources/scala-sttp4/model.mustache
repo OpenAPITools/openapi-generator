@@ -94,7 +94,7 @@ object {{classname}} {
   implicit object {{classname}}Serializer extends Serializer[{{classname}}] {
     def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{classname}}] = {
       case (TypeInfo(clazz, _), json) if classOf[{{classname}}].isAssignableFrom(clazz) =>
-        (json \ "{{discriminator.propertyName}}") match {
+        (json \ "{{discriminator.propertyBaseName}}") match {
           {{#oneOf}}
           case JString("{{.}}") => Extraction.extract[{{.}}](json)
           {{/oneOf}}
@@ -104,7 +104,7 @@ object {{classname}} {
 
     def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
       {{#oneOf}}
-      case x: {{.}} => Extraction.decompose(x).merge(JObject("{{discriminator.propertyName}}" -> JString("{{.}}")))
+      case x: {{.}} => Extraction.decompose(x).merge(JObject("{{discriminator.propertyBaseName}}" -> JString("{{.}}")))
       {{/oneOf}}
     }
   }
@@ -150,7 +150,7 @@ object {{classname}} {
   implicit object {{classname}}Serializer extends Serializer[{{classname}}] {
     def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{classname}}] = {
       case (TypeInfo(clazz, _), json) if classOf[{{classname}}].isAssignableFrom(clazz) =>
-        (json \ "{{discriminator.propertyName}}") match {
+        (json \ "{{discriminator.propertyBaseName}}") match {
           {{#vendorExtensions.x-oneOfMembers}}
           case JString("{{vendorExtensions.x-discriminator-value}}") => Extraction.extract[{{classname}}](json)
           {{/vendorExtensions.x-oneOfMembers}}
@@ -163,10 +163,10 @@ object {{classname}} {
 
     def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
       {{#vendorExtensions.x-oneOfMembers}}
-      case x: {{classname}} => Extraction.decompose(x).merge(JObject("{{discriminator.propertyName}}" -> JString("{{vendorExtensions.x-discriminator-value}}")))
+      case x: {{classname}} => Extraction.decompose(x).merge(JObject("{{discriminator.propertyBaseName}}" -> JString("{{vendorExtensions.x-discriminator-value}}")))
       {{/vendorExtensions.x-oneOfMembers}}
       {{#vendorExtensions.x-wrappedOneOfMembers}}
-      case {{wrapperClassname}}(v) => Extraction.decompose(v).merge(JObject("{{discriminator.propertyName}}" -> JString("{{discriminatorValue}}")))
+      case {{wrapperClassname}}(v) => Extraction.decompose(v).merge(JObject("{{discriminator.propertyBaseName}}" -> JString("{{discriminatorValue}}")))
       {{/vendorExtensions.x-wrappedOneOfMembers}}
     }
   }
@@ -189,7 +189,7 @@ object {{classname}} {
   import io.circe.generic.extras._
   import io.circe.generic.extras.semiauto._
 
-  private implicit val config: Configuration = Configuration.default.withDiscriminator("{{discriminator.propertyName}}")
+  private implicit val config: Configuration = Configuration.default.withDiscriminator("{{discriminator.propertyBaseName}}")
     .copy(
       transformConstructorNames = {
 {{#vendorExtensions.x-oneOfMembers}}
@@ -229,22 +229,22 @@ object {{classname}} {
   // oneOf with discriminator (with wrapper composition)
   implicit val encoder: Encoder[{{classname}}] = Encoder.instance {
 {{#vendorExtensions.x-oneOfMembers}}
-    case x: {{classname}} => {{classname}}.encoder(x).deepMerge(io.circe.Json.obj("{{discriminator.propertyName}}" -> "{{vendorExtensions.x-discriminator-value}}".asJson))
+    case x: {{classname}} => {{classname}}.encoder(x).deepMerge(io.circe.Json.obj("{{discriminator.propertyBaseName}}" -> "{{vendorExtensions.x-discriminator-value}}".asJson))
 {{/vendorExtensions.x-oneOfMembers}}
 {{#vendorExtensions.x-wrappedOneOfMembers}}
-    case {{wrapperClassname}}(v) => Encoder[{{classname}}].apply(v).deepMerge(io.circe.Json.obj("{{discriminator.propertyName}}" -> "{{discriminatorValue}}".asJson))
+    case {{wrapperClassname}}(v) => Encoder[{{classname}}].apply(v).deepMerge(io.circe.Json.obj("{{discriminator.propertyBaseName}}" -> "{{discriminatorValue}}".asJson))
 {{/vendorExtensions.x-wrappedOneOfMembers}}
   }
 
   implicit val decoder: Decoder[{{classname}}] = Decoder.instance { c =>
-    c.get[String]("{{discriminator.propertyName}}").flatMap {
+    c.get[String]("{{discriminator.propertyBaseName}}").flatMap {
 {{#vendorExtensions.x-oneOfMembers}}
       case "{{vendorExtensions.x-discriminator-value}}" => c.as[{{classname}}]({{classname}}.decoder).map(x => x: {{parentClassname}})
 {{/vendorExtensions.x-oneOfMembers}}
 {{#vendorExtensions.x-wrappedOneOfMembers}}
       case "{{discriminatorValue}}" => c.as[{{classname}}]({{classname}}.decoder).map({{wrapperClassname}}.apply)
 {{/vendorExtensions.x-wrappedOneOfMembers}}
-      case other => Left(io.circe.DecodingFailure(s"Unknown {{discriminator.propertyName}}: $$other", c.history))
+      case other => Left(io.circe.DecodingFailure(s"Unknown {{discriminator.propertyBaseName}}: $$other", c.history))
     }
   }
 {{/vendorExtensions.x-use-discr}}

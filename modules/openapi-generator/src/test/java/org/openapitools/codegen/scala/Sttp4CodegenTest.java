@@ -113,6 +113,15 @@ public class Sttp4CodegenTest {
         assertFileContains(vehiclePath, "\"Car\" => \"car\"");
         assertFileContains(vehiclePath, "\"Truck\" => \"truck\"");
 
+        // Test oneOf with discriminator that is a Scala keyword ("type")
+        // The discriminator should use the original wire name, not the backtick-escaped Scala name
+        Path shapePath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Shape.scala");
+        assertFileContains(shapePath, "sealed trait Shape");
+        assertFileContains(shapePath,
+                "private implicit val config: Configuration = Configuration.default.withDiscriminator(\"type\")");
+        // Discriminator in serialization must not be backtick-escaped
+        assertFileNotContains(shapePath, "withDiscriminator(\"`type`\")");
+
         // Verify regular models are still case classes
         Path dogPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Dog.scala");
         assertFileContains(dogPath, "case class Dog(");
