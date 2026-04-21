@@ -6649,14 +6649,14 @@ public class SpringCodegenTest {
                     .doesNotContain("findbugs");
         }
         JavaFileAssert.assertThat(files.get("Foo.java"))
-                .assertTypeAnnotations().doesImportAnnotation("Nullable").toType()
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "private java.time.@Nullable Instant dt;",
                         "private org.springframework.core.io.@Nullable Resource binary",
                         "setBinary(org.springframework.core.io.@Nullable Resource binary)"
                 );
         JavaFileAssert.assertThat(files.get(fooApiFilename))
-                .assertTypeAnnotations().doesImportAnnotation("Nullable").toType()
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
@@ -6672,7 +6672,7 @@ public class SpringCodegenTest {
             JavaFileAssert.assertThat(files.get("UploadApiController.java").toPath())
                     .assertTypeAnnotations()
                     .doesNotContainWithName("Nullable")
-                    .doesImportAnnotation("Nullable");
+                    .doesImportAnnotation("org.jspecify.annotations.Nullable");
         }
     }
 
