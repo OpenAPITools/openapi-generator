@@ -7242,9 +7242,9 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
 
-        // The api file must import both PagedModel and the item type
+        // The api file must import both the generated PagedModel and the item type
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .fileContains("import org.springframework.data.web.PagedModel")
+                .fileContains("import org.openapitools.configuration.PagedModel")
                 .fileContains("import org.openapitools.model.User");
     }
 
@@ -7334,6 +7334,26 @@ public class SpringCodegenTest {
                 .hasImports("com.example.external.ExternalUser")
                 .assertMethod("listUsers")
                 .hasReturnType("ResponseEntity<PagedModel<ExternalUser>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, commonPagedModelProps());
+
+        assertThat(files).containsKey("PagedModel.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.java");
     }
 
     @Test

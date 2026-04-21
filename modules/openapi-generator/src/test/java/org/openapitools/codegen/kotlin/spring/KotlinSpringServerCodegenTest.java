@@ -5604,7 +5604,8 @@ public class KotlinSpringServerCodegenTest {
         File userApi = files.get("UserApi.kt");
         assertThat(userApi).isNotNull();
         String content = Files.readString(userApi.toPath());
-        assertThat(content).contains("import org.springframework.data.web.PagedModel");
+        // The api file must import the generated PagedModel and the item type
+        assertThat(content).contains("import org.openapitools.configuration.PagedModel");
         assertThat(content).contains("import org.openapitools.model.User");
     }
 
@@ -5680,6 +5681,26 @@ public class KotlinSpringServerCodegenTest {
         assertThat(content).contains("PagedModel<com.example.external.ExternalUser>");
         // toModelImport of a dotted name returns the FQN as-is → correct import
         assertThat(content).contains("import com.example.external.ExternalUser");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", commonKotlinPagedModelProps());
+
+        assertThat(files).containsKey("PagedModel.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                commonKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.kt");
     }
 
     @Test

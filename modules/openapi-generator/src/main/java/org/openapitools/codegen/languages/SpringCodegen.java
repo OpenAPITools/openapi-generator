@@ -872,7 +872,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (SPRING_BOOT.equals(library) && substituteGenericPagedModel) {
             pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
             if (!pagedModelRegistry.isEmpty()) {
-                importMapping.putIfAbsent("PagedModel", "org.springframework.data.web.PagedModel");
+                boolean customMapping = importMapping.containsKey("PagedModel");
+                importMapping.putIfAbsent("PagedModel", configPackage + ".PagedModel");
+                if (!customMapping) {
+                    // No custom class provided — generate the simple PagedModel into the config package.
+                    supportingFiles.add(new SupportingFile("pagedModel.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "PagedModel.java"));
+                }
                 // Derive the actual simple class name from the FQN in importMapping so that a
                 // custom mapping (e.g. "PagedModel" → "com.example.MyPagedModel") is respected.
                 // The simple name of the FQN becomes the token used in generated code, and is
