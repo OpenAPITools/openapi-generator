@@ -1221,7 +1221,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 String fqn = importMapping.get("PagedModel");
                 pagedModelClassName = fqn.substring(fqn.lastIndexOf('.') + 1);
                 if (!pagedModelClassName.equals("PagedModel")) {
-                    importMapping.put(pagedModelClassName, fqn);
+                    importMapping.putIfAbsent(pagedModelClassName, fqn);
                 }
                 LOGGER.info("substituteGenericPagedModel: detected {} paged-model schema(s): {}",
                         pagedModelRegistry.size(), pagedModelRegistry.keySet());
