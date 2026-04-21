@@ -301,7 +301,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
                 + "PagedModel<T> generated into config package (default 'org.openapitools.configuration'). The detected page schemas and the pagination metadata "
-                + "schema are suppressed from code generation. Only applies when library=spring-boot.",
+                + "schema are suppressed from code generation. Only applies when library=spring-boot or spring-declarative-http-interface.",
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
