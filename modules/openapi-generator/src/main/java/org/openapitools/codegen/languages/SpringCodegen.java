@@ -376,9 +376,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 + "Requires useBeanValidation=true and library=spring-boot.",
                 generatePageableConstraintValidation));
         cliOptions.add(CliOption.newBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL,
-                "Detect schemas that represent paginated responses (an object with a 'content' array property and a "
+                "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
-                + "org.springframework.data.web.PagedModel<T>. The detected page schemas and the pagination metadata "
+                + "PagedModel<T> generated into config package (default 'org.openapitools.configuration'). The detected page schemas and the pagination metadata "
                 + "schema are suppressed from code generation. Only applies when library=spring-boot.",
                 substituteGenericPagedModel));
 

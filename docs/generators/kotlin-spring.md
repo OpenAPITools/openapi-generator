@@ -58,7 +58,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
-|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a pagination-metadata property) and replace their generated references with org.springframework.data.web.PagedModel&lt;T&gt;. The detected page schemas and the pagination metadata schema are suppressed from code generation. Only applies when library=spring-boot.| |false|
+|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt; generated into config package (default 'org.openapitools.configuration'). The detected page schemas and the pagination metadata schema are suppressed from code generation. Only applies when library=spring-boot.| |false|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
