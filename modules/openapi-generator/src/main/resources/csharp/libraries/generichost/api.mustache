@@ -160,6 +160,21 @@ namespace {{packageName}}.{{apiPackage}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
+        private readonly string[] _contentHeaders =
+        [
+            "allow",       
+            "content-encoding",         
+            "content-language",         
+            "content-length",           
+            "content-location",         
+            "content-md5",              
+            "content-range",            
+            "content-type",             
+            "expires",                  
+            "last-modified",            
+            "extension-header"
+        ];
+
         /// <summary>
         /// The logger factory
         /// </summary>
@@ -452,23 +467,6 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/-last}}
                     {{/queryParams}}
-                    {{#constantParams}}
-                    {{#isHeaderParam}}
-                    // Set client side default value of Header Param "{{baseName}}".
-                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
-                    {{/isHeaderParam}}
-                    {{/constantParams}}
-                    {{#headerParams}}
-                    {{#required}}
-                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
-
-                    {{/required}}
-                    {{^required}}
-                    if ({{paramName}}.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
-
-                    {{/required}}
-                    {{/headerParams}}
                     {{#formParams}}
                     {{#-first}}
                     {{#isMultipart}}
@@ -573,6 +571,25 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/required}}
 
                     {{/bodyParam}}
+
+                    {{/required}}
+                    {{^required}}
+                    if ({{paramName}}.IsSet)
+                    {
+                      // Set client side default value of Header Param "{{baseName}}".                    
+                      if (_contentHeaders.Contains("{{baseName}}".ToLowerInvariant()))
+                      {
+                          httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                      }
+                    }
+
+                    {{/required}}
+                    {{/headerParams}}
+
                     {{#authMethods}}
                     {{#-first}}
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
