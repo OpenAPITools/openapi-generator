@@ -89,6 +89,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
+|useOneOfPojo|Generate real POJO classes for oneOf schemas instead of wrapper models| |false|
 |useOptional|Use Optional container for optional parameters| |false|
 |visitable|Generate visitor for subtypes with a discriminator| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
