@@ -6629,6 +6629,7 @@ public class SpringCodegenTest {
                         CONTAINER_DEFAULT_TO_NULL, true,
                         OPENAPI_NULLABLE, false,
                         USE_BEANVALIDATION, true,
+                        INTERFACE_ONLY, false,
                         springVersionProperty, springBootVersion > 2
                 ),
                 codegenConfigurator ->
@@ -6648,12 +6649,14 @@ public class SpringCodegenTest {
                     .doesNotContain("findbugs");
         }
         JavaFileAssert.assertThat(files.get("Foo.java"))
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "private java.time.@Nullable Instant dt;",
                         "private org.springframework.core.io.@Nullable Resource binary",
                         "setBinary(org.springframework.core.io.@Nullable Resource binary)"
                 );
         JavaFileAssert.assertThat(files.get(fooApiFilename))
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
                 .fileContains(
                         "java.time.@Nullable Instant dtParam",
                         "java.time.@Nullable Instant dtQuery",
@@ -6663,6 +6666,14 @@ public class SpringCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
+
+        if (SPRING_BOOT.equals(library)) {
+            // Nullable annotation is not (yet) put on NativeWebRequest, but still present as import when useJspecify=true
+            JavaFileAssert.assertThat(files.get("UploadApiController.java").toPath())
+                    .assertTypeAnnotations()
+                    .doesNotContainWithName("Nullable")
+                    .doesImportAnnotation("org.jspecify.annotations.Nullable");
+        }
     }
 
     // -------------------------------------------------------------------------
