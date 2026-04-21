@@ -5662,4 +5662,42 @@ public class KotlinSpringServerCodegenTest {
         // PageMeta is referenced by SearchResult (a non-paged schema) → must be kept
         assertThat(files).containsKey("PageMeta.kt");
     }
+
+    @Test
+    public void substituteGenericPagedModel_respectsSchemaMappingForItemType() throws IOException {
+        // When the item schema (User) is mapped to an external FQN via schemaMappings,
+        // the PagedModel type arg must use the mapped FQN, not the raw schema name.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                commonKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator.addSchemaMapping("User", "com.example.external.ExternalUser"));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        // Return type must use the schema-mapped FQN, not the raw schema name
+        assertThat(content).contains("PagedModel<com.example.external.ExternalUser>");
+        // toModelImport of a dotted name returns the FQN as-is → correct import
+        assertThat(content).contains("import com.example.external.ExternalUser");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_respectsCustomImportMappingClassName() throws IOException {
+        // When the user remaps "PagedModel" to a FQN with a different simple class name,
+        // the generated code must use that simple name (not "PagedModel") as the type token
+        // and emit the correct import for the custom FQN.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                commonKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        assertThat(content).contains("MyPagedModel<User>");
+        assertThat(content).contains("import com.example.custom.MyPagedModel");
+    }
 }
