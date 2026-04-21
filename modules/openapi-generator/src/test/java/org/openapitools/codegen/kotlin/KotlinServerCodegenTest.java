@@ -1,37 +1,44 @@
 package org.openapitools.codegen.kotlin;
 
-import lombok.Getter;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.checkerframework.checker.units.qual.C;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.antlr4.KotlinLexer;
-import org.openapitools.codegen.antlr4.KotlinParser;
-import org.openapitools.codegen.antlr4.KotlinParserBaseListener;
-import org.openapitools.codegen.languages.KotlinServerCodegen;
-import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
+import io.swagger.v3.oas.models.Operation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.openapitools.codegen.CodegenOperation;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.antlr4.KotlinLexer;
+import org.openapitools.codegen.antlr4.KotlinParser;
+import org.openapitools.codegen.languages.KotlinServerCodegen;
+import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;
+import static org.openapitools.codegen.CodegenConstants.LIBRARY;
+import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
+import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_TAGS;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.*;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RETURN_RESPONSE;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
 
 public class KotlinServerCodegenTest {
@@ -511,33 +518,7 @@ public class KotlinServerCodegenTest {
         );
     }
 
-    @Test
-    public void useTags_commonPathIsComputedForJaxrsSpecLibrary() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        KotlinServerCodegen codegen = new KotlinServerCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
-        codegen.additionalProperties().put(USE_TAGS, true);
-
-        new DefaultGenerator().opts(new ClientOptInput()
-                        .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
-                        .config(codegen))
-                .generate();
-
-        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
-        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
-
-        assertFileContains(
-                petApi,
-                "@Path(\"/pet\")"
-        );
-        assertFileNotContains(
-                petApi,
-                "@Path(\"/\")"
-        );
-    }
+    // ==================== useTags for JAXRS-SPEC ====================
 
     @Test
     public void useTags_false_classNameFromTagsAndRootPathForJaxrsSpecLibrary() throws IOException {
@@ -559,22 +540,22 @@ public class KotlinServerCodegenTest {
 
         assertFileContains(petApi,
                 "class PetApi",
-                "@Path(\"/\")",
                 "@Path(\"/pet\")",
-                "@Path(\"/pet/{petId}\")"
+                "@Path(\"/findByStatus\")",
+                "@Path(\"/{petId}\")"
         );
         assertFileNotContains(petApi, "@Path(\"/pet\")".replace("/pet", "/store"));
     }
 
     @Test
-    public void useTags_notSpecified_behavesLikeUseTagsFalseForJaxrsSpecLibrary() throws IOException {
+    public void useTags_notSpecified_behavesLikeUseTagsTrueForJaxrsSpecLibrary() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         KotlinServerCodegen codegen = new KotlinServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
-        // useTags intentionally NOT set — must default to false
+        // useTags intentionally NOT set — must default to true
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/2_0/petstore.yaml"))
@@ -586,10 +567,64 @@ public class KotlinServerCodegenTest {
 
         assertFileContains(petApi,
                 "class PetApi",
-                "@Path(\"/\")",
                 "@Path(\"/pet\")",
-                "@Path(\"/pet/{petId}\")"
+                "@Path(\"/findByStatus\")",
+                "@Path(\"/{petId}\")"
         );
+        assertFileNotContains(petApi, "@Path(\"/\")");
         assertFileNotContains(petApi, "@Path(\"/store\")");
+    }
+
+    // ==================== useTags for all libraries ====================
+
+    @Test
+    public void useTags_false_groupsByFirstPathSegment() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "findByStatus";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Pet", "/pet/findByStatus", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("pet"));
+        Assert.assertEquals(co.baseName, "pet");
+    }
+
+    @Test
+    public void useTags_false_rootPath_groupsAsDefault() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "getRoot";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Root", "/", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("default"));
+        Assert.assertEquals(co.baseName, "default");
+    }
+
+    @Test
+    public void useTags_false_pathParamOnly_groupsAsDefault() {
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.additionalProperties().put(LIBRARY, JAVALIN6);
+        codegen.additionalProperties().put(USE_TAGS, false);
+        codegen.processOpts();
+
+        CodegenOperation co = new CodegenOperation();
+        co.operationId = "getById";
+        Map<String, List<CodegenOperation>> groups = new HashMap<>();
+
+        codegen.addOperationToGroup("Resource", "/{uuid}", new Operation(), co, groups);
+
+        Assert.assertTrue(groups.containsKey("default"));
+        Assert.assertEquals(co.baseName, "default");
     }
 }

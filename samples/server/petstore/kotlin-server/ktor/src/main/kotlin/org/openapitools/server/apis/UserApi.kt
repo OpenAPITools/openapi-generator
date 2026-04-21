@@ -28,8 +28,6 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.User
 
 fun Route.UserApi() {
-    val empty = mutableMapOf<String, Any?>()
-
     post<Paths.createUser> {
         call.respond(HttpStatusCode.NotImplemented)
         
