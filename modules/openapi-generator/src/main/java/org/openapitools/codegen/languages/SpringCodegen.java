@@ -590,11 +590,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
 
+        if (SPRING_BOOT.equals(library) || SPRING_HTTP_INTERFACE.equals(library)) {
+            convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
+        }
+
         if (SPRING_BOOT.equals(library)) {
             convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
             convertPropertyToBooleanAndWriteBack(GENERATE_SORT_VALIDATION, this::setGenerateSortValidation);
             convertPropertyToBooleanAndWriteBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, this::setGeneratePageableConstraintValidation);
-            convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         }
 
         // override parent one
@@ -869,7 +872,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
-        if (SPRING_BOOT.equals(library) && substituteGenericPagedModel) {
+        if ((SPRING_BOOT.equals(library) || SPRING_HTTP_INTERFACE.equals(library)) && substituteGenericPagedModel) {
             pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
             if (!pagedModelRegistry.isEmpty()) {
                 boolean customMapping = importMapping.containsKey("PagedModel");

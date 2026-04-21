@@ -743,7 +743,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
         }
         writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, generatePageableConstraintValidation);
-        if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL) && library.equals(SPRING_BOOT)) {
+        if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL) && (library.equals(SPRING_BOOT) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
             this.setSubstituteGenericPagedModel(convertPropertyToBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL));
         }
         writePropertyBack(SUBSTITUTE_GENERIC_PAGED_MODEL, substituteGenericPagedModel);
@@ -1204,7 +1204,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
-        if (SPRING_BOOT.equals(library) && substituteGenericPagedModel) {
+        if ((SPRING_BOOT.equals(library) || SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) && substituteGenericPagedModel) {
             pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
             if (!pagedModelRegistry.isEmpty()) {
                 boolean customMapping = importMapping.containsKey("PagedModel");
