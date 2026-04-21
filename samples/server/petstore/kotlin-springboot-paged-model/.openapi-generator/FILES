@@ -12,6 +12,7 @@ src/main/kotlin/org/openapitools/api/OrderApi.kt
 src/main/kotlin/org/openapitools/api/PetApi.kt
 src/main/kotlin/org/openapitools/api/UserApi.kt
 src/main/kotlin/org/openapitools/configuration/EnumConverterConfiguration.kt
+src/main/kotlin/org/openapitools/configuration/PagedModel.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/PageMeta.kt
 src/main/kotlin/org/openapitools/model/Pet.kt

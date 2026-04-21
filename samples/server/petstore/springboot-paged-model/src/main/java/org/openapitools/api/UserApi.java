@@ -6,7 +6,7 @@
 package org.openapitools.api;
 
 import org.springframework.lang.Nullable;
-import org.springframework.data.web.PagedModel;
+import org.openapitools.configuration.PagedModel;
 import org.openapitools.model.User;
 import org.openapitools.model.UserList;
 import org.springframework.http.ResponseEntity;

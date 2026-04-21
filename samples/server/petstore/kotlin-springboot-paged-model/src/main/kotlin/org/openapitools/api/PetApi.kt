@@ -5,7 +5,7 @@
 */
 package org.openapitools.api
 
-import org.springframework.data.web.PagedModel
+import org.openapitools.configuration.PagedModel
 import org.openapitools.model.Pet
 import org.openapitools.model.SearchResult
 import org.springframework.http.HttpStatus

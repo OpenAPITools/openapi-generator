@@ -6,7 +6,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
-import org.springframework.data.web.PagedModel
+import org.openapitools.configuration.PagedModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
