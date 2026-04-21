@@ -667,6 +667,21 @@ namespace Org.OpenAPITools.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
+        private readonly string[] _contentHeaders =
+        [
+            "allow",       
+            "content-encoding",         
+            "content-language",         
+            "content-length",           
+            "content-location",         
+            "content-md5",              
+            "content-range",            
+            "content-type",             
+            "expires",                  
+            "last-modified",            
+            "extension-header"
+        ];
+
         /// <summary>
         /// The logger factory
         /// </summary>
@@ -836,9 +851,14 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = urlLocalVar.Scheme;
                     uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
 
-                    httpRequestMessageLocalVar.Content = (pet as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
+                    if ((pet as object) is System.IO.Stream stream)
+                    {
+                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
+                    }
+                    else
+                    {
+                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -1085,7 +1105,17 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
                     if (apiKey.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("api_key", ClientUtils.ParameterToString(apiKey.Value));
+                    {
+                      // Set client side default value of Header Param "api_key".                    
+                      if (_contentHeaders.Contains("api_key".ToLowerInvariant()))
+                      {
+                          httpRequestMessageLocalVar.Content.Headers.Add("api_key", ClientUtils.ParameterToString(apiKey.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("api_key", ClientUtils.ParameterToString(apiKey.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2131,9 +2161,14 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = urlLocalVar.Scheme;
                     uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
 
-                    httpRequestMessageLocalVar.Content = (pet as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
+                    if ((pet as object) is System.IO.Stream stream)
+                    {
+                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
+                    }
+                    else
+                    {
+                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
