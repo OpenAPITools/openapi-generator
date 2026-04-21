@@ -23,10 +23,12 @@ public class TypeAnnotationsAssert extends AbstractAnnotationsAssert<TypeAnnotat
     /**
      * assert that the annotation is not specifed in an import.
      *
-     * @param name name of the annotation. For example "Nullable";
+     * @param name classname of the annotation. For example "Nullable" or a full qualified class name like "java.util.List"
      */
     public TypeAnnotationsAssert doesNotImportAnnotation(final String name) {
-        String pattern = "import\\s+[\\w.]+\\." + Pattern.quote(name) + ";";
+        String pattern = "import\\s+" +
+                (name.contains(".")?"" : "[\\w.]+\\.") +
+                Pattern.quote(name) + ";";
         this.toType().fileDoesNotContainPattern(pattern);
         return this;
     }
@@ -34,10 +36,12 @@ public class TypeAnnotationsAssert extends AbstractAnnotationsAssert<TypeAnnotat
     /**
      * assert that the annotation is imported.
      *
-     * @param name name of the annotation. For example "Nullable";
+     * @param name clasname of the annotation.  For example "Nullable" or a full qualified class name like "java.util.List"
      */
     public TypeAnnotationsAssert doesImportAnnotation(final String name) {
-        String pattern = "import\\s+[\\w.]+\\." + Pattern.quote(name) + ";";
+        String pattern = "import\\s+" +
+                (name.contains(".")?"" : "[\\w.]+\\.") +
+                Pattern.quote(name) + ";";
         this.toType().fileContainsPattern(pattern);
         return this;
     }
