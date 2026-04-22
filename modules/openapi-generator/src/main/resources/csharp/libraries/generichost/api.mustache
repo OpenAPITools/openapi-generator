@@ -578,7 +578,7 @@ namespace {{packageName}}.{{apiPackage}}
                     // Set client side default value of Header Param "{{baseName}}".                    
                     if (ClientUtils.IsContentHeader("{{baseName}}"))
                     {
-                        httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                        httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
                     }
                     else
                     {
@@ -592,7 +592,7 @@ namespace {{packageName}}.{{apiPackage}}
                       // Set client side default value of Header Param "{{baseName}}".                    
                       if (ClientUtils.IsContentHeader("{{baseName}}"))
                       {
-                          httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                          httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
                       }
                       else
                       {

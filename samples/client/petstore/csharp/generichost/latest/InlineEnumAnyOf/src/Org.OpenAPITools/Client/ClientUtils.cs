@@ -321,6 +321,7 @@ namespace Org.OpenAPITools.Client
         [
             "allow",
             "content-encoding",
+            "content-disposition",
             "content-language",
             "content-length",
             "content-location",

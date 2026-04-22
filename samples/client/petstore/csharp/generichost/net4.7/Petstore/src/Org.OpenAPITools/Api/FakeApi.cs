@@ -4638,7 +4638,7 @@ namespace Org.OpenAPITools.Api
                       // Set client side default value of Header Param "enum_header_string".                    
                       if (ClientUtils.IsContentHeader("enum_header_string"))
                       {
-                          httpRequestMessageLocalVar.Content.Headers.Add("enum_header_string", ClientUtils.ParameterToString(enumHeaderString.Value));
+                          httpRequestMessageLocalVar.Content?.Headers.Add("enum_header_string", ClientUtils.ParameterToString(enumHeaderString.Value));
                       }
                       else
                       {
@@ -4651,7 +4651,7 @@ namespace Org.OpenAPITools.Api
                       // Set client side default value of Header Param "enum_header_string_array".                    
                       if (ClientUtils.IsContentHeader("enum_header_string_array"))
                       {
-                          httpRequestMessageLocalVar.Content.Headers.Add("enum_header_string_array", ClientUtils.ParameterToString(enumHeaderStringArray.Value));
+                          httpRequestMessageLocalVar.Content?.Headers.Add("enum_header_string_array", ClientUtils.ParameterToString(enumHeaderStringArray.Value));
                       }
                       else
                       {
@@ -4902,7 +4902,7 @@ namespace Org.OpenAPITools.Api
                     // Set client side default value of Header Param "required_boolean_group".                    
                     if (ClientUtils.IsContentHeader("required_boolean_group"))
                     {
-                        httpRequestMessageLocalVar.Content.Headers.Add("required_boolean_group", ClientUtils.ParameterToString(requiredBooleanGroup));
+                        httpRequestMessageLocalVar.Content?.Headers.Add("required_boolean_group", ClientUtils.ParameterToString(requiredBooleanGroup));
                     }
                     else
                     {
@@ -4914,7 +4914,7 @@ namespace Org.OpenAPITools.Api
                       // Set client side default value of Header Param "boolean_group".                    
                       if (ClientUtils.IsContentHeader("boolean_group"))
                       {
-                          httpRequestMessageLocalVar.Content.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
+                          httpRequestMessageLocalVar.Content?.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
                       }
                       else
                       {
