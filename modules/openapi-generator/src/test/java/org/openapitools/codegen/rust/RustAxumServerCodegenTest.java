@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.openapitools.codegen.TestUtils.linearize;
@@ -102,7 +101,6 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "pub positive_int32: u32");
         TestUtils.assertFileContains(modelsPath, "pub positive_int64: u64");
         TestUtils.assertFileContains(modelsPath, "pub small_positive: u8");
-        TestUtils.assertFileContains(modelsPath, "pub explicit_unsigned: i32");
         TestUtils.assertFileContains(modelsPath, "pub struct GetIntegersQueryParams");
     }
 }

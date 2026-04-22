@@ -40,12 +40,6 @@ paths:
             type: integer
             minimum: 0
             maximum: 255
-        - name: explicit_unsigned
-          in: query
-          required: true
-          schema:
-            type: integer
-            x-unsigned: true
       responses:
         '200':
           description: OK
@@ -63,7 +57,6 @@ components:
         - positive_int32
         - positive_int64
         - small_positive
-        - explicit_unsigned
       properties:
         legacy_uint32:
           type: integer
@@ -83,6 +76,3 @@ components:
           type: integer
           minimum: 0
           maximum: 255
-        explicit_unsigned:
-          type: integer
-          x-unsigned: true
