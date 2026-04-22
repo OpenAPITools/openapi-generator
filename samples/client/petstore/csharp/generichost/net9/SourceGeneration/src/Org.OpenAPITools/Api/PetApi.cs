@@ -1087,7 +1087,7 @@ namespace Org.OpenAPITools.Api
                     if (apiKey.IsSet)
                     {
                       // Set client side default value of Header Param "api_key".                    
-                      if (_contentHeaders.Contains("api_key".ToLowerInvariant()))
+                      if (ClientUtils.IsContentHeader("api_key"))
                       {
                           httpRequestMessageLocalVar.Content.Headers.Add("api_key", ClientUtils.ParameterToString(apiKey.Value));
                       }

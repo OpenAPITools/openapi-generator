@@ -4645,7 +4645,7 @@ namespace Org.OpenAPITools.Api
                     if (enumHeaderString.IsSet)
                     {
                       // Set client side default value of Header Param "enum_header_string".                    
-                      if (_contentHeaders.Contains("enum_header_string".ToLowerInvariant()))
+                      if (ClientUtils.IsContentHeader("enum_header_string"))
                       {
                           httpRequestMessageLocalVar.Content.Headers.Add("enum_header_string", ClientUtils.ParameterToString(enumHeaderString.Value));
                       }
@@ -4658,7 +4658,7 @@ namespace Org.OpenAPITools.Api
                     if (enumHeaderStringArray.IsSet)
                     {
                       // Set client side default value of Header Param "enum_header_string_array".                    
-                      if (_contentHeaders.Contains("enum_header_string_array".ToLowerInvariant()))
+                      if (ClientUtils.IsContentHeader("enum_header_string_array"))
                       {
                           httpRequestMessageLocalVar.Content.Headers.Add("enum_header_string_array", ClientUtils.ParameterToString(enumHeaderStringArray.Value));
                       }
@@ -4921,7 +4921,7 @@ namespace Org.OpenAPITools.Api
                     if (booleanGroup.IsSet)
                     {
                       // Set client side default value of Header Param "boolean_group".                    
-                      if (_contentHeaders.Contains("boolean_group".ToLowerInvariant()))
+                      if (ClientUtils.IsContentHeader("boolean_group"))
                       {
                           httpRequestMessageLocalVar.Content.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
                       }

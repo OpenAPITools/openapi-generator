@@ -590,7 +590,7 @@ namespace {{packageName}}.{{apiPackage}}
                     if ({{paramName}}.IsSet)
                     {
                       // Set client side default value of Header Param "{{baseName}}".                    
-                      if (_contentHeaders.Contains("{{baseName}}".ToLowerInvariant()))
+                      if (ClientUtils.IsContentHeader("{{baseName}}"))
                       {
                           httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
                       }
