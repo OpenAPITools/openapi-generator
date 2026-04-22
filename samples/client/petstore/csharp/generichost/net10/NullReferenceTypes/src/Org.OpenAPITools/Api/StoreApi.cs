@@ -293,21 +293,6 @@ namespace Org.OpenAPITools.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
-        private readonly string[] _contentHeaders =
-        [
-            "allow",       
-            "content-encoding",         
-            "content-language",         
-            "content-length",           
-            "content-location",         
-            "content-md5",              
-            "content-range",            
-            "content-type",             
-            "expires",                  
-            "last-modified",            
-            "extension-header"
-        ];
-
         /// <summary>
         /// The logger factory
         /// </summary>
@@ -1155,14 +1140,9 @@ namespace Org.OpenAPITools.Api
                         ? "/store/order"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/store/order");
 
-                    if ((order as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (order as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 

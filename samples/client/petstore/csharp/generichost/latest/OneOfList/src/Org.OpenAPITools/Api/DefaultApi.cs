@@ -106,21 +106,6 @@ namespace Org.OpenAPITools.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
-        private readonly string[] _contentHeaders =
-        [
-            "allow",       
-            "content-encoding",         
-            "content-language",         
-            "content-length",           
-            "content-location",         
-            "content-md5",              
-            "content-range",            
-            "content-type",             
-            "expires",                  
-            "last-modified",            
-            "extension-header"
-        ];
-
         /// <summary>
         /// The logger factory
         /// </summary>
@@ -246,14 +231,9 @@ namespace Org.OpenAPITools.Api
 
                     if (oneOfArrayRequest.IsSet)
                     {
-                      if ((oneOfArrayRequest.Value as object) is System.IO.Stream stream)
-                      {
-                        httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                      }
-                      else
-                      {
-                        httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(oneOfArrayRequest.Value, _jsonSerializerOptions));
-                      }
+                      httpRequestMessageLocalVar.Content = (oneOfArrayRequest.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(oneOfArrayRequest.Value, _jsonSerializerOptions));
                     }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;

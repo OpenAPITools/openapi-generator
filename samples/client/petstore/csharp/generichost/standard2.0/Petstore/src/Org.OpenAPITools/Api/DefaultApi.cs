@@ -374,21 +374,6 @@ namespace Org.OpenAPITools.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
-        private readonly string[] _contentHeaders =
-        [
-            "allow",       
-            "content-encoding",         
-            "content-language",         
-            "content-length",           
-            "content-location",         
-            "content-md5",              
-            "content-range",            
-            "content-type",             
-            "expires",                  
-            "last-modified",            
-            "extension-header"
-        ];
-
         /// <summary>
         /// The logger factory
         /// </summary>

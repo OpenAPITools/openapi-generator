@@ -1227,21 +1227,6 @@ namespace Org.OpenAPITools.Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
-        private readonly string[] _contentHeaders =
-        [
-            "allow",       
-            "content-encoding",         
-            "content-language",         
-            "content-length",           
-            "content-location",         
-            "content-md5",              
-            "content-range",            
-            "content-type",             
-            "expires",                  
-            "last-modified",            
-            "extension-header"
-        ];
-
         /// <summary>
         /// The logger factory
         /// </summary>
@@ -1620,14 +1605,9 @@ namespace Org.OpenAPITools.Api
 
                     if (body.IsSet)
                     {
-                      if ((body.Value as object) is System.IO.Stream stream)
-                      {
-                        httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                      }
-                      else
-                      {
-                        httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
-                      }
+                      httpRequestMessageLocalVar.Content = (body.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
                     }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -1882,14 +1862,9 @@ namespace Org.OpenAPITools.Api
 
                     if (outerComposite.IsSet)
                     {
-                      if ((outerComposite.Value as object) is System.IO.Stream stream)
-                      {
-                        httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                      }
-                      else
-                      {
-                        httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(outerComposite.Value, _jsonSerializerOptions));
-                      }
+                      httpRequestMessageLocalVar.Content = (outerComposite.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(outerComposite.Value, _jsonSerializerOptions));
                     }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2131,14 +2106,9 @@ namespace Org.OpenAPITools.Api
 
                     if (body.IsSet)
                     {
-                      if ((body.Value as object) is System.IO.Stream stream)
-                      {
-                        httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                      }
-                      else
-                      {
-                        httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
-                      }
+                      httpRequestMessageLocalVar.Content = (body.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
                     }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2405,14 +2375,9 @@ namespace Org.OpenAPITools.Api
 
                     if (body.IsSet)
                     {
-                      if ((body.Value as object) is System.IO.Stream stream)
-                      {
-                        httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                      }
-                      else
-                      {
-                        httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
-                      }
+                      httpRequestMessageLocalVar.Content = (body.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
                     }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -3319,14 +3284,9 @@ namespace Org.OpenAPITools.Api
                         ? "/fake/additionalProperties-reference"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/additionalProperties-reference");
 
-                    if ((requestBody as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -3537,14 +3497,9 @@ namespace Org.OpenAPITools.Api
                         ? "/fake/body-with-file-schema"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/body-with-file-schema");
 
-                    if ((fileSchemaTestClass as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (fileSchemaTestClass as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -3771,14 +3726,9 @@ namespace Org.OpenAPITools.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    if ((user as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (user as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -3989,14 +3939,9 @@ namespace Org.OpenAPITools.Api
                         ? "/fake"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake");
 
-                    if ((modelClient as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (modelClient as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -4966,7 +4911,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     // Set client side default value of Header Param "required_boolean_group".                    
-                    if (_contentHeaders.Contains("required_boolean_group".ToLowerInvariant()))
+                    if (ClientUtils.IsContentHeader("required_boolean_group"))
                     {
                         httpRequestMessageLocalVar.Content.Headers.Add("required_boolean_group", ClientUtils.ParameterToString(requiredBooleanGroup));
                     }
@@ -5199,14 +5144,9 @@ namespace Org.OpenAPITools.Api
                         ? "/fake/inline-additionalProperties"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/inline-additionalProperties");
 
-                    if ((requestBody as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -5417,14 +5357,9 @@ namespace Org.OpenAPITools.Api
                         ? "/fake/inline-freeform-additionalProperties"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/inline-freeform-additionalProperties");
 
-                    if ((testInlineFreeformAdditionalPropertiesRequest as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(testInlineFreeformAdditionalPropertiesRequest, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (testInlineFreeformAdditionalPropertiesRequest as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(testInlineFreeformAdditionalPropertiesRequest, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -6148,14 +6083,9 @@ namespace Org.OpenAPITools.Api
                         ? "/fake/stringMap-reference"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/stringMap-reference");
 
-                    if ((requestBody as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 

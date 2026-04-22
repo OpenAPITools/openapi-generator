@@ -160,21 +160,6 @@ namespace {{packageName}}.{{apiPackage}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
-        private readonly string[] _contentHeaders =
-        [
-            "allow",       
-            "content-encoding",         
-            "content-language",         
-            "content-length",           
-            "content-location",         
-            "content-md5",              
-            "content-range",            
-            "content-type",             
-            "expires",                  
-            "last-modified",            
-            "extension-header"
-        ];
-
         /// <summary>
         /// The logger factory
         /// </summary>
@@ -559,38 +544,16 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/formParams}}
                     {{#bodyParam}}
                     {{#required}}
-                    if (({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                    }
-                    {{#isFile}}
-                    else if (({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar)
-                    {
-                      httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content);
-                    }
-                    {{/isFile}}
-                    else
-                    {
-                      httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
-                    }
+                    httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
                     {{/required}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
                     {
-                      if (({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream)
-                      {
-                        httpRequestMessageLocalVar.Content = new StreamContent(stream);
-                      }
-                      {{#isFile}}
-                      else if (({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar)
-                      {
-                        httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content);
-                      }
-                      {{/isFile}}
-                      else
-                      {
-                        httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
-                      }
+                      httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
                     }
                     {{/required}}
 
@@ -599,7 +562,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#constantParams}}
                     {{#isHeaderParam}}
                     // Set client side default value of Header Param "{{baseName}}".                    
-                    if (_contentHeaders.Contains("{{baseName}}".ToLowerInvariant()))
+                    if (ClientUtils.IsContentHeader("{{baseName}}"))
                     {
                         httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
                     }
@@ -613,7 +576,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#headerParams}}
                     {{#required}}
                     // Set client side default value of Header Param "{{baseName}}".                    
-                    if (_contentHeaders.Contains("{{baseName}}".ToLowerInvariant()))
+                    if (ClientUtils.IsContentHeader("{{baseName}}"))
                     {
                         httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
                     }
