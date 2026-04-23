@@ -36,6 +36,9 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("unchecked")
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/postgresql-schema/}.
+ */
 public class PostgresqlSchemaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PostgresqlSchemaCodegen.class);
 

@@ -48,6 +48,9 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/rust/}.
+ */
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;

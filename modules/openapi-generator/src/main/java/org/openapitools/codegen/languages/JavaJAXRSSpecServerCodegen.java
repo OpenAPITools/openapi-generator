@@ -35,6 +35,12 @@ import java.util.Map;
 
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/JavaJaxRS/spec/} (root templates shared across all libraries) and
+ * {@code src/main/resources/JavaJaxRS/spec/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";

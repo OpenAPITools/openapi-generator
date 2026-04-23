@@ -42,6 +42,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
  * Created by prokarma on 04/09/17.
  */
 @Setter
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-pkmst/}.
+ */
 public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     public static final String CONFIG_PACKAGE = "configPackage";

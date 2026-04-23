@@ -57,6 +57,12 @@ import org.slf4j.LoggerFactory;
 
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/kotlin-server/} (root templates shared across all libraries) and
+ * {@code src/main/resources/kotlin-server/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
     public static final String DEFAULT_LIBRARY = Constants.KTOR;

@@ -40,6 +40,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/ruby-client/}.
+ */
 public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_VERSION = "gemVersion";
     public static final String GEM_LICENSE = "gemLicense";

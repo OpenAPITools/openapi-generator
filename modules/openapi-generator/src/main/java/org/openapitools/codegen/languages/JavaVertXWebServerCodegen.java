@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/JavaVertXWebServer/}.
+ */
 public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
     protected String resourceFolder = "src/main/resources";

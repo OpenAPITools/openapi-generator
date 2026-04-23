@@ -75,6 +75,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
  * - Automatic include generation for dependencies
  *
  * @author OpenAPI Generator Contributors
+  * <p>Mustache templates are located in {@code src/main/resources/cpp-httplib-server/}.
  */
 public class CppHttplibServerCodegen extends AbstractCppCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CppHttplibServerCodegen.class);

@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("removal")
 @Deprecated(forRemoval = true)
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-micronaut/}.
+ */
 public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
     public static final String OPT_CONTROLLER_PACKAGE = "controllerPackage";
     public static final String OPT_GENERATE_CONTROLLER_FROM_EXAMPLES = "generateControllerFromExamples";

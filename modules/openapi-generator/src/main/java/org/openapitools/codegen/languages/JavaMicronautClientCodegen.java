@@ -19,6 +19,9 @@ import java.util.List;
  */
 @SuppressWarnings("removal")
 @Deprecated(forRemoval = true)
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/java-micronaut/}.
+ */
 public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
     public static final String OPT_CONFIGURE_AUTH = "configureAuth";

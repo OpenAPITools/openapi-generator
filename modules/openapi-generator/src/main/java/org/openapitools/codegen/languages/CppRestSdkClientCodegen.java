@@ -36,6 +36,9 @@ import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/cpp-rest-sdk-client/}.
+ */
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";

@@ -36,6 +36,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-pydantic-v1/}.
+ */
 public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonPydanticV1ClientCodegen.class);
 

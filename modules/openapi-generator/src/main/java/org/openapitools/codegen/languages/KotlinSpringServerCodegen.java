@@ -53,6 +53,14 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * OpenAPI Generator codegen implementation for Kotlin + Spring.
+ *
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/kotlin-spring/} (root templates shared across all libraries) and
+ * {@code src/main/resources/kotlin-spring/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures, DocumentationProviderFeatures, SwaggerUIFeatures {
 

@@ -39,6 +39,9 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/n4js/}.
+ */
 public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CHECK_REQUIRED_PARAMS_NOT_NULL = "checkRequiredParamsNotNull";
     public static final String CHECK_SUPERFLUOUS_BODY_PROPS = "checkSuperfluousBodyProps";
