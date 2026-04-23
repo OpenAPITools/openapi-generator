@@ -6664,4 +6664,42 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
     }
+
+        @Test
+        public void useBeanValidationTrueWithSpringHttpInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(true);
+        codegen.setPerformBeanValidation(true);
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+
+        generator.opts(input).generate();
+
+        Path pet = Paths.get(
+                output.getAbsolutePath(),
+                "src/main/java/org/openapitools/model/Pet.java"
+        );
+
+        String content = Files.readString(pet);
+
+        assertThat(content).contains("@NotNull");
+        }
 }

@@ -430,8 +430,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             documentationProvider = DocumentationProvider.NONE;
             annotationLibrary = AnnotationLibrary.NONE;
             useJakartaEe = true;
-            useBeanValidation = false;
-            performBeanValidation = false;
 
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
             additionalProperties.put(USE_BEANVALIDATION, useBeanValidation);
@@ -443,7 +441,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
             applyJakartaPackage();
 
-            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary, useBeanValidation, performBeanValidation. "
+            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary. "
                     + "useJakartaEe defaulted to 'true'");
         }
 
