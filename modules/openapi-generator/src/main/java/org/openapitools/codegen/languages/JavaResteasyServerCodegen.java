@@ -31,10 +31,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Setter
 /**
  * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/resteasy/}.
  */
+@Setter
 public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
 
     protected boolean generateJbossDeploymentDescriptor = true;

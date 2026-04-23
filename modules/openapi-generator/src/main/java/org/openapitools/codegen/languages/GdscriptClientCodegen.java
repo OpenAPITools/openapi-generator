@@ -19,7 +19,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 /**
- * <p>Mustache templates are located in {@code src/main/resources/gdscript/}.
+ * <p>Handlebars templates are located in {@code src/main/resources/gdscript/}.
  */
 public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 

@@ -43,7 +43,7 @@ import java.util.*;
 import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 
 /**
- * <p>Mustache templates are located in {@code src/main/resources/java-helidon/common/}.
+ * <p>Mustache templates are located in {@code src/main/resources/java-helidon/common/} and {@code src/main/resources/java-helidon/client/}.
  */
 public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
