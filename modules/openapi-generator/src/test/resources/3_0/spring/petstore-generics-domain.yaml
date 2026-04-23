@@ -1,0 +1,41 @@
+openapi: "3.0.1"
+info:
+  title: Petstore Generics - Domain Schemas
+  version: 1.0.0
+components:
+  schemas:
+    Pet:
+      type: object
+      required: [name]
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        species:
+          type: string
+
+    LogEntryData:
+      type: object
+      description: Payload for a log entry
+      properties:
+        level:
+          type: string
+          enum: [DEBUG, INFO, WARN, ERROR]
+        message:
+          type: string
+        source:
+          type: string
+
+    MetricsEntryData:
+      type: object
+      description: Payload for a metrics entry
+      properties:
+        metricName:
+          type: string
+        value:
+          type: number
+          format: double
+        unit:
+          type: string

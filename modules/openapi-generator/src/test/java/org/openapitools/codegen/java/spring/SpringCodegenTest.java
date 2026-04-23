@@ -50,6 +50,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7478,5 +7479,178 @@ public class SpringCodegenTest {
         props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
         props.put(SpringCodegen.SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
         return props;
+    }
+
+    // =========================================================================
+    // genericPatterns integration tests
+    // =========================================================================
+
+    /**
+     * Builds common test props for genericPatterns feature tests.
+     * Uses annotationLibrary=none so that suppression is active.
+     */
+    private Map<String, Object> genericPatternsProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(DOCUMENTATION_PROVIDER, "none");
+        props.put(ANNOTATION_LIBRARY, "none");
+
+        // Pattern 1: suffix=Response, slot=data, Mode B (simple class name → generate)
+        Map<String, Object> responsePattern = new HashMap<>();
+        responsePattern.put("suffix", "Response");
+        responsePattern.put("genericClass", "ApiResponse");
+        responsePattern.put("slot", "data");
+
+        // Pattern 2: suffix=Page, slotArray=content, Mode A (FQN → import only)
+        Map<String, Object> pagePattern = new HashMap<>();
+        pagePattern.put("suffix", "Page");
+        pagePattern.put("genericClass", "org.springframework.data.domain.Page");
+        pagePattern.put("slotArray", "content");
+
+        props.put(SpringCodegen.GENERIC_PATTERNS, Arrays.asList(responsePattern, pagePattern));
+        return props;
+    }
+
+    @Test
+    public void genericPatterns_replacesReturnTypeForSuffixSlotPattern() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // getUserResponse returns UserResponse → must become ApiResponse<User>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getUserResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<User>>");
+    }
+
+    @Test
+    public void genericPatterns_replacesReturnTypeForAllMatchedSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getPetResponse").hasReturnType("ResponseEntity<ApiResponse<Pet>>")
+                .toFileAssert()
+                .assertMethod("getOrderResponse").hasReturnType("ResponseEntity<ApiResponse<Order>>");
+    }
+
+    @Test
+    public void genericPatterns_suppressesConcreteSchemaClassesWhenNoAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Concrete wrapper schemas should be suppressed
+        assertThat(files).doesNotContainKey("UserResponse.java");
+        assertThat(files).doesNotContainKey("PetResponse.java");
+        assertThat(files).doesNotContainKey("OrderResponse.java");
+    }
+
+    @Test
+    public void genericPatterns_keepsNonMatchedSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // SearchResult is not matched → must still be generated
+        assertThat(files).containsKey("SearchResult.java");
+        // Domain types must still be generated
+        assertThat(files).containsKey("User.java");
+        assertThat(files).containsKey("Pet.java");
+    }
+
+    @Test
+    public void genericPatterns_modeBGeneratesClassFile() throws IOException {
+        // Mode B generates a file directly to disk — verify via the output folder
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setAdditionalProperties(genericPatternsProps())
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/spring/petstore-generics.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .setLibrary(SPRING_BOOT);
+
+        ClientOptInput input = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        // Mode B: "ApiResponse" simple name → written to configPackage directory
+        File apiResponseFile = new File(output,
+                "src/main/java/org/openapitools/configuration/ApiResponse.java");
+        assertThat(apiResponseFile).exists();
+    }
+
+    @Test
+    public void genericPatterns_modeADoesNotGenerateClassFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Mode A: "org.springframework.data.domain.Page" FQN → no generated file
+        assertThat(files).doesNotContainKey("Page.java");
+    }
+
+    @Test
+    public void genericPatterns_slotArrayPatternReplacesReturnType() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // listUsers returns UserPage → must become Page<User>
+        JavaFileAssert.assertThat(files.get("PageApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<Page<User>>");
+    }
+
+    @Test
+    public void genericPatterns_slotArrayAllOfPatternReplacesReturnType() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // listPets returns PetPage (allOf form) → must become Page<Pet>
+        JavaFileAssert.assertThat(files.get("PageApi.java"))
+                .assertMethod("listPets")
+                .hasReturnType("ResponseEntity<Page<Pet>>");
+    }
+
+    @Test
+    public void genericPatterns_tier1VendorExtensionDetected() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // UserVendorResult has x-generic-class=com.example.generic.VendorResult → Mode A
+        // Operation getVendorUserResult returns VendorResult<User>
+        JavaFileAssert.assertThat(files.get("VendorApi.java"))
+                .assertMethod("getVendorUserResult")
+                .hasReturnType("ResponseEntity<VendorResult<User>>");
+    }
+
+    @Test
+    public void genericPatterns_disabledByDefault_concreteSchemaGenerated() throws IOException {
+        // Without genericPatterns, response schemas must still be generated as concrete classes
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(DOCUMENTATION_PROVIDER, "none");
+        props.put(ANNOTATION_LIBRARY, "none");
+        // NOT setting GENERIC_PATTERNS
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT, props);
+
+        assertThat(files).containsKey("UserResponse.java");
+        assertThat(files).containsKey("PetResponse.java");
     }
 }

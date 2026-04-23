@@ -1,0 +1,400 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore - Generics Test
+  description: |
+    Test spec for the genericPatterns / generics-support feature.
+
+    Detection tiers exercised:
+      - Tier 1 (vendor extension): UserVendorResult
+      - Tier 2 (suffix pattern "Response", slot "data"): UserResponse, PetResponse, OrderResponse
+      - Tier 2 (suffix pattern "Page", slotArray "content"): UserPage (flat), PetPage (allOf)
+      - Tier 3 (discovery / structural clustering): LogEntry, MetricsEntry
+      - NOT matched: SearchResult (unique structure)
+
+    External file references:
+      - Order schema referenced from petstore-generics-shared.yaml
+      - Pet, LogEntryData, MetricsEntryData referenced from petstore-generics-domain.yaml
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: response
+    description: Operations returning Response-wrapped domain objects
+  - name: page
+    description: Operations returning Page-wrapped domain objects
+  - name: vendor
+    description: Operations using vendor-extension generics
+  - name: observability
+    description: Log and metrics operations
+  - name: search
+    description: Search operations
+
+paths:
+  /users/{id}/response:
+    get:
+      tags: [response]
+      summary: Get user response (Tier 2 — suffix Response, slot data)
+      operationId: getUserResponse
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User wrapped in ApiResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+
+  /pets/{id}/response:
+    get:
+      tags: [response]
+      summary: Get pet response (Tier 2 — suffix Response, slot data, external domain $ref)
+      operationId: getPetResponse
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pet wrapped in ApiResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetResponse'
+
+  /orders/{id}/response:
+    get:
+      tags: [response]
+      summary: Get order response (Tier 2 — suffix Response, slot data, external shared $ref)
+      operationId: getOrderResponse
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order wrapped in ApiResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+
+  /users:
+    get:
+      tags: [page]
+      summary: List users (Tier 2 — suffix Page, slotArray content, flat-object form)
+      operationId: listUsers
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paged list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPage'
+
+  /pets:
+    get:
+      tags: [page]
+      summary: List pets (Tier 2 — suffix Page, slotArray content, allOf form)
+      operationId: listPets
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paged list of pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetPage'
+
+  /vendor/user-result:
+    get:
+      tags: [vendor]
+      summary: Get vendor user result (Tier 1 — x-generic-class vendor extension)
+      operationId: getVendorUserResult
+      responses:
+        '200':
+          description: User result using vendor-extension-defined generic class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserVendorResult'
+
+  /logs/latest:
+    get:
+      tags: [observability]
+      summary: Get latest log entry (Tier 3 — structural cluster detection, NOT substituted)
+      operationId: getLatestLogEntry
+      responses:
+        '200':
+          description: Log entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogEntry'
+
+  /search:
+    get:
+      tags: [search]
+      summary: Search (SearchResult NOT matched by any pattern)
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResult'
+
+components:
+  schemas:
+
+    # -----------------------------------------------------------------------
+    # Domain types — inline definitions (some with parallel external variants)
+    # -----------------------------------------------------------------------
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+    Pet:
+      type: object
+      required: [name]
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        species:
+          type: string
+
+    PageMeta:
+      type: object
+      description: Pagination metadata (inline)
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+      required: [size, number, totalElements, totalPages]
+
+    LogEntryData:
+      type: object
+      description: Payload for a log entry
+      properties:
+        level:
+          type: string
+        message:
+          type: string
+        source:
+          type: string
+
+    MetricsEntryData:
+      type: object
+      description: Payload for a metrics entry
+      properties:
+        metricName:
+          type: string
+        value:
+          type: number
+          format: double
+        unit:
+          type: string
+
+    # -----------------------------------------------------------------------
+    # Tier 2 — Response suffix, slot: data
+    # All three have identical structure except the $ref in 'data'
+    # -----------------------------------------------------------------------
+
+    UserResponse:
+      type: object
+      description: User wrapped in a generic ApiResponse
+      required: [data, status]
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        status:
+          type: string
+          description: Response status code string
+        message:
+          type: string
+          description: Human-readable response message
+
+    PetResponse:
+      type: object
+      description: Pet wrapped in a generic ApiResponse
+      required: [data, status]
+      properties:
+        data:
+          $ref: '#/components/schemas/Pet'
+        status:
+          type: string
+          description: Response status code string
+        message:
+          type: string
+          description: Human-readable response message
+
+    OrderResponse:
+      type: object
+      description: |
+        Order wrapped in a generic ApiResponse.
+        The Order domain type is defined in the external shared schemas file.
+      required: [data, status]
+      properties:
+        data:
+          $ref: './petstore-generics-shared.yaml#/components/schemas/Order'
+        status:
+          type: string
+        message:
+          type: string
+
+    # -----------------------------------------------------------------------
+    # Tier 2 — Page suffix, slotArray: content
+    # -----------------------------------------------------------------------
+
+    UserPage:
+      type: object
+      description: Paged list of users — flat-object form
+      required: [content, page]
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        page:
+          $ref: '#/components/schemas/PageMeta'
+
+    PetPage:
+      description: Paged list of pets — allOf form
+      allOf:
+        - $ref: '#/components/schemas/PageMeta'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pet'
+
+    # -----------------------------------------------------------------------
+    # Tier 1 — Vendor extension: x-generic-class / x-generic-args
+    # -----------------------------------------------------------------------
+
+    UserVendorResult:
+      x-generic-class: "com.example.generic.VendorResult"
+      x-generic-args:
+        payload: User
+      type: object
+      description: User result using vendor-extension-defined generic class
+      required: [payload]
+      properties:
+        payload:
+          $ref: '#/components/schemas/User'
+        code:
+          type: integer
+          format: int32
+          description: Vendor-specific result code
+
+    # -----------------------------------------------------------------------
+    # Tier 3 — Structural clustering (discovery only, NOT substituted)
+    # LogEntry and MetricsEntry have same structure except 'data' property
+    # -----------------------------------------------------------------------
+
+    LogEntry:
+      type: object
+      description: |
+        Log entry wrapper.
+        Same structure as MetricsEntry except 'data' points to LogEntryData.
+        These two form a Tier 3 cluster suggestion.
+      properties:
+        data:
+          $ref: '#/components/schemas/LogEntryData'
+        severity:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    MetricsEntry:
+      type: object
+      description: |
+        Metrics entry wrapper.
+        Same structure as LogEntry except 'data' points to MetricsEntryData.
+        These two form a Tier 3 cluster suggestion.
+      properties:
+        data:
+          $ref: '#/components/schemas/MetricsEntryData'
+        severity:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    # -----------------------------------------------------------------------
+    # NOT MATCHED — unique structure, should not be suggested as generic
+    # -----------------------------------------------------------------------
+
+    SearchResult:
+      type: object
+      description: Search result — unique structure, not matched by any pattern
+      properties:
+        query:
+          type: string
+        totalHits:
+          type: integer
+          format: int64
+        results:
+          type: array
+          items:
+            type: string
+        facets:
+          type: object
+          additionalProperties:
+            type: integer
