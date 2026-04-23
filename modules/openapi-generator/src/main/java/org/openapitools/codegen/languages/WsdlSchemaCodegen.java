@@ -30,10 +30,10 @@ import java.io.File;
 import java.text.Normalizer;
 import java.util.*;
 
-@Setter
 /**
  * <p>Mustache templates are located in {@code src/main/resources/wsdl-schema/}.
  */
+@Setter
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
