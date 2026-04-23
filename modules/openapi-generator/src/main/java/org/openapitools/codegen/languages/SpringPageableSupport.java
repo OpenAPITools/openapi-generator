@@ -46,6 +46,30 @@ import java.util.stream.Collectors;
  * <p>Language-specific variations (file extension, annotation-array brackets, HTTP-interface
  * library name) are passed as parameters at call sites, keeping this class free of any
  * language-specific logic.</p>
+ *
+ * <h2>Relationship to {@link GenericSubstitutionSupport}</h2>
+ * <p>This class and {@link GenericSubstitutionSupport} both perform return-type substitution,
+ * but they are <em>complementary</em>, not redundant:</p>
+ * <ul>
+ *   <li><b>This class</b> ({@code substituteGenericPagedModel} flag) uses
+ *       <em>structural detection</em> via {@link PagedModelScanUtils}: it finds paged-model
+ *       schemas by shape (a {@code content} array property + a pagination-metadata {@code $ref}
+ *       property) regardless of naming conventions. It also suppresses the companion
+ *       {@code PageMetadata}-style schema when it is no longer referenced. No naming convention
+ *       or pattern config is required — just one boolean flag.</li>
+ *   <li>{@link GenericSubstitutionSupport} ({@code genericPatterns} config) uses
+ *       <em>name-based pattern matching</em> (suffix / prefix / vendor extensions). It can
+ *       target any generic class and any number of type parameters, but relies on schemas
+ *       following a naming convention. It does not suppress companion metadata schemas.</li>
+ * </ul>
+ *
+ * <h2>Non-overlap guarantee</h2>
+ * <p>When both features are active, they process the same operation sequentially:
+ * {@code pageableSupport.substituteReturnType()} runs first (in {@code fromOperation}),
+ * then {@code genericSubstitutionSupport.substituteReturnType()} runs. If the first has
+ * already replaced {@code returnBaseType} with e.g. {@code "PagedModel"}, the second lookup
+ * into the {@code genericPatterns} registry will find no entry for that new name and will
+ * skip — so double-substitution cannot occur.</p>
  */
 public final class SpringPageableSupport {
 

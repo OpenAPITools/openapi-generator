@@ -57,6 +57,26 @@ import java.util.*;
  *       {@link org.openapitools.codegen.CodegenConfig#prepareSupportingFile} and
  *       delegate to this method.</li>
  * </ul>
+ *
+ * <h2>Relationship to {@link SpringPageableSupport}</h2>
+ * <p>This class and {@link SpringPageableSupport} both perform return-type substitution
+ * for generic wrapper schemas, but they are <em>complementary</em>, not redundant:</p>
+ * <ul>
+ *   <li><b>This class</b> ({@code genericPatterns} config) uses <em>name-based pattern
+ *       matching</em> (suffix / prefix / vendor extensions). It can target any generic class
+ *       with any number of type parameters ({@code slots}), but relies on schemas following a
+ *       naming convention. It suppresses the matched wrapper schema but not any companion
+ *       metadata schemas.</li>
+ *   <li>{@link SpringPageableSupport} ({@code substituteGenericPagedModel} flag) uses
+ *       <em>structural detection</em>: it identifies paged-model schemas by shape, requires no
+ *       naming convention, and additionally suppresses the companion {@code PageMetadata}-style
+ *       schema. It is specialised for the Spring {@code PagedModel<T>} use case.</li>
+ * </ul>
+ *
+ * <p>When both features are active on the same spec, {@link SpringPageableSupport} runs first
+ * inside {@code fromOperation}. If it replaces a return type, this class will not find the
+ * original schema name in its registry (because {@code returnBaseType} has already changed),
+ * so double-substitution cannot occur.</p>
  */
 public final class GenericSubstitutionSupport {
 
