@@ -421,8 +421,8 @@ using System.Net.Http.Headers;
         /// The collection of content headers as per
         /// https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.headers
         /// </summary>
-        private static readonly string[] ContentHeaders =
-        [
+        private static readonly string[] ContentHeaders = new String[] 
+        {
             "allow",
             "content-encoding",
             "content-disposition",
@@ -434,7 +434,7 @@ using System.Net.Http.Headers;
             "content-type",
             "expires",
             "last-modified"
-        ];
+        };
 
         /// <summary>
         /// The base path of the API

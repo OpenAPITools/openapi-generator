@@ -425,8 +425,8 @@ namespace Org.OpenAPITools.Client
         /// The collection of content headers as per
         /// https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.headers
         /// </summary>
-        private static readonly string[] ContentHeaders =
-        [
+        private static readonly string[] ContentHeaders = new String[] 
+        {
             "allow",
             "content-encoding",
             "content-disposition",
@@ -438,7 +438,7 @@ namespace Org.OpenAPITools.Client
             "content-type",
             "expires",
             "last-modified"
-        ];
+        };
 
         /// <summary>
         /// The base path of the API
