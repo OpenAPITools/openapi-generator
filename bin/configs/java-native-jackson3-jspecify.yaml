@@ -1,0 +1,17 @@
+generatorName: java
+outputDir: samples/client/petstore/java/native-jackson3-jspecify
+library: native
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/jspecify.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+validateSpec: false
+additionalProperties:
+  artifactId: petstore-native-jackson3
+  hideGenerationTimestamp: "true"
+  generateBuilders: true
+  useReflectionEqualsHashCode: "true"
+  useJackson3: "true"
+  openApiNullable: "false"
+  useJspecify: true
+typeMappings:
+  OffsetDateTime: java.time.Instant
+  BigDecimal: java.math.BigDecimal

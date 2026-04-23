@@ -218,7 +218,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -264,7 +264,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -423,7 +423,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,

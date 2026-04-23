@@ -5,7 +5,9 @@ import org.openapitools.client.ApiClient;
 
 import java.util.*;
 
+
 import rx.Single;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -47,9 +49,11 @@ public class DefaultApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<FooGetDefaultResponse> rxFooGet() {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fooGet(fut)
         ));
+    
     }
 
     /**
@@ -59,9 +63,11 @@ public class DefaultApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<FooGetDefaultResponse> rxFooGet(ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fooGet(authInfo, fut)
         ));
+    
     }
 
     public static DefaultApi newInstance(org.openapitools.client.api.DefaultApi arg) {

@@ -31,8 +31,6 @@ import org.openapitools.server.models.Pet
 
 fun Route.PetApi() {
     val gson = Gson()
-    val empty = mutableMapOf<String, Any?>()
-
     authenticate("petstore_auth") {
     post<Paths.addPet> {
         
@@ -59,7 +57,7 @@ fun Route.PetApi() {
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -120,7 +118,7 @@ fun Route.PetApi() {
             } ]"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -170,7 +168,7 @@ fun Route.PetApi() {
             } ]"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -204,7 +202,7 @@ fun Route.PetApi() {
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -238,7 +236,7 @@ fun Route.PetApi() {
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
@@ -271,7 +269,7 @@ fun Route.PetApi() {
             }"""
             
             when (exampleContentType) {
-                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }

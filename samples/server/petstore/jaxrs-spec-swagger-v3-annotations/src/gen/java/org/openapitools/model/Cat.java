@@ -16,7 +16,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @Schema(description="")
-@JsonTypeName("Cat")
+@JsonTypeName("CAT")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
 public class Cat extends Animal implements Serializable {
   private Boolean declawed;

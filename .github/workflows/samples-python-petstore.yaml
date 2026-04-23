@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - samples/openapi3/client/petstore/python-aiohttp/**
+      - samples/openapi3/client/petstore/python-httpx/**
       - samples/openapi3/client/petstore/python/**
       - .github/workflows/samples-python-petstore.yaml
 

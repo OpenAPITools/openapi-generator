@@ -84,7 +84,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/pet/{petId}'
-            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+            .replace('{petId}', encodeURIComponent(String(petId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
@@ -199,7 +199,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/pet/{petId}'
-            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+            .replace('{petId}', encodeURIComponent(String(petId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
@@ -283,7 +283,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/pet/{petId}'
-            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+            .replace('{petId}', encodeURIComponent(String(petId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
@@ -350,7 +350,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/pet/{petId}/uploadImage'
-            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
+            .replace('{petId}', encodeURIComponent(String(petId)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);

@@ -62,6 +62,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
+import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BOOT4;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -3058,6 +3059,36 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void contractWithUriEnumContainsEnumConverterWithUriImport() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum_uri.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+                .hasImports("java.net.URI")
+                .fileContains("Converter<URI, ExampleUriEnum>")
+                .assertMethod("exampleUriEnumConverter");
+    }
+
+    @Test
+    public void contractWithUuidEnumContainsEnumConverterWithUuidImport() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum_uuid.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+                .hasImports("java.util.UUID")
+                .fileContains("Converter<UUID, ExampleUuidEnum>")
+                .assertMethod("exampleUuidEnumConverter");
+    }
+
+    @Test
+    public void contractWithNumberEnumContainsEnumConverterWithBigDecimalImport() throws IOException {
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/enum_number.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+                .hasImports("java.math.BigDecimal")
+                .fileContains("Converter<BigDecimal, ExampleNumberEnum>")
+                .assertMethod("exampleNumberEnumConverter");
+    }
+
+    @Test
     public void contractWithoutEnumDoesNotContainEnumConverter() throws IOException {
         Map<String, File> output = generateFromContract("src/test/resources/3_0/generic.yaml", SPRING_BOOT);
 
@@ -3177,7 +3208,15 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         return generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(this::getUniqueName, Function.identity()));
+    }
+
+    private String getUniqueName(File file) {
+        String name = file.getName();
+        if ("package-info.java".equals(name)) {
+            return file.getParentFile().getName() + "/" + name;
+        }
+        return name;
     }
 
     @Test
@@ -6606,5 +6645,838 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"))
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
+    }
+
+    @DataProvider(name = "jspecifyLibraries")
+    public Object[][] jspecifyLibraries() {
+        return new Object[][]{
+                {SPRING_BOOT, 2, "FooApi.java"},
+                {SPRING_BOOT, 3, "FooApi.java"},
+                {SPRING_BOOT, 4, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 2, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 3, "FooApi.java"},
+                {SPRING_CLOUD_LIBRARY, 4, "FooApi.java"},
+                {SPRING_HTTP_INTERFACE, 3, "DefaultApi.java"},
+                {SPRING_HTTP_INTERFACE, 4, "DefaultApi.java"}
+        };
+    }
+
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify(String library, int springBootVersion, String fooApiFilename) throws IOException {
+        String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        CONTAINER_DEFAULT_TO_NULL, true,
+                        OPENAPI_NULLABLE, false,
+                        USE_BEANVALIDATION, true,
+                        INTERFACE_ONLY, false,
+                        springVersionProperty, springBootVersion > 2
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant"));
+
+        if (springBootVersion == 4) {
+            assertThat(files.get("pom.xml")).content()
+                    .doesNotContain("jspecify")
+                    .doesNotContain("findbugs");
+        } else {
+            assertThat(files.get("pom.xml")).content()
+                    .contains(
+                            "<groupId>org.jspecify</groupId>",
+                            "<artifactId>jspecify</artifactId>",
+                            "<version>1.0.0</version>")
+                    .doesNotContain("findbugs");
+        }
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
+                .fileContains(
+                        "private java.time.@Nullable Instant dt;",
+                        "private org.springframework.core.io.@Nullable Resource binary",
+                        "setBinary(org.springframework.core.io.@Nullable Resource binary)"
+                );
+        JavaFileAssert.assertThat(files.get(fooApiFilename))
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
+                .fileContains(
+                        "java.time.@Nullable Instant dtParam",
+                        "java.time.@Nullable Instant dtQuery",
+                        "java.time.@Nullable Instant dtCookie"
+                );
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+
+        if (SPRING_BOOT.equals(library)) {
+            // Nullable annotation is not (yet) put on NativeWebRequest, but still present as import when useJspecify=true
+            JavaFileAssert.assertThat(files.get("UploadApiController.java").toPath())
+                    .assertTypeAnnotations()
+                    .doesNotContainWithName("Nullable")
+                    .doesImportAnnotation("org.jspecify.annotations.Nullable");
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // autoXSpringPaginated tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void autoXSpringPaginatedDetectsAllThreeParams() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAutoDetect has page+size+sort → Pageable should be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithAutoDetect")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedManualFalseTakesPrecedence() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsManualFalse has x-spring-paginated: false → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsManualFalse")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedCaseSensitiveMatching() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsCaseSensitive uses Page/Size/Sort (capital) → must NOT auto-detect
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsCaseSensitive")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingPage() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingPage: missing 'page' param → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingPage")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSize() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingSize: missing 'size' param → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingSize")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSort() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsMissingSort: missing 'sort' param → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsMissingSort")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedOnlyForSpringBoot() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        // spring-cloud generates a Feign client — auto-detect should not apply there
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", "spring-cloud", props);
+
+        File petApiClient = files.get("PetApiClient.java");
+        if (petApiClient != null) {
+            String content = java.nio.file.Files.readString(petApiClient.toPath());
+            assertThat(content).doesNotContain("Pageable pageable");
+        }
+    }
+
+    @Test
+    public void autoXSpringPaginatedDisabledByDefault() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        // NOT setting AUTO_X_SPRING_PAGINATED (defaults to false)
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAutoDetect: should NOT get Pageable when autoXSpringPaginated is not enabled
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithAutoDetect")
+                .doesNotHaveParameter("pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedWorksWithManualTrue() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsManualTrue: explicit x-spring-paginated: true → Pageable must be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsManualTrue")
+                .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoParamsDoesNotDetect() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-auto-paginated.yaml", SPRING_BOOT, props);
+
+        // findPetsNoParams: no params at all → Pageable must NOT be injected
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsNoParams")
+                .doesNotHaveParameter("pageable");
+    }
+
+    // -------------------------------------------------------------------------
+    // generateSortValidation tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void generateSortValidationAddsAnnotationAndGeneratesFile() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // ValidSort.java must be generated
+        assertThat(files).containsKey("ValidSort.java");
+
+        // findPetsWithSortEnum has explicit x-spring-paginated + sort enum → @ValidSort applied with all 4 values
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"")
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationUsesJavaArraySyntax() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // The generated API file must use Java {} array syntax (not Kotlin [])
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {");
+    }
+
+    @Test
+    public void generateSortValidationWithAutoDetect() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.AUTO_X_SPRING_PAGINATED, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsAutoDetectedWithSort: auto-detected + sort enum → ValidSort applied with Java {} syntax
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationNotAppliedWhenNoSortEnum() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithoutSortEnum: paginated but sort has no enum → no @ValidSort
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithoutSortEnum")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .doesNotContainWithName("ValidSort");
+    }
+
+    @Test
+    public void generateSortValidationWorksForArraySortEnum() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithArraySortEnum: sort is type:array, items have inline enum → @ValidSort with Java {} syntax
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithArraySortEnum")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@ValidSort(allowedValues = {")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"")
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationWorksForArraySortRefEnum() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithArraySortRefEnum: sort is type:array, items $ref to PetSort enum → @ValidSort with PetSort values
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithArraySortRefEnum")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"")
+                .fileContains("\"createdAt,asc\"")
+                .fileContains("\"createdAt,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationWorksForExternalParamRefArraySort() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithExternalParamRefArraySort: sort param $ref to external components file,
+        // type:array with items $ref to PetSortEnum in the same external file
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithExternalParamRefArraySort")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"");
+    }
+
+    @Test
+    public void generateSortValidationWorksForNonExplodedExternalParamRefArraySort() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithNonExplodedExternalParamRefArraySort: sort param $ref to external file,
+        // explode: false — @ValidSort works identically since it validates the deserialized Pageable
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithNonExplodedExternalParamRefArraySort")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithName("ValidSort");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("\"name,asc\"")
+                .fileContains("\"name,desc\"")
+                .fileContains("\"id,asc\"")
+                .fileContains("\"id,desc\"");
+    }
+
+    // -------------------------------------------------------------------------
+    // generatePageableConstraintValidation tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void generatePageableConstraintValidationAddsAnnotationAndGeneratesFile() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // ValidPageable.java must be generated
+        assertThat(files).containsKey("ValidPageable.java");
+
+        // findPetsWithSizeConstraint: size maximum=100 → @ValidPageable(maxSize = 100)
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithSizeConstraint")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ValidPageable", Map.of("maxSize", "100"));
+    }
+
+    @Test
+    public void generatePageableConstraintValidationWithBothConstraints() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithPageAndSizeConstraint: page maximum=999, size maximum=50
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithPageAndSizeConstraint")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ValidPageable", Map.of("maxSize", "50", "maxPage", "999"));
+    }
+
+    // -------------------------------------------------------------------------
+    // @PageableDefault / @SortDefault tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void pageableDefaultAnnotationApplied() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithPageSizeDefaultsOnly: page=0, size=25 → @PageableDefault(page = 0, size = 25)
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithPageSizeDefaultsOnly")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("PageableDefault", Map.of("page", "0", "size", "25"));
+    }
+
+    @Test
+    public void sortDefaultAnnotationApplied() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithSortDefaultOnly: sort default "name,desc" → @SortDefault.SortDefaults generated
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC)})");
+    }
+
+    @Test
+    public void sortDefaultAndPageableDefaultBothApplied() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithAllDefaults: page=0, size=10, sort=["name,desc","id,asc"]
+        // → @PageableDefault + @SortDefault.SortDefaults both present
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@PageableDefault(page = 0, size = 10)")
+                .fileContains("@SortDefault.SortDefaults({@SortDefault(sort = {\"name\"}, direction = Sort.Direction.DESC), @SortDefault(sort = {\"id\"}, direction = Sort.Direction.ASC)})");
+    }
+
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_isDisabledByDefault() throws IOException {
+        // Without the option the paged schemas are generated as-is
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        // NOT setting SUBSTITUTE_GENERIC_PAGED_MODEL
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // UserPage and PageMeta must still be generated
+        assertThat(files).containsKey("UserPage.java");
+        assertThat(files).containsKey("PageMeta.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_keepsPagedSchemas() throws IOException {
+        // Paged schema classes must still be generated — springdoc @ApiResponse annotations reference them
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        assertThat(files).containsKey("UserPage.java");
+        assertThat(files).containsKey("OrderPage.java");
+        assertThat(files).containsKey("PetPageAllOf.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_keepsPaginationMetadataSchema() throws IOException {
+        // The shared pagination-metadata schema must also remain generated
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        assertThat(files).containsKey("PageMeta.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_keepsNonPagedSchemas() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // Plain domain schemas and non-paged wrappers must still be generated
+        assertThat(files).containsKey("User.java");
+        assertThat(files).containsKey("Pet.java");
+        assertThat(files).containsKey("UserList.java");
+        assertThat(files).containsKey("SearchResult.java");
+        assertThat(files).containsKey("PetSort.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_replacesReturnTypeInOperation() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // listUsers returns UserPage → must be replaced with PagedModel<User>
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<User>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_replacesExternalRefPagedSchema() throws IOException {
+        // OrderPage uses PageMetadata from an external file — must still be detected and return type replaced
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("OrderApi.java"))
+                .assertMethod("listOrders")
+                .hasReturnType("ResponseEntity<PagedModel<Order>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_replacesAllOfPagedSchema() throws IOException {
+        // PetPageAllOf uses the allOf detection path
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("listPetsPaged")
+                .hasReturnType("ResponseEntity<PagedModel<Pet>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_importsPagedModelAndItemTypeInApiFile() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        // The api file must import both the generated PagedModel and the item type
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .fileContains("import org.openapitools.configuration.PagedModel")
+                .fileContains("import org.openapitools.model.User");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_doesNotReplaceNonPagedReturnType() throws IOException {
+        // findPets returns a plain array — must not be replaced
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPets")
+                .hasReturnType("ResponseEntity<List<Pet>>");
+    }
+
+    /** Common properties shared by all substituteGenericPagedModel tests. */
+    private Map<String, Object> commonPagedModelProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
+        return props;
+    }
+
+    /** Properties with annotations disabled — triggers model suppression. */
+    private Map<String, Object> noAnnotationPagedModelProps() {
+        Map<String, Object> props = commonPagedModelProps();
+        props.put(DOCUMENTATION_PROVIDER, "none");
+        props.put(ANNOTATION_LIBRARY, "none");
+        return props;
+    }
+
+    @Test
+    public void substituteGenericPagedModel_suppressesPagedSchemasWhenNoAnnotations() throws IOException {
+        // With annotationLibrary=none, @ApiResponse is not generated → paged schemas not referenced
+        // → they should be suppressed to avoid generating unused classes
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, noAnnotationPagedModelProps());
+
+        assertThat(files).doesNotContainKey("UserPage.java");
+        assertThat(files).doesNotContainKey("OrderPage.java");
+        assertThat(files).doesNotContainKey("PetPageAllOf.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_suppressesPageMetaWhenNoAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, noAnnotationPagedModelProps());
+
+        // PageMetadata is only referenced by OrderPage (which is suppressed) → suppressed
+        assertThat(files).doesNotContainKey("PageMetadata.java");
+        // PageMeta is referenced by SearchResult (a non-paged schema) → must be kept
+        assertThat(files).containsKey("PageMeta.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_respectsSchemaMappingForItemType() throws IOException {
+        // When the item schema (User) is mapped to an external FQN via schemaMappings,
+        // the PagedModel type arg must use the mapped FQN, not the raw schema name.
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator.addSchemaMapping("User", "com.example.external.ExternalUser"));
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<com.example.external.ExternalUser>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_respectsSchemaMappingWithImportMappingForItemType() throws IOException {
+        // When the item schema (User) is mapped to an external FQN via schemaMappings,
+        // the PagedModel type arg must use the mapped FQN, not the raw schema name.
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator
+                        .addSchemaMapping("User", "ExternalUser")
+                        .addImportMapping("ExternalUser", "com.example.external.ExternalUser"));
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("com.example.external.ExternalUser")
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<ExternalUser>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, commonPagedModelProps());
+
+        assertThat(files).containsKey("PagedModel.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_respectsCustomImportMappingClassName() throws IOException {
+        // When the user remaps "PagedModel" to a FQN with a different simple class name,
+        // the generated code must use that simple name (not "PagedModel") as the type token
+        // and emit the correct import for the custom FQN.
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("com.example.custom.MyPagedModel")
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<MyPagedModel<User>>");
+    }
+
+    // substituteGenericPagedModel — spring-http-interface
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_springHttpInterface_replacesReturnTypeInOperation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_HTTP_INTERFACE,
+                springHttpInterfacePagedModelProps());
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<User>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springHttpInterface_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_HTTP_INTERFACE,
+                springHttpInterfacePagedModelProps());
+
+        assertThat(files).containsKey("PagedModel.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springHttpInterface_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_HTTP_INTERFACE,
+                springHttpInterfacePagedModelProps(),
+                configurator -> configurator.addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springHttpInterface_respectsCustomImportMappingClassName() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_HTTP_INTERFACE,
+                springHttpInterfacePagedModelProps(),
+                configurator -> configurator.addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("com.example.custom.MyPagedModel")
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<MyPagedModel<User>>");
+    }
+
+    /** Common properties for substituteGenericPagedModel tests using spring-http-interface. */
+    private Map<String, Object> springHttpInterfacePagedModelProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
+        return props;
     }
 }

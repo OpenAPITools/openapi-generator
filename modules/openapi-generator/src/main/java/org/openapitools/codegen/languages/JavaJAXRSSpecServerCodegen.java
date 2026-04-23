@@ -26,6 +26,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
@@ -328,10 +329,36 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        return super.postProcessModels(objs);
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
         return objs;
     }
 
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap modelsMap : result.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model.parentModel != null) {
+                    CodegenDiscriminator discriminator = model.parentModel.getDiscriminator();
+                    if (discriminator != null) {
+                        for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                            if (mappedModel.getModelName().equals(model.name)) {
+                                model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }

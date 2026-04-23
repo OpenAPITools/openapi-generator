@@ -30,8 +30,6 @@ import org.openapitools.server.models.User
 
 fun Route.UserApi() {
     val gson = Gson()
-    val empty = mutableMapOf<String, Any?>()
-
     authenticate("api_key") {
     post<Paths.createUser> {
         
@@ -90,7 +88,7 @@ fun Route.UserApi() {
         }"""
         
         when (exampleContentType) {
-            "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+            "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }

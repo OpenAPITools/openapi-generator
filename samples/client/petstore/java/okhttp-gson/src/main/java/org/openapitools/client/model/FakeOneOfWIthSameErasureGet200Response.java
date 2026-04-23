@@ -155,7 +155,7 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * List<Integer>, List<String>
+     * List&lt;Integer&gt;, List&lt;String&gt;
      *
      * It could be an instance of the 'oneOf' schemas.
      */
@@ -174,9 +174,9 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
 
     /**
      * Get the actual instance, which can be the following:
-     * List<Integer>, List<String>
+     * List&lt;Integer&gt;, List&lt;String&gt;
      *
-     * @return The actual instance (List<Integer>, List<String>)
+     * @return The actual instance (List&lt;Integer&gt;, List&lt;String&gt;)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -185,23 +185,25 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
     }
 
     /**
-     * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
+     * Get the actual instance of `List&lt;String&gt;`. If the actual instance is not `List&lt;String&gt;`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `List<String>`
-     * @throws ClassCastException if the instance is not `List<String>`
+     * @return The actual instance of `List&lt;String&gt;`
+     * @throws ClassCastException if the instance is not `List&lt;String&gt;`
      */
+    @SuppressWarnings("unchecked")
     public List<String> getListString() throws ClassCastException {
         return (List<String>)super.getActualInstance();
     }
 
     /**
-     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * Get the actual instance of `List&lt;Integer&gt;`. If the actual instance is not `List&lt;Integer&gt;`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `List<Integer>`
-     * @throws ClassCastException if the instance is not `List<Integer>`
+     * @return The actual instance of `List&lt;Integer&gt;`
+     * @throws ClassCastException if the instance is not `List&lt;Integer&gt;`
      */
+    @SuppressWarnings("unchecked")
     public List<Integer> getListInteger() throws ClassCastException {
         return (List<Integer>)super.getActualInstance();
     }

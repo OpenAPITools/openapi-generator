@@ -555,7 +555,7 @@ openapi-generator-cli generate \
     -i petstore.yaml \
     -g kotlin-spring \
     -o out \
-    --additional-properties=library=spring-boot,beanValidations=true,serviceImplementation=true \
+    --additional-properties=library=spring-boot,useBeanValidation=true,serviceImplementation=true \
     --import-mappings=DateTime=java.time.LocalDateTime \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```

@@ -5,7 +5,9 @@ import org.openapitools.client.ApiClient;
 
 import java.util.*;
 
+
 import rx.Single;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -50,9 +52,11 @@ public class FakeClassnameTags123Api {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxTestClassname(Client client) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testClassname(client, fut)
         ));
+    
     }
 
     /**
@@ -63,9 +67,11 @@ public class FakeClassnameTags123Api {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxTestClassname(Client client, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testClassname(client, authInfo, fut)
         ));
+    
     }
 
     public static FakeClassnameTags123Api newInstance(org.openapitools.client.api.FakeClassnameTags123Api arg) {

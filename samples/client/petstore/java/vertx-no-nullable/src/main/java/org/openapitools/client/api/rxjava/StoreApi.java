@@ -5,7 +5,9 @@ import org.openapitools.client.ApiClient;
 
 import java.util.*;
 
+
 import rx.Single;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -50,9 +52,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxDeleteOrder(String orderId) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.deleteOrder(orderId, fut)
         ));
+    
     }
 
     /**
@@ -63,9 +67,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxDeleteOrder(String orderId, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.deleteOrder(orderId, authInfo, fut)
         ));
+    
     }
     /**
     * Returns pet inventories by status
@@ -92,9 +98,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Map<String, Integer>> rxGetInventory() {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.getInventory(fut)
         ));
+    
     }
 
     /**
@@ -104,9 +112,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Map<String, Integer>> rxGetInventory(ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.getInventory(authInfo, fut)
         ));
+    
     }
     /**
     * Find purchase order by ID
@@ -136,9 +146,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Order> rxGetOrderById(Long orderId) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.getOrderById(orderId, fut)
         ));
+    
     }
 
     /**
@@ -149,9 +161,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Order> rxGetOrderById(Long orderId, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.getOrderById(orderId, authInfo, fut)
         ));
+    
     }
     /**
     * Place an order for a pet
@@ -181,9 +195,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Order> rxPlaceOrder(Order body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.placeOrder(body, fut)
         ));
+    
     }
 
     /**
@@ -194,9 +210,11 @@ public class StoreApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Order> rxPlaceOrder(Order body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.placeOrder(body, authInfo, fut)
         ));
+    
     }
 
     public static StoreApi newInstance(org.openapitools.client.api.StoreApi arg) {

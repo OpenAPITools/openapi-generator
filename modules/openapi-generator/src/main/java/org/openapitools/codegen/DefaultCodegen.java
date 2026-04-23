@@ -472,6 +472,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("indented_8", new IndentedLambda(8, " ", false, false))
                 .put("indented_12", new IndentedLambda(12, " ", false, false))
                 .put("indented_16", new IndentedLambda(16, " ", false, false))
+                .put("trim", new TrimLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimWhitespace", new TrimWhitespaceLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
@@ -1857,7 +1858,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue(Boolean.FALSE.toString());
         Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
         enumUnknownDefaultCaseOpts.put("false",
-                "No changes to the enum's are made, this is the default option.");
+                "No changes to the enums are made, this is the default option.");
         enumUnknownDefaultCaseOpts.put("true",
                 "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
         enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
@@ -7027,17 +7028,31 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name");
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription");
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name", dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription", dataType);
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key) {
+    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
         if (vendorExtensions.containsKey(extensionKey)) {
-            List<String> values = (List<String>) vendorExtensions.get(extensionKey);
-            int size = Math.min(enumVars.size(), values.size());
-            for (int i = 0; i < size; i++) {
-                enumVars.get(i).put(key, values.get(i));
+            Object extensionValue = vendorExtensions.get(extensionKey);
+            if (extensionValue instanceof List) {
+                List<String> values = (List<String>) extensionValue;
+                int size = Math.min(enumVars.size(), values.size());
+                for (int i = 0; i < size; i++) {
+                    enumVars.get(i).put(key, values.get(i));
+                }
+            } else if (extensionValue instanceof Map) {
+                Map<String, String> valueMap = (Map<String, String>) extensionValue;
+                for (Map<String, Object> enumVar : enumVars) {
+                    String enumValue = (String) enumVar.get("value");
+                    for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+                        if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
+                            enumVar.put(key, entry.getValue());
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
