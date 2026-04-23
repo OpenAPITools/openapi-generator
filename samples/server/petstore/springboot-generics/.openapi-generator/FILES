@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 pom.xml
 src/main/java/org/openapitools/api/ApiUtil.java
@@ -7,6 +6,7 @@ src/main/java/org/openapitools/api/PageApi.java
 src/main/java/org/openapitools/api/ResponseApi.java
 src/main/java/org/openapitools/api/SearchApi.java
 src/main/java/org/openapitools/api/VendorApi.java
+src/main/java/org/openapitools/configuration/ApiResponse.java
 src/main/java/org/openapitools/model/LogEntry.java
 src/main/java/org/openapitools/model/LogEntryData.java
 src/main/java/org/openapitools/model/MetricsEntry.java

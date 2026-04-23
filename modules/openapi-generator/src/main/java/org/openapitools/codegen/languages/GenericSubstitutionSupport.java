@@ -26,13 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Stateful delegate that centralises all generic-schema substitution logic usable by
@@ -55,10 +49,13 @@ import java.util.stream.Collectors;
  * <ul>
  *   <li><b>Mode A</b> ({@code genericClass} is a FQN): only an import-mapping entry is
  *       added; no source file is generated.</li>
- *   <li><b>Mode B</b> ({@code genericClass} is a simple name): a {@code .java} or
- *       {@code .kt} source file is written directly to the output folder during
- *       {@code preprocessOpenAPI}. The generated class has a single type parameter
- *       {@code <T>} and mirrors the non-slot properties of the first matched schema.</li>
+ *   <li><b>Mode B</b> ({@code genericClass} is a simple name): a {@code SupportingFile}
+ *       entry is registered during {@code preprocessOpenAPI} using the
+ *       {@code genericClass.mustache} template. The {@link #prepareSupportingFile} hook
+ *       injects per-class bundle data so each class renders with its own properties.
+ *       Generators that use this class must override
+ *       {@link org.openapitools.codegen.CodegenConfig#prepareSupportingFile} and
+ *       delegate to this method.</li>
  * </ul>
  */
 public final class GenericSubstitutionSupport {
@@ -81,12 +78,8 @@ public final class GenericSubstitutionSupport {
         String getSourceFolder();
 
         /**
-         * Returns the root output folder for this generator run.
-         * Used as the base path when writing Mode B source files directly.
+         * Returns the active annotation library.
          */
-        String outputFolder();
-
-        /** Returns the active annotation library. */
         AnnotationLibrary getAnnotationLibrary();
 
         /** Converts an unqualified schema name to a codegen model name. */
@@ -100,7 +93,8 @@ public final class GenericSubstitutionSupport {
 
         /**
          * Returns the generator's mutable {@code supportingFiles} list.
-         * Not used by this class currently, exposed for future extensibility.
+         * Mode B classes are registered here as {@link SupportingFile} entries during
+         * {@link #preprocessOpenAPI}.
          */
         List<SupportingFile> supportingFiles();
 
@@ -126,8 +120,12 @@ public final class GenericSubstitutionSupport {
     private final Map<String, GenericSchemaScanUtils.GenericInstance> instanceRegistry =
             new LinkedHashMap<>();
 
-    /** Tracks which Mode B class names have already had their source file written. */
-    private final Set<String> generatedModeB = new HashSet<>();
+    /**
+     * Bundle data for each Mode B class, keyed by simple class name (e.g. {@code "ApiResponse"}).
+     * Built during {@link #preprocessOpenAPI} and injected into the template bundle by
+     * {@link #prepareSupportingFile}.
+     */
+    private final Map<String, Map<String, Object>> modeBBundleData = new LinkedHashMap<>();
 
     // =========================================================================
     // Configuration setters
@@ -214,20 +212,16 @@ public final class GenericSubstitutionSupport {
             processedGenericClasses.put(className, inst);
 
             if (inst.generateClass) {
-                // Mode B: generate source file and add import mapping
-                String fullPath = ctx.outputFolder() + File.separator + configPath
-                        + File.separator + className + "." + ext;
+                // Mode B: register a mustache-based supporting file and add import mapping
                 String fqn = ctx.getConfigPackage() + "." + className;
                 ctx.importMapping().putIfAbsent(className, fqn);
 
-                if (!generatedModeB.contains(className)) {
-                    generatedModeB.add(className);
-                    String source = "kt".equals(ext)
-                            ? buildKotlinSource(inst, ctx.getConfigPackage())
-                            : buildJavaSource(inst, ctx.getConfigPackage());
-                    writeSourceFile(fullPath, source);
-                    LOGGER.info("GenericSubstitutionSupport: generated Mode B class '{}' at {}",
-                            className, fullPath);
+                if (!modeBBundleData.containsKey(className)) {
+                    modeBBundleData.put(className, buildBundleData(inst));
+                    ctx.supportingFiles().add(new SupportingFile("genericClass.mustache",
+                            configPath, className + "." + ext));
+                    LOGGER.info("GenericSubstitutionSupport: registered Mode B '{}' → {}.{}",
+                            className, configPath, ext);
                 }
             } else {
                 // Mode A: FQN provided — add to importMapping only
@@ -318,93 +312,59 @@ public final class GenericSubstitutionSupport {
     }
 
     // =========================================================================
-    // Mode B source generation — Java
+    // prepareSupportingFile — per-file bundle injection
     // =========================================================================
 
     /**
-     * Generates a Java POJO source for the generic class described by {@code instance}.
-     * The class has a single type parameter {@code <T>}.
+     * Injects per-file data into the shared template bundle before each Mode B supporting
+     * file is rendered.
      *
-     * <p>Slot properties are typed {@code T} (or {@code List<T>} for array slots);
-     * fixed properties use their resolved Java types.</p>
+     * <p>Call this from the generator's {@code prepareSupportingFile} override.</p>
+     *
+     * @param bundle  the shared data bundle; will have {@code "genericClassDef"} added for Mode B files
+     * @param support the supporting file about to be rendered
      */
-    String buildJavaSource(GenericSchemaScanUtils.GenericInstance instance, String packageName) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("package ").append(packageName).append(";\n\n");
-
-        // Determine imports
-        boolean needsList = instance.properties.stream().anyMatch(p -> p.isArray);
-        if (needsList) {
-            sb.append("import java.util.List;\n");
-            sb.append("\n");
+    public void prepareSupportingFile(Map<String, Object> bundle, SupportingFile support) {
+        if (!"genericClass.mustache".equals(support.getTemplateFile())) {
+            return;
         }
-
-        sb.append("/**\n");
-        sb.append(" * Generic class generated by openapi-generator from schema pattern '")
-          .append(instance.genericClassName).append("'.\n");
-        sb.append(" * Type parameter {@code T} is the varying domain type.\n");
-        sb.append(" */\n");
-        sb.append("public class ").append(instance.genericClassName).append("<T> {\n\n");
-
-        // Fields
-        for (GenericSchemaScanUtils.GenericProperty prop : instance.properties) {
-            String javaType = toJavaType(prop);
-            sb.append("    private ").append(javaType).append(" ").append(prop.name).append(";\n");
+        String dest = support.getDestinationFilename();
+        int dot = dest.lastIndexOf('.');
+        if (dot < 0) return;
+        String className = dest.substring(0, dot);
+        Map<String, Object> classData = modeBBundleData.get(className);
+        if (classData != null) {
+            bundle.put("genericClassDef", classData);
         }
-        sb.append("\n");
-
-        // No-args constructor
-        sb.append("    public ").append(instance.genericClassName).append("() {}\n\n");
-
-        // Getters and setters
-        for (GenericSchemaScanUtils.GenericProperty prop : instance.properties) {
-            String javaType = toJavaType(prop);
-            String capitalName = capitalize(prop.name);
-            sb.append("    public ").append(javaType).append(" get").append(capitalName)
-              .append("() { return ").append(prop.name).append("; }\n\n");
-            sb.append("    public ").append(instance.genericClassName).append("<T> set")
-              .append(capitalName).append("(").append(javaType).append(" ").append(prop.name)
-              .append(") { this.").append(prop.name).append(" = ").append(prop.name)
-              .append("; return this; }\n\n");
-        }
-
-        sb.append("}\n");
-        return sb.toString();
     }
 
     // =========================================================================
-    // Mode B source generation — Kotlin
+    // Mode B template bundle data
     // =========================================================================
 
     /**
-     * Generates a Kotlin data-class source for the generic class described by
-     * {@code instance}. The class has a single type parameter {@code <T>}.
+     * Builds the data map injected into the bundle for a Mode B class template.
+     * Contains {@code className}, {@code needsList}, and a {@code properties} list.
      */
-    String buildKotlinSource(GenericSchemaScanUtils.GenericInstance instance, String packageName) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("package ").append(packageName).append("\n\n");
+    private Map<String, Object> buildBundleData(GenericSchemaScanUtils.GenericInstance instance) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("className", instance.genericClassName);
 
-        sb.append("/**\n");
-        sb.append(" * Generic class generated by openapi-generator from schema pattern '")
-          .append(instance.genericClassName).append("'.\n");
-        sb.append(" * Type parameter [T] is the varying domain type.\n");
-        sb.append(" */\n");
-        sb.append("data class ").append(instance.genericClassName).append("<T>(\n");
+        boolean needsList = instance.properties.stream().anyMatch(p -> p.isArray);
+        data.put("needsList", needsList ? Boolean.TRUE : null);
 
-        List<GenericSchemaScanUtils.GenericProperty> props = instance.properties;
-        for (int i = 0; i < props.size(); i++) {
-            GenericSchemaScanUtils.GenericProperty prop = props.get(i);
-            String kotlinType = toKotlinType(prop);
-            boolean isLast = (i == props.size() - 1);
-            sb.append("    val ").append(prop.name).append(": ").append(kotlinType);
-            if (!prop.required) {
-                sb.append("? = null");
-            }
-            if (!isLast) sb.append(",");
-            sb.append("\n");
+        List<Map<String, Object>> propMaps = new ArrayList<>();
+        for (GenericSchemaScanUtils.GenericProperty prop : instance.properties) {
+            Map<String, Object> pm = new LinkedHashMap<>();
+            pm.put("name", prop.name);
+            pm.put("capitalName", capitalize(prop.name));
+            pm.put("javaType", toJavaType(prop));
+            pm.put("kotlinType", toKotlinType(prop));
+            pm.put("required", prop.required ? Boolean.TRUE : null);
+            propMaps.add(pm);
         }
-        sb.append(")\n");
-        return sb.toString();
+        data.put("properties", propMaps);
+        return data;
     }
 
     // =========================================================================
@@ -444,21 +404,6 @@ public final class GenericSubstitutionSupport {
             case "array":
                 return prop.refTarget != null ? "List<" + prop.refTarget + ">" : "List<Any>";
             default: return "Any";
-        }
-    }
-
-    // =========================================================================
-    // File writing helper
-    // =========================================================================
-
-    private static void writeSourceFile(String fullPath, String content) {
-        try {
-            Path path = Paths.get(fullPath);
-            Files.createDirectories(path.getParent());
-            Files.write(path, content.getBytes(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            LOGGER.error("GenericSubstitutionSupport: failed to write Mode B source file '{}': {}",
-                    fullPath, e.getMessage(), e);
         }
     }
 

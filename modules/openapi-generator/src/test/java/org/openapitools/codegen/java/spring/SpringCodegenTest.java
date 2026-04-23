@@ -7565,27 +7565,12 @@ public class SpringCodegenTest {
 
     @Test
     public void genericPatterns_modeBGeneratesClassFile() throws IOException {
-        // Mode B generates a file directly to disk — verify via the output folder
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("spring")
-                .setAdditionalProperties(genericPatternsProps())
-                .setValidateSpec(false)
-                .setInputSpec("src/test/resources/3_0/spring/petstore-generics.yaml")
-                .setOutputDir(output.getAbsolutePath())
-                .setLibrary(SPRING_BOOT);
-
-        ClientOptInput input = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false);
-        generator.opts(input).generate();
-
-        // Mode B: "ApiResponse" simple name → written to configPackage directory
-        File apiResponseFile = new File(output,
-                "src/main/java/org/openapitools/configuration/ApiResponse.java");
-        assertThat(apiResponseFile).exists();
+        // Mode B: "ApiResponse" simple name → registered as SupportingFile, must appear in generate() output
+        assertThat(files).containsKey("ApiResponse.java");
     }
 
     @Test

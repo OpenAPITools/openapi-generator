@@ -1106,6 +1106,7 @@ public class DefaultGenerator implements Generator {
                     shouldGenerate = supportingFilesToGenerate.contains(support.getDestinationFilename());
                 }
 
+                config.prepareSupportingFile(bundle, support);
                 File written = processTemplateToFile(bundle, support.getTemplateFile(), outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
                 if (written != null) {
                     files.add(written);

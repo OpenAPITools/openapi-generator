@@ -1357,6 +1357,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public void prepareSupportingFile(Map<String, Object> bundle, SupportingFile file) {
+        genericSubstitutionSupport.prepareSupportingFile(bundle, file);
+    }
+
+    @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 

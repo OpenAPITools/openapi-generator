@@ -1038,6 +1038,11 @@ public class DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    @Override
+    public void prepareSupportingFile(Map<String, Object> bundle, SupportingFile file) {
+        // default no-op; override in generators that need per-file bundle data
+    }
+
     // override to post-process any model properties
     @Override
     @SuppressWarnings("unused")
