@@ -781,6 +781,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     if (map.get("genericClass") instanceof String) cfg.genericClass = (String) map.get("genericClass");
                     if (map.get("slot") instanceof String) cfg.slot = (String) map.get("slot");
                     if (map.get("slotArray") instanceof String) cfg.slotArray = (String) map.get("slotArray");
+                    if (map.get("slots") instanceof Map) {
+                        Map<String, String> slots = new java.util.LinkedHashMap<>();
+                        ((Map<?, ?>) map.get("slots")).forEach((k, v) -> {
+                            if (k instanceof String && v instanceof String) slots.put((String) k, (String) v);
+                        });
+                        if (!slots.isEmpty()) cfg.slots = slots;
+                    }
                     genericSubstitutionSupport.addPattern(cfg);
                 }
             }

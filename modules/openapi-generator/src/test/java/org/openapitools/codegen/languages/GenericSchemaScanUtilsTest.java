@@ -151,6 +151,21 @@ public class GenericSchemaScanUtilsTest {
         return cfg;
     }
 
+    /**
+     * Builds a Result-style schema with two $ref slots:
+     *   data -> dataRef, error -> errorRef, success: boolean
+     */
+    private static Schema<?> resultSchema(String dataRefTarget, String errorRefTarget) {
+        ObjectSchema s = new ObjectSchema();
+        Map<String, Schema> props = new LinkedHashMap<>();
+        props.put("data", refSchema(dataRefTarget));
+        props.put("error", refSchema(errorRefTarget));
+        props.put("success", new BooleanSchema());
+        s.setProperties(props);
+        s.setRequired(Collections.singletonList("data"));
+        return s;
+    }
+
     // =========================================================================
     // matchesPattern
     // =========================================================================
@@ -810,5 +825,182 @@ public class GenericSchemaScanUtilsTest {
     @Test
     public void resolveProperties_emptySchema_returnsNull() {
         assertThat(GenericSchemaScanUtils.resolveProperties(new ObjectSchema(), new OpenAPI())).isNull();
+    }
+
+    // =========================================================================
+    // Multi-type-parameter — scanWithPatterns (slots)
+    // =========================================================================
+
+    @Test
+    public void scanWithPatterns_multiSlot_resolvesBothTypeArgs() {
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserErrorResult", resultSchema("User", "ValidationError"));
+        schemas.put("OrderErrorResult", resultSchema("Order", "PaymentError"));
+        schemas.put("User", new ObjectSchema());
+        schemas.put("Order", new ObjectSchema());
+        schemas.put("ValidationError", new ObjectSchema());
+        schemas.put("PaymentError", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        Map<String, String> slots = new LinkedHashMap<>();
+        slots.put("data", "T");
+        slots.put("error", "E");
+        GenericPatternConfig cfg = new GenericPatternConfig()
+                .suffix("ErrorResult").genericClass("Result").slots(slots);
+
+        List<GenericSchemaScanUtils.GenericInstance> result =
+                GenericSchemaScanUtils.scanWithPatterns(openAPI, Collections.singletonList(cfg),
+                        Collections.emptySet());
+
+        assertThat(result).hasSize(2);
+
+        GenericSchemaScanUtils.GenericInstance user = result.stream()
+                .filter(i -> "UserErrorResult".equals(i.schemaName)).findFirst().orElse(null);
+        assertThat(user).isNotNull();
+        assertThat(user.genericClassName).isEqualTo("Result");
+        assertThat(user.typeArgs).containsEntry("data", "User");
+        assertThat(user.typeArgs).containsEntry("error", "ValidationError");
+        assertThat(user.slotTypeParams).containsEntry("data", "T");
+        assertThat(user.slotTypeParams).containsEntry("error", "E");
+        assertThat(user.slotProperty).isEqualTo("data");
+        assertThat(user.slotIsArray).isFalse();
+
+        GenericSchemaScanUtils.GenericInstance order = result.stream()
+                .filter(i -> "OrderErrorResult".equals(i.schemaName)).findFirst().orElse(null);
+        assertThat(order).isNotNull();
+        assertThat(order.typeArgs).containsEntry("data", "Order");
+        assertThat(order.typeArgs).containsEntry("error", "PaymentError");
+    }
+
+    @Test
+    public void scanWithPatterns_multiSlot_propertiesHaveCorrectTypeParams() {
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserErrorResult", resultSchema("User", "ValidationError"));
+        schemas.put("User", new ObjectSchema());
+        schemas.put("ValidationError", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        Map<String, String> slots = new LinkedHashMap<>();
+        slots.put("data", "T");
+        slots.put("error", "E");
+        GenericPatternConfig cfg = new GenericPatternConfig()
+                .suffix("ErrorResult").genericClass("Result").slots(slots);
+
+        List<GenericSchemaScanUtils.GenericInstance> result =
+                GenericSchemaScanUtils.scanWithPatterns(openAPI, Collections.singletonList(cfg),
+                        Collections.emptySet());
+
+        assertThat(result).hasSize(1);
+        List<GenericSchemaScanUtils.GenericProperty> props = result.get(0).properties;
+
+        GenericSchemaScanUtils.GenericProperty dataProp = props.stream()
+                .filter(p -> "data".equals(p.name)).findFirst().orElse(null);
+        assertThat(dataProp).isNotNull();
+        assertThat(dataProp.typeParam).isEqualTo("T");
+        assertThat(dataProp.isArray).isFalse();
+
+        GenericSchemaScanUtils.GenericProperty errorProp = props.stream()
+                .filter(p -> "error".equals(p.name)).findFirst().orElse(null);
+        assertThat(errorProp).isNotNull();
+        assertThat(errorProp.typeParam).isEqualTo("E");
+        assertThat(errorProp.isArray).isFalse();
+
+        // Non-slot property has no typeParam
+        GenericSchemaScanUtils.GenericProperty successProp = props.stream()
+                .filter(p -> "success".equals(p.name)).findFirst().orElse(null);
+        assertThat(successProp).isNotNull();
+        assertThat(successProp.typeParam).isNull();
+    }
+
+    @Test
+    public void scanWithPatterns_multiSlot_partialSlotMissing_doesNotMatch() {
+        // Schema has 'data' but not 'error' — should NOT match
+        ObjectSchema schema = new ObjectSchema();
+        Map<String, Schema> props = new LinkedHashMap<>();
+        props.put("data", refSchema("User"));
+        props.put("success", new BooleanSchema());
+        schema.setProperties(props);
+
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserErrorResult", schema);
+        schemas.put("User", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        Map<String, String> slots = new LinkedHashMap<>();
+        slots.put("data", "T");
+        slots.put("error", "E"); // 'error' absent in schema
+        GenericPatternConfig cfg = new GenericPatternConfig()
+                .suffix("ErrorResult").genericClass("Result").slots(slots);
+
+        List<GenericSchemaScanUtils.GenericInstance> result =
+                GenericSchemaScanUtils.scanWithPatterns(openAPI, Collections.singletonList(cfg),
+                        Collections.emptySet());
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void scanWithPatterns_slotsFieldTakesPrecedenceOverSlot() {
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserErrorResult", resultSchema("User", "ValidationError"));
+        schemas.put("User", new ObjectSchema());
+        schemas.put("ValidationError", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        // Both slots and slot set — slots should win
+        Map<String, String> slots = new LinkedHashMap<>();
+        slots.put("data", "T");
+        slots.put("error", "E");
+        GenericPatternConfig cfg = new GenericPatternConfig()
+                .suffix("ErrorResult").genericClass("Result")
+                .slot("payload") // this should be ignored because slots is set
+                .slots(slots);
+
+        List<GenericSchemaScanUtils.GenericInstance> result =
+                GenericSchemaScanUtils.scanWithPatterns(openAPI, Collections.singletonList(cfg),
+                        Collections.emptySet());
+
+        // slots wins: data+error found → match
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).typeArgs).containsKey("data");
+        assertThat(result.get(0).typeArgs).containsKey("error");
+    }
+
+    // =========================================================================
+    // Multi-type-parameter — scanVendorExtensions
+    // =========================================================================
+
+    @Test
+    public void scanVendorExtensions_multiSlotArgs_assignsLettersByPosition() {
+        ObjectSchema schema = new ObjectSchema();
+        Map<String, Schema> props = new LinkedHashMap<>();
+        props.put("data", refSchema("User"));
+        props.put("error", refSchema("ValidationError"));
+        schema.setProperties(props);
+
+        Map<String, Object> extensions = new LinkedHashMap<>();
+        extensions.put("x-generic-class", "Result");
+        Map<String, String> args = new LinkedHashMap<>();
+        args.put("data", "User");
+        args.put("error", "ValidationError");
+        extensions.put("x-generic-args", args);
+        schema.setExtensions(extensions);
+
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserErrorResult", schema);
+        schemas.put("User", new ObjectSchema());
+        schemas.put("ValidationError", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        List<GenericSchemaScanUtils.GenericInstance> result =
+                GenericSchemaScanUtils.scanVendorExtensions(openAPI);
+
+        assertThat(result).hasSize(1);
+        GenericSchemaScanUtils.GenericInstance inst = result.get(0);
+        assertThat(inst.typeArgs).containsEntry("data", "User");
+        assertThat(inst.typeArgs).containsEntry("error", "ValidationError");
+        // First slot → T, second slot → E
+        assertThat(inst.slotTypeParams).containsEntry("data", "T");
+        assertThat(inst.slotTypeParams).containsEntry("error", "E");
     }
 }

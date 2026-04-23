@@ -24,6 +24,8 @@ tags:
     description: Operations returning Page-wrapped domain objects
   - name: vendor
     description: Operations using vendor-extension generics
+  - name: result
+    description: Operations returning two-type-param Result wrappers
   - name: observability
     description: Log and metrics operations
   - name: search
@@ -147,6 +149,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserVendorResult'
+
+  /users/{id}/error-result:
+    get:
+      tags: [result]
+      summary: Get user error result (Tier 2 — multi-param slots, data:T + error:E)
+      operationId: getUserErrorResult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User wrapped in Result<User, ValidationError>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserErrorResult'
+
+  /orders/{id}/error-result:
+    get:
+      tags: [result]
+      summary: Get order error result (Tier 2 — multi-param slots, data:T + error:E)
+      operationId: getOrderErrorResult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order wrapped in Result<Order, PaymentError>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderErrorResult'
+
 
   /logs/latest:
     get:
@@ -341,6 +382,73 @@ components:
           type: integer
           format: int32
           description: Vendor-specific result code
+
+    # -----------------------------------------------------------------------
+    # Tier 2 — ErrorResult suffix, slots: data→T + error→E (multi-param)
+    # UserErrorResult and OrderErrorResult both have same structure but
+    # both 'data' and 'error' vary → mapped to Result<T, E>
+    # -----------------------------------------------------------------------
+
+    ValidationError:
+      type: object
+      description: Validation error details
+      required: [field, message]
+      properties:
+        field:
+          type: string
+          description: Name of the field that failed validation
+        message:
+          type: string
+          description: Human-readable validation error message
+        code:
+          type: string
+          description: Machine-readable error code
+
+    PaymentError:
+      type: object
+      description: Payment processing error details
+      required: [reason, amount]
+      properties:
+        reason:
+          type: string
+          description: Reason for payment failure
+        amount:
+          type: number
+          format: double
+          description: Amount that failed to process
+        retryable:
+          type: boolean
+          description: Whether the payment can be retried
+
+    UserErrorResult:
+      type: object
+      description: |
+        User operation result with structured error.
+        Matched by suffix=ErrorResult, slots: data→T, error→E → Result<User, ValidationError>
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        error:
+          $ref: '#/components/schemas/ValidationError'
+        success:
+          type: boolean
+          description: Whether the operation succeeded
+
+    OrderErrorResult:
+      type: object
+      description: |
+        Order operation result with payment error.
+        Matched by suffix=ErrorResult, slots: data→T, error→E → Result<Order, PaymentError>
+      required: [data]
+      properties:
+        data:
+          $ref: './petstore-generics-shared.yaml#/components/schemas/Order'
+        error:
+          $ref: '#/components/schemas/PaymentError'
+        success:
+          type: boolean
+          description: Whether the operation succeeded
 
     # -----------------------------------------------------------------------
     # Tier 3 — Structural clustering (discovery only, NOT substituted)

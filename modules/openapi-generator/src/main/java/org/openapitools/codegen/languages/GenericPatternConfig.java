@@ -16,16 +16,19 @@
 
 package org.openapitools.codegen.languages;
 
+import java.util.Map;
+
 /**
  * Configuration for a single generic-class substitution pattern (Tier 2 detection).
  *
  * <p>A pattern matches schemas whose name ends with {@link #suffix} <em>or</em> starts with
  * {@link #prefix}. Exactly one of {@code suffix} or {@code prefix} must be non-null.</p>
  *
- * <p>The {@link #slot} / {@link #slotArray} field names identify which property of the matched
- * schema holds the type parameter {@code T}.</p>
+ * <p>Type-parameter slots are identified via {@link #slots} (multi-param) or the legacy
+ * convenience fields {@link #slot} (single {@code $ref}) and {@link #slotArray} (single
+ * array-of-{@code $ref}). When {@link #slots} is provided it takes precedence.</p>
  *
- * <h2>Example YAML config (in a generator config file)</h2>
+ * <h2>Example YAML config (single type param)</h2>
  * <pre>{@code
  * additionalProperties:
  *   genericPatterns:
@@ -37,6 +40,17 @@ package org.openapitools.codegen.languages;
  *       slotArray: content                     # 'content' array property is List<T>
  * }</pre>
  *
+ * <h2>Example YAML config (two type params)</h2>
+ * <pre>{@code
+ * additionalProperties:
+ *   genericPatterns:
+ *     - suffix: ErrorResult
+ *       genericClass: Result
+ *       slots:
+ *         data: T    # 'data' property becomes type param T
+ *         error: E   # 'error' property becomes type param E
+ * }</pre>
+ *
  * <h2>Mode A vs Mode B</h2>
  * <ul>
  *   <li><b>Mode A</b>: {@code genericClass} contains a dot ({@code .}) — treated as a
@@ -45,8 +59,8 @@ package org.openapitools.codegen.languages;
  *       type).</li>
  *   <li><b>Mode B</b>: {@code genericClass} is a simple name (no dot). A new source file
  *       ({@code <genericClass>.java} or {@code .kt}) is generated in the
- *       {@code configPackage} folder. The generated class has one type parameter {@code T}
- *       and mirrors the non-slot properties of the matched schemas.</li>
+ *       {@code configPackage} folder. The generated class mirrors the non-slot properties
+ *       of the matched schemas and declares all configured type parameters.</li>
  * </ul>
  */
 public class GenericPatternConfig {
@@ -78,15 +92,23 @@ public class GenericPatternConfig {
     /**
      * Name of the property that serves as the single {@code $ref} type slot.
      * The property's referenced schema becomes type argument {@code T}.
-     * Mutually exclusive with {@link #slotArray}.
+     * Mutually exclusive with {@link #slotArray} and {@link #slots}.
      */
     public String slot;
 
     /**
      * Name of the array property whose items serve as type argument {@code T}.
-     * Mutually exclusive with {@link #slot}.
+     * Mutually exclusive with {@link #slot} and {@link #slots}.
      */
     public String slotArray;
+
+    /**
+     * Multi-slot configuration mapping property names to type parameter names.
+     * E.g. {@code {"data": "T", "error": "E"}} declares two type parameters.
+     * When present, takes precedence over {@link #slot} and {@link #slotArray}.
+     * Array-ness of each slot property is auto-detected from the matched schema.
+     */
+    public Map<String, String> slots;
 
     public GenericPatternConfig() {}
 
@@ -96,11 +118,12 @@ public class GenericPatternConfig {
     public GenericPatternConfig genericClass(String g) { this.genericClass = g; return this; }
     public GenericPatternConfig slot(String s) { this.slot = s; return this; }
     public GenericPatternConfig slotArray(String s) { this.slotArray = s; return this; }
+    public GenericPatternConfig slots(Map<String, String> s) { this.slots = s; return this; }
 
     @Override
     public String toString() {
         return "GenericPatternConfig{suffix=" + suffix + ", prefix=" + prefix
                 + ", genericClass=" + genericClass + ", slot=" + slot
-                + ", slotArray=" + slotArray + "}";
+                + ", slotArray=" + slotArray + ", slots=" + slots + "}";
     }
 }

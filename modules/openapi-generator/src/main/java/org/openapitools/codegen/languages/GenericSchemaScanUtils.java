@@ -47,7 +47,15 @@ public final class GenericSchemaScanUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericSchemaScanUtils.class);
 
+    /** Type parameter name sequence used when auto-assigning names by position. */
+    private static final String[] TYPE_PARAM_LETTERS = {"T", "E", "U", "V", "W"};
+
     private GenericSchemaScanUtils() {}
+
+    /** Returns the type parameter name for the given 0-based slot index. */
+    private static String typeParamLetter(int index) {
+        return index < TYPE_PARAM_LETTERS.length ? TYPE_PARAM_LETTERS[index] : "T" + index;
+    }
 
     // =========================================================================
     // Data classes
@@ -119,27 +127,34 @@ public final class GenericSchemaScanUtils {
         public final boolean generateClass;
         /**
          * Maps slot property name to resolved type-argument schema name.
-         * E.g. {@code {"data" -> "User"}} or {@code {"content" -> "Pet"}}.
-         * For the current single-type-parameter implementation this map has exactly one entry.
+         * E.g. {@code {"data" -> "User"}} (single-param) or
+         * {@code {"data" -> "User", "error" -> "ValidationError"}} (multi-param).
          */
         public final Map<String, String> typeArgs;
         /**
-         * The name of the slot property (the key in {@link #typeArgs}).
+         * Maps slot property name to type parameter name (e.g. {@code "T"}, {@code "E"}).
+         * Same key set and insertion order as {@link #typeArgs}.
+         * E.g. {@code {"data" -> "T"}} or {@code {"data" -> "T", "error" -> "E"}}.
+         */
+        public final Map<String, String> slotTypeParams;
+        /**
+         * The name of the primary (first) slot property.
          */
         public final String slotProperty;
         /**
-         * Whether the slot property is an array property ({@code slotArray}), meaning the
+         * Whether the primary slot property is an array property, meaning the
          * generated type will be {@code List<T>} rather than {@code T}.
          */
         public final boolean slotIsArray;
         /**
-         * All properties of the matched schema, with the slot property having
-         * {@code typeParam="T"}. Used for Mode B class generation.
+         * All properties of the matched schema, with slot properties having their
+         * respective {@code typeParam} set. Used for Mode B class generation.
          */
         public final List<GenericProperty> properties;
 
         public GenericInstance(String schemaName, String genericClassName, String genericClassFqn,
                                boolean generateClass, Map<String, String> typeArgs,
+                               Map<String, String> slotTypeParams,
                                String slotProperty, boolean slotIsArray,
                                List<GenericProperty> properties) {
             this.schemaName = schemaName;
@@ -147,6 +162,7 @@ public final class GenericSchemaScanUtils {
             this.genericClassFqn = genericClassFqn;
             this.generateClass = generateClass;
             this.typeArgs = Collections.unmodifiableMap(typeArgs);
+            this.slotTypeParams = Collections.unmodifiableMap(slotTypeParams);
             this.slotProperty = slotProperty;
             this.slotIsArray = slotIsArray;
             this.properties = Collections.unmodifiableList(properties);
@@ -230,10 +246,15 @@ public final class GenericSchemaScanUtils {
                 continue;
             }
 
-            // Identify slot property name and whether it's an array slot
+            // Identify slot properties and assign type param names by position (T, E, U, ...)
             String slotProperty = typeArgs.keySet().iterator().next();
             boolean slotIsArray = false;
+            Map<String, String> slotTypeParams = new LinkedHashMap<>();
             Map<String, Schema> props = resolveProperties(schema, openAPI);
+            int tpIndex = 0;
+            for (String propName : typeArgs.keySet()) {
+                slotTypeParams.put(propName, typeParamLetter(tpIndex++));
+            }
             if (props != null) {
                 Schema<?> slotSchema = (Schema<?>) props.get(slotProperty);
                 if (slotSchema != null && "array".equals(slotSchema.getType())) {
@@ -246,13 +267,13 @@ public final class GenericSchemaScanUtils {
                     ? genericClassValue.substring(genericClassValue.lastIndexOf('.') + 1)
                     : genericClassValue;
 
-            List<GenericProperty> properties = buildProperties(schema, openAPI, slotProperty, slotIsArray);
+            List<GenericProperty> properties = buildProperties(schema, openAPI, slotTypeParams);
 
             result.add(new GenericInstance(
                     schemaName, genericClassName,
                     isFqn ? genericClassValue : null,
                     !isFqn,
-                    typeArgs, slotProperty, slotIsArray, properties));
+                    typeArgs, slotTypeParams, slotProperty, slotIsArray, properties));
 
             LOGGER.debug("GenericSchemaScanUtils Tier1: schema '{}' → {}{}",
                     schemaName, genericClassName,
@@ -313,35 +334,67 @@ public final class GenericSchemaScanUtils {
                     continue;
                 }
 
-                // Determine slot and whether it's an array slot
-                String slotName = null;
-                boolean slotIsArray = false;
-                String typeArgSchemaName = null;
+                // Determine slots: use pattern.slots if set, else normalize slot/slotArray
+                Map<String, String> effectiveSlots = null;
+                if (pattern.slots != null && !pattern.slots.isEmpty()) {
+                    effectiveSlots = pattern.slots;
+                } else if (pattern.slot != null && !pattern.slot.isEmpty()) {
+                    effectiveSlots = Collections.singletonMap(pattern.slot, "T");
+                } else if (pattern.slotArray != null && !pattern.slotArray.isEmpty()) {
+                    effectiveSlots = Collections.singletonMap(pattern.slotArray, "T");
+                }
+
+                if (effectiveSlots == null) {
+                    LOGGER.warn("GenericSchemaScanUtils Tier2: pattern has no slot/slotArray/slots — skipping: {}",
+                            pattern);
+                    continue;
+                }
 
                 Map<String, Schema> props = resolveProperties(schema, openAPI);
 
-                if (pattern.slot != null && !pattern.slot.isEmpty()) {
-                    // Expect a $ref property
-                    String ref = findRefInProperties(props, pattern.slot, openAPI);
+                // Resolve each configured slot to its type arg schema name
+                Map<String, String> typeArgs = new LinkedHashMap<>();
+                Map<String, String> slotTypeParams = new LinkedHashMap<>();
+                String primarySlotName = null;
+                boolean primarySlotIsArray = false;
+                boolean allSlotsFound = true;
+
+                for (Map.Entry<String, String> slotEntry : effectiveSlots.entrySet()) {
+                    String slotPropName = slotEntry.getKey();
+                    String typeParamName = slotEntry.getValue();
+
+                    // Try $ref slot first
+                    String ref = findRefInProperties(props, slotPropName, openAPI);
                     if (ref != null) {
-                        slotName = pattern.slot;
-                        slotIsArray = false;
-                        typeArgSchemaName = extractSchemaNameFromRef(ref);
+                        typeArgs.put(slotPropName, extractSchemaNameFromRef(ref));
+                        slotTypeParams.put(slotPropName, typeParamName);
+                        if (primarySlotName == null) {
+                            primarySlotName = slotPropName;
+                            primarySlotIsArray = false;
+                        }
+                        continue;
                     }
-                } else if (pattern.slotArray != null && !pattern.slotArray.isEmpty()) {
-                    // Expect an array with items.$ref, handling allOf form too
-                    String ref = findArrayItemRefInProperties(props, schema, pattern.slotArray, openAPI);
-                    if (ref != null) {
-                        slotName = pattern.slotArray;
-                        slotIsArray = true;
-                        typeArgSchemaName = extractSchemaNameFromRef(ref);
+
+                    // Try array slot
+                    String arrayRef = findArrayItemRefInProperties(props, schema, slotPropName, openAPI);
+                    if (arrayRef != null) {
+                        typeArgs.put(slotPropName, extractSchemaNameFromRef(arrayRef));
+                        slotTypeParams.put(slotPropName, typeParamName);
+                        if (primarySlotName == null) {
+                            primarySlotName = slotPropName;
+                            primarySlotIsArray = true;
+                        }
+                        continue;
                     }
+
+                    LOGGER.debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' by name "
+                            + "but slot '{}' not found or not a $ref — skipping",
+                            schemaName, pattern, slotPropName);
+                    allSlotsFound = false;
+                    break;
                 }
 
-                if (slotName == null || typeArgSchemaName == null) {
-                    LOGGER.debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' by name "
-                            + "but slot '{}' / slotArray '{}' not found or not a $ref — skipping",
-                            schemaName, pattern, pattern.slot, pattern.slotArray);
+                if (!allSlotsFound || primarySlotName == null) {
                     continue;
                 }
 
@@ -350,20 +403,17 @@ public final class GenericSchemaScanUtils {
                         ? pattern.genericClass.substring(pattern.genericClass.lastIndexOf('.') + 1)
                         : pattern.genericClass;
 
-                Map<String, String> typeArgs = new LinkedHashMap<>();
-                typeArgs.put(slotName, typeArgSchemaName);
-
-                List<GenericProperty> properties = buildProperties(schema, openAPI, slotName, slotIsArray);
+                List<GenericProperty> properties = buildProperties(schema, openAPI, slotTypeParams);
 
                 result.add(new GenericInstance(
                         schemaName, genericClassName,
                         isFqn ? pattern.genericClass : null,
                         !isFqn,
-                        typeArgs, slotName, slotIsArray, properties));
+                        typeArgs, slotTypeParams, primarySlotName, primarySlotIsArray, properties));
 
                 LOGGER.debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' → {}<{}>",
                         schemaName, pattern.suffix != null ? ("suffix=" + pattern.suffix) : ("prefix=" + pattern.prefix),
-                        genericClassName, typeArgSchemaName);
+                        genericClassName, typeArgs.values());
                 break; // first matching pattern wins
             }
         }
@@ -547,12 +597,13 @@ public final class GenericSchemaScanUtils {
     // =========================================================================
 
     /**
-     * Builds the full property list for a matched schema, marking the slot property with
-     * {@code typeParam="T"}.
+     * Builds the full property list for a matched schema, marking slot properties with
+     * their respective type parameters from {@code slotTypeParams}.
+     * Array-ness is auto-detected from each property schema type.
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     private static List<GenericProperty> buildProperties(Schema<?> schema, OpenAPI openAPI,
-                                                          String slotName, boolean slotIsArray) {
+                                                          Map<String, String> slotTypeParams) {
         List<GenericProperty> result = new ArrayList<>();
         Set<String> required = schema.getRequired() != null
                 ? new HashSet<>(schema.getRequired()) : Collections.emptySet();
@@ -565,12 +616,14 @@ public final class GenericSchemaScanUtils {
             Schema<?> propSchema = (Schema<?>) entry.getValue();
             boolean isRequired = required.contains(name);
 
-            if (name.equals(slotName)) {
-                // Slot property
-                String format = slotIsArray && propSchema.getItems() != null
+            String typeParam = slotTypeParams.get(name);
+            if (typeParam != null) {
+                // Slot property — auto-detect array-ness
+                boolean isSlotArray = "array".equals(propSchema.getType());
+                String format = isSlotArray && propSchema.getItems() != null
                         ? propSchema.getItems().getFormat() : propSchema.getFormat();
-                result.add(new GenericProperty(name, slotIsArray ? "array" : "$ref",
-                        null, "T", format, slotIsArray, isRequired));
+                result.add(new GenericProperty(name, isSlotArray ? "array" : "$ref",
+                        null, typeParam, format, isSlotArray, isRequired));
             } else {
                 result.add(buildNonSlotProperty(name, propSchema, isRequired, openAPI));
             }

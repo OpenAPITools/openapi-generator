@@ -255,15 +255,23 @@ public final class GenericSubstitutionSupport {
         }
 
         String oldType = op.returnType;
-        String typeArg = ctx.toModelName(inst.firstTypeArg());
-        String newType = inst.genericClassName + "<" + typeArg + ">";
+
+        // Build type args string from all slots in order
+        StringBuilder typeArgsBuilder = new StringBuilder();
+        for (String slotProp : inst.slotTypeParams.keySet()) {
+            if (typeArgsBuilder.length() > 0) typeArgsBuilder.append(", ");
+            typeArgsBuilder.append(ctx.toModelName(inst.typeArgs.get(slotProp)));
+        }
+        String newType = inst.genericClassName + "<" + typeArgsBuilder + ">";
 
         op.returnType = newType;
         op.returnBaseType = inst.genericClassName;
         op.returnContainer = null; // generic wrapper is not a container
 
         op.imports.add(inst.genericClassName);
-        op.imports.add(typeArg);
+        for (String resolvedSchema : inst.typeArgs.values()) {
+            op.imports.add(ctx.toModelName(resolvedSchema));
+        }
         if (ctx.getAnnotationLibrary() == AnnotationLibrary.NONE) {
             op.imports.remove(inst.schemaName);
         }
@@ -304,8 +312,8 @@ public final class GenericSubstitutionSupport {
             String schemaName = entry.getKey();
             GenericSchemaScanUtils.GenericInstance inst = entry.getValue();
             if (objs.remove(schemaName) != null) {
-                LOGGER.info("GenericSubstitutionSupport: suppressing model '{}' → {}{}",
-                        schemaName, inst.genericClassName, "<" + inst.firstTypeArg() + ">");
+                LOGGER.info("GenericSubstitutionSupport: suppressing model '{}' → {}",
+                        schemaName, inst.genericClassName + "<" + inst.typeArgs.values() + ">");
             }
         }
         return objs;
@@ -353,6 +361,17 @@ public final class GenericSubstitutionSupport {
         boolean needsList = instance.properties.stream().anyMatch(p -> p.isArray);
         data.put("needsList", needsList ? Boolean.TRUE : null);
 
+        // Build ordered typeParams list for template class declaration: [{typeParam:"T",isLast:true}, ...]
+        List<String> distinctTypeParams = new ArrayList<>(new LinkedHashSet<>(instance.slotTypeParams.values()));
+        List<Map<String, Object>> typeParamList = new ArrayList<>();
+        for (int i = 0; i < distinctTypeParams.size(); i++) {
+            Map<String, Object> tp = new LinkedHashMap<>();
+            tp.put("typeParam", distinctTypeParams.get(i));
+            tp.put("isLast", i == distinctTypeParams.size() - 1 ? Boolean.TRUE : null);
+            typeParamList.add(tp);
+        }
+        data.put("typeParams", typeParamList);
+
         List<Map<String, Object>> propMaps = new ArrayList<>();
         for (GenericSchemaScanUtils.GenericProperty prop : instance.properties) {
             Map<String, Object> pm = new LinkedHashMap<>();
@@ -373,7 +392,7 @@ public final class GenericSubstitutionSupport {
 
     private static String toJavaType(GenericSchemaScanUtils.GenericProperty prop) {
         if (prop.typeParam != null) {
-            return prop.isArray ? "List<T>" : "T";
+            return prop.isArray ? "List<" + prop.typeParam + ">" : prop.typeParam;
         }
         switch (prop.openApiType) {
             case "$ref":   return prop.refTarget != null ? prop.refTarget : "Object";
@@ -391,7 +410,7 @@ public final class GenericSubstitutionSupport {
 
     private static String toKotlinType(GenericSchemaScanUtils.GenericProperty prop) {
         if (prop.typeParam != null) {
-            return prop.isArray ? "List<T>" : "T";
+            return prop.isArray ? "List<" + prop.typeParam + ">" : prop.typeParam;
         }
         switch (prop.openApiType) {
             case "$ref":   return prop.refTarget != null ? prop.refTarget : "Any";

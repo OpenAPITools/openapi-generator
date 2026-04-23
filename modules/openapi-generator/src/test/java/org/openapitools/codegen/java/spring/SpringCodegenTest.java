@@ -52,6 +52,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -7510,7 +7511,16 @@ public class SpringCodegenTest {
         pagePattern.put("genericClass", "org.springframework.data.domain.Page");
         pagePattern.put("slotArray", "content");
 
-        props.put(SpringCodegen.GENERIC_PATTERNS, Arrays.asList(responsePattern, pagePattern));
+        // Pattern 3: suffix=ErrorResult, slots: data→T + error→E, Mode B (multi-param)
+        Map<String, Object> resultPattern = new HashMap<>();
+        resultPattern.put("suffix", "ErrorResult");
+        resultPattern.put("genericClass", "Result");
+        Map<String, String> resultSlots = new LinkedHashMap<>();
+        resultSlots.put("data", "T");
+        resultSlots.put("error", "E");
+        resultPattern.put("slots", resultSlots);
+
+        props.put(SpringCodegen.GENERIC_PATTERNS, Arrays.asList(responsePattern, pagePattern, resultPattern));
         return props;
     }
 
@@ -7637,5 +7647,74 @@ public class SpringCodegenTest {
 
         assertThat(files).containsKey("UserResponse.java");
         assertThat(files).containsKey("PetResponse.java");
+    }
+
+    // =========================================================================
+    // Multi-type-parameter integration tests
+    // =========================================================================
+
+    @Test
+    public void genericPatterns_multiParam_replacesReturnTypeWithTwoTypeArgs() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // getUserErrorResult returns UserErrorResult → must become Result<User, ValidationError>
+        JavaFileAssert.assertThat(files.get("ResultApi.java"))
+                .assertMethod("getUserErrorResult")
+                .hasReturnType("ResponseEntity<Result<User, ValidationError>>");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_replacesReturnTypeForAllMatchedSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("ResultApi.java"))
+                .assertMethod("getOrderErrorResult")
+                .hasReturnType("ResponseEntity<Result<Order, PaymentError>>");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_suppressesConcreteSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        assertThat(files).doesNotContainKey("UserErrorResult.java");
+        assertThat(files).doesNotContainKey("OrderErrorResult.java");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_modeBGeneratesResultClassFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Mode B: "Result" simple name → registered as SupportingFile
+        assertThat(files).containsKey("Result.java");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_resultClassHasTwoTypeParams() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Result.java must declare class Result<T, E>
+        JavaFileAssert.assertThat(files.get("Result.java"))
+                .fileContains("public class Result<T, E>");
+    }
+
+    @Test
+    public void genericPatterns_singleParam_resultClassStillHasOneTypeParam() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // ApiResponse.java must still declare class ApiResponse<T> (not <T, E>)
+        JavaFileAssert.assertThat(files.get("ApiResponse.java"))
+                .fileContains("public class ApiResponse<T>");
     }
 }

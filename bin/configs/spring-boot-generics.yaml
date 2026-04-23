@@ -22,4 +22,9 @@ additionalProperties:
     - suffix: Page
       genericClass: org.springframework.data.domain.Page
       slotArray: content
+    - suffix: ErrorResult
+      genericClass: Result
+      slots:
+        data: T
+        error: E
   discoverGenericPatterns: "true"
