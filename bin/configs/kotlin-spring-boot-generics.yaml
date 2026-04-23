@@ -1,0 +1,30 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-generics
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-generics.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  serializableModel: "true"
+  useBeanValidation: "true"
+  interfaceOnly: "true"
+  skipDefaultInterface: "true"
+  useSpringBoot3: "true"
+  hideGenerationTimestamp: "true"
+  useTags: "true"
+  requestMappingMode: api_interface
+  genericPatterns:
+    - suffix: Response
+      genericClass: ApiResponse
+      slot: data
+    - suffix: Page
+      genericClass: org.springframework.data.domain.Page
+      slotArray: content
+    - suffix: ErrorResult
+      genericClass: Result
+      slots:
+        data: T
+        error: E
+  discoverGenericPatterns: "true"
