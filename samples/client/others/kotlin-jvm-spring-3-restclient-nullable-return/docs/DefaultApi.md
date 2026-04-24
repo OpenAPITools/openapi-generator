@@ -50,7 +50,7 @@ No authorization required
 
 <a id="returnNullableString"></a>
 # **returnNullableString**
-> kotlin.String returnNullableString(pingRequest)
+> kotlin.String? returnNullableString(pingRequest)
 
 
 
@@ -81,7 +81,7 @@ try {
 
 ### Return type
 
-**kotlin.String**
+**kotlin.String?**
 
 ### Authorization
 
