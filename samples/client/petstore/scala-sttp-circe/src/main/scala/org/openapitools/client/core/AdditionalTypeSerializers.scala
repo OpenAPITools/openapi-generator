@@ -58,7 +58,7 @@ trait AdditionalTypeSerializers {
       case s => Left(s"Cannot decode '$s' as Double")
   })
 
-  implicit final lazy val FlexibleByteArrayDecoder: Decoder[Array[Byte]] =
+  implicit final lazy val Base64OrArrayByteDecoder: Decoder[Array[Byte]] =
     Decoder.decodeArray[Byte].or(Decoder.decodeString.emap { s =>
       try Right(Base64.getDecoder.decode(s))
       catch { case _: IllegalArgumentException => Left(s"Cannot decode '$s' as Base64 Array[Byte]") }
