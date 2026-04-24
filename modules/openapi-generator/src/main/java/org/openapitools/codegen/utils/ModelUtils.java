@@ -2363,6 +2363,14 @@ public class ModelUtils {
             return false;
         }
 
+        // OpenAPI 3.0.x: empty nullable object is a null-type schema
+        if (!(schema instanceof JsonSchema) // 3.0.x only
+                && "object".equals(schema.getType())
+                && Boolean.TRUE.equals(schema.getNullable())
+                && schema.get$ref() == null) {
+            return true;
+        }
+
         // convert referenced enum of null only to `nullable:true`
         if (schema.getEnum() != null && schema.getEnum().size() == 1) {
             if ("null".equals(String.valueOf(schema.getEnum().get(0)))) {
