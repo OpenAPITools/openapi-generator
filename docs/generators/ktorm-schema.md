@@ -23,7 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactId|Generated artifact id (name of jar).| |ktorm|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |defaultDatabaseName|Default database name for all queries| |sqlite.db|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original' but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)| |original|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |identifierNamingConvention|Naming convention of Ktorm identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd></dl>|original|
 |implicitHeaders|Skip header parameters in the generated API methods.| |false|
