@@ -130,11 +130,17 @@ namespace {{packageName}}.Client
             }
 
             var httpValues = HttpUtility.ParseQueryString(string.Empty);
+#if (NETCOREAPP)
+            // On .NET 9+, ParseQueryString already URL-encodes values.
+            // Skip UrlEncode to prevent double-encoding that causes signature mismatches.
+            string framework = RuntimeInformation.FrameworkDescription;
+            bool skipUrlEncode = framework.StartsWith(".NET ") &&
+                int.TryParse(framework.Substring(5).Split('.')[0], out int major) && major >= 9;
+#endif
             foreach (var parameter in requestOptions.QueryParameters)
             {
 #if (NETCOREAPP)
-                string framework = RuntimeInformation.FrameworkDescription;
-                string key = framework.StartsWith(".NET 9")?parameter.Key:HttpUtility.UrlEncode(parameter.Key);
+                string key = skipUrlEncode ? parameter.Key : HttpUtility.UrlEncode(parameter.Key);
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)
