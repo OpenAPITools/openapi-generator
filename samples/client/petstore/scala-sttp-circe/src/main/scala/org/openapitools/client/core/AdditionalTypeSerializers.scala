@@ -48,4 +48,12 @@ trait AdditionalTypeSerializers {
     case s: String => Json.fromString(s)
     case other => Json.fromString(other.toString)
   }
+
+  implicit final lazy val NanTolerantDoubleDecoder: Decoder[Double] =
+    Decoder.decodeDouble.or(Decoder.decodeString.emap {
+      case "NaN" => Right(Double.NaN)
+      case "Infinity" => Right(Double.PositiveInfinity)
+      case "-Infinity" => Right(Double.NegativeInfinity)
+      case s => Left(s"Cannot decode '$s' as Double")
+  })
 }
