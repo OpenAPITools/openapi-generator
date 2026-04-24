@@ -40,7 +40,7 @@ public class PetDto {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   
-  private List<TagDto> tags = new ArrayList<>();
+  private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -175,7 +175,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<TagDto> tags) {
+  public PetDto tags(List<@Valid TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -194,12 +194,12 @@ public class PetDto {
    */
   
   @JsonProperty("tags")
-  public List<TagDto> getTags() {
+  public List<@Valid TagDto> getTags() {
     return tags;
   }
 
   @JsonProperty("tags")
-  public void setTags(List<TagDto> tags) {
+  public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
   }
 

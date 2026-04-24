@@ -53,7 +53,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> createUsersWithArrayInput(
-         @RequestBody List<UserDto> userDto
+         @RequestBody List<@Valid UserDto> userDto
     );
 
 
@@ -71,7 +71,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> createUsersWithListInput(
-         @RequestBody List<UserDto> userDto
+         @RequestBody List<@Valid UserDto> userDto
     );
 
 

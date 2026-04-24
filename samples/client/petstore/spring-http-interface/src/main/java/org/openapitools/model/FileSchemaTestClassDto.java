@@ -29,7 +29,7 @@ public class FileSchemaTestClassDto {
   private @Nullable FileDto file;
 
   
-  private List<FileDto> files = new ArrayList<>();
+  private List<@Valid FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(@Nullable FileDto file) {
     this.file = file;
@@ -51,7 +51,7 @@ public class FileSchemaTestClassDto {
     this.file = file;
   }
 
-  public FileSchemaTestClassDto files(List<FileDto> files) {
+  public FileSchemaTestClassDto files(List<@Valid FileDto> files) {
     this.files = files;
     return this;
   }
@@ -70,12 +70,12 @@ public class FileSchemaTestClassDto {
    */
   
   @JsonProperty("files")
-  public List<FileDto> getFiles() {
+  public List<@Valid FileDto> getFiles() {
     return files;
   }
 
   @JsonProperty("files")
-  public void setFiles(List<FileDto> files) {
+  public void setFiles(List<@Valid FileDto> files) {
     this.files = files;
   }
 
