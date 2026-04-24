@@ -32,7 +32,7 @@ import {
  * 
  * @export
  */
-export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo;
+export type TestDiscriminatorResponse = OptionOne | OptionTwo;
 
 export function TestDiscriminatorResponseFromJSON(json: any): TestDiscriminatorResponse {
     return TestDiscriminatorResponseFromJSONTyped(json, false);
@@ -44,9 +44,9 @@ export function TestDiscriminatorResponseFromJSONTyped(json: any, ignoreDiscrimi
     }
     switch (json['discriminatorField']) {
         case 'optionOne':
-            return Object.assign({}, OptionOneFromJSONTyped(json, true), { discriminatorField: 'optionOne' } as const);
+            return OptionOneFromJSONTyped(json, true);
         case 'optionTwo':
-            return Object.assign({}, OptionTwoFromJSONTyped(json, true), { discriminatorField: 'optionTwo' } as const);
+            return OptionTwoFromJSONTyped(json, true);
         default:
             return json;
     }
@@ -62,9 +62,9 @@ export function TestDiscriminatorResponseToJSONTyped(value?: TestDiscriminatorRe
     }
     switch (value['discriminatorField']) {
         case 'optionOne':
-            return Object.assign({}, OptionOneToJSON(value), { discriminatorField: 'optionOne' } as const);
+            return OptionOneToJSON(value);
         case 'optionTwo':
-            return Object.assign({}, OptionTwoToJSON(value), { discriminatorField: 'optionTwo' } as const);
+            return OptionTwoToJSON(value);
         default:
             return value;
     }

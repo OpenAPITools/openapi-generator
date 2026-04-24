@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: testing discriminator when variants do NOT have discriminator property
+paths:
+  /test:
+    get:
+      operationId: test
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shape'
+components:
+  schemas:
+    Shape:
+      discriminator:
+        propertyName: shapeType
+        mapping:
+          circle: "#/components/schemas/Circle"
+          square: "#/components/schemas/Square"
+      oneOf:
+        - $ref: "#/components/schemas/Circle"
+        - $ref: "#/components/schemas/Square"
+    Circle:
+      type: object
+      properties:
+        radius:
+          type: number
+      required:
+        - radius
+    Square:
+      type: object
+      properties:
+        side:
+          type: number
+      required:
+        - side

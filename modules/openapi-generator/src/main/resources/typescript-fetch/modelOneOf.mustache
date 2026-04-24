@@ -34,7 +34,12 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     switch (json['{{discriminator.propertyBaseName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
+{{#discriminator.vendorExtensions.x-variants-have-discriminator}}
+            return {{modelName}}FromJSONTyped(json, true);
+{{/discriminator.vendorExtensions.x-variants-have-discriminator}}
+{{^discriminator.vendorExtensions.x-variants-have-discriminator}}
             return Object.assign({}, {{modelName}}FromJSONTyped(json, true), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
+{{/discriminator.vendorExtensions.x-variants-have-discriminator}}
 {{/discriminator.mappedModels}}
         default:
             return json;
@@ -151,7 +156,12 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     switch (value['{{discriminator.propertyName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
+{{#discriminator.vendorExtensions.x-variants-have-discriminator}}
+            return {{modelName}}ToJSON(value);
+{{/discriminator.vendorExtensions.x-variants-have-discriminator}}
+{{^discriminator.vendorExtensions.x-variants-have-discriminator}}
             return Object.assign({}, {{modelName}}ToJSON(value), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
+{{/discriminator.vendorExtensions.x-variants-have-discriminator}}
 {{/discriminator.mappedModels}}
         default:
             return value;
