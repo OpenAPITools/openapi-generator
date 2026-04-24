@@ -73,12 +73,16 @@ public class ScalaSttpCirceCodegenTest {
         assertFileContains(binaryPath, "implicit val encoderBinaryPayload");
         assertFileContains(binaryPath, "implicit val decoderBinaryPayload");
 
-        // AdditionalTypeSerializers: File and Any codecs
+        // AdditionalTypeSerializers: File, Any, and NaN-tolerant Double codecs
         Path serializersPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/AdditionalTypeSerializers.scala");
         assertFileContains(serializersPath, "FileDecoder");
         assertFileContains(serializersPath, "FileEncoder");
         assertFileContains(serializersPath, "AnyDecoder");
         assertFileContains(serializersPath, "AnyEncoder");
+        assertFileContains(serializersPath, "NanTolerantDoubleDecoder");
+        assertFileContains(serializersPath, "Double.NaN");
+        assertFileContains(serializersPath, "Double.PositiveInfinity");
+        assertFileContains(serializersPath, "Double.NegativeInfinity");
 
         // JsonSupport should NOT use AutoDerivation
         Path jsonSupportPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/JsonSupport.scala");
