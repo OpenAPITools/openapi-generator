@@ -697,6 +697,10 @@ public class InlineModelResolver {
             } else if (ModelUtils.isOneOf(model)) { // contains oneOf only
                 gatherInlineModels(model, modelName);
             } else if (ModelUtils.isComposedSchema(model)) {
+                // composed Schema can have properties!
+                if (model.getProperties() != null && !model.getProperties().isEmpty()) {
+                    gatherInlineModels(model, modelName);
+                }
                 // inline child schemas
                 flattenComposedChildren(modelName + "_allOf", model.getAllOf(), !Boolean.TRUE.equals(this.refactorAllOfInlineSchemas));
                 flattenComposedChildren(modelName + "_anyOf", model.getAnyOf(), false);
