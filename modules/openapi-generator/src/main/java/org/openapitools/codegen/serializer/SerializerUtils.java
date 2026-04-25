@@ -66,6 +66,7 @@ public class SerializerUtils {
     private static SimpleModule createModule() {
         SimpleModule module = new SimpleModule("OpenAPIModule");
         module.addSerializer(OpenAPI.class, new OpenAPISerializer());
+        module.addSerializer(byte[].class, new ByteArraySerializer());
         return module;
     }
 }
