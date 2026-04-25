@@ -747,7 +747,7 @@ public class OpenAPINormalizer {
         if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
             return schema;
         }
-
+        schema = decomposeSchema(schema);
         markSchemaAsVisited(schema, visitedSchemas);
 
         processNormalizeOtherThanObjectWithProperties(schema);
@@ -1062,8 +1062,6 @@ public class OpenAPINormalizer {
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
-        schema = processReplaceOneOfByMapping(schema);
-
         // if it's still a oneOf, loop through the sub-schemas
         if (schema.getOneOf() != null) {
             for (int i = 0; i < schema.getOneOf().size(); i++) {
@@ -1080,11 +1078,12 @@ public class OpenAPINormalizer {
                 // update sub-schema with the updated schema
                 schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
             }
+            schema = processReplaceOneOfByMapping(schema);
         } else {
             // normalize it as it's no longer an oneOf
             schema = normalizeSchema(schema, visitedSchemas);
         }
-
+        schema = decomposeSchema(schema);
         return schema;
     }
 
@@ -1092,7 +1091,7 @@ public class OpenAPINormalizer {
         //transform anyOf into enums if needed
         schema = processSimplifyAnyOfEnum(schema);
         if (schema.getAnyOf() == null) {
-            return schema;
+            return decomposeSchema(schema);
         }
 
         for (int i = 0; i < schema.getAnyOf().size(); i++) {
@@ -1620,7 +1619,7 @@ public class OpenAPINormalizer {
 
                 }
                 // remove oneOf and only keep the new discriminator mapping
-                schema.setOneOf(null);
+                schema.oneOf(null);
             } else if (discriminator.getPropertyName() == null) {
                 LOGGER.warn("Missing property name in discriminator");
             } else if (discriminator.getMapping() != null && discriminator.getMapping().size() != schema.getOneOf().size()) {
@@ -1628,10 +1627,23 @@ public class OpenAPINormalizer {
             } else {
                 // remove oneOf and only keep the discriminator mapping
                 LOGGER.info("Removing oneOf, discriminator mapping takes precedences on OneOfs");
-                schema.setOneOf(null);
+                schema.oneOf(null);
             }
         }
 
+        return schema;
+    }
+
+    /**
+     * Replace a ComposeSchema into a Simple Schema if no OneOf/AnyOf/AllOf.
+     *
+     * This allows side effects with ModelUtils.isComposedSchema() that returns true for a ComposedSchema.
+     * For example the InlineModelResolver does not inline properties of a ComposedSchema (a bug to be fixed in another PR)
+     */
+    private Schema decomposeSchema(Schema schema) {
+        if (schema instanceof ComposedSchema && schema.getOneOf() == null && schema.getAnyOf() == null && schema.getAllOf() == null) {
+            schema = ModelUtils.shallowCopy(schema, new Schema());
+        }
         return schema;
     }
 

@@ -25,6 +25,7 @@ import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
@@ -2268,6 +2269,88 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    /**
+     * copy all the fields from the origin schema to the destination schema.
+     * @param schema original schema
+     * @param dest the destination schema
+     * @return dest
+     */
+
+    public static Schema shallowCopy(Schema schema, Schema dest) {
+        // cloneSchema does not work because it does conversions for some attributes (enums, default...)
+        // the intermediate JSON can convert between integer and BigInteger for example.
+        // so copy all the fields individually
+        dest.setDefault(schema.getDefault());
+        dest.setName(schema.getName());
+        dest.setTitle(schema.getTitle());
+        dest.setMultipleOf(schema.getMultipleOf());
+        dest.setMaximum(schema.getMaximum());
+        dest.setExclusiveMaximum(schema.getExclusiveMaximum());
+        dest.setMinimum(schema.getMinimum());
+        dest.setExclusiveMinimum(schema.getExclusiveMinimum());
+        dest.setMaxLength(schema.getMaxLength());
+        dest.setPattern(schema.getPattern());
+        dest.setMaxItems(schema.getMaxItems());
+        dest.setMinItems(schema.getMinItems());
+        dest.setUnevaluatedItems(schema.getUnevaluatedItems());
+        dest.setMaxProperties(schema.getMaxProperties());
+        dest.setMinProperties(schema.getMinProperties());
+        dest.setRequired(schema.getRequired());
+        dest.setType(schema.getType());
+        dest.setNot(schema.getNot());
+        dest.setProperties(schema.getProperties());
+        dest.setDescription(schema.getDescription());
+        dest.setFormat(schema.getFormat());
+        dest.set$ref(schema.get$ref());
+        dest.setNullable(schema.getNullable());
+        dest.setReadOnly(schema.getReadOnly());
+        dest.setWriteOnly(schema.getWriteOnly());
+        dest.setExample(schema.getExample());
+        dest.setExternalDocs(schema.getExternalDocs());
+        dest.setDeprecated(schema.getDeprecated());
+        dest.setXml(schema.getXml());
+        dest.setExtensions(schema.getExtensions());
+        dest.setEnum(schema.getEnum());
+        dest.setDiscriminator(schema.getDiscriminator());
+        dest.setExampleSetFlag(schema.getExampleSetFlag());
+        dest.setPrefixItems(schema.getPrefixItems());
+        dest.setAllOf(schema.getAllOf());
+        dest.setAnyOf(schema.getAnyOf());
+        dest.setOneOf(schema.getOneOf());
+        dest.setItems(schema.getItems());
+        dest.setConst(schema.getConst());
+        dest.setSpecVersion(schema.getSpecVersion());
+        dest.setPatternProperties(schema.getPatternProperties());
+        dest.setExclusiveMaximumValue(schema.getExclusiveMaximumValue());
+        dest.setExclusiveMinimumValue(schema.getExclusiveMinimumValue());
+        dest.setContains(schema.getContains());
+        dest.set$id(schema.get$id());
+        dest.set$schema(schema.get$schema());
+        dest.set$anchor(schema.get$anchor());
+        dest.set$vocabulary(schema.get$vocabulary());
+        dest.set$dynamicAnchor(schema.get$dynamicAnchor());
+        dest.set$dynamicRef(schema.get$dynamicRef());
+        dest.setContentEncoding(schema.getContentEncoding());
+        dest.setContentMediaType(schema.getContentMediaType());
+        dest.setPropertyNames(schema.getPropertyNames());
+        dest.setUnevaluatedProperties(schema.getUnevaluatedProperties());
+        dest.setMaxContains(schema.getMaxContains());
+        dest.setMinContains(schema.getMinContains());
+        dest.setAdditionalItems(schema.getAdditionalItems());
+        dest.setUnevaluatedItems(schema.getUnevaluatedItems());
+        dest.setIf(schema.getIf());
+        dest.setElse(schema.getElse());
+        dest.setThen(schema.getThen());
+        dest.setDependentSchemas(schema.getDependentSchemas());
+        dest.setDependentRequired(schema.getDependentRequired());
+        dest.set$comment(schema.get$comment());
+        dest.setExamples(schema.getExamples());
+        dest.setBooleanSchemaValue(schema.getBooleanSchemaValue());
+        dest.setJsonSchema(schema.getJsonSchema());
+        dest.setJsonSchemaImpl(schema.getJsonSchemaImpl());
+        return dest;
     }
 
     public static Schema cloneSchema(Schema schema, boolean openapi31) {
