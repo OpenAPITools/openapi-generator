@@ -747,7 +747,7 @@ public class OpenAPINormalizer {
         if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
             return schema;
         }
-        schema = decomposeSchema(schema);
+
         markSchemaAsVisited(schema, visitedSchemas);
 
         processNormalizeOtherThanObjectWithProperties(schema);
@@ -1083,7 +1083,7 @@ public class OpenAPINormalizer {
             // normalize it as it's no longer an oneOf
             schema = normalizeSchema(schema, visitedSchemas);
         }
-        schema = decomposeSchema(schema);
+
         return schema;
     }
 
@@ -1091,7 +1091,7 @@ public class OpenAPINormalizer {
         //transform anyOf into enums if needed
         schema = processSimplifyAnyOfEnum(schema);
         if (schema.getAnyOf() == null) {
-            return decomposeSchema(schema);
+            return schema;
         }
 
         for (int i = 0; i < schema.getAnyOf().size(); i++) {
@@ -1631,19 +1631,6 @@ public class OpenAPINormalizer {
             }
         }
 
-        return schema;
-    }
-
-    /**
-     * Replace a ComposeSchema into a Simple Schema if no OneOf/AnyOf/AllOf.
-     *
-     * This allows side effects with ModelUtils.isComposedSchema() that returns true for a ComposedSchema.
-     * For example the InlineModelResolver does not inline properties of a ComposedSchema (a bug to be fixed in another PR)
-     */
-    private Schema decomposeSchema(Schema schema) {
-        if (schema instanceof ComposedSchema && schema.getOneOf() == null && schema.getAnyOf() == null && schema.getAllOf() == null) {
-            schema = ModelUtils.shallowCopy(schema, new Schema());
-        }
         return schema;
     }
 
