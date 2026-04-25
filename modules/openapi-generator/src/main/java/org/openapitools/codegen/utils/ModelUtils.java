@@ -562,7 +562,7 @@ public class ModelUtils {
 
         // additionalProperties explicitly set to false
         if ((schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) ||
-                (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
+            (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
         ) {
             return false;
         }
@@ -812,12 +812,12 @@ public class ModelUtils {
                 (null != schema.getProperties() && !schema.getProperties().isEmpty()) &&
                 // no additionalProperties is set
                 (schema.getAdditionalProperties() == null ||
-                        // additionalProperties is boolean and set to false
-                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()) ||
-                        // additionalProperties is a schema with its boolean value set to false
-                        (schema.getAdditionalProperties() instanceof Schema &&
-                                ((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue() != null &&
-                                !((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue())
+                // additionalProperties is boolean and set to false
+                (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()) ||
+                // additionalProperties is a schema with its boolean value set to false
+                (schema.getAdditionalProperties() instanceof Schema &&
+                        ((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue() != null &&
+                              !((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue())
                 );
     }
 
