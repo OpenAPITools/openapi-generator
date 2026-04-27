@@ -30,6 +30,9 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/go-gin-server/}.
+ */
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);

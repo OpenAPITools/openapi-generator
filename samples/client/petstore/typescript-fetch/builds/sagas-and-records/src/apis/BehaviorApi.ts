@@ -12,18 +12,17 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetBehaviorPermissionsResponse,
-  GetBehaviorTypeResponse,
-} from '../models/index';
 import {
+    type GetBehaviorPermissionsResponse,
     GetBehaviorPermissionsResponseFromJSON,
     GetBehaviorPermissionsResponseToJSON,
+} from '../models/GetBehaviorPermissionsResponse';
+import {
+    type GetBehaviorTypeResponse,
     GetBehaviorTypeResponseFromJSON,
     GetBehaviorTypeResponseToJSON,
-} from '../models/index';
+} from '../models/GetBehaviorTypeResponse';
 
 export interface GetBehaviorPermissionsRequest {
     behaviorId: number;

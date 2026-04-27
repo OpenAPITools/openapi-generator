@@ -433,6 +433,25 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         return contentTypes[0];
     }
 
+{{#useVertx5}}
+    public Future<HttpResponse<Buffer>> sendBody(HttpRequest<Buffer> request,
+                         Object body) {
+        if (body instanceof byte[]) {
+            Buffer buffer = Buffer.buffer((byte[]) body);
+            return request.sendBuffer(buffer);
+        } else if (body instanceof AsyncFile) {
+            AsyncFile file = (AsyncFile) body;
+            return request.sendStream(file);
+        } else {
+            try {
+                return request.sendBuffer(Buffer.buffer(this.objectMapper.writeValueAsBytes(body)));
+            } catch (JsonProcessingException jsonProcessingException) {
+                return Future.failedFuture(jsonProcessingException);
+            }
+        }
+    }
+{{/useVertx5}}
+{{^useVertx5}}
     public void sendBody(HttpRequest<Buffer> request,
                          Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler,
                          Object body) {
@@ -450,6 +469,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             }
         }
     }
+{{/useVertx5}}
 
     /**
      * Invoke API by sending HTTP request with the given options.
@@ -514,13 +534,28 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = buildResponseHandler(returnType, resultHandler);
         if (body != null) {
+{{#useVertx5}}
+            sendBody(request, body).onComplete(responseHandler::handle);
+{{/useVertx5}}
+{{^useVertx5}}
             sendBody(request, responseHandler, body);
+{{/useVertx5}}
         } else if (formParams != null && !formParams.isEmpty()) {
             Map<String, String> formMap = formParams.entrySet().stream().collect(toMap(Map.Entry::getKey, entry -> parameterToString(entry.getValue())));
             MultiMap form = MultiMap.caseInsensitiveMultiMap().addAll(formMap);
+{{#useVertx5}}
+            request.sendForm(form).onComplete(responseHandler::handle);
+{{/useVertx5}}
+{{^useVertx5}}
             request.sendForm(form, responseHandler);
+{{/useVertx5}}
         } else {
+{{#useVertx5}}
+            request.send().onComplete(responseHandler::handle);
+{{/useVertx5}}
+{{^useVertx5}}
             request.send(responseHandler);
+{{/useVertx5}}
         }
     }
 
@@ -577,6 +612,19 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         String filename = generateFilename(response.headers());
         Consumer<String> fileHandler = directory -> {
+{{#useVertx5}}
+            fs.open(directory + filename, FILE_DOWNLOAD_OPTIONS).onComplete(asyncFileResult -> {
+                if (asyncFileResult.succeeded()) {
+                    AsyncFile asyncFile = asyncFileResult.result();
+                    asyncFile.write(response.bodyAsBuffer());
+                    //noinspection unchecked
+                    handler.handle(Future.succeededFuture((T) asyncFile));
+                } else {
+                    handler.handle(ApiException.fail(asyncFileResult.cause()));
+                }
+            });
+{{/useVertx5}}
+{{^useVertx5}}
             fs.open(directory + filename, FILE_DOWNLOAD_OPTIONS, asyncFileResult -> {
                 if (asyncFileResult.succeeded()) {
                     AsyncFile asyncFile = asyncFileResult.result();
@@ -587,14 +635,22 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                     handler.handle(ApiException.fail(asyncFileResult.cause()));
                 }
             });
+{{/useVertx5}}
         };
-
         String dir = getDownloadsDir();
         if (dir != null && !dir.isEmpty()) {
+{{#useVertx5}}
+            fs.mkdirs(dir).onComplete(mkdirResult -> {
+                String sanitizedFolder = dir.endsWith("/") ? dir : dir + "/";
+                fileHandler.accept(sanitizedFolder);
+            });
+{{/useVertx5}}
+{{^useVertx5}}
             fs.mkdirs(dir, mkdirResult -> {
                 String sanitizedFolder = dir.endsWith("/") ? dir : dir + "/";
                 fileHandler.accept(sanitizedFolder);
             });
+{{/useVertx5}}
         } else {
             fileHandler.accept("");
         }

@@ -589,7 +589,6 @@ public class ApiClient extends JavaTimeFormatter {
                 }
             });
         };
-
         String dir = getDownloadsDir();
         if (dir != null && !dir.isEmpty()) {
             fs.mkdirs(dir, mkdirResult -> {

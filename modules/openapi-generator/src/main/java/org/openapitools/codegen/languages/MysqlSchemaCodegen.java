@@ -33,6 +33,9 @@ import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/mysql-schema/}.
+ */
 @SuppressWarnings("unchecked")
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);

@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'v*'
+
 jobs:
   build:
     name: Build
@@ -12,17 +15,20 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
       - name: Set up JDK 11
         uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: 'zulu'
+
       - name: Cache Maven packages
         uses: actions/cache@v5
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Build
         run: ./mvnw clean install -DskipTests=true
         #run: ./mvnw clean install
@@ -38,7 +44,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
- 
+
       - id: install-secret-key
         name: Install gpg secret key
         run: |
@@ -59,3 +65,47 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.OSS_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSS_PASSWORD }}
+
+  upload-release-asset:
+    runs-on: ubuntu-latest
+    name: Upload CLI JAR to GitHub Release
+    needs: publish
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v5
+        with:
+          java-version: 11
+          distribution: 'zulu'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build CLI JAR
+        run: ./mvnw clean package -pl modules/openapi-generator-cli -am -DskipTests=true
+
+      - name: Get project version
+        id: get_version
+        run: |
+          VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Upload JAR as GitHub Release asset
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          JAR="modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+          ASSET="openapi-generator-cli-${VERSION}.jar"
+          cp "$JAR" "$ASSET"
+          gh release upload "${{ github.ref_name }}" "$ASSET" --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

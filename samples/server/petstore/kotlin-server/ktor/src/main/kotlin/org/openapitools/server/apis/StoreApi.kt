@@ -28,8 +28,6 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.Order
 
 fun Route.StoreApi() {
-    val empty = mutableMapOf<String, Any?>()
-
     delete<Paths.deleteOrder> {
         call.respond(HttpStatusCode.NotImplemented)
         

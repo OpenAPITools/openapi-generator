@@ -29,8 +29,6 @@ import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
 
 fun Route.PetApi() {
-    val empty = mutableMapOf<String, Any?>()
-
     authenticate("petstore_auth") {
     post<Paths.addPet> {
         

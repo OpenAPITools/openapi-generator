@@ -32,6 +32,12 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/php/} (root templates shared across all libraries) and
+ * {@code src/main/resources/php/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class PhpClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);

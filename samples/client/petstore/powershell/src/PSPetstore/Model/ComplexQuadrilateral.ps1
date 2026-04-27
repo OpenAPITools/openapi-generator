@@ -48,8 +48,8 @@ function Initialize-PSComplexQuadrilateral {
 
 
         $PSO = [PSCustomObject]@{
-            "shapeType" = ${ShapeType}
-            "quadrilateralType" = ${QuadrilateralType}
+            'shapeType' = ${ShapeType}
+            'quadrilateralType' = ${QuadrilateralType}
         }
 
 
@@ -87,7 +87,7 @@ function ConvertFrom-PSJsonToComplexQuadrilateral {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSComplexQuadrilateral
-        $AllProperties = ("shapeType", "quadrilateralType")
+        $AllProperties = ('shapeType', 'quadrilateralType')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -98,21 +98,21 @@ function ConvertFrom-PSJsonToComplexQuadrilateral {
             throw "Error! Empty JSON cannot be serialized due to the required property 'shapeType' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "shapeType"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'shapeType'))) {
             throw "Error! JSON cannot be serialized due to the required property 'shapeType' missing."
         } else {
-            $ShapeType = $JsonParameters.PSobject.Properties["shapeType"].value
+            $ShapeType = $JsonParameters.PSobject.Properties['shapeType'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "quadrilateralType"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'quadrilateralType'))) {
             throw "Error! JSON cannot be serialized due to the required property 'quadrilateralType' missing."
         } else {
-            $QuadrilateralType = $JsonParameters.PSobject.Properties["quadrilateralType"].value
+            $QuadrilateralType = $JsonParameters.PSobject.Properties['quadrilateralType'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "shapeType" = ${ShapeType}
-            "quadrilateralType" = ${QuadrilateralType}
+            'shapeType' = ${ShapeType}
+            'quadrilateralType' = ${QuadrilateralType}
         }
 
         return $PSO

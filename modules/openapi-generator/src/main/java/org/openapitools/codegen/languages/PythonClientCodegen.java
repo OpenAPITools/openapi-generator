@@ -38,6 +38,9 @@ import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python/}.
+ */
 public class PythonClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
 

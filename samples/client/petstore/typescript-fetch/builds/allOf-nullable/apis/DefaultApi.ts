@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Club,
-} from '../models/index';
 import {
+    type Club,
     ClubFromJSON,
     ClubToJSON,
-} from '../models/index';
+} from '../models/Club';
 
 export interface ListRequest {
     personId: string;

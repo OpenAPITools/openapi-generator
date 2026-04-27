@@ -8,20 +8,14 @@ import feign.auth.BasicAuthRequestInterceptor
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 {{/-first}}
-{{^useSpringBoot4}}
-{{#isOAuth}}
-import org.springframework.boot.context.properties.ConfigurationProperties
-{{/isOAuth}}
-{{/useSpringBoot4}}
+{{^useSpringBoot4}}{{^useSpringBoot3}}{{#isOAuth}}import org.springframework.boot.context.properties.ConfigurationProperties{{/isOAuth}}{{/useSpringBoot3}}{{/useSpringBoot4}}
 {{/authMethods}}
-{{^useSpringBoot4}}
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-{{/useSpringBoot4}}
+{{^useSpringBoot4}}{{^useSpringBoot3}}import org.springframework.boot.context.properties.EnableConfigurationProperties{{/useSpringBoot3}}{{/useSpringBoot4}}
 {{#hasAuthMethods}}
 import org.springframework.context.annotation.Bean
 {{/hasAuthMethods}}
 import org.springframework.context.annotation.Configuration
-{{^useSpringBoot4}}
+{{^useSpringBoot4}}{{^useSpringBoot3}}
 {{#authMethods}}
 {{#isOAuth}}
 import org.springframework.cloud.openfeign.security.OAuth2FeignRequestInterceptor
@@ -41,7 +35,24 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 {{/isPassword}}
 {{/isOAuth}}
 {{/authMethods}}
-{{/useSpringBoot4}}
+{{/useSpringBoot3}}{{/useSpringBoot4}}
+{{#useSpringBoot3}}
+{{#hasOAuthMethods}}
+import org.springframework.security.authentication.AnonymousAuthenticationToken
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException
+import org.springframework.security.oauth2.core.OAuth2AccessToken
+import org.springframework.security.core.authority.AuthorityUtils
+import org.springframework.http.HttpHeaders
+
+import feign.RequestInterceptor
+import feign.RequestTemplate
+{{/hasOAuthMethods}}
+{{/useSpringBoot3}}
 {{#useSpringBoot4}}
 {{#hasOAuthMethods}}
 import org.springframework.security.authentication.AnonymousAuthenticationToken
@@ -60,10 +71,8 @@ import feign.RequestTemplate
 {{/hasOAuthMethods}}
 {{/useSpringBoot4}}
 
-@Configuration
-{{^useSpringBoot4}}
-@EnableConfigurationProperties
-{{/useSpringBoot4}}
+@Configuration{{^useSpringBoot4}}{{^useSpringBoot3}}
+@EnableConfigurationProperties{{/useSpringBoot3}}{{/useSpringBoot4}}
 class ClientConfiguration {
 
     {{#authMethods}}
@@ -93,7 +102,7 @@ class ClientConfiguration {
 
     {{/isApiKey}}
     {{#isOAuth}}
-{{^useSpringBoot4}}
+{{^useSpringBoot4}}{{^useSpringBoot3}}
     @Bean
     @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
     fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}RequestInterceptor(oAuth2ClientContext: OAuth2ClientContext): OAuth2FeignRequestInterceptor {
@@ -151,7 +160,29 @@ class ClientConfiguration {
     }
 
     {{/isImplicit}}
-{{/useSpringBoot4}}
+{{/useSpringBoot3}}{{/useSpringBoot4}}
+{{#useSpringBoot3}}
+    @Bean
+    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
+    fun {{{flow}}}OAuth2RequestInterceptor({{{flow}}}AuthorizedClientManager: OAuth2AuthorizedClientManager): OAuth2RequestInterceptor {
+        return OAuth2RequestInterceptor(
+            OAuth2AuthorizeRequest.withClientRegistrationId("{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}")
+                .principal(AnonymousAuthenticationToken(CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")))
+                .build(),
+            {{{flow}}}AuthorizedClientManager
+        )
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
+    fun {{{flow}}}AuthorizedClientManager(
+        clientRegistrationRepository: ClientRegistrationRepository,
+        authorizedClientService: OAuth2AuthorizedClientService
+    ): OAuth2AuthorizedClientManager {
+        return AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientService)
+    }
+
+{{/useSpringBoot3}}
 {{#useSpringBoot4}}
     @Bean
     @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
@@ -176,6 +207,38 @@ class ClientConfiguration {
 {{/useSpringBoot4}}
     {{/isOAuth}}
     {{/authMethods}}
+{{#useSpringBoot3}}
+    {{#hasOAuthMethods}}
+    class OAuth2RequestInterceptor(
+        private val oAuth2AuthorizeRequest: OAuth2AuthorizeRequest,
+        private val oAuth2AuthorizedClientManager: OAuth2AuthorizedClientManager
+    ) : RequestInterceptor {
+
+        override fun apply(template: RequestTemplate) {
+            template.header(HttpHeaders.AUTHORIZATION, getBearerToken())
+        }
+
+        fun getAccessToken(): OAuth2AccessToken {
+            val authorizedClient = oAuth2AuthorizedClientManager.authorize(oAuth2AuthorizeRequest)
+                ?: throw OAuth2AuthenticationException("Client failed to authenticate")
+            return authorizedClient.accessToken
+        }
+
+        fun getBearerToken(): String {
+            val accessToken = getAccessToken()
+            return String.format(java.util.Locale.ROOT, "%s %s", accessToken.tokenType?.value, accessToken.tokenValue)
+        }
+    }
+
+    companion object {
+        {{#authMethods}}
+        {{#isOAuth}}
+        private const val CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}} = "oauth2FeignClient"
+        {{/isOAuth}}
+        {{/authMethods}}
+    }
+    {{/hasOAuthMethods}}
+{{/useSpringBoot3}}
 {{#useSpringBoot4}}
     {{#hasOAuthMethods}}
     class OAuth2RequestInterceptor(

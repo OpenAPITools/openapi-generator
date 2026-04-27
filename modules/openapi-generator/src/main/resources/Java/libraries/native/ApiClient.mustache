@@ -15,6 +15,9 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.cfg.EnumFeature;
 import tools.jackson.databind.json.JsonMapper;
+{{#openApiNullable}}
+import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
+{{/openApiNullable}}
 {{/useJackson3}}
 
 import java.io.InputStream;
@@ -237,6 +240,9 @@ public class ApiClient {
         .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
         .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
         .disable(DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+        {{#openApiNullable}}
+        .addModule(new JsonNullableJackson3Module())
+        {{/openApiNullable}}
         .addModule(new RFC3339JavaTimeModule())
         .build();
 {{/useJackson3}}

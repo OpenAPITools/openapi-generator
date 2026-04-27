@@ -6,7 +6,9 @@ import org.openapitools.client.ApiClient;
 
 import java.util.*;
 
+
 import rx.Single;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -54,9 +56,11 @@ public class AnotherFakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxCall123testSpecialTags(UUID uuidTest, Client body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.call123testSpecialTags(uuidTest, body, fut)
         ));
+    
     }
 
     /**
@@ -68,9 +72,11 @@ public class AnotherFakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxCall123testSpecialTags(UUID uuidTest, Client body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.call123testSpecialTags(uuidTest, body, authInfo, fut)
         ));
+    
     }
 
     public static AnotherFakeApi newInstance(org.openapitools.client.api.AnotherFakeApi arg) {

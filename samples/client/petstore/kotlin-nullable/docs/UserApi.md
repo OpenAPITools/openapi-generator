@@ -192,7 +192,7 @@ No authorization required
 
 <a id="getUserByName"></a>
 # **getUserByName**
-> User getUserByName(username)
+> User? getUserByName(username)
 
 Get user by user name
 
@@ -223,7 +223,7 @@ try {
 
 ### Return type
 
-[**User**](User.md)
+[**User?**](User.md)
 
 ### Authorization
 
@@ -236,7 +236,7 @@ No authorization required
 
 <a id="loginUser"></a>
 # **loginUser**
-> kotlin.String loginUser(username, password)
+> kotlin.String? loginUser(username, password)
 
 Logs user into the system
 
@@ -269,7 +269,7 @@ try {
 
 ### Return type
 
-**kotlin.String**
+**kotlin.String?**
 
 ### Authorization
 

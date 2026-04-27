@@ -1,15 +1,15 @@
 import {
     Configuration,
     ConfigurationParameters,
-} from "../index{{importFileExtension}}";
+} from "../runtime{{importFileExtension}}";
 
-import {
 {{#apiInfo}}
 {{#apis}}
+import {
     {{classFilename}},
+} from "./{{classFilename}}{{importFileExtension}}";
 {{/apis}}
 {{/apiInfo}}
-} from "./index{{importFileExtension}}";
 
 export class Api {
 {{#apiInfo}}

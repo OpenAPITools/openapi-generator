@@ -54,9 +54,9 @@ function Initialize-NumberPropertiesOnly {
 
 
         $PSO = [PSCustomObject]@{
-            "number" = ${Number}
-            "float" = ${Float}
-            "double" = ${Double}
+            'number' = ${Number}
+            'float' = ${Float}
+            'double' = ${Double}
         }
 
 
@@ -94,35 +94,35 @@ function ConvertFrom-JsonToNumberPropertiesOnly {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in NumberPropertiesOnly
-        $AllProperties = ("number", "float", "double")
+        $AllProperties = ('number', 'float', 'double')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "number"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'number'))) { #optional property not found
             $Number = $null
         } else {
-            $Number = $JsonParameters.PSobject.Properties["number"].value
+            $Number = $JsonParameters.PSobject.Properties['number'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "float"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'float'))) { #optional property not found
             $Float = $null
         } else {
-            $Float = $JsonParameters.PSobject.Properties["float"].value
+            $Float = $JsonParameters.PSobject.Properties['float'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "double"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'double'))) { #optional property not found
             $Double = $null
         } else {
-            $Double = $JsonParameters.PSobject.Properties["double"].value
+            $Double = $JsonParameters.PSobject.Properties['double'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "number" = ${Number}
-            "float" = ${Float}
-            "double" = ${Double}
+            'number' = ${Number}
+            'float' = ${Float}
+            'double' = ${Double}
         }
 
         return $PSO

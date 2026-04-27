@@ -570,6 +570,20 @@ public class DefaultGenerator implements Generator {
                     allModels.add(modelTemplate);
                 }
 
+                // Don't generate model files for types that were explicitly type-mapped
+                // AND whose mapped name has a corresponding import mapping.
+                // This indicates the user wants to replace the schema type with an
+                // external type (e.g. --type-mappings Address=CustomAddress
+                // --import-mappings CustomAddress=package:custom/address.dart).
+                // The model metadata is still kept in allModels for use by supporting file templates.
+                if (config.typeMapping().containsKey(modelName)) {
+                    String mappedTypeName = config.typeMapping().get(modelName);
+                    if (config.importMapping().containsKey(mappedTypeName)) {
+                        LOGGER.info("Model {} (type-mapped to {}) not generated due to import mapping", modelName, mappedTypeName);
+                        continue;
+                    }
+                }
+
                 // to generate model files
                 generateModel(files, models, modelName);
 

@@ -769,19 +769,19 @@ public class OpenAPINormalizer {
                 schema = normalizeComplexComposedSchema(schema, visitedSchemas);
             }
 
-            if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            if (ModelUtils.hasAllOf(schema)) {
                 return normalizeAllOf(schema, visitedSchemas);
             }
 
-            if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            if (ModelUtils.hasOneOf(schema)) {
                 return normalizeOneOf(schema, visitedSchemas);
             }
 
-            if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            if (ModelUtils.hasAnyOf(schema)) {
                 return normalizeAnyOf(schema, visitedSchemas);
             }
 
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            if (ModelUtils.hasProperties(schema)) {
                 normalizeProperties(schema, visitedSchemas);
             }
 
@@ -790,7 +790,7 @@ public class OpenAPINormalizer {
             }
 
             return schema;
-        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        } else if (ModelUtils.hasProperties(schema)) {
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
@@ -1119,7 +1119,7 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
         // loop through properties, if any
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        if (ModelUtils.hasProperties(schema)) {
             normalizeProperties(schema, visitedSchemas);
         }
 
@@ -1304,10 +1304,9 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (((schema.getOneOf() != null && !schema.getOneOf().isEmpty())
-                || (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty())) // has anyOf or oneOf
-                && (schema.getProperties() != null && !schema.getProperties().isEmpty()) // has properties
-                && schema.getAllOf() == null) { // not allOf
+        boolean hasAnyOfOrOneOf = ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema);
+        boolean notAllOf = schema.getAllOf() == null;
+        if (hasAnyOfOrOneOf && ModelUtils.hasProperties(schema) && notAllOf) {
             // clear oneOf, anyOf
             schema.setOneOf(null);
             schema.setAnyOf(null);
@@ -1384,9 +1383,7 @@ public class OpenAPINormalizer {
         if (schema.getAnyOf() == null || schema.getAnyOf().isEmpty()) {
             return schema;
         }
-        if(schema.getOneOf() != null && !schema.getOneOf().isEmpty() ||
-            schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
-            schema.getNot() != null) {
+        if(ModelUtils.hasOneOf(schema) || ModelUtils.hasAllOf(schema) || schema.getNot() != null) {
             //only convert to enum if anyOf is the only composition
             return schema;
         }
@@ -1409,9 +1406,7 @@ public class OpenAPINormalizer {
         if (schema.getOneOf() == null || schema.getOneOf().isEmpty()) {
             return schema;
         }
-        if(schema.getAnyOf() != null && !schema.getAnyOf().isEmpty() ||
-                schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
-                schema.getNot() != null) {
+        if(ModelUtils.hasAnyOf(schema) || ModelUtils.hasAllOf(schema) || schema.getNot() != null) {
             //only convert to enum if oneOf is the only composition
             return schema;
         }
@@ -2358,7 +2353,7 @@ public class OpenAPINormalizer {
             // Check object models / any type models / composed models for properties,
             // if the schema has a type defined that is not "object" it should not define
             // any properties
-            if (schema.getType() != null && !"object".equals(schema.getType())) {
+            if (schema.getType() != null && !ModelUtils.isObjectTypeOAS30(schema)) {
                 schema.setProperties(null);
             }
         }

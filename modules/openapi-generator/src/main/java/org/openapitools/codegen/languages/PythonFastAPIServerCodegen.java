@@ -43,6 +43,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-fastapi/}.
+ */
 public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static class SnakeCaseKeySerializer extends JsonSerializer<String> {
         @Override

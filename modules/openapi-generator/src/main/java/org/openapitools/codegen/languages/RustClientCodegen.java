@@ -48,6 +48,9 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/rust/}.
+ */
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
@@ -376,6 +379,16 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 if (cp.isByteArray) {
                     cm.vendorExtensions.put("x-rust-has-byte-array", true);
                     break;
+                }
+            }
+
+            // Flag structs with integer-enum properties so the template can emit serde_repr import once
+            if (!cm.isEnum) {
+                for (CodegenProperty cp : cm.vars) {
+                    if (cp.isEnum && cp.isInteger) {
+                        cm.vendorExtensions.put("x-rust-has-integer-property-enum", true);
+                        break;
+                    }
                 }
             }
 
