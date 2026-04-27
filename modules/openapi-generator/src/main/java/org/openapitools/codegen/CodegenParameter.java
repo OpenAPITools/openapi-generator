@@ -34,7 +34,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, isDeepObject, isMatrix, isAllowEmptyValue,
             isFormStyle, isSpaceDelimited, isPipeDelimited;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
-            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumDefaultValue, enumName, style;
+            collectionFormat, description, unescapedDescription, baseType, defaultValue, unescapedDefaultValue, enumDefaultValue, enumName, style;
 
     public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case (e.g.  modifiedDate)
@@ -182,6 +182,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.multipleOf = this.multipleOf;
         output.jsonSchema = this.jsonSchema;
         output.defaultValue = this.defaultValue;
+        output.unescapedDefaultValue = this.unescapedDefaultValue;
         output.enumDefaultValue = this.enumDefaultValue;
         output.example = this.example;
         output.examples = this.examples;
@@ -289,7 +290,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam,
                 isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName,
                 paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description,
-                unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue,
+                unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue, unescapedDefaultValue,
                 enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 isFormStyle, isSpaceDelimited, isPipeDelimited,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
@@ -382,6 +383,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(containerType, that.containerType) &&
                 Objects.equals(containerTypeMapped, that.containerTypeMapped) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(unescapedDefaultValue, that.unescapedDefaultValue) &&
                 Objects.equals(enumDefaultValue, that.enumDefaultValue) &&
                 Objects.equals(enumName, that.enumName) &&
                 Objects.equals(style, that.style) &&
@@ -450,6 +452,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", containerType='").append(containerType).append('\'');
         sb.append(", containerTypeMapped='").append(containerTypeMapped).append('\'');
         sb.append(", defaultValue='").append(defaultValue).append('\'');
+        sb.append(", unescapedDefaultValue='").append(unescapedDefaultValue).append('\'');
         sb.append(", enumDefaultValue='").append(enumDefaultValue).append('\'');
         sb.append(", enumName='").append(enumName).append('\'');
         sb.append(", style='").append(style).append('\'');

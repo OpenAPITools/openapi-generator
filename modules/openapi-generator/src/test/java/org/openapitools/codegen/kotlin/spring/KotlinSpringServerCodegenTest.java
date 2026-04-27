@@ -5946,4 +5946,87 @@ public class KotlinSpringServerCodegenTest {
                 "override val vehicleType: VehicleType = VehicleType.TRUCK"
         );
     }
+
+
+    // ── Issue 20502: string-escaping fixes ─────────────────────────────────────────────────────────
+
+    /**
+     * Issue 1: path parameters containing {@code $} (e.g. {@code {item$Id}}) were emitted as-is into
+     * Kotlin {@code const val} string literals, triggering Kotlin string interpolation and causing a
+     * compile error.  The path must be rendered with {@code $} escaped to {@code \$}.
+     */
+    @Test(description = "Issue 20502 #1: $ in path param names must be escaped to \\$ in PATH const val")
+    public void issue20502_dollarEscapedInPathConstVal() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/ItemsApiController.kt");
+        // The path "/items/{item$Id}/sub/{item$SubId}" must have $ escaped as \$ in the const val
+        assertFileContains(apiFile, "\"/items/{item\\$Id}/sub/{item\\$SubId}\"");
+    }
+
+    /**
+     * Issue 2: {@code $}, {@code "}, and {@code \} in operation summaries, descriptions, response
+     * messages, and parameter descriptions were not properly escaped when placed inside Kotlin
+     * annotation double-quoted strings, producing invalid Kotlin code.
+     */
+    @Test(description = "Issue 20502 #2: $, \", \\ in annotation strings must be properly escaped")
+    public void issue20502_specialCharsEscapedInAnnotationStrings() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/ItemsApiController.kt");
+        // Summary/message annotation strings must have $ escaped to \$
+        assertFileContains(apiFile, "\\$some");
+        // Notes/description uses triple-quoted strings: $ becomes ${'$'}
+        assertFileContains(apiFile, "${'$'}some");
+    }
+
+    /**
+     * Issue 3: {@code toDefaultValue()} previously called {@code escapeText()} which internally
+     * calls {@code escapeUnsafeCharacters()}, corrupting star-slash to star-underscore-slash inside
+     * Kotlin string literals.  Default values must be emitted verbatim (modulo string-literal
+     * escaping).
+     */
+    @Test(description = "Issue 20502 #3: */ in string defaults must not be corrupted to *_/")
+    public void issue20502_starSlashNotCorruptedInModelDefaults() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path modelFile = Paths.get(output + "/src/main/kotlin/org/openapitools/model/ItemWithAllEscapingEdgeCases.kt");
+        // The default "starts /* comment and ends */" must not be mangled to *_/
+        assertFileContains(modelFile, "\"starts /* comment and ends */\"");
+        // $ in string defaults must be escaped to \$ (not left raw, which would cause interpolation)
+        assertFileContains(modelFile, "\"\\$one");
+        // baseName with $ must be escaped in @get:JsonProperty (verifies lambda resolves baseName correctly)
+        assertFileContains(modelFile, "@get:JsonProperty(\"\\$id\")");
+        assertFileContains(modelFile, "@get:JsonProperty(\"name\\$Value\")");
+    }
 }

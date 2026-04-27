@@ -5,7 +5,7 @@ getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
                 if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
-                    ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{{example}}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}")
+                    ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambda.escapeInNormalString}}{{{example}}}{{/lambda.escapeInNormalString}}")
                     break
                 }
     {{#-last}}
