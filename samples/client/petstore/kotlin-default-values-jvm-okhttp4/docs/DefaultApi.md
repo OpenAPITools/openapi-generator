@@ -64,6 +64,8 @@ try {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **pi0** | **kotlin.Int**|  | [default to 10] |
 | **pi1** | **kotlin.Int**|  | |
 | **pn0** | **java.math.BigDecimal**|  | [default to 10.0] |
@@ -93,8 +95,6 @@ try {
 | **fn1** | **java.math.BigDecimal**|  | [default to 71.0] |
 | **fn2** | **java.math.BigDecimal**|  | [optional] |
 | **fn3** | **java.math.BigDecimal**|  | |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
 
 ### Return type

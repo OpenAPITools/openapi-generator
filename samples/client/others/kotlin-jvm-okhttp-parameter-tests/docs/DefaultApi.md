@@ -49,6 +49,8 @@ try {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **pathDefault** | **kotlin.String**| path default | |
 | **pathNullable** | **kotlin.String**| path_nullable | |
 | **queryDefault** | **kotlin.String**| query default | [optional] [default to "available"] |
@@ -63,8 +65,6 @@ try {
 | **queryNullable** | **kotlin.String**| query nullable | [optional] |
 | **headerNullable** | **kotlin.String**| header nullable | [optional] |
 | **cookieNullable** | **kotlin.String**| cookie_nullable | [optional] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **dollarQueryDollarDollarSign** | **kotlin.String**| query parameter with dollar sign | [optional] |
 
 ### Return type

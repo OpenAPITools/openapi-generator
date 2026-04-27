@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**testsEchoStringEscapingParamName**](EchoApi.md#testsEchoStringEscapingParamName) | **GET** echo/string-escaping/{$paramName} | Test \$-in-path-param escaping |
+| [**testsEchoStringEscapingParamName**](EchoApi.md#testsEchoStringEscapingParamName) | **GET** echo/string-escaping/{dollarParamName} | Test \$-in-path-param escaping |
 
 
 
@@ -30,9 +30,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-| **dollarParamName** | **kotlin.String**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **dollarParamName** | **kotlin.String**|  | |
 | **filterDollarType** | **kotlin.String**| Filter with \$dollar in description and comment-close */ | [optional] [default to "default\$Value with \\\\ and \\""] |
 
 ### Return type

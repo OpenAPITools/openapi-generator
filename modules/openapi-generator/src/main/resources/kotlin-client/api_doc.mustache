@@ -46,10 +46,10 @@ try {
 This endpoint does not need any parameter.
 {{/allParams}}
 {{#allParams}}
-{{#-last}}
+{{#-first}}
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-{{/-last}}
+{{/-first}}
 | **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#generateModelDocs}}[**{{dataType}}**]({{baseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{dataType}}**{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}}| {{#lambda.escapeMarkdown}}{{{unescapedDescription}}}{{/lambda.escapeMarkdown}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}} |
 {{/allParams}}
 

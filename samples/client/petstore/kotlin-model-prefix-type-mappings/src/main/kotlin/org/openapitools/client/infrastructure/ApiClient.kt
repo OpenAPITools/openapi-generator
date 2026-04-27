@@ -71,7 +71,7 @@ class ApiClient(
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
         authNames: Array<String>
-    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
+    ) : this(baseUrl, okHttpClientBuilder, registerTypeAdapterFactoryForAllModels(serializerBuilder)) {
         authNames.forEach { authName ->
             val auth: Interceptor? = when (authName) { 
                 "petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")
@@ -84,18 +84,6 @@ class ApiClient(
                 addAuthorization(authName, auth)
             }
         }
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPet.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPetOrArrayString.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiPetWithSpecialProps.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUser.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPet.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPetOrArrayString.CustomTypeAdapterFactory())
     }
 
     constructor(

@@ -70,11 +70,11 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
 | **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
 | **name** | **kotlin.String**| Updated name of the pet | [optional] |
 | **status** | **kotlin.Int**| integer type | [optional] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
 | **status2** | **java.math.BigDecimal**| number type | [optional] |
 
 ### Return type

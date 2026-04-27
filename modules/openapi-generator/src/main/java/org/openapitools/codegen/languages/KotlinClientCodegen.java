@@ -1062,6 +1062,26 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     operation.path = operation.path.substring(1);
                 }
 
+                // For jvm-retrofit2, Retrofit @Path names must match [a-zA-Z][a-zA-Z0-9_-]*.
+                // When the OpenAPI baseName is invalid (e.g., starts with '$'), replace the
+                // URL placeholder with the sanitized paramName and mark via vendor extension.
+                if (JVM_RETROFIT2.equals(getLibrary())) {
+                    for (CodegenParameter param : operation.allParams) {
+                        if (param.isPathParam) {
+                            boolean validRetrofitName = param.baseName.matches("[a-zA-Z][a-zA-Z0-9_-]*");
+                            if (validRetrofitName) {
+                                param.vendorExtensions.put("x-retrofit-path-name", param.baseName);
+                            } else {
+                                param.vendorExtensions.put("x-retrofit-path-name", param.paramName);
+                                operation.path = operation.path.replace(
+                                    "{" + param.baseName + "}",
+                                    "{" + param.paramName + "}"
+                                );
+                            }
+                        }
+                    }
+                }
+
                 if (JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary())) {
                     // Ideally we would do content negotiation to choose the best mediatype, but that would be a next step.
                     // For now we take the first mediatype we can parse and send that.

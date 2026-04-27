@@ -37,9 +37,9 @@ try {
 ```
 
 ### Parameters
-| **dollarParamName** | **kotlin.String**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **dollarParamName** | **kotlin.String**|  | |
 | **filterDollarType** | **kotlin.String**| Filter with \$dollar in description and comment-close */ | [optional] [default to "default\$Value with \\\\ and \\""] |
 
 ### Return type
