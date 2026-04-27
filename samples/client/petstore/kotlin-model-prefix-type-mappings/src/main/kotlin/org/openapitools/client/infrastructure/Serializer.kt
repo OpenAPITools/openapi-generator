@@ -21,6 +21,7 @@ object Serializer {
         .registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
         .registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
         .registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
+        .registerTypeAdapterFactory(org.openapitools.client.models.ApiPetWithSpecialProps.CustomTypeAdapterFactory())
         .registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
         .registerTypeAdapterFactory(org.openapitools.client.models.ApiUser.CustomTypeAdapterFactory())
         .registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPet.CustomTypeAdapterFactory())

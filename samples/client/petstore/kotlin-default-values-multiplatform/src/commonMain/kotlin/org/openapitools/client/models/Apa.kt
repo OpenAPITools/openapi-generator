@@ -35,6 +35,7 @@ import kotlinx.serialization.encoding.*
  * @param n0 
  * @param i1 
  * @param n1 
+ * @param s0 String property with $dollar, backslash, quote, comment-close in default
  */
 @Serializable
 
@@ -46,7 +47,10 @@ data class Apa (
 
     @SerialName(value = "i1") val i1: kotlin.Int? = null,
 
-    @SerialName(value = "n1") val n1: kotlin.Double? = null
+    @SerialName(value = "n1") val n1: kotlin.Double? = null,
+
+    /* String property with $dollar, backslash, quote, comment-close in default */
+    @SerialName(value = "s0") val s0: kotlin.String? = "hello \$world, backslash=\\, quote=\", end */"
 
 ) {
 

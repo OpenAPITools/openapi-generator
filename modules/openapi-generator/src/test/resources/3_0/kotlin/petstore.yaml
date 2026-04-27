@@ -822,3 +822,14 @@ components:
         - type: array
           items:
             type: string
+    PetWithSpecialProps:
+      type: object
+      description: "Model with $-prefixed property names for escaping tests (Issue 20502)"
+      properties:
+        $id:
+          type: string
+          description: "Property with $-prefix in name; default has $dollar and backslash \\"
+          default: "hello $world"
+        name$Suffix:
+          type: string
+          description: "Property with $ mid-name; description has backslash \\ and quote \""

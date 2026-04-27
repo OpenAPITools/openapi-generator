@@ -28,6 +28,7 @@ import misk.web.RequestHeader
 import misk.web.Response
 import misk.web.ResponseContentType
 import misk.web.mediatype.MediaTypes
+import org.openapitools.server.api.model.EscapingEdgeCases
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
@@ -76,6 +77,15 @@ class PetApiAction @Inject constructor(
     fun findPetsByTags(
          @QueryParam(value = "tags") tags: kotlin.collections.List<kotlin.String>
     ): kotlin.collections.List<Pet> {
+        TODO()
+    }
+
+    @Get("/pet/escaping")
+    @Description("Test escaping: \$dollar, backslash \\ and quote \"")
+    @ResponseContentType(MediaTypes.APPLICATION_JSON)
+    @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
+    fun getEscapingEdgeCases(
+    ): EscapingEdgeCases {
         TODO()
     }
 

@@ -10,6 +10,8 @@ src/main/kotlin/org/openapitools/apis/AuthApiStubBuilders.kt
 src/main/kotlin/org/openapitools/apis/AuthApiStubs.kt
 src/main/kotlin/org/openapitools/apis/BodyApiStubBuilders.kt
 src/main/kotlin/org/openapitools/apis/BodyApiStubs.kt
+src/main/kotlin/org/openapitools/apis/EchoApiStubBuilders.kt
+src/main/kotlin/org/openapitools/apis/EchoApiStubs.kt
 src/main/kotlin/org/openapitools/apis/FormApiStubBuilders.kt
 src/main/kotlin/org/openapitools/apis/FormApiStubs.kt
 src/main/kotlin/org/openapitools/apis/HeaderApiStubBuilders.kt
@@ -25,5 +27,6 @@ src/main/kotlin/org/openapitools/models/NumberPropertiesOnly.kt
 src/main/kotlin/org/openapitools/models/Pet.kt
 src/main/kotlin/org/openapitools/models/Query.kt
 src/main/kotlin/org/openapitools/models/StringEnumRef.kt
+src/main/kotlin/org/openapitools/models/StringEscapingEdgeCases.kt
 src/main/kotlin/org/openapitools/models/Tag.kt
 src/main/kotlin/org/openapitools/models/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.kt

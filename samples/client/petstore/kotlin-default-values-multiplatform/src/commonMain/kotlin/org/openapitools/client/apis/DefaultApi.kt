@@ -76,6 +76,7 @@ open class DefaultApi : ApiClient {
      * @param hn1  (default to 71.0)
      * @param hn2  (optional)
      * @param hn3 
+     * @param qs0 String with $dollar, backslash, quote, comment-close in default (optional, default to "hello $world, backslash=\\, quote=\", end *_/")
      * @param fi0  (optional, default to 10)
      * @param fi1  (default to 71)
      * @param fi2  (optional)
@@ -87,7 +88,7 @@ open class DefaultApi : ApiClient {
      * @param fn4 
      * @return void
      */
-    open suspend fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: kotlin.Double = 10.0.toDouble(), pn1: kotlin.Double, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: kotlin.Double? = 10.0.toDouble(), qn1: kotlin.Double = 71.0.toDouble(), qn2: kotlin.Double? = null, qn3: kotlin.Double, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: kotlin.Double? = 10.0.toDouble(), hn1: kotlin.Double = 71.0.toDouble(), hn2: kotlin.Double? = null, hn3: kotlin.Double, fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: kotlin.Double? = 10.0.toDouble(), fn1: kotlin.Double = 71.0.toDouble(), fn2: kotlin.Double? = null, fn3: kotlin.Double, fn4: kotlin.collections.List<kotlin.String>): HttpResponse<Unit> {
+    open suspend fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: kotlin.Double = 10.0.toDouble(), pn1: kotlin.Double, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: kotlin.Double? = 10.0.toDouble(), qn1: kotlin.Double = 71.0.toDouble(), qn2: kotlin.Double? = null, qn3: kotlin.Double, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: kotlin.Double? = 10.0.toDouble(), hn1: kotlin.Double = 71.0.toDouble(), hn2: kotlin.Double? = null, hn3: kotlin.Double, qs0: kotlin.String? = "hello \$world, backslash=\\, quote=\", end */", fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: kotlin.Double? = 10.0.toDouble(), fn1: kotlin.Double = 71.0.toDouble(), fn2: kotlin.Double? = null, fn3: kotlin.Double, fn4: kotlin.collections.List<kotlin.String>): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -115,6 +116,7 @@ open class DefaultApi : ApiClient {
         qn1?.apply { localVariableQuery["qn1"] = listOf("$qn1") }
         qn2?.apply { localVariableQuery["qn2"] = listOf("$qn2") }
         qn3?.apply { localVariableQuery["qn3"] = listOf("$qn3") }
+        qs0?.apply { localVariableQuery["qs0"] = listOf("$qs0") }
         val localVariableHeaders = mutableMapOf<String, String>()
         hi0?.apply { localVariableHeaders["hi0"] = this.toString() }
         hi1?.apply { localVariableHeaders["hi1"] = this.toString() }

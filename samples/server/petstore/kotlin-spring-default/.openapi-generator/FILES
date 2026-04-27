@@ -22,6 +22,7 @@ src/main/kotlin/org/openapitools/model/Category.kt
 src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
+src/main/kotlin/org/openapitools/model/PetWithSpecialProps.kt
 src/main/kotlin/org/openapitools/model/Tag.kt
 src/main/kotlin/org/openapitools/model/User.kt
 src/main/kotlin/org/openapitools/model/UserOrPet.kt

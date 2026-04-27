@@ -9,6 +9,7 @@ docs/FakeApi.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetWithSpecialProps.md
 docs/StoreApi.md
 docs/Tag.md
 docs/User.md
@@ -41,6 +42,7 @@ src/main/kotlin/org/openapitools/client/models/Category.kt
 src/main/kotlin/org/openapitools/client/models/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/client/models/Order.kt
 src/main/kotlin/org/openapitools/client/models/Pet.kt
+src/main/kotlin/org/openapitools/client/models/PetWithSpecialProps.kt
 src/main/kotlin/org/openapitools/client/models/Tag.kt
 src/main/kotlin/org/openapitools/client/models/User.kt
 src/main/kotlin/org/openapitools/client/models/UserOrPet.kt
