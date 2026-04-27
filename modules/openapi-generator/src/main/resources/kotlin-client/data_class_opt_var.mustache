@@ -9,7 +9,7 @@
     @SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
     {{/gson}}
     {{#jackson}}
-    @get:JsonProperty("{{#lambda.escapeInNormalString}}{{{vendorExtensions.x-base-name-literal}}}{{/lambda.escapeInNormalString}}")
+    @get:JsonProperty("{{#lambda.escapeInNormalString}}{{{baseName}}}{{/lambda.escapeInNormalString}}")
     {{/jackson}}
     {{#kotlinx_serialization}}
     {{^isEnum}}{{^isArray}}{{^isPrimitiveType}}{{^isModel}}@Contextual {{/isModel}}{{/isPrimitiveType}}{{/isArray}}{{/isEnum}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")

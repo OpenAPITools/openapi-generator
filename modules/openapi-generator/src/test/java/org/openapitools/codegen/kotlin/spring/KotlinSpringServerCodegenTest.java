@@ -5867,5 +5867,8 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(modelFile, "\"starts /* comment and ends */\"");
         // $ in string defaults must be escaped to \$ (not left raw, which would cause interpolation)
         assertFileContains(modelFile, "\"\\$one");
+        // baseName with $ must be escaped in @get:JsonProperty (verifies lambda resolves baseName correctly)
+        assertFileContains(modelFile, "@get:JsonProperty(\"\\$id\")");
+        assertFileContains(modelFile, "@get:JsonProperty(\"name\\$Value\")");
     }
 }
