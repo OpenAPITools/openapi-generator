@@ -957,17 +957,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // spring uses the jackson lib, and we disallow configuration.
         additionalProperties.put("jackson", "true");
 
-        // add lambda for mustache templates
-        additionalProperties.put("lambdaEscapeInNormalString",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("([$\"\\\\])", "\\\\$1")));
-        additionalProperties.put("lambdaRemoveLineBreak",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
     }
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
+                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""))
+                .put("removeLineBreak", (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
     }
 
     @Override

@@ -21,10 +21,10 @@ enum class {{classname}} {
 {{^isEnum}}
 data class {{classname}}(
     {{#allVars}}
-    @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    @field:JsonProperty("{{#lambda.escapeInNormalString}}{{{vendorExtensions.x-base-name-literal}}}{{/lambda.escapeInNormalString}}")
     val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{!
-    !}}{{^required}} = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}{{/required}}{{!
-    }}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}},
+    !}}{{^required}} = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{#isString}}{{^isEnum}}"{{#lambda.escapeInNormalString}}{{{unescapedDefaultValue}}}{{/lambda.escapeInNormalString}}"{{/isEnum}}{{#isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isString}}{{^isString}}{{{defaultValue}}}{{/isString}}{{/defaultValue}}{{/required}}{{!
+    }}{{#required}}{{#defaultValue}} = {{#isString}}{{^isEnum}}"{{#lambda.escapeInNormalString}}{{{unescapedDefaultValue}}}{{/lambda.escapeInNormalString}}"{{/isEnum}}{{#isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isString}}{{^isString}}{{{defaultValue}}}{{/isString}}{{/defaultValue}}{{/required}},
 
     {{/allVars}}
 )
