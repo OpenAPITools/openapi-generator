@@ -477,11 +477,14 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("trimWhitespace", new TrimWhitespaceLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
                 .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
-                // Escapes text for use inside a Markdown table cell.
-                // \\ must be replaced first to avoid double-escaping subsequent replacements.
-                // $ is escaped to prevent LaTeX math mode ($...$) in markdown renderers that support it.
+                // Escapes text for use inside a Markdown table cell or inline text.
+                // Order matters: \\ and & must be first to avoid double-escaping.
+                // $ is escaped to prevent LaTeX math mode ($...$) in renderers that support it.
                 .put("escapeMarkdown", (fragment, writer) -> writer.write(fragment.execute()
                         .replace("\\", "\\\\")
+                        .replace("&", "&amp;")
+                        .replace("<", "&lt;")
+                        .replace(">", "&gt;")
                         .replace("$", "\\$")
                         .replace("|", "\\|")
                         .replace("\r\n", " ")
