@@ -112,7 +112,7 @@ null (empty response body)
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.collections.List<Pet> findPetsByStatus(status)
+> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -159,7 +159,7 @@ Name | Type | Description  | Notes
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List<Pet> findPetsByTags(tags)
+> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 

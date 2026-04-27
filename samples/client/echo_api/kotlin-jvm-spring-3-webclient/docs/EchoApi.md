@@ -23,7 +23,7 @@ Tests that path params with \$dollar, backslash \\ and quote " are properly esca
 
 val apiInstance = EchoApi()
 val dollarParamName : kotlin.String = dollarParamName_example // kotlin.String | 
-val filterDollarType : kotlin.String = filterDollarType_example // kotlin.String | Filter with \$dollar in description and comment-close */
+val filterDollarType : kotlin.String = filterDollarType_example // kotlin.String | Filter with $dollar in description and comment-close */
 try {
     val result : kotlin.String = apiInstance.testsEchoStringEscapingParamName(dollarParamName, filterDollarType)
     println(result)
