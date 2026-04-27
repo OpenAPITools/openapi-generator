@@ -18,7 +18,12 @@ import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 {{/useJackson3}}
 {{#openApiNullable}}
+{{^useJackson3}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/useJackson3}}
+{{#useJackson3}}
+import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
+{{/useJackson3}}
 {{/openApiNullable}}
 {{#generateClientAsBean}}
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,6 +179,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             {{^failOnUnknownProperties}}
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             {{/failOnUnknownProperties}}
+            {{#openApiNullable}}
+            .addModule(new JsonNullableJackson3Module())
+            {{/openApiNullable}}
             .build();
     }
     {{/useJackson3}}

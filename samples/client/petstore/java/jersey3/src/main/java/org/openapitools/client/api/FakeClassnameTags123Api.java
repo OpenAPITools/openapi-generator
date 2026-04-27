@@ -88,9 +88,11 @@ public class FakeClassnameTags123Api {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
     String[] localVarAuthNames = new String[] {"api_key_query"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Client>() {});
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
     return apiClient.invokeAPI("FakeClassnameTags123Api.testClassname", "/fake_classname_test", "PATCH", new ArrayList<>(), client,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
 }

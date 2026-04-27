@@ -383,14 +383,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             else None{{^-last}},{{/-last}}
             {{/items.isMap}}
             {{#items.isArray}}
-            "{{{baseName}}}": dict(
-                (_k,
-                        [{{{items.items.dataType}}}.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("{{{baseName}}}", {}).items()
-            ){{^-last}},{{/-last}}
+            "{{{baseName}}}": {
+                _k: [{{{items.items.dataType}}}.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["{{{baseName}}}"].items()
+            }
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}

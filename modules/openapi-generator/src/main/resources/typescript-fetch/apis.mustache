@@ -2,23 +2,23 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-
 import * as runtime from '../runtime{{importFileExtension}}';
-{{#imports.0}}
+{{#withoutRuntimeChecks}}
 import type {
-  {{#imports}}
-  {{className}},
-  {{/imports}}
-} from '../models/index{{importFileExtension}}';
-{{^withoutRuntimeChecks}}
-import {
-    {{#imports}}
-    {{className}}FromJSON,
-    {{className}}ToJSON,
-    {{/imports}}
+{{#imports}}
+    {{className}},
+{{/imports}}
 } from '../models/index{{importFileExtension}}';
 {{/withoutRuntimeChecks}}
-{{/imports.0}}
+{{^withoutRuntimeChecks}}
+{{#imports}}
+import {
+    type {{className}},
+    {{className}}FromJSON,
+    {{className}}ToJSON,
+} from '../models/{{className}}{{importFileExtension}}';
+{{/imports}}
+{{/withoutRuntimeChecks}}
 
 {{#operations}}
 {{#operation}}

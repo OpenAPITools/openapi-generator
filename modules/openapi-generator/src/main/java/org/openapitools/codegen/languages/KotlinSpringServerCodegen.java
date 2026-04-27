@@ -49,6 +49,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -229,7 +230,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         GlobalFeature.ParameterStyling
                 )
                 .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.oneOf
                 )
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
@@ -237,6 +239,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         );
 
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
+
+        // Enable oneOf interface generation (mirrors SpringCodegen behavior)
+        useOneOfInterfaces = true;
 
         outputFolder = "generated-code/kotlin-spring";
         embeddedTemplateDir = templateDir = "kotlin-spring";
@@ -1327,8 +1332,48 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        if (additionalProperties.containsKey("jackson")) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
+            }
+        }
+    }
+
+    @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModelsMap = getAllModels(objs);
+
+        // For each oneOf interface with a discriminator, mark the discriminator property
+        // as inherited in each subtype and set its default value from the discriminator mapping
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE))
+                    && cm.discriminator != null) {
+                String discrimBaseName = cm.discriminator.getPropertyBaseName();
+                String discrimType = cm.discriminator.getPropertyType();
+                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
+
+                // Build child name -> mapping name lookup from discriminator mappings
+                Map<String, String> childToMappingName = new HashMap<>();
+                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
+                    childToMappingName.put(mm.getModelName(), mm.getMappingName());
+                }
+
+                for (String childName : cm.oneOf) {
+                    CodegenModel child = allModelsMap.get(childName);
+                    if (child != null) {
+                        String mappingName = childToMappingName.get(childName);
+                        markPropertyAsInherited(child, discrimBaseName, discrimType, mappingName, isEnumDiscriminator);
+                    }
+                }
+            }
+        }
 
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
@@ -1371,6 +1416,47 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         return objs;
+    }
+
+    /**
+     * Marks the discriminator property as inherited on a subtype and sets its default value
+     * from the discriminator mapping, so the constructor has the correct default.
+     */
+    private void markPropertyAsInherited(CodegenModel model, String baseName, String dataType,
+                                         String discriminatorValue, boolean isEnumDiscriminator) {
+        Stream.of(model.vars, model.requiredVars, model.optionalVars, model.allVars)
+                .flatMap(List::stream)
+                .filter(p -> baseName.equals(p.baseName))
+                .forEach(p -> {
+                    p.isInherited = true;
+                    // Discriminator properties must match the parent interface type (non-null, required)
+                    if (dataType != null) {
+                        p.dataType = dataType;
+                        p.datatypeWithEnum = dataType;
+                        p.isNullable = false;
+                        p.required = true;
+                    }
+                    if (discriminatorValue != null) {
+                        if (isEnumDiscriminator) {
+                            p.defaultValue = dataType + "." + toEnumVarName(discriminatorValue, dataType);
+                        } else {
+                            p.defaultValue = "\"" + escapeText(discriminatorValue) + "\"";
+                        }
+                    }
+                });
+        // Move discriminator property from optionalVars to requiredVars if needed.
+        // Safe to modify optionalVars here — the stream above has fully completed.
+        if (dataType != null) {
+            model.optionalVars.stream()
+                    .filter(p -> baseName.equals(p.baseName))
+                    .findFirst()
+                    .ifPresent(p -> {
+                        model.optionalVars.remove(p);
+                        model.requiredVars.add(p);
+                    });
+            model.hasRequired = !model.requiredVars.isEmpty();
+            model.hasOptional = !model.optionalVars.isEmpty();
+        }
     }
 
     @Override
