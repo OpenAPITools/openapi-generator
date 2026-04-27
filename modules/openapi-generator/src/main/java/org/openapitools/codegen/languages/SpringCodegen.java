@@ -430,25 +430,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             documentationProvider = DocumentationProvider.NONE;
             annotationLibrary = AnnotationLibrary.NONE;
             useJakartaEe = true;
-            if (!additionalProperties.containsKey(USE_BEANVALIDATION)) {
-                useBeanValidation = false;
-            } else {
-                Object beanValidationValue = additionalProperties.get(USE_BEANVALIDATION);
-                if (beanValidationValue instanceof Boolean) {
-                    useBeanValidation = (Boolean) beanValidationValue;
-                } else if (beanValidationValue instanceof String) {
-                    useBeanValidation = Boolean.parseBoolean((String) beanValidationValue);
-                }
+
+            if (configOptions.stream().noneMatch(opt -> USE_BEANVALIDATION.equals(opt.getLeft()))) {
+                Object val = additionalProperties.get(USE_BEANVALIDATION);
+                useBeanValidation = val instanceof Boolean ? (Boolean) val : Boolean.parseBoolean(val.toString());
             }
-            if (!additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
-                performBeanValidation = false;
-            } else {
-                Object performBeanValidationValue = additionalProperties.get(PERFORM_BEANVALIDATION);
-                if (performBeanValidationValue instanceof Boolean) {
-                    performBeanValidation = (Boolean) performBeanValidationValue;
-                } else if (performBeanValidationValue instanceof String) {
-                    performBeanValidation = Boolean.parseBoolean((String) performBeanValidationValue);
-                }
+            if (configOptions.stream().noneMatch(opt -> PERFORM_BEANVALIDATION.equals(opt.getLeft()))) {
+                Object val = additionalProperties.get(PERFORM_BEANVALIDATION);
+                performBeanValidation = val instanceof Boolean ? (Boolean) val : Boolean.parseBoolean(val.toString());
             }
 
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
