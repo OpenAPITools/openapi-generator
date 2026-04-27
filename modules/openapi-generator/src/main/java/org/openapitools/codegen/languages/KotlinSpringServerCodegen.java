@@ -1441,6 +1441,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                             p.defaultValue = dataType + "." + toEnumVarName(discriminatorValue, dataType);
                         } else {
                             p.defaultValue = "\"" + escapeText(discriminatorValue) + "\"";
+                            p.unescapedDefaultValue = discriminatorValue;
                         }
                     }
                 });
