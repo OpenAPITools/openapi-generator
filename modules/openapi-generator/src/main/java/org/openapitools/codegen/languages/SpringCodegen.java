@@ -639,7 +639,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 supportingFiles.add(new SupportingFile(httpInterfacesAbstractConfiguratorFile,
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HttpInterfacesAbstractConfigurator.java"));
-                writePropertyBack(USE_BEANVALIDATION, false);
 
                 writePropertyBack(HTTP_INTERFACES_CONFIGURATOR_DEPENDENCY,
                     useHttpServiceProxyFactoryInterfacesConfigurator ?
