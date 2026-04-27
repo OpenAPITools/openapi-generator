@@ -53,6 +53,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isNullable}}
         {{/required}}
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"{{{.}}}", value{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
             raise ValueError(r"must validate the regular expression {{{vendorExtensions.x-pattern}}}")
         return value

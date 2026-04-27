@@ -39,6 +39,9 @@ import java.util.*;
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/aspnetcore/}.
+ */
 public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";

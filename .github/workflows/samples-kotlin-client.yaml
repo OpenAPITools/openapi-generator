@@ -6,12 +6,14 @@ on:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
       - samples/client/others/kotlin-integer-enum/**
+      - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
       - samples/client/others/kotlin-integer-enum/**
       - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization/**
+      - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
 
 jobs:
   build:
@@ -66,6 +68,7 @@ jobs:
           - samples/client/echo_api/kotlin-jvm-spring-3-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/echo_api/kotlin-jvm-spring-3-restclient
+          - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
           - samples/client/others/kotlin-jvm-okhttp-path-comments

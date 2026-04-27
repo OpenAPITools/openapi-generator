@@ -512,7 +512,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // if required and optionals
             List<String> reqs = new ArrayList<>();
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            if (ModelUtils.hasProperties(schema)) {
                 for (Object toAdd : schema.getProperties().keySet()) {
                     reqs.add((String) toAdd);
                 }

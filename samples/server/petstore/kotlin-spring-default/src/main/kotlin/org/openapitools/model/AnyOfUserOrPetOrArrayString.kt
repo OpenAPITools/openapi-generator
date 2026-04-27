@@ -95,7 +95,7 @@ data class AnyOfUserOrPetOrArrayString(
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
                 return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'AnyOfUserOrPetOrArrayString'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
             }
         }
     }

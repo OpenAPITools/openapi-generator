@@ -90,10 +90,12 @@ public class FakeApi {
   public ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo() throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<HealthCheckResult>() {});
     GenericType<HealthCheckResult> localVarReturnType = new GenericType<HealthCheckResult>() {};
     return apiClient.invokeAPI("FakeApi.fakeHealthGet", "/fake/health", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -128,10 +130,12 @@ public class FakeApi {
   public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(@jakarta.annotation.Nullable Boolean body) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Boolean>() {});
     GenericType<Boolean> localVarReturnType = new GenericType<Boolean>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterBooleanSerialize", "/fake/outer/boolean", "POST", new ArrayList<>(), body,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -166,10 +170,12 @@ public class FakeApi {
   public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(@jakarta.annotation.Nullable OuterComposite outerComposite) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<OuterComposite>() {});
     GenericType<OuterComposite> localVarReturnType = new GenericType<OuterComposite>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterCompositeSerialize", "/fake/outer/composite", "POST", new ArrayList<>(), outerComposite,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -204,10 +210,12 @@ public class FakeApi {
   public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(@jakarta.annotation.Nullable BigDecimal body) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<BigDecimal>() {});
     GenericType<BigDecimal> localVarReturnType = new GenericType<BigDecimal>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterNumberSerialize", "/fake/outer/number", "POST", new ArrayList<>(), body,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * 
@@ -242,10 +250,12 @@ public class FakeApi {
   public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@jakarta.annotation.Nullable String body) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<String>() {});
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI("FakeApi.fakeOuterStringSerialize", "/fake/outer/string", "POST", new ArrayList<>(), body,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Array of Enums
@@ -278,10 +288,12 @@ public class FakeApi {
   public ApiResponse<List<OuterEnum>> getArrayOfEnumsWithHttpInfo() throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<List<OuterEnum>>() {});
     GenericType<List<OuterEnum>> localVarReturnType = new GenericType<List<OuterEnum>>() {};
     return apiClient.invokeAPI("FakeApi.getArrayOfEnums", "/fake/array-of-enums", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Array of string
@@ -315,9 +327,10 @@ public class FakeApi {
   public ApiResponse<Void> postArrayOfStringWithHttpInfo(@jakarta.annotation.Nullable List<@Pattern(regexp = "[A-Z0-9]+")String> requestBody) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.postArrayOfString", "/fake/request-array-string", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test referenced additionalProperties
@@ -356,9 +369,10 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testAdditionalPropertiesReference", "/fake/additionalProperties-reference", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * 
@@ -397,9 +411,10 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testBodyWithFileSchema", "/fake/body-with-file-schema", "PUT", new ArrayList<>(), fileSchemaTestClass,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * 
@@ -448,9 +463,10 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testBodyWithQueryParams", "/fake/body-with-query-params", "PUT", localVarQueryParams, user,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * To test \&quot;client\&quot; model
@@ -490,10 +506,12 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Client>() {});
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
     return apiClient.invokeAPI("FakeApi.testClientModel", "/fake", "PATCH", new ArrayList<>(), client,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -607,9 +625,10 @@ public class FakeApi {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
     String[] localVarAuthNames = new String[] {"http_basic_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testEndpointParameters", "/fake", "POST", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
   /**
    * To test enum parameters
@@ -685,9 +704,10 @@ public class FakeApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testEnumParameters", "/fake", "GET", localVarQueryParams, null,
                                localVarHeaderParams, new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
 
 private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.Nonnull Integer requiredStringGroup, @jakarta.annotation.Nonnull Boolean requiredBooleanGroup, @jakarta.annotation.Nonnull Long requiredInt64Group, @jakarta.annotation.Nullable Integer stringGroup, @jakarta.annotation.Nullable Boolean booleanGroup, @jakarta.annotation.Nullable Long int64Group) throws ApiException {
@@ -720,9 +740,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.No
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
     String[] localVarAuthNames = new String[] {"bearer_test"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testGroupParameters", "/fake", "DELETE", localVarQueryParams, null,
                                localVarHeaderParams, new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+                               localVarAuthNames, null, false, localVarErrorTypes);
   }
 
   public class APItestGroupParametersRequest {
@@ -884,9 +905,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.No
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testInlineAdditionalProperties", "/fake/inline-additionalProperties", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test inline free-form additionalProperties
@@ -925,9 +947,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.No
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testInlineFreeformAdditionalProperties", "/fake/inline-freeform-additionalProperties", "POST", new ArrayList<>(), testInlineFreeformAdditionalPropertiesRequest,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test json serialization of form data
@@ -976,9 +999,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.No
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testJsonFormData", "/fake/jsonFormData", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * 
@@ -1046,9 +1070,10 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.No
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testQueryParameterCollectionFormat", "/fake/test-query-parameters", "PUT", localVarQueryParams, null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * test referenced string map
@@ -1087,8 +1112,9 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(@jakarta.annotation.No
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("FakeApi.testStringMapReference", "/fake/stringMap-reference", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
 }

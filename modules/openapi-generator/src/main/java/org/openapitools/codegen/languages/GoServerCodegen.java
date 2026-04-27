@@ -34,6 +34,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/go-server/}.
+ */
 public class GoServerCodegen extends AbstractGoCodegen {
 
     /**

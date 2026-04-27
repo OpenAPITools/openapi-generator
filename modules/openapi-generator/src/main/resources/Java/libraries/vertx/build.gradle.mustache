@@ -11,8 +11,8 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = {{#useVertx5}}JavaVersion.VERSION_11{{/useVertx5}}{{^useVertx5}}JavaVersion.VERSION_1_8{{/useVertx5}}
+targetCompatibility = {{#useVertx5}}JavaVersion.VERSION_11{{/useVertx5}}{{^useVertx5}}JavaVersion.VERSION_1_8{{/useVertx5}}
 
 publishing {
     publications {
@@ -32,7 +32,7 @@ ext {
     swagger_annotations_version = "1.5.21"
     jackson_version = "2.19.2"
     jackson_databind_version = "2.19.2"
-    vertx_version = "{{#supportVertxFuture}}4.0.0{{/supportVertxFuture}}{{^supportVertxFuture}}3.5.2{{/supportVertxFuture}}"
+    vertx_version = "{{#useVertx5}}5.0.11{{/useVertx5}}{{#supportVertxFuture}}{{^useVertx5}}4.0.0{{/useVertx5}}{{/supportVertxFuture}}{{^supportVertxFuture}}{{^useVertx5}}3.5.2{{/useVertx5}}{{/supportVertxFuture}}"
     junit_version = "5.10.3"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.10"
@@ -44,7 +44,7 @@ dependencies {
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.vertx:vertx-web-client:$vertx_version"
-    implementation "io.vertx:vertx-rx-java:$vertx_version"
+    implementation "io.vertx:{{#useRxJava3}}vertx-rx-java3{{/useRxJava3}}{{#useRxJava2}}vertx-rx-java2{{/useRxJava2}}{{^useRxJava3}}{{^useRxJava2}}vertx-rx-java{{/useRxJava2}}{{/useRxJava3}}:$vertx_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"

@@ -61,8 +61,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
     public static final String JACKSON3_PACKAGE = "tools.jackson";
     public static final String JACKSON_PACKAGE = "jacksonPackage";
-    public static final String USE_TAGS = "useTags";
-    public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames";
     public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String SCHEMA_IMPLEMENTS_FIELDS = "schemaImplementsFields";
     public static final String X_KOTLIN_IMPLEMENTS_SKIP = "xKotlinImplementsSkip";
@@ -423,9 +421,27 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
+
+        // Bridge x-implements (set by oneOf pipeline) into x-kotlin-implements (read by Kotlin templates)
+        for (ModelsMap modelsAttrs : objs.values()) {
+            for (ModelMap mo : modelsAttrs.getModels()) {
+                CodegenModel cm = mo.getModel();
+                List<String> xImplements = (List<String>) cm.getVendorExtensions().get(CodegenConstants.X_IMPLEMENTS);
+                if (xImplements != null && !xImplements.isEmpty()) {
+                    List<String> kotlinImplements = (List<String>) cm.getVendorExtensions()
+                            .computeIfAbsent(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), k -> new ArrayList<>());
+                    for (String iface : xImplements) {
+                        if (!kotlinImplements.contains(iface)) {
+                            kotlinImplements.add(iface);
+                        }
+                    }
+                }
+            }
+        }
 
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {

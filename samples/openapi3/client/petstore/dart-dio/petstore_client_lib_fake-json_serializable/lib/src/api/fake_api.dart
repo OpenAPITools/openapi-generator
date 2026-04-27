@@ -293,7 +293,8 @@ _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCh
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(pet);
+      _bodyData = jsonEncode(pet);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -360,7 +361,8 @@ _bodyData=jsonEncode(pet);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(body);
+      _bodyData = jsonEncode(body);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -450,7 +452,8 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(outerComposite);
+      _bodyData = jsonEncode(outerComposite);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -540,7 +543,8 @@ _responseData = rawData == null ? null : deserialize<OuterComposite, OuterCompos
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(body);
+      _bodyData = jsonEncode(body);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -630,7 +634,8 @@ _responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', g
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(body);
+      _bodyData = jsonEncode(body);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -720,7 +725,8 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(outerObjectWithEnumProperty);
+      _bodyData = jsonEncode(outerObjectWithEnumProperty);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -810,7 +816,8 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(requestBody);
+      _bodyData = jsonEncode(requestBody);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -875,7 +882,8 @@ _bodyData=jsonEncode(requestBody);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(body);
+      _bodyData = jsonEncode(body);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -940,7 +948,8 @@ _bodyData=jsonEncode(body);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(fileSchemaTestClass);
+      _bodyData = jsonEncode(fileSchemaTestClass);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1011,7 +1020,8 @@ _bodyData=jsonEncode(fileSchemaTestClass);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(user);
+      _bodyData = jsonEncode(user);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1078,7 +1088,8 @@ _bodyData=jsonEncode(user);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(modelClient);
+      _bodyData = jsonEncode(modelClient);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1200,6 +1211,22 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     dynamic _bodyData;
 
     try {
+      _bodyData = <String, dynamic>{
+        if (integer != null) r'integer': integer,
+        if (int32 != null) r'int32': int32,
+        if (int64 != null) r'int64': int64,
+        r'number': number,
+        if (float != null) r'float': float,
+        r'double': double_,
+        if (string != null) r'string': string,
+        r'pattern_without_delimiter': patternWithoutDelimiter,
+        r'byte': byte,
+        if (binary != null) r'binary': binary,
+        if (date != null) r'date': date,
+        if (dateTime != null) r'dateTime': dateTime,
+        if (password != null) r'password': password,
+        if (callback != null) r'callback': callback,
+      };
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1291,6 +1318,10 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     dynamic _bodyData;
 
     try {
+      _bodyData = <String, dynamic>{
+        if (enumFormStringArray != null) r'enum_form_string_array': enumFormStringArray,
+        if (enumFormString != null) r'enum_form_string': enumFormString,
+      };
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1431,7 +1462,8 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(requestBody);
+      _bodyData = jsonEncode(requestBody);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1496,7 +1528,8 @@ _bodyData=jsonEncode(requestBody);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
+      _bodyData = jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1563,6 +1596,10 @@ _bodyData=jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
     dynamic _bodyData;
 
     try {
+      _bodyData = <String, dynamic>{
+        r'param': param,
+        r'param2': param2,
+      };
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1628,7 +1665,8 @@ _bodyData=jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(childWithNullable);
+      _bodyData = jsonEncode(childWithNullable);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(
@@ -1763,7 +1801,8 @@ _bodyData=jsonEncode(childWithNullable);
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(requestBody);
+      _bodyData = jsonEncode(requestBody);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(

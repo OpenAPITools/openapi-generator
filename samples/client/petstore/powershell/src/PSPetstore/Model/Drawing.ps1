@@ -50,10 +50,10 @@ function Initialize-PSDrawing {
 
 
         $PSO = [PSCustomObject]@{
-            "mainShape" = ${MainShape}
-            "shapeOrNull" = ${ShapeOrNull}
-            "nullableShape" = ${NullableShape}
-            "shapes" = ${Shapes}
+            'mainShape' = ${MainShape}
+            'shapeOrNull' = ${ShapeOrNull}
+            'nullableShape' = ${NullableShape}
+            'shapes' = ${Shapes}
         }
 
 
@@ -92,7 +92,7 @@ function ConvertFrom-PSJsonToDrawing {
         $PSDrawingAdditionalProperties = @{}
 
         # check if Json contains properties not defined in PSDrawing
-        $AllProperties = ("mainShape", "shapeOrNull", "nullableShape", "shapes")
+        $AllProperties = ('mainShape', 'shapeOrNull', 'nullableShape', 'shapes')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
@@ -100,36 +100,36 @@ function ConvertFrom-PSJsonToDrawing {
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "mainShape"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'mainShape'))) { #optional property not found
             $MainShape = $null
         } else {
-            $MainShape = $JsonParameters.PSobject.Properties["mainShape"].value
+            $MainShape = $JsonParameters.PSobject.Properties['mainShape'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "shapeOrNull"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'shapeOrNull'))) { #optional property not found
             $ShapeOrNull = $null
         } else {
-            $ShapeOrNull = $JsonParameters.PSobject.Properties["shapeOrNull"].value
+            $ShapeOrNull = $JsonParameters.PSobject.Properties['shapeOrNull'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "nullableShape"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'nullableShape'))) { #optional property not found
             $NullableShape = $null
         } else {
-            $NullableShape = $JsonParameters.PSobject.Properties["nullableShape"].value
+            $NullableShape = $JsonParameters.PSobject.Properties['nullableShape'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "shapes"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'shapes'))) { #optional property not found
             $Shapes = $null
         } else {
-            $Shapes = $JsonParameters.PSobject.Properties["shapes"].value
+            $Shapes = $JsonParameters.PSobject.Properties['shapes'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "mainShape" = ${MainShape}
-            "shapeOrNull" = ${ShapeOrNull}
-            "nullableShape" = ${NullableShape}
-            "shapes" = ${Shapes}
-            "AdditionalProperties" = $PSDrawingAdditionalProperties
+            'mainShape' = ${MainShape}
+            'shapeOrNull' = ${ShapeOrNull}
+            'nullableShape' = ${NullableShape}
+            'shapes' = ${Shapes}
+            'AdditionalProperties' = $PSDrawingAdditionalProperties
         }
 
         return $PSO

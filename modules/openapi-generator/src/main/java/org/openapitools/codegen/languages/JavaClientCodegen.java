@@ -52,6 +52,12 @@ import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/Java/} (root templates shared across all libraries) and
+ * {@code src/main/resources/Java/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
@@ -62,6 +68,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String DO_NOT_USE_RX = "doNotUseRx";
+    public static final String USE_VERTX_5 = "useVertx5";
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String ASYNC_NATIVE = "asyncNative";
     public static final String CONFIG_KEY = "configKey";
@@ -130,6 +137,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
     protected boolean useRxJava3 = false;
+    @Setter protected boolean useVertx5 = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     @Setter protected boolean doNotUseRx = true;
@@ -243,6 +251,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
+        cliOptions.add(CliOption.newBoolean(USE_VERTX_5, "Whether to use Vert.x 5 syntax."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
@@ -424,6 +433,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA3, this::setUseRxJava3);
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA2, this::setUseRxJava2);
         }
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_VERTX_5, this::setUseVertx5);
+
         convertPropertyToStringAndWriteBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, this::setUseSingleRequestParameter);
         convertPropertyToBooleanAndWriteBack(USE_SEALED_ONE_OF_INTERFACES, this::setUseSealedOneOfInterfaces);
         convertPropertyToBooleanAndWriteBack(USE_UNARY_INTERCEPTOR, this::setUseUnaryInterceptor);

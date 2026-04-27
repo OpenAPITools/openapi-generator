@@ -258,6 +258,7 @@ public class Mammal extends AbstractOpenApiSchema {
      * @return The actual instance of `Whale`
      * @throws ClassCastException if the instance is not `Whale`
      */
+    @SuppressWarnings("unchecked")
     public Whale getWhale() throws ClassCastException {
         return (Whale)super.getActualInstance();
     }
@@ -269,6 +270,7 @@ public class Mammal extends AbstractOpenApiSchema {
      * @return The actual instance of `Zebra`
      * @throws ClassCastException if the instance is not `Zebra`
      */
+    @SuppressWarnings("unchecked")
     public Zebra getZebra() throws ClassCastException {
         return (Zebra)super.getActualInstance();
     }
@@ -280,6 +282,7 @@ public class Mammal extends AbstractOpenApiSchema {
      * @return The actual instance of `Pig`
      * @throws ClassCastException if the instance is not `Pig`
      */
+    @SuppressWarnings("unchecked")
     public Pig getPig() throws ClassCastException {
         return (Pig)super.getActualInstance();
     }

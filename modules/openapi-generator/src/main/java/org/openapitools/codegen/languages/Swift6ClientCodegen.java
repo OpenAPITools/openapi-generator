@@ -46,6 +46,12 @@ import java.util.concurrent.TimeUnit;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/swift6/} (root templates shared across all libraries) and
+ * {@code src/main/resources/swift6/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(Swift6ClientCodegen.class);
 

@@ -37,6 +37,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-axios/}.
+ */
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_REPOSITORY = "npmRepository";

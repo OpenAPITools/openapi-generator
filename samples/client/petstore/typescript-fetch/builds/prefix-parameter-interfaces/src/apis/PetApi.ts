@@ -144,7 +144,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -305,7 +305,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -430,7 +430,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -504,7 +504,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}/uploadImage`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,

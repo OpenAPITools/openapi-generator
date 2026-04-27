@@ -13,7 +13,9 @@ import org.openapitools.client.ApiClient;
 
 import java.util.*;
 
+
 import rx.Single;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -58,9 +60,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxCreateXmlItem(XmlItem xmlItem) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.createXmlItem(xmlItem, fut)
         ));
+    
     }
 
     /**
@@ -71,9 +75,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxCreateXmlItem(XmlItem xmlItem, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.createXmlItem(xmlItem, authInfo, fut)
         ));
+    
     }
     /**
     * 
@@ -103,9 +109,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Boolean> rxFakeOuterBooleanSerialize(Boolean body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterBooleanSerialize(body, fut)
         ));
+    
     }
 
     /**
@@ -116,9 +124,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Boolean> rxFakeOuterBooleanSerialize(Boolean body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterBooleanSerialize(body, authInfo, fut)
         ));
+    
     }
     /**
     * 
@@ -148,9 +158,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterCompositeSerialize(body, fut)
         ));
+    
     }
 
     /**
@@ -161,9 +173,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterCompositeSerialize(body, authInfo, fut)
         ));
+    
     }
     /**
     * 
@@ -193,9 +207,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<BigDecimal> rxFakeOuterNumberSerialize(BigDecimal body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterNumberSerialize(body, fut)
         ));
+    
     }
 
     /**
@@ -206,9 +222,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<BigDecimal> rxFakeOuterNumberSerialize(BigDecimal body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterNumberSerialize(body, authInfo, fut)
         ));
+    
     }
     /**
     * 
@@ -238,9 +256,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<String> rxFakeOuterStringSerialize(String body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterStringSerialize(body, fut)
         ));
+    
     }
 
     /**
@@ -251,9 +271,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<String> rxFakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterStringSerialize(body, authInfo, fut)
         ));
+    
     }
     /**
     * 
@@ -283,9 +305,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testBodyWithFileSchema(body, fut)
         ));
+    
     }
 
     /**
@@ -296,9 +320,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testBodyWithFileSchema(body, authInfo, fut)
         ));
+    
     }
     /**
     * 
@@ -331,9 +357,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestBodyWithQueryParams(String query, User body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testBodyWithQueryParams(query, body, fut)
         ));
+    
     }
 
     /**
@@ -345,9 +373,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestBodyWithQueryParams(String query, User body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testBodyWithQueryParams(query, body, authInfo, fut)
         ));
+    
     }
     /**
     * To test \&quot;client\&quot; model
@@ -377,9 +407,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxTestClientModel(Client body) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testClientModel(body, fut)
         ));
+    
     }
 
     /**
@@ -390,9 +422,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxTestClientModel(Client body, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testClientModel(body, authInfo, fut)
         ));
+    
     }
     /**
     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -461,9 +495,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, fut)
         ));
+    
     }
 
     /**
@@ -487,9 +523,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, authInfo, fut)
         ));
+    
     }
     /**
     * To test enum parameters
@@ -540,9 +578,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, fut)
         ));
+    
     }
 
     /**
@@ -560,9 +600,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, authInfo, fut)
         ));
+    
     }
     /**
     * Fake endpoint to test group parameters (optional)
@@ -607,9 +649,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, fut)
         ));
+    
     }
 
     /**
@@ -625,9 +669,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, authInfo, fut)
         ));
+    
     }
     /**
     * test inline additionalProperties
@@ -657,9 +703,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> param) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testInlineAdditionalProperties(param, fut)
         ));
+    
     }
 
     /**
@@ -670,9 +718,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> param, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testInlineAdditionalProperties(param, authInfo, fut)
         ));
+    
     }
     /**
     * test json serialization of form data
@@ -705,9 +755,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestJsonFormData(String param, String param2) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testJsonFormData(param, param2, fut)
         ));
+    
     }
 
     /**
@@ -719,9 +771,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestJsonFormData(String param, String param2, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testJsonFormData(param, param2, authInfo, fut)
         ));
+    
     }
     /**
     * 
@@ -763,9 +817,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, fut)
         ));
+    
     }
 
     /**
@@ -780,9 +836,11 @@ public class FakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, authInfo, fut)
         ));
+    
     }
 
     public static FakeApi newInstance(org.openapitools.client.api.FakeApi arg) {

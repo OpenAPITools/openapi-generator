@@ -78,8 +78,9 @@ public class DefaultApi {
   public ApiResponse<Void> rootPostWithHttpInfo(@jakarta.annotation.Nullable PostRequest postRequest) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("DefaultApi.rootPost", "/", "POST", new ArrayList<>(), postRequest,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
 }

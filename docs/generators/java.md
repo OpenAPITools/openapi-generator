@@ -111,6 +111,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSingleRequestParameter|Setting this property to &quot;true&quot; will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to &quot;static&quot; does the same as &quot;true&quot;, but also makes the generated arguments class static with single parameter instantiation.| |false|
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x.| |false|
 |useUnaryInterceptor|If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption| |false|
+|useVertx5|Whether to use Vert.x 5 syntax.| |false|
 |webclientBlockingOperations|Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support (only available for okhttp-gson library)| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

@@ -12,7 +12,7 @@ All URIs are relative to *{{basePath}}*
 {{#operation}}
 <a id="{{operationId}}"></a>
 # **{{operationId}}**
-> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+> {{#returnType}}{{.}}{{#nullableReturnType}}?{{/nullableReturnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{summary}}{{#notes}}
 
@@ -55,7 +55,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{#generateModelDocs}}[**{{returnType}}**]({{returnBaseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{returnType}}**{{/generateModelDocs}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}null (empty response body){{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}{{#nullableReturnType}}?{{/nullableReturnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{#generateModelDocs}}[**{{returnType}}{{#nullableReturnType}}?{{/nullableReturnType}}**]({{returnBaseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{returnType}}{{#nullableReturnType}}?{{/nullableReturnType}}**{{/generateModelDocs}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}null (empty response body){{/returnType}}
 
 ### Authorization
 
