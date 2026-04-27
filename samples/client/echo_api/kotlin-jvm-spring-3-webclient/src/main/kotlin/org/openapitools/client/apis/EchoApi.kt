@@ -67,7 +67,7 @@ open class EchoApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (filterDollarType != null) {
-                    put("filter$Type", listOf(filterDollarType.toString()))
+                    put("filter\$Type", listOf(filterDollarType.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
