@@ -55,6 +55,7 @@ All URIs are relative to *http://localhost:3000*
 | *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testechobodypet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testechobodypetresponsestring) | **POST** /echo/body/Pet/response_string | Test empty response body |
 | *BodyApi* | [**testEchoBodyTagResponseString**](docs/BodyApi.md#testechobodytagresponsestring) | **POST** /echo/body/Tag/response_string | Test empty json (request body) |
+| *EchoApi* | [**testsEchoStringEscapingParamName**](docs/EchoApi.md#testsechostringescapingparamname) | **GET** /echo/string-escaping/{$paramName} | Test $-in-path-param escaping |
 | *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testformintegerbooleanstring) | **POST** /form/integer/boolean/string | Test form parameter(s) |
 | *FormApi* | [**testFormOneof**](docs/FormApi.md#testformoneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema |
 | *HeaderApi* | [**testHeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#testheaderintegerbooleanstringenums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s) |
@@ -77,6 +78,7 @@ All URIs are relative to *http://localhost:3000*
  - [org.openapitools.client.models.Pet](docs/Pet.md)
  - [org.openapitools.client.models.Query](docs/Query.md)
  - [org.openapitools.client.models.StringEnumRef](docs/StringEnumRef.md)
+ - [org.openapitools.client.models.StringEscapingEdgeCases](docs/StringEscapingEdgeCases.md)
  - [org.openapitools.client.models.Tag](docs/Tag.md)
  - [org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 

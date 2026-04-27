@@ -2,19 +2,19 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**createUser**](UserApi.md#createUser) | **POST** /user | Create user
-[**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-[**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-[**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-[**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**createUser**](UserApi.md#createUser) | **POST** /user | Create user |
+| [**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array |
+| [**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array |
+| [**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user |
+| [**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name |
+| [**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system |
+| [**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session |
+| [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user |
 
 
-<a name="createUser"></a>
+<a id="createUser"></a>
 # **createUser**
 > createUser(user)
 
@@ -42,10 +42,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **user** | [**User**](User.md)| Created user object | |
 
 ### Return type
 
@@ -60,11 +59,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="createUsersWithArrayInput"></a>
+<a id="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
 > createUsersWithArrayInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```kotlin
@@ -86,10 +87,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -104,11 +104,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="createUsersWithListInput"></a>
+<a id="createUsersWithListInput"></a>
 # **createUsersWithListInput**
 > createUsersWithListInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```kotlin
@@ -130,10 +132,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **user** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -148,7 +149,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="deleteUser"></a>
+<a id="deleteUser"></a>
 # **deleteUser**
 > deleteUser(username)
 
@@ -176,10 +177,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be deleted |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **username** | **kotlin.String**| The name that needs to be deleted | |
 
 ### Return type
 
@@ -194,11 +194,13 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="getUserByName"></a>
+<a id="getUserByName"></a>
 # **getUserByName**
 > User getUserByName(username)
 
 Get user by user name
+
+
 
 ### Example
 ```kotlin
@@ -221,10 +223,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. | |
 
 ### Return type
 
@@ -237,13 +238,15 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="loginUser"></a>
+<a id="loginUser"></a>
 # **loginUser**
 > kotlin.String loginUser(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 ```kotlin
@@ -267,11 +270,10 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The user name for login |
- **password** | **kotlin.String**| The password for login in clear text |
+| **username** | **kotlin.String**| The user name for login | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **password** | **kotlin.String**| The password for login in clear text | |
 
 ### Return type
 
@@ -284,13 +286,15 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="logoutUser"></a>
+<a id="logoutUser"></a>
 # **logoutUser**
 > logoutUser()
 
 Logs out current logged in user session
+
+
 
 ### Example
 ```kotlin
@@ -326,7 +330,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="updateUser"></a>
+<a id="updateUser"></a>
 # **updateUser**
 > updateUser(username, user)
 
@@ -355,11 +359,10 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| name that need to be deleted |
- **user** | [**User**](User.md)| Updated user object |
+| **username** | **kotlin.String**| name that need to be deleted | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **user** | [**User**](User.md)| Updated user object | |
 
 ### Return type
 

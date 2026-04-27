@@ -11,6 +11,7 @@
     *PetApi* | [**deletePet**](Apis/docs/PetApi.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
     *PetApi* | [**findPetsByStatus**](Apis/docs/PetApi.md#findpetsbystatus) | **Get** /pet/findByStatus | Finds Pets by status
     *PetApi* | [**findPetsByTags**](Apis/docs/PetApi.md#findpetsbytags) | **Get** /pet/findByTags | Finds Pets by tags
+    *PetApi* | [**getEscapingEdgeCases**](Apis/docs/PetApi.md#getescapingedgecases) | **Get** /pet/escaping | Test escaping: $dollar, backslash \\ and quote \"
     *PetApi* | [**getPetById**](Apis/docs/PetApi.md#getpetbyid) | **Get** /pet/{petId} | Find pet by ID
     *PetApi* | [**updatePet**](Apis/docs/PetApi.md#updatepet) | **Put** /pet | Update an existing pet
     *PetApi* | [**updatePetWithForm**](Apis/docs/PetApi.md#updatepetwithform) | **Post** /pet/{petId} | Updates a pet in the store with form data
@@ -33,6 +34,7 @@
     ## Documentation for Models
 
          - [org.openapitools.server.api.model.Category](Models/docs/Category.md)
+         - [org.openapitools.server.api.model.EscapingEdgeCases](Models/docs/EscapingEdgeCases.md)
          - [org.openapitools.server.api.model.ModelApiResponse](Models/docs/ModelApiResponse.md)
          - [org.openapitools.server.api.model.Order](Models/docs/Order.md)
          - [org.openapitools.server.api.model.Pet](Models/docs/Pet.md)

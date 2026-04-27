@@ -2,9 +2,9 @@
 # Client
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**client** | **kotlin.String** |  |  [optional]
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **client** | **kotlin.String** |  |  [optional] |
 
 
 

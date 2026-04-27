@@ -34,6 +34,7 @@ import com.squareup.moshi.JsonClass
  * @param n0 
  * @param i1 
  * @param n1 
+ * @param s0 String property with $dollar, backslash, quote, comment-close in default
  */
 
 
@@ -49,7 +50,11 @@ data class Apa (
     val i1: kotlin.Int? = null,
 
     @Json(name = "n1")
-    val n1: java.math.BigDecimal? = null
+    val n1: java.math.BigDecimal? = null,
+
+    /* String property with $dollar, backslash, quote, comment-close in default */
+    @Json(name = "s0")
+    val s0: kotlin.String? = "hello \$world, backslash=\\, quote=\", end */"
 
 ) {
 

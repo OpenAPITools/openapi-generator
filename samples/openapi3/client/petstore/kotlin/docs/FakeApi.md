@@ -2,26 +2,80 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**fakeBigDecimalMap**](FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap |  |
+| [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
+| [**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication |
+| [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
+| [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
+| [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
+| [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
+| [**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
+| [**testAdditionalPropertiesReference**](FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
+| [**testBodyWithBinary**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
+| [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
+| [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
+| [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test "client" model |
+| [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+ |
+| [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters |
+| [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
+| [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**testInlineFreeformAdditionalProperties**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
+| [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**testNullable**](FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property |
+| [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
+| [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
 
-<a name="fakeHealthGet"></a>
+<a id="fakeBigDecimalMap"></a>
+# **fakeBigDecimalMap**
+> FakeBigDecimalMap200Response fakeBigDecimalMap()
+
+
+
+for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+try {
+    val result : FakeBigDecimalMap200Response = apiInstance.fakeBigDecimalMap()
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#fakeBigDecimalMap")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#fakeBigDecimalMap")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**FakeBigDecimalMap200Response**](FakeBigDecimalMap200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a id="fakeHealthGet"></a>
 # **fakeHealthGet**
 > HealthCheckResult fakeHealthGet()
 
@@ -62,7 +116,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a name="fakeHttpSignatureTest"></a>
+<a id="fakeHttpSignatureTest"></a>
 # **fakeHttpSignatureTest**
 > fakeHttpSignatureTest(pet, query1, header1)
 
@@ -90,12 +144,11 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
- **query1** | **kotlin.String**| query parameter | [optional]
- **header1** | **kotlin.String**| header parameter | [optional]
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **query1** | **kotlin.String**| query parameter | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **header1** | **kotlin.String**| header parameter | [optional] |
 
 ### Return type
 
@@ -107,10 +160,10 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="fakeOuterBooleanSerialize"></a>
+<a id="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
 > kotlin.Boolean fakeOuterBooleanSerialize(body)
 
@@ -139,10 +192,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **kotlin.Boolean**| Input boolean as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **kotlin.Boolean**| Input boolean as post body | [optional] |
 
 ### Return type
 
@@ -155,9 +207,9 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
-<a name="fakeOuterCompositeSerialize"></a>
+<a id="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
 > OuterComposite fakeOuterCompositeSerialize(outerComposite)
 
@@ -186,10 +238,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] |
 
 ### Return type
 
@@ -202,9 +253,9 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
-<a name="fakeOuterNumberSerialize"></a>
+<a id="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
 > java.math.BigDecimal fakeOuterNumberSerialize(body)
 
@@ -233,10 +284,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **java.math.BigDecimal**| Input number as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **java.math.BigDecimal**| Input number as post body | [optional] |
 
 ### Return type
 
@@ -249,9 +299,9 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
-<a name="fakeOuterStringSerialize"></a>
+<a id="fakeOuterStringSerialize"></a>
 # **fakeOuterStringSerialize**
 > kotlin.String fakeOuterStringSerialize(body)
 
@@ -280,10 +330,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **kotlin.String**| Input string as post body | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **kotlin.String**| Input string as post body | [optional] |
 
 ### Return type
 
@@ -296,15 +345,151 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: Not defined
 
-<a name="testBodyWithFileSchema"></a>
+<a id="fakePropertyEnumIntegerSerialize"></a>
+# **fakePropertyEnumIntegerSerialize**
+> OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty)
+
+
+
+Test serialization of enum (int) properties with examples
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val outerObjectWithEnumProperty : OuterObjectWithEnumProperty =  // OuterObjectWithEnumProperty | Input enum (int) as post body
+try {
+    val result : OuterObjectWithEnumProperty = apiInstance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#fakePropertyEnumIntegerSerialize")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#fakePropertyEnumIntegerSerialize")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **outerObjectWithEnumProperty** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | |
+
+### Return type
+
+[**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+<a id="testAdditionalPropertiesReference"></a>
+# **testAdditionalPropertiesReference**
+> testAdditionalPropertiesReference(requestBody)
+
+test referenced additionalProperties
+
+
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val requestBody : kotlin.collections.Map<kotlin.String, kotlin.Any> = Object // kotlin.collections.Map<kotlin.String, kotlin.Any> | request body
+try {
+    apiInstance.testAdditionalPropertiesReference(requestBody)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#testAdditionalPropertiesReference")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#testAdditionalPropertiesReference")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **requestBody** | [**kotlin.collections.Map&lt;kotlin.String, kotlin.Any&gt;**](kotlin.Any.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+<a id="testBodyWithBinary"></a>
+# **testBodyWithBinary**
+> testBodyWithBinary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val body : java.io.File = BINARY_DATA_HERE // java.io.File | image to upload
+try {
+    apiInstance.testBodyWithBinary(body)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#testBodyWithBinary")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#testBodyWithBinary")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **java.io.File**| image to upload | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a id="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
 > testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
-For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Example
 ```kotlin
@@ -326,10 +511,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | |
 
 ### Return type
 
@@ -344,7 +528,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="testBodyWithQueryParams"></a>
+<a id="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
 > testBodyWithQueryParams(query, user)
 
@@ -371,11 +555,10 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **kotlin.String**|  |
- **user** | [**User**](User.md)|  |
+| **query** | **kotlin.String**|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **user** | [**User**](User.md)|  | |
 
 ### Return type
 
@@ -390,13 +573,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="testClientModel"></a>
+<a id="testClientModel"></a>
 # **testClientModel**
 > Client testClientModel(client)
 
-To test \&quot;client\&quot; model
+To test "client" model
 
-To test \&quot;client\&quot; model
+To test "client" model
 
 ### Example
 ```kotlin
@@ -419,10 +602,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -437,13 +619,21 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-<a name="testEndpointParameters"></a>
+<a id="testEndpointParameters"></a>
 # **testEndpointParameters**
 > testEndpointParameters(number, double, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, paramCallback)
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
+Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
 
 ### Example
 ```kotlin
@@ -478,23 +668,22 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **number** | **java.math.BigDecimal**| None |
- **double** | **kotlin.Double**| None |
- **patternWithoutDelimiter** | **kotlin.String**| None |
- **byte** | **kotlin.ByteArray**| None |
- **integer** | **kotlin.Int**| None | [optional]
- **int32** | **kotlin.Int**| None | [optional]
- **int64** | **kotlin.Long**| None | [optional]
- **float** | **kotlin.Float**| None | [optional]
- **string** | **kotlin.String**| None | [optional]
- **binary** | **java.io.File**| None | [optional]
- **date** | **java.time.LocalDate**| None | [optional]
- **dateTime** | **java.time.OffsetDateTime**| None | [optional]
- **password** | **kotlin.String**| None | [optional]
- **paramCallback** | **kotlin.String**| None | [optional]
+| **number** | **java.math.BigDecimal**| None | |
+| **double** | **kotlin.Double**| None | |
+| **patternWithoutDelimiter** | **kotlin.String**| None | |
+| **byte** | **kotlin.ByteArray**| None | |
+| **integer** | **kotlin.Int**| None | [optional] |
+| **int32** | **kotlin.Int**| None | [optional] |
+| **int64** | **kotlin.Long**| None | [optional] |
+| **float** | **kotlin.Float**| None | [optional] |
+| **string** | **kotlin.String**| None | [optional] |
+| **binary** | **java.io.File**| None | [optional] |
+| **date** | **java.time.LocalDate**| None | [optional] |
+| **dateTime** | **java.time.OffsetDateTime**| None | [optional] |
+| **password** | **kotlin.String**| None | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **paramCallback** | **kotlin.String**| None | [optional] |
 
 ### Return type
 
@@ -512,9 +701,9 @@ Configure http_basic_test:
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="testEnumParameters"></a>
+<a id="testEnumParameters"></a>
 # **testEnumParameters**
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -533,10 +722,11 @@ val enumQueryStringArray : kotlin.collections.List<kotlin.String> =  // kotlin.c
 val enumQueryString : kotlin.String = enumQueryString_example // kotlin.String | Query parameter enum test (string)
 val enumQueryInteger : kotlin.Int = 56 // kotlin.Int | Query parameter enum test (double)
 val enumQueryDouble : kotlin.Double = 1.2 // kotlin.Double | Query parameter enum test (double)
-val enumFormStringArray : kotlin.collections.List<kotlin.String> = enumFormStringArray_example // kotlin.collections.List<kotlin.String> | Form parameter enum test (string array)
+val enumQueryModelArray : kotlin.collections.List<EnumClass> =  // kotlin.collections.List<EnumClass> | 
+val enumFormStringArray : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Form parameter enum test (string array)
 val enumFormString : kotlin.String = enumFormString_example // kotlin.String | Form parameter enum test (string)
 try {
-    apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+    apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
 } catch (e: ClientException) {
     println("4xx response calling FakeApi#testEnumParameters")
     e.printStackTrace()
@@ -547,17 +737,17 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
- **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
- **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryInteger** | **kotlin.Int**| Query parameter enum test (double) | [optional] [enum: 1, -2]
- **enumQueryDouble** | **kotlin.Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to $] [enum: >, $]
- **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
+| **enumHeaderStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Header parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to EnumHeaderString.MinusEfg] [enum: _abc, -efg, (xyz)] |
+| **enumQueryStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Query parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to EnumQueryString.MinusEfg] [enum: _abc, -efg, (xyz)] |
+| **enumQueryInteger** | **kotlin.Int**| Query parameter enum test (double) | [optional] [enum: 1, -2] |
+| **enumQueryDouble** | **kotlin.Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2] |
+| **enumQueryModelArray** | [**kotlin.collections.List&lt;EnumClass&gt;**](EnumClass.md)|  | [optional] |
+| **enumFormStringArray** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to kotlin.collections.List<EnumFormStringArray>.Dollar] [enum: >, $] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to EnumFormString.MinusEfg] [enum: _abc, -efg, (xyz)] |
 
 ### Return type
 
@@ -572,7 +762,7 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="testGroupParameters"></a>
+<a id="testGroupParameters"></a>
 # **testGroupParameters**
 > testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
 
@@ -605,15 +795,14 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **kotlin.Int**| Required String in group parameters |
- **requiredBooleanGroup** | **kotlin.Boolean**| Required Boolean in group parameters |
- **requiredInt64Group** | **kotlin.Long**| Required Integer in group parameters |
- **stringGroup** | **kotlin.Int**| String in group parameters | [optional]
- **booleanGroup** | **kotlin.Boolean**| Boolean in group parameters | [optional]
- **int64Group** | **kotlin.Long**| Integer in group parameters | [optional]
+| **requiredStringGroup** | **kotlin.Int**| Required String in group parameters | |
+| **requiredBooleanGroup** | **kotlin.Boolean**| Required Boolean in group parameters | |
+| **requiredInt64Group** | **kotlin.Long**| Required Integer in group parameters | |
+| **stringGroup** | **kotlin.Int**| String in group parameters | [optional] |
+| **booleanGroup** | **kotlin.Boolean**| Boolean in group parameters | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **int64Group** | **kotlin.Long**| Integer in group parameters | [optional] |
 
 ### Return type
 
@@ -630,11 +819,13 @@ Configure bearer_test:
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="testInlineAdditionalProperties"></a>
+<a id="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
 > testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
+
+
 
 ### Example
 ```kotlin
@@ -656,10 +847,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requestBody** | [**kotlin.collections.Map&lt;kotlin.String, kotlin.String&gt;**](kotlin.String.md)| request body |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **requestBody** | [**kotlin.collections.Map&lt;kotlin.String, kotlin.String&gt;**](kotlin.String.md)| request body | |
 
 ### Return type
 
@@ -674,11 +864,13 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="testJsonFormData"></a>
-# **testJsonFormData**
-> testJsonFormData(param, param2)
+<a id="testInlineFreeformAdditionalProperties"></a>
+# **testInlineFreeformAdditionalProperties**
+> testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest)
 
-test json serialization of form data
+test inline free-form additionalProperties
+
+
 
 ### Example
 ```kotlin
@@ -687,10 +879,55 @@ test json serialization of form data
 //import org.openapitools.client.models.*
 
 val apiInstance = FakeApi()
-val param : kotlin.String = param_example // kotlin.String | field1
+val testInlineFreeformAdditionalPropertiesRequest : TestInlineFreeformAdditionalPropertiesRequest =  // TestInlineFreeformAdditionalPropertiesRequest | request body
+try {
+    apiInstance.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#testInlineFreeformAdditionalProperties")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#testInlineFreeformAdditionalProperties")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **testInlineFreeformAdditionalPropertiesRequest** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+<a id="testJsonFormData"></a>
+# **testJsonFormData**
+> testJsonFormData(`param`, param2)
+
+test json serialization of form data
+
+
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val `param` : kotlin.String = `param`_example // kotlin.String | field1
 val param2 : kotlin.String = param2_example // kotlin.String | field2
 try {
-    apiInstance.testJsonFormData(param, param2)
+    apiInstance.testJsonFormData(`param`, param2)
 } catch (e: ClientException) {
     println("4xx response calling FakeApi#testJsonFormData")
     e.printStackTrace()
@@ -701,11 +938,10 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **kotlin.String**| field1 |
- **param2** | **kotlin.String**| field2 |
+| **&#x60;param&#x60;** | **kotlin.String**| field1 | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **param2** | **kotlin.String**| field2 | |
 
 ### Return type
 
@@ -720,9 +956,54 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="testQueryParameterCollectionFormat"></a>
+<a id="testNullable"></a>
+# **testNullable**
+> testNullable(childWithNullable)
+
+test nullable parent property
+
+
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val childWithNullable : ChildWithNullable =  // ChildWithNullable | request body
+try {
+    apiInstance.testNullable(childWithNullable)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#testNullable")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#testNullable")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **childWithNullable** | [**ChildWithNullable**](ChildWithNullable.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+<a id="testQueryParameterCollectionFormat"></a>
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
@@ -740,8 +1021,10 @@ val ioutil : kotlin.collections.List<kotlin.String> =  // kotlin.collections.Lis
 val http : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | 
 val url : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | 
 val context : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | 
+val allowEmpty : kotlin.String = allowEmpty_example // kotlin.String | 
+val language : kotlin.collections.Map<kotlin.String, kotlin.String> =  // kotlin.collections.Map<kotlin.String, kotlin.String> | 
 try {
-    apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+    apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 } catch (e: ClientException) {
     println("4xx response calling FakeApi#testQueryParameterCollectionFormat")
     e.printStackTrace()
@@ -752,14 +1035,15 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pipe** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
- **ioutil** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
- **http** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
- **url** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
- **context** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+| **pipe** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
+| **ioutil** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
+| **http** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
+| **url** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
+| **context** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
+| **allowEmpty** | **kotlin.String**|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **language** | [**kotlin.collections.Map&lt;kotlin.String, kotlin.String&gt;**](kotlin.String.md)|  | [optional] |
 
 ### Return type
 
@@ -772,5 +1056,50 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a id="testStringMapReference"></a>
+# **testStringMapReference**
+> testStringMapReference(requestBody)
+
+test referenced string map
+
+
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val requestBody : kotlin.collections.Map<kotlin.String, kotlin.String> =  // kotlin.collections.Map<kotlin.String, kotlin.String> | request body
+try {
+    apiInstance.testStringMapReference(requestBody)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#testStringMapReference")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#testStringMapReference")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **requestBody** | [**kotlin.collections.Map&lt;kotlin.String, kotlin.String&gt;**](kotlin.String.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 

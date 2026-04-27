@@ -2,6 +2,7 @@ README.md
 build.gradle.kts
 docs/ApiResponse.md
 docs/Category.md
+docs/EscapingEdgeCases.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
@@ -15,6 +16,7 @@ src/main/kotlin/org/openapitools/server/api/api/PetStoreModule.kt
 src/main/kotlin/org/openapitools/server/api/api/StoreApiAction.kt
 src/main/kotlin/org/openapitools/server/api/api/UserApiAction.kt
 src/main/kotlin/org/openapitools/server/api/model/Category.kt
+src/main/kotlin/org/openapitools/server/api/model/EscapingEdgeCases.kt
 src/main/kotlin/org/openapitools/server/api/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/server/api/model/Order.kt
 src/main/kotlin/org/openapitools/server/api/model/Pet.kt

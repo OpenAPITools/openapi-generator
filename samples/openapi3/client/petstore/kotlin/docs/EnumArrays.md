@@ -2,24 +2,24 @@
 # EnumArrays
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**justSymbol** | [**inline**](#JustSymbolEnum) |  |  [optional]
-**arrayEnum** | [**inline**](#kotlin.collections.List&lt;ArrayEnumEnum&gt;) |  |  [optional]
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **justSymbol** | [**inline**](#JustSymbol) |  |  [optional] |
+| **arrayEnum** | [**inline**](#kotlin.collections.List&lt;ArrayEnum&gt;) |  |  [optional] |
 
 
-<a name="JustSymbolEnum"></a>
+<a id="JustSymbol"></a>
 ## Enum: just_symbol
-Name | Value
----- | -----
-justSymbol | &gt;&#x3D;, $
+| Name | Value |
+| ---- | ----- |
+| justSymbol | &gt;&#x3D;, $ |
 
 
-<a name="kotlin.collections.List<ArrayEnumEnum>"></a>
+<a id="kotlin.collections.List<ArrayEnum>"></a>
 ## Enum: array_enum
-Name | Value
----- | -----
-arrayEnum | fish, crab
+| Name | Value |
+| ---- | ----- |
+| arrayEnum | fish, crab |
 
 
 

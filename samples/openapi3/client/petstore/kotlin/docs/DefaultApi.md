@@ -2,14 +2,14 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**fooGet**](DefaultApi.md#fooGet) | **GET** /foo | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**fooGet**](DefaultApi.md#fooGet) | **GET** /foo |  |
 
 
-<a name="fooGet"></a>
+<a id="fooGet"></a>
 # **fooGet**
-> InlineResponseDefault fooGet()
+> FooGetDefaultResponse fooGet()
 
 
 
@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 val apiInstance = DefaultApi()
 try {
-    val result : InlineResponseDefault = apiInstance.fooGet()
+    val result : FooGetDefaultResponse = apiInstance.fooGet()
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling DefaultApi#fooGet")
@@ -37,7 +37,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooGetDefaultResponse**](FooGetDefaultResponse.md)
 
 ### Authorization
 

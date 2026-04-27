@@ -2,12 +2,12 @@
 # Name
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**name** | **kotlin.Int** |  | 
-**snakeCase** | **kotlin.Int** |  |  [optional] [readonly]
-**property** | **kotlin.String** |  |  [optional]
-**&#x60;123number&#x60;** | **kotlin.Int** |  |  [optional] [readonly]
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **name** | **kotlin.Int** |  |  |
+| **snakeCase** | **kotlin.Int** |  |  [optional] [readonly] |
+| **&#x60;property&#x60;** | **kotlin.String** |  |  [optional] |
+| **&#x60;123number&#x60;** | **kotlin.Int** |  |  [optional] [readonly] |
 
 
 

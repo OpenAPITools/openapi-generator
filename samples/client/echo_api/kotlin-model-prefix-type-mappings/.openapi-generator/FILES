@@ -5,6 +5,7 @@ docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
 docs/DefaultValue.md
+docs/EchoApi.md
 docs/FormApi.md
 docs/HeaderApi.md
 docs/NumberPropertiesOnly.md
@@ -13,6 +14,7 @@ docs/Pet.md
 docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
+docs/StringEscapingEdgeCases.md
 docs/Tag.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 gradle/wrapper/gradle-wrapper.jar
@@ -22,6 +24,7 @@ gradlew.bat
 settings.gradle
 src/main/kotlin/org/openapitools/client/apis/AuthApi.kt
 src/main/kotlin/org/openapitools/client/apis/BodyApi.kt
+src/main/kotlin/org/openapitools/client/apis/EchoApi.kt
 src/main/kotlin/org/openapitools/client/apis/FormApi.kt
 src/main/kotlin/org/openapitools/client/apis/HeaderApi.kt
 src/main/kotlin/org/openapitools/client/apis/PathApi.kt
@@ -43,5 +46,6 @@ src/main/kotlin/org/openapitools/client/models/ApiNumberPropertiesOnly.kt
 src/main/kotlin/org/openapitools/client/models/ApiPet.kt
 src/main/kotlin/org/openapitools/client/models/ApiQuery.kt
 src/main/kotlin/org/openapitools/client/models/ApiStringEnumRef.kt
+src/main/kotlin/org/openapitools/client/models/ApiStringEscapingEdgeCases.kt
 src/main/kotlin/org/openapitools/client/models/ApiTag.kt
 src/main/kotlin/org/openapitools/client/models/ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.kt

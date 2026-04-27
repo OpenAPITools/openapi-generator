@@ -2,24 +2,26 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
+| [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
+| [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
+| [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
+| [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
-<a name="addPet"></a>
+<a id="addPet"></a>
 # **addPet**
 > addPet(pet)
 
 Add a new pet to the store
+
+
 
 ### Example
 ```kotlin
@@ -41,10 +43,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -58,14 +59,16 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="deletePet"></a>
+<a id="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 ```kotlin
@@ -88,11 +91,10 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| Pet id to delete |
- **apiKey** | **kotlin.String**|  | [optional]
+| **petId** | **kotlin.Long**| Pet id to delete | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **apiKey** | **kotlin.String**|  | [optional] |
 
 ### Return type
 
@@ -109,7 +111,7 @@ Configure petstore_auth:
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
+<a id="findPetsByStatus"></a>
 # **findPetsByStatus**
 > kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
 
@@ -138,10 +140,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
 
 ### Return type
 
@@ -156,11 +157,11 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="findPetsByTags"></a>
+<a id="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.Set&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -173,9 +174,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
+val tags : kotlin.collections.Set<kotlin.String> =  // kotlin.collections.Set<kotlin.String> | Tags to filter by
 try {
-    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByTags(tags)
+    val result : kotlin.collections.Set<Pet> = apiInstance.findPetsByTags(tags)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#findPetsByTags")
@@ -187,14 +188,13 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **tags** | [**kotlin.collections.Set&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by | |
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.Set&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -205,9 +205,9 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="getPetById"></a>
+<a id="getPetById"></a>
 # **getPetById**
 > Pet getPetById(petId)
 
@@ -236,10 +236,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to return |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| ID of pet to return | |
 
 ### Return type
 
@@ -255,13 +254,15 @@ Configure api_key:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="updatePet"></a>
+<a id="updatePet"></a>
 # **updatePet**
 > updatePet(pet)
 
 Update an existing pet
+
+
 
 ### Example
 ```kotlin
@@ -283,10 +284,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -300,14 +300,16 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
+<a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```kotlin
@@ -331,12 +333,11 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet that needs to be updated |
- **name** | **kotlin.String**| Updated name of the pet | [optional]
- **status** | **kotlin.String**| Updated status of the pet | [optional]
+| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
+| **name** | **kotlin.String**| Updated name of the pet | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **status** | **kotlin.String**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -353,11 +354,13 @@ Configure petstore_auth:
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="uploadFile"></a>
+<a id="uploadFile"></a>
 # **uploadFile**
-> ApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
+
+
 
 ### Example
 ```kotlin
@@ -370,7 +373,7 @@ val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 try {
-    val result : ApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
+    val result : ModelApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#uploadFile")
@@ -382,16 +385,15 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to update |
- **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional]
- **file** | **java.io.File**| file to upload | [optional]
+| **petId** | **kotlin.Long**| ID of pet to update | |
+| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **file** | **java.io.File**| file to upload | [optional] |
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ModelApiResponse.md)
 
 ### Authorization
 
@@ -404,11 +406,13 @@ Configure petstore_auth:
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
-<a name="uploadFileWithRequiredFile"></a>
+<a id="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
-> ApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
+> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
+
+
 
 ### Example
 ```kotlin
@@ -421,7 +425,7 @@ val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val requiredFile : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
 try {
-    val result : ApiResponse = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
+    val result : ModelApiResponse = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#uploadFileWithRequiredFile")
@@ -433,16 +437,15 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to update |
- **requiredFile** | **java.io.File**| file to upload |
- **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional]
+| **petId** | **kotlin.Long**| ID of pet to update | |
+| **requiredFile** | **java.io.File**| file to upload | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ModelApiResponse.md)
 
 ### Authorization
 

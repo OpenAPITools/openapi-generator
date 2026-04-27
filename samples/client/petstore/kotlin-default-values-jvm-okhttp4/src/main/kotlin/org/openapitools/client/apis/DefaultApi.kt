@@ -76,6 +76,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param hn1  (default to 71.0)
      * @param hn2  (optional)
      * @param hn3 
+     * @param qs0 String with $dollar, backslash, quote, comment-close in default (optional, default to "hello $world, backslash=\\, quote=\", end *_/")
      * @param fi0  (optional, default to 10)
      * @param fi1  (default to 71)
      * @param fi2  (optional)
@@ -93,8 +94,8 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: java.math.BigDecimal = java.math.BigDecimal("10.0"), pn1: java.math.BigDecimal, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), qn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), qn2: java.math.BigDecimal? = null, qn3: java.math.BigDecimal, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), hn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), hn2: java.math.BigDecimal? = null, hn3: java.math.BigDecimal, fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), fn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), fn2: java.math.BigDecimal? = null, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>) : Unit {
-        val localVarResponse = testWithHttpInfo(pi0 = pi0, pi1 = pi1, pn0 = pn0, pn1 = pn1, qi0 = qi0, qi1 = qi1, qi2 = qi2, qi3 = qi3, qn0 = qn0, qn1 = qn1, qn2 = qn2, qn3 = qn3, hi0 = hi0, hi1 = hi1, hi2 = hi2, hi3 = hi3, hn0 = hn0, hn1 = hn1, hn2 = hn2, hn3 = hn3, fi0 = fi0, fi1 = fi1, fi2 = fi2, fi3 = fi3, fn0 = fn0, fn1 = fn1, fn2 = fn2, fn3 = fn3, fn4 = fn4)
+    fun test(pi0: kotlin.Int = 10, pi1: kotlin.Int, pn0: java.math.BigDecimal = java.math.BigDecimal("10.0"), pn1: java.math.BigDecimal, qi0: kotlin.Int? = 10, qi1: kotlin.Int = 71, qi2: kotlin.Int? = null, qi3: kotlin.Int, qn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), qn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), qn2: java.math.BigDecimal? = null, qn3: java.math.BigDecimal, hi0: kotlin.Int? = 10, hi1: kotlin.Int = 71, hi2: kotlin.Int? = null, hi3: kotlin.Int, hn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), hn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), hn2: java.math.BigDecimal? = null, hn3: java.math.BigDecimal, qs0: kotlin.String? = "hello \$world, backslash=\\, quote=\", end */", fi0: kotlin.Int? = 10, fi1: kotlin.Int = 71, fi2: kotlin.Int? = null, fi3: kotlin.Int, fn0: java.math.BigDecimal? = java.math.BigDecimal("10.0"), fn1: java.math.BigDecimal = java.math.BigDecimal("71.0"), fn2: java.math.BigDecimal? = null, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>) : Unit {
+        val localVarResponse = testWithHttpInfo(pi0 = pi0, pi1 = pi1, pn0 = pn0, pn1 = pn1, qi0 = qi0, qi1 = qi1, qi2 = qi2, qi3 = qi3, qn0 = qn0, qn1 = qn1, qn2 = qn2, qn3 = qn3, hi0 = hi0, hi1 = hi1, hi2 = hi2, hi3 = hi3, hn0 = hn0, hn1 = hn1, hn2 = hn2, hn3 = hn3, qs0 = qs0, fi0 = fi0, fi1 = fi1, fi2 = fi2, fi3 = fi3, fn0 = fn0, fn1 = fn1, fn2 = fn2, fn3 = fn3, fn4 = fn4)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -135,6 +136,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param hn1  (default to 71.0)
      * @param hn2  (optional)
      * @param hn3 
+     * @param qs0 String with $dollar, backslash, quote, comment-close in default (optional, default to "hello $world, backslash=\\, quote=\", end *_/")
      * @param fi0  (optional, default to 10)
      * @param fi1  (default to 71)
      * @param fi2  (optional)
@@ -149,8 +151,8 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun testWithHttpInfo(pi0: kotlin.Int, pi1: kotlin.Int, pn0: java.math.BigDecimal, pn1: java.math.BigDecimal, qi0: kotlin.Int?, qi1: kotlin.Int, qi2: kotlin.Int?, qi3: kotlin.Int, qn0: java.math.BigDecimal?, qn1: java.math.BigDecimal, qn2: java.math.BigDecimal?, qn3: java.math.BigDecimal, hi0: kotlin.Int?, hi1: kotlin.Int, hi2: kotlin.Int?, hi3: kotlin.Int, hn0: java.math.BigDecimal?, hn1: java.math.BigDecimal, hn2: java.math.BigDecimal?, hn3: java.math.BigDecimal, fi0: kotlin.Int?, fi1: kotlin.Int, fi2: kotlin.Int?, fi3: kotlin.Int, fn0: java.math.BigDecimal?, fn1: java.math.BigDecimal, fn2: java.math.BigDecimal?, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>) : ApiResponse<Unit?> {
-        val localVariableConfig = testRequestConfig(pi0 = pi0, pi1 = pi1, pn0 = pn0, pn1 = pn1, qi0 = qi0, qi1 = qi1, qi2 = qi2, qi3 = qi3, qn0 = qn0, qn1 = qn1, qn2 = qn2, qn3 = qn3, hi0 = hi0, hi1 = hi1, hi2 = hi2, hi3 = hi3, hn0 = hn0, hn1 = hn1, hn2 = hn2, hn3 = hn3, fi0 = fi0, fi1 = fi1, fi2 = fi2, fi3 = fi3, fn0 = fn0, fn1 = fn1, fn2 = fn2, fn3 = fn3, fn4 = fn4)
+    fun testWithHttpInfo(pi0: kotlin.Int, pi1: kotlin.Int, pn0: java.math.BigDecimal, pn1: java.math.BigDecimal, qi0: kotlin.Int?, qi1: kotlin.Int, qi2: kotlin.Int?, qi3: kotlin.Int, qn0: java.math.BigDecimal?, qn1: java.math.BigDecimal, qn2: java.math.BigDecimal?, qn3: java.math.BigDecimal, hi0: kotlin.Int?, hi1: kotlin.Int, hi2: kotlin.Int?, hi3: kotlin.Int, hn0: java.math.BigDecimal?, hn1: java.math.BigDecimal, hn2: java.math.BigDecimal?, hn3: java.math.BigDecimal, qs0: kotlin.String?, fi0: kotlin.Int?, fi1: kotlin.Int, fi2: kotlin.Int?, fi3: kotlin.Int, fn0: java.math.BigDecimal?, fn1: java.math.BigDecimal, fn2: java.math.BigDecimal?, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>) : ApiResponse<Unit?> {
+        val localVariableConfig = testRequestConfig(pi0 = pi0, pi1 = pi1, pn0 = pn0, pn1 = pn1, qi0 = qi0, qi1 = qi1, qi2 = qi2, qi3 = qi3, qn0 = qn0, qn1 = qn1, qn2 = qn2, qn3 = qn3, hi0 = hi0, hi1 = hi1, hi2 = hi2, hi3 = hi3, hn0 = hn0, hn1 = hn1, hn2 = hn2, hn3 = hn3, qs0 = qs0, fi0 = fi0, fi1 = fi1, fi2 = fi2, fi3 = fi3, fn0 = fn0, fn1 = fn1, fn2 = fn2, fn3 = fn3, fn4 = fn4)
 
         return request<Map<String, PartConfig<*>>, Unit>(
             localVariableConfig
@@ -180,6 +182,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param hn1  (default to 71.0)
      * @param hn2  (optional)
      * @param hn3 
+     * @param qs0 String with $dollar, backslash, quote, comment-close in default (optional, default to "hello $world, backslash=\\, quote=\", end *_/")
      * @param fi0  (optional, default to 10)
      * @param fi1  (default to 71)
      * @param fi2  (optional)
@@ -191,7 +194,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param fn4 
      * @return RequestConfig
      */
-    fun testRequestConfig(pi0: kotlin.Int, pi1: kotlin.Int, pn0: java.math.BigDecimal, pn1: java.math.BigDecimal, qi0: kotlin.Int?, qi1: kotlin.Int, qi2: kotlin.Int?, qi3: kotlin.Int, qn0: java.math.BigDecimal?, qn1: java.math.BigDecimal, qn2: java.math.BigDecimal?, qn3: java.math.BigDecimal, hi0: kotlin.Int?, hi1: kotlin.Int, hi2: kotlin.Int?, hi3: kotlin.Int, hn0: java.math.BigDecimal?, hn1: java.math.BigDecimal, hn2: java.math.BigDecimal?, hn3: java.math.BigDecimal, fi0: kotlin.Int?, fi1: kotlin.Int, fi2: kotlin.Int?, fi3: kotlin.Int, fn0: java.math.BigDecimal?, fn1: java.math.BigDecimal, fn2: java.math.BigDecimal?, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun testRequestConfig(pi0: kotlin.Int, pi1: kotlin.Int, pn0: java.math.BigDecimal, pn1: java.math.BigDecimal, qi0: kotlin.Int?, qi1: kotlin.Int, qi2: kotlin.Int?, qi3: kotlin.Int, qn0: java.math.BigDecimal?, qn1: java.math.BigDecimal, qn2: java.math.BigDecimal?, qn3: java.math.BigDecimal, hi0: kotlin.Int?, hi1: kotlin.Int, hi2: kotlin.Int?, hi3: kotlin.Int, hn0: java.math.BigDecimal?, hn1: java.math.BigDecimal, hn2: java.math.BigDecimal?, hn3: java.math.BigDecimal, qs0: kotlin.String?, fi0: kotlin.Int?, fi1: kotlin.Int, fi2: kotlin.Int?, fi3: kotlin.Int, fn0: java.math.BigDecimal?, fn1: java.math.BigDecimal, fn2: java.math.BigDecimal?, fn3: java.math.BigDecimal, fn4: kotlin.collections.List<kotlin.String>) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "fi0" to PartConfig(body = fi0, headers = mutableMapOf()),
             "fi1" to PartConfig(body = fi1, headers = mutableMapOf()),
@@ -220,6 +223,9 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("qn2", listOf(qn2.toString()))
                 }
                 put("qn3", listOf(qn3.toString()))
+                if (qs0 != null) {
+                    put("qs0", listOf(qs0.toString()))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         hi0?.apply { localVariableHeaders["hi0"] = this.toString() }

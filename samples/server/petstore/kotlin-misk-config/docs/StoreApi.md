@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 Delete purchase order by ID
 
-For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
 ```kotlin
@@ -105,7 +105,7 @@ This endpoint does not need any parameter.
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
 ### Example
 ```kotlin
