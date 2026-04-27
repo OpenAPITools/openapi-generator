@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: TestRestService2.v2
+  description: Hello
+  version: 2.2.2
+paths:
+  /operationsTest/:
+    get:
+      responses:
+        '200':
+          description: Empty response.
+      parameters:
+        - in: query
+          name: coordinates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    format: byte
+                    description: 'Base64 encoded JSON with description of audited operation.'
+                    example: 'aGVsbG8K'
