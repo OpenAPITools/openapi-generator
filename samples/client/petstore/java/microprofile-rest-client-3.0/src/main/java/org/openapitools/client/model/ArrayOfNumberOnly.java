@@ -108,4 +108,3 @@ public class ArrayOfNumberOnly  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

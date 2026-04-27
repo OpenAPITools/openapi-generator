@@ -93,4 +93,3 @@ public class Foo  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

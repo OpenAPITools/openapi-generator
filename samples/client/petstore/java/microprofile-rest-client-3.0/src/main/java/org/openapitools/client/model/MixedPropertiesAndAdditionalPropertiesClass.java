@@ -159,4 +159,3 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

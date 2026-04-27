@@ -58,6 +58,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 {{/-first}}
 {{/oneOf}}
 
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>oneof_model}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>anyof_model}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>pojo}}{{/anyOf}}{{/oneOf}}{{/isEnum}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{#oneOf}}{{#-first}}{{>oneof_model}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>anyof_model}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>pojo}}{{/anyOf}}{{/oneOf}}{{/vendorExtensions.x-is-one-of-interface}}{{/isEnum}}
 {{/model}}
 {{/models}}

@@ -435,4 +435,3 @@ public class EnumTest  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -221,4 +221,3 @@ public class Capitalization  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

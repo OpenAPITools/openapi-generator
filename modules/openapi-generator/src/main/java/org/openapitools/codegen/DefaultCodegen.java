@@ -317,6 +317,9 @@ public class DefaultCodegen implements CodegenConfig {
     // whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes
     protected boolean addOneOfInterfaceImports = false;
     protected List<CodegenModel> addOneOfInterfaces = new ArrayList<>();
+    // set of all classnames that are oneOf interfaces (both synthetic property-level and component-level)
+    // populated during preprocessOpenAPI(), used by setParameterExampleValue() to avoid "new InterfaceType()"
+    protected Set<String> oneOfInterfaceNames = new HashSet<>();
 
     // flag to indicate whether to only update files whose contents have changed
     protected boolean enableMinimalUpdate = false;
@@ -1123,6 +1126,7 @@ public class DefaultCodegen implements CodegenConfig {
                     } else {
                         // else this is a component schema, so we will just use that as the oneOf interface model
                         addOneOfNameExtension(s, n);
+                        oneOfInterfaceNames.add(n);
                     }
                 } else if (ModelUtils.isArraySchema(s)) {
                     Schema items = ModelUtils.getSchemaItems(s);
@@ -8642,6 +8646,7 @@ public class DefaultCodegen implements CodegenConfig {
         cm.interfaceModels = new ArrayList<>();
 
         addOneOfInterfaces.add(cm);
+        oneOfInterfaceNames.add(type);
     }
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {

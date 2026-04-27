@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: OneOf interface README bug
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  '/myapi/myendpoint':
+    post:
+      operationId: myOperation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyOperationRequest'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    MyOperationRequest:
+      oneOf:
+        - $ref: '#/components/schemas/VariantA'
+        - $ref: '#/components/schemas/VariantB'
+    VariantA:
+      type: object
+      properties:
+        fieldA:
+          type: string
+    VariantB:
+      type: object
+      properties:
+        fieldB:
+          type: integer
+

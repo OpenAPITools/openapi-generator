@@ -488,4 +488,3 @@ public class FormatTest  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

@@ -134,4 +134,3 @@ public class FakeBigDecimalMap200Response  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

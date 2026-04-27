@@ -14,8 +14,13 @@ import java.io.Serializable;
 
 {{/isEnum}}
 {{^isEnum}}
+{{#vendorExtensions.x-is-one-of-interface}}
+{{>oneof_interface}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{>pojo}}
 
+{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

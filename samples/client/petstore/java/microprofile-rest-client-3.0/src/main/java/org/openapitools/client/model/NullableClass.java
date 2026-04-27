@@ -472,4 +472,3 @@ public class NullableClass extends HashMap<String, Object> {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

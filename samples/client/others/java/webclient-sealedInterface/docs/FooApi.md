@@ -31,7 +31,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:8080");
 
         FooApi apiInstance = new FooApi(defaultClient);
-        Foo foo = new Foo(); // Foo | The Foo to be created
+        Foo foo = null; // Foo | The Foo to be created
         try {
             FooRefOrValue result = apiInstance.createFoo(foo);
             System.out.println(result);

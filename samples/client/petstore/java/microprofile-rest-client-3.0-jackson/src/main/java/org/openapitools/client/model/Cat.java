@@ -102,4 +102,3 @@ public class Cat extends Animal {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-

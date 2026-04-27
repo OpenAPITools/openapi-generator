@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: OneOf interface bug
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/etudes/v1'
+    description: LOCAL
+paths:
+  '/myapi/myendpoint/{id}':
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                title: MyResponse
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MyItem'
+      operationId: get-value
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+security:
+  - MySecurity: []
+components:
+  schemas:
+    MyItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        details:
+          title: Details
+          oneOf:
+            - title: ReferencedDetails
+              type: object
+              properties:
+                idDetails:
+                  type: string
+            - title: InlineDetails
+              type: object
+              properties:
+                name:
+                  type: string
+                countryCode:
+                  type: string
+  securitySchemes:
+    MySecurity:
+      type: http
+      scheme: bearer

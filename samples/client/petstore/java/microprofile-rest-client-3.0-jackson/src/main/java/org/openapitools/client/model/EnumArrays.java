@@ -197,4 +197,3 @@ public class EnumArrays  {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
-
