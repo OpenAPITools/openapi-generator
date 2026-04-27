@@ -27,7 +27,7 @@ All URIs are relative to *{{basePath}}*
 {{! TODO: Auth method documentation examples}}
 val apiInstance = {{{classname}}}()
 {{#allParams}}
-val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{#lambda.escapeMarkdown}}{{{unescapedDescription}}}{{/lambda.escapeMarkdown}}
+val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{unescapedDescription}}}
 {{/allParams}}
 try {
     {{#returnType}}val result : {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}} = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}
