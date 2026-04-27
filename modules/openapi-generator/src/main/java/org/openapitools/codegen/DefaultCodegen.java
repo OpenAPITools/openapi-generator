@@ -489,6 +489,10 @@ public class DefaultCodegen implements CodegenConfig {
                         .replace("|", "\\|")
                         .replace("\r\n", " ")
                         .replace("\n", " ")
+                        .replace("\r", " ")))
+                .put("collapseNewlines", (fragment, writer) -> writer.write(fragment.execute()
+                        .replace("\r\n", " ")
+                        .replace("\n", " ")
                         .replace("\r", " ")));
     }
 
