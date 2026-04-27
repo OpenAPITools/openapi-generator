@@ -695,7 +695,7 @@ public class InlineModelResolver {
                 gatherInlineModels(model, modelName);
             } else if (ModelUtils.isComposedSchema(model)) {
                 // composed Schema can have properties!
-                if (model.getProperties() != null && !model.getProperties().isEmpty()) {
+                if (ModelUtils.hasProperties(model)) {
                     gatherInlineModels(model, modelName);
                 }
                 // inline child schemas
