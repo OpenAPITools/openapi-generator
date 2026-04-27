@@ -19,7 +19,7 @@ interface EchoApi {
      * @param filterDollarType Filter with $dollar in description and comment-close *_/ (optional, default to "default$Value with \\ and \"")
      * @return [kotlin.String]
      */
-    @GET("echo/string-escaping/{$paramName}")
-    suspend fun testsEchoStringEscapingParamName(@Path("$paramName") dollarParamName: kotlin.String, @Query("filter$Type") filterDollarType: kotlin.String? = "default\$Value with \\ and \""): Response<kotlin.String>
+    @GET("echo/string-escaping/{\$paramName}")
+    suspend fun testsEchoStringEscapingParamName(@Path("\$paramName") dollarParamName: kotlin.String, @Query("filter\$Type") filterDollarType: kotlin.String? = "default\$Value with \\ and \""): Response<kotlin.String>
 
 }
