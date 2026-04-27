@@ -1,0 +1,225 @@
+openapi: 3.0.0
+info:
+  title: "Kotlin string-escaping worst-case: SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+  description: |
+    Multi-line description with every problematic sequence:
+    double-quote: "
+    single-backslash: \
+    double-backslash: \\
+    dollar: $interpolated
+    comment-close: */
+    comment-open: /*
+    triple-quote: """
+    all combined: SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""
+  version: "1.0.0"
+
+servers:
+  - url: 'http://localhost/v1'
+
+# External path-level docs to show externalDocs on an operation
+externalDocs:
+  description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some"
+  url: 'http://example.com/docs'
+
+paths:
+
+  # ── Issue 1: $ in path parameter names ────────────────────────────────────
+  /items/{item$Id}/sub/{item$SubId}:
+    get:
+      operationId: getItemWithDollarPathParams
+      summary: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+      description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+      externalDocs:
+        description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some"
+        url: 'http://example.com/ops/getItem'
+      parameters:
+        # $ in path param name — double-quote YAML form
+        - name: "item$Id"
+          in: path
+          required: true
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          schema:
+            type: string
+            example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+
+        # $ in path param name — single-quote YAML form
+        - name: "item$SubId"
+          in: path
+          required: true
+          description: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+          schema:
+            type: string
+            example: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+
+        # $ in query param name, with default
+        - name: "filter$Type"
+          in: query
+          required: false
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          schema:
+            type: string
+            example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+            default: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+
+        # deprecated query param
+        - name: "filter$SubType"
+          in: query
+          required: false
+          deprecated: true
+          description: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+          schema:
+            type: string
+            example: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+            default: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+
+        # $ in header param name
+        - name: "X-Custom$Header"
+          in: header
+          required: false
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          schema:
+            type: string
+            example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+
+        # $ in cookie param name
+        - name: "session$Token"
+          in: cookie
+          required: false
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          schema:
+            type: string
+            example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+
+      responses:
+        '200':
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWithAllEscapingEdgeCases'
+
+  # ── Issue 2: $ / " / \ in form body ───────────────────────────────────────
+  /items:
+    post:
+      operationId: createItemWithDollarFormParams
+      summary: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+      description: |
+        Multi-line description:
+        double-quote: "
+        single-backslash: \
+        double-backslash: \\
+        dollar-interpolation: $some
+        comment-closer: */
+        comment-opener: /*
+        triple-quote: """
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                form$Name:
+                  type: string
+                  description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+                  example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+                form$Value:
+                  type: string
+                  description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+                  example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+                  default: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+      responses:
+        '201':
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWithAllEscapingEdgeCases'
+
+components:
+  schemas:
+
+    # ── Issue 3: $ / " / \ in property names, descriptions, defaults, examples
+    ItemWithAllEscapingEdgeCases:
+      type: object
+      description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+      properties:
+
+        # property name starts with $
+        $id:
+          type: string
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          default: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+
+        # property name has $ in middle
+        name$Value:
+          type: string
+          description: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+          example: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+          default: 'SQ="; SBS=\; DBS=\\; SD=$some; CC=*/; TQ="""'
+
+        # just backslashes (edge case: odd vs even number)
+        backslashValue:
+          type: string
+          description: "one-bs: \\; two-bs: \\\\"
+          example: "one-bs: \\; two-bs: \\\\"
+          default: "one-bs: \\; two-bs: \\\\"
+
+        # just dollar signs
+        dollarValue:
+          type: string
+          description: "$one $$two $$$three"
+          example: "$one $$two $$$three"
+          default: "$one $$two $$$three"
+
+        # comment-closing sequence (the escapeUnsafeCharacters bug)
+        commentCloseValue:
+          type: string
+          description: "starts /* comment and ends */"
+          example: "starts /* comment and ends */"
+          default: "starts /* comment and ends */"
+
+        # triple-quote sequence (would break """ Kotlin strings)
+        tripleQuoteValue:
+          type: string
+          description: 'contains """ triple quotes'
+          example: 'contains """ triple quotes'
+          default: 'contains """ triple quotes'
+
+        # multiline description (YAML literal block)
+        multilineDescription:
+          type: string
+          description: |
+            Line one with $dollar and "quote" and \backslash
+            Line two with */ comment-close and /* comment-open
+            Line three with """ triple-quote
+          example: "single line example"
+
+        # integer with default (should not be quoted in output)
+        intWithDefault:
+          type: integer
+          format: int32
+          description: "integer property, default should not be quoted"
+          default: 42
+
+        # boolean with default
+        boolWithDefault:
+          type: boolean
+          description: "boolean property"
+          default: false
+
+        # nested object with $ properties
+        details$Info:
+          type: object
+          description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+          properties:
+            detail$One:
+              type: string
+              description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+              example: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+              default: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some; CC=*/; TQ=\"\"\""
+            detail$Two:
+              type: integer
+              description: "SQ=\"; SBS=\\; DBS=\\\\; SD=$some"
+              example: 42
