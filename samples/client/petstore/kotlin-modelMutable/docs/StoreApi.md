@@ -16,7 +16,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Delete purchase order by ID
 
-For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
 ```kotlin
@@ -57,7 +57,7 @@ No authorization required
 
 <a id="getInventory"></a>
 # **getInventory**
-> kotlin.collections.MutableMap<kotlin.String, kotlin.Int> getInventory()
+> kotlin.collections.MutableMap&lt;kotlin.String, kotlin.Int&gt; getInventory()
 
 Returns pet inventories by status
 
@@ -107,7 +107,7 @@ Configure api_key:
 
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generate exceptions
 
 ### Example
 ```kotlin
