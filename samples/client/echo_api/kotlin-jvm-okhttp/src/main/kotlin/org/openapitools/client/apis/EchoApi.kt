@@ -125,7 +125,7 @@ open class EchoApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/echo/string-escaping/{$paramName}".replace("{"+"\$paramName"+"}", encodeURIComponent(dollarParamName.toString())),
+            path = "/echo/string-escaping/{\$paramName}".replace("{"+"\$paramName"+"}", encodeURIComponent(dollarParamName.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

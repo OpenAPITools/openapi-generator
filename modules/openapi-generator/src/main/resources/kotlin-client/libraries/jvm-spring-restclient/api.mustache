@@ -127,13 +127,13 @@ import {{packageName}}.infrastructure.*
 
         val params = mutableMapOf<String, Any>(
         {{#pathParams}}
-            "{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{/isContainer}},
+            "{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{/isContainer}},
         {{/pathParams}}
         )
 
         return RequestConfig(
             method = RequestMethod.{{httpMethod}},
-            path = "{{{path}}}",
+            path = "{{#lambda.escapeInNormalString}}{{{path}}}{{/lambda.escapeInNormalString}}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,

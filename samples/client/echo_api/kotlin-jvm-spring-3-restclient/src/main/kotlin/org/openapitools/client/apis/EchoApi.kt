@@ -70,12 +70,12 @@ open class EchoApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Accept"] = "text/plain"
 
         val params = mutableMapOf<String, Any>(
-            "$paramName" to dollarParamName,
+            "\$paramName" to dollarParamName,
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/echo/string-escaping/{$paramName}",
+            path = "/echo/string-escaping/{\$paramName}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
