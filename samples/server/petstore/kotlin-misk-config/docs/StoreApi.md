@@ -58,7 +58,7 @@ No authorization required
 
 <a name="getInventory"></a>
 # **getInventory**
-> kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt; getInventory()
+> kotlin.collections.Map<kotlin.String, kotlin.Int> getInventory()
 
 Returns pet inventories by status
 

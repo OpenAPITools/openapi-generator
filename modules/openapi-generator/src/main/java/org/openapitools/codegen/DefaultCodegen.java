@@ -476,7 +476,17 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimWhitespace", new TrimWhitespaceLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
-                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false));
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
+                // Escapes text for use inside a Markdown table cell.
+                // \\ must be replaced first to avoid double-escaping subsequent replacements.
+                // $ is escaped to prevent LaTeX math mode ($...$) in markdown renderers that support it.
+                .put("escapeMarkdown", (fragment, writer) -> writer.write(fragment.execute()
+                        .replace("\\", "\\\\")
+                        .replace("$", "\\$")
+                        .replace("|", "\\|")
+                        .replace("\r\n", " ")
+                        .replace("\n", " ")
+                        .replace("\r", " ")));
     }
 
     private void registerMustacheLambdas() {

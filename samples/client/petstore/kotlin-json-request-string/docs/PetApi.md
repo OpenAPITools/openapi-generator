@@ -108,7 +108,7 @@ Configure petstore_auth:
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.List<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -156,7 +156,7 @@ Configure petstore_auth:
 
 <a id="getAllPets"></a>
 # **getAllPets**
-> kotlin.collections.List&lt;Pet&gt; getAllPets(lastUpdated)
+> kotlin.collections.List<Pet> getAllPets(lastUpdated)
 
 Get all pets
 

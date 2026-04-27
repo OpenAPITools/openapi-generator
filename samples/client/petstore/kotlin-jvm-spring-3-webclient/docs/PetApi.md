@@ -113,7 +113,7 @@ Configure petstore_auth:
 
 <a id="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
+> kotlin.collections.List<Pet> findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -161,7 +161,7 @@ Configure petstore_auth:
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.List<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 

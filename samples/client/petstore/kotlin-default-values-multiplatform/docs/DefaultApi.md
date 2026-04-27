@@ -42,7 +42,7 @@ val hn0 : kotlin.Double = 8.14 // kotlin.Double |
 val hn1 : kotlin.Double = 8.14 // kotlin.Double | 
 val hn2 : kotlin.Double = 8.14 // kotlin.Double | 
 val hn3 : kotlin.Double = 8.14 // kotlin.Double | 
-val qs0 : kotlin.String = qs0_example // kotlin.String | String with $dollar, backslash, quote, comment-close in default
+val qs0 : kotlin.String = qs0_example // kotlin.String | String with \$dollar, backslash, quote, comment-close in default
 val fi0 : kotlin.Int = 56 // kotlin.Int | 
 val fi1 : kotlin.Int = 56 // kotlin.Int | 
 val fi2 : kotlin.Int = 56 // kotlin.Int | 
@@ -84,7 +84,7 @@ try {
 | **hn1** | **kotlin.Double**|  | [default to 71.0] |
 | **hn2** | **kotlin.Double**|  | [optional] |
 | **hn3** | **kotlin.Double**|  | |
-| **qs0** | **kotlin.String**| String with $dollar, backslash, quote, comment-close in default | [optional] [default to "hello $world, backslash=\\, quote=\", end *_/"] |
+| **qs0** | **kotlin.String**| String with \$dollar, backslash, quote, comment-close in default | [optional] [default to "hello \$world, backslash=\\\\, quote=\\", end *_/"] |
 | **fi0** | **kotlin.Int**|  | [optional] [default to 10] |
 | **fi1** | **kotlin.Int**|  | [default to 71] |
 | **fi2** | **kotlin.Int**|  | [optional] |

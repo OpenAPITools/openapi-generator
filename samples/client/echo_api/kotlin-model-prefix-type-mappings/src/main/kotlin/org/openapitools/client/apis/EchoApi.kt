@@ -16,7 +16,7 @@ interface EchoApi {
      *  - 200: ok
      *
      * @param dollarParamName 
-     * @param filterDollarType Filter with $dollar in description and comment-close *_/ (optional, default to "default$Value with \\ and \"")
+     * @param filterDollarType Filter with $dollar in description and comment-close *_/ (optional, default to "default\$Value with \\\\ and \\"")
      * @return [kotlin.String]
      */
     @GET("echo/string-escaping/{\$paramName}")

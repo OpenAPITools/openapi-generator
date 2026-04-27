@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**deletePet**](PetApi.md#deletePet) | **Delete** /pet/{petId} | Deletes a pet
 [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **Get** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApi.md#findPetsByTags) | **Get** /pet/findByTags | Finds Pets by tags
-[**getEscapingEdgeCases**](PetApi.md#getEscapingEdgeCases) | **Get** /pet/escaping | Test escaping: $dollar, backslash \ and quote "
+[**getEscapingEdgeCases**](PetApi.md#getEscapingEdgeCases) | **Get** /pet/escaping | Test escaping: \$dollar, backslash \\ and quote "
 [**getPetById**](PetApi.md#getPetById) | **Get** /pet/{petId} | Find pet by ID
 [**updatePet**](PetApi.md#updatePet) | **Put** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **Post** /pet/{petId} | Updates a pet in the store with form data
@@ -112,7 +112,7 @@ null (empty response body)
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
+> kotlin.collections.List<Pet> findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -159,7 +159,7 @@ Name | Type | Description  | Notes
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.List<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -208,9 +208,9 @@ Name | Type | Description  | Notes
 # **getEscapingEdgeCases**
 > EscapingEdgeCases getEscapingEdgeCases()
 
-Test escaping: $dollar, backslash \ and quote "
+Test escaping: \$dollar, backslash \\ and quote "
 
-Retrieves edge-cases for escaping: $var, \, ", */
+Retrieves edge-cases for escaping: \$var, \\, ", */
 
 ### Example
 ```kotlin
