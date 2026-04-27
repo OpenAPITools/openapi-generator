@@ -280,7 +280,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
-        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native' library (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true). Incompatible with 'openApiNullable'.", this.useJackson3));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native' and 'apache-httpclient' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).", this.useJackson3));
         cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
         cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.", this.useSealedOneOfInterfaces));
         cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
@@ -301,7 +301,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured 5.3.2. JSON processing: Gson 2.10.1 or Jackson 2.17.1. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.17.1 (3.x if `useJackson3=true`). Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client " + MICROPROFILE_REST_CLIENT_DEFAULT_VERSION + " (default, set desired version via `" + MICROPROFILE_REST_CLIENT_VERSION + "=x.x.x`). JSON processing: JSON-B 1.0.2 or Jackson 2.17.1");
-        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 5.2.1. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 5.2.1. JSON processing: Jackson 2.17.1 (3.x if `useJackson3=true`)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -401,13 +401,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
         if (useJackson3 && (libRestClient || libRestTemplate || libWebClient) && !useSpringBoot4) {
             throw new IllegalArgumentException("useJackson3 for the restclient, resttemplate, and webclient libraries requires useSpringBoot4=true");
-        } else if (useJackson3 && !libNative && !libRestClient && !libRestTemplate && !libWebClient) {
-            throw new IllegalArgumentException("useJackson3 is only supported for the 'native', 'restclient', 'resttemplate', and 'webclient' libraries. " +
+        } else if (useJackson3 && !libNative && !libApache && !libRestClient && !libRestTemplate && !libWebClient) {
+            throw new IllegalArgumentException("useJackson3 is only supported for the 'native', 'apache-httpclient', 'restclient', 'resttemplate', and 'webclient' libraries. " +
                     "The Spring libraries also require useSpringBoot4=true.");
-        }
-        if (useJackson3 && openApiNullable) {
-            throw new IllegalArgumentException("openApiNullable=true is not compatible with useJackson3=true " +
-                    "(jackson-databind-nullable has no Jackson 3 release). Please set openApiNullable=false explicitly.");
         }
 
         if (this.useJackson3) {
@@ -849,7 +845,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                if (!useJackson3 || libNative || libRestTemplate || libWebClient) {
+                if (!useJackson3 || libNative || libApache || libRestTemplate || libWebClient) {
                     supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
                     supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
                 }
