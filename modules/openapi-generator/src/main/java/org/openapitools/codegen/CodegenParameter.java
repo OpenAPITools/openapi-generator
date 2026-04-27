@@ -34,7 +34,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, isDeepObject, isMatrix, isAllowEmptyValue,
             isFormStyle, isSpaceDelimited, isPipeDelimited;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
-            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumDefaultValue, enumName, style;
+            collectionFormat, description, unescapedDescription, baseType, defaultValue, unescapedDefaultValue, enumDefaultValue, enumName, style;
 
     public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case (e.g.  modifiedDate)

@@ -1,4 +1,4 @@
 {{#description}}
     /* {{{.}}} */
 {{/description}}
-    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}
+    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{{classname}}}.{{{nameInPascalCase}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{#isString}}{{^isEnum}}"{{#lambda.escapeInNormalString}}{{{unescapedDefaultValue}}}{{/lambda.escapeInNormalString}}"{{/isEnum}}{{#isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isString}}{{^isString}}{{{defaultValue}}}{{/isString}}{{/defaultValue}}

@@ -476,7 +476,17 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimWhitespace", new TrimWhitespaceLambda())
                 .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
-                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false));
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
+                // Escapes text for use inside a Markdown table cell.
+                // \\ must be replaced first to avoid double-escaping subsequent replacements.
+                // $ is escaped to prevent LaTeX math mode ($...$) in markdown renderers that support it.
+                .put("escapeMarkdown", (fragment, writer) -> writer.write(fragment.execute()
+                        .replace("\\", "\\\\")
+                        .replace("$", "\\$")
+                        .replace("|", "\\|")
+                        .replace("\r\n", " ")
+                        .replace("\n", " ")
+                        .replace("\r", " ")));
     }
 
     private void registerMustacheLambdas() {
@@ -4315,6 +4325,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the default value
         property.defaultValue = toDefaultValue(property, p);
+        property.unescapedDefaultValue = p.getDefault() != null ? String.valueOf(p.getDefault()) : null;
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
 
         LOGGER.debug("debugging from property return: {}", property);
@@ -4738,6 +4749,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         op.summary = escapeText(operation.getSummary());
+        op.unescapedSummary = operation.getSummary();
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
         op.hasConsumes = false;
@@ -5092,6 +5104,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
+        r.unescapedMessage = response.getDescription();
 
         // adding examples to API responses
         Map<String, Example> examples = ExamplesUtils.getExamplesFromResponse(openAPI, response);
@@ -5641,6 +5654,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set default value
         codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, parameterSchema);
+        codegenParameter.unescapedDefaultValue = parameterSchema.getDefault() != null ? String.valueOf(parameterSchema.getDefault()) : null;
 
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
@@ -7543,6 +7557,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set default value
         codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, propertySchema);
+        codegenParameter.unescapedDefaultValue = propertySchema.getDefault() != null ? String.valueOf(propertySchema.getDefault()) : null;
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
             // swagger v2 only, type file
@@ -8089,6 +8104,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
         codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
         codegenParameter.description = escapeText(body.getDescription());
+        codegenParameter.unescapedDescription = body.getDescription();
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
         if (body.getExtensions() != null) {

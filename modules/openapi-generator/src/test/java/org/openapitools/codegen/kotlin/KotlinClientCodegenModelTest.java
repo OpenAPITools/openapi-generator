@@ -923,6 +923,35 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(petModel, "companion object { }");
     }
 
+    /**
+     * Issue 20502: $ in property baseName must be escaped to \$ in @get:JsonProperty strings
+     * when using jackson serialization library (uses escapeInNormalString lambda).
+     */
+    @Test
+    public void issue20502_dollarInBaseNameEscapedInJsonProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        KotlinClientCodegen codegen = new KotlinClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        codegen.processOpts();
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path modelFile = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/ItemWithAllEscapingEdgeCases.kt");
+        // baseName "$id" must be escaped to "\$id" inside @get:JsonProperty
+        TestUtils.assertFileContains(modelFile, "@get:JsonProperty(\"\\$id\")");
+        // baseName "name$Value" must be escaped to "name\$Value"
+        TestUtils.assertFileContains(modelFile, "@get:JsonProperty(\"name\\$Value\")");
+        // plain baseName without $ must appear verbatim (verifies lambda resolves {{{baseName}}} at all)
+        TestUtils.assertFileContains(modelFile, "@get:JsonProperty(\"commentCloseValue\")");
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;

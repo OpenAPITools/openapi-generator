@@ -101,17 +101,17 @@ import {{packageName}}.infrastructure.*
                 {{#queryParams}}
                 {{^required}}
                 if ({{{paramName}}} != null) {
-                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                    put("{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/required}}
                 {{#required}}
                 {{#isNullable}}
                 if ({{{paramName}}} != null) {
-                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                    put("{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/isNullable}}
                 {{^isNullable}}
-                put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                put("{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 {{/isNullable}}
                 {{/required}}
                 {{/queryParams}}
@@ -119,7 +119,7 @@ import {{packageName}}.infrastructure.*
             {{/hasQueryParams}}
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf({{#hasFormParams}}"Content-Type" to {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{/hasFormParams}})
         {{#headerParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
         {{/headerParams}}
         {{^hasFormParams}}{{#hasConsumes}}{{#consumes}}localVariableHeaders["Content-Type"] = "{{{mediaType}}}"
         {{/consumes}}{{/hasConsumes}}{{/hasFormParams}}{{#hasProduces}}localVariableHeaders["Accept"] = "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"
@@ -127,13 +127,13 @@ import {{packageName}}.infrastructure.*
 
         val params = mutableMapOf<String, Any>(
         {{#pathParams}}
-            "{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{/isContainer}},
+            "{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{/isContainer}},
         {{/pathParams}}
         )
 
         return RequestConfig(
             method = RequestMethod.{{httpMethod}},
-            path = "{{{path}}}",
+            path = "{{#lambda.escapeInNormalString}}{{{path}}}{{/lambda.escapeInNormalString}}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,

@@ -1,22 +1,22 @@
 # {{classname}}{{#description}}
-{{.}}{{/description}}
+{{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#lambda.escapeMarkdown}}{{{unescapedSummary}}}{{/lambda.escapeMarkdown}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 <a name="{{operationId}}"></a>
 # **{{operationId}}**
-> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+> {{#returnType}}{{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
-{{summary}}{{#notes}}
+{{#lambda.escapeMarkdown}}{{{unescapedSummary}}}{{/lambda.escapeMarkdown}}{{#unescapedNotes}}
 
-{{.}}{{/notes}}
+{{#lambda.escapeMarkdown}}{{{unescapedNotes}}}{{/lambda.escapeMarkdown}}{{/unescapedNotes}}
 
 ### Example
 ```kotlin
@@ -27,10 +27,10 @@ Method | HTTP request | Description
 {{! TODO: Auth method documentation examples}}
 val apiInstance = {{{classname}}}()
 {{#allParams}}
-val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{#lambda.escapeMarkdown}}{{{unescapedDescription}}}{{/lambda.escapeMarkdown}}
 {{/allParams}}
 try {
-    {{#returnType}}val result : {{{.}}} = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}
+    {{#returnType}}val result : {{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}} = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}
     println(result){{/returnType}}
 } catch (e: ClientException) {
     println("4xx response calling {{{classname}}}#{{{operationId}}}")
@@ -45,7 +45,7 @@ try {
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#generateModelDocs}}[**{{dataType}}**]({{baseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{dataType}}**{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#generateModelDocs}}[**{{dataType}}**]({{baseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{dataType}}**{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}}| {{#lambda.escapeMarkdown}}{{{unescapedDescription}}}{{/lambda.escapeMarkdown}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
 {{/allParams}}
 
 ### Return type

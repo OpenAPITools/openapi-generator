@@ -82,6 +82,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String unescapedDescription;
 
     /**
+     * The default value string without escape characters; use this in string literal contexts
+     * (e.g. inside "..." or """...""") together with an appropriate escaping lambda.
+     * Unlike {@code defaultValue}, this is never passed through escapeText() or escapeUnsafeCharacters().
+     */
+    @Getter @Setter
+    public String unescapedDefaultValue;
+
+    /**
      * maxLength validation for strings, see http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.1
      */
     public Integer maxLength;
