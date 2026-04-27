@@ -655,19 +655,23 @@ public class ModelUtilsTest {
         schema = openAPI.getComponents().getSchemas().get("JustDescription");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
 
-        // {type: "object", nullable: true} with no properties is a null sentinel (apispec 6.7.1+)
-        schema = openAPI.getComponents().getSchemas().get("NullableObjectSentinel");
+        // {type: "object", nullable: true} with no properties/constraints expresses nullability (OAS 3.0.3)
+        schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, schema));
 
-        // {type: "object", nullable: true} WITH properties is a real object, not a null sentinel
+        // {type: "object", nullable: true} WITH properties is a real object, not expressing nullability
         schema = openAPI.getComponents().getSchemas().get("NullableObjectWithProperties");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // {type: "object", nullable: true, additionalProperties: ...} is a nullable map, not expressing nullability
+        schema = openAPI.getComponents().getSchemas().get("NullableObjectMap");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
     }
 
     @Test
-    public void isNullTypeSchemaInlineAnyOfSentinelTest() {
+    public void isNullTypeSchemaTestBareNullableObject() {
         OpenAPI openAPI = TestUtils.parseSpec(
-                "src/test/resources/bugs/issue_anyof_nullable_object_sentinel.yaml");
+                "src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml");
         Schema order = (Schema) openAPI.getComponents().getSchemas().get("Order");
         Schema shippingProp = (Schema) order.getProperties().get("shippingAddress");
         assertNotNull(shippingProp.getAnyOf(), "shippingAddress should have anyOf");
@@ -679,10 +683,10 @@ public class ModelUtilsTest {
         Schema refSchema = anyOf.get(0);
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, refSchema));
 
-        // second sub-schema is {type: object, nullable: true} — the sentinel
-        Schema sentinel = anyOf.get(1);
-        assertTrue(ModelUtils.isNullTypeSchema(openAPI, sentinel),
-                "Should recognize {type: object, nullable: true} as null sentinel");
+        // second sub-schema is {type: object, nullable: true} — expresses nullability
+        Schema bareNullableObject = anyOf.get(1);
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, bareNullableObject),
+                "{type: object, nullable: true} with no properties/constraints expresses nullability");
     }
 
     @Test
@@ -725,9 +729,9 @@ public class ModelUtilsTest {
         schema = openAPI.getComponents().getSchemas().get("JustDescription");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
 
-        // In 3.1, {type: object, nullable: true} is NOT a null sentinel — it's a real
+        // In 3.1, {type: object, nullable: true} is NOT a null type — it's a real
         // nullable object. Nullability in 3.1 is expressed via type: ["object", "null"].
-        schema = openAPI.getComponents().getSchemas().get("NullableObjectSentinel");
+        schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
     }
 

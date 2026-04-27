@@ -105,6 +105,6 @@ components:
         - $ref: '#/components/schemas/StringRef'
     JustDescription:
       description: A schema with just description
-    NullableObjectSentinel:
+    BareNullableObject:
       type: object
       nullable: true

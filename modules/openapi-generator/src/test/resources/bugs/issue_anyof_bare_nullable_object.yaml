@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: anyOf nullable object sentinel test
+  title: anyOf bare nullable object test
   description: >
     Tests that anyOf with a $ref and {type: object, nullable: true} (no properties)
     is simplified to a typed nullable field, not Object.

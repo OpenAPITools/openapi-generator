@@ -2363,11 +2363,12 @@ public class ModelUtils {
             return false;
         }
 
-        // OpenAPI 3.0.x: empty nullable object is a null-type schema
+        // OpenAPI 3.0.x: nullable object with no properties or constraints expresses nullability
         if (!(schema instanceof JsonSchema) // 3.0.x only
                 && "object".equals(schema.getType())
                 && Boolean.TRUE.equals(schema.getNullable())
-                && schema.get$ref() == null) {
+                && schema.get$ref() == null
+                && schema.getAdditionalProperties() == null) {
             return true;
         }
 
