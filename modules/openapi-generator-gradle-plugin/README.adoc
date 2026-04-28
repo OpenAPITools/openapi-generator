@@ -446,15 +446,15 @@ file states is output.
 |`process`
 a|Controls how the code-generation work action is isolated from the Gradle daemon.
 
-`process` (default):: Runs generation in a separate forked JVM. Generator classes are fully unloaded when the worker
+`classloader` (default):: Runs generation inside the Gradle daemon JVM using a separate `ClassLoader`. Avoids the per-task JVM
+startup overhead, but generator classes accumulate in the daemon's Metaspace across tasks and builds. Suitable for
+single-module projects or local developer loops where Metaspace pressure is not a concern.
+
+`process`:: Runs generation in a separate forked JVM. Generator classes are fully unloaded when the worker
 exits, preventing Metaspace accumulation in the Gradle daemon. A small per-task JVM startup cost is incurred (~1–2 s
 amortized across parallel builds). Recommended for CI/CD and multi-project builds to avoid the
 https://docs.gradle.org/current/userguide/build_environment.html#sec:configuring_jvm_memory[metaspace exhaustion
 warning].
-
-`classloader`:: Runs generation inside the Gradle daemon JVM using a separate `ClassLoader`. Avoids the per-task JVM
-startup overhead, but generator classes accumulate in the daemon's Metaspace across tasks and builds. Suitable for
-single-module projects or local developer loops where Metaspace pressure is not a concern.
 
 |maxWorkerHeapSize
 |String / Provider<String>

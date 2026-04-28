@@ -412,14 +412,14 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     /**
      * Controls how the code generation worker is isolated from the Gradle daemon.
      *
-     * - "process" (default): runs in a separate JVM. Metaspace is isolated from the daemon and freed
+     * - "classloader" (default): runs inside the Gradle daemon JVM with a separate ClassLoader. No process
+     *   startup overhead, but generator classes accumulate in daemon Metaspace. Suitable for projects
+     *   with very few generation tasks.
+     *
+     * - "process": runs in a separate JVM. Metaspace is isolated from the daemon and freed
      *   when the worker exits. Gradle reuses the worker process across tasks that share the same
      *   classpath, so the JVM startup cost is typically paid only once per parallel slot.
      *   Best for projects with many generation tasks.
-     *
-     * - "classloader": runs inside the Gradle daemon JVM with a separate ClassLoader. No process
-     *   startup overhead, but generator classes accumulate in daemon Metaspace. Suitable for projects
-     *   with very few generation tasks.
      */
     val workerIsolation = project.objects.property<String>()
 
