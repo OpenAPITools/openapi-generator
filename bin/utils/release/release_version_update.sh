@@ -76,7 +76,6 @@ declare -a xml_files=(
     "${root}/modules/openapi-generator-gradle-plugin/pom.xml"
     "${root}/modules/openapi-generator-core/pom.xml"
     "${root}/modules/openapi-generator-maven-plugin/pom.xml"
-    "${root}/modules/openapi-generator-mill-plugin/pom.xml"
     "${root}/modules/openapi-generator-online/pom.xml"
     "${root}/modules/openapi-generator/pom.xml"
     "${root}/modules/openapi-generator-gradle-plugin/gradle.properties"
