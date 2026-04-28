@@ -16,11 +16,11 @@ from __future__ import annotations
 import json
 import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Any, List, Optional
+from typing import Any, Optional
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
+from typing import Union, Optional
 from typing_extensions import Literal, Self
 
 ONEOFENUMSTRING_ONE_OF_SCHEMAS = ["EnumString1", "EnumString2"]
@@ -34,7 +34,7 @@ class OneOfEnumString(BaseModel):
     # data type: EnumString2
     oneof_schema_2_validator: Optional[EnumString2] = None
     actual_instance: Optional[Union[EnumString1, EnumString2]] = None
-    one_of_schemas: Set[str] = { "EnumString1", "EnumString2" }
+    one_of_schemas: set[str] = { "EnumString1", "EnumString2" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -77,7 +77,7 @@ class OneOfEnumString(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
+    def from_dict(cls, obj: Union[str, dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -119,7 +119,7 @@ class OneOfEnumString(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], EnumString1, EnumString2]]:
+    def to_dict(self) -> Optional[Union[dict[str, Any], EnumString1, EnumString2]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

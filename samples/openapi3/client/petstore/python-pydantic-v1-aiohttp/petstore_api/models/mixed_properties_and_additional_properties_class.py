@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Optional
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.animal import Animal
 
@@ -28,7 +28,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """
     uuid: Optional[StrictStr] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
-    map: Optional[Dict[str, Animal]] = None
+    map: Optional[dict[str, Animal]] = None
     __properties = ["uuid", "dateTime", "map"]
 
     class Config:

@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -31,7 +31,7 @@ class PropertyNameCollision(BaseModel):
     underscore_type: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("_type", "underscore_type"), serialization_alias="_type")
     type: Optional[StrictStr] = None
     type_with_underscore: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("type_", "type_with_underscore"), serialization_alias="type_")
-    __properties: ClassVar[List[str]] = ["_type", "type", "type_"]
+    __properties: ClassVar[list[str]] = ["_type", "type", "type_"]
 
     @classmethod
     def __preprocess_input_names(
@@ -110,7 +110,7 @@ class PropertyNameCollision(BaseModel):
         """Create an instance of PropertyNameCollision from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -120,7 +120,7 @@ class PropertyNameCollision(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(

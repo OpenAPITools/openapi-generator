@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictInt, model_validator as _model_validator
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
@@ -30,8 +30,8 @@ class ModelReturn(BaseModel):
     Model for testing reserved words
     """ # noqa: E501
     alias_choices: Optional[StrictInt] = Field(default=None, validation_alias=AliasChoices("return", "AliasChoices"), serialization_alias="return", alias="AliasChoices")
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["return"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["return"]
 
     @classmethod
     def __preprocess_input_names(
@@ -97,7 +97,7 @@ class ModelReturn(BaseModel):
         """Create an instance of ModelReturn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -108,7 +108,7 @@ class ModelReturn(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 

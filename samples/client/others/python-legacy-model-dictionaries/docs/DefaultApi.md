@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **list_legacy_models**
-> List[LegacyModel] list_legacy_models()
+> list[LegacyModel] list_legacy_models()
 
 List legacy models
 
@@ -50,7 +50,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List[LegacyModel]**](LegacyModel.md)
+[**list[LegacyModel]**](LegacyModel.md)
 
 ### Authorization
 

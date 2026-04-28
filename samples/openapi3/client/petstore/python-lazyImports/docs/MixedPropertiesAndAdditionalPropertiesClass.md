@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **uuid** | **UUID** |  | [optional] 
 **date_time** | **datetime** |  | [optional] 
-**map** | [**Dict[str, Animal]**](Animal.md) |  | [optional] 
+**map** | [**dict[str, Animal]**](Animal.md) |  | [optional] 
 
 ## Example
 

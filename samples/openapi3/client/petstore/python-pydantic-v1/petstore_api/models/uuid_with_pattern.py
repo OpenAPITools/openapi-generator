@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, constr, validator
 
 class UuidWithPattern(BaseModel):
@@ -26,7 +26,7 @@ class UuidWithPattern(BaseModel):
     UuidWithPattern
     """
     id: Optional[constr(strict=True)] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id"]
 
     @validator('id')

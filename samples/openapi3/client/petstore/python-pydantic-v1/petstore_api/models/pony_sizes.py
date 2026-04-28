@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel
 from petstore_api.models.type import Type
 
@@ -27,7 +27,7 @@ class PonySizes(BaseModel):
     PonySizes
     """
     type: Optional[Type] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["type"]
 
     class Config:

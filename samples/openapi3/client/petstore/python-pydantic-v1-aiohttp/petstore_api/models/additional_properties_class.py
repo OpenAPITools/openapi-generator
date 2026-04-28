@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Optional
+from typing import Optional
 from pydantic import BaseModel, StrictStr
 from petstore_api.models.pet import Pet
 
@@ -26,9 +26,9 @@ class AdditionalPropertiesClass(BaseModel):
     """
     AdditionalPropertiesClass
     """
-    map_property: Optional[Dict[str, StrictStr]] = None
-    map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    map_of_map_non_primitive_property: Optional[Dict[str, Dict[str, Pet]]] = None
+    map_property: Optional[dict[str, StrictStr]] = None
+    map_of_map_property: Optional[dict[str, dict[str, StrictStr]]] = None
+    map_of_map_non_primitive_property: Optional[dict[str, dict[str, Pet]]] = None
     __properties = ["map_property", "map_of_map_property", "map_of_map_non_primitive_property"]
 
     class Config:

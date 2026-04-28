@@ -12,12 +12,12 @@
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 from datetime import date, datetime
 from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr, field_validator
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 from uuid import UUID
 from petstore_api.models.client import Client
@@ -75,18 +75,18 @@ class FakeApi:
     @validate_call
     async def fake_any_type_request_body(
         self,
-        body: Optional[Dict[str, Any]] = None,
+        body: Optional[dict[str, Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test any type request body
@@ -124,7 +124,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -141,18 +141,18 @@ class FakeApi:
     @validate_call
     async def fake_any_type_request_body_with_http_info(
         self,
-        body: Optional[Dict[str, Any]] = None,
+        body: Optional[dict[str, Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test any type request body
@@ -190,7 +190,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -207,18 +207,18 @@ class FakeApi:
     @validate_call
     async def fake_any_type_request_body_without_preload_content(
         self,
-        body: Optional[Dict[str, Any]] = None,
+        body: Optional[dict[str, Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test any type request body
@@ -256,7 +256,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -277,15 +277,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -314,7 +314,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -342,14 +342,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test enum reference query parameter
@@ -387,7 +387,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -408,14 +408,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test enum reference query parameter
@@ -453,7 +453,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -474,14 +474,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test enum reference query parameter
@@ -519,7 +519,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -540,15 +540,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -566,7 +566,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -593,14 +593,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> HealthCheckResult:
         """Health check endpoint
@@ -635,7 +635,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "HealthCheckResult",
         }
         response_data = await self.api_client.call_api(
@@ -655,14 +655,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[HealthCheckResult]:
         """Health check endpoint
@@ -697,7 +697,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "HealthCheckResult",
         }
         response_data = await self.api_client.call_api(
@@ -717,14 +717,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Health check endpoint
@@ -759,7 +759,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "HealthCheckResult",
         }
         response_data = await self.api_client.call_api(
@@ -779,15 +779,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -808,7 +808,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -838,14 +838,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test http signature authentication
@@ -889,7 +889,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -912,14 +912,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test http signature authentication
@@ -963,7 +963,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -986,14 +986,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test http signature authentication
@@ -1037,7 +1037,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -1060,15 +1060,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1104,7 +1104,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
             'http_signature_test'
         ]
 
@@ -1133,14 +1133,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bool:
         """fake_outer_boolean_serialize
@@ -1179,7 +1179,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bool",
         }
         response_data = await self.api_client.call_api(
@@ -1200,14 +1200,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bool]:
         """fake_outer_boolean_serialize
@@ -1246,7 +1246,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bool",
         }
         response_data = await self.api_client.call_api(
@@ -1267,14 +1267,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_boolean_serialize
@@ -1313,7 +1313,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bool",
         }
         response_data = await self.api_client.call_api(
@@ -1334,15 +1334,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1378,7 +1378,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -1406,14 +1406,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OuterComposite:
         """fake_outer_composite_serialize
@@ -1452,7 +1452,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "OuterComposite",
         }
         response_data = await self.api_client.call_api(
@@ -1473,14 +1473,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OuterComposite]:
         """fake_outer_composite_serialize
@@ -1519,7 +1519,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "OuterComposite",
         }
         response_data = await self.api_client.call_api(
@@ -1540,14 +1540,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_composite_serialize
@@ -1586,7 +1586,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "OuterComposite",
         }
         response_data = await self.api_client.call_api(
@@ -1607,15 +1607,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1651,7 +1651,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -1679,14 +1679,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> float:
         """fake_outer_number_serialize
@@ -1725,7 +1725,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "float",
         }
         response_data = await self.api_client.call_api(
@@ -1746,14 +1746,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[float]:
         """fake_outer_number_serialize
@@ -1792,7 +1792,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "float",
         }
         response_data = await self.api_client.call_api(
@@ -1813,14 +1813,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_number_serialize
@@ -1859,7 +1859,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "float",
         }
         response_data = await self.api_client.call_api(
@@ -1880,15 +1880,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1924,7 +1924,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -1952,14 +1952,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """fake_outer_string_serialize
@@ -1998,7 +1998,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -2019,14 +2019,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """fake_outer_string_serialize
@@ -2065,7 +2065,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -2086,14 +2086,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_outer_string_serialize
@@ -2132,7 +2132,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -2153,15 +2153,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -2197,7 +2197,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -2222,18 +2222,18 @@ class FakeApi:
     async def fake_property_enum_integer_serialize(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
-        param: Optional[List[OuterEnumInteger]] = None,
+        param: Optional[list[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OuterObjectWithEnumProperty:
         """fake_property_enum_integer_serialize
@@ -2243,7 +2243,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2275,7 +2275,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "OuterObjectWithEnumProperty",
         }
         response_data = await self.api_client.call_api(
@@ -2293,18 +2293,18 @@ class FakeApi:
     async def fake_property_enum_integer_serialize_with_http_info(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
-        param: Optional[List[OuterEnumInteger]] = None,
+        param: Optional[list[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OuterObjectWithEnumProperty]:
         """fake_property_enum_integer_serialize
@@ -2314,7 +2314,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2346,7 +2346,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "OuterObjectWithEnumProperty",
         }
         response_data = await self.api_client.call_api(
@@ -2364,18 +2364,18 @@ class FakeApi:
     async def fake_property_enum_integer_serialize_without_preload_content(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
-        param: Optional[List[OuterEnumInteger]] = None,
+        param: Optional[list[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """fake_property_enum_integer_serialize
@@ -2385,7 +2385,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2417,7 +2417,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "OuterObjectWithEnumProperty",
         }
         response_data = await self.api_client.call_api(
@@ -2439,16 +2439,16 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
             'param': 'multi',
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -2488,7 +2488,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -2515,14 +2515,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EnumClass:
         """test ref to enum string
@@ -2557,7 +2557,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "EnumClass",
         }
         response_data = await self.api_client.call_api(
@@ -2577,14 +2577,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EnumClass]:
         """test ref to enum string
@@ -2619,7 +2619,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "EnumClass",
         }
         response_data = await self.api_client.call_api(
@@ -2639,14 +2639,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test ref to enum string
@@ -2681,7 +2681,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "EnumClass",
         }
         response_data = await self.api_client.call_api(
@@ -2701,15 +2701,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -2730,7 +2730,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -2757,14 +2757,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bool:
         """test returning boolean
@@ -2799,7 +2799,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bool",
         }
         response_data = await self.api_client.call_api(
@@ -2819,14 +2819,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bool]:
         """test returning boolean
@@ -2861,7 +2861,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bool",
         }
         response_data = await self.api_client.call_api(
@@ -2881,14 +2881,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test returning boolean
@@ -2923,7 +2923,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bool",
         }
         response_data = await self.api_client.call_api(
@@ -2943,15 +2943,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -2972,7 +2972,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -2999,14 +2999,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytes:
         """test byte like json
@@ -3041,7 +3041,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bytes",
         }
         response_data = await self.api_client.call_api(
@@ -3061,14 +3061,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytes]:
         """test byte like json
@@ -3103,7 +3103,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bytes",
         }
         response_data = await self.api_client.call_api(
@@ -3123,14 +3123,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test byte like json
@@ -3165,7 +3165,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "bytes",
         }
         response_data = await self.api_client.call_api(
@@ -3185,15 +3185,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -3214,7 +3214,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -3241,14 +3241,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """test returning enum
@@ -3283,7 +3283,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -3303,14 +3303,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """test returning enum
@@ -3345,7 +3345,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -3365,14 +3365,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test returning enum
@@ -3407,7 +3407,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -3427,15 +3427,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -3456,7 +3456,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -3483,14 +3483,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """test enum like json
@@ -3525,7 +3525,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -3545,14 +3545,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """test enum like json
@@ -3587,7 +3587,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -3607,14 +3607,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test enum like json
@@ -3649,7 +3649,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -3669,15 +3669,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -3698,7 +3698,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -3725,14 +3725,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> float:
         """test returning float
@@ -3767,7 +3767,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "float",
         }
         response_data = await self.api_client.call_api(
@@ -3787,14 +3787,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[float]:
         """test returning float
@@ -3829,7 +3829,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "float",
         }
         response_data = await self.api_client.call_api(
@@ -3849,14 +3849,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test returning float
@@ -3891,7 +3891,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "float",
         }
         response_data = await self.api_client.call_api(
@@ -3911,15 +3911,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -3940,7 +3940,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -3967,14 +3967,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> int:
         """test returning int
@@ -4009,7 +4009,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "int",
         }
         response_data = await self.api_client.call_api(
@@ -4029,14 +4029,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[int]:
         """test returning int
@@ -4071,7 +4071,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "int",
         }
         response_data = await self.api_client.call_api(
@@ -4091,14 +4091,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test returning int
@@ -4133,7 +4133,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "int",
         }
         response_data = await self.api_client.call_api(
@@ -4153,15 +4153,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -4182,7 +4182,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -4209,16 +4209,16 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[List[Tag]]:
+    ) -> list[list[Tag]]:
         """test returning list of objects
 
 
@@ -4251,8 +4251,8 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]",
+        _response_types_map: dict[str, Optional[str]] = {
+            '200': "list[list[Tag]]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4271,16 +4271,16 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[List[Tag]]]:
+    ) -> ApiResponse[list[list[Tag]]]:
         """test returning list of objects
 
 
@@ -4313,8 +4313,8 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]",
+        _response_types_map: dict[str, Optional[str]] = {
+            '200': "list[list[Tag]]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4333,14 +4333,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test returning list of objects
@@ -4375,8 +4375,8 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]",
+        _response_types_map: dict[str, Optional[str]] = {
+            '200': "list[list[Tag]]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4395,15 +4395,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -4424,7 +4424,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -4451,14 +4451,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """test str like json
@@ -4493,7 +4493,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -4513,14 +4513,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """test str like json
@@ -4555,7 +4555,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -4575,14 +4575,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test str like json
@@ -4617,7 +4617,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -4637,15 +4637,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -4666,7 +4666,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -4693,14 +4693,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """test returning string
@@ -4735,7 +4735,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -4755,14 +4755,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """test returning string
@@ -4797,7 +4797,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -4817,14 +4817,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test returning string
@@ -4859,7 +4859,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = await self.api_client.call_api(
@@ -4879,15 +4879,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -4908,7 +4908,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -4936,14 +4936,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test uuid example
@@ -4981,7 +4981,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5002,14 +5002,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test uuid example
@@ -5047,7 +5047,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5068,14 +5068,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test uuid example
@@ -5113,7 +5113,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5134,15 +5134,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -5160,7 +5160,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -5184,18 +5184,18 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[dict[str, Any], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test referenced additionalProperties
@@ -5203,7 +5203,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5234,7 +5234,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5251,18 +5251,18 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference_with_http_info(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[dict[str, Any], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test referenced additionalProperties
@@ -5270,7 +5270,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5301,7 +5301,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5318,18 +5318,18 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference_without_preload_content(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[dict[str, Any], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test referenced additionalProperties
@@ -5337,7 +5337,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5368,7 +5368,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5389,15 +5389,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -5426,7 +5426,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -5450,18 +5450,18 @@ class FakeApi:
     @validate_call
     async def test_body_with_binary(
         self,
-        body: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
+        body: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_body_with_binary
@@ -5500,7 +5500,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5517,18 +5517,18 @@ class FakeApi:
     @validate_call
     async def test_body_with_binary_with_http_info(
         self,
-        body: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
+        body: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_binary
@@ -5567,7 +5567,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5584,18 +5584,18 @@ class FakeApi:
     @validate_call
     async def test_body_with_binary_without_preload_content(
         self,
-        body: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
+        body: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_body_with_binary
@@ -5634,7 +5634,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5655,15 +5655,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -5700,7 +5700,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -5728,14 +5728,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_body_with_file_schema
@@ -5774,7 +5774,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5795,14 +5795,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_file_schema
@@ -5841,7 +5841,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5862,14 +5862,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_body_with_file_schema
@@ -5908,7 +5908,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -5929,15 +5929,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -5966,7 +5966,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -5995,14 +5995,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_body_with_query_params
@@ -6043,7 +6043,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -6065,14 +6065,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_body_with_query_params
@@ -6113,7 +6113,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -6135,14 +6135,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_body_with_query_params
@@ -6183,7 +6183,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -6205,15 +6205,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -6246,7 +6246,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -6274,14 +6274,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Client:
         """To test \"client\" model
@@ -6320,7 +6320,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "Client",
         }
         response_data = await self.api_client.call_api(
@@ -6341,14 +6341,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Client]:
         """To test \"client\" model
@@ -6387,7 +6387,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "Client",
         }
         response_data = await self.api_client.call_api(
@@ -6408,14 +6408,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """To test \"client\" model
@@ -6454,7 +6454,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "Client",
         }
         response_data = await self.api_client.call_api(
@@ -6475,15 +6475,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -6519,7 +6519,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -6548,14 +6548,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_date_time_query_parameter
@@ -6596,7 +6596,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -6618,14 +6618,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_date_time_query_parameter
@@ -6666,7 +6666,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -6688,14 +6688,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_date_time_query_parameter
@@ -6736,7 +6736,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -6758,15 +6758,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -6797,7 +6797,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -6824,14 +6824,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test empty and non-empty responses
@@ -6867,7 +6867,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '204': None,
             '206': "str",
         }
@@ -6888,14 +6888,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test empty and non-empty responses
@@ -6931,7 +6931,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '204': None,
             '206': "str",
         }
@@ -6952,14 +6952,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test empty and non-empty responses
@@ -6995,7 +6995,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '204': None,
             '206': "str",
         }
@@ -7016,15 +7016,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -7045,7 +7045,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -7078,7 +7078,7 @@ class FakeApi:
         int64: Annotated[Optional[StrictInt], Field(description="None")] = None,
         var_float: Annotated[Optional[Annotated[float, Field(le=987.6)]], Field(description="None")] = None,
         string: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None,
-        binary: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
+        binary: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
         byte_with_max_length: Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None,
         var_date: Annotated[Optional[date], Field(description="None")] = None,
         date_time: Annotated[Optional[datetime], Field(description="None")] = None,
@@ -7087,14 +7087,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -7175,7 +7175,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '400': None,
             '404': None,
         }
@@ -7202,7 +7202,7 @@ class FakeApi:
         int64: Annotated[Optional[StrictInt], Field(description="None")] = None,
         var_float: Annotated[Optional[Annotated[float, Field(le=987.6)]], Field(description="None")] = None,
         string: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None,
-        binary: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
+        binary: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
         byte_with_max_length: Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None,
         var_date: Annotated[Optional[date], Field(description="None")] = None,
         date_time: Annotated[Optional[datetime], Field(description="None")] = None,
@@ -7211,14 +7211,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -7299,7 +7299,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '400': None,
             '404': None,
         }
@@ -7326,7 +7326,7 @@ class FakeApi:
         int64: Annotated[Optional[StrictInt], Field(description="None")] = None,
         var_float: Annotated[Optional[Annotated[float, Field(le=987.6)]], Field(description="None")] = None,
         string: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None,
-        binary: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
+        binary: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
         byte_with_max_length: Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None,
         var_date: Annotated[Optional[date], Field(description="None")] = None,
         date_time: Annotated[Optional[datetime], Field(description="None")] = None,
@@ -7335,14 +7335,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -7423,7 +7423,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '400': None,
             '404': None,
         }
@@ -7459,15 +7459,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -7524,7 +7524,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
             'http_basic_test'
         ]
 
@@ -7552,14 +7552,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test error responses with model
@@ -7594,7 +7594,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '204': None,
             '400': "TestErrorResponsesWithModel400Response",
             '404': "TestErrorResponsesWithModel404Response",
@@ -7616,14 +7616,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test error responses with model
@@ -7658,7 +7658,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '204': None,
             '400': "TestErrorResponsesWithModel400Response",
             '404': "TestErrorResponsesWithModel404Response",
@@ -7680,14 +7680,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test error responses with model
@@ -7722,7 +7722,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '204': None,
             '400': "TestErrorResponsesWithModel400Response",
             '404': "TestErrorResponsesWithModel404Response",
@@ -7744,15 +7744,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -7773,7 +7773,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -7806,14 +7806,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Fake endpoint to test group parameters (optional)
@@ -7867,7 +7867,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '400': None,
         }
         response_data = await self.api_client.call_api(
@@ -7893,14 +7893,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Fake endpoint to test group parameters (optional)
@@ -7954,7 +7954,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '400': None,
         }
         response_data = await self.api_client.call_api(
@@ -7980,14 +7980,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Fake endpoint to test group parameters (optional)
@@ -8041,7 +8041,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '400': None,
         }
         response_data = await self.api_client.call_api(
@@ -8067,15 +8067,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -8109,7 +8109,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
             'bearer_test'
         ]
 
@@ -8134,18 +8134,18 @@ class FakeApi:
     @validate_call
     async def test_inline_additional_properties(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test inline additionalProperties
@@ -8153,7 +8153,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8184,7 +8184,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8201,18 +8201,18 @@ class FakeApi:
     @validate_call
     async def test_inline_additional_properties_with_http_info(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test inline additionalProperties
@@ -8220,7 +8220,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8251,7 +8251,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8268,18 +8268,18 @@ class FakeApi:
     @validate_call
     async def test_inline_additional_properties_without_preload_content(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test inline additionalProperties
@@ -8287,7 +8287,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8318,7 +8318,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8339,15 +8339,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -8376,7 +8376,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -8404,14 +8404,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test inline free-form additionalProperties
@@ -8450,7 +8450,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8471,14 +8471,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test inline free-form additionalProperties
@@ -8517,7 +8517,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8538,14 +8538,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test inline free-form additionalProperties
@@ -8584,7 +8584,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8605,15 +8605,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -8642,7 +8642,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -8671,14 +8671,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test json serialization of form data
@@ -8720,7 +8720,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8742,14 +8742,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test json serialization of form data
@@ -8791,7 +8791,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8813,14 +8813,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test json serialization of form data
@@ -8862,7 +8862,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -8884,15 +8884,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -8923,7 +8923,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -8951,14 +8951,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_object_for_multipart_requests
@@ -8996,7 +8996,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9017,14 +9017,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_object_for_multipart_requests
@@ -9062,7 +9062,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9083,14 +9083,14 @@ class FakeApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_object_for_multipart_requests
@@ -9128,7 +9128,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9149,15 +9149,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -9186,7 +9186,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -9210,24 +9210,24 @@ class FakeApi:
     @validate_call
     async def test_query_parameter_collection_format(
         self,
-        pipe: List[StrictStr],
-        ioutil: List[StrictStr],
-        http: List[StrictStr],
-        url: List[StrictStr],
-        context: List[StrictStr],
+        pipe: list[StrictStr],
+        ioutil: list[StrictStr],
+        http: list[StrictStr],
+        url: list[StrictStr],
+        context: list[StrictStr],
         allow_empty: StrictStr,
-        language: Optional[Dict[str, StrictStr]] = None,
+        language: Optional[dict[str, StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test_query_parameter_collection_format
@@ -9235,19 +9235,19 @@ class FakeApi:
         To test the collection format in query parameters
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9284,7 +9284,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9301,24 +9301,24 @@ class FakeApi:
     @validate_call
     async def test_query_parameter_collection_format_with_http_info(
         self,
-        pipe: List[StrictStr],
-        ioutil: List[StrictStr],
-        http: List[StrictStr],
-        url: List[StrictStr],
-        context: List[StrictStr],
+        pipe: list[StrictStr],
+        ioutil: list[StrictStr],
+        http: list[StrictStr],
+        url: list[StrictStr],
+        context: list[StrictStr],
         allow_empty: StrictStr,
-        language: Optional[Dict[str, StrictStr]] = None,
+        language: Optional[dict[str, StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test_query_parameter_collection_format
@@ -9326,19 +9326,19 @@ class FakeApi:
         To test the collection format in query parameters
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9375,7 +9375,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9392,24 +9392,24 @@ class FakeApi:
     @validate_call
     async def test_query_parameter_collection_format_without_preload_content(
         self,
-        pipe: List[StrictStr],
-        ioutil: List[StrictStr],
-        http: List[StrictStr],
-        url: List[StrictStr],
-        context: List[StrictStr],
+        pipe: list[StrictStr],
+        ioutil: list[StrictStr],
+        http: list[StrictStr],
+        url: list[StrictStr],
+        context: list[StrictStr],
         allow_empty: StrictStr,
-        language: Optional[Dict[str, StrictStr]] = None,
+        language: Optional[dict[str, StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test_query_parameter_collection_format
@@ -9417,19 +9417,19 @@ class FakeApi:
         To test the collection format in query parameters
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9466,7 +9466,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9493,7 +9493,7 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
             'pipe': 'pipes',
             'ioutil': 'csv',
             'http': 'ssv',
@@ -9501,12 +9501,12 @@ class FakeApi:
             'context': 'multi',
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -9548,7 +9548,7 @@ class FakeApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -9572,18 +9572,18 @@ class FakeApi:
     @validate_call
     async def test_string_map_reference(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """test referenced string map
@@ -9591,7 +9591,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9622,7 +9622,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9639,18 +9639,18 @@ class FakeApi:
     @validate_call
     async def test_string_map_reference_with_http_info(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """test referenced string map
@@ -9658,7 +9658,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9689,7 +9689,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9706,18 +9706,18 @@ class FakeApi:
     @validate_call
     async def test_string_map_reference_without_preload_content(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """test referenced string map
@@ -9725,7 +9725,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9756,7 +9756,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': None,
         }
         response_data = await self.api_client.call_api(
@@ -9777,15 +9777,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -9814,7 +9814,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -9838,20 +9838,20 @@ class FakeApi:
     @validate_call
     async def upload_file_with_additional_properties(
         self,
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ModelApiResponse:
         """uploads a file and additional properties using multipart/form-data
@@ -9896,7 +9896,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
@@ -9913,20 +9913,20 @@ class FakeApi:
     @validate_call
     async def upload_file_with_additional_properties_with_http_info(
         self,
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ModelApiResponse]:
         """uploads a file and additional properties using multipart/form-data
@@ -9971,7 +9971,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
@@ -9988,20 +9988,20 @@ class FakeApi:
     @validate_call
     async def upload_file_with_additional_properties_without_preload_content(
         self,
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """uploads a file and additional properties using multipart/form-data
@@ -10046,7 +10046,7 @@ class FakeApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
@@ -10069,15 +10069,15 @@ class FakeApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -10117,7 +10117,7 @@ class FakeApi:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(

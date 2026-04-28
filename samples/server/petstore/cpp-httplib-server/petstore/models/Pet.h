@@ -8,8 +8,6 @@
 // System headers
 #include <nlohmann/json.hpp>
 #include <optional>
-#include <string>
-#include <vector>
 #include "Category.h"
 #include "Tag.h"
 

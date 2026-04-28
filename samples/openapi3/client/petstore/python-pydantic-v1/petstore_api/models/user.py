@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class User(BaseModel):
@@ -33,7 +33,7 @@ class User(BaseModel):
     password: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
     user_status: Optional[StrictInt] = Field(default=None, alias="userStatus", description="User Status")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
     class Config:

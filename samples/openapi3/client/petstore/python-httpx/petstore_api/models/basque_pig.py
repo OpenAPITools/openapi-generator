@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
-from typing import Optional, Set
+from typing import Any, ClassVar
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -29,7 +29,7 @@ class BasquePig(BaseModel):
     """ # noqa: E501
     class_name: StrictStr = Field(alias="class'\"\\Name")
     color: StrictStr
-    __properties: ClassVar[List[str]] = ["class'\"\\Name", "color"]
+    __properties: ClassVar[list[str]] = ["class&#39;&quot;\Name", "color"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -52,7 +52,7 @@ class BasquePig(BaseModel):
         """Create an instance of BasquePig from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -62,7 +62,7 @@ class BasquePig(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -74,6 +74,14 @@ class BasquePig(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of BasquePig from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of BasquePig from a dict"""
         if obj is None:
             return None

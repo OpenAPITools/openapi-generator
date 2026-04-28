@@ -49,6 +49,24 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
+    /**
+     * Names which should never be treated as model imports for Python.
+     * <p>
+     * These can leak into {@code CodegenModel.imports} from generic container/import collection logic
+     * (e.g. schema keywords like {@code array} or typing/builtin names), and then later get
+     * incorrectly converted into model import statements.
+     */
+    private static final Set<String> PYTHON_NON_MODEL_IMPORTS = Collections.unmodifiableSet(new HashSet<>(
+            Arrays.asList(
+                    // OpenAPI schema keywords (should never be imported)
+                    "array", "map", "set", "object",
+                    // Python builtins
+                    "list", "dict", "tuple", "set", "type",
+                    // typing names (capitalized)
+                    "List", "Dict", "Tuple", "Set", "Type"
+            )
+    ));
+
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
     @Setter protected String projectName; // for setup.py, e.g. petstore-api
@@ -92,8 +110,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         languageSpecificPrimitives.add("float");
         languageSpecificPrimitives.add("list");
         languageSpecificPrimitives.add("dict");
-        languageSpecificPrimitives.add("List");
-        languageSpecificPrimitives.add("Dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
@@ -135,6 +151,21 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         regexModifiers.put('s', "DOTALL");
         regexModifiers.put('u', "UNICODE");
         regexModifiers.put('x', "VERBOSE");
+    }
+
+    @Override
+    protected boolean shouldAddImport(String type) {
+        if (type == null) {
+            return false;
+        }
+        // Reject type expressions (e.g. list[str], dict[str, Foo]) and other non-symbol entries early.
+        if (type.indexOf('[') >= 0 || type.indexOf(']') >= 0 || type.indexOf('<') >= 0 || type.indexOf('>') >= 0) {
+            return false;
+        }
+        if (PYTHON_NON_MODEL_IMPORTS.contains(type)) {
+            return false;
+        }
+        return super.shouldAddImport(type);
     }
 
     @Override
@@ -853,7 +884,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (!model.oneOf.isEmpty()) { // oneOfValidationError
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 typingImports.add("Any");
-                typingImports.add("List");
                 pydanticImports.add("Field");
                 pydanticImports.add("StrictStr");
                 pydanticImports.add("ValidationError");
@@ -889,7 +919,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (model.oneOf.isEmpty() && model.anyOf.isEmpty()
                     && !model.isEnum
                     && !this.disallowAdditionalPropertiesIfNotPresent) {
-                typingImports.add("Dict");
                 typingImports.add("Any");
             }
 
@@ -1080,8 +1109,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname),
                     constraints);
         } else if (cp.isMap) {
-            typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]",
+            return String.format(Locale.ROOT, "dict[str, %s]",
                     getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
@@ -1276,9 +1304,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
-            typingImports.add("Dict");
             typingImports.add("Any");
-            return "Dict[str, Any]";
+            return "dict[str, Any]";
         } else if (!cp.isPrimitiveType) {
             // add model prefix
             hasModelsToImport = true;
@@ -1361,13 +1388,11 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 constraints += ", unique_items=True";
             }
             pydanticImports.add("conlist");
-            typingImports.add("List"); // for return type
             return String.format(Locale.ROOT, "conlist(%s%s)",
                     getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname),
                     constraints);
         } else if (cp.isMap) {
-            typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname));
+            return String.format(Locale.ROOT, "dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -1560,9 +1585,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
-            typingImports.add("Dict");
             typingImports.add("Any");
-            return "Dict[str, Any]";
+            return "dict[str, Any]";
         } else if (!cp.isPrimitiveType || cp.isModel) { // model
             // skip import if it's a circular reference
             if (classname == null) {

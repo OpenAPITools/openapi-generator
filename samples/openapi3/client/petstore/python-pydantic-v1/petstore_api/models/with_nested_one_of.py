@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictInt
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
@@ -30,7 +30,7 @@ class WithNestedOneOf(BaseModel):
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = Field(default=None, alias="nested_\npig")
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["size", "nested_\npig", "nested_oneof_enum_string"]
 
     class Config:

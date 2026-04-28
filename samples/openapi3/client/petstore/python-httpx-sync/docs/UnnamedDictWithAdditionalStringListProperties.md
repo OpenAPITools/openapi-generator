@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**dict_property** | **Dict[str, List[str]]** |  | [optional] 
+**dict_property** | **dict[str, list[str]]** |  | [optional] 
 
 ## Example
 

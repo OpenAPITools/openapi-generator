@@ -19,9 +19,9 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictInt, StrictStr, field_validator, model_validator as _model_validator
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
+from typing import Any, ClassVar, Optional, cast as _cast
 from petstore_api.models.category import Category
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
@@ -33,8 +33,8 @@ class SpecialName(BaseModel):
     var_property: Optional[StrictInt] = Field(default=None, validation_alias=AliasChoices("property", "var_property"), serialization_alias="property", alias="property")
     var_async: Optional[Category] = Field(default=None, validation_alias=AliasChoices("async", "var_async"), serialization_alias="async", alias="async")
     var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["property", "async", "schema"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["property", "async", "schema"]
 
     @field_validator('var_schema')
     def var_schema_validate_enum(cls, value):
@@ -101,7 +101,7 @@ class SpecialName(BaseModel):
         """Create an instance of SpecialName from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -112,7 +112,7 @@ class SpecialName(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 

@@ -2,7 +2,7 @@
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 {{#imports}}
@@ -295,7 +295,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         _host = None
         {{/servers.0}}
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
             {{#allParams}}
             {{#isArray}}
             '{{baseName}}': '{{collectionFormat}}',
@@ -303,12 +303,12 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
             {{/allParams}}
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -422,7 +422,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         {{/hasConsumes}}
 
         # authentication setting
-        _auth_settings: List[str] = [{{#authMethods}}
+        _auth_settings: list[str] = [{{#authMethods}}
             '{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}
         ]
 

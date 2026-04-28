@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -29,8 +29,8 @@ class DummyModel(BaseModel):
     """ # noqa: E501
     category: Optional[StrictStr] = None
     self_ref: Optional[SelfReferenceModel] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["category", "self_ref"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["category", "self_ref"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -53,7 +53,7 @@ class DummyModel(BaseModel):
         """Create an instance of DummyModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -64,7 +64,7 @@ class DummyModel(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -85,6 +85,14 @@ class DummyModel(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of DummyModel from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of DummyModel from a dict"""
         if obj is None:
             return None

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Optional
+from typing import Optional
 from pydantic import BaseModel
 from petstore_api.models.tag import Tag
 
@@ -26,7 +26,7 @@ class InputAllOf(BaseModel):
     """
     InputAllOf
     """
-    some_data: Optional[Dict[str, Tag]] = None
+    some_data: Optional[dict[str, Tag]] = None
     __properties = ["some_data"]
 
     class Config:

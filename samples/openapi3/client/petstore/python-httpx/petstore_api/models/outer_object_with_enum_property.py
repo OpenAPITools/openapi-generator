@@ -18,10 +18,10 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -31,7 +31,7 @@ class OuterObjectWithEnumProperty(BaseModel):
     """ # noqa: E501
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger
-    __properties: ClassVar[List[str]] = ["str_value", "value"]
+    __properties: ClassVar[list[str]] = ["str_value", "value"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -54,7 +54,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         """Create an instance of OuterObjectWithEnumProperty from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -64,7 +64,7 @@ class OuterObjectWithEnumProperty(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -81,6 +81,14 @@ class OuterObjectWithEnumProperty(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of OuterObjectWithEnumProperty from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of OuterObjectWithEnumProperty from a dict"""
         if obj is None:
             return None

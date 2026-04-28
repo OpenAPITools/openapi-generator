@@ -19,9 +19,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from openapi_client.models.string_enum_ref import StringEnumRef
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -29,15 +29,15 @@ class DefaultValue(BaseModel):
     """
     to test the default value of properties
     """ # noqa: E501
-    array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
-    array_string_enum_default: Optional[List[StrictStr]] = None
-    array_string_default: Optional[List[StrictStr]] = None
-    array_integer_default: Optional[List[StrictInt]] = None
-    array_string: Optional[List[StrictStr]] = None
-    array_string_nullable: Optional[List[StrictStr]] = None
-    array_string_extension_nullable: Optional[List[StrictStr]] = None
+    array_string_enum_ref_default: Optional[list[StringEnumRef]] = None
+    array_string_enum_default: Optional[list[StrictStr]] = None
+    array_string_default: Optional[list[StrictStr]] = None
+    array_integer_default: Optional[list[StrictInt]] = None
+    array_string: Optional[list[StrictStr]] = None
+    array_string_nullable: Optional[list[StrictStr]] = None
+    array_string_extension_nullable: Optional[list[StrictStr]] = None
     string_nullable: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
+    __properties: ClassVar[list[str]] = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
 
     @field_validator('array_string_enum_default')
     def array_string_enum_default_validate_enum(cls, value):
@@ -71,7 +71,7 @@ class DefaultValue(BaseModel):
         """Create an instance of DefaultValue from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -81,7 +81,7 @@ class DefaultValue(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -108,6 +108,14 @@ class DefaultValue(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of DefaultValue from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of DefaultValue from a dict"""
         if obj is None:
             return None

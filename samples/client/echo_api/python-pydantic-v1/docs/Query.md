@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** | Query | [optional] 
-**outcomes** | **List[str]** |  | [optional] [default to ["SUCCESS","FAILURE"]]
+**outcomes** | **list[str]** |  | [optional] [default to ["SUCCESS","FAILURE"]]
 
 ## Example
 

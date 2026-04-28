@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -111,7 +111,7 @@ class LegacyBase(BaseModel):
     attribute_map: ClassVar[Dict[str, str]] = {
         "inherited_value": "inheritedValue"
     }
-    __properties: ClassVar[List[str]] = ["inheritedValue"]
+    __properties: ClassVar[list[str]] = ["inheritedValue"]
 
     @classmethod
     def __preprocess_input_names(
@@ -187,7 +187,7 @@ class LegacyBase(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(

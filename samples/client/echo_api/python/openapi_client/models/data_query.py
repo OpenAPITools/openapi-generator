@@ -20,9 +20,9 @@ import json
 
 from datetime import datetime
 from pydantic import ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from openapi_client.models.query import Query
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -33,7 +33,7 @@ class DataQuery(Query):
     suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
     text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces", json_schema_extra={"examples": ["Some text"]})
     var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")
-    __properties: ClassVar[List[str]] = ["id", "outcomes", "suffix", "text", "date"]
+    __properties: ClassVar[list[str]] = ["id", "outcomes", "suffix", "text", "date"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -56,7 +56,7 @@ class DataQuery(Query):
         """Create an instance of DataQuery from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -66,7 +66,7 @@ class DataQuery(Query):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -78,6 +78,14 @@ class DataQuery(Query):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of DataQuery from a dict"""
+        if obj is None:
+            return None
+
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+    @classmethod
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of DataQuery from a dict"""
         if obj is None:
             return None

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictStr
 
 class ReadOnlyFirst(BaseModel):
@@ -27,7 +27,7 @@ class ReadOnlyFirst(BaseModel):
     """
     bar: Optional[StrictStr] = None
     baz: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["bar", "baz"]
 
     class Config:
