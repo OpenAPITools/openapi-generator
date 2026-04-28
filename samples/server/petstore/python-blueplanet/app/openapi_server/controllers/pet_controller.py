@@ -41,9 +41,9 @@ def find_pets_by_status(status):  # noqa: E501
     Multiple status values can be provided with comma separated strings # noqa: E501
 
     :param status: Status values that need to be considered for filter
-    :type status: List[str]
+    :type status: list[str]
 
-    :rtype: List[Pet]
+    :rtype: list[Pet]
     """
     return 'do some magic!'
 
@@ -54,9 +54,9 @@ def find_pets_by_tags(tags):  # noqa: E501
     Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. # noqa: E501
 
     :param tags: Tags to filter by
-    :type tags: List[str]
+    :type tags: list[str]
 
-    :rtype: List[Pet]
+    :rtype: list[Pet]
     """
     return 'do some magic!'
 

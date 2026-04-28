@@ -337,13 +337,13 @@ class ApiClient:
             return None
 
         if isinstance(klass, str):
-            if klass.startswith('List['):
-                sub_kls = re.match(r'List\[(.*)]', klass).group(1)
+            if klass.startswith('list['):
+                sub_kls = re.match(r'list\[(.*)]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
                         for sub_data in data]
 
-            if klass.startswith('Dict['):
-                sub_kls = re.match(r'Dict\[([^,]*), (.*)]', klass).group(2)
+            if klass.startswith('dict['):
+                sub_kls = re.match(r'dict\[([^,]*), (.*)]', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in data.items()}
 

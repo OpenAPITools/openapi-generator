@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, conlist
 from petstore_api.models.tag import Tag
 
@@ -27,7 +27,7 @@ class ArrayOfArrayOfModel(BaseModel):
     ArrayOfArrayOfModel
     """
     another_property: Optional[conlist(conlist(Tag))] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["another_property"]
 
     class Config:

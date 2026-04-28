@@ -19,9 +19,9 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
+from typing import Any, ClassVar, Optional, cast as _cast
 from legacy_model_dict_client.models.nested_model import NestedModel
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
@@ -110,31 +110,31 @@ class LegacyModel(BaseModel):
     renamed: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("ordinary", "renamed"), serialization_alias="ordinary")
     read_only_value: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("readOnlyValue", "read_only_value"), serialization_alias="readOnlyValue")
     nested: Optional[NestedModel] = None
-    nested_list: Optional[List[NestedModel]] = Field(default=None, validation_alias=AliasChoices("nestedList", "nested_list"), serialization_alias="nestedList")
-    nested_map: Optional[Dict[str, NestedModel]] = Field(default=None, validation_alias=AliasChoices("nestedMap", "nested_map"), serialization_alias="nestedMap")
-    nested_lists: Optional[List[List[NestedModel]]] = Field(default=None, validation_alias=AliasChoices("nestedLists", "nested_lists"), serialization_alias="nestedLists")
-    nested_maps: Optional[List[Dict[str, NestedModel]]] = Field(default=None, validation_alias=AliasChoices("nestedMaps", "nested_maps"), serialization_alias="nestedMaps")
-    map_of_lists: Optional[Dict[str, List[NestedModel]]] = Field(default=None, validation_alias=AliasChoices("mapOfLists", "map_of_lists"), serialization_alias="mapOfLists")
-    map_of_maps: Optional[Dict[str, Dict[str, NestedModel]]] = Field(default=None, validation_alias=AliasChoices("mapOfMaps", "map_of_maps"), serialization_alias="mapOfMaps")
+    nested_list: Optional[list[NestedModel]] = Field(default=None, validation_alias=AliasChoices("nestedList", "nested_list"), serialization_alias="nestedList")
+    nested_map: Optional[dict[str, NestedModel]] = Field(default=None, validation_alias=AliasChoices("nestedMap", "nested_map"), serialization_alias="nestedMap")
+    nested_lists: Optional[list[list[NestedModel]]] = Field(default=None, validation_alias=AliasChoices("nestedLists", "nested_lists"), serialization_alias="nestedLists")
+    nested_maps: Optional[list[dict[str, NestedModel]]] = Field(default=None, validation_alias=AliasChoices("nestedMaps", "nested_maps"), serialization_alias="nestedMaps")
+    map_of_lists: Optional[dict[str, list[NestedModel]]] = Field(default=None, validation_alias=AliasChoices("mapOfLists", "map_of_lists"), serialization_alias="mapOfLists")
+    map_of_maps: Optional[dict[str, dict[str, NestedModel]]] = Field(default=None, validation_alias=AliasChoices("mapOfMaps", "map_of_maps"), serialization_alias="mapOfMaps")
     nullable_value: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("nullableValue", "nullable_value"), serialization_alias="nullableValue")
     default_value: Optional[StrictStr] = Field(default='default', validation_alias=AliasChoices("defaultValue", "default_value"), serialization_alias="defaultValue")
-    openapi_types: ClassVar[Dict[str, str]] = {
+    openapi_types: ClassVar[dict[str, str]] = {
         "inherited_value": "str",
         "_continue": "str",
         "renamed": "str",
         "read_only_value": "str",
         "nested": "NestedModel",
-        "nested_list": "List[NestedModel]",
-        "nested_map": "Dict[str, NestedModel]",
-        "nested_lists": "List[List[NestedModel]]",
-        "nested_maps": "List[Dict[str, NestedModel]]",
-        "map_of_lists": "Dict[str, List[NestedModel]]",
-        "map_of_maps": "Dict[str, Dict[str, NestedModel]]",
+        "nested_list": "list[NestedModel]",
+        "nested_map": "dict[str, NestedModel]",
+        "nested_lists": "list[list[NestedModel]]",
+        "nested_maps": "list[dict[str, NestedModel]]",
+        "map_of_lists": "dict[str, list[NestedModel]]",
+        "map_of_maps": "dict[str, dict[str, NestedModel]]",
         "nullable_value": "str",
         "default_value": "str"
     }
 
-    attribute_map: ClassVar[Dict[str, str]] = {
+    attribute_map: ClassVar[dict[str, str]] = {
         "inherited_value": "inheritedValue",
         "_continue": "continue",
         "renamed": "ordinary",
@@ -149,7 +149,7 @@ class LegacyModel(BaseModel):
         "nullable_value": "nullableValue",
         "default_value": "defaultValue"
     }
-    __properties: ClassVar[List[str]] = ["inheritedValue", "continue", "ordinary", "readOnlyValue", "nested", "nestedList", "nestedMap", "nestedLists", "nestedMaps", "mapOfLists", "mapOfMaps", "nullableValue", "defaultValue"]
+    __properties: ClassVar[list[str]] = ["inheritedValue", "continue", "ordinary", "readOnlyValue", "nested", "nestedList", "nestedMap", "nestedLists", "nestedMaps", "mapOfLists", "mapOfMaps", "nullableValue", "defaultValue"]
 
     @classmethod
     def __preprocess_input_names(
@@ -283,7 +283,7 @@ class LegacyModel(BaseModel):
         """Create an instance of LegacyModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self, serialize: bool = False) -> Dict[str, Any]:
+    def to_dict(self, serialize: bool = False) -> dict[str, Any]:
         """Return all declared model fields using public or wire names."""
         return {
             ("inheritedValue" if serialize else "inherited_value"): _to_legacy_value(getattr(self, "inherited_value", None), serialize),
@@ -301,7 +301,7 @@ class LegacyModel(BaseModel):
             ("defaultValue" if serialize else "default_value"): _to_legacy_value(getattr(self, "default_value", None), serialize),
         }
 
-    def __openapi_generator_modern_projection(self) -> Dict[str, Any]:
+    def __openapi_generator_modern_projection(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -312,7 +312,7 @@ class LegacyModel(BaseModel):
           are ignored.
         * OpenAPI `readOnly` fields are excluded.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "read_only_value",
         ])
 
@@ -394,7 +394,7 @@ class LegacyModel(BaseModel):
     del __openapi_generator_modern_projection
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of LegacyModel from a dict"""
         if obj is None:
             return None
@@ -403,7 +403,7 @@ class LegacyModel(BaseModel):
             return cls.model_validate(obj)
 
         obj = _cast(
-            Dict[str, Any],
+            dict[str, Any],
             cls.__preprocess_input_names(
                 obj,
                 remove_hidden_storage_names=True,

@@ -9,8 +9,6 @@
 #include <nlohmann/json.hpp>
 #include <variant>
 #include <optional>
-#include <string>
-#include <vector>
 #include "Category.h"
 #include "Pet.h"
 #include "Tag.h"

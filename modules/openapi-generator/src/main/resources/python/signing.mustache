@@ -12,7 +12,7 @@ from email.utils import formatdate
 import os
 import re
 from time import time
-from typing import List, Optional, Union
+from typing import Optional, Union
 from urllib.parse import urlencode, urlparse
 
 # The constants below define a subset of HTTP headers that can be included in the
@@ -118,7 +118,7 @@ class HttpSigningConfiguration:
         signing_scheme: str,
         private_key_path: str,
         private_key_passphrase: Union[None, str]=None,
-        signed_headers: Optional[List[str]]=None,
+        signed_headers: Optional[list[str]]=None,
         signing_algorithm: Optional[str]=None,
         hash_algorithm: Optional[str]=None,
         signature_max_validity: Optional[timedelta]=None,

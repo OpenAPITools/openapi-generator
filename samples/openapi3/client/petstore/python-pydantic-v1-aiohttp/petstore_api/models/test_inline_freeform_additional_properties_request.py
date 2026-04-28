@@ -26,7 +26,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     TestInlineFreeformAdditionalPropertiesRequest
     """
     some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["someProperty"]
 
     class Config:

@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Optional
 from pydantic import BaseModel, StrictInt, StrictStr, conlist, validator
 from openapi_client.models.string_enum_ref import StringEnumRef
 

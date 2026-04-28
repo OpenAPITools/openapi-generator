@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | [optional] 
-**second_circular_all_of_ref** | [**List[SecondCircularAllOfRef]**](SecondCircularAllOfRef.md) |  | [optional] 
+**second_circular_all_of_ref** | [**list[SecondCircularAllOfRef]**](SecondCircularAllOfRef.md) |  | [optional] 
 
 ## Example
 

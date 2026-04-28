@@ -19,8 +19,8 @@ import json
 
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional, cast as _cast
+from typing import Optional
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
@@ -104,15 +104,15 @@ class AdditionalPropertiesModel(BaseModel):
                             and the value is json key in definition.
     """ # noqa: E501
     declared_value: Optional[StrictStr] = Field(default=None, validation_alias=AliasChoices("declaredValue", "declared_value"), serialization_alias="declaredValue")
-    additional_properties: Dict[str, Any] = {}
-    openapi_types: ClassVar[Dict[str, str]] = {
+    additional_properties: dict[str, Any] = {}
+    openapi_types: ClassVar[dict[str, str]] = {
         "declared_value": "str"
     }
 
-    attribute_map: ClassVar[Dict[str, str]] = {
+    attribute_map: ClassVar[dict[str, str]] = {
         "declared_value": "declaredValue"
     }
-    __properties: ClassVar[List[str]] = ["declaredValue"]
+    __properties: ClassVar[list[str]] = ["declaredValue"]
 
     @classmethod
     def __preprocess_input_names(
@@ -175,13 +175,13 @@ class AdditionalPropertiesModel(BaseModel):
         """Create an instance of AdditionalPropertiesModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self, serialize: bool = False) -> Dict[str, Any]:
+    def to_dict(self, serialize: bool = False) -> dict[str, Any]:
         """Return all declared model fields using public or wire names."""
         return {
             ("declaredValue" if serialize else "declared_value"): _to_legacy_value(getattr(self, "declared_value", None), serialize),
         }
 
-    def __openapi_generator_modern_projection(self) -> Dict[str, Any]:
+    def __openapi_generator_modern_projection(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -192,7 +192,7 @@ class AdditionalPropertiesModel(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -221,7 +221,7 @@ class AdditionalPropertiesModel(BaseModel):
     del __openapi_generator_modern_projection
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AdditionalPropertiesModel from a dict"""
         if obj is None:
             return None
@@ -230,7 +230,7 @@ class AdditionalPropertiesModel(BaseModel):
             return cls.model_validate(obj)
 
         obj = _cast(
-            Dict[str, Any],
+            dict[str, Any],
             cls.__preprocess_input_names(
                 obj,
                 remove_hidden_storage_names=True,

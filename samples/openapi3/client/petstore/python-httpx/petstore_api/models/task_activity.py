@@ -16,12 +16,12 @@ from __future__ import annotations
 import json
 import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Any, List, Optional
+from typing import Any, Optional
 from petstore_api.models.bathing import Bathing
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.poop_cleaning import PoopCleaning
 from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
+from typing import Union, Optional
 from typing_extensions import Literal, Self
 
 TASKACTIVITY_ONE_OF_SCHEMAS = ["Bathing", "Feeding", "PoopCleaning"]
@@ -37,7 +37,7 @@ class TaskActivity(BaseModel):
     # data type: Bathing
     oneof_schema_3_validator: Optional[Bathing] = None
     actual_instance: Optional[Union[Bathing, Feeding, PoopCleaning]] = None
-    one_of_schemas: Set[str] = { "Bathing", "Feeding", "PoopCleaning" }
+    one_of_schemas: set[str] = { "Bathing", "Feeding", "PoopCleaning" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -85,7 +85,7 @@ class TaskActivity(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
+    def from_dict(cls, obj: Union[str, dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -133,7 +133,7 @@ class TaskActivity(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], Bathing, Feeding, PoopCleaning]]:
+    def to_dict(self) -> Optional[Union[dict[str, Any], Bathing, Feeding, PoopCleaning]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

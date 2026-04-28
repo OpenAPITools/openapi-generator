@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr
 
 class PropertyNameCollision(BaseModel):
@@ -28,7 +28,7 @@ class PropertyNameCollision(BaseModel):
     underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
     type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_type", "type", "type_"]
 
     class Config:

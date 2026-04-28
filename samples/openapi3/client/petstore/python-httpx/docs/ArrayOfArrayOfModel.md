@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**another_property** | **List[List[Tag]]** |  | [optional] 
+**another_property** | **list[list[Tag]]** |  | [optional] 
 
 ## Example
 

@@ -662,7 +662,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_object_with_enum_property = petstore_api.OuterObjectWithEnumProperty() # OuterObjectWithEnumProperty | Input enum (int) as post body
-    param = [petstore_api.OuterEnumInteger()] # List[OuterEnumInteger] |  (optional)
+    param = [petstore_api.OuterEnumInteger()] # list[OuterEnumInteger] |  (optional)
 
     try:
         api_response = await api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
@@ -679,7 +679,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **outer_object_with_enum_property** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
- **param** | [**List[OuterEnumInteger]**](OuterEnumInteger.md)|  | [optional] 
+ **param** | [**list[OuterEnumInteger]**](OuterEnumInteger.md)|  | [optional] 
 
 ### Return type
 
@@ -1137,7 +1137,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_return_list_of_objects**
-> List[List[Tag]] fake_return_list_of_objects()
+> list[list[Tag]] fake_return_list_of_objects()
 
 test returning list of objects
 
@@ -1181,7 +1181,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**List[List[Tag]]**
+**list[list[Tag]]**
 
 ### Authorization
 
@@ -1414,7 +1414,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    request_body = None # Dict[str, object] | request body
+    request_body = None # dict[str, object] | request body
 
     try:
         # test referenced additionalProperties
@@ -1429,7 +1429,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**Dict[str, object]**](object.md)| request body | 
+ **request_body** | [**dict[str, object]**](object.md)| request body | 
 
 ### Return type
 
@@ -2118,7 +2118,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    request_body = {'key': 'request_body_example'} # Dict[str, str] | request body
+    request_body = {'key': 'request_body_example'} # dict[str, str] | request body
 
     try:
         # test inline additionalProperties
@@ -2133,7 +2133,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**Dict[str, str]**](str.md)| request body | 
+ **request_body** | [**dict[str, str]**](str.md)| request body | 
 
 ### Return type
 
@@ -2377,13 +2377,13 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    pipe = ['pipe_example'] # List[str] | 
-    ioutil = ['ioutil_example'] # List[str] | 
-    http = ['http_example'] # List[str] | 
-    url = ['url_example'] # List[str] | 
-    context = ['context_example'] # List[str] | 
+    pipe = ['pipe_example'] # list[str] | 
+    ioutil = ['ioutil_example'] # list[str] | 
+    http = ['http_example'] # list[str] | 
+    url = ['url_example'] # list[str] | 
+    context = ['context_example'] # list[str] | 
     allow_empty = 'allow_empty_example' # str | 
-    language = {'key': 'language_example'} # Dict[str, str] |  (optional)
+    language = {'key': 'language_example'} # dict[str, str] |  (optional)
 
     try:
         await api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
@@ -2397,13 +2397,13 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List[str]**](str.md)|  | 
- **ioutil** | [**List[str]**](str.md)|  | 
- **http** | [**List[str]**](str.md)|  | 
- **url** | [**List[str]**](str.md)|  | 
- **context** | [**List[str]**](str.md)|  | 
+ **pipe** | [**list[str]**](str.md)|  | 
+ **ioutil** | [**list[str]**](str.md)|  | 
+ **http** | [**list[str]**](str.md)|  | 
+ **url** | [**list[str]**](str.md)|  | 
+ **context** | [**list[str]**](str.md)|  | 
  **allow_empty** | **str**|  | 
- **language** | [**Dict[str, str]**](str.md)|  | [optional] 
+ **language** | [**dict[str, str]**](str.md)|  | [optional] 
 
 ### Return type
 
@@ -2452,7 +2452,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    request_body = {'key': 'request_body_example'} # Dict[str, str] | request body
+    request_body = {'key': 'request_body_example'} # dict[str, str] | request body
 
     try:
         # test referenced string map
@@ -2467,7 +2467,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**Dict[str, str]**](str.md)| request body | 
+ **request_body** | [**dict[str, str]**](str.md)| request body | 
 
 ### Return type
 

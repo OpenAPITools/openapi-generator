@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**optional_dict** | [**Dict[str, InnerDictWithProperty]**](InnerDictWithProperty.md) |  | [optional] 
+**optional_dict** | [**dict[str, InnerDictWithProperty]**](InnerDictWithProperty.md) |  | [optional] 
 
 ## Example
 

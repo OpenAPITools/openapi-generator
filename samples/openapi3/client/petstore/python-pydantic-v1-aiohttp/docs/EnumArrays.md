@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **just_symbol** | **str** |  | [optional] 
-**array_enum** | **List[str]** |  | [optional] 
+**array_enum** | **list[str]** |  | [optional] 
 
 ## Example
 

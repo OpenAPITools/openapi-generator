@@ -17,7 +17,7 @@ class Model(object):
     attribute_map = {}
 
     @classmethod
-    def from_dict(cls: typing.Type[T], dikt) -> T:
+    def from_dict(cls: type[T], dikt) -> T:
         """Returns the dict as a model"""
         return util.deserialize_model(dikt, cls)
 

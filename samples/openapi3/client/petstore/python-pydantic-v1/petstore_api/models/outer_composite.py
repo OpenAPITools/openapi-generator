@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictBool, StrictFloat, StrictStr
 
 class OuterComposite(BaseModel):
@@ -28,7 +28,7 @@ class OuterComposite(BaseModel):
     my_number: Optional[StrictFloat] = None
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["my_number", "my_string", "my_boolean"]
 
     class Config:

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, conlist
 from petstore_api.models.tag import Tag
 
@@ -26,8 +26,8 @@ class ArrayOfMapModel(BaseModel):
     """
     ArrayOfMapModel
     """
-    array_of_map_property: Optional[conlist(Dict[str, Tag])] = None
-    additional_properties: Dict[str, Any] = {}
+    array_of_map_property: Optional[conlist(dict[str, Tag])] = None
+    additional_properties: dict[str, Any] = {}
     __properties = ["array_of_map_property"]
 
     class Config:

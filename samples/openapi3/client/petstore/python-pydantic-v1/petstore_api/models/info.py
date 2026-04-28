@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from petstore_api.models.base_discriminator import BaseDiscriminator
 
@@ -27,7 +27,7 @@ class Info(BaseDiscriminator):
     Info
     """
     val: Optional[BaseDiscriminator] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_typeName", "val"]
 
     class Config:

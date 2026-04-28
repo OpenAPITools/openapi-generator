@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**array_of_map_property** | **List[Dict[str, Tag]]** |  | [optional] 
+**array_of_map_property** | **list[dict[str, Tag]]** |  | [optional] 
 
 ## Example
 

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictInt
 
 class SelfReferenceModel(BaseModel):
@@ -27,7 +27,7 @@ class SelfReferenceModel(BaseModel):
     """
     size: Optional[StrictInt] = None
     nested: Optional[DummyModel] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["size", "nested"]
 
     class Config:

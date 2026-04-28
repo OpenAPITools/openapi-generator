@@ -1,4 +1,3 @@
-from typing import List, Dict
 from aiohttp import web
 
 {{#imports}}{{import}}
@@ -36,7 +35,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
         {{#isArray}}
             {{#items}}
                 {{#isPrimitiveType}}
-    :type {{paramName}}: List[{{>param_type}}]
+    :type {{paramName}}: list[{{>param_type}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
     :type {{paramName}}: list | bytes
@@ -46,7 +45,7 @@ async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^re
         {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
-    :type {{paramName}}: Dict[str, {{>param_type}}]
+    :type {{paramName}}: dict[str, {{>param_type}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
     :type {{paramName}}: dict | bytes

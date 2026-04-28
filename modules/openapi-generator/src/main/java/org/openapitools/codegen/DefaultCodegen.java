@@ -1805,7 +1805,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .build();
 
         defaultIncludes = new HashSet<>(
-                Arrays.asList("double",
+                Arrays.asList(
+                        "double",
                         "int",
                         "long",
                         "short",
@@ -1818,7 +1819,8 @@ public class DefaultCodegen implements CodegenConfig {
                         "Void",
                         "Integer",
                         "Long",
-                        "Float")
+                        "Float"
+                    )
         );
 
         typeMapping = new HashMap<>();

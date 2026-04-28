@@ -16,7 +16,7 @@ import io
 import json
 import re
 import ssl
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import aiohttp
 import aiohttp_retry
@@ -110,7 +110,7 @@ class RESTClientObject:
 
         Override in a subclass to customize DNS resolver, keepalive, etc.
         """
-        kwargs: Dict[str, Any] = {
+        kwargs: dict[str, Any] = {
             "limit": self.maxsize,
             "ssl": self.ssl_context,
         }
@@ -128,7 +128,7 @@ class RESTClientObject:
         so older Configuration objects remain compatible.
         """
         extra = getattr(self.configuration, "client_session_kwargs", None)
-        kwargs: Dict[str, Any] = {
+        kwargs: dict[str, Any] = {
             # Preserve an explicit connector=None override. ClientSession then
             # creates and owns its default connector instead of using ours:
             # https://github.com/aio-libs/aiohttp/blob/v3.8.4/aiohttp/client.py#L238-L257
