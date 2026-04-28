@@ -50,7 +50,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class SelfReferenceOneOf extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(SelfReferenceOneOf.class.getName());
 
@@ -201,6 +201,7 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
@@ -212,6 +213,7 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
      * @return The actual instance of `Boolean`
      * @throws ClassCastException if the instance is not `Boolean`
      */
+    @SuppressWarnings("unchecked")
     public Boolean getBoolean() throws ClassCastException {
         return (Boolean)super.getActualInstance();
     }

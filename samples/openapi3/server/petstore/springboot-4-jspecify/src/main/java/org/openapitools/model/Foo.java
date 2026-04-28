@@ -31,7 +31,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Foo")
 @XmlRootElement(name = "Foo")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Foo {
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

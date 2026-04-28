@@ -99,6 +99,14 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
         return myself();
     }
 
+    public ACTUAL recursivelyContainsWithNameAndAttributes(String name, Map<String, String> attributes) {
+        super
+                .withFailMessage("Should have annotation with name: " + name)
+                .anyMatch(annotation -> containsSpecificAnnotationNameAndAttributes(annotation, name, attributes));
+
+        return myself();
+    }
+
     private boolean containsSpecificAnnotationName(Node node, String name) {
         if (node == null || name == null)
             return false;
@@ -113,6 +121,29 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
 
         for(Node child: node.getChildNodes()){
             if(containsSpecificAnnotationName(child, name))
+                return true;
+        }
+
+        return false;
+    }
+
+    private boolean containsSpecificAnnotationNameAndAttributes(Node node, String name, Map<String, String> attributes) {
+        if (node == null || name == null)
+            return false;
+
+        if (node instanceof AnnotationExpr) {
+            AnnotationExpr annotation = (AnnotationExpr) node;
+
+            if (annotation.getNameAsString().equals(name))
+
+                if (hasAttributes(annotation, attributes)) {
+                    return true;
+                }
+
+        }
+
+        for(Node child: node.getChildNodes()) {
+            if (containsSpecificAnnotationNameAndAttributes(child, name, attributes))
                 return true;
         }
 

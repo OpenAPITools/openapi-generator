@@ -831,16 +831,20 @@ components:
           type: string
       type: object
     UserOrPet:
+      description: A schema that can be either a User or a Pet
       oneOf:
       - $ref: "#/components/schemas/User"
       - $ref: "#/components/schemas/Pet"
+      x-one-of-name: UserOrPet
     UserOrPetOrArrayString:
+      description: "A schema that can be either a User, a Pet, or an array of strings"
       oneOf:
       - $ref: "#/components/schemas/User"
       - $ref: "#/components/schemas/Pet"
       - items:
           type: string
         type: array
+      x-one-of-name: UserOrPetOrArrayString
     AnyOfUserOrPet:
       anyOf:
       - $ref: "#/components/schemas/User"

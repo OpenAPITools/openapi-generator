@@ -4,6 +4,7 @@ import java.net.{ URI, URISyntaxException }
 
 import java.io.File
 import java.nio.file.Files
+import java.util.Base64
 
 trait AdditionalTypeSerializers {
   import io.circe._
@@ -48,4 +49,18 @@ trait AdditionalTypeSerializers {
     case s: String => Json.fromString(s)
     case other => Json.fromString(other.toString)
   }
+
+  implicit final lazy val NanTolerantDoubleDecoder: Decoder[Double] =
+    Decoder.decodeDouble.or(Decoder.decodeString.emap {
+      case "NaN" => Right(Double.NaN)
+      case "Infinity" => Right(Double.PositiveInfinity)
+      case "-Infinity" => Right(Double.NegativeInfinity)
+      case s => Left(s"Cannot decode '$s' as Double")
+  })
+
+  implicit final lazy val Base64OrArrayByteDecoder: Decoder[Array[Byte]] =
+    Decoder.decodeArray[Byte].or(Decoder.decodeString.emap { s =>
+      try Right(Base64.getDecoder.decode(s))
+      catch { case _: IllegalArgumentException => Left(s"Cannot decode '$s' as Base64 Array[Byte]") }
+    })
 }

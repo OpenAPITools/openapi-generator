@@ -57,6 +57,9 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"[a-z]", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return value
@@ -66,6 +69,9 @@ class FormatTest(BaseModel):
         """Validates the regular expression"""
         if value is None:
             return value
+
+        if not isinstance(value, str):
+            value = str(value)
 
         if not re.match(r"this is \"something\"", value):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
@@ -77,6 +83,9 @@ class FormatTest(BaseModel):
         if value is None:
             return value
 
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"^\d{10}$", value):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return value
@@ -86,6 +95,9 @@ class FormatTest(BaseModel):
         """Validates the regular expression"""
         if value is None:
             return value
+
+        if not isinstance(value, str):
+            value = str(value)
 
         if not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")

@@ -406,7 +406,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
-        if ((p.getAnyOf() != null && !p.getAnyOf().isEmpty()) || (p.getOneOf() != null && !p.getOneOf().isEmpty())) {
+        if (ModelUtils.hasAnyOf(p) || ModelUtils.hasOneOf(p)) {
             return openAPIType;
         }
 
@@ -754,19 +754,46 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
             if (vendorExtensions.containsKey("x-enum-varnames")) {
-                List<String> values = (List<String>) vendorExtensions.get("x-enum-varnames");
-                int size = Math.min(enumVars.size(), values.size());
-
-                for (int i = 0; i < size; i++) {
-                    enumVars.get(i).put("name", toEnumVarName(values.get(i), dataType));
+                Object extensionValue = vendorExtensions.get("x-enum-varnames");
+                if (extensionValue instanceof List) {
+                    List<String> values = (List<String>) extensionValue;
+                    int size = Math.min(enumVars.size(), values.size());
+                    for (int i = 0; i < size; i++) {
+                        enumVars.get(i).put("name", toEnumVarName(values.get(i), dataType));
+                    }
+                } else if (extensionValue instanceof Map) {
+                    Map<String, String> valueMap = (Map<String, String>) extensionValue;
+                    for (Map<String, Object> enumVar : enumVars) {
+                        String enumValue = (String) enumVar.get("value");
+                        for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+                            if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
+                                enumVar.put("name", toEnumVarName(entry.getValue(), dataType));
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
             if (vendorExtensions.containsKey("x-enum-descriptions")) {
-                List<String> values = (List<String>) vendorExtensions.get("x-enum-descriptions");
-                int size = Math.min(enumVars.size(), values.size());
-                for (int i = 0; i < size; i++) {
-                    enumVars.get(i).put("enumDescription", values.get(i));
+                Object extensionValue = vendorExtensions.get("x-enum-descriptions");
+                if (extensionValue instanceof List) {
+                    List<String> values = (List<String>) extensionValue;
+                    int size = Math.min(enumVars.size(), values.size());
+                    for (int i = 0; i < size; i++) {
+                        enumVars.get(i).put("enumDescription", values.get(i));
+                    }
+                } else if (extensionValue instanceof Map) {
+                    Map<String, String> valueMap = (Map<String, String>) extensionValue;
+                    for (Map<String, Object> enumVar : enumVars) {
+                        String enumValue = (String) enumVar.get("value");
+                        for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+                            if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
+                                enumVar.put("enumDescription", entry.getValue());
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -781,9 +808,46 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
     }
 
+    /**
+     * Builds the PHP expression for a backed enum case default (PHP 8.1+ {@code enum}).
+     * <p>
+     * The legacy {@code self::}{@code <datatype>_<CASE>} form came from class-constant style enums (#10273) and is
+     * invalid when {@code datatype} is a namespaced class: {@code self::} only resolves constants on the current
+     * class. Native enums must use {@code EnumType::CASE}.
+     * <p>
+     * Execution: {@code datatype} is produced upstream (e.g. {@link DefaultCodegen#updateCodegenPropertyEnum}) via
+     * {@link #getTypeDeclaration(Schema)} for the referenced enum schema; {@code value} is the sanitized case name
+     * from {@link #toEnumVarName}. When the enum class sits under {@link #modelPackage}, we emit only the short class
+     * name plus {@code ::} so it matches sibling model references in generated files ({@code namespace} is
+     * {@code modelPackage}; unqualified names resolve correctly). A fully qualified body without a leading
+     * {@code \} would be resolved relative to the file namespace and is invalid PHP for defaults.
+     *
+     * @param value    enum case name (e.g. {@code AVAILABLE})
+     * @param datatype enum class as produced by {@link #getTypeDeclaration(Schema)} (may include {@code modelPackage})
+     * @return PHP default expression for that case (e.g. {@code PetStatus::AVAILABLE})
+     */
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        return "self::" + datatype + "_" + value;
+        return unqualifiedEnumClassForModelDefault(datatype) + "::" + value;
+    }
+
+    /**
+     * Strips {@link #modelPackage} from a declared enum class name so defaults use the same unqualified form as
+     * property type hints in model templates.
+     *
+     * @param datatype enum class string from codegen (optional leading {@code \})
+     * @return short class name if under {@code modelPackage}, otherwise the original {@code datatype}
+     */
+    private String unqualifiedEnumClassForModelDefault(String datatype) {
+        if (StringUtils.isBlank(datatype) || StringUtils.isBlank(modelPackage)) {
+            return datatype;
+        }
+        String normalized = datatype.charAt(0) == '\\' ? datatype.substring(1) : datatype;
+        String prefix = modelPackage + "\\";
+        if (normalized.startsWith(prefix)) {
+            return normalized.substring(prefix.length());
+        }
+        return datatype;
     }
 
     @Override

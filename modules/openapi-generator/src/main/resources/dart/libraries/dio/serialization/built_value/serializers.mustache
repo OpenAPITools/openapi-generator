@@ -12,7 +12,7 @@ import 'package:{{pubName}}/{{sourceFolder}}/date_serializer.dart';
 import 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/date.dart';{{/useDateLibCore}}
 {{#useDateLibTimeMachine}}import 'package:time_machine/time_machine.dart';
 import 'package:{{pubName}}/{{sourceFolder}}/offset_date_serializer.dart';{{/useDateLibTimeMachine}}
-{{#models}}{{#model}}import 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
+{{#models}}{{#model}}import '{{{vendorExtensions.x-import-path}}}';
 {{/model}}{{/models}}{{#builtValueSerializerImports}}import '{{{.}}}';
 {{/builtValueSerializerImports}}
 

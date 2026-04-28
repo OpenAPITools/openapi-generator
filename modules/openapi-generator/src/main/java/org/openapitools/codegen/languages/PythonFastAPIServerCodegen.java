@@ -41,6 +41,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-fastapi/}.
+ */
 public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     final Logger LOGGER = LoggerFactory.getLogger(PythonFastAPIServerCodegen.class);
 

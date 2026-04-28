@@ -1,13 +1,32 @@
-# Minimal OpenAPI 3.1 spec: optional query with enum $ref + default (components.parameters).
-# Repro pattern: omitting the query key should behave like the declared default; php-symfony
-# may still validate null as enum type before business logic. See project troubleshooting doc.
+# Minimal OpenAPI 3.1 spec (pet store style):
+# - Optional query: enum $ref + default (components.parameters) — regression for query/controller path.
+# - Model property: enum $ref + sibling default on an object schema — invalid PHP may be emitted for the
+#   property initializer (e.g. self::..._CASE) when default flows through AbstractPhpCodegen.toEnumDefaultValue.
 openapi: 3.1.0
 info:
   title: Optional enum query ref with default (php-symfony repro)
   version: '1.0'
+servers:
+  - url: https://petstore.example.com/api
+# Explicit empty security for minimal test fixtures (no global auth).
+security: []
 paths:
+  /pets:
+    post:
+      summary: Create a pet (request body uses enum ref + default on a property)
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet.HTTP.CreatePetRequest'
+      responses:
+        '201':
+          description: Created
   /pets/feed-hints:
     get:
+      summary: List feed hints (optional enum query ref + default)
       operationId: listFeedHints
       parameters:
         - $ref: '#/components/parameters/ToneQuery'
@@ -35,6 +54,19 @@ components:
         $ref: '#/components/schemas/PetAnnouncementTone'
         default: friendly
   schemas:
+    Pet.Model.PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+        - sold
+    Pet.HTTP.CreatePetRequest:
+      type: object
+      properties:
+        # OAS 3.1: sibling keys beside $ref are allowed.
+        status:
+          $ref: '#/components/schemas/Pet.Model.PetStatus'
+          default: available
     PetAnnouncementTone:
       type: string
       enum:

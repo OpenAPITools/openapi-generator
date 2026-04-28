@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 /**
  * OpenAPI generator for Postman Collection format v2.1
+ * <p>Mustache templates are located in {@code src/main/resources/postman-collection/}.
  */
 public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenConfig {
 

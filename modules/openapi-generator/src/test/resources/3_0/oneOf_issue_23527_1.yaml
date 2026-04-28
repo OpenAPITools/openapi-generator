@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: GeoJSON Discriminator Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    GeoJsonObject:
+      type: object
+      properties:
+        type:
+          type: string
+      required:
+        - type
+      discriminator:
+        propertyName: type
+        mapping:
+          Polygon: '#/components/schemas/Polygon'
+          MultiPolygon: '#/components/schemas/MultiPolygon'
+      oneOf:
+        - $ref: '#/components/schemas/Polygon'
+        - $ref: '#/components/schemas/MultiPolygon'
+    Polygon:
+      type: object
+      properties:
+        coordinates:
+          type: array
+          items:
+            type: number
+            format: double
+    MultiPolygon:
+      type: object
+      properties:
+        coordinates:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              format: double
