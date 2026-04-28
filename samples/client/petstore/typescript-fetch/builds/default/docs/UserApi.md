@@ -29,11 +29,11 @@ This can only be done by the logged in user.
 import {
   Configuration,
   UserApi,
-} from '';
-import type { CreateUserRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { CreateUserRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   const body = {
@@ -94,11 +94,11 @@ Creates list of users with given input array
 import {
   Configuration,
   UserApi,
-} from '';
-import type { CreateUsersWithArrayInputRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { CreateUsersWithArrayInputRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   const body = {
@@ -159,11 +159,11 @@ Creates list of users with given input array
 import {
   Configuration,
   UserApi,
-} from '';
-import type { CreateUsersWithListInputRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { CreateUsersWithListInputRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   const body = {
@@ -226,11 +226,11 @@ This can only be done by the logged in user.
 import {
   Configuration,
   UserApi,
-} from '';
-import type { DeleteUserRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { DeleteUserRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   const body = {
@@ -292,11 +292,11 @@ Get user by user name
 import {
   Configuration,
   UserApi,
-} from '';
-import type { GetUserByNameRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { GetUserByNameRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   const body = {
@@ -359,11 +359,11 @@ Logs user into the system
 import {
   Configuration,
   UserApi,
-} from '';
-import type { LoginUserRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { LoginUserRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   const body = {
@@ -428,11 +428,11 @@ Logs out current logged in user session
 import {
   Configuration,
   UserApi,
-} from '';
-import type { LogoutUserRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { LogoutUserRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   try {
@@ -487,11 +487,11 @@ This can only be done by the logged in user.
 import {
   Configuration,
   UserApi,
-} from '';
-import type { UpdateUserRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { UpdateUserRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new UserApi();
 
   const body = {

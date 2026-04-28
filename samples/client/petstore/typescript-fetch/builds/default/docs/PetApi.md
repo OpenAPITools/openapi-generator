@@ -27,11 +27,11 @@ Add a new pet to the store
 import {
   Configuration,
   PetApi,
-} from '';
-import type { AddPetRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { AddPetRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",
@@ -96,11 +96,11 @@ Deletes a pet
 import {
   Configuration,
   PetApi,
-} from '';
-import type { DeletePetRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { DeletePetRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",
@@ -170,11 +170,11 @@ Multiple status values can be provided with comma separated strings
 import {
   Configuration,
   PetApi,
-} from '';
-import type { FindPetsByStatusRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { FindPetsByStatusRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",
@@ -242,11 +242,11 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 import {
   Configuration,
   PetApi,
-} from '';
-import type { FindPetsByTagsRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { FindPetsByTagsRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",
@@ -314,11 +314,11 @@ Returns a single pet
 import {
   Configuration,
   PetApi,
-} from '';
-import type { GetPetByIdRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { GetPetByIdRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure API key authorization: api_key
     apiKey: "YOUR API KEY",
@@ -385,11 +385,11 @@ Update an existing pet
 import {
   Configuration,
   PetApi,
-} from '';
-import type { UpdatePetRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { UpdatePetRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",
@@ -456,11 +456,11 @@ Updates a pet in the store with form data
 import {
   Configuration,
   PetApi,
-} from '';
-import type { UpdatePetWithFormRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { UpdatePetWithFormRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",
@@ -531,11 +531,11 @@ uploads an image
 import {
   Configuration,
   PetApi,
-} from '';
-import type { UploadFileRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { UploadFileRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",

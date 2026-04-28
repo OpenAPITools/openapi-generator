@@ -25,11 +25,11 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 import {
   Configuration,
   StoreApi,
-} from '';
-import type { DeleteOrderRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { DeleteOrderRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new StoreApi();
 
   const body = {
@@ -93,11 +93,11 @@ Returns a map of status codes to quantities
 import {
   Configuration,
   StoreApi,
-} from '';
-import type { GetInventoryRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { GetInventoryRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const config = new Configuration({ 
     // To configure API key authorization: api_key
     apiKey: "YOUR API KEY",
@@ -156,11 +156,11 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 import {
   Configuration,
   StoreApi,
-} from '';
-import type { GetOrderByIdRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { GetOrderByIdRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new StoreApi();
 
   const body = {
@@ -223,11 +223,11 @@ Place an order for a pet
 import {
   Configuration,
   StoreApi,
-} from '';
-import type { PlaceOrderRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { PlaceOrderRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new StoreApi();
 
   const body = {

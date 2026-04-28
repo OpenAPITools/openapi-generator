@@ -19,7 +19,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { User } from ''
+import type { User } from '@openapitools/typescript-fetch-petstore'
 
 // TODO: Update the object below with actual values
 const example = {

@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Category } from ''
+import type { Category } from '@openapitools/typescript-fetch-petstore'
 
 // TODO: Update the object below with actual values
 const example = {

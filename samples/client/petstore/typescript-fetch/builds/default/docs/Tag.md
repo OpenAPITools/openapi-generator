@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Tag } from ''
+import type { Tag } from '@openapitools/typescript-fetch-petstore'
 
 // TODO: Update the object below with actual values
 const example = {
