@@ -1338,7 +1338,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         Path petApi = output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java");
         JavaFileAssert.assertThat(petApi).assertMethod("findPetsByTags", "List<String>").hasAnnotation("Deprecated");
-        JavaFileAssert.assertThat(petApi).fileContains("@ApiOperation", "deprecated = true", "findPetsByTags");
+        JavaFileAssert.assertThat(petApi).fileContains("* @deprecated", "findPetsByTags");
         JavaFileAssert.assertThat(petApi).fileContains("findPetsByStatus", "@Deprecated", "@QueryParam(\"status\")");
     }
 
