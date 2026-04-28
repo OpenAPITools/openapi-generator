@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Foo.JSON_PROPERTY_REQUIRED_DT,
   Foo.JSON_PROPERTY_NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_DT = "dt";
   
