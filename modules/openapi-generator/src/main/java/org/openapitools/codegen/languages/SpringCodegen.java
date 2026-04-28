@@ -110,7 +110,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SEALED = "useSealed";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
-    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
     public static final String SPRING_API_VERSION = "springApiVersion";
     public static final String USE_JACKSON_3 = "useJackson3";
     public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
@@ -186,8 +185,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean optionalAcceptNullable = true;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
-    @Getter @Setter
-    protected boolean useDeductionForOneOfInterfaces = false;
     @Getter @Setter
     protected boolean useJackson3 = false;
     @Getter @Setter
@@ -557,7 +554,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
-        convertPropertyToBooleanAndWriteBack(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
