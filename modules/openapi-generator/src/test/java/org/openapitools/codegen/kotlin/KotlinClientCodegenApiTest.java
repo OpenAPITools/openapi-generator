@@ -171,6 +171,29 @@ public class KotlinClientCodegenApiTest {
         assertFileNotContains(Paths.get(apiClientPath), "is OffsetDateTime -> parseDateToQueryString(value)");
     }
 
+    @Test
+    public void testDollarInPathParamSanitizedForRetrofit2_20502() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/echo_api.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_RETROFIT2);
+        codegen.additionalProperties().put(KotlinClientCodegen.USE_COROUTINES, "true");
+        codegen.additionalProperties().put(KotlinClientCodegen.USE_RESPONSE_AS_RETURN_TYPE, "true");
+
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File echoApi = files.stream().filter(file -> file.getName().equals("EchoApi.kt")).findAny().orElseThrow();
+
+        // Retrofit @Path name must not contain '$' — must use the sanitized paramName
+        assertFileContains(echoApi.toPath(), "@Path(\"dollarParamName\")");
+        assertFileContains(echoApi.toPath(), "echo/string-escaping/{dollarParamName}");
+        // Raw '$paramName' must never appear in the @Path annotation value
+        assertFileNotContains(echoApi.toPath(), "@Path(\"$paramName\")");
+        assertFileNotContains(echoApi.toPath(), "@Path(\"\\$paramName\")");
+    }
+
     @Test(dataProvider = "librariesWithDateQueryHelper")
     public void testGeneratedApisUseExplicitDateTypeArgumentsForQuerySerialization(ClientLibrary library) throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/echo_api.yaml");
