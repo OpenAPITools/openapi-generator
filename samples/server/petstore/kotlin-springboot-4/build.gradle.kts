@@ -29,9 +29,10 @@ dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webmvc")
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("tools.jackson.dataformat:jackson-dataformat-yaml")
-    implementation("tools.jackson.dataformat:jackson-dataformat-xml")
-    implementation("tools.jackson.module:jackson-module-kotlin")
+    val jackson3Version = "3.1.0"
+    implementation("tools.jackson.dataformat:jackson-dataformat-yaml:$jackson3Version")
+    implementation("tools.jackson.dataformat:jackson-dataformat-xml:$jackson3Version")
+    implementation("tools.jackson.module:jackson-module-kotlin:$jackson3Version")
     implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("jakarta.validation:jakarta.validation-api")

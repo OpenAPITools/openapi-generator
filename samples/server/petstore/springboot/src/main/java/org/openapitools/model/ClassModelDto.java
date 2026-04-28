@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "ClassModel", description = "Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ClassModelDto {
 
   private @Nullable String propertyClass;

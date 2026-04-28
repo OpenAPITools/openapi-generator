@@ -7,6 +7,7 @@
     <version>1.0.0</version>
     <properties>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
+        <jackson3.version>3.1.0</jackson3.version>
         <jakarta-annotation.version>3.0.0</jakarta-annotation.version>
         <kotlin-test-junit5.version>2.2.0</kotlin-test-junit5.version>
 
@@ -101,14 +102,17 @@
         <dependency>
             <groupId>tools.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson3.version}</version>
         </dependency>
         <dependency>
             <groupId>tools.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson3.version}</version>
         </dependency>
         <dependency>
             <groupId>tools.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson3.version}</version>
         </dependency>
         <!-- Bean Validation API support -->
         <dependency>
