@@ -157,6 +157,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     engine.set(generate.engine)
                     cleanupOutput.set(generate.cleanupOutput)
                     dryRun.set(generate.dryRun)
+                    workerIsolation.set(generate.workerIsolation)
+                    maxWorkerHeapSize.set(generate.maxWorkerHeapSize)
                 }
             }
         }
