@@ -5333,6 +5333,42 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void shouldGenerateJackson3BuildDepsWithVersions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        // Gradle build file must have Jackson 3 deps with explicit versions
+        Path gradlePath = Paths.get(outputPath + "/build.gradle.kts");
+        assertFileContains(gradlePath, "tools.jackson.dataformat:jackson-dataformat-yaml:");
+        assertFileContains(gradlePath, "tools.jackson.module:jackson-module-kotlin:");
+        // Should NOT include non-existent tools.jackson.core:jackson-annotations
+        assertFileNotContains(gradlePath, "tools.jackson.core:jackson-annotations");
+
+        // Annotations stay in com.fasterxml.jackson.annotation even with Jackson 3
+        Path petModelPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(petModelPath, "com.fasterxml.jackson.annotation.JsonProperty");
+    }
+
+    @Test
     public void shouldDefaultToJackson3WhenSpringBoot4Enabled() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

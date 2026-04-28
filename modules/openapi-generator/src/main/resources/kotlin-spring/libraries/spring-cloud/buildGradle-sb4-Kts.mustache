@@ -54,9 +54,10 @@ dependencies {
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")
 {{#useJackson3}}
-    implementation("tools.jackson.dataformat:jackson-dataformat-yaml")
-    implementation("tools.jackson.dataformat:jackson-dataformat-xml")
-    implementation("tools.jackson.module:jackson-module-kotlin")
+    val jackson3Version = "3.1.0"
+    implementation("tools.jackson.dataformat:jackson-dataformat-yaml:$jackson3Version")
+    implementation("tools.jackson.dataformat:jackson-dataformat-xml:$jackson3Version")
+    implementation("tools.jackson.module:jackson-module-kotlin:$jackson3Version")
 {{/useJackson3}}
 {{^useJackson3}}
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")

@@ -11,7 +11,8 @@
         <swagger-ui.version>5.17.14</swagger-ui.version>{{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
         <swagger-annotations.version>1.6.6</swagger-annotations.version>{{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
         <swagger-annotations.version>2.2.28</swagger-annotations.version>{{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}
-        <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
+        <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>{{#useJackson3}}
+        <jackson3.version>3.1.0</jackson3.version>{{/useJackson3}}
         <jakarta-annotation.version>3.0.0</jakarta-annotation.version>
         <kotlin-test-junit5.version>2.2.0</kotlin-test-junit5.version>
 
@@ -158,6 +159,23 @@
             <artifactId>jsr305</artifactId>
             <version>${findbugs-jsr305.version}</version>
         </dependency>
+{{#useJackson3}}
+        <dependency>
+            <groupId>{{jacksonPackage}}.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>{{jacksonPackage}}.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>{{jacksonPackage}}.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson3.version}</version>
+        </dependency>
+{{/useJackson3}}{{^useJackson3}}
         <dependency>
             <groupId>{{jacksonPackage}}.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
@@ -165,15 +183,16 @@
         <dependency>
             <groupId>{{jacksonPackage}}.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
-        </dependency>{{^useJackson3}}
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>{{/useJackson3}}
+        </dependency>
         <dependency>
             <groupId>{{jacksonPackage}}.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
+{{/useJackson3}}
 {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>

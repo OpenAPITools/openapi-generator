@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 @JsonTypeName("NullableClass")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "NullableClass", propOrder =
     { "integerProp", "numberProp", "booleanProp", "stringProp", "dateProp", "datetimeProp", "arrayNullableProp", "arrayAndItemsNullableProp", "arrayItemsNullable", "objectNullableProp", "objectAndItemsNullableProp", "objectItemsNullable"
     })

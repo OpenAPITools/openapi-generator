@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.*;
@@ -1027,6 +1028,72 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return codegenParameter;
     }
 
+    private String getIntegerDataType(String format,
+                                      BigInteger minimum,
+                                      boolean exclusiveMinimum,
+                                      final BigInteger maximum,
+                                      final boolean exclusiveMaximum) {
+        final boolean unsigned = canFitIntoUnsigned(minimum, exclusiveMinimum);
+
+        if (StringUtils.isEmpty(format)) {
+            return bestFittingIntegerType(
+                    minimum,
+                    exclusiveMinimum,
+                    maximum,
+                    exclusiveMaximum,
+                    unsigned);
+        }
+
+        switch (format) {
+            // custom integer formats (legacy)
+            case "uint32":
+                return "u32";
+            case "uint64":
+                return "u64";
+            case "int32":
+                return unsigned ? "u32" : "i32";
+            case "int64":
+                return unsigned ? "u64" : "i64";
+            default:
+                LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", format);
+                return bestFittingIntegerType(
+                        minimum,
+                        exclusiveMinimum,
+                        maximum,
+                        exclusiveMaximum,
+                        unsigned);
+        }
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        if (Objects.equals(p.getType(), "integer")) {
+            final boolean hasNoFormat = StringUtils.isEmpty(p.getFormat());
+            final boolean hasNoBounds = p.getMinimum() == null
+                    && p.getMaximum() == null
+                    && p.getExclusiveMinimum() == null
+                    && p.getExclusiveMaximum() == null;
+
+            // Preserve legacy schema typing for unconstrained integers so alias models
+            // keep their expected model resolution flow.
+            if (hasNoFormat && hasNoBounds) {
+                return super.getSchemaType(p);
+            }
+
+            final BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
+            final BigInteger maximum = Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null);
+
+            return getIntegerDataType(
+                    p.getFormat(),
+                    minimum,
+                    Optional.ofNullable(p.getExclusiveMinimum()).orElse(false),
+                    maximum,
+                    Optional.ofNullable(p.getExclusiveMaximum()).orElse(false));
+        }
+
+        return super.getSchemaType(p);
+    }
+
     @Override
     public String toInstantiationType(final Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -1038,6 +1105,45 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         } else {
             return null;
         }
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty property = super.fromProperty(name, p, required);
+        ensureArrayComplexType(property);
+        return property;
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        ensureArrayComplexType(property);
+        return property;
+    }
+
+    private void ensureArrayComplexType(CodegenProperty property) {
+        if (property == null || !property.isArray || StringUtils.isNotBlank(property.complexType) || property.items == null) {
+            return;
+        }
+
+        String candidate = StringUtils.defaultIfBlank(property.items.complexType, property.items.baseType);
+        if (StringUtils.isBlank(candidate)) {
+            candidate = property.items.dataType;
+        }
+        if (StringUtils.isBlank(candidate)) {
+            return;
+        }
+
+        property.complexType = reverseTypeMapping(candidate);
+    }
+
+    private String reverseTypeMapping(String rustType) {
+        for (Map.Entry<String, String> entry : typeMapping.entrySet()) {
+            if (Objects.equals(entry.getValue(), rustType)) {
+                return entry.getKey();
+            }
+        }
+        return rustType;
     }
 
     @Override
@@ -1116,13 +1222,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         // Integer type fitting
-        if (Objects.equals(property.baseType, "integer")) {
-            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-            property.dataType = bestFittingIntegerType(
-                    minimum, property.getExclusiveMinimum(),
-                    maximum, property.getExclusiveMaximum(),
-                    true);
+        if (Boolean.TRUE.equals(property.isInteger) || Boolean.TRUE.equals(property.isLong) || Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong")) {
+            final BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
+            final BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
+            property.dataType = getIntegerDataType(
+                    property.dataFormat,
+                    minimum,
+                    property.getExclusiveMinimum(),
+                    maximum,
+                    property.getExclusiveMaximum());
         }
 
         property.name = underscore(property.name);
