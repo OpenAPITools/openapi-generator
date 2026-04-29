@@ -36,7 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -116,7 +115,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String COMPANION_OBJECT = "companionObject";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
-    private static final Pattern RETROFIT_PATH_PARAM_NAME_PATTERN = Pattern.compile("[a-zA-Z][a-zA-Z0-9_-]*");
 
 
     @Setter protected String dateLibrary = DateLibrary.JAVA8.value;
@@ -1070,7 +1068,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 if (JVM_RETROFIT2.equals(getLibrary())) {
                     for (CodegenParameter param : operation.allParams) {
                         if (param.isPathParam) {
-                            boolean validRetrofitName = RETROFIT_PATH_PARAM_NAME_PATTERN.matcher(param.baseName).matches();
+                            boolean validRetrofitName = param.baseName.matches("[a-zA-Z][a-zA-Z0-9_-]*");
                             if (validRetrofitName) {
                                 param.vendorExtensions.put("x-retrofit-path-name", param.baseName);
                             } else {
