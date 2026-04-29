@@ -11,8 +11,8 @@
  */
 package org.openapitools.client.api
 
-import org.openapitools.client.model.Order
 import io.circe.Json
+import org.openapitools.client.model.Order
 import org.openapitools.client.core.JsonSupport._
 import sttp.client3._
 import sttp.model.Method
@@ -77,18 +77,18 @@ class StoreApi(baseUrl: String) {
    * Returns arbitrary store metrics whose schema is not fixed
    * 
    * Expected answers:
-   *   code 200 : io.circe.Json (successful operation)
+   *   code 200 : Json (successful operation)
    * 
    * Available security schemes:
    *   api_key (apiKey)
    */
   def getStoreStats(apiKeyHeader: String)(
-): Request[Either[ResponseException[String, Exception], io.circe.Json], Any] =
+): Request[Either[ResponseException[String, Exception], Json], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/stats")
       .contentType("application/json")
       .header("api_key", apiKeyHeader)
-      .response(asJson[io.circe.Json])
+      .response(asJson[Json])
 
   /**
    * 

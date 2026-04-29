@@ -165,11 +165,12 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         modelPackage = PACKAGE_PROPERTY.getModelPackage(additionalProperties);
 
         String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
-        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
-        importMapping.put(jsonValueClass, jsonValueClass);
+        String jsonValueFqn = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
+        String jsonValueSimpleName = jsonValueFqn.substring(jsonValueFqn.lastIndexOf('.') + 1);
 
-        typeMapping.put("object", jsonValueClass);
-        typeMapping.put("AnyType", jsonValueClass);
+        typeMapping.put("object", jsonValueSimpleName);
+        typeMapping.put("AnyType", jsonValueSimpleName);
+        importMapping.put(jsonValueSimpleName, jsonValueFqn);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
