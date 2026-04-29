@@ -32,7 +32,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = BarRef.class, name = "BarRef")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public interface BarRefOrValue {
     public String getAtType();
 }

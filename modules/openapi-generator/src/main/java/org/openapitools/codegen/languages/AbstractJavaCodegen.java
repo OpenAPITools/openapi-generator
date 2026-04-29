@@ -1383,7 +1383,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return toArrayDefaultValue(cp, schema);
         } else if (ModelUtils.isMapSchema(schema) && !(ModelUtils.isComposedSchema(schema))) {
-            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+            if (ModelUtils.hasProperties(schema)) {
                 // object is complex object with free-form additional properties
                 if (schema.getDefault() != null) {
                     return super.toDefaultValue(schema);

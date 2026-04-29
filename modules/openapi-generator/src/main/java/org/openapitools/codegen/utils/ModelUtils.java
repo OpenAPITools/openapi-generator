@@ -410,6 +410,25 @@ public class ModelUtils {
         return ref;
     }
 
+    public static boolean hasProperties(Schema<?> schema) {
+        return schema.getProperties() != null && !schema.getProperties().isEmpty();
+    }
+
+    public static boolean hasEnum(Schema<?> schema) {
+        return schema.getEnum() != null && !schema.getEnum().isEmpty();
+    }
+
+    /**
+     * Return true if the specified schema is type object
+     * Only considers OAS 3.0 {@code type} and not OAS 3.1 {@code types}
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an OAS 3.0 {@code object} schema.
+     */
+    public static boolean isObjectTypeOAS30(Schema<?> schema) {
+        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
+    }
+
     /**
      * Return true if the specified schema is type object
      * We can't use isObjectSchema because it requires properties to exist which is not required
@@ -453,7 +472,7 @@ public class ModelUtils {
                 // must not be a map
                 (SchemaTypeUtil.OBJECT_TYPE.equals(getType(schema)) && !(ModelUtils.isMapSchema(schema))) ||
                 // must have at least one property
-                (getType(schema) == null && schema.getProperties() != null && !schema.getProperties().isEmpty());
+                (getType(schema) == null && hasProperties(schema));
     }
 
     /**
@@ -502,19 +521,19 @@ public class ModelUtils {
     public static boolean isComplexComposedSchema(Schema schema) {
         int count = 0;
 
-        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+        if (hasAllOf(schema)) {
             count++;
         }
 
-        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+        if (hasOneOf(schema)) {
             count++;
         }
 
-        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+        if (hasAnyOf(schema)) {
             count++;
         }
 
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        if (hasProperties(schema)) {
             count++;
         }
 
@@ -884,7 +903,7 @@ public class ModelUtils {
                 return false;
             }
 
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // has properties
+            if (hasProperties(schema)) {
                 return false;
             }
 
@@ -921,7 +940,7 @@ public class ModelUtils {
                 if (schema.getExtensions() != null && schema.getExtensions().containsKey(freeFormExplicit)) {
                     // User has hard-coded vendor extension to handle free-form evaluation.
                     boolean isFreeFormExplicit = Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(freeFormExplicit)));
-                    if (!isFreeFormExplicit && addlProps != null && addlProps.getProperties() != null && !addlProps.getProperties().isEmpty()) {
+                    if (!isFreeFormExplicit && addlProps != null && hasProperties(addlProps)) {
                         once(LOGGER).error(String.format(Locale.ROOT, "Potentially confusing usage of %s within model which defines additional properties", freeFormExplicit));
                     }
                     return isFreeFormExplicit;
@@ -1334,7 +1353,7 @@ public class ModelUtils {
             }
         } else if (schema.getNot() != null) {
             return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
-        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        } else if (hasProperties(schema)) {
             // go through properties to see if there's any self-reference
             for (Schema property : ((Map<String, Schema>) schema.getProperties()).values()) {
                 if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
@@ -1400,7 +1419,7 @@ public class ModelUtils {
             } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
+                if (hasProperties(ref))
                     return schema; // treat it as model
                 else {
                     if (isGenerateAliasAsModel(ref)) {
@@ -1412,7 +1431,7 @@ public class ModelUtils {
                     }
                 }
             } else if (isObjectSchema(ref)) { // model
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                if (hasProperties(ref)) {
                     // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
                     // TODO we may also need to revise below to return `ref` instead of schema
                     // which is the last reference to the actual model/object
@@ -1530,11 +1549,11 @@ public class ModelUtils {
      * @return a list of schema defined in allOf, anyOf or oneOf
      */
     public static List<Schema> getInterfaces(Schema composed) {
-        if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+        if (hasAllOf(composed)) {
             return composed.getAllOf();
-        } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
+        } else if (hasAnyOf(composed)) {
             return composed.getAnyOf();
-        } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+        } else if (hasOneOf(composed)) {
             return composed.getOneOf();
         } else {
             return Collections.emptyList();
@@ -2112,7 +2131,7 @@ public class ModelUtils {
      * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
      */
     public static boolean isAllOfWithProperties(Schema schema) {
-        return hasAllOf(schema) && (schema.getProperties() != null && !schema.getProperties().isEmpty()) &&
+        return hasAllOf(schema) && (hasProperties(schema)) &&
                 (schema.getOneOf() == null || schema.getOneOf().isEmpty()) &&
                 (schema.getAnyOf() == null || schema.getAnyOf().isEmpty());
     }

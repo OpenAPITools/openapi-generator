@@ -406,7 +406,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
-        if ((p.getAnyOf() != null && !p.getAnyOf().isEmpty()) || (p.getOneOf() != null && !p.getOneOf().isEmpty())) {
+        if (ModelUtils.hasAnyOf(p) || ModelUtils.hasOneOf(p)) {
             return openAPIType;
         }
 

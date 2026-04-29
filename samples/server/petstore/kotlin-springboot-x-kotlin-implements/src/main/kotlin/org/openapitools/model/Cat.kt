@@ -21,8 +21,15 @@ import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
+ * @param name 
+ * @param photoUrls 
+ * @param petType 
  * @param hunts 
  * @param age 
+ * @param id 
+ * @param category 
+ * @param tags 
+ * @param color 
  */
 data class Cat(
 

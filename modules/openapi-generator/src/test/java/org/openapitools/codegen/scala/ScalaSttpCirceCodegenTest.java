@@ -70,6 +70,7 @@ public class ScalaSttpCirceCodegenTest {
         // BinaryPayload: File and untyped object fields
         Path binaryPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/BinaryPayload.scala");
         assertFileContains(binaryPath, "data: Option[File]");
+        assertFileContains(binaryPath, "checksum: Option[Array[Byte]]");
         assertFileContains(binaryPath, "implicit val encoderBinaryPayload");
         assertFileContains(binaryPath, "implicit val decoderBinaryPayload");
 
@@ -83,6 +84,8 @@ public class ScalaSttpCirceCodegenTest {
         assertFileContains(serializersPath, "Double.NaN");
         assertFileContains(serializersPath, "Double.PositiveInfinity");
         assertFileContains(serializersPath, "Double.NegativeInfinity");
+        assertFileContains(serializersPath, "Base64OrArrayByteDecoder");
+        assertFileContains(serializersPath, "Base64.getDecoder.decode");
 
         // JsonSupport should NOT use AutoDerivation
         Path jsonSupportPath = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/core/JsonSupport.scala");

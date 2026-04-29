@@ -25,6 +25,9 @@ import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/julia-client/}.
+ */
 public class JuliaClientCodegen extends AbstractJuliaCodegen {
     /**
      * Configures the type of generator.

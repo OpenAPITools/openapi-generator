@@ -36,6 +36,9 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/avro-schema/}.
+ */
 public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AvroSchemaCodegen.class);
     private static final String AVRO = "avro-schema";

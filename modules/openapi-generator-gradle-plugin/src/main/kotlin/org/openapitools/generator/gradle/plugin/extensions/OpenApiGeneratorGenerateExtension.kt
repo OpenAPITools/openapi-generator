@@ -409,6 +409,28 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
      */
     val dryRun = project.objects.property<Boolean>()
 
+    /**
+     * Controls how the code generation worker is isolated from the Gradle daemon.
+     *
+     * - "classloader" (default): runs inside the Gradle daemon JVM with a separate ClassLoader. No process
+     *   startup overhead, but generator classes accumulate in daemon Metaspace. Suitable for projects
+     *   with very few generation tasks.
+     *
+     * - "process": runs in a separate JVM. Metaspace is isolated from the daemon and freed
+     *   when the worker exits. Gradle reuses the worker process across tasks that share the same
+     *   classpath, so the JVM startup cost is typically paid only once per parallel slot.
+     *   Best for projects with many generation tasks.
+     */
+    val workerIsolation = project.objects.property<String>()
+
+    /**
+     * Maximum heap size for the worker process when [workerIsolation] is "process" (e.g. "512m", "1g").
+     * Has no effect when [workerIsolation] is "classloader".
+     * When not set, the JVM uses ergonomic defaults (typically based on available system memory).
+     * Only set this if you hit OutOfMemoryError during generation of unusually large specs.
+     */
+    val maxWorkerHeapSize = project.objects.property<String>()
+
     init {
         applyDefaults()
     }

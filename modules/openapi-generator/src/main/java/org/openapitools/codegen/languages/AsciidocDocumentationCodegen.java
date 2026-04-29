@@ -41,6 +41,7 @@ import java.util.HashSet;
  * basic asciidoc markup generator.
  *
  * @see <a href="https://asciidoctor.org">asciidoctor</a>
+ * <p>Mustache templates are located in {@code src/main/resources/asciidoc-documentation/}.
  */
 public class AsciidocDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
 

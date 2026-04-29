@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'samples/server/others/kotlin-server/**'
+      - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
@@ -18,6 +19,7 @@ on:
   pull_request:
     paths:
       - 'samples/server/others/kotlin-server/**'
+      - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
@@ -42,6 +44,9 @@ jobs:
       matrix:
         sample:
           # server
+          - samples/server/others/kotlin-springboot/oneOf-discriminator
+          - samples/server/others/kotlin-springboot/oneOf-discriminator-const
+          - samples/server/others/kotlin-springboot/oneOf-enum-discriminator
           - samples/server/others/kotlin-server/polymorphism-allof-and-discriminator
           - samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
           - samples/server/others/kotlin-server/polymorphism-and-discriminator

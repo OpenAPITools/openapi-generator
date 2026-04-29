@@ -30,7 +30,12 @@ import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConve
 
 import java.util.function.Consumer;
 {{#openApiNullable}}
+{{^useJackson3}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/useJackson3}}
+{{#useJackson3}}
+import org.openapitools.jackson.nullable.JsonNullableJackson3Module;
+{{/useJackson3}}
 {{/openApiNullable}}
 {{#generateClientAsBean}}
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,6 +197,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             {{^failOnUnknownProperties}}
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             {{/failOnUnknownProperties}}
+            {{#openApiNullable}}
+            .addModule(new JsonNullableJackson3Module())
+            {{/openApiNullable}}
             .build();
     }
     {{/useJackson3}}
@@ -233,7 +241,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         {{#openApiNullable}}
+        {{^useJackson3}}
         xmlMapper.registerModule(new JsonNullableModule());
+        {{/useJackson3}}
+        {{#useJackson3}}
+        xmlMapper.registerModule(new JsonNullableJackson3Module());
+        {{/useJackson3}}
         {{/openApiNullable}}
         {{/withXml}}
 

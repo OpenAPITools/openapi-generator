@@ -209,6 +209,7 @@ module {{moduleName}}
 
     # Returns Auth Settings hash for api client.
     def auth_settings
+{{#authMethods.0}}
       Hash{
 {{#authMethods}}
 {{#isApiKey}}
@@ -250,6 +251,10 @@ module {{moduleName}}
 {{/isOAuth}}
 {{/authMethods}}
       }
+{{/authMethods.0}}
+{{^authMethods}}
+      {} of String => Hash(Symbol, String)
+{{/authMethods}}
     end
 
     # Returns an array of Server setting

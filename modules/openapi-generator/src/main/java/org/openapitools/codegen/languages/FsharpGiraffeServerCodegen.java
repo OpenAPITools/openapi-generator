@@ -37,6 +37,9 @@ import java.util.Map;
 
 import static java.util.UUID.randomUUID;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/fsharp-giraffe-server/}.
+ */
 public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";

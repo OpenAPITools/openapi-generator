@@ -16,7 +16,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 
+ * @param className 
  * @param declawed 
+ * @param color 
  */
 data class Cat(
 

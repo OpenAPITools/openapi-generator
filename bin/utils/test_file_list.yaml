@@ -66,3 +66,5 @@
   sha256: 82a6be39c1ed3dada96dfa1833a6709834cb3f9f9d50a19cbd9d49699e46df4f
 - filename: "samples/client/petstore/kotlin-jvm-spring-3-restclient/src/test/kotlin/org/openapitools/integration/UserApiTest.kt"
   sha256: bc64fb94857a3598e1332f1278307c3078ea9ec4b4aa75690e6eda86e9729a8d
+- filename: "samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/src/test/kotlin/org/openapitools/integration/NullableReturnTypeTest.kt"
+  sha256: 41ad4769f4d1bbf616056865deca44ed6dc414ca20d43e38fd9d40a1a81e9c19

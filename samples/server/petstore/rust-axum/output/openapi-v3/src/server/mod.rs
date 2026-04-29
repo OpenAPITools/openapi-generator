@@ -85,6 +85,9 @@ where
         .route("/paramget",
             get(paramget_get::<I, A, E>)
         )
+        .route("/query-example",
+            get(query_example_get::<I, A, E>)
+        )
         .route("/readonly_auth_scheme",
             get(readonly_auth_scheme_get::<I, A, E>)
         )
@@ -1318,6 +1321,67 @@ where
                 .await
                 .unwrap()?;
                 response.body(Body::from(body_content))
+            }
+        },
+        Err(why) => {
+            // Application code returned an error. This should not happen, as the implementation should
+            // return a valid response.
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
+        }
+    };
+
+    resp.map_err(|e| {
+        error!(error = ?e);
+        StatusCode::INTERNAL_SERVER_ERROR
+    })
+}
+
+#[tracing::instrument(skip_all)]
+fn query_example_get_validation(
+    query_params: models::QueryExampleGetQueryParams,
+) -> std::result::Result<(models::QueryExampleGetQueryParams,), ValidationErrors> {
+    query_params.validate()?;
+
+    Ok((query_params,))
+}
+/// QueryExampleGet - GET /query-example
+#[tracing::instrument(skip_all)]
+async fn query_example_get<I, A, E>(
+    method: Method,
+    TypedHeader(host): TypedHeader<Host>,
+    cookies: CookieJar,
+    QueryExtra(query_params): QueryExtra<models::QueryExampleGetQueryParams>,
+    State(api_impl): State<I>,
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+{
+    let validation = query_example_get_validation(query_params);
+
+    let Ok((query_params,)) = validation else {
+        return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+    };
+
+    let result = api_impl
+        .as_ref()
+        .query_example_get(&method, &host, &cookies, &query_params)
+        .await;
+
+    let mut response = Response::builder();
+
+    let resp = match result {
+        Ok(rsp) => match rsp {
+            apis::default::QueryExampleGetResponse::Status200_OK => {
+                let mut response = response.status(200);
+                response.body(Body::empty())
             }
         },
         Err(why) => {
