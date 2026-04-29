@@ -78,6 +78,7 @@ public class Pet  implements Serializable {
     }
 }
 
+  @Deprecated
   private StatusEnum status;
 
   public Pet() {
@@ -221,12 +222,18 @@ public class Pet  implements Serializable {
   }
   /**
    * pet status in the store
+   * @deprecated
    **/
+  @Deprecated
   public Pet status(StatusEnum status) {
     this.status = status;
     return this;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
@@ -234,6 +241,10 @@ public class Pet  implements Serializable {
     return status;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;

@@ -13,8 +13,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 
+@Deprecated
 
-@Schema(description="")
+
+@Schema(description="", deprecated = true)
 @JsonTypeName("DeprecatedObject")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class DeprecatedObject  implements Serializable {
