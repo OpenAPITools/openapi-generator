@@ -53,6 +53,8 @@ jobs:
           - samples/client/petstore/kotlin-enum-integers-multiplatform
           - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
           - samples/client/petstore/kotlin-array-simple-string-multiplatform
+          - samples/client/petstore/kotlin-array-nullable-items
+          - samples/client/petstore/kotlin-array-nullable-items-multiplatform
           - samples/client/petstore/kotlin-bigdecimal-default-multiplatform
           - samples/client/petstore/kotlin-bigdecimal-default-okhttp4
           - samples/client/petstore/kotlin-jvm-jackson
