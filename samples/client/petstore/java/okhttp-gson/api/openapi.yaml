@@ -1021,6 +1021,24 @@ paths:
           description: successful response
       x-accepts:
       - application/json
+  /fake/nullable-required-fields-anyof:
+    get:
+      description: "Tests that anyOf deserialization works when object values contain\
+        \ required fields that are nullable (e.g. Record<string, { before: string\
+        \ | null, after: string | null }>)"
+      operationId: testNullableRequiredFieldsAnyOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NullableFieldsMapResponse"
+          description: successful operation
+      summary: test anyOf with map of objects containing nullable required fields
+      tags:
+      - fake
+      x-accepts:
+      - application/json
   /fake/anyOfWIthSameErasure:
     get:
       description: "Test route, this shouldn't cause a compiler error"
@@ -2998,6 +3016,58 @@ components:
           - $ref: "#/components/schemas/Height"
           default: 32.1
       type: object
+    NullableFieldsValue:
+      description: Object with required but nullable string fields
+      example:
+        before: before
+        after: after
+      properties:
+        before:
+          nullable: true
+          type: string
+        after:
+          nullable: true
+          type: string
+      required:
+      - after
+      - before
+      type: object
+    NullableFieldsMapSuccess:
+      additionalProperties: false
+      description: Success response containing a map of objects with nullable fields
+      example:
+        positions:
+          key:
+            before: before
+            after: after
+        status: status
+      properties:
+        status:
+          type: string
+        positions:
+          additionalProperties:
+            $ref: "#/components/schemas/NullableFieldsValue"
+          type: object
+      required:
+      - positions
+      - status
+      type: object
+    NullableFieldsMapError:
+      additionalProperties: false
+      description: Error response
+      properties:
+        status:
+          type: string
+        reason:
+          type: string
+      required:
+      - reason
+      - status
+      type: object
+    NullableFieldsMapResponse:
+      anyOf:
+      - $ref: "#/components/schemas/NullableFieldsMapSuccess"
+      - $ref: "#/components/schemas/NullableFieldsMapError"
     _foo_get_default_response:
       example:
         string:
