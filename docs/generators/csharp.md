@@ -51,6 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDateTimeForDate|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useIntForTimeout|Use int for Timeout (fall back to v7.9.0 templates). This option (for restsharp only) will be deprecated so please migrated to TimeSpan instead.| |false|
+|throwOnAnyError|Configure RestSharp to rethrow deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse&lt;T&gt; discards as null Data). Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |useSourceGeneration|Use source generation where available (only `generichost` library supports this option).| |false|
 |useVirtualForHooks|Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests (only `restsharp`. `httpclient` libraries support this option).| |false|

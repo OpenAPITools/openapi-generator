@@ -467,7 +467,8 @@ namespace {{packageName}}.Client
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
                 UseDefaultCredentials = configuration.UseDefaultCredentials,
-                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback{{#throwOnAnyError}},
+                ThrowOnAnyError = true{{/throwOnAnyError}}
             };
             setOptions(clientOptions);
             
