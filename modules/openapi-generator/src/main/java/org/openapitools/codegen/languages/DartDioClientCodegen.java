@@ -683,16 +683,29 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         if (prop == null || !prop.isContainer || prop.items == null) {
             return;
         }
-        // Recurse first so deeper containers are registered too. Order
-        // doesn't matter for correctness (built_value resolves factories
-        // by FullType lookup), but it keeps the emitted list intuitive.
+        // Recurse first so deeper containers are registered too.
         registerNestedBuilderFactories(prop.items);
 
-        BuilderFactoryExpr expr = renderBuilderFactory(prop);
-        if (expr != null) {
-            addBuiltValueSerializer(BuiltValueSerializer.composite(
-                    expr.fullTypeArgs,
-                    expr.builderInstantiation));
+        if (prop.items.isContainer) {
+            // Truly nested container (e.g. Map<String, List<X>>):
+            // must use composite form because the simple constructor
+            // cannot express the nested FullType.
+            BuilderFactoryExpr expr = renderBuilderFactory(prop);
+            if (expr != null) {
+                addBuiltValueSerializer(BuiltValueSerializer.composite(
+                        expr.fullTypeArgs,
+                        expr.builderInstantiation));
+            }
+        } else {
+            // Leaf container (e.g. List<X>, Map<String, X>): use the
+            // same simple constructor the rest of the codegen uses so
+            // the Set deduplicates correctly.
+            addBuiltValueSerializer(new BuiltValueSerializer(
+                    prop.isArray,
+                    prop.getUniqueItems(),
+                    prop.isMap,
+                    prop.items.isNullable,
+                    prop.items.dataType));
         }
     }
 
