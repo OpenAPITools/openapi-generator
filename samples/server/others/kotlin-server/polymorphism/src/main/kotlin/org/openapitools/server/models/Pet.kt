@@ -31,11 +31,11 @@ data class Pet(
     /* The measured skill for hunting */
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("huntingSkill")
-    val huntingSkill: Pet.HuntingSkill,
+    val huntingSkill: Pet.HuntingSkill? = null,
     /* the size of the pack the dog is from */
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("packSize")
-    val packSize: kotlin.Int = 0
+    val packSize: kotlin.Int? = 0
 )
 {
     /**

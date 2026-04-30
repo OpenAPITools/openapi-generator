@@ -64,9 +64,9 @@ export const PetByTypePetTypeEnum = {
 export type PetByTypePetTypeEnum = typeof PetByTypePetTypeEnum[keyof typeof PetByTypePetTypeEnum];
 
 export interface PetsFilteredPatchRequest {
-    'age': number;
+    'age'?: number;
     'nickname'?: string;
-    'pet_type': PetsFilteredPatchRequestPetTypeEnum;
+    'pet_type'?: PetsFilteredPatchRequestPetTypeEnum;
     'hunts'?: boolean;
 }
 

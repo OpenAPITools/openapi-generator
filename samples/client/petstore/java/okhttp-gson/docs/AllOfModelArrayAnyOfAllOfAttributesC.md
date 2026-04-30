@@ -9,8 +9,8 @@
 |------------ | ------------- | ------------- | -------------|
 |**id** | **Long** |  |  [optional] |
 |**category** | [**Category**](Category.md) |  |  [optional] |
-|**name** | **String** |  |  |
-|**photoUrls** | **List&lt;String&gt;** |  |  |
+|**name** | **String** |  |  [optional] |
+|**photoUrls** | **List&lt;String&gt;** |  |  [optional] |
 |**tags** | [**List&lt;Tag&gt;**](Tag.md) |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) | Order Status |  [optional] |
 |**petId** | **Long** |  |  [optional] |

@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Cultivar** | **string** |  | 
+**Cultivar** | Pointer to **string** |  | [optional] 
 **Mealy** | Pointer to **bool** |  | [optional] 
-**LengthCm** | **float32** |  | 
+**LengthCm** | Pointer to **float32** |  | [optional] 
 **Sweet** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
 ### NewFruitReq
 
-`func NewFruitReq(cultivar string, lengthCm float32, ) *FruitReq`
+`func NewFruitReq() *FruitReq`
 
 NewFruitReq instantiates a new FruitReq object
 This constructor will assign default values to properties that have it defined,
@@ -47,6 +47,11 @@ and a boolean to check if the value has been set.
 
 SetCultivar sets Cultivar field to given value.
 
+### HasCultivar
+
+`func (o *FruitReq) HasCultivar() bool`
+
+HasCultivar returns a boolean if a field has been set.
 
 ### GetMealy
 
@@ -92,6 +97,11 @@ and a boolean to check if the value has been set.
 
 SetLengthCm sets LengthCm field to given value.
 
+### HasLengthCm
+
+`func (o *FruitReq) HasLengthCm() bool`
+
+HasLengthCm returns a boolean if a field has been set.
 
 ### GetSweet
 
