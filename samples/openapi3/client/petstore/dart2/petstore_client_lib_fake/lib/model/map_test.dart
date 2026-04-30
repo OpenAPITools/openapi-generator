@@ -71,9 +71,7 @@ class MapTest {
       }());
 
       return MapTest(
-        mapMapOfString: json[r'map_map_of_string'] == null
-            ? const {}
-            : (json[r'map_map_of_string'] as Map).map((k, v) => MapEntry(k as String, (v as Map).cast<String, String>())),
+        mapMapOfString: (json[r'map_map_of_string'] as Map?)?.map((k, v) => MapEntry(k as String, (v as Map).cast<String, String>())) ?? const {},
         mapOfEnumString: mapCastOfType<String, String>(json, r'map_of_enum_string') ?? const {},
         directMap: mapCastOfType<String, bool>(json, r'direct_map') ?? const {},
         indirectMap: mapCastOfType<String, bool>(json, r'indirect_map') ?? const {},

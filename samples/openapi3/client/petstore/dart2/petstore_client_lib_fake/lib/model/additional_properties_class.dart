@@ -66,9 +66,7 @@ class AdditionalPropertiesClass {
 
       return AdditionalPropertiesClass(
         mapProperty: mapCastOfType<String, String>(json, r'map_property') ?? const {},
-        mapOfMapProperty: json[r'map_of_map_property'] == null
-            ? const {}
-            : (json[r'map_of_map_property'] as Map).map((k, v) => MapEntry(k as String, (v as Map).cast<String, String>())),
+        mapOfMapProperty: (json[r'map_of_map_property'] as Map?)?.map((k, v) => MapEntry(k as String, (v as Map).cast<String, String>())) ?? const {},
         mapOfArrayInteger: json[r'map_of_array_integer'] == null
           ? const {}
             : (json[r'map_of_array_integer'] as Map<String, dynamic>).map((k, v) => MapEntry(k, v == null ? const <int>[] : (v as List).cast<int>())),

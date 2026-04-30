@@ -59,12 +59,8 @@ class PetReactionsResponse {
       }());
 
       return PetReactionsResponse(
-        myReacts: json[r'myReacts'] == null
-            ? const {}
-            : (json[r'myReacts'] as Map).map((k, v) => MapEntry(k as String, (v as Map).cast<String, bool>())),
-        reactionCounts: json[r'reactionCounts'] == null
-            ? const {}
-            : (json[r'reactionCounts'] as Map).map((k, v) => MapEntry(k as String, (v as Map).cast<String, int>())),
+        myReacts: (json[r'myReacts'] as Map?)?.map((k, v) => MapEntry(k as String, (v as Map).cast<String, bool>())) ?? const {},
+        reactionCounts: (json[r'reactionCounts'] as Map?)?.map((k, v) => MapEntry(k as String, (v as Map).cast<String, int>())) ?? const {},
       );
     }
     return null;

@@ -228,9 +228,7 @@ class {{{classname}}} {
         {{{name}}}: {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
                   {{/items.complexType}}
                   {{^items.complexType}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null
-            ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
-            : (json[r'{{{baseName}}}'] as Map).map((k, v) => MapEntry(k as String, (v as Map).cast<String, {{items.items.dataType}}>())){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}},
+        {{{name}}}: (json[r'{{{baseName}}}'] as Map?)?.map((k, v) => MapEntry(k as String, (v as Map).cast<String, {{items.items.dataType}}>())){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                   {{/items.complexType}}
                 {{/items.isMap}}
                 {{^items.isMap}}

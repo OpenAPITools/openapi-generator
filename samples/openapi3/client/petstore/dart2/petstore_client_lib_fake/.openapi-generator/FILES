@@ -147,7 +147,3 @@ lib/model/test_enum.dart
 lib/model/test_inline_freeform_additional_properties_request.dart
 lib/model/user.dart
 pubspec.yaml
-test/pet_empty_metadata_test.dart
-test/pet_reaction_response_test.dart
-test/pet_reaction_status_test.dart
-test/pet_reactions_response_test.dart
