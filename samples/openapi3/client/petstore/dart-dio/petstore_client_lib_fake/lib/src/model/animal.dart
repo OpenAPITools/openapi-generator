@@ -170,8 +170,9 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
         case r'color':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.color = valueDes;
           break;
         default:
@@ -181,6 +182,7 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
       }
     }
   }
+
 
   @override
   $Animal deserialize(

@@ -73,8 +73,9 @@ class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
         case r'client':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.client = valueDes;
           break;
         default:
@@ -84,6 +85,7 @@ class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
       }
     }
   }
+
 
   @override
   ModelClient deserialize(

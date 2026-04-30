@@ -74,8 +74,9 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
         case r'sourceURI':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.sourceURI = valueDes;
           break;
         default:
@@ -85,6 +86,7 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
       }
     }
   }
+
 
   @override
   ModelFile deserialize(

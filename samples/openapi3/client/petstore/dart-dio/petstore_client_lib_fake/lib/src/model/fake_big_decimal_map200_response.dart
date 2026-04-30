@@ -85,15 +85,17 @@ class _$FakeBigDecimalMap200ResponseSerializer implements PrimitiveSerializer<Fa
         case r'someId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(num),
-          ) as num;
+            specifiedType: const FullType.nullable(num),
+          ) as num?;
+          if (valueDes == null) continue;
           result.someId = valueDes;
           break;
         case r'someMap':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(num)]),
-          ) as BuiltMap<String, num>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(num)]),
+          ) as BuiltMap<String, num>?;
+          if (valueDes == null) continue;
           result.someMap.replace(valueDes);
           break;
         default:
@@ -103,6 +105,7 @@ class _$FakeBigDecimalMap200ResponseSerializer implements PrimitiveSerializer<Fa
       }
     }
   }
+
 
   @override
   FakeBigDecimalMap200Response deserialize(

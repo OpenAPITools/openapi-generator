@@ -95,22 +95,25 @@ class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> 
         case r'my_number':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(num),
-          ) as num;
+            specifiedType: const FullType.nullable(num),
+          ) as num?;
+          if (valueDes == null) continue;
           result.myNumber = valueDes;
           break;
         case r'my_string':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.myString = valueDes;
           break;
         case r'my_boolean':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(bool),
-          ) as bool;
+            specifiedType: const FullType.nullable(bool),
+          ) as bool?;
+          if (valueDes == null) continue;
           result.myBoolean = valueDes;
           break;
         default:
@@ -120,6 +123,7 @@ class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> 
       }
     }
   }
+
 
   @override
   OuterComposite deserialize(

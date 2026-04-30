@@ -234,22 +234,25 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
         case r'integer':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.integer = valueDes;
           break;
         case r'int32':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.int32 = valueDes;
           break;
         case r'int64':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.int64 = valueDes;
           break;
         case r'number':
@@ -262,29 +265,33 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
         case r'float':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(double),
-          ) as double;
+            specifiedType: const FullType.nullable(double),
+          ) as double?;
+          if (valueDes == null) continue;
           result.float = valueDes;
           break;
         case r'double':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(double),
-          ) as double;
+            specifiedType: const FullType.nullable(double),
+          ) as double?;
+          if (valueDes == null) continue;
           result.double_ = valueDes;
           break;
         case r'decimal':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(double),
-          ) as double;
+            specifiedType: const FullType.nullable(double),
+          ) as double?;
+          if (valueDes == null) continue;
           result.decimal = valueDes;
           break;
         case r'string':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.string = valueDes;
           break;
         case r'byte':
@@ -297,8 +304,9 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
         case r'binary':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(Uint8List),
-          ) as Uint8List;
+            specifiedType: const FullType.nullable(Uint8List),
+          ) as Uint8List?;
+          if (valueDes == null) continue;
           result.binary = valueDes;
           break;
         case r'date':
@@ -311,15 +319,17 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
         case r'dateTime':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
+            specifiedType: const FullType.nullable(DateTime),
+          ) as DateTime?;
+          if (valueDes == null) continue;
           result.dateTime = valueDes;
           break;
         case r'uuid':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.uuid = valueDes;
           break;
         case r'password':
@@ -332,15 +342,17 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
         case r'pattern_with_digits':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.patternWithDigits = valueDes;
           break;
         case r'pattern_with_digits_and_delimiter':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.patternWithDigitsAndDelimiter = valueDes;
           break;
         default:
@@ -350,6 +362,7 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
       }
     }
   }
+
 
   @override
   FormatTest deserialize(

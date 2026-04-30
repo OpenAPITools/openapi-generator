@@ -73,8 +73,9 @@ class _$ModelListSerializer implements PrimitiveSerializer<ModelList> {
         case r'123-list':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.n123list = valueDes;
           break;
         default:
@@ -84,6 +85,7 @@ class _$ModelListSerializer implements PrimitiveSerializer<ModelList> {
       }
     }
   }
+
 
   @override
   ModelList deserialize(

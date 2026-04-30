@@ -129,43 +129,49 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
         case r'smallCamel':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.smallCamel = valueDes;
           break;
         case r'CapitalCamel':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.capitalCamel = valueDes;
           break;
         case r'small_Snake':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.smallSnake = valueDes;
           break;
         case r'Capital_Snake':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.capitalSnake = valueDes;
           break;
         case r'SCA_ETH_Flow_Points':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.sCAETHFlowPoints = valueDes;
           break;
         case r'ATT_NAME':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.ATT_NAME = valueDes;
           break;
         default:
@@ -175,6 +181,7 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
       }
     }
   }
+
 
   @override
   Capitalization deserialize(

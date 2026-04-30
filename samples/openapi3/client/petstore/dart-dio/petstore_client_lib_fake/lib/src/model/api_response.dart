@@ -95,22 +95,25 @@ class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
         case r'code':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(int),
-          ) as int;
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
           result.code = valueDes;
           break;
         case r'type':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.type = valueDes;
           break;
         case r'message':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.message = valueDes;
           break;
         default:
@@ -120,6 +123,7 @@ class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
       }
     }
   }
+
 
   @override
   ApiResponse deserialize(

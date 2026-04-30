@@ -89,15 +89,17 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
         case r'color':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.color = valueDes;
           break;
         case r'breed':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.breed = valueDes;
           break;
         case r'className':
@@ -114,6 +116,7 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
       }
     }
   }
+
 
   @override
   Dog deserialize(

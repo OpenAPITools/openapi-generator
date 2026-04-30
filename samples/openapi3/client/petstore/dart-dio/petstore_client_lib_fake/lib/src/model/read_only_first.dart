@@ -84,15 +84,17 @@ class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
         case r'bar':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.bar = valueDes;
           break;
         case r'baz':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.baz = valueDes;
           break;
         default:
@@ -102,6 +104,7 @@ class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
       }
     }
   }
+
 
   @override
   ReadOnlyFirst deserialize(

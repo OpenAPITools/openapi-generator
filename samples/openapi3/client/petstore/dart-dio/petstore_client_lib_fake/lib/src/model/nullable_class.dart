@@ -261,8 +261,9 @@ class _$NullableClassSerializer implements PrimitiveSerializer<NullableClass> {
         case r'array_items_nullable':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType.nullable(JsonObject)]),
-          ) as BuiltList<JsonObject?>;
+            specifiedType: const FullType.nullable(BuiltList, [FullType.nullable(JsonObject)]),
+          ) as BuiltList<JsonObject?>?;
+          if (valueDes == null) continue;
           result.arrayItemsNullable.replace(valueDes);
           break;
         case r'object_nullable_prop':
@@ -284,8 +285,9 @@ class _$NullableClassSerializer implements PrimitiveSerializer<NullableClass> {
         case r'object_items_nullable':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
-          ) as BuiltMap<String, JsonObject?>;
+            specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
+          ) as BuiltMap<String, JsonObject?>?;
+          if (valueDes == null) continue;
           result.objectItemsNullable.replace(valueDes);
           break;
         default:
@@ -295,6 +297,7 @@ class _$NullableClassSerializer implements PrimitiveSerializer<NullableClass> {
       }
     }
   }
+
 
   @override
   NullableClass deserialize(

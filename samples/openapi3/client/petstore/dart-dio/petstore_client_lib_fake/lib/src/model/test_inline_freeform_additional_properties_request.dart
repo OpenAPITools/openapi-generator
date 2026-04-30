@@ -75,8 +75,9 @@ class _$TestInlineFreeformAdditionalPropertiesRequestSerializer implements Primi
         case r'someProperty':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.someProperty = valueDes;
           break;
         default:
@@ -86,6 +87,7 @@ class _$TestInlineFreeformAdditionalPropertiesRequestSerializer implements Primi
       }
     }
   }
+
 
   @override
   TestInlineFreeformAdditionalPropertiesRequest deserialize(

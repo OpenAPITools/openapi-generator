@@ -86,15 +86,17 @@ class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSin
         case r'username':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.username = valueDes;
           break;
         case r'SingleRefType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(SingleRefType),
-          ) as SingleRefType;
+            specifiedType: const FullType.nullable(SingleRefType),
+          ) as SingleRefType?;
+          if (valueDes == null) continue;
           result.singleRefType = valueDes;
           break;
         default:
@@ -104,6 +106,7 @@ class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSin
       }
     }
   }
+
 
   @override
   AllOfWithSingleRef deserialize(

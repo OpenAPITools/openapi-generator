@@ -89,15 +89,17 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
         case r'color':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.color = valueDes;
           break;
         case r'declawed':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(bool),
-          ) as bool;
+            specifiedType: const FullType.nullable(bool),
+          ) as bool?;
+          if (valueDes == null) continue;
           result.declawed = valueDes;
           break;
         case r'className':
@@ -114,6 +116,7 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
       }
     }
   }
+
 
   @override
   Cat deserialize(
