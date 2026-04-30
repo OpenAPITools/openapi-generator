@@ -440,6 +440,27 @@ apply plugin: 'org.openapi.generator'
 |false
 |Defines whether the generator should run in dry-run mode. In dry-run mode no files are written and a summary about
 file states is output.
+
+|workerIsolation
+|String / Provider<String>
+|`process`
+a|Controls how the code-generation work action is isolated from the Gradle daemon.
+
+`classloader` (default):: Runs generation inside the Gradle daemon JVM using a separate `ClassLoader`. Avoids the per-task JVM
+startup overhead, but generator classes accumulate in the daemon's Metaspace across tasks and builds. Suitable for
+single-module projects or local developer loops where Metaspace pressure is not a concern.
+
+`process`:: Runs generation in a separate forked JVM. Generator classes are fully unloaded when the worker
+exits, preventing Metaspace accumulation in the Gradle daemon. A small per-task JVM startup cost is incurred (~1–2 s
+amortized across parallel builds). Recommended for CI/CD and multi-project builds to avoid the
+https://docs.gradle.org/current/userguide/build_environment.html#sec:configuring_jvm_memory[metaspace exhaustion
+warning].
+
+|maxWorkerHeapSize
+|String / Provider<String>
+|Gradle default (~512 MiB)
+|Maximum heap size for the forked worker JVM when `workerIsolation` is `process` (e.g. `"512m"`, `"1g"`).
+Has no effect when `workerIsolation` is `classloader`.
 |===
 
 [NOTE]

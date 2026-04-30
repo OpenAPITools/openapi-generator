@@ -73,6 +73,7 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @Deprecated
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
@@ -149,7 +150,7 @@ public class PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
     })
-    public Response uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream) {
+    public Response uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata,@FormParam(value = "file") InputStream _fileInputStream) {
         return Response.ok().entity("magic!").build();
     }
 }

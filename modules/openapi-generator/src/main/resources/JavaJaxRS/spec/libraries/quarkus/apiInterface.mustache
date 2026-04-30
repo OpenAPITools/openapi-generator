@@ -1,3 +1,9 @@
+    {{#isDeprecated}}
+    /**
+     * @deprecated
+     */
+    @Deprecated
+    {{/isDeprecated}}
     {{#useGzipFeature}}
     @GZIP
     {{/useGzipFeature}}
@@ -20,7 +26,7 @@
     {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
-    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}")
+    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}"{{#isDeprecated}}, deprecated = true{{/isDeprecated}})
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
     {{#hasAuthMethods}}@org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value = {
@@ -28,7 +34,7 @@
                 name = "{{name}}",
                 scopes = { {{#scopes}} "{{scope}}"{{^-last}},{{/-last}} {{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}{{^isOAuth}}     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "{{name}}"){{^-last}},{{/-last}}{{/isOAuth}}
    {{/authMethods}} }){{/hasAuthMethods}}
-    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "{{{operationId}}}", summary = "{{{summary}}}", description = "{{{notes}}}")
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "{{{operationId}}}"{{#isDeprecated}}, deprecated = true{{/isDeprecated}}, summary = "{{{summary}}}", description = "{{{notes}}}")
     {{#vendorExtensions.x-tags}}@org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{tag}}"){{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}}{{#hasProduces}}
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { {{#responses}}
         @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "{{{code}}}", description = "{{{message}}}", {{#responseHeaders.0}}headers = { {{#responseHeaders}}

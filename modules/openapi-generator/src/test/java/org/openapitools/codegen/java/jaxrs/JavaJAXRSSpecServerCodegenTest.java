@@ -1307,4 +1307,39 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
     }
 
+    /**
+     * OpenAPI {@code deprecated} should surface as {@code @Deprecated} in jaxrs-spec output.
+     */
+    @Test
+    public void generatesDeprecatedAnnotationsForModelsOperationsAndParameters_issue18941() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        Path pet = output.toPath().resolve("src/gen/java/org/openapitools/model/Pet.java");
+        JavaFileAssert.assertThat(pet)
+                .assertProperty("status").assertPropertyAnnotations().containsWithName("Deprecated");
+        JavaFileAssert.assertThat(pet).assertMethod("getStatus").hasAnnotation("Deprecated");
+        JavaFileAssert.assertThat(pet).assertMethod("setStatus", "StatusEnum").hasAnnotation("Deprecated");
+
+        Path petApi = output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java");
+        JavaFileAssert.assertThat(petApi).assertMethod("findPetsByTags", "List<String>").hasAnnotation("Deprecated");
+        JavaFileAssert.assertThat(petApi).fileContains("* @deprecated", "findPetsByTags");
+        JavaFileAssert.assertThat(petApi).fileContains("findPetsByStatus", "@Deprecated", "@QueryParam(\"status\")");
+    }
+
 }
