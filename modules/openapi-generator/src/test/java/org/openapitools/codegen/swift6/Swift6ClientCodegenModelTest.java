@@ -25,8 +25,11 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.Swift6ClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class Swift6ClientCodegenModelTest {
@@ -161,6 +164,76 @@ public class Swift6ClientCodegenModelTest {
         Assert.assertEquals(property7.baseType, "OpenAPIDateWithoutTime");
         Assert.assertFalse(property7.required);
         Assert.assertFalse(property7.isContainer);
+    }
+
+    @Test(description = "anyOf with different required fields should use intersection for required", enabled = true)
+    public void anyOfRequiredFieldsIntersectionTest() {
+        // VoteResponse requires: status, voteId
+        // APIError requires: status, reason, code
+        // Intersection: only "status" should be required in the merged model
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/swift6_anyof_required.yaml");
+        final Swift6ClientCodegen codegen = new Swift6ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        // The inline model resolver creates a model for the anyOf response.
+        // Find the composed schema that merges VoteResponse and APIError.
+        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+        Schema composedSchema = null;
+        String composedName = null;
+        for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
+            Schema s = entry.getValue();
+            if (s.getAnyOf() != null && !s.getAnyOf().isEmpty()) {
+                composedSchema = s;
+                composedName = entry.getKey();
+                break;
+            }
+        }
+        Assert.assertNotNull(composedSchema, "Should find an anyOf composed schema");
+
+        final CodegenModel cm = codegen.fromModel(composedName, composedSchema);
+
+        // "status" is required in BOTH VoteResponse and APIError -> should be required
+        CodegenProperty statusProp = cm.vars.stream()
+                .filter(p -> p.baseName.equals("status"))
+                .findFirst().orElse(null);
+        Assert.assertNotNull(statusProp, "status property should exist");
+        Assert.assertTrue(statusProp.required, "status should be required (present in all anyOf members)");
+
+        // "voteId" is required only in VoteResponse, not in APIError -> should NOT be required
+        CodegenProperty voteIdProp = cm.vars.stream()
+                .filter(p -> p.baseName.equals("voteId"))
+                .findFirst().orElse(null);
+        Assert.assertNotNull(voteIdProp, "voteId property should exist");
+        Assert.assertFalse(voteIdProp.required, "voteId should NOT be required (only in VoteResponse, not APIError)");
+
+        // "reason" is required only in APIError, not in VoteResponse -> should NOT be required
+        CodegenProperty reasonProp = cm.vars.stream()
+                .filter(p -> p.baseName.equals("reason"))
+                .findFirst().orElse(null);
+        Assert.assertNotNull(reasonProp, "reason property should exist");
+        Assert.assertFalse(reasonProp.required, "reason should NOT be required (only in APIError, not VoteResponse)");
+
+        // "code" is required only in APIError, not in VoteResponse -> should NOT be required
+        CodegenProperty codeProp = cm.vars.stream()
+                .filter(p -> p.baseName.equals("code"))
+                .findFirst().orElse(null);
+        Assert.assertNotNull(codeProp, "code property should exist");
+        Assert.assertFalse(codeProp.required, "code should NOT be required (only in APIError, not VoteResponse)");
+
+        // "isVerified" is optional in VoteResponse, not in APIError -> should NOT be required
+        CodegenProperty isVerifiedProp = cm.vars.stream()
+                .filter(p -> p.baseName.equals("isVerified"))
+                .findFirst().orElse(null);
+        Assert.assertNotNull(isVerifiedProp, "isVerified property should exist");
+        Assert.assertFalse(isVerifiedProp.required, "isVerified should NOT be required");
+
+        // "secondaryCode" is optional in APIError -> should NOT be required
+        CodegenProperty secondaryCodeProp = cm.vars.stream()
+                .filter(p -> p.baseName.equals("secondaryCode"))
+                .findFirst().orElse(null);
+        Assert.assertNotNull(secondaryCodeProp, "secondaryCode property should exist");
+        Assert.assertFalse(secondaryCodeProp.required, "secondaryCode should NOT be required");
     }
 
 }
