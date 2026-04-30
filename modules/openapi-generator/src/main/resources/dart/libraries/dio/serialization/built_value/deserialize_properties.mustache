@@ -14,10 +14,15 @@
         case r'{{baseName}}':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const {{>serialization/built_value/variable_serializer_type}},
-          ) as {{>serialization/built_value/variable_type}};
+            specifiedType: const FullType{{#isNullable}}.nullable{{/isNullable}}{{^isNullable}}{{^required}}.nullable{{/required}}{{/isNullable}}({{#isContainer}}{{baseType}}, [{{#isMap}}FullType(String), {{/isMap}}{{#items}}{{>serialization/built_value/variable_serializer_type}}{{/items}}]{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}),
+          ) as {{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/built_value/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}};
           {{#isNullable}}
           if (valueDes == null) continue;
+          {{/isNullable}}
+          {{^isNullable}}
+          {{^required}}
+          if (valueDes == null) continue;
+          {{/required}}
           {{/isNullable}}
           {{#isContainer}}
           result.{{{name}}}.replace(valueDes);
