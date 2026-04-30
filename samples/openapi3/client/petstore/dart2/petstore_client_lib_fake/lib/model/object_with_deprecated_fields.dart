@@ -48,17 +48,19 @@ class ObjectWithDeprecatedFields {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
     other.uuid == uuid &&
-    other.id == id &&
-    other.deprecatedRef == deprecatedRef &&
-    _deepEquality.equals(other.bars, bars);
+      other.id == id &&
+      other.deprecatedRef == deprecatedRef &&
+      _deepEquality.equals(other.bars, bars);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (uuid == null ? 0 : uuid!.hashCode) +
-    (id == null ? 0 : id!.hashCode) +
-    (deprecatedRef == null ? 0 : deprecatedRef!.hashCode) +
-    (bars.hashCode);
+      (id == null ? 0 : id!.hashCode) +
+      (deprecatedRef == null ? 0 : deprecatedRef!.hashCode) +
+      (bars.hashCode);
+  
 
   @override
   String toString() => 'ObjectWithDeprecatedFields[uuid=$uuid, id=$id, deprecatedRef=$deprecatedRef, bars=$bars]';

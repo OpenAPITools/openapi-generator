@@ -73,21 +73,23 @@ class Capitalization {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
     other.smallCamel == smallCamel &&
-    other.capitalCamel == capitalCamel &&
-    other.smallSnake == smallSnake &&
-    other.capitalSnake == capitalSnake &&
-    other.sCAETHFlowPoints == sCAETHFlowPoints &&
-    other.ATT_NAME == ATT_NAME;
+      other.capitalCamel == capitalCamel &&
+      other.smallSnake == smallSnake &&
+      other.capitalSnake == capitalSnake &&
+      other.sCAETHFlowPoints == sCAETHFlowPoints &&
+      other.ATT_NAME == ATT_NAME;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (smallCamel == null ? 0 : smallCamel!.hashCode) +
-    (capitalCamel == null ? 0 : capitalCamel!.hashCode) +
-    (smallSnake == null ? 0 : smallSnake!.hashCode) +
-    (capitalSnake == null ? 0 : capitalSnake!.hashCode) +
-    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints!.hashCode) +
-    (ATT_NAME == null ? 0 : ATT_NAME!.hashCode);
+      (capitalCamel == null ? 0 : capitalCamel!.hashCode) +
+      (smallSnake == null ? 0 : smallSnake!.hashCode) +
+      (capitalSnake == null ? 0 : capitalSnake!.hashCode) +
+      (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints!.hashCode) +
+      (ATT_NAME == null ? 0 : ATT_NAME!.hashCode);
+  
 
   @override
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';

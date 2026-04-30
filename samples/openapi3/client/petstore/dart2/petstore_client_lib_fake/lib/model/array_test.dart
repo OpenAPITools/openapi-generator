@@ -27,15 +27,17 @@ class ArrayTest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
     _deepEquality.equals(other.arrayOfString, arrayOfString) &&
-    _deepEquality.equals(other.arrayArrayOfInteger, arrayArrayOfInteger) &&
-    _deepEquality.equals(other.arrayArrayOfModel, arrayArrayOfModel);
+      _deepEquality.equals(other.arrayArrayOfInteger, arrayArrayOfInteger) &&
+      _deepEquality.equals(other.arrayArrayOfModel, arrayArrayOfModel);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (arrayOfString.hashCode) +
-    (arrayArrayOfInteger.hashCode) +
-    (arrayArrayOfModel.hashCode);
+      (arrayArrayOfInteger.hashCode) +
+      (arrayArrayOfModel.hashCode);
+  
 
   @override
   String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';

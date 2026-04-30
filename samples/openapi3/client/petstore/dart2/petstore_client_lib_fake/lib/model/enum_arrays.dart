@@ -24,13 +24,15 @@ class EnumArrays {
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
     other.justSymbol == justSymbol &&
-    _deepEquality.equals(other.arrayEnum, arrayEnum);
+      _deepEquality.equals(other.arrayEnum, arrayEnum);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (justSymbol == null ? 0 : justSymbol!.hashCode) +
-    (arrayEnum.hashCode);
+      (arrayEnum.hashCode);
+  
 
   @override
   String toString() => 'EnumArrays[justSymbol=$justSymbol, arrayEnum=$arrayEnum]';

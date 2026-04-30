@@ -28,11 +28,13 @@ class ModelFile {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
     other.sourceURI == sourceURI;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (sourceURI == null ? 0 : sourceURI!.hashCode);
+  
 
   @override
   String toString() => 'ModelFile[sourceURI=$sourceURI]';

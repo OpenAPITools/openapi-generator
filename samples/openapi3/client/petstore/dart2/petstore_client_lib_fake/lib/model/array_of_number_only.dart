@@ -21,11 +21,13 @@ class ArrayOfNumberOnly {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
     _deepEquality.equals(other.arrayNumber, arrayNumber);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (arrayNumber.hashCode);
+  
 
   @override
   String toString() => 'ArrayOfNumberOnly[arrayNumber=$arrayNumber]';

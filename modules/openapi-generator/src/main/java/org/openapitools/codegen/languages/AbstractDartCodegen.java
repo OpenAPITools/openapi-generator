@@ -719,6 +719,19 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                             property.isModel = true;
                         });
 
+            } else if (property.isEnum) {
+                // Multi-element anyOf/oneOf where the default codegen guessed at an
+                // inline enum (e.g. anyOf of [$ref enum, inline literal enum]). The
+                // dart generator can't produce a single enum class that covers all
+                // branches, and the inline-enum template is suppressed for composed
+                // schemas, so we'd emit references to an enum class that is never
+                // declared anywhere in lib/model/. Collapse the property to its
+                // underlying primitive type instead.
+                property.isEnum = false;
+                property.datatypeWithEnum = property.dataType;
+                property.enumName = null;
+                property.allowableValues = null;
+                property._enum = null;
             }
         }
         return property;

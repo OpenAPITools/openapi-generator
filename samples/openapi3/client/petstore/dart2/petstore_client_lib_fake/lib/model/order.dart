@@ -61,21 +61,23 @@ class Order {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
     other.id == id &&
-    other.petId == petId &&
-    other.quantity == quantity &&
-    other.shipDate == shipDate &&
-    other.status == status &&
-    other.complete == complete;
+      other.petId == petId &&
+      other.quantity == quantity &&
+      other.shipDate == shipDate &&
+      other.status == status &&
+      other.complete == complete;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
-    (petId == null ? 0 : petId!.hashCode) +
-    (quantity == null ? 0 : quantity!.hashCode) +
-    (shipDate == null ? 0 : shipDate!.hashCode) +
-    (status == null ? 0 : status!.hashCode) +
-    (complete.hashCode);
+      (petId == null ? 0 : petId!.hashCode) +
+      (quantity == null ? 0 : quantity!.hashCode) +
+      (shipDate == null ? 0 : shipDate!.hashCode) +
+      (status == null ? 0 : status!.hashCode) +
+      (complete.hashCode);
+  
 
   @override
   String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';

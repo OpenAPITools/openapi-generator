@@ -30,13 +30,15 @@ class ParentWithNullable {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ParentWithNullable &&
     other.type == type &&
-    other.nullableProperty == nullableProperty;
+      other.nullableProperty == nullableProperty;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (type == null ? 0 : type!.hashCode) +
-    (nullableProperty == null ? 0 : nullableProperty!.hashCode);
+      (nullableProperty == null ? 0 : nullableProperty!.hashCode);
+  
 
   @override
   String toString() => 'ParentWithNullable[type=$type, nullableProperty=$nullableProperty]';

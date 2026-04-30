@@ -36,13 +36,15 @@ class HasOnlyReadOnly {
   @override
   bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
     other.bar == bar &&
-    other.foo == foo;
+      other.foo == foo;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (bar == null ? 0 : bar!.hashCode) +
-    (foo == null ? 0 : foo!.hashCode);
+      (foo == null ? 0 : foo!.hashCode);
+  
 
   @override
   String toString() => 'HasOnlyReadOnly[bar=$bar, foo=$foo]';

@@ -27,11 +27,13 @@ class ModelClient {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
     other.client == client;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (client == null ? 0 : client!.hashCode);
+  
 
   @override
   String toString() => 'ModelClient[client=$client]';

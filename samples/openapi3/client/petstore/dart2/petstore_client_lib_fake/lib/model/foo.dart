@@ -21,11 +21,13 @@ class Foo {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Foo &&
     other.bar == bar;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (bar.hashCode);
+  
 
   @override
   String toString() => 'Foo[bar=$bar]';

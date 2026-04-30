@@ -49,21 +49,23 @@ class Pet {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
     other.id == id &&
-    other.category == category &&
-    other.name == name &&
-    _deepEquality.equals(other.photoUrls, photoUrls) &&
-    _deepEquality.equals(other.tags, tags) &&
-    other.status == status;
+      other.category == category &&
+      other.name == name &&
+      _deepEquality.equals(other.photoUrls, photoUrls) &&
+      _deepEquality.equals(other.tags, tags) &&
+      other.status == status;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
-    (category == null ? 0 : category!.hashCode) +
-    (name.hashCode) +
-    (photoUrls.hashCode) +
-    (tags.hashCode) +
-    (status == null ? 0 : status!.hashCode);
+      (category == null ? 0 : category!.hashCode) +
+      (name.hashCode) +
+      (photoUrls.hashCode) +
+      (tags.hashCode) +
+      (status == null ? 0 : status!.hashCode);
+  
 
   @override
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';

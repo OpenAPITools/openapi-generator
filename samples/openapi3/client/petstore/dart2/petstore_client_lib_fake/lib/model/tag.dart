@@ -36,13 +36,15 @@ class Tag {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Tag &&
     other.id == id &&
-    other.name == name;
+      other.name == name;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
-    (name == null ? 0 : name!.hashCode);
+      (name == null ? 0 : name!.hashCode);
+  
 
   @override
   String toString() => 'Tag[id=$id, name=$name]';

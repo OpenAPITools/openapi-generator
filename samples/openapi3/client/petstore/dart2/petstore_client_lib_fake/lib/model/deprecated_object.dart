@@ -27,11 +27,13 @@ class DeprecatedObject {
   @override
   bool operator ==(Object other) => identical(this, other) || other is DeprecatedObject &&
     other.name == name;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (name == null ? 0 : name!.hashCode);
+  
 
   @override
   String toString() => 'DeprecatedObject[name=$name]';

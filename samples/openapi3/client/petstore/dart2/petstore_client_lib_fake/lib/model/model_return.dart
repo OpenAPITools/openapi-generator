@@ -27,11 +27,13 @@ class ModelReturn {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
     other.return_ == return_;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (return_ == null ? 0 : return_!.hashCode);
+  
 
   @override
   String toString() => 'ModelReturn[return_=$return_]';

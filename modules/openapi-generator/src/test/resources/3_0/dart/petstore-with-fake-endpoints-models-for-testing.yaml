@@ -2141,3 +2141,54 @@ components:
           $ref: '#/components/schemas/ObjectWithInlineEnum'
         object_two:
           $ref: '#/components/schemas/ObjectWithDuplicateInlineEnum'
+    PetReactionStatus:
+      type: string
+      title: PetReactionStatus
+      enum:
+        - liked
+        - disliked
+        - barked
+    PetReactionResponse:
+      type: object
+      description: |
+        Reproduces a bug where anyOf between a named-enum $ref and an inline
+        literal-enum produced a property typed as an undeclared enum class.
+        Generator must either inline a proper enum or fall back to String.
+      properties:
+        petId:
+          type: integer
+          format: int64
+        status:
+          anyOf:
+            - $ref: '#/components/schemas/PetReactionStatus'
+            - type: string
+              enum:
+                - pending-verification
+    PetEmptyMetadata:
+      description: |
+        Reproduces a bug where a schema that resolves to a class with zero
+        properties (e.g. an empty oneOf wrapper) emitted invalid Dart syntax
+        in `==`, `hashCode`, and the named-args constructor.
+      oneOf:
+        - type: string
+        - type: integer
+    PetReactionsResponse:
+      type: object
+      description: |
+        Reproduces a bug where nested `Map<String, Map<String, T>>` properties
+        were decoded with a single-level `mapCastOfType<String, dynamic>` cast
+        that can't be assigned to the declared field type.
+      properties:
+        myReacts:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: boolean
+        reactionCounts:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32

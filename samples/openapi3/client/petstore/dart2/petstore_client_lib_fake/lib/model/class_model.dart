@@ -27,11 +27,13 @@ class ClassModel {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
     other.class_ == class_;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (class_ == null ? 0 : class_!.hashCode);
+  
 
   @override
   String toString() => 'ClassModel[class_=$class_]';

@@ -36,13 +36,15 @@ class ObjectThatReferencesObjectsWithDuplicateInlineEnums {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectThatReferencesObjectsWithDuplicateInlineEnums &&
     other.objectOne == objectOne &&
-    other.objectTwo == objectTwo;
+      other.objectTwo == objectTwo;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (objectOne == null ? 0 : objectOne!.hashCode) +
-    (objectTwo == null ? 0 : objectTwo!.hashCode);
+      (objectTwo == null ? 0 : objectTwo!.hashCode);
+  
 
   @override
   String toString() => 'ObjectThatReferencesObjectsWithDuplicateInlineEnums[objectOne=$objectOne, objectTwo=$objectTwo]';

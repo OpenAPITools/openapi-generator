@@ -91,25 +91,27 @@ class User {
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
     other.id == id &&
-    other.username == username &&
-    other.firstName == firstName &&
-    other.lastName == lastName &&
-    other.email == email &&
-    other.password == password &&
-    other.phone == phone &&
-    other.userStatus == userStatus;
+      other.username == username &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
+      other.email == email &&
+      other.password == password &&
+      other.phone == phone &&
+      other.userStatus == userStatus;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
-    (username == null ? 0 : username!.hashCode) +
-    (firstName == null ? 0 : firstName!.hashCode) +
-    (lastName == null ? 0 : lastName!.hashCode) +
-    (email == null ? 0 : email!.hashCode) +
-    (password == null ? 0 : password!.hashCode) +
-    (phone == null ? 0 : phone!.hashCode) +
-    (userStatus == null ? 0 : userStatus!.hashCode);
+      (username == null ? 0 : username!.hashCode) +
+      (firstName == null ? 0 : firstName!.hashCode) +
+      (lastName == null ? 0 : lastName!.hashCode) +
+      (email == null ? 0 : email!.hashCode) +
+      (password == null ? 0 : password!.hashCode) +
+      (phone == null ? 0 : phone!.hashCode) +
+      (userStatus == null ? 0 : userStatus!.hashCode);
+  
 
   @override
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';

@@ -22,11 +22,13 @@ class ObjectWithDuplicateInlineEnum {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithDuplicateInlineEnum &&
     _deepEquality.equals(other.attribute, attribute);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (attribute.hashCode);
+  
 
   @override
   String toString() => 'ObjectWithDuplicateInlineEnum[attribute=$attribute]';

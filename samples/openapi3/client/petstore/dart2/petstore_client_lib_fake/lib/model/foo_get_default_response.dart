@@ -27,11 +27,13 @@ class FooGetDefaultResponse {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FooGetDefaultResponse &&
     other.string == string;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (string == null ? 0 : string!.hashCode);
+  
 
   @override
   String toString() => 'FooGetDefaultResponse[string=$string]';

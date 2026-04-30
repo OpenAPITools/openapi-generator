@@ -30,13 +30,15 @@ class FileSchemaTestClass {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
     other.file == file &&
-    _deepEquality.equals(other.files, files);
+      _deepEquality.equals(other.files, files);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (file == null ? 0 : file!.hashCode) +
-    (files.hashCode);
+      (files.hashCode);
+  
 
   @override
   String toString() => 'FileSchemaTestClass[file=$file, files=$files]';

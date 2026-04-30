@@ -56,6 +56,10 @@ doc/OuterObjectWithEnumProperty.md
 doc/ParentWithNullable.md
 doc/Pet.md
 doc/PetApi.md
+doc/PetEmptyMetadata.md
+doc/PetReactionResponse.md
+doc/PetReactionStatus.md
+doc/PetReactionsResponse.md
 doc/ReadOnlyFirst.md
 doc/SingleRefType.md
 doc/SpecialModelName.md
@@ -131,6 +135,10 @@ lib/model/outer_enum_integer_default_value.dart
 lib/model/outer_object_with_enum_property.dart
 lib/model/parent_with_nullable.dart
 lib/model/pet.dart
+lib/model/pet_empty_metadata.dart
+lib/model/pet_reaction_response.dart
+lib/model/pet_reaction_status.dart
+lib/model/pet_reactions_response.dart
 lib/model/read_only_first.dart
 lib/model/single_ref_type.dart
 lib/model/special_model_name.dart
@@ -139,3 +147,7 @@ lib/model/test_enum.dart
 lib/model/test_inline_freeform_additional_properties_request.dart
 lib/model/user.dart
 pubspec.yaml
+test/pet_empty_metadata_test.dart
+test/pet_reaction_response_test.dart
+test/pet_reaction_status_test.dart
+test/pet_reactions_response_test.dart

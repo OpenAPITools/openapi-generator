@@ -10,48 +10,30 @@
 
 part of openapi.api;
 
-class NumberOnly {
-  /// Returns a new [NumberOnly] instance.
-  NumberOnly({
-    this.justNumber,
-  });
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? justNumber;
+class PetEmptyMetadata {
+  /// Returns a new [PetEmptyMetadata] instance.
+  PetEmptyMetadata();
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
-    other.justNumber == justNumber;
-  
+  bool operator ==(Object other) => identical(this, other) || other is PetEmptyMetadata;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (justNumber == null ? 0 : justNumber!.hashCode);
-  
+    0;
 
   @override
-  String toString() => 'NumberOnly[justNumber=$justNumber]';
+  String toString() => 'PetEmptyMetadata[]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.justNumber != null) {
-      json[r'JustNumber'] = this.justNumber;
-    } else {
-      json[r'JustNumber'] = null;
-    }
     return json;
   }
 
-  /// Returns a new [NumberOnly] instance and imports its values from
+  /// Returns a new [PetEmptyMetadata] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static NumberOnly? fromJson(dynamic value) {
+  static PetEmptyMetadata? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -62,18 +44,17 @@ class NumberOnly {
         return true;
       }());
 
-      return NumberOnly(
-        justNumber: num.parse('${json[r'JustNumber']}'),
+      return PetEmptyMetadata(
       );
     }
     return null;
   }
 
-  static List<NumberOnly> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <NumberOnly>[];
+  static List<PetEmptyMetadata> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <PetEmptyMetadata>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = NumberOnly.fromJson(row);
+        final value = PetEmptyMetadata.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -82,12 +63,12 @@ class NumberOnly {
     return result.toList(growable: growable);
   }
 
-  static Map<String, NumberOnly> mapFromJson(dynamic json) {
-    final map = <String, NumberOnly>{};
+  static Map<String, PetEmptyMetadata> mapFromJson(dynamic json) {
+    final map = <String, PetEmptyMetadata>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = NumberOnly.fromJson(entry.value);
+        final value = PetEmptyMetadata.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -96,14 +77,14 @@ class NumberOnly {
     return map;
   }
 
-  // maps a json object with a list of NumberOnly-objects as value to a dart map
-  static Map<String, List<NumberOnly>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<NumberOnly>>{};
+  // maps a json object with a list of PetEmptyMetadata-objects as value to a dart map
+  static Map<String, List<PetEmptyMetadata>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<PetEmptyMetadata>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = NumberOnly.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = PetEmptyMetadata.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

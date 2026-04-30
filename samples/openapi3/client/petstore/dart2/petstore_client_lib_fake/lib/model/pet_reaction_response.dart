@@ -10,12 +10,11 @@
 
 part of openapi.api;
 
-class ChildWithNullable {
-  /// Returns a new [ChildWithNullable] instance.
-  ChildWithNullable({
-    this.type,
-    this.nullableProperty,
-    this.otherProperty,
+class PetReactionResponse {
+  /// Returns a new [PetReactionResponse] instance.
+  PetReactionResponse({
+    this.petId,
+    this.status,
   });
 
   ///
@@ -24,9 +23,7 @@ class ChildWithNullable {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? type;
-
-  String? nullableProperty;
+  int? petId;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -34,50 +31,43 @@ class ChildWithNullable {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? otherProperty;
+  String? status;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
-    other.type == type &&
-      other.nullableProperty == nullableProperty &&
-      other.otherProperty == otherProperty;
+  bool operator ==(Object other) => identical(this, other) || other is PetReactionResponse &&
+    other.petId == petId &&
+      other.status == status;
   
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (type == null ? 0 : type!.hashCode) +
-      (nullableProperty == null ? 0 : nullableProperty!.hashCode) +
-      (otherProperty == null ? 0 : otherProperty!.hashCode);
+    (petId == null ? 0 : petId!.hashCode) +
+      (status == null ? 0 : status!.hashCode);
   
 
   @override
-  String toString() => 'ChildWithNullable[type=$type, nullableProperty=$nullableProperty, otherProperty=$otherProperty]';
+  String toString() => 'PetReactionResponse[petId=$petId, status=$status]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.type != null) {
-      json[r'type'] = this.type;
+    if (this.petId != null) {
+      json[r'petId'] = this.petId;
     } else {
-      json[r'type'] = null;
+      json[r'petId'] = null;
     }
-    if (this.nullableProperty != null) {
-      json[r'nullableProperty'] = this.nullableProperty;
+    if (this.status != null) {
+      json[r'status'] = this.status;
     } else {
-      json[r'nullableProperty'] = null;
-    }
-    if (this.otherProperty != null) {
-      json[r'otherProperty'] = this.otherProperty;
-    } else {
-      json[r'otherProperty'] = null;
+      json[r'status'] = null;
     }
     return json;
   }
 
-  /// Returns a new [ChildWithNullable] instance and imports its values from
+  /// Returns a new [PetReactionResponse] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ChildWithNullable? fromJson(dynamic value) {
+  static PetReactionResponse? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -88,20 +78,19 @@ class ChildWithNullable {
         return true;
       }());
 
-      return ChildWithNullable(
-        type: mapValueOfType<String>(json, r'type'),
-        nullableProperty: mapValueOfType<String>(json, r'nullableProperty'),
-        otherProperty: mapValueOfType<String>(json, r'otherProperty'),
+      return PetReactionResponse(
+        petId: mapValueOfType<int>(json, r'petId'),
+        status: mapValueOfType<String>(json, r'status'),
       );
     }
     return null;
   }
 
-  static List<ChildWithNullable> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ChildWithNullable>[];
+  static List<PetReactionResponse> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <PetReactionResponse>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = ChildWithNullable.fromJson(row);
+        final value = PetReactionResponse.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -110,12 +99,12 @@ class ChildWithNullable {
     return result.toList(growable: growable);
   }
 
-  static Map<String, ChildWithNullable> mapFromJson(dynamic json) {
-    final map = <String, ChildWithNullable>{};
+  static Map<String, PetReactionResponse> mapFromJson(dynamic json) {
+    final map = <String, PetReactionResponse>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = ChildWithNullable.fromJson(entry.value);
+        final value = PetReactionResponse.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -124,14 +113,14 @@ class ChildWithNullable {
     return map;
   }
 
-  // maps a json object with a list of ChildWithNullable-objects as value to a dart map
-  static Map<String, List<ChildWithNullable>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<ChildWithNullable>>{};
+  // maps a json object with a list of PetReactionResponse-objects as value to a dart map
+  static Map<String, List<PetReactionResponse>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<PetReactionResponse>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = ChildWithNullable.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = PetReactionResponse.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
