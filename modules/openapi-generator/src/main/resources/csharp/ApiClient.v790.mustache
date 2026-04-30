@@ -552,16 +552,21 @@ namespace {{packageName}}.Client
 
         private async Task<RestResponse<T>> DeserializeRestResponseFromPolicyAsync<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult, CancellationToken cancellationToken = default)
         {
-            if (policyResult.Outcome == OutcomeType.Successful) 
+            if (policyResult.Outcome == OutcomeType.Successful)
             {
                 return await client.Deserialize<T>(policyResult.Result, cancellationToken);
             }
             else
             {
+                {{#throwOnAnyError}}
+                throw policyResult.FinalException;
+                {{/throwOnAnyError}}
+                {{^throwOnAnyError}}
                 return new RestResponse<T>(request)
                 {
                     ErrorException = policyResult.FinalException
                 };
+                {{/throwOnAnyError}}
             }
         }
                 
