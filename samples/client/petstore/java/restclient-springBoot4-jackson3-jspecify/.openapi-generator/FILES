@@ -1,5 +1,6 @@
 .github/workflows/maven.yml
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -33,4 +34,6 @@ src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/UploadPostDefaultResponse.java
 src/main/java/org/openapitools/client/model/package-info.java
 src/main/java/org/openapitools/client/package-info.java
+src/test/java/org/openapitools/client/api/DefaultApiTest.java
+src/test/java/org/openapitools/client/model/FooTest.java
 src/test/java/org/openapitools/client/model/UploadPostDefaultResponseTest.java

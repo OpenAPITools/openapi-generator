@@ -17,6 +17,7 @@ import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.UploadPostDefaultResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -42,11 +43,25 @@ public class DefaultApiTest {
      * 
      */
     @Test
+    public void downloadIdGetTest()  {
+        // uncomment below to test the function
+        //String id = null;
+        //File response = api.downloadIdGet(id).block();
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     */
+    @Test
     public void fooDtParamGetTest()  {
         // uncomment below to test the function
-        //OffsetDateTime dtParam = null;
-        //OffsetDateTime dtQuery = null;
-        //OffsetDateTime dtCookie = null;
+        //java.time.Instant dtParam = null;
+        //java.time.Instant dtQuery = null;
+        //java.time.Instant dtCookie = null;
         //Foo response = api.fooDtParamGet(dtParam, dtQuery, dtCookie).block();
 
         // TODO: test validations
@@ -61,7 +76,8 @@ public class DefaultApiTest {
     public void uploadPostTest()  {
         // uncomment below to test the function
         //File _file = null;
-        //api.uploadPost(_file).block();
+        //File metadata = null;
+        //UploadPostDefaultResponse response = api.uploadPost(_file, metadata).block();
 
         // TODO: test validations
     }

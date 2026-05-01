@@ -35,4 +35,3 @@ src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/UploadPostDefaultResponse.java
 src/main/java/org/openapitools/client/model/package-info.java
 src/main/java/org/openapitools/client/package-info.java
-src/test/java/org/openapitools/client/model/UploadPostDefaultResponseTest.java

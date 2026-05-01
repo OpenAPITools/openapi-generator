@@ -17,6 +17,7 @@ import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.UploadPostDefaultResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestClientException;
@@ -36,6 +37,23 @@ class DefaultApiTest {
 
     private final DefaultApi api = new DefaultApi();
 
+    
+    /**
+     * 
+     *
+     * 
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void downloadIdGetTest() {
+        String id = null;
+
+        File response = api.downloadIdGet(id);
+
+        // TODO: test validations
+    }
     
     /**
      * 
@@ -67,8 +85,9 @@ class DefaultApiTest {
     @Test
     void uploadPostTest() {
         File _file = null;
+        File metadata = null;
 
-        api.uploadPost(_file);
+        UploadPostDefaultResponse response = api.uploadPost(_file, metadata);
 
         // TODO: test validations
     }
