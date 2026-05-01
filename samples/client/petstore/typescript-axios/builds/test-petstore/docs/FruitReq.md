@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**cultivar** | **string** |  | [default to undefined]
+**cultivar** | **string** |  | [optional] [default to undefined]
 **mealy** | **boolean** |  | [optional] [default to undefined]
-**lengthCm** | **number** |  | [default to undefined]
+**lengthCm** | **number** |  | [optional] [default to undefined]
 **sweet** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
