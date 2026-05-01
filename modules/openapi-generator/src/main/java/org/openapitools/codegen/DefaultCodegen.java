@@ -2759,8 +2759,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // For anyOf/oneOf, required fields should be the intersection across members,
         // not the union. A field is only guaranteed present if ALL members require it.
-        boolean isAnyOfOrOneOf = (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty())
-                || (composed.getOneOf() != null && !composed.getOneOf().isEmpty());
+        boolean isAnyOfOrOneOf = ModelUtils.hasAnyOf(composed) || ModelUtils.hasOneOf(composed);
         List<Set<String>> perMemberRequiredSets = isAnyOfOrOneOf ? new ArrayList<>() : null;
 
         if (!interfaces.isEmpty()) {
