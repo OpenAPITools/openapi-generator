@@ -63,6 +63,10 @@ import 'package:openapi/src/model/outer_enum_integer_default_value.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/parent_with_nullable.dart';
 import 'package:openapi/src/model/pet.dart';
+import 'package:openapi/src/model/pet_empty_metadata.dart';
+import 'package:openapi/src/model/pet_reaction_response.dart';
+import 'package:openapi/src/model/pet_reaction_status.dart';
+import 'package:openapi/src/model/pet_reactions_response.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:openapi/src/model/special_model_name.dart';
@@ -123,6 +127,10 @@ part 'serializers.g.dart';
   OuterObjectWithEnumProperty,
   ParentWithNullable,$ParentWithNullable,
   Pet,
+  PetEmptyMetadata,
+  PetReactionResponse,
+  PetReactionStatus,
+  PetReactionsResponse,
   ReadOnlyFirst,
   SingleRefType,
   SpecialModelName,
@@ -163,6 +171,10 @@ Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(ModelEnumClass)]),
         () => ListBuilder<ModelEnumClass>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltMap, [FullType(String), FullType(bool)]),
+        () => MapBuilder<String, bool>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(String)]),

@@ -42,6 +42,9 @@ import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/parent_with_nullable.dart';
 import 'package:openapi/src/model/pet.dart';
+import 'package:openapi/src/model/pet_empty_metadata.dart';
+import 'package:openapi/src/model/pet_reaction_response.dart';
+import 'package:openapi/src/model/pet_reactions_response.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
@@ -169,6 +172,15 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return ParentWithNullable.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Pet':
           return Pet.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'PetEmptyMetadata':
+          return PetEmptyMetadata.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'PetReactionResponse':
+          return PetReactionResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'PetReactionStatus':
+          
+          
+        case 'PetReactionsResponse':
+          return PetReactionsResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ReadOnlyFirst':
           return ReadOnlyFirst.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'SingleRefType':
