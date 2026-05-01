@@ -85,14 +85,12 @@ public class DefaultApiExample {
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
         DefaultApi apiInstance = new DefaultApi(defaultClient);
-        java.time.Instant dtParam = new java.time.Instant(); // java.time.Instant | 
-        java.time.Instant dtQuery = new java.time.Instant(); // java.time.Instant | 
-        java.time.Instant dtCookie = new java.time.Instant(); // java.time.Instant | 
+        String id = "id_example"; // String | 
         try {
-            Foo result = apiInstance.fooDtParamGet(dtParam, dtQuery, dtCookie);
+            File result = apiInstance.downloadIdGet(id);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#fooDtParamGet");
+            System.err.println("Exception when calling DefaultApi#downloadIdGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -109,6 +107,8 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**downloadIdGet**](docs/DefaultApi.md#downloadIdGet) | **GET** /download/{id} | 
+*DefaultApi* | [**downloadIdGetWithHttpInfo**](docs/DefaultApi.md#downloadIdGetWithHttpInfo) | **GET** /download/{id} | 
 *DefaultApi* | [**fooDtParamGet**](docs/DefaultApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
 *DefaultApi* | [**fooDtParamGetWithHttpInfo**](docs/DefaultApi.md#fooDtParamGetWithHttpInfo) | **GET** /foo/{dtParam} | 
 *DefaultApi* | [**uploadPost**](docs/DefaultApi.md#uploadPost) | **POST** /upload | 
@@ -118,6 +118,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Foo](docs/Foo.md)
+ - [UploadPostDefaultResponse](docs/UploadPostDefaultResponse.md)
 
 
 <a id="documentation-for-authorization"></a>

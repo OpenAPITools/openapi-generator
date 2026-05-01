@@ -22,6 +22,7 @@ import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.UploadPostDefaultResponse;
 
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
@@ -175,6 +176,123 @@ public class DefaultApi {
   /**
    * 
    * 
+   * @param id  (required)
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File downloadIdGet(String id) throws ApiException {
+    return downloadIdGet(id, null);
+  }
+
+  /**
+   * 
+   * 
+   * @param id  (required)
+   * @param headers Optional headers to include in the request
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File downloadIdGet(String id, Map<String, String> headers) throws ApiException {
+    ApiResponse<File> localVarResponse = downloadIdGetWithHttpInfo(id, headers);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * 
+   * 
+   * @param id  (required)
+   * @return ApiResponse&lt;File&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<File> downloadIdGetWithHttpInfo(String id) throws ApiException {
+    return downloadIdGetWithHttpInfo(id, null);
+  }
+
+  /**
+   * 
+   * 
+   * @param id  (required)
+   * @param headers Optional headers to include in the request
+   * @return ApiResponse&lt;File&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<File> downloadIdGetWithHttpInfo(String id, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = downloadIdGetRequestBuilder(id, headers);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      InputStream localVarResponseBody = null;
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("downloadIdGet", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
+          return new ApiResponse<File>(
+              localVarResponse.statusCode(),
+              localVarResponse.headers().map(),
+              null
+          );
+        }
+
+        
+        // Handle file downloading.
+        File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);
+        
+
+        return new ApiResponse<File>(
+            localVarResponse.statusCode(),
+            localVarResponse.headers().map(),
+            responseValue
+        );
+      } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
+      }
+    } catch (IOException | JacksonException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder downloadIdGetRequestBuilder(String id, Map<String, String> headers) throws ApiException {
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      throw new ApiException(400, "Missing the required parameter 'id' when calling downloadIdGet");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/download/{id}"
+        .replace("{id}", ApiClient.urlEncode(id.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/octet-stream");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    // Add custom headers if provided
+    localVarRequestBuilder = HttpRequestBuilderExtensions.withAdditionalHeaders(localVarRequestBuilder, headers);
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * 
+   * 
    * @param dtParam  (optional)
    * @param dtQuery  (optional)
    * @param dtCookie  (optional)
@@ -312,45 +430,52 @@ public class DefaultApi {
   /**
    * 
    * 
-   * @param _file  (optional)
+   * @param _file  (required)
+   * @param metadata  (optional)
+   * @return UploadPostDefaultResponse
    * @throws ApiException if fails to make API call
    */
-  public void uploadPost(@Nullable File _file) throws ApiException {
-    uploadPost(_file, null);
+  public UploadPostDefaultResponse uploadPost(File _file, @Nullable File metadata) throws ApiException {
+    return uploadPost(_file, metadata, null);
   }
 
   /**
    * 
    * 
-   * @param _file  (optional)
+   * @param _file  (required)
+   * @param metadata  (optional)
    * @param headers Optional headers to include in the request
+   * @return UploadPostDefaultResponse
    * @throws ApiException if fails to make API call
    */
-  public void uploadPost(@Nullable File _file, Map<String, String> headers) throws ApiException {
-    uploadPostWithHttpInfo(_file, headers);
+  public UploadPostDefaultResponse uploadPost(File _file, @Nullable File metadata, Map<String, String> headers) throws ApiException {
+    ApiResponse<UploadPostDefaultResponse> localVarResponse = uploadPostWithHttpInfo(_file, metadata, headers);
+    return localVarResponse.getData();
   }
 
   /**
    * 
    * 
-   * @param _file  (optional)
-   * @return ApiResponse&lt;Void&gt;
+   * @param _file  (required)
+   * @param metadata  (optional)
+   * @return ApiResponse&lt;UploadPostDefaultResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> uploadPostWithHttpInfo(@Nullable File _file) throws ApiException {
-    return uploadPostWithHttpInfo(_file, null);
+  public ApiResponse<UploadPostDefaultResponse> uploadPostWithHttpInfo(File _file, @Nullable File metadata) throws ApiException {
+    return uploadPostWithHttpInfo(_file, metadata, null);
   }
 
   /**
    * 
    * 
-   * @param _file  (optional)
+   * @param _file  (required)
+   * @param metadata  (optional)
    * @param headers Optional headers to include in the request
-   * @return ApiResponse&lt;Void&gt;
+   * @return ApiResponse&lt;UploadPostDefaultResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> uploadPostWithHttpInfo(@Nullable File _file, Map<String, String> headers) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = uploadPostRequestBuilder(_file, headers);
+  public ApiResponse<UploadPostDefaultResponse> uploadPostWithHttpInfo(File _file, @Nullable File metadata, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = uploadPostRequestBuilder(_file, metadata, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -364,20 +489,31 @@ public class DefaultApi {
           throw getApiException("uploadPost", localVarResponse);
         }
         localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
-        if (localVarResponseBody != null) {
-          localVarResponseBody.readAllBytes();
+        if (localVarResponseBody == null) {
+          return new ApiResponse<UploadPostDefaultResponse>(
+              localVarResponse.statusCode(),
+              localVarResponse.headers().map(),
+              null
+          );
         }
-        return new ApiResponse<>(
+
+        
+        
+        String responseBody = new String(localVarResponseBody.readAllBytes());
+        UploadPostDefaultResponse responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<UploadPostDefaultResponse>() {});
+        
+
+        return new ApiResponse<UploadPostDefaultResponse>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            null
+            responseValue
         );
       } finally {
         if (localVarResponseBody != null) {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -386,7 +522,11 @@ public class DefaultApi {
     }
   }
 
-  private HttpRequest.Builder uploadPostRequestBuilder(@Nullable File _file, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder uploadPostRequestBuilder(File _file, @Nullable File metadata, Map<String, String> headers) throws ApiException {
+    // verify the required parameter '_file' is set
+    if (_file == null) {
+      throw new ApiException(400, "Missing the required parameter '_file' when calling uploadPost");
+    }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -399,6 +539,8 @@ public class DefaultApi {
     MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
     boolean hasFiles = false;
     multiPartBuilder.addBinaryBody("file", _file);
+    hasFiles = true;
+    multiPartBuilder.addBinaryBody("metadata", metadata);
     hasFiles = true;
     HttpEntity entity = multiPartBuilder.build();
     HttpRequest.BodyPublisher formDataPublisher;

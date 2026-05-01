@@ -5,8 +5,6 @@
  */
 package org.openapitools.api;
 
-import org.jspecify.annotations.Nullable;
-import org.openapitools.model.UploadPostDefaultResponse;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,48 +34,36 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 @Validated
-@Tag(name = "upload", description = "the upload API")
-public interface UploadApi {
+@Tag(name = "download", description = "the download API")
+public interface DownloadApi {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
-    String PATH_UPLOAD_POST = "/upload";
+    String PATH_DOWNLOAD_ID_GET = "/download/{id}";
     /**
-     * POST /upload
+     * GET /download/{id}
      *
-     * @param file  (required)
-     * @param metadata  (optional)
+     * @param id  (required)
      * @return ok (status code 200)
      */
     @Operation(
-        operationId = "uploadPost",
+        operationId = "downloadIdGet",
         responses = {
-            @ApiResponse(responseCode = "default", description = "ok", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = UploadPostDefaultResponse.class))
+            @ApiResponse(responseCode = "200", description = "ok", content = {
+                @Content(mediaType = "application/octet-stream", schema = @Schema(implementation = org.springframework.core.io.Resource.class))
             })
         }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
-        value = UploadApi.PATH_UPLOAD_POST,
-        produces = { "application/json" },
-        consumes = { "multipart/form-data" }
+        method = RequestMethod.GET,
+        value = DownloadApi.PATH_DOWNLOAD_ID_GET,
+        produces = { "application/octet-stream" }
     )
-    default ResponseEntity<UploadPostDefaultResponse> uploadPost(
-        @Parameter(name = "file", description = "", required = true) @RequestPart(value = "file", required = true) MultipartFile file,
-        @Parameter(name = "metadata", description = "") @RequestPart(value = "metadata", required = false) MultipartFile metadata
+    default ResponseEntity<org.springframework.core.io.Resource> downloadIdGet(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") String id
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

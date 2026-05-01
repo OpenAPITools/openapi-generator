@@ -7,6 +7,7 @@ import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.UploadPostDefaultResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,6 +41,55 @@ public class DefaultApi extends BaseApi {
         super(apiClient);
     }
 
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id  (required)
+     * @return File
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public File downloadIdGet(String id) throws RestClientException {
+        return downloadIdGetWithHttpInfo(id).getBody();
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id  (required)
+     * @return ResponseEntity&lt;File&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<File> downloadIdGetWithHttpInfo(String id) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'id' when calling downloadIdGet");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("id", id);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/octet-stream"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<File> localReturnType = new ParameterizedTypeReference<File>() {};
+        return apiClient.invokeAPI("/download/{id}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
     /**
      * 
      * 
@@ -98,23 +148,31 @@ public class DefaultApi extends BaseApi {
      * 
      * 
      * <p><b>0</b> - ok
-     * @param _file  (optional)
+     * @param _file  (required)
+     * @param metadata  (optional)
+     * @return UploadPostDefaultResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void uploadPost(File _file) throws RestClientException {
-        uploadPostWithHttpInfo(_file);
+    public UploadPostDefaultResponse uploadPost(File _file, File metadata) throws RestClientException {
+        return uploadPostWithHttpInfo(_file, metadata).getBody();
     }
 
     /**
      * 
      * 
      * <p><b>0</b> - ok
-     * @param _file  (optional)
-     * @return ResponseEntity&lt;Void&gt;
+     * @param _file  (required)
+     * @param metadata  (optional)
+     * @return ResponseEntity&lt;UploadPostDefaultResponse&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> uploadPostWithHttpInfo(File _file) throws RestClientException {
+    public ResponseEntity<UploadPostDefaultResponse> uploadPostWithHttpInfo(File _file, File metadata) throws RestClientException {
         Object localVarPostBody = null;
+        
+        // verify the required parameter '_file' is set
+        if (_file == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '_file' when calling uploadPost");
+        }
         
 
         final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
@@ -124,8 +182,12 @@ public class DefaultApi extends BaseApi {
 
         if (_file != null)
             localVarFormParams.add("file", new FileSystemResource(_file));
+        if (metadata != null)
+            localVarFormParams.add("metadata", new FileSystemResource(metadata));
 
-        final String[] localVarAccepts = {  };
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
             "multipart/form-data"
@@ -134,7 +196,7 @@ public class DefaultApi extends BaseApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<UploadPostDefaultResponse> localReturnType = new ParameterizedTypeReference<UploadPostDefaultResponse>() {};
         return apiClient.invokeAPI("/upload", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
@@ -149,7 +211,9 @@ public class DefaultApi extends BaseApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = {  };
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
             "multipart/form-data"

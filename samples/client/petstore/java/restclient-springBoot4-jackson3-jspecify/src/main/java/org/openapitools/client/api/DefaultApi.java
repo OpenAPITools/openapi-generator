@@ -6,6 +6,7 @@ import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.UploadPostDefaultResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,81 @@ public class DefaultApi {
 
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return File
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec downloadIdGetRequestCreation(String id) throws RestClientResponseException {
+        Object postBody = null;
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new RestClientResponseException("Missing the required parameter 'id' when calling downloadIdGet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<>();
+
+        pathParams.put("id", id);
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
+
+        final String[] localVarAccepts = { 
+            "application/octet-stream"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<File> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/download/{id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return File
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public File downloadIdGet( String id) throws RestClientResponseException {
+        ParameterizedTypeReference<File> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return downloadIdGetRequestCreation(id).body(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return ResponseEntity&lt;File&gt;
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<File> downloadIdGetWithHttpInfo( String id) throws RestClientResponseException {
+        ParameterizedTypeReference<File> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return downloadIdGetRequestCreation(id).toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec downloadIdGetWithResponseSpec(String id) throws RestClientResponseException {
+        return downloadIdGetRequestCreation(id);
     }
 
     /**
@@ -135,10 +211,16 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
+     * @return UploadPostDefaultResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws RestClientResponseException {
+    private ResponseSpec uploadPostRequestCreation(File _file, @Nullable File metadata) throws RestClientResponseException {
         Object postBody = null;
+        // verify the required parameter '_file' is set
+        if (_file == null) {
+            throw new RestClientResponseException("Missing the required parameter '_file' when calling uploadPost", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -149,8 +231,12 @@ public class DefaultApi {
 
         if (_file != null)
             formParams.add("file", new FileSystemResource(_file));
+        if (metadata != null)
+            formParams.add("metadata", new FileSystemResource(metadata));
 
-        final String[] localVarAccepts = { };
+        final String[] localVarAccepts = { 
+            "application/json"
+        };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
             "multipart/form-data"
@@ -159,7 +245,7 @@ public class DefaultApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        ParameterizedTypeReference<UploadPostDefaultResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
         return apiClient.invokeAPI("/upload", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
@@ -168,11 +254,13 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
+     * @return UploadPostDefaultResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void uploadPost(@Nullable File _file) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        uploadPostRequestCreation(_file).body(localVarReturnType);
+    public UploadPostDefaultResponse uploadPost(File _file, @Nullable File metadata) throws RestClientResponseException {
+        ParameterizedTypeReference<UploadPostDefaultResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return uploadPostRequestCreation(_file, metadata).body(localVarReturnType);
     }
 
     /**
@@ -180,11 +268,13 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
+     * @return ResponseEntity&lt;UploadPostDefaultResponse&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> uploadPostWithHttpInfo(@Nullable File _file) throws RestClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return uploadPostRequestCreation(_file).toEntity(localVarReturnType);
+    public ResponseEntity<UploadPostDefaultResponse> uploadPostWithHttpInfo(File _file, @Nullable File metadata) throws RestClientResponseException {
+        ParameterizedTypeReference<UploadPostDefaultResponse> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return uploadPostRequestCreation(_file, metadata).toEntity(localVarReturnType);
     }
 
     /**
@@ -192,10 +282,11 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadPostWithResponseSpec(@Nullable File _file) throws RestClientResponseException {
-        return uploadPostRequestCreation(_file);
+    public ResponseSpec uploadPostWithResponseSpec(File _file, @Nullable File metadata) throws RestClientResponseException {
+        return uploadPostRequestCreation(_file, metadata);
     }
 }

@@ -52,10 +52,34 @@ paths:
         description: file
       responses:
         default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/_upload_post_default_response"
           description: ok
       x-content-type: multipart/form-data
       x-accepts:
       - application/json
+  /download/{id}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: ok
+      x-accepts:
+      - application/octet-stream
 components:
   schemas:
     Foo:
@@ -100,5 +124,17 @@ components:
         file:
           format: binary
           type: string
+        metadata:
+          format: binary
+          type: string
+      required:
+      - file
       type: object
+    _upload_post_default_response:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          format: uuid
+          type: string
 

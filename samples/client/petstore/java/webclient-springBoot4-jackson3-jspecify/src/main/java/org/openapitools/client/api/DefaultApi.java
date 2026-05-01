@@ -6,6 +6,7 @@ import java.io.File;
 import org.openapitools.client.model.Foo;
 import org.jspecify.annotations.Nullable;
 import java.time.OffsetDateTime;
+import org.openapitools.client.model.UploadPostDefaultResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,81 @@ public class DefaultApi {
 
     public void setApiClient(ApiClient apiClient) {
         this.apiClient = apiClient;
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return File
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec downloadIdGetRequestCreation(String id) throws WebClientResponseException {
+        Object postBody = null;
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new WebClientResponseException("Missing the required parameter 'id' when calling downloadIdGet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        pathParams.put("id", id);
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/octet-stream"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<File> localVarReturnType = new ParameterizedTypeReference<File>() {};
+        return apiClient.invokeAPI("/download/{id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return File
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<File> downloadIdGet(String id) throws WebClientResponseException {
+        ParameterizedTypeReference<File> localVarReturnType = new ParameterizedTypeReference<File>() {};
+        return downloadIdGetRequestCreation(id).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return ResponseEntity&lt;File&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<File>> downloadIdGetWithHttpInfo(String id) throws WebClientResponseException {
+        ParameterizedTypeReference<File> localVarReturnType = new ParameterizedTypeReference<File>() {};
+        return downloadIdGetRequestCreation(id).toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec downloadIdGetWithResponseSpec(String id) throws WebClientResponseException {
+        return downloadIdGetRequestCreation(id);
     }
 
     /**
@@ -137,10 +213,16 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
+     * @return UploadPostDefaultResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws WebClientResponseException {
+    private ResponseSpec uploadPostRequestCreation(File _file, @Nullable File metadata) throws WebClientResponseException {
         Object postBody = null;
+        // verify the required parameter '_file' is set
+        if (_file == null) {
+            throw new WebClientResponseException("Missing the required parameter '_file' when calling uploadPost", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -151,8 +233,12 @@ public class DefaultApi {
 
         if (_file != null)
             formParams.add("file", new FileSystemResource(_file));
+        if (metadata != null)
+            formParams.add("metadata", new FileSystemResource(metadata));
 
-        final String[] localVarAccepts = { };
+        final String[] localVarAccepts = { 
+            "application/json"
+        };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
             "multipart/form-data"
@@ -161,7 +247,7 @@ public class DefaultApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        ParameterizedTypeReference<UploadPostDefaultResponse> localVarReturnType = new ParameterizedTypeReference<UploadPostDefaultResponse>() {};
         return apiClient.invokeAPI("/upload", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
@@ -170,11 +256,13 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
+     * @return UploadPostDefaultResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> uploadPost(@Nullable File _file) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return uploadPostRequestCreation(_file).bodyToMono(localVarReturnType);
+    public Mono<UploadPostDefaultResponse> uploadPost(File _file, @Nullable File metadata) throws WebClientResponseException {
+        ParameterizedTypeReference<UploadPostDefaultResponse> localVarReturnType = new ParameterizedTypeReference<UploadPostDefaultResponse>() {};
+        return uploadPostRequestCreation(_file, metadata).bodyToMono(localVarReturnType);
     }
 
     /**
@@ -182,11 +270,13 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
+     * @return ResponseEntity&lt;UploadPostDefaultResponse&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> uploadPostWithHttpInfo(@Nullable File _file) throws WebClientResponseException {
-        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return uploadPostRequestCreation(_file).toEntity(localVarReturnType);
+    public Mono<ResponseEntity<UploadPostDefaultResponse>> uploadPostWithHttpInfo(File _file, @Nullable File metadata) throws WebClientResponseException {
+        ParameterizedTypeReference<UploadPostDefaultResponse> localVarReturnType = new ParameterizedTypeReference<UploadPostDefaultResponse>() {};
+        return uploadPostRequestCreation(_file, metadata).toEntity(localVarReturnType);
     }
 
     /**
@@ -194,10 +284,11 @@ public class DefaultApi {
      * 
      * <p><b>0</b> - ok
      * @param _file The _file parameter
+     * @param metadata The metadata parameter
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec uploadPostWithResponseSpec(@Nullable File _file) throws WebClientResponseException {
-        return uploadPostRequestCreation(_file);
+    public ResponseSpec uploadPostWithResponseSpec(File _file, @Nullable File metadata) throws WebClientResponseException {
+        return uploadPostRequestCreation(_file, metadata);
     }
 }

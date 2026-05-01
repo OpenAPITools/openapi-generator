@@ -7,6 +7,7 @@ build.gradle
 build.sbt
 docs/DefaultApi.md
 docs/Foo.md
+docs/UploadPostDefaultResponse.md
 git_push.sh
 gradle.properties
 gradle/wrapper/gradle-wrapper.jar
@@ -29,5 +30,7 @@ src/main/java/org/openapitools/client/auth/Authentication.java
 src/main/java/org/openapitools/client/auth/HttpBasicAuth.java
 src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/model/Foo.java
+src/main/java/org/openapitools/client/model/UploadPostDefaultResponse.java
 src/main/java/org/openapitools/client/model/package-info.java
 src/main/java/org/openapitools/client/package-info.java
+src/test/java/org/openapitools/client/model/UploadPostDefaultResponseTest.java
