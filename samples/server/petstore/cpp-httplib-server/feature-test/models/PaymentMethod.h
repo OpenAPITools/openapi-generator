@@ -8,6 +8,7 @@
 // System headers
 #include <nlohmann/json.hpp>
 #include <variant>
+#include <optional>
 #include <string>
 #include "BankAccount.h"
 #include "CreditCard.h"

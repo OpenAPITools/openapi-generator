@@ -3,9 +3,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Cultivar** | **String** |  | 
+**Cultivar** | **String** |  | [optional] 
 **Mealy** | **Boolean** |  | [optional] 
-**LengthCm** | **Decimal** |  | 
+**LengthCm** | **Decimal** |  | [optional] 
 **Sweet** | **Boolean** |  | [optional] 
 
 ## Examples

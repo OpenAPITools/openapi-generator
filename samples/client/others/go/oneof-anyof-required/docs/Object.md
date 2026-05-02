@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Field1** | **string** | Specifies an action name to be used with the Android Intent class. | 
-**Field2** | **string** | Specifies an action name to be used with the Android Intent class. | 
+**Field1** | Pointer to **string** | Specifies an action name to be used with the Android Intent class. | [optional] 
+**Field2** | Pointer to **string** | Specifies an action name to be used with the Android Intent class. | [optional] 
 
 ## Methods
 
 ### NewObject
 
-`func NewObject(field1 string, field2 string, ) *Object`
+`func NewObject() *Object`
 
 NewObject instantiates a new Object object
 This constructor will assign default values to properties that have it defined,
@@ -45,6 +45,11 @@ and a boolean to check if the value has been set.
 
 SetField1 sets Field1 field to given value.
 
+### HasField1
+
+`func (o *Object) HasField1() bool`
+
+HasField1 returns a boolean if a field has been set.
 
 ### GetField2
 
@@ -65,6 +70,11 @@ and a boolean to check if the value has been set.
 
 SetField2 sets Field2 field to given value.
 
+### HasField2
+
+`func (o *Object) HasField2() bool`
+
+HasField2 returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

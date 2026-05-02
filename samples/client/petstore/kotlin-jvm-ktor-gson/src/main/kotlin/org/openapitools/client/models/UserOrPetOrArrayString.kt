@@ -33,10 +33,8 @@ import com.google.gson.annotations.SerializedName
 /**
  * A schema that can be either a User, a Pet, or an array of strings
  *
- * @param username 
- * @param name 
- * @param photoUrls 
  * @param id 
+ * @param username 
  * @param firstName 
  * @param lastName 
  * @param email 
@@ -44,6 +42,8 @@ import com.google.gson.annotations.SerializedName
  * @param phone 
  * @param userStatus User Status
  * @param category 
+ * @param name 
+ * @param photoUrls 
  * @param tags 
  * @param status pet status in the store
  */
@@ -51,17 +51,11 @@ import com.google.gson.annotations.SerializedName
 
 data class UserOrPetOrArrayString (
 
-    @SerializedName("username")
-    val username: kotlin.String,
-
-    @SerializedName("name")
-    val name: kotlin.String,
-
-    @SerializedName("photoUrls")
-    val photoUrls: kotlin.collections.List<kotlin.String>,
-
     @SerializedName("id")
     val id: kotlin.Long? = null,
+
+    @SerializedName("username")
+    val username: kotlin.String? = null,
 
     @SerializedName("firstName")
     val firstName: kotlin.String? = null,
@@ -84,6 +78,12 @@ data class UserOrPetOrArrayString (
 
     @SerializedName("category")
     val category: Category? = null,
+
+    @SerializedName("name")
+    val name: kotlin.String? = null,
+
+    @SerializedName("photoUrls")
+    val photoUrls: kotlin.collections.List<kotlin.String>? = null,
 
     @SerializedName("tags")
     val tags: kotlin.collections.List<Tag>? = null,

@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **shapeType** | **string** |  | [default to undefined]
-**triangleType** | **string** |  | [default to undefined]
-**quadrilateralType** | **string** |  | [default to undefined]
+**triangleType** | **string** |  | [optional] [default to undefined]
+**quadrilateralType** | **string** |  | [optional] [default to undefined]
 
 ## Example
 

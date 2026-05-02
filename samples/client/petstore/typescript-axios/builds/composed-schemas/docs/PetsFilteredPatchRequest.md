@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**age** | **number** |  | [default to undefined]
+**age** | **number** |  | [optional] [default to undefined]
 **nickname** | **string** |  | [optional] [default to undefined]
-**pet_type** | **string** |  | [default to undefined]
+**pet_type** | **string** |  | [optional] [default to undefined]
 **hunts** | **boolean** |  | [optional] [default to undefined]
 
 ## Example

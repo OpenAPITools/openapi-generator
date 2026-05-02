@@ -27,6 +27,7 @@ sealed class Pet(
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
     open val petType: kotlin.String
+,
 
 )
 

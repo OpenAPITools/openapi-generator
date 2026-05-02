@@ -18,28 +18,28 @@ pub enum TestsDiscriminatorDuplicateEnumsGet200Response {
     Vehicle {
         #[serde(rename = "type")]
         r#type: String,
-        #[serde(rename = "name")]
-        name: String,
-        #[serde(rename = "speed")]
-        speed: f64,
+        #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+        name: Option<String>,
+        #[serde(rename = "speed", skip_serializing_if = "Option::is_none")]
+        speed: Option<f64>,
     },
     #[serde(rename="student")]
     PersonStudent {
         #[serde(rename = "type")]
         r#type: String,
-        #[serde(rename = "name")]
-        name: String,
-        #[serde(rename = "speed")]
-        speed: f64,
+        #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+        name: Option<String>,
+        #[serde(rename = "speed", skip_serializing_if = "Option::is_none")]
+        speed: Option<f64>,
     },
     #[serde(rename="teacher")]
     PersonTeacher {
         #[serde(rename = "type")]
         r#type: String,
-        #[serde(rename = "name")]
-        name: String,
-        #[serde(rename = "speed")]
-        speed: f64,
+        #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+        name: Option<String>,
+        #[serde(rename = "speed", skip_serializing_if = "Option::is_none")]
+        speed: Option<f64>,
     },
 }
 

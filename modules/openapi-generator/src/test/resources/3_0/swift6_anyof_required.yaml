@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: anyOf Required Fields Test
+  version: 1.0.0
+paths:
+  /vote:
+    post:
+      operationId: voteOnItem
+      responses:
+        '200':
+          description: Success or error response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/VoteResponse'
+                  - $ref: '#/components/schemas/APIError'
+components:
+  schemas:
+    APIStatus:
+      type: string
+      enum:
+        - success
+        - failed
+    VoteResponse:
+      type: object
+      required:
+        - status
+        - voteId
+      properties:
+        status:
+          $ref: '#/components/schemas/APIStatus'
+        voteId:
+          type: string
+        isVerified:
+          type: boolean
+    APIError:
+      type: object
+      required:
+        - status
+        - reason
+        - code
+      properties:
+        status:
+          $ref: '#/components/schemas/APIStatus'
+        reason:
+          type: string
+        code:
+          type: string
+        secondaryCode:
+          type: string

@@ -6,8 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **class_name** | **str** |  | 
-**color** | **str** |  | 
-**size** | **int** |  | 
+**color** | **str** |  | [optional] 
+**size** | **int** |  | [optional] 
 
 ## Example
 

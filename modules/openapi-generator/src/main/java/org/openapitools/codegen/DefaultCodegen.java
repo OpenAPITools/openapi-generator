@@ -2756,6 +2756,12 @@ public class DefaultCodegen implements CodegenConfig {
 
         // interfaces (schemas defined in allOf, anyOf, oneOf)
         List<Schema> interfaces = ModelUtils.getInterfaces(composed);
+
+        // For anyOf/oneOf, required fields should be the intersection across members,
+        // not the union. A field is only guaranteed present if ALL members require it.
+        boolean isAnyOfOrOneOf = ModelUtils.hasAnyOf(composed) || ModelUtils.hasOneOf(composed);
+        List<Set<String>> perMemberRequiredSets = isAnyOfOrOneOf ? new ArrayList<>() : null;
+
         if (!interfaces.isEmpty()) {
             // m.interfaces is for backward compatibility
             if (m.interfaces == null)
@@ -2816,7 +2822,14 @@ public class DefaultCodegen implements CodegenConfig {
                     } else {
                         // composition
                         Map<String, Schema> newProperties = new LinkedHashMap<>();
-                        addProperties(newProperties, required, refSchema, new HashSet<>());
+                        if (isAnyOfOrOneOf) {
+                            // Collect required fields per-member for later intersection
+                            List<String> memberRequired = new ArrayList<>();
+                            addProperties(newProperties, memberRequired, refSchema, new HashSet<>());
+                            perMemberRequiredSets.add(new HashSet<>(memberRequired));
+                        } else {
+                            addProperties(newProperties, required, refSchema, new HashSet<>());
+                        }
                         mergeProperties(properties, newProperties);
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     }
@@ -2857,8 +2870,15 @@ public class DefaultCodegen implements CodegenConfig {
         for (Schema component : interfaces) {
             if (component.get$ref() == null) {
                 if (component != null) {
-                    // component is the child schema
-                    addProperties(properties, required, component, new HashSet<>());
+                    if (isAnyOfOrOneOf) {
+                        // Collect required fields per-member for later intersection
+                        List<String> memberRequired = new ArrayList<>();
+                        addProperties(properties, memberRequired, component, new HashSet<>());
+                        perMemberRequiredSets.add(new HashSet<>(memberRequired));
+                    } else {
+                        // component is the child schema
+                        addProperties(properties, required, component, new HashSet<>());
+                    }
 
                     // includes child's properties (all, required) in allProperties, allRequired
                     addProperties(allProperties, allRequired, component, new HashSet<>());
@@ -2866,6 +2886,16 @@ public class DefaultCodegen implements CodegenConfig {
                 // in 7.0.0 release, we comment out below to allow more than 1 child schemas in allOf
                 //break; // at most one child only
             }
+        }
+
+        // For anyOf/oneOf, compute the intersection of required fields across all members.
+        // A field is only required in the merged model if ALL members require it.
+        if (isAnyOfOrOneOf && !perMemberRequiredSets.isEmpty()) {
+            Set<String> intersected = new HashSet<>(perMemberRequiredSets.get(0));
+            for (int i = 1; i < perMemberRequiredSets.size(); i++) {
+                intersected.retainAll(perMemberRequiredSets.get(i));
+            }
+            required.addAll(intersected);
         }
 
         if (composed.getRequired() != null) {

@@ -21,10 +21,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 
- * @param username 
- * @param name 
- * @param photoUrls 
  * @param id 
+ * @param username 
  * @param firstName 
  * @param lastName 
  * @param email 
@@ -32,22 +30,18 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param phone 
  * @param userStatus User Status
  * @param category 
+ * @param name 
+ * @param photoUrls 
  * @param tags 
  * @param status pet status in the store
  */
 data class AnyOfUserOrPet(
 
-    @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("username", required = true) val username: kotlin.String,
-
-    @Schema(example = "doggie", required = true, description = "")
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
-
-    @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
-
     @Schema(example = "null", description = "")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
+
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("username") val username: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
@@ -70,6 +64,12 @@ data class AnyOfUserOrPet(
     @field:Valid
     @Schema(example = "null", description = "")
     @get:JsonProperty("category") val category: Category? = null,
+
+    @Schema(example = "doggie", description = "")
+    @get:JsonProperty("name") val name: kotlin.String? = null,
+
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")

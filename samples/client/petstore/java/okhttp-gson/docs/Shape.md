@@ -8,8 +8,8 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**shapeType** | **String** |  |  |
-|**triangleType** | **String** |  |  |
-|**quadrilateralType** | **String** |  |  |
+|**triangleType** | **String** |  |  [optional] |
+|**quadrilateralType** | **String** |  |  [optional] |
 
 
 

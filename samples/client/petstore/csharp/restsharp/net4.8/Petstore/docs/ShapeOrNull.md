@@ -6,8 +6,8 @@ The value may be a shape or the 'null' value. This is introduced in OAS schema >
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ShapeType** | **string** |  | 
-**TriangleType** | **string** |  | 
-**QuadrilateralType** | **string** |  | 
+**TriangleType** | **string** |  | [optional] 
+**QuadrilateralType** | **string** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

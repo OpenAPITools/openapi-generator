@@ -7,9 +7,9 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**cultivar** | **String** |  |  |
+|**cultivar** | **String** |  |  [optional] |
 |**mealy** | **Boolean** |  |  [optional] |
-|**lengthCm** | **BigDecimal** |  |  |
+|**lengthCm** | **BigDecimal** |  |  [optional] |
 |**sweet** | **Boolean** |  |  [optional] |
 
 

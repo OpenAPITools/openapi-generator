@@ -15,9 +15,9 @@ import { PetByType } from '../models/PetByType';
 import { HttpFile } from '../http/http';
 
 export class PetsFilteredPatchRequest {
-    'age': number;
+    'age'?: number;
     'nickname'?: string;
-    'petType': PetsFilteredPatchRequestPetTypeEnum;
+    'petType'?: PetsFilteredPatchRequestPetTypeEnum;
     'hunts'?: boolean;
 
     static readonly discriminator: string | undefined = undefined;

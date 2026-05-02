@@ -4,8 +4,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ShapeType** | **String** |  | 
-**TriangleType** | **String** |  | 
-**QuadrilateralType** | **String** |  | 
+**TriangleType** | **String** |  | [optional] 
+**QuadrilateralType** | **String** |  | [optional] 
 
 ## Examples
 
