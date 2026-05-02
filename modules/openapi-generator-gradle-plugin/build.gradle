@@ -7,8 +7,8 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
     id("java-gradle-plugin")
     id("maven-publish")
-    id("org.gradle.kotlin.kotlin-dsl") version "5.2.0"
-    id("org.jetbrains.kotlin.jvm") version "2.0.21"
+    id("org.gradle.kotlin.kotlin-dsl") version "6.6.4"
+    id("org.jetbrains.kotlin.jvm") version "2.3.21"
     id("signing")
 }
 
@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     implementation("org.openapitools:openapi-generator:$openApiGeneratorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.9.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:2.2.0")
 }
 
 tasks.named("test", Test).configure {
