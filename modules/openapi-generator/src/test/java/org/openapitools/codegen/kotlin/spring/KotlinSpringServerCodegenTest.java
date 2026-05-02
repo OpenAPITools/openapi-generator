@@ -5983,6 +5983,40 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "oneOf without discriminator with useDeductionForOneOfInterfaces generates @JsonTypeInfo(DEDUCTION) annotation")
+    public void testOneOfDeductionWithoutDiscriminatorGeneratesDeductionAnnotation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal has oneOf [Dog, Cat] with NO discriminator → deduction should be applied
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "sealed interface Animal",
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)",
+                "@JsonSubTypes(",
+                "JsonSubTypes.Type(value = Dog::class)",
+                "JsonSubTypes.Type(value = Cat::class)"
+        );
+
+        // Fruit has oneOf [Apple, Banana] WITH a discriminator → must NOT use deduction
+        assertFileNotContains(Paths.get(outputPath + "/Fruit.kt"),
+                "JsonTypeInfo.Id.DEDUCTION"
+        );
+        assertFileContains(Paths.get(outputPath + "/Fruit.kt"),
+                "sealed interface Fruit",
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME"
+        );
+    }
+
     @Test
     public void testSealedResponseInterfacesWithDeclarativeHttpInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
