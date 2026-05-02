@@ -25,6 +25,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -432,6 +434,18 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public String modelTestFileFolder() {
         return outputFolder + File.separatorChar + testFolder;
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // Process models to detect PATCH models (models starting with 'Patched')
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm.getClassname().startsWith("Patched")) {
+                cm.vendorExtensions.put("isPatchedModel", true);
+            }
+        }
+        return super.postProcessModels(objs);
     }
 
     public String packagePath() {
