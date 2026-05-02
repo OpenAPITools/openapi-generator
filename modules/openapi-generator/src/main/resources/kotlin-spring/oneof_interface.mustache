@@ -11,7 +11,8 @@
     JsonSubTypes.Type(value = {{classname}}::class){{^-last}},{{/-last}}
   {{/interfaceModels}}
 )
-{{/jackson}}{{/useDeductionForOneOfInterfaces}}{{/discriminator}}{{#additionalModelTypeAnnotations}}
+{{/jackson}}{{/useDeductionForOneOfInterfaces}}{{/discriminator}}
+{{#additionalModelTypeAnnotations}}
 {{{.}}}
 {{/additionalModelTypeAnnotations}}
 {{#vendorExtensions.x-class-extra-annotation}}
