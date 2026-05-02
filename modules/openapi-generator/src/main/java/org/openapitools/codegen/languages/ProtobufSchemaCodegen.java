@@ -731,6 +731,24 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
+                // Fix for enum wrapping when NOT extracting enums to separate files
+                // Since v7.20.0, all enums are wrapped in messages but field references 
+                // weren't updated to use .Enum suffix when not extracted
+                boolean isDirectEnumForFix = property.isEnum;
+                boolean isArrayOfEnumsForFix = property.isArray && property.items != null && property.items.isEnum;
+                
+                if ((isDirectEnumForFix || isArrayOfEnumsForFix) && !this.extractEnumsToSeparateFiles) {
+                    // For enums that are wrapped but not extracted, update the data type to use .Enum suffix
+                    CodegenProperty enumPropertyForFix = isArrayOfEnumsForFix ? property.items : property;
+                    String enumTypeName = enumPropertyForFix.dataType;
+                    
+                    if (StringUtils.isNotBlank(enumTypeName)) {
+                        // Update x-protobuf-data-type to reference the wrapped enum's inner Enum
+                        String wrappedEnumType = enumTypeName + "." + ENUM_WRAPPER_INNER_NAME;
+                        property.vendorExtensions.put("x-protobuf-data-type", wrappedEnumType);
+                    }
+                }
+
                 // Check if this property is an enum or an array of enums.
                 // 
                 // This handles two distinct cases:
