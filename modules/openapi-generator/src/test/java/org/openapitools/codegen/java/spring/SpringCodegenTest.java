@@ -6664,7 +6664,6 @@ public class SpringCodegenTest {
                 codegenConfigurator ->
                         codegenConfigurator
                                 .addTypeMapping("OffsetDateTime", "java.time.Instant"));
-
         if (springBootVersion == 4) {
             assertThat(files.get("pom.xml")).content()
                     .doesNotContain("jspecify")
