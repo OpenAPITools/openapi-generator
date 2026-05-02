@@ -442,6 +442,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             if (cm.getClassname().startsWith("Patched")) {
+                // Mark as PATCH model for template handling
                 cm.vendorExtensions.put("isPatchedModel", true);
             }
         }

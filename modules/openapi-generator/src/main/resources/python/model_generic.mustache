@@ -164,22 +164,20 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/isAdditionalPropertiesTrue}}
         ])
 
-        {{#classname}}
-        {{#isPatchedModel}}
+        {{#vendorExtensions.isPatchedModel}}
         _dict = self.model_dump(
             by_alias=True,
             exclude=excluded_fields,
             exclude_unset=True,  # For PATCH models, exclude unset fields to avoid sending default values
         )
-        {{/isPatchedModel}}
-        {{^isPatchedModel}}
+{{/vendorExtensions.isPatchedModel}}
+{{^vendorExtensions.isPatchedModel}}
         _dict = self.model_dump(
             by_alias=True,
             exclude=excluded_fields,
             exclude_none=True,
         )
-        {{/isPatchedModel}}
-{{/classname}}
+{{/vendorExtensions.isPatchedModel}}
         {{#allVars}}
         {{#isContainer}}
         {{#isArray}}
