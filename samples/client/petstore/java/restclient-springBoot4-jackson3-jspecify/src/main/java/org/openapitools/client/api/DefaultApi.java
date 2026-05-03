@@ -50,6 +50,76 @@ public class DefaultApi {
     /**
      * 
      * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec fileIdGetRequestCreation(String id) throws RestClientResponseException {
+        Object postBody = null;
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new RestClientResponseException("Missing the required parameter 'id' when calling fileIdGet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<>();
+
+        pathParams.put("id", id);
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return apiClient.invokeAPI("/file/{id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public void fileIdGet( String id) throws RestClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        fileIdGetRequestCreation(id).body(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> fileIdGetWithHttpInfo( String id) throws RestClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
+        return fileIdGetRequestCreation(id).toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * 
+     * <p><b>200</b> - ok
+     * @param id The id parameter
+     * @return ResponseSpec
+     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec fileIdGetWithResponseSpec(String id) throws RestClientResponseException {
+        return fileIdGetRequestCreation(id);
+    }
+
+    /**
+     * 
+     * 
      * <p><b>0</b> - response
      * @param dtParam The dtParam parameter
      * @param dtQuery The dtQuery parameter

@@ -4,9 +4,73 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**fileIdGet**](DefaultApi.md#fileIdGet) | **GET** /file/{id} |  |
 | [**fooDtParamGet**](DefaultApi.md#fooDtParamGet) | **GET** /foo/{dtParam} |  |
 | [**uploadPost**](DefaultApi.md#uploadPost) | **POST** /upload |  |
 
+
+
+## fileIdGet
+
+> fileIdGet(id)
+
+
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.DefaultApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost");
+
+        DefaultApi apiInstance = new DefaultApi(defaultClient);
+        String id = "id_example"; // String | 
+        try {
+            apiInstance.fileIdGet(id);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#fileIdGet");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | **String**|  | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | ok |  -  |
 
 
 ## fooDtParamGet
