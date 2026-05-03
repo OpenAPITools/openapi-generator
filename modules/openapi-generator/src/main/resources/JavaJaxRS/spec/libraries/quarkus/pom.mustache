@@ -84,6 +84,12 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
+{{#hasResponseStatusAnnotations}}
+    <dependency>
+      <groupId>io.quarkus.resteasy.reactive</groupId>
+      <artifactId>resteasy-reactive</artifactId>
+    </dependency>
+{{/hasResponseStatusAnnotations}}
 {{#useJakartaEe}}
 {{#returnJBossResponse}}
     <dependency>

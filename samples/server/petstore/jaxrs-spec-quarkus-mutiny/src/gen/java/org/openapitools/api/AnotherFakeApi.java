@@ -78,4 +78,5 @@ public class AnotherFakeApi {
     public Response call123testSpecialTags(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
+
 }

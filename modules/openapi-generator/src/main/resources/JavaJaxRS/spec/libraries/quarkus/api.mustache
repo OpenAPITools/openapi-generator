@@ -6,7 +6,7 @@ package {{package}};
 import {{javaxPackage}}.ws.rs.*;
 import {{javaxPackage}}.ws.rs.core.Response;
 {{#returnJBossResponse}}import org.jboss.resteasy.reactive.RestResponse;{{/returnJBossResponse}}
-
+{{#interfaceOnly}}{{#hasResponseStatusAnnotations}}import org.jboss.resteasy.reactive.ResponseStatus;{{/hasResponseStatusAnnotations}}{{/interfaceOnly}}
 {{#useGzipFeature}}
 import org.jboss.resteasy.annotations.GZIP;
 {{/useGzipFeature}}

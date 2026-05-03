@@ -66,6 +66,7 @@ public class StoreApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
@@ -82,6 +83,7 @@ public class StoreApi {
     public Response getInventory() {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/order/{orderId}")
@@ -107,6 +109,7 @@ public class StoreApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/order")
     @Consumes({ "application/json" })
@@ -127,4 +130,5 @@ public class StoreApi {
     public Response placeOrder(@Valid @NotNull Order order) {
         return Response.ok().entity("magic!").build();
     }
+
 }

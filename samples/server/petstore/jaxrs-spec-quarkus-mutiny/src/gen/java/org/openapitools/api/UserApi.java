@@ -79,6 +79,7 @@ public class UserApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
@@ -94,6 +95,7 @@ public class UserApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
@@ -108,6 +110,7 @@ public class UserApi {
     public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> user) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @DELETE
     @Path("/{username}")
@@ -125,6 +128,7 @@ public class UserApi {
     public Response deleteUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be deleted") String username) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/{username}")
@@ -150,6 +154,7 @@ public class UserApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
@@ -173,6 +178,7 @@ public class UserApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @GET
     @Path("/logout")
     
@@ -186,6 +192,7 @@ public class UserApi {
     public Response logoutUser() {
         return Response.ok().entity("magic!").build();
     }
+
 
     @PUT
     @Path("/{username}")
@@ -204,4 +211,5 @@ public class UserApi {
     public Response updateUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="name that need to be deleted") String username,@Valid @NotNull User user) {
         return Response.ok().entity("magic!").build();
     }
+
 }

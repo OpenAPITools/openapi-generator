@@ -77,4 +77,5 @@ public class FooApi {
     public Response fooGet() {
         return Response.ok().entity("magic!").build();
     }
+
 }
