@@ -373,7 +373,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     CodegenDiscriminator discriminator = model.parentModel.getDiscriminator();
                     if (discriminator != null) {
                         for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
-                            if (mappedModel.getModelName().equals(model.name)) {
+                            if (mappedModel.getSchemaName().equals(model.schemaName)) {
                                 model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
                                 break;
                             }
