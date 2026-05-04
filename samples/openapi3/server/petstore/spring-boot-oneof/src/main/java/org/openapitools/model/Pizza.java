@@ -71,22 +71,22 @@ public class Pizza extends Entity {
   }
 
 
-  public Pizza href(String href) {
+  public Pizza href(@Nullable String href) {
     super.href(href);
     return this;
   }
 
-  public Pizza id(String id) {
+  public Pizza id(@Nullable String id) {
     super.id(id);
     return this;
   }
 
-  public Pizza atSchemaLocation(String atSchemaLocation) {
+  public Pizza atSchemaLocation(@Nullable String atSchemaLocation) {
     super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
-  public Pizza atBaseType(String atBaseType) {
+  public Pizza atBaseType(@Nullable String atBaseType) {
     super.atBaseType(atBaseType);
     return this;
   }

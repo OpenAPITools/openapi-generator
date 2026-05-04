@@ -73,7 +73,7 @@ public class Foo {
       this.number = number;
   }
 
-  public Foo dt(OffsetDateTime dt) {
+  public Foo dt(@Nullable OffsetDateTime dt) {
     this.dt = dt;
     return this;
   }
@@ -97,7 +97,7 @@ public class Foo {
     this.dt = dt;
   }
 
-  public Foo binary(org.springframework.core.io.Resource binary) {
+  public Foo binary(org.springframework.core.io.@Nullable Resource binary) {
     this.binary = binary;
     return this;
   }
@@ -213,7 +213,7 @@ public class Foo {
     this.requiredDt = requiredDt;
   }
 
-  public Foo number(BigDecimal number) {
+  public Foo number(@Nullable BigDecimal number) {
     this.number = number;
     return this;
   }

@@ -50,7 +50,7 @@ public class ObjectWithUniqueItems {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime nullDateField;
 
-  public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
+  public ObjectWithUniqueItems nullSet(JsonNullable<Set<String>> nullSet) {
     this.nullSet = JsonNullable.of(nullSet);
     return this;
   }
@@ -108,7 +108,7 @@ public class ObjectWithUniqueItems {
     this.notNullSet = notNullSet;
   }
 
-  public ObjectWithUniqueItems nullList(List<String> nullList) {
+  public ObjectWithUniqueItems nullList(JsonNullable<List<String>> nullList) {
     this.nullList = JsonNullable.of(nullList);
     return this;
   }

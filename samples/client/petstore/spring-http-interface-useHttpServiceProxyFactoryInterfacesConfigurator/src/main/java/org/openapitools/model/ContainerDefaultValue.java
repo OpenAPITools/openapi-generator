@@ -49,7 +49,7 @@ public class ContainerDefaultValue {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValue nullableArray(List<String> nullableArray) {
+  public ContainerDefaultValue nullableArray(JsonNullable<List<String>> nullableArray) {
     this.nullableArray = JsonNullable.of(nullableArray);
     return this;
   }
@@ -76,7 +76,7 @@ public class ContainerDefaultValue {
     this.nullableArray = nullableArray;
   }
 
-  public ContainerDefaultValue nullableRequiredArray(List<String> nullableRequiredArray) {
+  public ContainerDefaultValue nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
     this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
     return this;
   }
@@ -132,7 +132,7 @@ public class ContainerDefaultValue {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValue nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+  public ContainerDefaultValue nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
     return this;
   }

@@ -31,7 +31,7 @@ public class FileSchemaTestClass {
   @Valid
   private List<@Valid File> files = new ArrayList<>();
 
-  public FileSchemaTestClass file(File file) {
+  public FileSchemaTestClass file(Optional<File> file) {
     this.file = Optional.ofNullable(file);
     return this;
   }

@@ -739,10 +739,10 @@ components:
       type: integer
     ObjectUntypedProps:
       example:
-        not_required_untyped_nullable: ""
         required_untyped: ""
         required_untyped_nullable: ""
         not_required_untyped: ""
+        not_required_untyped_nullable: ""
       properties:
         required_untyped:
           nullable: false

@@ -155,7 +155,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{^lombok.Data}}
 
   {{! begin feature: fluent setter methods }}
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullableDataType}} {{name}}) {
     {{#openApiNullable}}
     this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
@@ -280,7 +280,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
 
   {{^lombok.Setter}}
   {{! begin feature: fluent setter methods for inherited properties }}
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullableDataType}} {{name}}) {
     super.{{name}}({{name}});
     return this;
   }

@@ -29,7 +29,7 @@ public class OuterComposite {
 
   private Optional<Boolean> myBoolean = Optional.empty();
 
-  public OuterComposite myNumber(BigDecimal myNumber) {
+  public OuterComposite myNumber(Optional<BigDecimal> myNumber) {
     this.myNumber = Optional.ofNullable(myNumber);
     return this;
   }
@@ -50,7 +50,7 @@ public class OuterComposite {
     this.myNumber = myNumber;
   }
 
-  public OuterComposite myString(String myString) {
+  public OuterComposite myString(Optional<String> myString) {
     this.myString = Optional.ofNullable(myString);
     return this;
   }
@@ -71,7 +71,7 @@ public class OuterComposite {
     this.myString = myString;
   }
 
-  public OuterComposite myBoolean(Boolean myBoolean) {
+  public OuterComposite myBoolean(Optional<Boolean> myBoolean) {
     this.myBoolean = Optional.ofNullable(myBoolean);
     return this;
   }

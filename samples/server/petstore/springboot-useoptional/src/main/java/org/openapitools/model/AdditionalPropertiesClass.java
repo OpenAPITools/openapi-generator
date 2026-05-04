@@ -291,7 +291,7 @@ public class AdditionalPropertiesClass {
     this.mapMapAnytype = mapMapAnytype;
   }
 
-  public AdditionalPropertiesClass anytype1(Object anytype1) {
+  public AdditionalPropertiesClass anytype1(Optional<Object> anytype1) {
     this.anytype1 = Optional.ofNullable(anytype1);
     return this;
   }
@@ -312,7 +312,7 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-  public AdditionalPropertiesClass anytype2(Object anytype2) {
+  public AdditionalPropertiesClass anytype2(JsonNullable<Object> anytype2) {
     this.anytype2 = JsonNullable.of(anytype2);
     return this;
   }
@@ -332,7 +332,7 @@ public class AdditionalPropertiesClass {
     this.anytype2 = anytype2;
   }
 
-  public AdditionalPropertiesClass anytype3(Object anytype3) {
+  public AdditionalPropertiesClass anytype3(Optional<Object> anytype3) {
     this.anytype3 = Optional.ofNullable(anytype3);
     return this;
   }

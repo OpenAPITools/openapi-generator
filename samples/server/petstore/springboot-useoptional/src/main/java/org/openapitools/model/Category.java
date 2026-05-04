@@ -37,7 +37,7 @@ public class Category {
     this.name = name;
   }
 
-  public Category id(Long id) {
+  public Category id(Optional<Long> id) {
     this.id = Optional.ofNullable(id);
     return this;
   }

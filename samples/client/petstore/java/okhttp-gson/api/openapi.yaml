@@ -1593,12 +1593,12 @@ components:
       type: string
     Order:
       example:
+        id: 0
         petId: 6
         quantity: 1
-        id: 0
         shipDate: 2020-02-02T20:20:20.000222Z
-        complete: false
         status: placed
+        complete: false
       properties:
         id:
           format: int64
@@ -1628,8 +1628,8 @@ components:
         name: Order
     Category:
       example:
-        name: default-name
         id: 6
+        name: default-name
       properties:
         id:
           format: int64
@@ -1644,18 +1644,18 @@ components:
         name: Category
     User:
       example:
+        id: 0
+        username: username
         firstName: firstName
         lastName: lastName
-        password: password
-        userStatus: 6
-        objectWithNoDeclaredPropsNullable: "{}"
-        phone: phone
-        objectWithNoDeclaredProps: "{}"
-        id: 0
-        anyTypePropNullable: ""
         email: email
+        password: password
+        phone: phone
+        userStatus: 6
+        objectWithNoDeclaredProps: "{}"
+        objectWithNoDeclaredPropsNullable: "{}"
         anyTypeProp: ""
-        username: username
+        anyTypePropNullable: ""
       properties:
         id:
           format: int64
@@ -1701,8 +1701,8 @@ components:
         name: User
     Tag:
       example:
-        name: name
         id: 1
+        name: name
       properties:
         id:
           format: int64
@@ -1714,19 +1714,19 @@ components:
         name: Tag
     Pet:
       example:
+        id: 0
+        category:
+          id: 6
+          name: default-name
+        name: doggie
         photoUrls:
         - photoUrls
         - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: default-name
-          id: 6
         tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
+        - id: 1
+          name: name
+        - id: 1
+          name: name
         status: available
       properties:
         id:
@@ -2219,8 +2219,8 @@ components:
       type: integer
     OuterComposite:
       example:
-        my_string: my_string
         my_number: 0.8008281904610115
+        my_string: my_string
         my_boolean: true
       properties:
         my_number:
@@ -2936,29 +2936,29 @@ components:
         - string_prop
         type: object
       example:
+        integer_prop: 0
         number_prop: 6.027456183070403
-        datetime_prop: 2000-01-23T04:56:07.000+00:00
-        custom_ref_enum: custom
         boolean_prop: true
         string_prop: string_prop
+        date_prop: 2000-01-23
+        datetime_prop: 2000-01-23T04:56:07.000+00:00
         array_nullable_prop:
         - "{}"
         - "{}"
-        custom_enum: custom
-        integer_prop: 0
         array_and_items_nullable_prop:
         - "{}"
         - "{}"
-        object_items_nullable:
-          key: "{}"
+        array_items_nullable:
+        - "{}"
+        - "{}"
         object_nullable_prop:
           key: "{}"
         object_and_items_nullable_prop:
           key: "{}"
-        date_prop: 2000-01-23
-        array_items_nullable:
-        - "{}"
-        - "{}"
+        object_items_nullable:
+          key: "{}"
+        custom_ref_enum: custom
+        custom_enum: custom
     NestedArrayWithDefaultValues:
       properties:
         nestedArray:

@@ -287,7 +287,7 @@ public class EnumTestDto {
     this.enumNumber = enumNumber;
   }
 
-  public EnumTestDto outerEnum(OuterEnumDto outerEnum) {
+  public EnumTestDto outerEnum(JsonNullable<OuterEnumDto> outerEnum) {
     this.outerEnum = JsonNullable.of(outerEnum);
     return this;
   }

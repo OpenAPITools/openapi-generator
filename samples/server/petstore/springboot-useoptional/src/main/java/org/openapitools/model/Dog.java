@@ -40,7 +40,7 @@ public class Dog extends Animal {
     super(className);
   }
 
-  public Dog breed(String breed) {
+  public Dog breed(Optional<String> breed) {
     this.breed = Optional.ofNullable(breed);
     return this;
   }
@@ -67,7 +67,7 @@ public class Dog extends Animal {
     return this;
   }
 
-  public Dog color(String color) {
+  public Dog color(Optional<String> color) {
     super.color(color);
     return this;
   }

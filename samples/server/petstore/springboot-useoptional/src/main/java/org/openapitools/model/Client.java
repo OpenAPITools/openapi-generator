@@ -24,7 +24,7 @@ public class Client {
 
   private Optional<String> client = Optional.empty();
 
-  public Client client(String client) {
+  public Client client(Optional<String> client) {
     this.client = Optional.ofNullable(client);
     return this;
   }

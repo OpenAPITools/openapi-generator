@@ -48,7 +48,7 @@ public class Cat extends Animal {
     super(className);
   }
 
-  public Cat declawed(Boolean declawed) {
+  public Cat declawed(Optional<Boolean> declawed) {
     this.declawed = Optional.ofNullable(declawed);
     return this;
   }
@@ -75,7 +75,7 @@ public class Cat extends Animal {
     return this;
   }
 
-  public Cat color(String color) {
+  public Cat color(Optional<String> color) {
     super.color(color);
     return this;
   }

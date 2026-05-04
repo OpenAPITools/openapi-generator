@@ -62,22 +62,22 @@ public final class Pasta extends Entity {
   }
 
 
-  public Pasta href(String href) {
+  public Pasta href(@Nullable String href) {
     super.href(href);
     return this;
   }
 
-  public Pasta id(String id) {
+  public Pasta id(@Nullable String id) {
     super.id(id);
     return this;
   }
 
-  public Pasta atSchemaLocation(String atSchemaLocation) {
+  public Pasta atSchemaLocation(@Nullable String atSchemaLocation) {
     super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
-  public Pasta atBaseType(String atBaseType) {
+  public Pasta atBaseType(@Nullable String atBaseType) {
     super.atBaseType(atBaseType);
     return this;
   }

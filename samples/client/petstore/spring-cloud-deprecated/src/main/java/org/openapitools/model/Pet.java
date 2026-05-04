@@ -135,7 +135,7 @@ public class Pet {
     this.category = category;
   }
 
-  public Pet name(String name) {
+  public Pet name(JsonNullable<String> name) {
     this.name = JsonNullable.of(name);
     return this;
   }

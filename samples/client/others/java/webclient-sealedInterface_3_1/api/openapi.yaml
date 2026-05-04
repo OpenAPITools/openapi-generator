@@ -147,13 +147,13 @@ components:
         type: object
         example: null
       example:
+        href: href
+        id: id
+        '@schemaLocation': '@schemaLocation'
         '@baseType': '@baseType'
         '@type': '@type'
         fooPropA: fooPropA
-        href: href
-        id: id
         fooPropB: fooPropB
-        '@schemaLocation': '@schemaLocation'
     FooRef:
       allOf:
       - $ref: "#/components/schemas/EntityRef"
@@ -196,21 +196,21 @@ components:
         type: object
         example: null
       example:
+        href: href
+        id: id
+        '@schemaLocation': '@schemaLocation'
         '@baseType': '@baseType'
         '@type': '@type'
+        barPropA: barPropA
+        fooPropB: fooPropB
         foo:
+          href: href
+          id: id
+          '@schemaLocation': '@schemaLocation'
           '@baseType': '@baseType'
           '@type': '@type'
           fooPropA: fooPropA
-          href: href
-          id: id
           fooPropB: fooPropB
-          '@schemaLocation': '@schemaLocation'
-        href: href
-        id: id
-        fooPropB: fooPropB
-        '@schemaLocation': '@schemaLocation'
-        barPropA: barPropA
     BarRefOrValue:
       oneOf:
       - $ref: "#/components/schemas/Bar"

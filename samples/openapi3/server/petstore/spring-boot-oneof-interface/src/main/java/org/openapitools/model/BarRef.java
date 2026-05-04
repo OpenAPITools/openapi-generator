@@ -39,22 +39,22 @@ public class BarRef extends EntityRef implements BarRefOrValue {
   }
 
 
-  public BarRef href(String href) {
+  public BarRef href(@Nullable String href) {
     super.href(href);
     return this;
   }
 
-  public BarRef id(String id) {
+  public BarRef id(@Nullable String id) {
     super.id(id);
     return this;
   }
 
-  public BarRef atSchemaLocation(String atSchemaLocation) {
+  public BarRef atSchemaLocation(@Nullable String atSchemaLocation) {
     super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
-  public BarRef atBaseType(String atBaseType) {
+  public BarRef atBaseType(@Nullable String atBaseType) {
     super.atBaseType(atBaseType);
     return this;
   }
@@ -64,12 +64,12 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     return this;
   }
 
-  public BarRef name(String name) {
+  public BarRef name(@Nullable String name) {
     super.name(name);
     return this;
   }
 
-  public BarRef atReferredType(String atReferredType) {
+  public BarRef atReferredType(@Nullable String atReferredType) {
     super.atReferredType(atReferredType);
     return this;
   }

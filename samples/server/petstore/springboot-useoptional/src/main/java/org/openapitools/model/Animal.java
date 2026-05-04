@@ -72,7 +72,7 @@ public class Animal {
     this.className = className;
   }
 
-  public Animal color(String color) {
+  public Animal color(Optional<String> color) {
     this.color = Optional.ofNullable(color);
     return this;
   }

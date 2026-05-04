@@ -93,7 +93,7 @@ public class XmlItem {
   @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
-  public XmlItem attributeString(String attributeString) {
+  public XmlItem attributeString(Optional<String> attributeString) {
     this.attributeString = Optional.ofNullable(attributeString);
     return this;
   }
@@ -114,7 +114,7 @@ public class XmlItem {
     this.attributeString = attributeString;
   }
 
-  public XmlItem attributeNumber(BigDecimal attributeNumber) {
+  public XmlItem attributeNumber(Optional<BigDecimal> attributeNumber) {
     this.attributeNumber = Optional.ofNullable(attributeNumber);
     return this;
   }
@@ -135,7 +135,7 @@ public class XmlItem {
     this.attributeNumber = attributeNumber;
   }
 
-  public XmlItem attributeInteger(Integer attributeInteger) {
+  public XmlItem attributeInteger(Optional<Integer> attributeInteger) {
     this.attributeInteger = Optional.ofNullable(attributeInteger);
     return this;
   }
@@ -156,7 +156,7 @@ public class XmlItem {
     this.attributeInteger = attributeInteger;
   }
 
-  public XmlItem attributeBoolean(Boolean attributeBoolean) {
+  public XmlItem attributeBoolean(Optional<Boolean> attributeBoolean) {
     this.attributeBoolean = Optional.ofNullable(attributeBoolean);
     return this;
   }
@@ -206,7 +206,7 @@ public class XmlItem {
     this.wrappedArray = wrappedArray;
   }
 
-  public XmlItem nameString(String nameString) {
+  public XmlItem nameString(Optional<String> nameString) {
     this.nameString = Optional.ofNullable(nameString);
     return this;
   }
@@ -227,7 +227,7 @@ public class XmlItem {
     this.nameString = nameString;
   }
 
-  public XmlItem nameNumber(BigDecimal nameNumber) {
+  public XmlItem nameNumber(Optional<BigDecimal> nameNumber) {
     this.nameNumber = Optional.ofNullable(nameNumber);
     return this;
   }
@@ -248,7 +248,7 @@ public class XmlItem {
     this.nameNumber = nameNumber;
   }
 
-  public XmlItem nameInteger(Integer nameInteger) {
+  public XmlItem nameInteger(Optional<Integer> nameInteger) {
     this.nameInteger = Optional.ofNullable(nameInteger);
     return this;
   }
@@ -269,7 +269,7 @@ public class XmlItem {
     this.nameInteger = nameInteger;
   }
 
-  public XmlItem nameBoolean(Boolean nameBoolean) {
+  public XmlItem nameBoolean(Optional<Boolean> nameBoolean) {
     this.nameBoolean = Optional.ofNullable(nameBoolean);
     return this;
   }
@@ -348,7 +348,7 @@ public class XmlItem {
     this.nameWrappedArray = nameWrappedArray;
   }
 
-  public XmlItem prefixString(String prefixString) {
+  public XmlItem prefixString(Optional<String> prefixString) {
     this.prefixString = Optional.ofNullable(prefixString);
     return this;
   }
@@ -369,7 +369,7 @@ public class XmlItem {
     this.prefixString = prefixString;
   }
 
-  public XmlItem prefixNumber(BigDecimal prefixNumber) {
+  public XmlItem prefixNumber(Optional<BigDecimal> prefixNumber) {
     this.prefixNumber = Optional.ofNullable(prefixNumber);
     return this;
   }
@@ -390,7 +390,7 @@ public class XmlItem {
     this.prefixNumber = prefixNumber;
   }
 
-  public XmlItem prefixInteger(Integer prefixInteger) {
+  public XmlItem prefixInteger(Optional<Integer> prefixInteger) {
     this.prefixInteger = Optional.ofNullable(prefixInteger);
     return this;
   }
@@ -411,7 +411,7 @@ public class XmlItem {
     this.prefixInteger = prefixInteger;
   }
 
-  public XmlItem prefixBoolean(Boolean prefixBoolean) {
+  public XmlItem prefixBoolean(Optional<Boolean> prefixBoolean) {
     this.prefixBoolean = Optional.ofNullable(prefixBoolean);
     return this;
   }
@@ -490,7 +490,7 @@ public class XmlItem {
     this.prefixWrappedArray = prefixWrappedArray;
   }
 
-  public XmlItem namespaceString(String namespaceString) {
+  public XmlItem namespaceString(Optional<String> namespaceString) {
     this.namespaceString = Optional.ofNullable(namespaceString);
     return this;
   }
@@ -511,7 +511,7 @@ public class XmlItem {
     this.namespaceString = namespaceString;
   }
 
-  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
+  public XmlItem namespaceNumber(Optional<BigDecimal> namespaceNumber) {
     this.namespaceNumber = Optional.ofNullable(namespaceNumber);
     return this;
   }
@@ -532,7 +532,7 @@ public class XmlItem {
     this.namespaceNumber = namespaceNumber;
   }
 
-  public XmlItem namespaceInteger(Integer namespaceInteger) {
+  public XmlItem namespaceInteger(Optional<Integer> namespaceInteger) {
     this.namespaceInteger = Optional.ofNullable(namespaceInteger);
     return this;
   }
@@ -553,7 +553,7 @@ public class XmlItem {
     this.namespaceInteger = namespaceInteger;
   }
 
-  public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
+  public XmlItem namespaceBoolean(Optional<Boolean> namespaceBoolean) {
     this.namespaceBoolean = Optional.ofNullable(namespaceBoolean);
     return this;
   }
@@ -632,7 +632,7 @@ public class XmlItem {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
 
-  public XmlItem prefixNsString(String prefixNsString) {
+  public XmlItem prefixNsString(Optional<String> prefixNsString) {
     this.prefixNsString = Optional.ofNullable(prefixNsString);
     return this;
   }
@@ -653,7 +653,7 @@ public class XmlItem {
     this.prefixNsString = prefixNsString;
   }
 
-  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
+  public XmlItem prefixNsNumber(Optional<BigDecimal> prefixNsNumber) {
     this.prefixNsNumber = Optional.ofNullable(prefixNsNumber);
     return this;
   }
@@ -674,7 +674,7 @@ public class XmlItem {
     this.prefixNsNumber = prefixNsNumber;
   }
 
-  public XmlItem prefixNsInteger(Integer prefixNsInteger) {
+  public XmlItem prefixNsInteger(Optional<Integer> prefixNsInteger) {
     this.prefixNsInteger = Optional.ofNullable(prefixNsInteger);
     return this;
   }
@@ -695,7 +695,7 @@ public class XmlItem {
     this.prefixNsInteger = prefixNsInteger;
   }
 
-  public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
+  public XmlItem prefixNsBoolean(Optional<Boolean> prefixNsBoolean) {
     this.prefixNsBoolean = Optional.ofNullable(prefixNsBoolean);
     return this;
   }

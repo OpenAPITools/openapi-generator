@@ -63,27 +63,27 @@ public final class PizzaSpeziale extends Pizza {
   }
 
 
-  public PizzaSpeziale pizzaSize(BigDecimal pizzaSize) {
+  public PizzaSpeziale pizzaSize(@Nullable BigDecimal pizzaSize) {
     super.pizzaSize(pizzaSize);
     return this;
   }
 
-  public PizzaSpeziale href(String href) {
+  public PizzaSpeziale href(@Nullable String href) {
     super.href(href);
     return this;
   }
 
-  public PizzaSpeziale id(String id) {
+  public PizzaSpeziale id(@Nullable String id) {
     super.id(id);
     return this;
   }
 
-  public PizzaSpeziale atSchemaLocation(String atSchemaLocation) {
+  public PizzaSpeziale atSchemaLocation(@Nullable String atSchemaLocation) {
     super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
-  public PizzaSpeziale atBaseType(String atBaseType) {
+  public PizzaSpeziale atBaseType(@Nullable String atBaseType) {
     super.atBaseType(atBaseType);
     return this;
   }
