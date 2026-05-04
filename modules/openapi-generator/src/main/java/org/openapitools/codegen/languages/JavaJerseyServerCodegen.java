@@ -39,6 +39,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY2 = "jersey2";
     protected static final String LIBRARY_JERSEY3 = "jersey3";
+    protected static final String LIBRARY_JERSEY3_SPRING_BOOT4 = "jersey3-spring-boot4";
 
     /**
      * Default library template to use. (Default: jersey2)
@@ -68,6 +69,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_JERSEY_LIBRARY);
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         supportedLibraries.put(LIBRARY_JERSEY3, "Jersey core 3.x");
+        supportedLibraries.put(LIBRARY_JERSEY3_SPRING_BOOT4, "Jersey core 3.x with Spring Boot 4");
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
     }
@@ -98,8 +100,8 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             }
         }
 
-        // --- Imports for Swagger2 ------------- 
-        if (this.isLibrary(LIBRARY_JERSEY3)) {
+        // --- Imports for Swagger2 -------------
+        if (this.isLibrary(LIBRARY_JERSEY3) || this.isLibrary(LIBRARY_JERSEY3_SPRING_BOOT4)) {
             model.imports.add("Schema");
         }
 
@@ -118,9 +120,17 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             this.setUseJakartaEe(true);
             additionalProperties.put(USE_JAKARTA_EE, true);
             this.applyJakartaPackage();
-            // --- Set Swagger2 annotations ---------------   
+            // --- Set Swagger2 annotations ---------------
             annotationLibrary = AnnotationLibrary.SWAGGER2;
 
+        } else if (this.isLibrary(LIBRARY_JERSEY3_SPRING_BOOT4)) {
+            // --- Ensure to use Jakarta for jersey3-spring-boot4 ----
+            this.setUseJakartaEe(true);
+            additionalProperties.put(USE_JAKARTA_EE, true);
+            this.applyJakartaPackage();
+            // --- Set Swagger2 annotations ---------------
+            annotationLibrary = AnnotationLibrary.SWAGGER2;
+            additionalProperties.put("useSpringBoot4", true);
         }
 
         convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
@@ -137,16 +147,37 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("ApiException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
         supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
-        supportingFiles.add(new SupportingFile("jacksonJsonProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JacksonJsonProvider.java"));
         supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "RFC3339DateFormat.java"));
-        supportingFiles.add(new SupportingFile("bootstrap.mustache", (implFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
+
+        if (this.isLibrary(LIBRARY_JERSEY3_SPRING_BOOT4)) {
+            // Spring Boot 4 replaces web.xml and Bootstrap with embedded server setup
+            supportingFiles.add(new SupportingFile("SpringBootApplication.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"),
+                    "OpenApiGeneratorApplication.java")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("JerseyConfig.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                    "JerseyConfig.java")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("application.mustache",
+                    "src/main/resources",
+                    "application.properties")
+                    .doNotOverwrite());
+            // ApiOriginFilter with @Component for Spring Boot auto-registration
+            supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                    "ApiOriginFilter.java"));
+        } else {
+            supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
+            supportingFiles.add(new SupportingFile("jacksonJsonProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JacksonJsonProvider.java"));
+            supportingFiles.add(new SupportingFile("bootstrap.mustache", (implFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
+                    .doNotOverwrite());
+        }
 
         // JsonNullable is not implemented for this generator
         openApiNullable = false;
