@@ -333,7 +333,7 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-  public AdditionalPropertiesClass anytype2(Object anytype2) {
+  public AdditionalPropertiesClass anytype2(JsonNullable<Object> anytype2) {
     this.anytype2 = JsonNullable.of(anytype2);
     return this;
   }

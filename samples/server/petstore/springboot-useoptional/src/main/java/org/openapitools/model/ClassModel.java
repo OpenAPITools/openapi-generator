@@ -25,7 +25,7 @@ public class ClassModel {
 
   private Optional<String> propertyClass = Optional.empty();
 
-  public ClassModel propertyClass(String propertyClass) {
+  public ClassModel propertyClass(Optional<String> propertyClass) {
     this.propertyClass = Optional.ofNullable(propertyClass);
     return this;
   }

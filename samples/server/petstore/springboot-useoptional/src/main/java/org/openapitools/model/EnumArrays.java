@@ -101,7 +101,7 @@ public class EnumArrays {
   @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArrays justSymbol(Optional<JustSymbolEnum> justSymbol) {
     this.justSymbol = Optional.ofNullable(justSymbol);
     return this;
   }

@@ -41,7 +41,7 @@ public class NullableMapProperty {
       this.languageValues = JsonNullable.of(languageValues);
   }
 
-  public NullableMapProperty languageValues(Map<String, String> languageValues) {
+  public NullableMapProperty languageValues(JsonNullable<Map<String, String>> languageValues) {
     this.languageValues = JsonNullable.of(languageValues);
     return this;
   }

@@ -74,7 +74,7 @@ public class FormatTest {
     this.password = password;
   }
 
-  public FormatTest integer(Integer integer) {
+  public FormatTest integer(Optional<Integer> integer) {
     this.integer = Optional.ofNullable(integer);
     return this;
   }
@@ -97,7 +97,7 @@ public class FormatTest {
     this.integer = integer;
   }
 
-  public FormatTest int32(Integer int32) {
+  public FormatTest int32(Optional<Integer> int32) {
     this.int32 = Optional.ofNullable(int32);
     return this;
   }
@@ -120,7 +120,7 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-  public FormatTest int64(Long int64) {
+  public FormatTest int64(Optional<Long> int64) {
     this.int64 = Optional.ofNullable(int64);
     return this;
   }
@@ -164,7 +164,7 @@ public class FormatTest {
     this.number = number;
   }
 
-  public FormatTest _float(Float _float) {
+  public FormatTest _float(Optional<Float> _float) {
     this._float = Optional.ofNullable(_float);
     return this;
   }
@@ -187,7 +187,7 @@ public class FormatTest {
     this._float = _float;
   }
 
-  public FormatTest _double(Double _double) {
+  public FormatTest _double(Optional<Double> _double) {
     this._double = Optional.ofNullable(_double);
     return this;
   }
@@ -210,7 +210,7 @@ public class FormatTest {
     this._double = _double;
   }
 
-  public FormatTest string(String string) {
+  public FormatTest string(Optional<String> string) {
     this.string = Optional.ofNullable(string);
     return this;
   }
@@ -252,7 +252,7 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-  public FormatTest binary(org.springframework.core.io.Resource binary) {
+  public FormatTest binary(Optional<org.springframework.core.io.Resource> binary) {
     this.binary = Optional.ofNullable(binary);
     return this;
   }
@@ -294,7 +294,7 @@ public class FormatTest {
     this.date = date;
   }
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(Optional<OffsetDateTime> dateTime) {
     this.dateTime = Optional.ofNullable(dateTime);
     return this;
   }
@@ -315,7 +315,7 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-  public FormatTest uuid(UUID uuid) {
+  public FormatTest uuid(Optional<UUID> uuid) {
     this.uuid = Optional.ofNullable(uuid);
     return this;
   }
@@ -357,7 +357,7 @@ public class FormatTest {
     this.password = password;
   }
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+  public FormatTest bigDecimal(Optional<BigDecimal> bigDecimal) {
     this.bigDecimal = Optional.ofNullable(bigDecimal);
     return this;
   }

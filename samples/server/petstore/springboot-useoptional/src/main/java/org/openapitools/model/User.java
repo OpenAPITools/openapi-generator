@@ -38,7 +38,7 @@ public class User {
 
   private Optional<Integer> userStatus = Optional.empty();
 
-  public User id(Long id) {
+  public User id(Optional<Long> id) {
     this.id = Optional.ofNullable(id);
     return this;
   }
@@ -59,7 +59,7 @@ public class User {
     this.id = id;
   }
 
-  public User username(String username) {
+  public User username(Optional<String> username) {
     this.username = Optional.ofNullable(username);
     return this;
   }
@@ -80,7 +80,7 @@ public class User {
     this.username = username;
   }
 
-  public User firstName(String firstName) {
+  public User firstName(Optional<String> firstName) {
     this.firstName = Optional.ofNullable(firstName);
     return this;
   }
@@ -101,7 +101,7 @@ public class User {
     this.firstName = firstName;
   }
 
-  public User lastName(String lastName) {
+  public User lastName(Optional<String> lastName) {
     this.lastName = Optional.ofNullable(lastName);
     return this;
   }
@@ -122,7 +122,7 @@ public class User {
     this.lastName = lastName;
   }
 
-  public User email(String email) {
+  public User email(Optional<String> email) {
     this.email = Optional.ofNullable(email);
     return this;
   }
@@ -143,7 +143,7 @@ public class User {
     this.email = email;
   }
 
-  public User password(String password) {
+  public User password(Optional<String> password) {
     this.password = Optional.ofNullable(password);
     return this;
   }
@@ -164,7 +164,7 @@ public class User {
     this.password = password;
   }
 
-  public User phone(String phone) {
+  public User phone(Optional<String> phone) {
     this.phone = Optional.ofNullable(phone);
     return this;
   }
@@ -185,7 +185,7 @@ public class User {
     this.phone = phone;
   }
 
-  public User userStatus(Integer userStatus) {
+  public User userStatus(Optional<Integer> userStatus) {
     this.userStatus = Optional.ofNullable(userStatus);
     return this;
   }

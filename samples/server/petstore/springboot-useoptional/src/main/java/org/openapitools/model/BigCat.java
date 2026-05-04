@@ -80,7 +80,7 @@ public class BigCat extends Cat {
     super(className);
   }
 
-  public BigCat kind(KindEnum kind) {
+  public BigCat kind(Optional<KindEnum> kind) {
     this.kind = Optional.ofNullable(kind);
     return this;
   }
@@ -102,7 +102,7 @@ public class BigCat extends Cat {
   }
 
 
-  public BigCat declawed(Boolean declawed) {
+  public BigCat declawed(Optional<Boolean> declawed) {
     super.declawed(declawed);
     return this;
   }
@@ -112,7 +112,7 @@ public class BigCat extends Cat {
     return this;
   }
 
-  public BigCat color(String color) {
+  public BigCat color(Optional<String> color) {
     super.color(color);
     return this;
   }

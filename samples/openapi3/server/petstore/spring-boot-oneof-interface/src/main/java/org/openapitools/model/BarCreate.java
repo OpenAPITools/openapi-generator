@@ -111,22 +111,22 @@ public class BarCreate extends Entity {
   }
 
 
-  public BarCreate href(String href) {
+  public BarCreate href(@Nullable String href) {
     super.href(href);
     return this;
   }
 
-  public BarCreate id(String id) {
+  public BarCreate id(@Nullable String id) {
     super.id(id);
     return this;
   }
 
-  public BarCreate atSchemaLocation(String atSchemaLocation) {
+  public BarCreate atSchemaLocation(@Nullable String atSchemaLocation) {
     super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
-  public BarCreate atBaseType(String atBaseType) {
+  public BarCreate atBaseType(@Nullable String atBaseType) {
     super.atBaseType(atBaseType);
     return this;
   }

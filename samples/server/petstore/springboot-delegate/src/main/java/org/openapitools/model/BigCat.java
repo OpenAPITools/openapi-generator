@@ -110,7 +110,7 @@ public class BigCat extends Cat {
   }
 
 
-  public BigCat declawed(Boolean declawed) {
+  public BigCat declawed(@Nullable Boolean declawed) {
     super.declawed(declawed);
     return this;
   }

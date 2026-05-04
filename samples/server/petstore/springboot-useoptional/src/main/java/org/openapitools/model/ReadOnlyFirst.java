@@ -26,7 +26,7 @@ public class ReadOnlyFirst {
 
   private Optional<String> baz = Optional.empty();
 
-  public ReadOnlyFirst bar(String bar) {
+  public ReadOnlyFirst bar(Optional<String> bar) {
     this.bar = Optional.ofNullable(bar);
     return this;
   }
@@ -47,7 +47,7 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-  public ReadOnlyFirst baz(String baz) {
+  public ReadOnlyFirst baz(Optional<String> baz) {
     this.baz = Optional.ofNullable(baz);
     return this;
   }

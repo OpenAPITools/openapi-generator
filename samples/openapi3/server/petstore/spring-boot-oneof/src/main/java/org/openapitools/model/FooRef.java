@@ -62,22 +62,22 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   }
 
 
-  public FooRef href(String href) {
+  public FooRef href(@Nullable String href) {
     super.href(href);
     return this;
   }
 
-  public FooRef id(String id) {
+  public FooRef id(@Nullable String id) {
     super.id(id);
     return this;
   }
 
-  public FooRef atSchemaLocation(String atSchemaLocation) {
+  public FooRef atSchemaLocation(@Nullable String atSchemaLocation) {
     super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
-  public FooRef atBaseType(String atBaseType) {
+  public FooRef atBaseType(@Nullable String atBaseType) {
     super.atBaseType(atBaseType);
     return this;
   }
@@ -87,12 +87,12 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     return this;
   }
 
-  public FooRef name(String name) {
+  public FooRef name(@Nullable String name) {
     super.name(name);
     return this;
   }
 
-  public FooRef atReferredType(String atReferredType) {
+  public FooRef atReferredType(@Nullable String atReferredType) {
     super.atReferredType(atReferredType);
     return this;
   }

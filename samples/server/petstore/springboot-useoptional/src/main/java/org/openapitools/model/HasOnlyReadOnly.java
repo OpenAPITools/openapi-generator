@@ -28,7 +28,7 @@ public class HasOnlyReadOnly {
 
   private Optional<String> foo = Optional.empty();
 
-  public HasOnlyReadOnly bar(String bar) {
+  public HasOnlyReadOnly bar(Optional<String> bar) {
     this.bar = Optional.ofNullable(bar);
     return this;
   }
@@ -49,7 +49,7 @@ public class HasOnlyReadOnly {
     this.bar = bar;
   }
 
-  public HasOnlyReadOnly foo(String foo) {
+  public HasOnlyReadOnly foo(Optional<String> foo) {
     this.foo = Optional.ofNullable(foo);
     return this;
   }

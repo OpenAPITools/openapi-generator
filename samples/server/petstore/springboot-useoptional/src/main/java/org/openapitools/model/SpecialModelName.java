@@ -26,7 +26,7 @@ public class SpecialModelName {
 
   private Optional<Long> $specialPropertyName = Optional.empty();
 
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName $specialPropertyName(Optional<Long> $specialPropertyName) {
     this.$specialPropertyName = Optional.ofNullable($specialPropertyName);
     return this;
   }

@@ -71,7 +71,7 @@ public class NullableClassDto {
   @Valid
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
-  public NullableClassDto integerProp(Integer integerProp) {
+  public NullableClassDto integerProp(JsonNullable<Integer> integerProp) {
     this.integerProp = JsonNullable.of(integerProp);
     return this;
   }
@@ -91,7 +91,7 @@ public class NullableClassDto {
     this.integerProp = integerProp;
   }
 
-  public NullableClassDto numberProp(BigDecimal numberProp) {
+  public NullableClassDto numberProp(JsonNullable<BigDecimal> numberProp) {
     this.numberProp = JsonNullable.of(numberProp);
     return this;
   }
@@ -111,7 +111,7 @@ public class NullableClassDto {
     this.numberProp = numberProp;
   }
 
-  public NullableClassDto booleanProp(Boolean booleanProp) {
+  public NullableClassDto booleanProp(JsonNullable<Boolean> booleanProp) {
     this.booleanProp = JsonNullable.of(booleanProp);
     return this;
   }
@@ -131,7 +131,7 @@ public class NullableClassDto {
     this.booleanProp = booleanProp;
   }
 
-  public NullableClassDto stringProp(String stringProp) {
+  public NullableClassDto stringProp(JsonNullable<String> stringProp) {
     this.stringProp = JsonNullable.of(stringProp);
     return this;
   }
@@ -151,7 +151,7 @@ public class NullableClassDto {
     this.stringProp = stringProp;
   }
 
-  public NullableClassDto dateProp(LocalDate dateProp) {
+  public NullableClassDto dateProp(JsonNullable<LocalDate> dateProp) {
     this.dateProp = JsonNullable.of(dateProp);
     return this;
   }
@@ -171,7 +171,7 @@ public class NullableClassDto {
     this.dateProp = dateProp;
   }
 
-  public NullableClassDto datetimeProp(OffsetDateTime datetimeProp) {
+  public NullableClassDto datetimeProp(JsonNullable<OffsetDateTime> datetimeProp) {
     this.datetimeProp = JsonNullable.of(datetimeProp);
     return this;
   }
@@ -191,7 +191,7 @@ public class NullableClassDto {
     this.datetimeProp = datetimeProp;
   }
 
-  public NullableClassDto arrayNullableProp(List<Object> arrayNullableProp) {
+  public NullableClassDto arrayNullableProp(JsonNullable<List<Object>> arrayNullableProp) {
     this.arrayNullableProp = JsonNullable.of(arrayNullableProp);
     return this;
   }
@@ -219,7 +219,7 @@ public class NullableClassDto {
     this.arrayNullableProp = arrayNullableProp;
   }
 
-  public NullableClassDto arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public NullableClassDto arrayAndItemsNullableProp(JsonNullable<List<Object>> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = JsonNullable.of(arrayAndItemsNullableProp);
     return this;
   }
@@ -276,7 +276,7 @@ public class NullableClassDto {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
-  public NullableClassDto objectNullableProp(Map<String, Object> objectNullableProp) {
+  public NullableClassDto objectNullableProp(JsonNullable<Map<String, Object>> objectNullableProp) {
     this.objectNullableProp = JsonNullable.of(objectNullableProp);
     return this;
   }
@@ -304,7 +304,7 @@ public class NullableClassDto {
     this.objectNullableProp = objectNullableProp;
   }
 
-  public NullableClassDto objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+  public NullableClassDto objectAndItemsNullableProp(JsonNullable<Map<String, Object>> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = JsonNullable.of(objectAndItemsNullableProp);
     return this;
   }

@@ -108,7 +108,7 @@ public class ParentWithNullable {
     this.type = type;
   }
 
-  public ParentWithNullable nullableProperty(String nullableProperty) {
+  public ParentWithNullable nullableProperty(JsonNullable<String> nullableProperty) {
     this.nullableProperty = JsonNullable.of(nullableProperty);
     return this;
   }

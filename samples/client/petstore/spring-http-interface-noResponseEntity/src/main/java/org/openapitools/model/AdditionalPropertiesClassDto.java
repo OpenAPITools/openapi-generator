@@ -303,7 +303,7 @@ public class AdditionalPropertiesClassDto {
     this.anytype1 = anytype1;
   }
 
-  public AdditionalPropertiesClassDto anytype2(Object anytype2) {
+  public AdditionalPropertiesClassDto anytype2(JsonNullable<Object> anytype2) {
     this.anytype2 = JsonNullable.of(anytype2);
     return this;
   }

@@ -29,7 +29,7 @@ public class AdditionalPropertiesNumber {
 
   private Optional<String> name = Optional.empty();
 
-  public AdditionalPropertiesNumber name(String name) {
+  public AdditionalPropertiesNumber name(Optional<String> name) {
     this.name = Optional.ofNullable(name);
     return this;
   }

@@ -30,7 +30,7 @@ public class HealthCheckResultDto {
 
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
-  public HealthCheckResultDto nullableMessage(String nullableMessage) {
+  public HealthCheckResultDto nullableMessage(JsonNullable<String> nullableMessage) {
     this.nullableMessage = JsonNullable.of(nullableMessage);
     return this;
   }

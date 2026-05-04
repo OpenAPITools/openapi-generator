@@ -51,12 +51,12 @@ public class ChildWithNullable extends ParentWithNullable {
   }
 
 
-  public ChildWithNullable type(TypeEnum type) {
+  public ChildWithNullable type(@Nullable TypeEnum type) {
     super.type(type);
     return this;
   }
 
-  public ChildWithNullable nullableProperty(String nullableProperty) {
+  public ChildWithNullable nullableProperty(JsonNullable<String> nullableProperty) {
     super.nullableProperty(nullableProperty);
     return this;
   }

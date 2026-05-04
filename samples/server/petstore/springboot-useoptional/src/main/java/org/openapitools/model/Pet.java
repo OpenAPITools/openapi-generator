@@ -95,7 +95,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet id(Long id) {
+  public Pet id(Optional<Long> id) {
     this.id = Optional.ofNullable(id);
     return this;
   }
@@ -116,7 +116,7 @@ public class Pet {
     this.id = id;
   }
 
-  public Pet category(Category category) {
+  public Pet category(Optional<Category> category) {
     this.category = Optional.ofNullable(category);
     return this;
   }
@@ -217,7 +217,7 @@ public class Pet {
     this.tags = tags;
   }
 
-  public Pet status(StatusEnum status) {
+  public Pet status(Optional<StatusEnum> status) {
     this.status = Optional.ofNullable(status);
     return this;
   }

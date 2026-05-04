@@ -63,7 +63,7 @@ public class Name {
     this.name = name;
   }
 
-  public Name snakeCase(Integer snakeCase) {
+  public Name snakeCase(Optional<Integer> snakeCase) {
     this.snakeCase = Optional.ofNullable(snakeCase);
     return this;
   }
@@ -84,7 +84,7 @@ public class Name {
     this.snakeCase = snakeCase;
   }
 
-  public Name property(String property) {
+  public Name property(Optional<String> property) {
     this.property = Optional.ofNullable(property);
     return this;
   }
@@ -105,7 +105,7 @@ public class Name {
     this.property = property;
   }
 
-  public Name _123number(Integer _123number) {
+  public Name _123number(Optional<Integer> _123number) {
     this._123number = Optional.ofNullable(_123number);
     return this;
   }

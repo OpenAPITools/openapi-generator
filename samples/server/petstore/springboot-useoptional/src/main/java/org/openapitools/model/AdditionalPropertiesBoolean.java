@@ -28,7 +28,7 @@ public class AdditionalPropertiesBoolean {
 
   private Optional<String> name = Optional.empty();
 
-  public AdditionalPropertiesBoolean name(String name) {
+  public AdditionalPropertiesBoolean name(Optional<String> name) {
     this.name = Optional.ofNullable(name);
     return this;
   }
