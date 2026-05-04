@@ -56,6 +56,21 @@ paths:
       x-content-type: multipart/form-data
       x-accepts:
       - application/json
+  /file/{id}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: ok
+      x-accepts:
+      - application/json
 components:
   schemas:
     Foo:

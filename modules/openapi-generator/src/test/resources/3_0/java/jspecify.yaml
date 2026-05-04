@@ -47,6 +47,18 @@ paths:
         default:
           description: ok
 
+  /file/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+ 
 components:
   schemas:
     Foo:

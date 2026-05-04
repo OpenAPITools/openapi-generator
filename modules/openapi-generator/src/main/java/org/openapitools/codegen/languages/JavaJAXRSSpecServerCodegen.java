@@ -343,6 +343,23 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
+        if (QUARKUS_LIBRARY.equals(library) && !returnResponse && !returnJbossResponse && useJakartaEe) {
+            for (CodegenOperation op : objs.getOperations().getOperation()) {
+                op.responses.stream()
+                        .filter(r -> r.is2xx && r.code.matches("\\d+"))
+                        .findFirst()
+                        .ifPresent(r -> op.vendorExtensions.put("x-java-success-response-code", r.code));
+            }
+            boolean hasAnnotations = objs.getOperations().getOperation().stream()
+                    .anyMatch(op -> op.vendorExtensions.containsKey("x-java-success-response-code"));
+            // Always set explicitly so Mustache does not fall through to the global additionalProperties
+            // value when this file has no annotated operations.
+            objs.put("hasResponseStatusAnnotations", hasAnnotations);
+            if (hasAnnotations) {
+                // Global flag used by pom.mustache, which is rendered once per project.
+                additionalProperties.put("hasResponseStatusAnnotations", true);
+            }
+        }
         return objs;
     }
 

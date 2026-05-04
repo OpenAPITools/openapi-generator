@@ -715,6 +715,12 @@ public class ModelUtils {
                         && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat()));
     }
 
+    public static boolean isTimeLocalSchema(Schema schema) {
+        // format: time-local, see https://spec.openapis.org/registry/format/time-local.html
+        return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
+                        && "time-local".equals(schema.getFormat()));
+    }
+
     public static boolean isPasswordSchema(Schema schema) {
         return (schema instanceof PasswordSchema) ||
                 // double

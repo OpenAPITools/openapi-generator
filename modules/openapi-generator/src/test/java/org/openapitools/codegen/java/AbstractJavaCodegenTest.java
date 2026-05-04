@@ -38,10 +38,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -531,6 +528,15 @@ public class AbstractJavaCodegenTest {
 
         // dateLibrary <> java8
         Assert.assertEquals(defaultValue, "1984-12-19T03:39:57-09:00");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault(LocalTime.parse("10:15:30"));
+        defaultValue = codegen.toDefaultValue(timeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "10:15:30");
     }
 
     @Test
@@ -593,6 +599,13 @@ public class AbstractJavaCodegenTest {
         numberSchema.setFormat("double");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), numberSchema);
         Assert.assertEquals(defaultValue, doubleValue + "d");
+
+        // Test default value for time-local format
+        StringSchema timeLocalSchema = new StringSchema();
+        timeLocalSchema.setFormat("time-local");
+        timeLocalSchema.setDefault("10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", timeLocalSchema), timeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalTime.parse(\"10:15:30\")");
     }
 
     @Test

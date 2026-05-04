@@ -552,7 +552,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated interface contains CompletionStage<RestResponse<Pet>>
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
-            "\nimport org.jboss.resteasy.reactive.RestResponse;\n",
+                "\nimport org.jboss.resteasy.reactive.RestResponse;\n",
                 "\nimport java.util.concurrent.CompletionStage;\n",
                 "CompletionStage<RestResponse<Pet>> addPet", "CompletionStage<RestResponse<Void>> deletePet");
     }
@@ -1236,7 +1236,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         assertFileNotContains(files.get("RequiredProperties.java").toPath(), "@JsonCreator");
     }
-    
+
     @Test
     public void testDiscriminatorMappingUsedInJsonTypeName() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -1273,37 +1273,37 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     public void testGenerateJsonNullableListFieldsHelperMethodReferences_issue23251() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(OPENAPI_NULLABLE, "true");
-        
+
         File output = Files.createTempDirectory("test").toFile();
-        
+
         final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("jaxrs-spec")
             .setAdditionalProperties(properties)
             .setInputSpec("src/test/resources/bugs/issue_23251.yaml")
             .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-        
+
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
-        
+
         validateJavaSourceFiles(files);
-        
+
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BugResponse.java");
-        
+
         // Assert that the generated model contains JsonNullable fields
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BugResponse.java"),
             "private JsonNullable<String> nullableField = JsonNullable.<String>undefined();",
             "private JsonNullable<List<String>> nullableList = JsonNullable.<List<String>>undefined();",
             "private JsonNullable<List<@Valid NestedResponse>> nullableObjectList = JsonNullable.<List<@Valid NestedResponse>>undefined();"
         );
-        
+
         // Assert that the generated model contains correct add and remove helper methods reference for JsonNullable fields
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BugResponse.java"),
             "this.nullableList.get().add(nullableListItem);",
                 "this.nullableList.get().remove(nullableListItem);",
             "this.nullableObjectList.get().add(nullableObjectListItem);",
             "this.nullableObjectList.get().remove(nullableObjectListItem);");
-        
+
         output.deleteOnExit();
     }
 
@@ -1342,4 +1342,207 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         JavaFileAssert.assertThat(petApi).fileContains("findPetsByStatus", "@Deprecated", "@QueryParam(\"status\")");
     }
 
+    /**
+     * Verify that when using the quarkus library with interfaceOnly=true, the generated interface
+     * method is always annotated with {@code @ResponseStatus(<code>)} for any 2xx or 3xx response,
+     * including 200, for explicit documentation purposes.
+     * ping.yaml has a 201 response.
+     */
+    @Test
+    public void generateQuarkusInterfaceAddsResponseStatusAnnotationForSuccessCode() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY); //Given the quarkus library is used
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); //Required: @ResponseStatus is only emitted for Jakarta EE (Quarkus 3+)
+        // returnResponse and returnJBossResponse are both false (defaults)
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        //Then the generated interface contains the ResponseStatus import and annotation with code 201
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "import org.jboss.resteasy.reactive.ResponseStatus;",
+                "@ResponseStatus(201)");
+    }
+
+    /**
+     * Verify that {@code @ResponseStatus(200)} IS emitted even for the default 200 status code,
+     * for explicit documentation purposes.
+     */
+    @Test
+    public void generateQuarkusInterfaceAddsResponseStatusAnnotationFor200Response() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); //Required: @ResponseStatus is only emitted for Jakarta EE (Quarkus 3+)
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        //Then @ResponseStatus(200) IS present for explicit documentation
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "import org.jboss.resteasy.reactive.ResponseStatus;",
+                "@ResponseStatus(200)");
+    }
+
+
+    /**
+     * Verify that the {@code @ResponseStatus} annotation is NOT emitted when returnResponse=true,
+     * because the user controls the status code via the {@code Response} builder in that mode.
+     */
+    @Test
+    public void generateQuarkusInterfaceDoesNotAddResponseStatusAnnotationWhenReturnResponse() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); //Enabled so returnResponse is the only disabling factor
+        codegen.additionalProperties().put(RETURN_RESPONSE, true); //Given returnResponse is true
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        //Then the annotation must NOT appear
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "@ResponseStatus",
+                "import org.jboss.resteasy.reactive.ResponseStatus");
+    }
+
+    /**
+     * Verify that the {@code @ResponseStatus} annotation is NOT emitted when returnJBossResponse=true,
+     * because the caller controls the status code via the {@code RestResponse} wrapper in that mode.
+     */
+    @Test
+    public void generateQuarkusInterfaceDoesNotAddResponseStatusAnnotationWhenReturnJBossResponse() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); //Required by returnJBossResponse
+        codegen.additionalProperties().put(RETURN_JBOSS_RESPONSE, true); //Given returnJBossResponse is true
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        //Then the annotation must NOT appear
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "@ResponseStatus",
+                "import org.jboss.resteasy.reactive.ResponseStatus");
+    }
+
+    /**
+     * Verify that {@code @ResponseStatus} is NOT emitted when using a non-Quarkus jaxrs-spec library,
+     * since {@code org.jboss.resteasy.reactive.ResponseStatus} is a RESTEasy Reactive / Quarkus-specific annotation.
+     */
+    @Test
+    public void generateNonQuarkusInterfaceDoesNotAddResponseStatusAnnotation() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        // No setLibrary call — uses the default jaxrs-spec library
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        //Then the annotation must NOT appear
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "@ResponseStatus",
+                "import org.jboss.resteasy.reactive.ResponseStatus");
+    }
+
+    /**
+     * Verify that the concrete stub class does NOT contain {@code @ResponseStatus} because the
+     * stub always returns {@code Response}, and RESTEasy Reactive ignores {@code @ResponseStatus}
+     * when the method returns {@code Response}. The annotation lives on the interface instead.
+     */
+    @Test
+    public void generateQuarkusConcreteClassDoesNotAddResponseStatusAnnotation() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, false); //Given the concrete class is generated
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        validateJavaSourceFiles(files);
+
+        //Then the concrete class must NOT contain @ResponseStatus (it returns Response, so it would be ignored)
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "@ResponseStatus",
+                "import org.jboss.resteasy.reactive.ResponseStatus");
+    }
 }
