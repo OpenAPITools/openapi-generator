@@ -50,5 +50,7 @@
             {{^vendorExtensions.x-java-is-response-void}}@org.eclipse.microprofile.openapi.annotations.media.Content(schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = {{{baseType}}}.class{{#vendorExtensions.x-microprofile-open-api-return-schema-container}}, type = {{{.}}} {{/vendorExtensions.x-microprofile-open-api-return-schema-container}}{{#vendorExtensions.x-microprofile-open-api-return-unique-items}}, uniqueItems = true {{/vendorExtensions.x-microprofile-open-api-return-unique-items}})){{/vendorExtensions.x-java-is-response-void}}
         }){{^-last}},{{/-last}}{{/responses}}
     }){{/hasProduces}}{{/useMicroProfileOpenAPIAnnotations}}
-    {{#vendorExtensions.x-java-success-response-code}}@ResponseStatus({{{vendorExtensions.x-java-success-response-code}}}){{/vendorExtensions.x-java-success-response-code}}
+    {{#vendorExtensions.x-java-success-response-code}}
+    @ResponseStatus({{{vendorExtensions.x-java-success-response-code}}})
+    {{/vendorExtensions.x-java-success-response-code}}
     {{#supportAsync}}{{>returnAsyncTypeInterface}}{{/supportAsync}}{{^supportAsync}}{{#returnJBossResponse}}{{>returnResponseTypeInterface}}{{/returnJBossResponse}}{{^returnJBossResponse}}{{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}}{{/returnJBossResponse}}{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}});

@@ -5,8 +5,14 @@ package {{package}};
 
 import {{javaxPackage}}.ws.rs.*;
 import {{javaxPackage}}.ws.rs.core.Response;
-{{#returnJBossResponse}}import org.jboss.resteasy.reactive.RestResponse;{{/returnJBossResponse}}
-{{#interfaceOnly}}{{#hasResponseStatusAnnotations}}import org.jboss.resteasy.reactive.ResponseStatus;{{/hasResponseStatusAnnotations}}{{/interfaceOnly}}
+{{#returnJBossResponse}}
+import org.jboss.resteasy.reactive.RestResponse;
+{{/returnJBossResponse}}
+{{#interfaceOnly}}
+{{#hasResponseStatusAnnotations}}
+import org.jboss.resteasy.reactive.ResponseStatus;
+{{/hasResponseStatusAnnotations}}
+{{/interfaceOnly}}
 {{#useGzipFeature}}
 import org.jboss.resteasy.annotations.GZIP;
 {{/useGzipFeature}}
@@ -34,8 +40,10 @@ import java.util.concurrent.CompletableFuture;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-{{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
 
 {{#useMicroProfileOpenAPIAnnotations}}@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
    info = @org.eclipse.microprofile.openapi.annotations.info.Info(
