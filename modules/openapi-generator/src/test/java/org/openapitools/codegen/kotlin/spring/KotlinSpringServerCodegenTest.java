@@ -56,7 +56,6 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 public class KotlinSpringServerCodegenTest {
 
     @Test(description = "test embedded enum array")
-
     public void embeddedEnumArrayTest() throws Exception {
         String baseModelPackage = "zz";
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
