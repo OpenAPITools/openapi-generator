@@ -386,7 +386,7 @@ public class ExampleGeneratorTest {
         assertEquals(1, generatedExamples.size());
         String exampleOutput = generatedExamples.get(0).get("example");
         
-        System.out.println("Generated example output: " + exampleOutput);
+        //System.out.println("Generated example output: " + exampleOutput);
 
         // Verify the example contains properties in the correct order
         // The order should be: zebra, apple, mango, cherry, banana
@@ -403,7 +403,7 @@ public class ExampleGeneratorTest {
         int cherryPos = exampleOutput.indexOf("\"cherry\"");
         int bananaPos = exampleOutput.indexOf("\"banana\"");
 
-        System.out.println("Field positions: zebra=" + zebraPos + ", apple=" + applePos + ", mango=" + mangoPos + ", cherry=" + cherryPos + ", banana=" + bananaPos);
+        //System.out.println("Field positions: zebra=" + zebraPos + ", apple=" + applePos + ", mango=" + mangoPos + ", cherry=" + cherryPos + ", banana=" + bananaPos);
         
         assertTrue("zebra should come before apple", zebraPos < applePos);
         assertTrue("apple should come before mango", applePos < mangoPos);
