@@ -61,7 +61,6 @@ components:
     Foo:
       example:
         dt: 2000-01-23T04:56:07.000+00:00
-        number: 0.8008281904610115
         binary: ""
         listOfDt:
         - 2000-01-23T04:56:07.000+00:00
@@ -70,6 +69,7 @@ components:
         - 2000-01-23T04:56:07.000+00:00
         - 2000-01-23T04:56:07.000+00:00
         requiredDt: 2000-01-23T04:56:07.000+00:00
+        number: 0.8008281904610115
       properties:
         dt:
           format: date-time

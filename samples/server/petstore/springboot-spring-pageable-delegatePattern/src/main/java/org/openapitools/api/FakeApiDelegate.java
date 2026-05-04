@@ -74,7 +74,7 @@ public interface FakeApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                    String exampleString = "{ \"my_number\" : 0.8008281904610115, \"my_string\" : \"my_string\", \"my_boolean\" : true }";
                     ApiUtil.setExampleResponse(request, "*/*", exampleString);
                     break;
                 }

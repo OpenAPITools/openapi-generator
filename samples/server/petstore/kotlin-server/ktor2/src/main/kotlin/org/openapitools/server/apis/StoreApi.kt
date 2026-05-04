@@ -49,12 +49,12 @@ fun Route.StoreApi() {
     get<Paths.getOrderById> {
         val exampleContentType = "application/json"
         val exampleContentString = """{
+          "id" : 0,
           "petId" : 6,
           "quantity" : 1,
-          "id" : 0,
           "shipDate" : "2000-01-23T04:56:07.000+00:00",
-          "complete" : false,
-          "status" : "placed"
+          "status" : "placed",
+          "complete" : false
         }"""
         
         when (exampleContentType) {
@@ -68,12 +68,12 @@ fun Route.StoreApi() {
     post<Paths.placeOrder> {
         val exampleContentType = "application/json"
         val exampleContentString = """{
+          "id" : 0,
           "petId" : 6,
           "quantity" : 1,
-          "id" : 0,
           "shipDate" : "2000-01-23T04:56:07.000+00:00",
-          "complete" : false,
-          "status" : "placed"
+          "status" : "placed",
+          "complete" : false
         }"""
         
         when (exampleContentType) {

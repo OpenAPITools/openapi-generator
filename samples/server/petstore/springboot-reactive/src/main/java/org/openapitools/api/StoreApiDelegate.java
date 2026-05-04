@@ -84,7 +84,7 @@ public interface StoreApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                String exampleString = "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false }";
                 result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
@@ -117,7 +117,7 @@ public interface StoreApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                String exampleString = "{ \"id\" : 0, \"petId\" : 6, \"quantity\" : 1, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"status\" : \"placed\", \"complete\" : false }";
                 result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }

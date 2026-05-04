@@ -75,7 +75,7 @@ public interface FooApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"dt\" : \"2000-01-23T04:56:07.000+00:00\", \"number\" : 0.8008281904610115, \"binary\" : \"\", \"listOfDt\" : [ \"2000-01-23T04:56:07.000+00:00\", \"2000-01-23T04:56:07.000+00:00\" ], \"listMinIntems\" : [ \"2000-01-23T04:56:07.000+00:00\", \"2000-01-23T04:56:07.000+00:00\" ], \"requiredDt\" : \"2000-01-23T04:56:07.000+00:00\" }";
+                    String exampleString = "{ \"dt\" : \"2000-01-23T04:56:07.000+00:00\", \"binary\" : \"\", \"listOfDt\" : [ \"2000-01-23T04:56:07.000+00:00\", \"2000-01-23T04:56:07.000+00:00\" ], \"listMinIntems\" : [ \"2000-01-23T04:56:07.000+00:00\", \"2000-01-23T04:56:07.000+00:00\" ], \"requiredDt\" : \"2000-01-23T04:56:07.000+00:00\", \"number\" : 0.8008281904610115 }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
