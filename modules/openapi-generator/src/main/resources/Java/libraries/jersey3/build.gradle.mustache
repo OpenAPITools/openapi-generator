@@ -33,8 +33,14 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
+            {{#useSpringBoot4}}
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+            {{/useSpringBoot4}}
+            {{^useSpringBoot4}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
+            {{/useSpringBoot4}}
         }
 
         // Rename the aar correctly
@@ -78,8 +84,14 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
+    {{#useSpringBoot4}}
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    {{/useSpringBoot4}}
+    {{^useSpringBoot4}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    {{/useSpringBoot4}}
 
     publishing {
         publications {
@@ -105,9 +117,19 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.10"
     {{/openApiNullable}}
+    {{#useSpringBoot4}}
+    jakarta_annotation_version = "3.0.0"
+    {{/useSpringBoot4}}
+    {{^useSpringBoot4}}
     jakarta_annotation_version = "2.1.0"
+    {{/useSpringBoot4}}
     {{#useBeanValidation}}
+    {{#useSpringBoot4}}
+    bean_validation_version = "3.1.1"
+    {{/useSpringBoot4}}
+    {{^useSpringBoot4}}
     bean_validation_version = "3.0.2"
+    {{/useSpringBoot4}}
     {{/useBeanValidation}}
     jersey_version = "3.0.4"
     junit_version = "5.8.2"

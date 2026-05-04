@@ -142,8 +142,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
+                    {{#useSpringBoot4}}
+                    <source>17</source>
+                    <target>17</target>
+                    {{/useSpringBoot4}}
+                    {{^useSpringBoot4}}
                     <source>1.8</source>
                     <target>1.8</target>
+                    {{/useSpringBoot4}}
                     <fork>true</fork>
                     <meminitial>128m</meminitial>
                     <maxmem>512m</maxmem>
@@ -167,7 +173,12 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
+                    {{#useSpringBoot4}}
+                    <source>17</source>
+                    {{/useSpringBoot4}}
+                    {{^useSpringBoot4}}
                     <source>1.8</source>
+                    {{/useSpringBoot4}}
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -409,6 +420,11 @@
         <jackson-annotations-version>2.21</jackson-annotations-version>
         <jackson-databind-version>2.21.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
+        {{#useSpringBoot4}}
+        <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
+        <beanvalidation-version>3.1.1</beanvalidation-version>
+        {{/useSpringBoot4}}
+        {{^useSpringBoot4}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
@@ -417,6 +433,7 @@
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <beanvalidation-version>2.0.2</beanvalidation-version>
         {{/useJakartaEe}}
+        {{/useSpringBoot4}}
         <junit-version>5.10.0</junit-version>
         {{#hasHttpSignatureMethods}}
         <http-signature-version>1.8</http-signature-version>
