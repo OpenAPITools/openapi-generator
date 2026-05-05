@@ -28,15 +28,12 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.Order
 
 fun Route.StoreApi() {
-    val empty = mutableMapOf<String, Any?>()
-
-    delete<Paths.deleteOrder> {
+    delete<Paths.deleteOrder> { deleteOrder ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
     authenticate("api_key") {
-    get<Paths.getInventory> {
+    get<Paths.getInventory> { getInventory ->
         
         val principal = call.authentication.principal<ApiPrincipal>()
         
@@ -45,8 +42,7 @@ fun Route.StoreApi() {
         
     }
     }
-
-    get<Paths.getOrderById> {
+    get<Paths.getOrderById> { getOrderById ->
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "petId" : 6,
@@ -64,8 +60,7 @@ fun Route.StoreApi() {
         }
         
     }
-
-    post<Paths.placeOrder> {
+    post<Paths.placeOrder> { placeOrder ->
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "petId" : 6,
@@ -83,5 +78,4 @@ fun Route.StoreApi() {
         }
         
     }
-
 }

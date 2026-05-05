@@ -5,7 +5,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
-import io.ktor.server.request.*
 {{#featureResources}}
 import {{packageName}}.Paths
 import io.ktor.server.resources.options
@@ -16,13 +15,14 @@ import io.ktor.server.resources.delete
 import io.ktor.server.resources.head
 import io.ktor.server.resources.patch
 {{/featureResources}}
-import io.ktor.util.*
-import io.ktor.http.content.*
 import io.ktor.server.routing.*
-import kotlin.uuid.Uuid
+{{#delegatePattern}}
+import io.ktor.server.request.*
+import io.ktor.http.content.*
 import {{packageName}}.infrastructure.delegates
-import {{packageName}}.infrastructure.BadRequestException
+import {{packageName}}.infrastructure.BadParameterException
 import {{packageName}}.infrastructure.APINotImplementedException
+{{/delegatePattern}}
 import {{packageName}}.infrastructure.ApiPrincipal
 {{#imports}}import {{import}}
 {{/imports}}

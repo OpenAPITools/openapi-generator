@@ -343,9 +343,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (isKtor2Or3()) {
             additionalProperties.put(Constants.IS_KTOR, true);
 
-            supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
-            supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
-
+            if(!delegatePatternEnabled) {
+                supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
+                supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
+            }
             if (generateApis && resourcesFeatureEnabled) {
                 supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
             }
@@ -366,7 +367,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                     apiTemplateFiles.put("apiDelegate.mustache", "Delegate.kt");
                     supportingFiles.add(new SupportingFile("Delegates.kt.mustache", infrastructureFolder, "Delegates.kt"));
                     supportingFiles.add(new SupportingFile("AppDelegates.kt.mustache", infrastructureFolder, "AppDelegates.kt"));
-                    supportingFiles.add(new SupportingFile("BadRequestException.kt.mustache", infrastructureFolder, "BadRequestException.kt"));
+                    supportingFiles.add(new SupportingFile("BadParameterException.kt.mustache", infrastructureFolder, "BadParameterException.kt"));
                     supportingFiles.add(new SupportingFile("APINotImplementedException.kt.mustache", infrastructureFolder, "APINotImplementedException.kt"));
                 }
             }

@@ -28,29 +28,23 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.User
 
 fun Route.UserApi() {
-    val empty = mutableMapOf<String, Any?>()
-
-    post<Paths.createUser> {
+    post<Paths.createUser> { createUser ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
-    post<Paths.createUsersWithArrayInput> {
+    post<Paths.createUsersWithArrayInput> { createUsersWithArrayInput ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
-    post<Paths.createUsersWithListInput> {
+    post<Paths.createUsersWithListInput> { createUsersWithListInput ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
-    delete<Paths.deleteUser> {
+    delete<Paths.deleteUser> { deleteUser ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
-    get<Paths.getUserByName> {
+    get<Paths.getUserByName> { getUserByName ->
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "firstName" : "firstName",
@@ -70,20 +64,16 @@ fun Route.UserApi() {
         }
         
     }
-
-    get<Paths.loginUser> {
+    get<Paths.loginUser> { loginUser ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
-    get<Paths.logoutUser> {
+    get<Paths.logoutUser> { logoutUser ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
-    put<Paths.updateUser> {
+    put<Paths.updateUser> { updateUser ->
         call.respond(HttpStatusCode.NotImplemented)
         
     }
-
 }

@@ -509,4 +509,44 @@ public class KotlinServerCodegenTest {
                 "visible = false"
         );
     }
+
+    @Test
+    public void delegatePattern_canBeEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path petApi = Paths.get(outputPath + "/apis/PetApi.kt");
+
+        // API should use the delegate
+        assertFileContains(
+                petApi,
+                "val petApiDelegate: PetApiDelegate? by call.delegates"
+        );
+
+        // Delegate interface should be generated
+        Path petApiDelegate = Paths.get(outputPath + "/apis/PetApiDelegate.kt");
+        Assert.assertTrue(Files.exists(petApiDelegate));
+        assertFileContains(
+                petApiDelegate,
+                "interface PetApiDelegate"
+        );
+
+        // Supporting files should be generated
+        String infraPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/infrastructure";
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/Delegates.kt")));
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/AppDelegates.kt")));
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/BadParameterException.kt")));
+        Assert.assertTrue(Files.exists(Paths.get(infraPath + "/APINotImplementedException.kt")));
+    }
 }

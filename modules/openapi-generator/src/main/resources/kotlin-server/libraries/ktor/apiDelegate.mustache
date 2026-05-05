@@ -1,9 +1,11 @@
 {{>licenseInfo}}
 package {{apiPackage}}
 
+import io.ktor.http.content.PartData
 import io.ktor.server.routing.RoutingCall
 import {{packageName}}.infrastructure.ApiPrincipal
 import {{packageName}}.infrastructure.APINotImplementedException
+import {{packageName}}.infrastructure.BadParameterException
 {{#imports}}import {{import}}
 {{/imports}}
 
@@ -11,14 +13,53 @@ import {{packageName}}.infrastructure.APINotImplementedException
 interface {{classname}}Delegate {
 
 {{#operation}}
+{{#isMultipart}}
+    data class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPart({{#allParams}}{{#isFormParam}}{{^isFile}}val {{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/isFile}}{{/isFormParam}}{{/allParams}})
+    class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPartFileBuilder{
+{{#allParams}}{{#isFormParam}}{{^isFile}}
+        private var {{paramName}}: {{{dataType}}}? = null
+{{/isFile}}{{#isFile}}{{#isArray}}
+        private var _onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}: suspend PartData.FileItem.() -> Unit = {}
+        val onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}: suspend PartData.FileItem.() -> Unit
+            get() = _onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}
+{{/isArray}}{{^isArray}}
+        private var _onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}: suspend PartData.FileItem.() -> Unit = {}
+        val onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}: suspend PartData.FileItem.() -> Unit
+            get() = _onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}
+{{/isArray}}
+{{/isFile}}{{/isFormParam}}{{/allParams}}
+{{#allParams}}{{#isFormParam}}{{^isFile}}
+        fun {{paramName}}({{paramName}}: {{{dataType}}}?) { this.{{paramName}} = {{paramName}} }
+{{/isFile}}{{#isFile}}
+        fun onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}(block: suspend PartData.FileItem.() -> Unit = {}) { _onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} = block }
+{{/isFile}}{{/isFormParam}}{{/allParams}}
+        fun build(): {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPart {
+{{#allParams}}{{#isFormParam}}{{^isFile}}{{#required}}
+            if ({{paramName}} == null) {
+                throw BadRequestException(message = "Missing form parameter: {{baseName}}", parameterName = "{{baseName}}", validationType = "required")
+            }
+{{/required}}{{^required}}{{#defaultValue}}
+            if ({{paramName}} == null) {
+                {{paramName}} = {{{defaultValue}}}
+            }
+{{/defaultValue}}{{/required}}{{/isFile}}{{/isFormParam}}{{/allParams}}
+            return {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPart({{#allParams}}{{#isFormParam}}{{^isFile}}{{paramName}}, {{/isFile}}{{/isFormParam}}{{/allParams}})
+        }
+    }
+    fun interface {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPartReceiver{
+        suspend fun receiveMultipart(block: {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPartFileBuilder.() -> Unit): {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPart
+    }
+{{/isMultipart}}
     /**
      * {{summary}}
      * {{notes}}
-     {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}* @param call The Ktor [RoutingCall]
-     * @return {{{returnType}}}
+     {{^isMultipart}}{{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}{{/isMultipart}}{{#isMultipart}}{{#allParams}}{{^isFormParam}}* @param {{paramName}} {{description}}
+     {{/isFormParam}}{{/allParams}}* @param {{operationId}}MultipartReceiver interface to receive multipart data
+     {{/isMultipart}}* @param call The Ktor [RoutingCall]
+     * @return {{>returnTypes}}
      */
-    suspend fun {{operationId}}({{#allParams}} {{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/allParams}}call:RoutingCall) : {{{returnType}}} = throw APINotImplementedException("API operation {{operationId}} has not been implemented yet.")
+    suspend fun {{operationId}}({{^isMultipart}}{{#allParams}} {{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/allParams}}{{/isMultipart}}{{#isMultipart}}{{#allParams}}{{^isFormParam}} {{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/isFormParam}}{{/allParams}} {{operationId}}MultipartReceiver: {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPartReceiver, {{/isMultipart}}call:RoutingCall) : {{>returnTypes}} = throw APINotImplementedException("API operation {{operationId}} has not been implemented yet.")
 {{/operation}}
 }
 {{/operations}}
