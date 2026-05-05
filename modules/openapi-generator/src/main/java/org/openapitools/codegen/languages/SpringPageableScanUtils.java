@@ -162,7 +162,7 @@ public final class SpringPageableScanUtils {
                     }
                     // If the top-level schema is an array, the enum lives on its items
                     Schema<?> enumSchema = schema;
-                    if (schema.getItems() != null) {
+                    if (ModelUtils.isArraySchema(schema)) {
                         enumSchema = schema.getItems();
                         if (enumSchema.get$ref() != null) {
                             enumSchema = ModelUtils.getReferencedSchema(openAPI, enumSchema);
