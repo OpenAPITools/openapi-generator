@@ -4,7 +4,7 @@ OpenAPI Petstore
 
 - API version: 1.0.0
 
-- Generator version: 7.23.0-SNAPSHOT
+- Generator version: 7.22.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -15,7 +15,7 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 Building the API client library requires:
 
-1. Java 1.8+
+1. Java 11+
 2. Maven/Gradle
 
 ## Installation
