@@ -53,6 +53,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_MUTINY = "useMutiny";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
+    public static final String USE_QUARKUS_SECURITY_ANNOTATIONS = "useQuarkusSecurityAnnotations";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -68,6 +69,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerV3Annotations = false;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
+    private boolean useQuarkusSecurityAnnotations = false;
 
     @Getter @Setter
     protected boolean generateJsonCreator = true;
@@ -147,6 +149,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
+        cliOptions.add(CliOption.newBoolean(USE_QUARKUS_SECURITY_ANNOTATIONS, "Whether to generate Quarkus security annotations (@Authenticated, @RolesAllowed, @PermitAll). Only valid when library is set to quarkus.", useQuarkusSecurityAnnotations));
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
     }
 
@@ -187,6 +190,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         if (QUARKUS_LIBRARY.equals(library)) {
             convertPropertyToBooleanAndWriteBack(USE_MUTINY, value -> useMutiny = value);
+        }
+
+        if (QUARKUS_LIBRARY.equals(library)) {
+            convertPropertyToBooleanAndWriteBack(USE_QUARKUS_SECURITY_ANNOTATIONS, value -> useQuarkusSecurityAnnotations = value);
         }
 
         convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
