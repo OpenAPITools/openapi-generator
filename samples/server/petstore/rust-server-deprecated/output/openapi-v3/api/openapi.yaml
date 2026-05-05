@@ -815,6 +815,7 @@ components:
         nullableWithNullDefault:
           nullable: true
           type: string
+          default: null
         nullableWithPresentDefault:
           default: default
           nullable: true

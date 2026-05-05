@@ -104,6 +104,7 @@ paths:
             - sold
             type: string
           type: array
+          default: null
         style: form
       responses:
         "200":
@@ -113,11 +114,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
             application/json:
               schema:
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
           description: successful operation
         "400":
           description: Invalid status value
@@ -146,6 +149,7 @@ paths:
           items:
             type: string
           type: array
+          default: null
         style: form
       responses:
         "200":
@@ -155,11 +159,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
             application/json:
               schema:
                 items:
                   $ref: "#/components/schemas/Pet"
                 type: array
+                default: null
           description: successful operation
         "400":
           description: Invalid tag value
@@ -770,6 +776,7 @@ paths:
           items:
             $ref: "#/components/schemas/CodesEnum"
           type: array
+          default: null
         style: form
       responses:
         "200":
@@ -822,6 +829,7 @@ paths:
                   nullable: true
                 nullable: true
                 type: array
+                default: null
           description: ""
       tags:
       - fake
@@ -866,6 +874,7 @@ components:
             items:
               $ref: "#/components/schemas/User"
             type: array
+            default: null
       description: List of user object
       required: true
     Pet:
@@ -1023,6 +1032,7 @@ components:
           xml:
             name: photoUrl
             wrapped: true
+          default: null
         tags:
           items:
             $ref: "#/components/schemas/Tag"
@@ -1030,6 +1040,7 @@ components:
           xml:
             name: tag
             wrapped: true
+          default: null
         status:
           deprecated: true
           description: pet status in the store
@@ -1103,6 +1114,7 @@ components:
           items:
             type: string
           type: array
+          default: null
         ref_array_prefix_items:
           description: |
             An item that was added to the queue.
@@ -1110,6 +1122,7 @@ components:
           maxItems: 5
           minItems: 3
           type: array
+          default: null
     HTTPValidationError:
       properties: {}
       title: HTTPValidationError
@@ -1121,6 +1134,7 @@ components:
       maxItems: 5
       minItems: 3
       type: array
+      default: null
     circular_reference_1:
       properties:
         prop1:
@@ -1139,14 +1153,17 @@ components:
           items:
             $ref: "#/components/schemas/Tag"
           type: array
+          default: null
         arrayFooTwo:
           items:
             $ref: "#/components/schemas/Tag"
           type: array
+          default: null
         arrayFooThree:
           items:
             $ref: "#/components/schemas/Tag"
           type: array
+          default: null
     CodesEnum:
       enum:
       - Code 1
@@ -1159,6 +1176,7 @@ components:
           items:
             type: string
           type: array
+          default: null
       required:
       - arrayOfStrings
     AllOfSimpleModel:
@@ -1169,6 +1187,7 @@ components:
     SelfReference:
       items: {}
       type: array
+      default: null
     SelfReferenceOneOf:
       oneOf:
       - type: string
@@ -1213,6 +1232,7 @@ components:
       - items:
           type: string
         type: array
+        default: null
     _fake_webhooks_sources_deleted_post_request_event:
       properties:
         event_id:
