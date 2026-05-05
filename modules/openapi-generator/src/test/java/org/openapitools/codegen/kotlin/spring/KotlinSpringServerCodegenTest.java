@@ -4231,6 +4231,8 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(validPageableFile.toPath(), "class PageableConstraintValidator");
         assertFileContains(validPageableFile.toPath(), "val maxSize: Int");
         assertFileContains(validPageableFile.toPath(), "val maxPage: Int");
+        assertFileContains(validPageableFile.toPath(), "val minSize: Int");
+        assertFileContains(validPageableFile.toPath(), "val minPage: Int");
         assertFileContains(validPageableFile.toPath(), "NO_LIMIT");
     }
 
@@ -4267,15 +4269,67 @@ public class KotlinSpringServerCodegenTest {
 
     // ========== AUTO X-SPRING-PAGINATED TESTS ==========
 
-    // ========== GENERATE SORT VALIDATION TESTS ==========
-
     @Test
-    public void generateSortValidationAddsAnnotationForExplicitPaginated() throws Exception {
+    public void generatePageableConstraintValidationResolvesMaximumFromAllOfRef() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithSizeConstraintFromAllOfRef: maximum: 75 is on the referenced schema only
+        int methodStart = content.indexOf("fun findPetsWithSizeConstraintFromAllOfRef(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithSizeConstraintFromAllOfRef method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidPageable(maxSize = 75)"),
+                "@ValidPageable(maxSize = 75) should be resolved from allOf $ref schema");
+    }
+
+    @Test
+    public void generatePageableConstraintValidationResolvesMinimumFromAllOfRef() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsWithMinSizeConstraintFromAllOfRef: minimum: 5 is on the referenced schema only
+        int methodStart = content.indexOf("fun findPetsWithMinSizeConstraintFromAllOfRef(");
+        Assert.assertTrue(methodStart >= 0, "findPetsWithMinSizeConstraintFromAllOfRef method should exist");
+        String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
+        Assert.assertTrue(paramBlock.contains("@ValidPageable(minSize = 5)"),
+                "@ValidPageable(minSize = 5) should be resolved from allOf $ref schema");
+    }
+
+    @Test
+    public void scanPageableDefaultsResolvesDefaultFromAllOfRef() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        // findPetsWithDefaultFromAllOfRef: default: 7 is on the referenced schema only
+        assertFileContains(petApi.toPath(), "@PageableDefault(size = 7)");
+    }
+
+    // ========== AUTO X-SPRING-PAGINATED TESTS ==========
+
+    @Test
+    public void generateSortValidationAddsAnnotationForExplicitPaginated() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
 

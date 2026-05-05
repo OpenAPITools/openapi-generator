@@ -1100,6 +1100,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     List<String> attrs = new ArrayList<>();
                     if (constraints.maxSize >= 0) attrs.add("maxSize = " + constraints.maxSize);
                     if (constraints.maxPage >= 0) attrs.add("maxPage = " + constraints.maxPage);
+                    if (constraints.minSize >= 0) attrs.add("minSize = " + constraints.minSize);
+                    if (constraints.minPage >= 0) attrs.add("minPage = " + constraints.minPage);
                     pageableAnnotations.add("@ValidPageable(" + String.join(", ", attrs) + ")");
                     codegenOperation.imports.add("ValidPageable");
                 }

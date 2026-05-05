@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -71,22 +72,28 @@ public final class SpringPageableScanUtils {
     }
 
     /**
-     * Carries max constraints for page number and page size from a pageable operation.
-     * {@code -1} means no constraint specified (no {@code maximum:} in the spec).
+     * Carries max and min constraints for page number and page size from a pageable operation.
+     * {@code -1} means no constraint specified (no {@code maximum:}/{@code minimum:} in the spec).
      */
     public static final class PageableConstraintsData {
         /** Maximum allowed page number, or {@code -1} if unconstrained. */
         public final int maxPage;
         /** Maximum allowed page size, or {@code -1} if unconstrained. */
         public final int maxSize;
+        /** Minimum allowed page number, or {@code -1} if unconstrained. */
+        public final int minPage;
+        /** Minimum allowed page size, or {@code -1} if unconstrained. */
+        public final int minSize;
 
-        public PageableConstraintsData(int maxPage, int maxSize) {
+        public PageableConstraintsData(int maxPage, int maxSize, int minPage, int minSize) {
             this.maxPage = maxPage;
             this.maxSize = maxSize;
+            this.minPage = minPage;
+            this.minSize = minSize;
         }
 
         public boolean hasAny() {
-            return maxPage >= 0 || maxSize >= 0;
+            return maxPage >= 0 || maxSize >= 0 || minPage >= 0 || minSize >= 0;
         }
     }
 
@@ -205,13 +212,10 @@ public final class SpringPageableScanUtils {
                     if (schema == null) {
                         continue;
                     }
-                    if (schema.get$ref() != null) {
-                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
-                    }
-                    if (schema == null || schema.getDefault() == null) {
+                    Object defaultValue = resolveDefault(openAPI, schema);
+                    if (defaultValue == null) {
                         continue;
                     }
-                    Object defaultValue = schema.getDefault();
                     switch (param.getName()) {
                         case "page":
                             if (defaultValue instanceof Number) {
@@ -256,11 +260,12 @@ public final class SpringPageableScanUtils {
     }
 
     /**
-     * Scans all pageable operations for {@code maximum:} constraints on {@code page} and
-     * {@code size} parameters.
+     * Scans all pageable operations for {@code maximum:} and {@code minimum:} constraints on
+     * {@code page} and {@code size} parameters. Values are resolved through {@code allOf} and
+     * {@code $ref} schemas so that constraints defined on shared component schemas are honoured.
      *
      * @return map from operationId to {@link PageableConstraintsData} (only operations with
-     *         at least one {@code maximum:} constraint are included)
+     *         at least one constraint are included)
      */
     public static Map<String, PageableConstraintsData> scanPageableConstraints(
             OpenAPI openAPI, boolean autoXSpringPaginated) {
@@ -279,35 +284,113 @@ public final class SpringPageableScanUtils {
                 }
                 int maxPage = -1;
                 int maxSize = -1;
+                int minPage = -1;
+                int minSize = -1;
                 for (Parameter param : operation.getParameters()) {
                     Schema<?> schema = param.getSchema();
                     if (schema == null) {
                         continue;
                     }
-                    if (schema.get$ref() != null) {
-                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
-                    }
-                    if (schema == null || schema.getMaximum() == null) {
-                        continue;
-                    }
-                    int maximum = schema.getMaximum().intValue();
+                    BigDecimal maximum = resolveMaximum(openAPI, schema);
+                    BigDecimal minimum = resolveMinimum(openAPI, schema);
                     switch (param.getName()) {
                         case "page":
-                            maxPage = maximum;
+                            if (maximum != null) maxPage = maximum.intValue();
+                            if (minimum != null) minPage = minimum.intValue();
                             break;
                         case "size":
-                            maxSize = maximum;
+                            if (maximum != null) maxSize = maximum.intValue();
+                            if (minimum != null) minSize = minimum.intValue();
                             break;
                         default:
                             break;
                     }
                 }
-                PageableConstraintsData data = new PageableConstraintsData(maxPage, maxSize);
+                PageableConstraintsData data = new PageableConstraintsData(maxPage, maxSize, minPage, minSize);
                 if (data.hasAny()) {
                     result.put(operationId, data);
                 }
             }
         }
         return result;
+    }
+
+    // -------------------------------------------------------------------------
+    // Private schema-resolution helpers
+    // -------------------------------------------------------------------------
+
+    /**
+     * Returns the effective {@code maximum} for the given schema, resolving through a top-level
+     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
+     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
+     * (smallest) value wins.
+     */
+    private static BigDecimal resolveMaximum(OpenAPI openAPI, Schema<?> schema) {
+        if (schema == null) return null;
+        if (schema.get$ref() != null) {
+            schema = ModelUtils.getReferencedSchema(openAPI, schema);
+            if (schema == null) return null;
+        }
+        BigDecimal result = schema.getMaximum();
+        if (schema.getAllOf() != null) {
+            for (Schema<?> allOfItem : schema.getAllOf()) {
+                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, allOfItem);
+                if (resolved != null && resolved.getMaximum() != null) {
+                    if (result == null || resolved.getMaximum().compareTo(result) < 0) {
+                        result = resolved.getMaximum();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the effective {@code minimum} for the given schema, resolving through a top-level
+     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
+     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
+     * (largest) value wins.
+     */
+    private static BigDecimal resolveMinimum(OpenAPI openAPI, Schema<?> schema) {
+        if (schema == null) return null;
+        if (schema.get$ref() != null) {
+            schema = ModelUtils.getReferencedSchema(openAPI, schema);
+            if (schema == null) return null;
+        }
+        BigDecimal result = schema.getMinimum();
+        if (schema.getAllOf() != null) {
+            for (Schema<?> allOfItem : schema.getAllOf()) {
+                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, allOfItem);
+                if (resolved != null && resolved.getMinimum() != null) {
+                    if (result == null || resolved.getMinimum().compareTo(result) > 0) {
+                        result = resolved.getMinimum();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the effective {@code default} for the given schema. Unlike constraints, the inline
+     * schema's default takes precedence (explicit per-endpoint override); falls back to the first
+     * non-null default found in {@code allOf} items.
+     */
+    private static Object resolveDefault(OpenAPI openAPI, Schema<?> schema) {
+        if (schema == null) return null;
+        if (schema.get$ref() != null) {
+            schema = ModelUtils.getReferencedSchema(openAPI, schema);
+            if (schema == null) return null;
+        }
+        if (schema.getDefault() != null) return schema.getDefault();
+        if (schema.getAllOf() != null) {
+            for (Schema<?> allOfItem : schema.getAllOf()) {
+                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, allOfItem);
+                if (resolved != null && resolved.getDefault() != null) {
+                    return resolved.getDefault();
+                }
+            }
+        }
+        return null;
     }
 }
