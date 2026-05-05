@@ -90,7 +90,7 @@ public interface PetApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
+                String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
                 result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
@@ -125,7 +125,7 @@ public interface PetApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
+                String exampleString = "[ { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }, { \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" } ]";
                 result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
@@ -159,7 +159,7 @@ public interface PetApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
+                String exampleString = "{ \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }";
                 result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }

@@ -380,7 +380,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
                 + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
-                + "schema are suppressed from code generation. Only applies when library=spring-boot or spring-http-interface.",
+                + "schema are suppressed from code generation.",
                 substituteGenericPagedModel));
 
     }
@@ -591,9 +591,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
 
-        if (SPRING_BOOT.equals(library) || SPRING_HTTP_INTERFACE.equals(library)) {
-            convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
-        }
+        convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
 
         if (SPRING_BOOT.equals(library)) {
             convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
@@ -873,7 +871,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
-        if ((SPRING_BOOT.equals(library) || SPRING_HTTP_INTERFACE.equals(library)) && substituteGenericPagedModel) {
+        if (substituteGenericPagedModel) {
             pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
             if (!pagedModelRegistry.isEmpty()) {
                 boolean customMapping = importMapping.containsKey("PagedModel");

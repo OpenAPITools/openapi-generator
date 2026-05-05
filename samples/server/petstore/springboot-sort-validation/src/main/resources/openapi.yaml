@@ -933,8 +933,8 @@ components:
       type: integer
     Pet:
       example:
-        name: name
         id: 0
+        name: name
         status: status
       properties:
         id:

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,6 +43,8 @@ public class Pet {
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
   private LocalTime feedingTime = LocalTime.parse("10:15:30");
+
+  private LocalDateTime adoptionDate = LocalDateTime.parse("2007-12-03T10:15:30");
 
   public Pet() {
     super();
@@ -201,6 +204,27 @@ public class Pet {
     this.feedingTime = feedingTime;
   }
 
+  public Pet adoptionDate(LocalDateTime adoptionDate) {
+    this.adoptionDate = adoptionDate;
+    return this;
+  }
+
+  /**
+   * Get adoptionDate
+   * @return adoptionDate
+   */
+  @Valid 
+  @Schema(name = "adoptionDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("adoptionDate")
+  public LocalDateTime getAdoptionDate() {
+    return adoptionDate;
+  }
+
+  @JsonProperty("adoptionDate")
+  public void setAdoptionDate(LocalDateTime adoptionDate) {
+    this.adoptionDate = adoptionDate;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -216,12 +240,13 @@ public class Pet {
         Objects.equals(this.price, pet.price) &&
         Objects.equals(this.lastFeed, pet.lastFeed) &&
         Objects.equals(this.dateOfBirth, pet.dateOfBirth) &&
-        Objects.equals(this.feedingTime, pet.feedingTime);
+        Objects.equals(this.feedingTime, pet.feedingTime) &&
+        Objects.equals(this.adoptionDate, pet.adoptionDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(atType, age, happy, price, lastFeed, dateOfBirth, feedingTime);
+    return Objects.hash(atType, age, happy, price, lastFeed, dateOfBirth, feedingTime, adoptionDate);
   }
 
   @Override
@@ -235,6 +260,7 @@ public class Pet {
     sb.append("    lastFeed: ").append(toIndentedString(lastFeed)).append("\n");
     sb.append("    dateOfBirth: ").append(toIndentedString(dateOfBirth)).append("\n");
     sb.append("    feedingTime: ").append(toIndentedString(feedingTime)).append("\n");
+    sb.append("    adoptionDate: ").append(toIndentedString(adoptionDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
