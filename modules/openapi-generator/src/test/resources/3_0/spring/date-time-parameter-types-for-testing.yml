@@ -110,3 +110,7 @@ components:
           type: string
           format: date-time-local
           default: '2007-12-03T10:15:30'
+        tripDuration:
+          type: string
+          format: duration
+          default: 'PT10H15M30S'

@@ -546,6 +546,15 @@ public class AbstractJavaCodegenTest {
 
         // dateLibrary <> java8
         Assert.assertEquals(defaultValue, "2007-12-03T10:15:30");
+
+        // Test default value for duration format
+        StringSchema durationSchema = new StringSchema();
+        durationSchema.setFormat("duration");
+        durationSchema.setDefault(Duration.parse("PT20.345S"));
+        defaultValue = codegen.toDefaultValue(durationSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "PT20.345S");
     }
 
     @Test
@@ -622,6 +631,13 @@ public class AbstractJavaCodegenTest {
         dateTimeLocalSchema.setDefault("2007-12-03T10:15:30");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", dateTimeLocalSchema), dateTimeLocalSchema);
         Assert.assertEquals(defaultValue, "LocalDateTime.parse(\"2007-12-03T10:15:30\")");
+
+        // Test default value for duration format
+        StringSchema durationSchema = new StringSchema();
+        durationSchema.setFormat("duration");
+        durationSchema.setDefault("PT20.345S");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", durationSchema), durationSchema);
+        Assert.assertEquals(defaultValue, "Duration.parse(\"PT20.345S\")");
     }
 
     @Test

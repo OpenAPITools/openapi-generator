@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -45,6 +46,8 @@ public class Pet {
   private LocalTime feedingTime = LocalTime.parse("10:15:30");
 
   private LocalDateTime adoptionDate = LocalDateTime.parse("2007-12-03T10:15:30");
+
+  private Duration tripDuration = Duration.parse("PT10H15M30S");
 
   public Pet() {
     super();
@@ -225,6 +228,27 @@ public class Pet {
     this.adoptionDate = adoptionDate;
   }
 
+  public Pet tripDuration(Duration tripDuration) {
+    this.tripDuration = tripDuration;
+    return this;
+  }
+
+  /**
+   * Get tripDuration
+   * @return tripDuration
+   */
+  @Valid 
+  @Schema(name = "tripDuration", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tripDuration")
+  public Duration getTripDuration() {
+    return tripDuration;
+  }
+
+  @JsonProperty("tripDuration")
+  public void setTripDuration(Duration tripDuration) {
+    this.tripDuration = tripDuration;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -241,12 +265,13 @@ public class Pet {
         Objects.equals(this.lastFeed, pet.lastFeed) &&
         Objects.equals(this.dateOfBirth, pet.dateOfBirth) &&
         Objects.equals(this.feedingTime, pet.feedingTime) &&
-        Objects.equals(this.adoptionDate, pet.adoptionDate);
+        Objects.equals(this.adoptionDate, pet.adoptionDate) &&
+        Objects.equals(this.tripDuration, pet.tripDuration);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(atType, age, happy, price, lastFeed, dateOfBirth, feedingTime, adoptionDate);
+    return Objects.hash(atType, age, happy, price, lastFeed, dateOfBirth, feedingTime, adoptionDate, tripDuration);
   }
 
   @Override
@@ -261,6 +286,7 @@ public class Pet {
     sb.append("    dateOfBirth: ").append(toIndentedString(dateOfBirth)).append("\n");
     sb.append("    feedingTime: ").append(toIndentedString(feedingTime)).append("\n");
     sb.append("    adoptionDate: ").append(toIndentedString(adoptionDate)).append("\n");
+    sb.append("    tripDuration: ").append(toIndentedString(tripDuration)).append("\n");
     sb.append("}");
     return sb.toString();
   }

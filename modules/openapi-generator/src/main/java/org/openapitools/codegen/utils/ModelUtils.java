@@ -721,6 +721,12 @@ public class ModelUtils {
                         && "date-time-local".equals(schema.getFormat()));
     }
 
+    public static boolean isDurationSchema(Schema schema) {
+        // format: duration, see https://spec.openapis.org/registry/format/duration.html
+        return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
+                        && "duration".equals(schema.getFormat()));
+    }
+
     public static boolean isTimeLocalSchema(Schema schema) {
         // format: time-local, see https://spec.openapis.org/registry/format/time-local.html
         return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))

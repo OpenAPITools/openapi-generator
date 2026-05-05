@@ -676,6 +676,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importMapping.put("LocalTime", "java.time.LocalTime");
             typeMapping.put("date-time-local", "LocalDateTime");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+            typeMapping.put("duration", "Duration");
+            importMapping.put("Duration", "java.time.Duration");
             if ("java8-localdatetime".equals(dateLibrary)) {
                 typeMapping.put("DateTime", "LocalDateTime");
             } else {
@@ -1458,6 +1460,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return null;
+        } else if (ModelUtils.isDurationSchema(schema)) {
+            if (schema.getDefault() != null) {
+                if ("java8".equals(getDateLibrary())) {
+                    return String.format(Locale.ROOT, "Duration.parse(\"%s\")", schema.getDefault());
+                }
+            }
+            return null;
         } else if (ModelUtils.isStringSchema(schema)) {
             if (schema.getDefault() != null) {
                 String _default;
@@ -1547,6 +1556,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             } else if(ModelUtils.isDateTimeLocalSchema(propertySchema)) {
                                 if("java8".equals(getDateLibrary())) {
                                     defaultPropertyExpression = String.format(Locale.ROOT, "java.time.LocalDateTime.parse(\"%s\")", value.asText());
+                                }
+                            } else if(ModelUtils.isDurationSchema(propertySchema)) {
+                                if("java8".equals(getDateLibrary())) {
+                                    defaultPropertyExpression = String.format(Locale.ROOT, "java.time.Duration.parse(\"%s\")", value.asText());
                                 }
                             } else if(ModelUtils.isUUIDSchema(propertySchema)) {
                                 defaultPropertyExpression = "java.util.UUID.fromString(\"" + value.asText() + "\")";
