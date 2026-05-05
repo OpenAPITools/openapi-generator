@@ -622,6 +622,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (useOptional) {
             for (ModelMap modelMap : objs.getModels()) {
                 CodegenModel model = modelMap.getModel();
+                boolean hasOptionalProperties = false;
 
                 boolean shouldUseOptional;
 
@@ -636,9 +637,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                     for (CodegenProperty prop : model.vars) {
                         if (!prop.required && !prop.dataType.startsWith("Optional<")) {
                             wrapPropertyWithOptional(prop);
+                            hasOptionalProperties = true;
                         }
                     }
                 }
+
+                model.vendorExtensions.put("x-has-optional-properties", hasOptionalProperties);
             }
         }
 
