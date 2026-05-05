@@ -4330,6 +4330,10 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void generateSortValidationAddsAnnotationForExplicitPaginated() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
 
