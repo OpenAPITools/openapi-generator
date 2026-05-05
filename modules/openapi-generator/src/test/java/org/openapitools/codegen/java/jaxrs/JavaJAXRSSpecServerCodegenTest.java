@@ -1545,4 +1545,45 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "@ResponseStatus",
                 "import org.jboss.resteasy.reactive.ResponseStatus");
     }
+
+    @Test
+    public void useQuarkusSecurityAnnotationsIsRegisteredWithDefaultFalse() {
+        final JavaJAXRSSpecServerCodegen codegen = new JavaJAXRSSpecServerCodegen();
+        Assert.assertTrue(
+            codegen.cliOptions().stream()
+                .anyMatch(opt -> USE_QUARKUS_SECURITY_ANNOTATIONS.equals(opt.getOpt()) && "false".equals(opt.getDefault())),
+            "useQuarkusSecurityAnnotations should be a registered CLI option defaulting to false"
+        );
+    }
+
+    @Test
+    public void useQuarkusSecurityAnnotationsDefaultsToFalseForQuarkusLibrary() {
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.processOpts();
+
+        Assert.assertFalse(
+            (boolean) codegen.additionalProperties().getOrDefault(USE_QUARKUS_SECURITY_ANNOTATIONS, false)
+        );
+    }
+
+    @Test
+    public void useQuarkusSecurityAnnotationsCanBeEnabledForQuarkusLibrary() {
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_QUARKUS_SECURITY_ANNOTATIONS, true);
+        codegen.processOpts();
+
+        new ConfigAssert(codegen.additionalProperties())
+            .assertValue(USE_QUARKUS_SECURITY_ANNOTATIONS, true);
+    }
+
+    @Test
+    public void useQuarkusSecurityAnnotationsNotProcessedForNonQuarkusLibrary() {
+        // flag is only consumed when library=quarkus; for other libraries the block is skipped
+        codegen.additionalProperties().put(USE_QUARKUS_SECURITY_ANNOTATIONS, true);
+        codegen.processOpts();
+
+        // convertPropertyToBooleanAndWriteBack was never called, so the value was never
+        // written back as a boolean — the key holds the raw Object we put in, not false
+        Assert.assertNotEquals(false, codegen.additionalProperties().get(USE_QUARKUS_SECURITY_ANNOTATIONS));
+    }
 }
