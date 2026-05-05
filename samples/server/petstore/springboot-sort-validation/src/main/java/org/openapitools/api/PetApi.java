@@ -120,6 +120,22 @@ public interface PetApi {
     );
 
 
+    String PATH_FIND_PETS_WITH_DEFAULT_FROM_ALL_OF_REF = "/pet/findWithDefaultFromAllOfRef";
+    /**
+     * GET /pet/findWithDefaultFromAllOfRef : Find pets — size default resolved from allOf $ref (no inline default)
+     *
+     * @return successful operation (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = PetApi.PATH_FIND_PETS_WITH_DEFAULT_FROM_ALL_OF_REF,
+        produces = { "application/json" }
+    )
+    ResponseEntity<List<Pet>> findPetsWithDefaultFromAllOfRef(
+        @PageableDefault(size = 7)  final Pageable pageable
+    );
+
+
     String PATH_FIND_PETS_WITH_EXTERNAL_PARAM_REF_ARRAY_SORT = "/pet/findWithExternalParamRefArraySort";
     /**
      * GET /pet/findWithExternalParamRefArraySort : Find pets with x-spring-paginated and sort param referenced from an external components file
@@ -133,6 +149,22 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsWithExternalParamRefArraySort(
         @ValidSort(allowedValues = {"name,asc", "name,desc", "id,asc", "id,desc"}) @PageableDefault(page = 0, size = 20)  final Pageable pageable
+    );
+
+
+    String PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF = "/pet/findWithMinSizeConstraintFromAllOfRef";
+    /**
+     * GET /pet/findWithMinSizeConstraintFromAllOfRef : Find pets — size minimum resolved from allOf $ref (no inline minimum)
+     *
+     * @return successful operation (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = PetApi.PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF,
+        produces = { "application/json" }
+    )
+    ResponseEntity<List<Pet>> findPetsWithMinSizeConstraintFromAllOfRef(
+        @ValidPageable(minSize = 5)  final Pageable pageable
     );
 
 
@@ -229,6 +261,22 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsWithSizeConstraint(
         @ValidPageable(maxSize = 100)  final Pageable pageable
+    );
+
+
+    String PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF = "/pet/findWithSizeConstraintFromAllOfRef";
+    /**
+     * GET /pet/findWithSizeConstraintFromAllOfRef : Find pets — size maximum resolved from allOf $ref (no inline maximum)
+     *
+     * @return successful operation (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = PetApi.PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF,
+        produces = { "application/json" }
+    )
+    ResponseEntity<List<Pet>> findPetsWithSizeConstraintFromAllOfRef(
+        @ValidPageable(maxSize = 75)  final Pageable pageable
     );
 
 
