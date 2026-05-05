@@ -102,7 +102,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.fasterxml.jackson</groupId>
+        <groupId>{{jacksonPackage}}</groupId>
         <artifactId>jackson-bom</artifactId>
         <version>${jackson-jaxrs-version}</version>
         <type>pom</type>
@@ -196,7 +196,7 @@ for this project used jakarta.validation-api -->
     </dependency>
     {{^useJakartaEe}}
     <dependency>
-        <groupId>com.fasterxml.jackson.jaxrs</groupId>
+        <groupId>{{jacksonPackage}}.jaxrs</groupId>
         <artifactId>jackson-jaxrs-json-provider</artifactId>
         <version>${jackson-jaxrs-version}</version>
         <scope>compile</scope>
@@ -204,17 +204,19 @@ for this project used jakarta.validation-api -->
     {{/useJakartaEe}}
     {{#useJakartaEe}}
     <dependency>
-        <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+        <groupId>{{jacksonPackage}}.jakarta.rs</groupId>
         <artifactId>jackson-jakarta-rs-json-provider</artifactId>
         <version>${jackson-jaxrs-version}</version>
         <scope>compile</scope>
     </dependency>
     {{/useJakartaEe}}
+    {{^useJackson3}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson-jaxrs-version}</version>
     </dependency>
+    {{/useJackson3}}
 {{#useBeanValidationFeature}}
     <dependency>
         <groupId>org.hibernate</groupId>
@@ -259,8 +261,14 @@ for this project used jakarta.validation-api -->
 {{#useBeanValidation}}
     <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
+    {{#useJackson3}}
+    <cxf-version>4.2.0</cxf-version>
+    <jackson-jaxrs-version>3.1.2</jackson-jaxrs-version>
+    {{/useJackson3}}
+    {{^useJackson3}}
     <cxf-version>3.5.9</cxf-version>
     <jackson-jaxrs-version>2.17.1</jackson-jaxrs-version>
+    {{/useJackson3}}
     {{#useJakartaEe}}
     <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
     {{/useJakartaEe}}
