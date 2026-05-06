@@ -1,0 +1,45 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: testing nullable oneOf (Null type filtering)
+paths:
+  /locations/{locationId}:
+    get:
+      operationId: getLocation
+      parameters:
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullableResult'
+components:
+  schemas:
+    NullableResult:
+      oneOf:
+        - $ref: '#/components/schemas/FileLocation'
+        - $ref: '#/components/schemas/DetailedLocation'
+        - type: 'null'
+    FileLocation:
+      type: object
+      properties:
+        path:
+          type: string
+      required:
+        - path
+    DetailedLocation:
+      type: object
+      properties:
+        path:
+          type: string
+        size:
+          type: integer
+      required:
+        - path
+        - size
