@@ -164,7 +164,7 @@ public final class SpringPageableScanUtils {
                     Schema<?> enumSchema = schema;
                     if (ModelUtils.isArraySchema(schema)) {
                         enumSchema = schema.getItems();
-                        if (enumSchema.get$ref() != null) {
+                        if (enumSchema != null && enumSchema.get$ref() != null) {
                             enumSchema = ModelUtils.getReferencedSchema(openAPI, enumSchema);
                         }
                     }
