@@ -212,7 +212,7 @@ public final class SpringPageableScanUtils {
                     if (schema == null) {
                         continue;
                     }
-                    Object defaultValue = resolveDefault(openAPI, schema);
+                    Object defaultValue = ModelUtils.resolveDefault(openAPI, schema);
                     if (defaultValue == null) {
                         continue;
                     }
@@ -291,8 +291,8 @@ public final class SpringPageableScanUtils {
                     if (schema == null) {
                         continue;
                     }
-                    BigDecimal maximum = resolveMaximum(openAPI, schema);
-                    BigDecimal minimum = resolveMinimum(openAPI, schema);
+                    BigDecimal maximum = ModelUtils.resolveMaximum(openAPI, schema);
+                    BigDecimal minimum = ModelUtils.resolveMinimum(openAPI, schema);
                     switch (param.getName()) {
                         case "page":
                             if (maximum != null) maxPage = maximum.intValue();
@@ -315,82 +315,4 @@ public final class SpringPageableScanUtils {
         return result;
     }
 
-    // -------------------------------------------------------------------------
-    // Private schema-resolution helpers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Returns the effective {@code maximum} for the given schema, resolving through a top-level
-     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
-     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
-     * (smallest) value wins.
-     */
-    private static BigDecimal resolveMaximum(OpenAPI openAPI, Schema<?> schema) {
-        if (schema == null) return null;
-        if (schema.get$ref() != null) {
-            schema = ModelUtils.getReferencedSchema(openAPI, schema);
-            if (schema == null) return null;
-        }
-        BigDecimal result = schema.getMaximum();
-        if (schema.getAllOf() != null) {
-            for (Schema<?> allOfItem : schema.getAllOf()) {
-                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, allOfItem);
-                if (resolved != null && resolved.getMaximum() != null) {
-                    if (result == null || resolved.getMaximum().compareTo(result) < 0) {
-                        result = resolved.getMaximum();
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Returns the effective {@code minimum} for the given schema, resolving through a top-level
-     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
-     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
-     * (largest) value wins.
-     */
-    private static BigDecimal resolveMinimum(OpenAPI openAPI, Schema<?> schema) {
-        if (schema == null) return null;
-        if (schema.get$ref() != null) {
-            schema = ModelUtils.getReferencedSchema(openAPI, schema);
-            if (schema == null) return null;
-        }
-        BigDecimal result = schema.getMinimum();
-        if (schema.getAllOf() != null) {
-            for (Schema<?> allOfItem : schema.getAllOf()) {
-                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, allOfItem);
-                if (resolved != null && resolved.getMinimum() != null) {
-                    if (result == null || resolved.getMinimum().compareTo(result) > 0) {
-                        result = resolved.getMinimum();
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Returns the effective {@code default} for the given schema. Unlike constraints, the inline
-     * schema's default takes precedence (explicit per-endpoint override); falls back to the first
-     * non-null default found in {@code allOf} items.
-     */
-    private static Object resolveDefault(OpenAPI openAPI, Schema<?> schema) {
-        if (schema == null) return null;
-        if (schema.get$ref() != null) {
-            schema = ModelUtils.getReferencedSchema(openAPI, schema);
-            if (schema == null) return null;
-        }
-        if (schema.getDefault() != null) return schema.getDefault();
-        if (schema.getAllOf() != null) {
-            for (Schema<?> allOfItem : schema.getAllOf()) {
-                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, allOfItem);
-                if (resolved != null && resolved.getDefault() != null) {
-                    return resolved.getDefault();
-                }
-            }
-        }
-        return null;
-    }
 }

@@ -852,6 +852,94 @@ public class ModelUtils {
                 );
     }
 
+    /**
+     * Returns the effective {@code maximum} for the given schema, resolving through a top-level
+     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
+     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
+     * (smallest) value wins.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective maximum, or {@code null} if none is defined
+     */
+    public static BigDecimal resolveMaximum(OpenAPI openAPI, Schema<?> schema) {
+        if (schema == null) return null;
+        if (schema.get$ref() != null) {
+            schema = getReferencedSchema(openAPI, schema);
+            if (schema == null) return null;
+        }
+        BigDecimal result = schema.getMaximum();
+        if (schema.getAllOf() != null) {
+            for (Schema<?> allOfItem : schema.getAllOf()) {
+                Schema<?> resolved = getReferencedSchema(openAPI, allOfItem);
+                if (resolved != null && resolved.getMaximum() != null) {
+                    if (result == null || resolved.getMaximum().compareTo(result) < 0) {
+                        result = resolved.getMaximum();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the effective {@code minimum} for the given schema, resolving through a top-level
+     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
+     * Per JSON Schema / OpenAPI {@code allOf} intersection semantics the most restrictive
+     * (largest) value wins.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective minimum, or {@code null} if none is defined
+     */
+    public static BigDecimal resolveMinimum(OpenAPI openAPI, Schema<?> schema) {
+        if (schema == null) return null;
+        if (schema.get$ref() != null) {
+            schema = getReferencedSchema(openAPI, schema);
+            if (schema == null) return null;
+        }
+        BigDecimal result = schema.getMinimum();
+        if (schema.getAllOf() != null) {
+            for (Schema<?> allOfItem : schema.getAllOf()) {
+                Schema<?> resolved = getReferencedSchema(openAPI, allOfItem);
+                if (resolved != null && resolved.getMinimum() != null) {
+                    if (result == null || resolved.getMinimum().compareTo(result) > 0) {
+                        result = resolved.getMinimum();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the effective {@code default} for the given schema, resolving through a top-level
+     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
+     * Unlike constraints, the inline schema's default takes precedence (explicit per-endpoint
+     * override); falls back to the first non-null default found in {@code allOf} items.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective default value, or {@code null} if none is defined
+     */
+    public static Object resolveDefault(OpenAPI openAPI, Schema<?> schema) {
+        if (schema == null) return null;
+        if (schema.get$ref() != null) {
+            schema = getReferencedSchema(openAPI, schema);
+            if (schema == null) return null;
+        }
+        if (schema.getDefault() != null) return schema.getDefault();
+        if (schema.getAllOf() != null) {
+            for (Schema<?> allOfItem : schema.getAllOf()) {
+                Schema<?> resolved = getReferencedSchema(openAPI, allOfItem);
+                if (resolved != null && resolved.getDefault() != null) {
+                    return resolved.getDefault();
+                }
+            }
+        }
+        return null;
+    }
+
     public static boolean hasValidation(Schema sc) {
         return (
                 sc.getMaxItems() != null ||
