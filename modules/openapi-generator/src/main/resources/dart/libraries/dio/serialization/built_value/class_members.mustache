@@ -7,7 +7,7 @@
   @Deprecated('{{{name}}} has been deprecated')
   {{/deprecated}}
   @BuiltValueField(wireName: r'{{baseName}}')
-  {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
+  {{>serialization/built_value/variable_type}}{{^vendorExtensions.x-is-optional}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}}{{/vendorExtensions.x-is-optional}} get {{name}};
   {{#allowableValues}}
   // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
   {{/allowableValues}}
