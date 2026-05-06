@@ -33,6 +33,9 @@ namespace Org.OpenAPITools.Client
         {
             HashAlgorithm = HashAlgorithmName.SHA256;
             SigningAlgorithm = "PKCS1-v15";
+            string framework = RuntimeInformation.FrameworkDescription;
+            _skipUrlEncode = framework.StartsWith(".NET ") &&
+                int.TryParse(framework.Substring(5).Split('.')[0], out int fwMajor) && fwMajor >= 9;
         }
 
         /// <summary>
@@ -74,6 +77,14 @@ namespace Org.OpenAPITools.Client
         /// Gets the Signature validity period in seconds
         /// </summary>
         public int SignatureValidityPeriod { get; set; }
+
+        // On .NET 9+, HttpUtility.ParseQueryString already URL-encodes keys internally,
+        // so calling UrlEncode again would cause double-encoding and produce a signature
+        // that does not match the actual request sent by RestSharp 112+.
+        // On .NET 8 and earlier, keys must be explicitly URL-encoded so that special
+        // characters (e.g. '$' in OData params like $filter) are encoded the same way
+        // in the signature as they are in the outgoing HTTP request.
+        private readonly bool _skipUrlEncode;
 
         private enum PrivateKeyType
         {
@@ -141,8 +152,7 @@ namespace Org.OpenAPITools.Client
             foreach (var parameter in requestOptions.QueryParameters)
             {
 #if (NETCOREAPP)
-                string framework = RuntimeInformation.FrameworkDescription;
-                string key = framework.StartsWith(".NET 9") ? parameter.Key : HttpUtility.UrlEncode(parameter.Key);
+                string key = _skipUrlEncode ? parameter.Key : HttpUtility.UrlEncode(parameter.Key);
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)
