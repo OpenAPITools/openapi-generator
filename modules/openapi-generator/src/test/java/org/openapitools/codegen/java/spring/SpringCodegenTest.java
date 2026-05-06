@@ -7642,6 +7642,59 @@ public class SpringCodegenTest {
     }
 
 
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel — modelNameSuffix / modelNamePrefix
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_withModelNameSuffix_replacesReturnType() throws IOException {
+        // When modelNameSuffix is set the returnBaseType includes the suffix,
+        // so the registry lookup must also use the suffix-applied key.
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        // listUsers returns UserPage → suffix applied → UserPageDto → replaced with PagedModel<UserDto>
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<UserDto>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_withModelNamePrefix_replacesReturnType() throws IOException {
+        // When modelNamePrefix is set the returnBaseType includes the prefix,
+        // so the registry lookup must also use the prefix-applied key.
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator.addAdditionalProperty("modelNamePrefix", "My"));
+
+        // listUsers returns UserPage → prefix applied → MyUserPage → replaced with PagedModel<MyUser>
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<MyUser>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_withModelNameSuffix_suppressesPagedSchemasWhenNoAnnotations()
+            throws IOException {
+        // Verify schema suppression also works correctly under modelNameSuffix
+        // (objs keys are suffix-applied, registry keys must match them).
+        Map<String, Object> props = noAnnotationPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        assertThat(files).doesNotContainKey("UserPageDto.java");
+        assertThat(files).doesNotContainKey("OrderPageDto.java");
+        assertThat(files).doesNotContainKey("PetPageAllOfDto.java");
+    }
+
+
     @DataProvider(name = "replaceOneOf")
     public Object[][] replaceOneOf() {
         return new Object[][]{

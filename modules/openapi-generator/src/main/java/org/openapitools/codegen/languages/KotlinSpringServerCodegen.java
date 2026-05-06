@@ -1214,7 +1214,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         if (substituteGenericPagedModel) {
-            pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
+            pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI, this::toModelName);
             if (!pagedModelRegistry.isEmpty()) {
                 boolean customMapping = importMapping.containsKey("PagedModel");
                 importMapping.putIfAbsent("PagedModel", configPackage + ".PagedModel");
@@ -1385,24 +1385,27 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
                 // No @ApiResponse annotations are generated when annotationLibrary=none,
                 // so paged schemas are not referenced anywhere → safe to suppress.
-                Set<String> metaSchemasToCheck = new HashSet<>();
+                // metaSchemasToCheck maps transformed name (for imports check) → raw name (for objs.remove)
+                Map<String, String> metaSchemasToCheck = new LinkedHashMap<>();
                 for (PagedModelScanUtils.DetectedPagedModel detected : pagedModelRegistry.values()) {
                     if (detected.metaSchemaName != null) {
-                        metaSchemasToCheck.add(detected.metaSchemaName);
+                        metaSchemasToCheck.put(detected.metaSchemaName, detected.rawMetaSchemaName);
                     }
                 }
                 // Remove paged schemas first so reference checks below reflect the post-suppression state.
                 for (Map.Entry<String, PagedModelScanUtils.DetectedPagedModel> entry : pagedModelRegistry.entrySet()) {
-                    String schemaName = entry.getKey();
                     PagedModelScanUtils.DetectedPagedModel detected = entry.getValue();
-                    if (objs.remove(schemaName) != null) {
+                    // objs is keyed by raw schema name (DefaultGenerator uses the raw OpenAPI name as key)
+                    if (objs.remove(detected.rawSchemaName) != null) {
                         LOGGER.info("substituteGenericPagedModel: suppressing model '{}' — replaced by PagedModel<{}>",
-                                schemaName, detected.itemSchemaName);
+                                detected.rawSchemaName, detected.itemSchemaName);
                     }
                 }
                 // Suppress meta schemas only when no remaining (non-suppressed) schema references them.
                 // Example: if SearchResult has a 'page: PageMeta' property, PageMeta must be kept.
-                for (String metaName : metaSchemasToCheck) {
+                for (Map.Entry<String, String> metaEntry : metaSchemasToCheck.entrySet()) {
+                    String metaName = metaEntry.getKey();       // transformed — matches cm.imports values
+                    String rawMetaName = metaEntry.getValue();  // raw — matches objs key
                     boolean referencedElsewhere = objs.values().stream()
                             .flatMap(mm -> mm.getModels().stream())
                             .map(ModelMap::getModel)
@@ -1410,7 +1413,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     if (referencedElsewhere) {
                         LOGGER.info("substituteGenericPagedModel: keeping pagination metadata model '{}'"
                                 + " — referenced by a non-paged schema", metaName);
-                    } else if (objs.remove(metaName) != null) {
+                    } else if (objs.remove(rawMetaName) != null) {
                         LOGGER.info("substituteGenericPagedModel: suppressing pagination metadata model '{}'"
                                 + " — replaced by PagedModel.PageMetadata", metaName);
                     }
