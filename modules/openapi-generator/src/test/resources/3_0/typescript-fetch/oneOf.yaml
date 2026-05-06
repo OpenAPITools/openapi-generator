@@ -114,6 +114,15 @@ components:
           type: string
       required:
         - discriminatorField
+    NumericSingletonEnumModel:
+      type: object
+      properties:
+        kind:
+          type: integer
+          enum:
+            - 42
+      required:
+        - kind
     TestSnakeCaseDiscriminatorResponse:
       discriminator:
         propertyName: discriminator_field

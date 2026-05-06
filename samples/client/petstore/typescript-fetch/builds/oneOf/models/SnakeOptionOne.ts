@@ -49,6 +49,7 @@ export type SnakeOptionOneDiscriminatorFieldEnum = typeof SnakeOptionOneDiscrimi
 export function instanceOfSnakeOptionOne(value: object): value is SnakeOptionOne {
     if ((!('discriminatorField' in value) && !('discriminator_field' in value)) || (value['discriminatorField'] === undefined && value['discriminator_field'] === undefined)) return false;
     if (value['discriminatorField'] !== 'snakeOptionOne' && value['discriminator_field'] !== 'snakeOptionOne') return false;
+    
     if ((!('someProperty' in value) && !('some_property' in value)) || (value['someProperty'] === undefined && value['some_property'] === undefined)) return false;
     return true;
 }

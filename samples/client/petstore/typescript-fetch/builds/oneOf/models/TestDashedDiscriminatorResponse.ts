@@ -62,9 +62,9 @@ export function TestDashedDiscriminatorResponseToJSONTyped(value?: TestDashedDis
     }
     switch (value['discriminatorField']) {
         case 'dashedOptionOne':
-            return Object.assign({}, DashedOptionOneToJSON(value), { discriminatorField: 'dashedOptionOne' } as const);
+            return Object.assign({}, DashedOptionOneToJSON(value), { 'discriminator-field': 'dashedOptionOne' } as const);
         case 'dashedOptionTwo':
-            return Object.assign({}, DashedOptionTwoToJSON(value), { discriminatorField: 'dashedOptionTwo' } as const);
+            return Object.assign({}, DashedOptionTwoToJSON(value), { 'discriminator-field': 'dashedOptionTwo' } as const);
         default:
             return value;
     }

@@ -49,6 +49,7 @@ export type DashedOptionOneDiscriminatorFieldEnum = typeof DashedOptionOneDiscri
 export function instanceOfDashedOptionOne(value: object): value is DashedOptionOne {
     if ((!('discriminatorField' in value) && !('discriminator-field' in value)) || (value['discriminatorField'] === undefined && value['discriminator-field'] === undefined)) return false;
     if (value['discriminatorField'] !== 'dashedOptionOne' && value['discriminator-field'] !== 'dashedOptionOne') return false;
+    
     if ((!('someProperty' in value) && !('some-property' in value)) || (value['someProperty'] === undefined && value['some-property'] === undefined)) return false;
     return true;
 }

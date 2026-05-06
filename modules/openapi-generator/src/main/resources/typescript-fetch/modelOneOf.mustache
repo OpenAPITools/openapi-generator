@@ -151,7 +151,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     switch (value['{{discriminator.propertyName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
-            return Object.assign({}, {{modelName}}ToJSON(value), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
+            return Object.assign({}, {{modelName}}ToJSON(value), { '{{discriminator.propertyBaseName}}': '{{mappingName}}' } as const);
 {{/discriminator.mappedModels}}
         default:
             return value;

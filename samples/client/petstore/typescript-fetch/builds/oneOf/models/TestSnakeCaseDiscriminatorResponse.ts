@@ -62,9 +62,9 @@ export function TestSnakeCaseDiscriminatorResponseToJSONTyped(value?: TestSnakeC
     }
     switch (value['discriminatorField']) {
         case 'snakeOptionOne':
-            return Object.assign({}, SnakeOptionOneToJSON(value), { discriminatorField: 'snakeOptionOne' } as const);
+            return Object.assign({}, SnakeOptionOneToJSON(value), { 'discriminator_field': 'snakeOptionOne' } as const);
         case 'snakeOptionTwo':
-            return Object.assign({}, SnakeOptionTwoToJSON(value), { discriminatorField: 'snakeOptionTwo' } as const);
+            return Object.assign({}, SnakeOptionTwoToJSON(value), { 'discriminator_field': 'snakeOptionTwo' } as const);
         default:
             return value;
     }

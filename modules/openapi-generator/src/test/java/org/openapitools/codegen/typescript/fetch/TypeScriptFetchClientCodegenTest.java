@@ -485,6 +485,24 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(dashedOptionOne, "value['discriminator-field'] !== 'dashedOptionOne'");
         TestUtils.assertFileContains(dashedOptionOne, "'someProperty' in value");
         TestUtils.assertFileContains(dashedOptionOne, "'some-property' in value");
+
+        // Numeric singleton enum: value check must NOT quote the literal
+        Path numericModel = Paths.get(output + "/models/NumericSingletonEnumModel.ts");
+        TestUtils.assertFileExists(numericModel);
+        TestUtils.assertFileContains(numericModel, "value['kind'] !== 42");
+        TestUtils.assertFileNotContains(numericModel, "value['kind'] !== '42'");
+
+        // ToJSONTyped of discriminated oneOf must emit the wire-format discriminator key
+        // (propertyBaseName), not the camelCase TS property name
+        Path dashedDiscriminatorResponse = Paths.get(output + "/models/TestDashedDiscriminatorResponse.ts");
+        TestUtils.assertFileExists(dashedDiscriminatorResponse);
+        TestUtils.assertFileContains(dashedDiscriminatorResponse, "{ 'discriminator-field': 'dashedOptionOne' }");
+        TestUtils.assertFileContains(dashedDiscriminatorResponse, "{ 'discriminator-field': 'dashedOptionTwo' }");
+
+        Path snakeDiscriminatorResponse = Paths.get(output + "/models/TestSnakeCaseDiscriminatorResponse.ts");
+        TestUtils.assertFileExists(snakeDiscriminatorResponse);
+        TestUtils.assertFileContains(snakeDiscriminatorResponse, "{ 'discriminator_field': 'snakeOptionOne' }");
+        TestUtils.assertFileContains(snakeDiscriminatorResponse, "{ 'discriminator_field': 'snakeOptionTwo' }");
     }
 
     @Test(description = "Verify validationAttributes works with withoutRuntimeChecks=true")

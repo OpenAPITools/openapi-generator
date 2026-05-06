@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './DashedOptionOne';
 export * from './DashedOptionTwo';
+export * from './NumericSingletonEnumModel';
 export * from './OptionOne';
 export * from './OptionTwo';
 export * from './SnakeOptionOne';

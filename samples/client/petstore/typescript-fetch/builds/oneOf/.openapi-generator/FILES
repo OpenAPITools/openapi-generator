@@ -3,6 +3,7 @@ apis/index.ts
 docs/DashedOptionOne.md
 docs/DashedOptionTwo.md
 docs/DefaultApi.md
+docs/NumericSingletonEnumModel.md
 docs/OptionOne.md
 docs/OptionTwo.md
 docs/SnakeOptionOne.md
@@ -17,6 +18,7 @@ docs/TestSnakeCaseDiscriminatorResponse.md
 index.ts
 models/DashedOptionOne.ts
 models/DashedOptionTwo.ts
+models/NumericSingletonEnumModel.ts
 models/OptionOne.ts
 models/OptionTwo.ts
 models/SnakeOptionOne.ts

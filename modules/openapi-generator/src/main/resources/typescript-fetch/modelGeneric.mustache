@@ -37,10 +37,12 @@ export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{#-first}}
     {{#-last}}
     {{#hasSanitizedName}}
-    if (value['{{name}}'] !== '{{.}}' && value['{{baseName}}'] !== '{{.}}') return false;
+    {{#isString}}if (value['{{name}}'] !== '{{.}}' && value['{{baseName}}'] !== '{{.}}') return false;{{/isString}}
+    {{^isString}}if (value['{{name}}'] !== {{.}} && value['{{baseName}}'] !== {{.}}) return false;{{/isString}}
     {{/hasSanitizedName}}
     {{^hasSanitizedName}}
-    if (value['{{name}}'] !== '{{.}}') return false;
+    {{#isString}}if (value['{{name}}'] !== '{{.}}') return false;{{/isString}}
+    {{^isString}}if (value['{{name}}'] !== {{.}}) return false;{{/isString}}
     {{/hasSanitizedName}}
     {{/-last}}
     {{/-first}}
