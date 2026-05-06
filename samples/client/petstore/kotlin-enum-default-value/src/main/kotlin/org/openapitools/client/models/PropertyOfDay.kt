@@ -93,22 +93,22 @@ data class PropertyOfDay (
     /**
      * Month of year
      *
-     * Values: _1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,_12,unknown_default_open_api
+     * Values: `1`,`2`,`3`,`4`,`5`,`6`,`7`,`8`,`9`,`10`,`11`,`12`,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)
     enum class MonthOfYear(val value: kotlin.Int) {
-        @Json(name = "1") _1(1),
-        @Json(name = "2") _2(2),
-        @Json(name = "3") _3(3),
-        @Json(name = "4") _4(4),
-        @Json(name = "5") _5(5),
-        @Json(name = "6") _6(6),
-        @Json(name = "7") _7(7),
-        @Json(name = "8") _8(8),
-        @Json(name = "9") _9(9),
-        @Json(name = "10") _10(10),
-        @Json(name = "11") _11(11),
-        @Json(name = "12") _12(12),
+        @Json(name = "1") `1`(1),
+        @Json(name = "2") `2`(2),
+        @Json(name = "3") `3`(3),
+        @Json(name = "4") `4`(4),
+        @Json(name = "5") `5`(5),
+        @Json(name = "6") `6`(6),
+        @Json(name = "7") `7`(7),
+        @Json(name = "8") `8`(8),
+        @Json(name = "9") `9`(9),
+        @Json(name = "10") `10`(10),
+        @Json(name = "11") `11`(11),
+        @Json(name = "12") `12`(12),
         @Json(name = "11184809") unknown_default_open_api(11184809);
     }
     /**

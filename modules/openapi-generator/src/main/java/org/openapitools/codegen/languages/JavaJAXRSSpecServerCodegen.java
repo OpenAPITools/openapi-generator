@@ -26,6 +26,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
@@ -34,6 +35,12 @@ import java.util.Map;
 
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/JavaJaxRS/spec/} (root templates shared across all libraries) and
+ * {@code src/main/resources/JavaJaxRS/spec/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
@@ -46,6 +53,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_MUTINY = "useMutiny";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
+    public static final String USE_QUARKUS_SECURITY_ANNOTATIONS = "useQuarkusSecurityAnnotations";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -61,6 +69,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerV3Annotations = false;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
+    private boolean useQuarkusSecurityAnnotations = false;
 
     @Getter @Setter
     protected boolean generateJsonCreator = true;
@@ -140,6 +149,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
+        cliOptions.add(CliOption.newBoolean(USE_QUARKUS_SECURITY_ANNOTATIONS, "Whether to generate Quarkus security annotations (@Authenticated, @RolesAllowed, @PermitAll). Only valid when library is set to quarkus.", useQuarkusSecurityAnnotations));
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
     }
 
@@ -180,6 +190,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         if (QUARKUS_LIBRARY.equals(library)) {
             convertPropertyToBooleanAndWriteBack(USE_MUTINY, value -> useMutiny = value);
+        }
+
+        if (QUARKUS_LIBRARY.equals(library)) {
+            convertPropertyToBooleanAndWriteBack(USE_QUARKUS_SECURITY_ANNOTATIONS, value -> useQuarkusSecurityAnnotations = value);
         }
 
         convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
@@ -328,10 +342,53 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        return super.postProcessModels(objs);
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
+        if (QUARKUS_LIBRARY.equals(library) && !returnResponse && !returnJbossResponse && useJakartaEe) {
+            for (CodegenOperation op : objs.getOperations().getOperation()) {
+                op.responses.stream()
+                        .filter(r -> r.is2xx && r.code.matches("\\d+"))
+                        .findFirst()
+                        .ifPresent(r -> op.vendorExtensions.put("x-java-success-response-code", r.code));
+            }
+            boolean hasAnnotations = objs.getOperations().getOperation().stream()
+                    .anyMatch(op -> op.vendorExtensions.containsKey("x-java-success-response-code"));
+            // Always set explicitly so Mustache does not fall through to the global additionalProperties
+            // value when this file has no annotated operations.
+            objs.put("hasResponseStatusAnnotations", hasAnnotations);
+            if (hasAnnotations) {
+                // Global flag used by pom.mustache, which is rendered once per project.
+                additionalProperties.put("hasResponseStatusAnnotations", true);
+            }
+        }
         return objs;
     }
 
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap modelsMap : result.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model.parentModel != null) {
+                    CodegenDiscriminator discriminator = model.parentModel.getDiscriminator();
+                    if (discriminator != null) {
+                        for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                            if (mappedModel.getSchemaName().equals(model.schemaName)) {
+                                model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }

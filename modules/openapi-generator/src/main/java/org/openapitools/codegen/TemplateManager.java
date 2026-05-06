@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -146,22 +148,28 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         try {
             InputStream is = getInputStream(name);
             return new InputStreamReader(is, StandardCharsets.UTF_8);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
             throw new RuntimeException("can't load template " + name);
         }
     }
 
-    private InputStream getInputStream(String name) throws FileNotFoundException {
-        InputStream is;
-        is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
-        if (is == null) {
-            if (name == null || name.contains("..")) {
-                throw new IllegalArgumentException("Template location must be constrained to template directory.");
-            }
-            is = new FileInputStream(name); // May throw but never return a null value
+    private InputStream getInputStream(String name) throws IOException {
+        if (name == null || name.contains("..")) {
+            throw new IllegalArgumentException("Template location must be constrained to template directory.");
         }
-        return is;
+        String cpResourcePath = getCPResourcePath(name);
+        URL resource = this.getClass().getClassLoader().getResource(cpResourcePath);
+        if (resource != null) {
+            // Open a fresh, non-cached connection each time.
+            // setUseCaches(false) prevents sharing the underlying JarFile across classloaders,
+            // which avoids "Stream closed" errors when concurrent Gradle workers use isolated
+            // classloaders that happen to point to the same JAR URL.
+            URLConnection conn = resource.openConnection();
+            conn.setUseCaches(false);
+            return conn.getInputStream();
+        }
+        return new FileInputStream(name); // May throw but never return a null value
     }
 
     /**
@@ -180,15 +188,22 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
             return writeToFile(target.getPath(), templateContent);
         } else {
             // Do a straight copy of the file if not listed as supported by the template engine.
-            InputStream is;
+            String fullTemplatePath = null;
             try {
                 // look up the file using the same template resolution logic the adapters would use.
-                String fullTemplatePath = getFullTemplateFile(template);
-                is = getInputStream(fullTemplatePath);
+                fullTemplatePath = getFullTemplateFile(template);
             } catch (TemplateNotFoundException ex) {
-                is = new FileInputStream(Paths.get(template).toFile());
+                // not found on classpath; fall through to direct file read below
             }
-            return writeToFile(target.getAbsolutePath(), IOUtils.toByteArray(is));
+            if (fullTemplatePath != null) {
+                try (InputStream is = getInputStream(fullTemplatePath)) {
+                    return writeToFile(target.getAbsolutePath(), IOUtils.toByteArray(is));
+                }
+            } else {
+                try (InputStream is = new FileInputStream(Paths.get(template).toFile())) {
+                    return writeToFile(target.getAbsolutePath(), IOUtils.toByteArray(is));
+                }
+            }
         }
     }
 

@@ -8,5 +8,5 @@ additionalProperties:
   annotationLibrary: none
   useSwaggerUI: "false"
   serializableModel: "true"
-  beanValidations: "true"
+  useBeanValidation: "true"
   interfaceOnly: "true"

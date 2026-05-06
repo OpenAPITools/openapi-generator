@@ -5,11 +5,13 @@ import org.openapitools.client.ApiClient;
 
 import java.util.*;
 
+
 import rx.Single;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AnotherFakeApi {
 
     private final org.openapitools.client.api.AnotherFakeApi delegate;
@@ -50,9 +52,11 @@ public class AnotherFakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxCall123testSpecialTags(Client client) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.call123testSpecialTags(client, fut)
         ));
+    
     }
 
     /**
@@ -63,9 +67,11 @@ public class AnotherFakeApi {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<Client> rxCall123testSpecialTags(Client client, ApiClient.AuthInfo authInfo) {
+    
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.call123testSpecialTags(client, authInfo, fut)
         ));
+    
     }
 
     public static AnotherFakeApi newInstance(org.openapitools.client.api.AnotherFakeApi arg) {

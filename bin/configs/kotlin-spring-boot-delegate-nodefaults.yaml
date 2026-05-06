@@ -9,6 +9,6 @@ additionalProperties:
   useSwaggerUI: "true"
   delegatePattern: "true"
   skipDefaultInterface: "true"
-  beanValidations: "true"
+  useBeanValidation: "true"
   requestMappingMode: "api_interface"
   useSpringBoot3: "true"

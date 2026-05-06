@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Club,
-} from '../models/index';
 import {
+    type Club,
     ClubFromJSON,
     ClubToJSON,
-} from '../models/index';
+} from '../models/Club';
 
 export interface ListRequest {
     personId: string;
@@ -48,7 +45,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
 
         let urlPath = `/person/display/{personId}`;
-        urlPath = urlPath.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters['personId'])));
+        urlPath = urlPath.replace('{personId}', encodeURIComponent(String(requestParameters['personId'])));
 
         return {
             path: urlPath,

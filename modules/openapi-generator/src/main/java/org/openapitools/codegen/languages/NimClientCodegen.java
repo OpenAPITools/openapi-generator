@@ -40,6 +40,9 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/nim-client/}.
+ */
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 

@@ -64,7 +64,8 @@ class FakeClassnameTags123Api {
     dynamic _bodyData;
 
     try {
-_bodyData=jsonEncode(modelClient);
+      _bodyData = jsonEncode(modelClient);
+
     } catch(error, stackTrace) {
       throw DioException(
          requestOptions: _options.compose(

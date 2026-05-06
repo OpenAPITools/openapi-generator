@@ -54,10 +54,10 @@ export class PathApiRequestFactory extends BaseAPIRequestFactory {
 
         // Path Params
         const localVarPath = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'
-            .replace('{' + 'path_string' + '}', encodeURIComponent(String(pathString)))
-            .replace('{' + 'path_integer' + '}', encodeURIComponent(String(pathInteger)))
-            .replace('{' + 'enum_nonref_string_path' + '}', encodeURIComponent(String(enumNonrefStringPath)))
-            .replace('{' + 'enum_ref_string_path' + '}', encodeURIComponent(String(enumRefStringPath)));
+            .replace('{path_string}', encodeURIComponent(String(pathString)))
+            .replace('{path_integer}', encodeURIComponent(String(pathInteger)))
+            .replace('{enum_nonref_string_path}', encodeURIComponent(String(enumNonrefStringPath)))
+            .replace('{enum_ref_string_path}', encodeURIComponent(String(enumRefStringPath)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);

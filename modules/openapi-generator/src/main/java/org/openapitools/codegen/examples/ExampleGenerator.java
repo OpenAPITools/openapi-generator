@@ -351,7 +351,7 @@ public class ExampleGenerator {
         }
 
         processedModels.add(name);
-        Map<String, Object> values = new HashMap<>();
+        Map<String, Object> values = new LinkedHashMap<>();
         LOGGER.debug("Resolving model '{}' to example", name);
         if (schema.getExample() != null) {
             LOGGER.debug("Using example from spec: {}", schema.getExample());

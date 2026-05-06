@@ -31,7 +31,7 @@ class DataQuery(Query):
     DataQuery
     """ # noqa: E501
     suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
-    text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
+    text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces", json_schema_extra={"examples": ["Some text"]})
     var_date: Optional[datetime] = Field(default=None, description="A date", alias="date")
     __properties: ClassVar[List[str]] = ["id", "outcomes", "suffix", "text", "date"]
 

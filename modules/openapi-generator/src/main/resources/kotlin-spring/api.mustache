@@ -110,7 +110,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
         {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},
         {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
         {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},
-        {{/includeHttpRequestContext}}{{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}pageable: Pageable{{/vendorExtensions.x-spring-paginated}}{{#hasParams}}
+        {{/includeHttpRequestContext}}{{/hasParams}}{{#vendorExtensions.x-pageable-extra-annotation}}{{{.}}} {{/vendorExtensions.x-pageable-extra-annotation}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}pageable: Pageable{{/vendorExtensions.x-spring-paginated}}{{#hasParams}}
     {{/hasParams}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} {
         return {{>returnValue}}
     }

@@ -3,12 +3,9 @@ package org.openapitools.api;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import java.util.Set;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-
-
 
 
 
@@ -45,41 +42,34 @@ import javax.validation.Valid;
          description = "",
          apiKeyName = "api_key",
          in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.HEADER
-    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
-         securitySchemeName = "api_key_query",
-         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
-         description = "",
-         apiKeyName = "api_key_query",
-         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.QUERY
-    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
-         securitySchemeName = "http_basic_test",
-         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
-         description = "",
-         scheme = "basic"
     )
 })
 @Path("/pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })
+    @Produces({ "application/xml", "application/json" })
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
         @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "petstore_auth", scopes = {  "write:pets",  "read:pets"  })
     })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "addPet", summary = "Add a new pet to the store", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
-                
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class)),
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class))
             }),
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "405", description = "Invalid input",  content = {
-                
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "405", description = "Invalid input",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml"),
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response addPet(@Valid @NotNull Pet body) {
+    public Response addPet(@Valid @NotNull Pet pet) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @DELETE
     @Path("/{petId}")
@@ -89,9 +79,6 @@ public class PetApi {
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "deletePet", summary = "Deletes a pet", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
-                
-            }),
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "400", description = "Invalid pet value",  content = {
                 
             })
@@ -100,11 +87,12 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @GET
     @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
-        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "petstore_auth", scopes = {  "write:pets",  "read:pets"  })
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "petstore_auth", scopes = {  "read:pets"  })
     })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "findPetsByStatus", summary = "Finds Pets by status", description = "Multiple status values can be provided with comma separated strings")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
@@ -118,31 +106,34 @@ public class PetApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response findPetsByStatus(@QueryParam("status") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Status values that need to be considered for filter")  List<String> status) {
+    public Response findPetsByStatus(@Deprecated @QueryParam("status") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Status values that need to be considered for filter")  List<String> status) {
         return Response.ok().entity("magic!").build();
     }
 
+
+    @Deprecated
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
-        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "petstore_auth", scopes = {  "write:pets",  "read:pets"  })
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "petstore_auth", scopes = {  "read:pets"  })
     })
-    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "findPetsByTags", summary = "Finds Pets by tags", description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.")
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "findPetsByTags", deprecated = true, summary = "Finds Pets by tags", description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = { 
-                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class, type = org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY , uniqueItems = true )),
-                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class, type = org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY , uniqueItems = true ))
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class, type = org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY )),
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class, type = org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY ))
             }),
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "400", description = "Invalid tag value",  content = { 
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml"),
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response findPetsByTags(@QueryParam("tags") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Tags to filter by")  Set<String> tags) {
+    public Response findPetsByTags(@QueryParam("tags") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Tags to filter by")  List<String> tags) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/{petId}")
@@ -170,30 +161,37 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @PUT
     @Consumes({ "application/json", "application/xml" })
+    @Produces({ "application/xml", "application/json" })
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
         @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "petstore_auth", scopes = {  "write:pets",  "read:pets"  })
     })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "updatePet", summary = "Update an existing pet", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
-                
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class)),
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Pet.class))
             }),
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "400", description = "Invalid ID supplied",  content = {
-                
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "400", description = "Invalid ID supplied",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml"),
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             }),
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "404", description = "Pet not found",  content = {
-                
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "404", description = "Pet not found",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml"),
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             }),
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "405", description = "Validation exception",  content = {
-                
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "405", description = "Validation exception",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/xml"),
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response updatePet(@Valid @NotNull Pet body) {
+    public Response updatePet(@Valid @NotNull Pet pet) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Path("/{petId}")
@@ -212,6 +210,7 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
@@ -226,7 +225,8 @@ public class PetApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = ModelApiResponse.class))
             })
         })
-    public Response uploadFile(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream) {
+    public Response uploadFile(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata,@FormParam(value = "file") InputStream _fileInputStream) {
         return Response.ok().entity("magic!").build();
     }
+
 }

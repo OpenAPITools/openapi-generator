@@ -83,7 +83,7 @@ ext {
     jackson_annotations_version = "2.21"
     {{/useJackson3}}
     {{#useJackson3}}
-    jackson3_version = "3.1.0"
+    jackson3_version = "3.1.1"
     jackson_annotations_version = "2.21"
     {{/useJackson3}}
     {{#useJakartaEe}}
@@ -110,7 +110,9 @@ dependencies {
     {{#swagger2AnnotationLibrary}}
     implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
     {{/swagger2AnnotationLibrary}}
+    {{^useJspecify}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
+    {{/useJspecify}}
     {{^useJackson3}}
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
@@ -122,7 +124,13 @@ dependencies {
     implementation "tools.jackson.core:jackson-core:$jackson3_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "tools.jackson.core:jackson-databind:$jackson3_version"
+    {{#openApiNullable}}
+    implementation "org.openapitools:jackson-databind-nullable:0.2.10"
+    {{/openApiNullable}}
     {{/useJackson3}}
+    {{#useJspecify}}
+    implementation "org.jspecify:jspecify:1.0.0"
+    {{/useJspecify}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     {{#useBeanValidation}}
     implementation "jakarta.validation:jakarta.validation-api:$beanvalidation_version"

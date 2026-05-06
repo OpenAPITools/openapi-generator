@@ -38,6 +38,9 @@ class NullableProperty(BaseModel):
         if value is None:
             return value
 
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"^[A-Z].*", value):
             raise ValueError(r"must validate the regular expression /^[A-Z].*/")
         return value

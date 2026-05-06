@@ -155,6 +155,14 @@ pub enum ParamgetGetResponse {
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
+pub enum QueryExampleGetResponse {
+    /// OK
+    Status200_OK,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
     Status200_CheckThatLimitingToASingleRequiredAuthSchemeWorks,
@@ -446,6 +454,18 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         cookies: &CookieJar,
         query_params: &models::ParamgetGetQueryParams,
     ) -> Result<ParamgetGetResponse, E>;
+
+    /// Test required query params with and without examples.
+    ///
+    /// QueryExampleGet - GET /query-example
+    async fn query_example_get(
+        &self,
+
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::QueryExampleGetQueryParams,
+    ) -> Result<QueryExampleGetResponse, E>;
 
     /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
     async fn readonly_auth_scheme_get(

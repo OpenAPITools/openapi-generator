@@ -10,5 +10,5 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 #  useSwaggerUI: "false"
 #  serviceImplementation: "true"
 #  serializableModel: "true"
-#  beanValidations: "true"
+#  useBeanValidation: "true"
 #  useSpringBoot3: "true"

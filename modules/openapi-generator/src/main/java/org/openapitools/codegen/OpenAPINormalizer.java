@@ -78,6 +78,10 @@ public class OpenAPINormalizer {
     // are removed as most generators cannot handle such case at the moment
     final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY";
 
+    // when set to true, oneOf is removed and is converted into mappings in a discriminator mapping
+    final String REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING = "REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING";
+
+
     // when set to true, oneOf/anyOf with either string or enum string as sub schemas will be simplified
     // to just string
     final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
@@ -214,6 +218,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
+        ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -639,6 +644,10 @@ public class OpenAPINormalizer {
 
                 // normalize the schemas
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
+
+                if (getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
+                    ensureInheritanceForDiscriminatorMappings(schema, schemaName);
+                }
             }
         }
     }
@@ -760,19 +769,19 @@ public class OpenAPINormalizer {
                 schema = normalizeComplexComposedSchema(schema, visitedSchemas);
             }
 
-            if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            if (ModelUtils.hasAllOf(schema)) {
                 return normalizeAllOf(schema, visitedSchemas);
             }
 
-            if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            if (ModelUtils.hasOneOf(schema)) {
                 return normalizeOneOf(schema, visitedSchemas);
             }
 
-            if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            if (ModelUtils.hasAnyOf(schema)) {
                 return normalizeAnyOf(schema, visitedSchemas);
             }
 
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            if (ModelUtils.hasProperties(schema)) {
                 normalizeProperties(schema, visitedSchemas);
             }
 
@@ -781,7 +790,7 @@ public class OpenAPINormalizer {
             }
 
             return schema;
-        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        } else if (ModelUtils.hasProperties(schema)) {
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
@@ -1069,6 +1078,7 @@ public class OpenAPINormalizer {
                 // update sub-schema with the updated schema
                 schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
             }
+            schema = processReplaceOneOfByMapping(schema);
         } else {
             // normalize it as it's no longer an oneOf
             schema = normalizeSchema(schema, visitedSchemas);
@@ -1109,7 +1119,7 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
         // loop through properties, if any
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        if (ModelUtils.hasProperties(schema)) {
             normalizeProperties(schema, visitedSchemas);
         }
 
@@ -1294,10 +1304,9 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (((schema.getOneOf() != null && !schema.getOneOf().isEmpty())
-                || (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty())) // has anyOf or oneOf
-                && (schema.getProperties() != null && !schema.getProperties().isEmpty()) // has properties
-                && schema.getAllOf() == null) { // not allOf
+        boolean hasAnyOfOrOneOf = ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema);
+        boolean notAllOf = schema.getAllOf() == null;
+        if (hasAnyOfOrOneOf && ModelUtils.hasProperties(schema) && notAllOf) {
             // clear oneOf, anyOf
             schema.setOneOf(null);
             schema.setAnyOf(null);
@@ -1374,9 +1383,7 @@ public class OpenAPINormalizer {
         if (schema.getAnyOf() == null || schema.getAnyOf().isEmpty()) {
             return schema;
         }
-        if(schema.getOneOf() != null && !schema.getOneOf().isEmpty() ||
-            schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
-            schema.getNot() != null) {
+        if(ModelUtils.hasOneOf(schema) || ModelUtils.hasAllOf(schema) || schema.getNot() != null) {
             //only convert to enum if anyOf is the only composition
             return schema;
         }
@@ -1399,9 +1406,7 @@ public class OpenAPINormalizer {
         if (schema.getOneOf() == null || schema.getOneOf().isEmpty()) {
             return schema;
         }
-        if(schema.getAnyOf() != null && !schema.getAnyOf().isEmpty() ||
-                schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
-                schema.getNot() != null) {
+        if(ModelUtils.hasAnyOf(schema) || ModelUtils.hasAllOf(schema) || schema.getNot() != null) {
             //only convert to enum if oneOf is the only composition
             return schema;
         }
@@ -1567,6 +1572,245 @@ public class OpenAPINormalizer {
         }
 
         return schema;
+    }
+
+
+    /**
+     * Ensure inheritance is correctly defined for OneOf and Discriminators.
+     *
+     * For schemas containing oneOf and discriminator.propertyName:
+     * <ul>
+     *  <li>Create the mappings as $refs</li>
+     *  <li>Remove OneOf</li>
+     * </ul>
+     */
+    protected Schema processReplaceOneOfByMapping(Schema schema) {
+        if (!getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING) || schema.getOneOf() == null) {
+            return schema;
+        }
+        Discriminator discriminator = schema.getDiscriminator();
+        if (discriminator != null) {
+            boolean inlineSchema = isInlineSchema(schema);
+            if (inlineSchema) {
+                // the For referenced schemas, ensure that there is an allOf with this schema.
+                LOGGER.warn("Inline oneOf schema not supported by REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+                return schema;
+            }
+            if (discriminator.getMapping() == null && discriminator.getPropertyName() != null) {
+                List<Schema> oneOfs = schema.getOneOf();
+                if (oneOfs.stream().anyMatch(oneOf -> oneOf.get$ref() == null)) {
+                    LOGGER.warn("oneOf should only contain $ref for REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+                    return schema;
+                }
+                Map<String, String> mappings = new TreeMap<>();
+                // is the discriminator qttribute qlready in this schema?
+                // if yes, it will be deleted in references oneOf to avoid duplicates
+                boolean hasProperty = findProperty(schema, discriminator.getPropertyName(), false, new HashSet<>()) != null;
+                discriminator.setMapping(mappings);
+                for (Schema oneOf : oneOfs) {
+                    String refSchema = oneOf.get$ref();
+                    String name = getDiscriminatorValue(refSchema, discriminator.getPropertyName(), hasProperty, new HashSet<>(List.of(schema)));
+                    mappings.put(name, refSchema);
+
+                }
+                // remove oneOf and only keep the new discriminator mapping
+                schema.oneOf(null);
+            } else if (discriminator.getPropertyName() == null) {
+                LOGGER.warn("Missing property name in discriminator");
+            } else if (discriminator.getMapping() != null && discriminator.getMapping().size() != schema.getOneOf().size()) {
+                LOGGER.warn("Discriminator mapping size " + discriminator.getMapping().size() + " mismatch with oneOf size " + schema.getOneOf().size());
+            } else {
+                // remove oneOf and only keep the discriminator mapping
+                LOGGER.info("Removing oneOf, discriminator mapping takes precedences on OneOfs");
+                schema.oneOf(null);
+            }
+        }
+
+        return schema;
+    }
+
+    private boolean isInlineSchema(Schema schema) {
+        if (openAPI.getComponents()!=null && openAPI.getComponents().getSchemas()!=null) {
+            int identity = System.identityHashCode(schema);
+            for (Schema componentSchema: openAPI.getComponents().getSchemas().values()) {
+                if (System.identityHashCode(componentSchema) == identity) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Best effort to retrieve a good discriminator value.
+     * By order of precedence:
+     * <ul>
+     *  <li>x-discriminator-value</li>
+     *  <li>single enum value for attribute used by the discriminator.propertyName</li>
+     *  <li>hame of the schema</li>
+     * </ul>
+     *
+     * @param refSchema $ref value like #/components/schemas/Dog
+     * @param discriminatorPropertyName name of the property used in the discriminator mapping
+     * @param propertyAlreadyPresent if true, delete the property in the referenced schemas to avoid duplicates
+     *
+     * @return the name
+     */
+    protected String getDiscriminatorValue(String refSchema, String discriminatorPropertyName, boolean propertyAlreadyPresent, Set<Schema> visitedSchemas) {
+        String schemaName = ModelUtils.getSimpleRef(refSchema);
+        Schema schema = ModelUtils.getSchema(openAPI, schemaName);
+        Schema property = findProperty(schema, discriminatorPropertyName, propertyAlreadyPresent, visitedSchemas);
+        if (schema != null && schema.getExtensions() != null) {
+            Object discriminatorValue = schema.getExtensions().get("x-discriminator-value");
+            if (discriminatorValue != null) {
+                return discriminatorValue.toString();
+            }
+        }
+
+        // find the discriminator value as a unique enum value
+        property = ModelUtils.getReferencedSchema(openAPI, property);
+        if (property != null) {
+            List enums = property.getEnum();
+            if (enums != null && enums.size() == 1) {
+                return enums.get(0).toString();
+            }
+        }
+
+        return schemaName;
+    }
+
+    /**
+     * find a property under the schema.
+     *
+     * @param schema
+     * @param propertyName property to find
+     * @param toDelete if true delete the found property
+     * @param visitedSchemas avoid infinite recursion
+     * @return found property or null if not found.
+     */
+    private Schema findProperty(Schema schema, String propertyName, boolean toDelete, Set<Schema> visitedSchemas) {
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (propertyName == null || schema == null || visitedSchemas.contains(schema)) {
+            return null;
+        }
+        visitedSchemas.add(schema);
+        Map<String, Schema>  properties = schema.getProperties();
+        if (properties != null) {
+            Schema property = ModelUtils.getReferencedSchema(openAPI, properties.get(propertyName));
+            if (property != null) {
+                if (toDelete) {
+                    if (schema.getProperties().remove(propertyName) != null) {
+                        LOGGER.info("property " + propertyName + " has been removed in REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+                        if (schema.getProperties().isEmpty()) {
+                            schema.setProperties(null);
+                        }
+                    }
+                }
+                return property;
+            }
+        }
+        List<Schema> allOfs = schema.getAllOf();
+        if (allOfs != null) {
+            for (Schema child : allOfs) {
+                Schema found = findProperty(child, propertyName, toDelete, visitedSchemas);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * ensure that all schemas referenced in the discriminator mapping has an allOf to the parent schema.
+     *
+     * This allows DefaultCodeGen to detect inheritance.
+     *
+     * @param parent parent schma
+     * @param parentName name of the parent schema
+     */
+    protected void ensureInheritanceForDiscriminatorMappings(Schema parent, String parentName) {
+        Discriminator discriminator = parent.getDiscriminator();
+        if (discriminator != null && discriminator.getMapping() != null) {
+            for (String mapping : discriminator.getMapping().values()) {
+                String refSchemaName = ModelUtils.getSimpleRef(mapping);
+                Schema child = ModelUtils.getSchema(openAPI, refSchemaName);
+                if (child != null) {
+                    if (parentName != null) {
+                        ensureInheritanceForDiscriminatorMapping(parent, child, parentName, new HashSet<>());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * If not already present, add in the child an allOf referencing the parent.
+     */
+    protected void ensureInheritanceForDiscriminatorMapping(Schema parent, Schema child, String parentName, Set<Schema> visitedSchemas) {
+        String reference = "#/components/schemas/" + parentName;
+        List<Schema> allOf = child.getAllOf();
+        if (allOf != null) {
+            if (isParentReferencedInChild(parent, child, reference, visitedSchemas)) {
+                // already done, so no need to add
+                return;
+            }
+            Schema refToParent = new Schema<>().$ref(reference);
+            allOf.add(refToParent);
+        } else {
+            allOf = new ArrayList<>();
+            child.setAllOf(allOf);
+            Schema refToParent = new Schema<>().$ref(reference);
+            allOf.add(refToParent);
+            Map<String, Schema> childProperties = child.getProperties();
+            if (childProperties != null) {
+                // move the properties inside the new allOf.
+                Schema newChildProperties = new Schema<>()
+                        .properties(childProperties)
+                        .additionalProperties(child.getAdditionalProperties());
+                ModelUtils.copyMetadata(child, newChildProperties);
+                allOf.add(newChildProperties);
+                child.properties(null)
+                        .type(null)
+                        .additionalProperties(null)
+                        .description(null)
+                        ._default(null)
+                        .deprecated(null)
+                        .example(null)
+                        .examples(null)
+                        .readOnly(null)
+                        .writeOnly(null)
+                        .title(null);
+            }
+        }
+    }
+
+    /**
+     * return true if the child as an allOf referencing the parent schema.
+     */
+    private boolean isParentReferencedInChild(Schema parent, Schema child, String reference, Set<Schema> visitedSchemas) {
+        if (child == null || visitedSchemas.contains(child)) {
+            return false;
+        }
+        if (child.get$ref() != null && child.get$ref().equals(reference)) {
+            return true;
+        }
+        child = ModelUtils.getReferencedSchema(openAPI, child);
+        if (visitedSchemas.contains(child)) {
+            return false;
+        }
+        visitedSchemas.add(child);
+        List<Schema> allOf = child.getAllOf();
+        if (allOf != null) {
+            for (Schema  schema : allOf) {
+                if (isParentReferencedInChild(parent, schema, reference, visitedSchemas)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -2109,7 +2353,7 @@ public class OpenAPINormalizer {
             // Check object models / any type models / composed models for properties,
             // if the schema has a type defined that is not "object" it should not define
             // any properties
-            if (schema.getType() != null && !"object".equals(schema.getType())) {
+            if (schema.getType() != null && !ModelUtils.isObjectTypeOAS30(schema)) {
                 schema.setProperties(null);
             }
         }

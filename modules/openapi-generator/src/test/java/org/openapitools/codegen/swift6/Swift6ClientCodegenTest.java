@@ -19,6 +19,7 @@ package org.openapitools.codegen.swift6;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.Swift6ClientCodegen;
@@ -364,6 +365,38 @@ public class Swift6ClientCodegenTest {
         }
     }
 
+    @Test(description = "test oneOf with enumUnknownDefaultCase generates UnknownCaseCheckable guard", enabled = true)
+    public void oneOfEnumUnknownDefaultCaseGuardTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift6")
+                    .setInputSpec("src/test/resources/3_0/oneOf.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .addAdditionalProperty("enumUnknownDefaultCase", true);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            String oneOfContent = Files.readString(files.stream()
+                    .filter(f -> f.getName().equals("Fruit.swift")).findFirst().get().toPath());
+            Assert.assertTrue(oneOfContent.contains("as? UnknownCaseCheckable)?.containsUnknownDefaultOpenApiCase != true"),
+                    "oneOf decoder should guard against unknown default enum cases");
+
+            String modelsContent = Files.readString(files.stream()
+                    .filter(f -> f.getName().equals("Models.swift")).findFirst().get().toPath());
+            Assert.assertTrue(modelsContent.contains("protocol UnknownCaseCheckable"));
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
     @Test(description = "test oneOf with discriminator generates discriminator-first decoding", enabled = true)
     public void oneOfDiscriminatorFirstDecodingTest() throws IOException {
         Path target = Files.createTempDirectory("test");
@@ -400,5 +433,21 @@ public class Swift6ClientCodegenTest {
         } finally {
             output.deleteOnExit();
         }
+    }
+
+    @Test(description = "Issue #17996")
+    public void testNullableMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/swift6/issue17996-nullable-map.yaml");
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("NullMapNotNullMap");
+        CodegenModel cm1 = swiftCodegen.fromModel("NullMapNotNullMap", test1);
+
+        // Assert the dataType properly generated
+        CodegenProperty nullableMap = cm1.vars.get(0);
+        CodegenProperty notNullableMap = cm1.vars.get(1);
+        CodegenProperty defaultMap = cm1.vars.get(2);
+        Assert.assertEquals(nullableMap.getDataType(), "[String: String?]");
+        Assert.assertEquals(notNullableMap.getDataType(), "[String: String]");
+        Assert.assertEquals(defaultMap.getDataType(), "[String: String]");
     }
 }

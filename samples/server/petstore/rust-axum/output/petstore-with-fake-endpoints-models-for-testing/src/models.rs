@@ -176,8 +176,8 @@ pub struct DeleteOrderPathParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetOrderByIdPathParams {
     /// ID of pet that needs to be fetched
-    #[validate(range(min = 1i64, max = 5i64))]
-    pub order_id: i64,
+    #[validate(range(min = 1u64, max = 5u64))]
+    pub order_id: u64,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -2812,9 +2812,9 @@ pub struct FormatTest {
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
-    #[validate(range(min = 20u8, max = 200u8))]
+    #[validate(range(min = 20u32, max = 200u32))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub int32: Option<u8>,
+    pub int32: Option<u32>,
 
     #[serde(rename = "int64")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -2968,7 +2968,7 @@ impl std::str::FromStr for FormatTest {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub integer: Vec<u8>,
-            pub int32: Vec<u8>,
+            pub int32: Vec<u32>,
             pub int64: Vec<i64>,
             pub number: Vec<f64>,
             pub float: Vec<f32>,
@@ -3006,9 +3006,9 @@ impl std::str::FromStr for FormatTest {
                         .integer
                         .push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "int32" => intermediate_rep
-                        .int32
-                        .push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "int32" => intermediate_rep.int32.push(
+                        <u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
                     #[allow(clippy::redundant_clone)]
                     "int64" => intermediate_rep.int64.push(
                         <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
@@ -5584,15 +5584,15 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Tag> {
 pub struct TestEndpointParametersRequest {
     /// None
     #[serde(rename = "integer")]
-    #[validate(range(min = 10u8, max = 100u8))]
+    #[validate(range(min = 10u32, max = 100u32))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub integer: Option<u8>,
+    pub integer: Option<u32>,
 
     /// None
     #[serde(rename = "int32")]
-    #[validate(range(min = 20u8, max = 200u8))]
+    #[validate(range(min = 20u32, max = 200u32))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub int32: Option<u8>,
+    pub int32: Option<u32>,
 
     /// None
     #[serde(rename = "int64")]
@@ -5761,8 +5761,8 @@ impl std::str::FromStr for TestEndpointParametersRequest {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub integer: Vec<u8>,
-            pub int32: Vec<u8>,
+            pub integer: Vec<u32>,
+            pub int32: Vec<u32>,
             pub int64: Vec<i64>,
             pub number: Vec<f64>,
             pub float: Vec<f32>,
@@ -5797,9 +5797,9 @@ impl std::str::FromStr for TestEndpointParametersRequest {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "integer" => intermediate_rep.integer.push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "integer" => intermediate_rep.integer.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "int32" => intermediate_rep.int32.push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "int32" => intermediate_rep.int32.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
                     "int64" => intermediate_rep.int64.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]

@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   Extensible.JSON_PROPERTY_AT_BASE_TYPE,
   Extensible.JSON_PROPERTY_AT_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public final class Extensible implements Serializable {
   private static final long serialVersionUID = 1L;
 

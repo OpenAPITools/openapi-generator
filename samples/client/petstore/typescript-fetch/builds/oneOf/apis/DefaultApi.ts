@@ -12,27 +12,22 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  TestArrayResponse,
-  TestDashedDiscriminatorResponse,
-  TestDiscriminatorResponse,
-  TestResponse,
-  TestSnakeCaseDiscriminatorResponse,
-} from '../models/index';
 import {
+    type TestArrayResponse,
     TestArrayResponseFromJSON,
     TestArrayResponseToJSON,
-    TestDashedDiscriminatorResponseFromJSON,
-    TestDashedDiscriminatorResponseToJSON,
+} from '../models/TestArrayResponse';
+import {
+    type TestDiscriminatorResponse,
     TestDiscriminatorResponseFromJSON,
     TestDiscriminatorResponseToJSON,
+} from '../models/TestDiscriminatorResponse';
+import {
+    type TestResponse,
     TestResponseFromJSON,
     TestResponseToJSON,
-    TestSnakeCaseDiscriminatorResponseFromJSON,
-    TestSnakeCaseDiscriminatorResponseToJSON,
-} from '../models/index';
+} from '../models/TestResponse';
 
 /**
  * 
@@ -110,41 +105,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testDashedDiscriminator without sending the request
-     */
-    async testDashedDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/test-dashed-discriminator`;
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     */
-    async testDashedDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDashedDiscriminatorResponse>> {
-        const requestOptions = await this.testDashedDiscriminatorRequestOpts();
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => TestDashedDiscriminatorResponseFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async testDashedDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestDashedDiscriminatorResponse> {
-        const response = await this.testDashedDiscriminatorRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Creates request options for testDiscriminator without sending the request
      */
     async testDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
@@ -176,41 +136,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async testDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestDiscriminatorResponse> {
         const response = await this.testDiscriminatorRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for testSnakeCaseDiscriminator without sending the request
-     */
-    async testSnakeCaseDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/test-snake-case-discriminator`;
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     */
-    async testSnakeCaseDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestSnakeCaseDiscriminatorResponse>> {
-        const requestOptions = await this.testSnakeCaseDiscriminatorRequestOpts();
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => TestSnakeCaseDiscriminatorResponseFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async testSnakeCaseDiscriminator(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestSnakeCaseDiscriminatorResponse> {
-        const response = await this.testSnakeCaseDiscriminatorRaw(initOverrides);
         return await response.value();
     }
 

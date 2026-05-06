@@ -35,7 +35,7 @@ function Initialize-PSList {
 
 
         $PSO = [PSCustomObject]@{
-            "123-list" = ${Var123List}
+            '123-list' = ${Var123List}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToList {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSList
-        $AllProperties = ("123-list")
+        $AllProperties = ('123-list')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "123-list"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match '123-list'))) { #optional property not found
             $Var123List = $null
         } else {
-            $Var123List = $JsonParameters.PSobject.Properties["123-list"].value
+            $Var123List = $JsonParameters.PSobject.Properties['123-list'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "123-list" = ${Var123List}
+            '123-list' = ${Var123List}
         }
 
         return $PSO

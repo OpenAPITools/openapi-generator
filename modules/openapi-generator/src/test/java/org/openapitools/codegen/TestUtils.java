@@ -164,7 +164,7 @@ public class TestUtils {
         config.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_11);
         JavaParser parser = new JavaParser(config);
         ParseResult<CompilationUnit> parseResult = parser.parse(javaSourceCode);
-        assertTrue(parseResult.isSuccessful(), String.valueOf(parseResult.getProblems()));
+        assertTrue(parseResult.isSuccessful(), parseResult.getProblems() + "\n in " + javaSourceCode);
     }
 
     public static void assertFileContains(Path path, String... lines) {

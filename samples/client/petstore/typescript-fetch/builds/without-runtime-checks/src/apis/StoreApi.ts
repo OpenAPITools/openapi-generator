@@ -12,10 +12,9 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
 import type {
-  Order,
+    Order,
 } from '../models/index';
 
 export interface DeleteOrderRequest {
@@ -52,7 +51,7 @@ export class StoreApi extends runtime.BaseAPI {
 
 
         let urlPath = `/store/order/{orderId}`;
-        urlPath = urlPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId'])));
+        urlPath = urlPath.replace('{orderId}', encodeURIComponent(String(requestParameters['orderId'])));
 
         return {
             path: urlPath,
@@ -141,7 +140,7 @@ export class StoreApi extends runtime.BaseAPI {
 
 
         let urlPath = `/store/order/{orderId}`;
-        urlPath = urlPath.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters['orderId'])));
+        urlPath = urlPath.replace('{orderId}', encodeURIComponent(String(requestParameters['orderId'])));
 
         return {
             path: urlPath,
