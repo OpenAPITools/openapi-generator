@@ -295,12 +295,14 @@ public class NullableShape extends AbstractOpenApiSchema {
     StringJoiner joiner = new StringJoiner("&");
 
     if (getActualInstance() instanceof Triangle) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((Triangle)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
         }
         return joiner.toString();
     }
     if (getActualInstance() instanceof Quadrilateral) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((Quadrilateral)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
         }

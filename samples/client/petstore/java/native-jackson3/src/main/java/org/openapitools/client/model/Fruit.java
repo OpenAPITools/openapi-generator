@@ -280,12 +280,14 @@ public class Fruit extends AbstractOpenApiSchema {
     StringJoiner joiner = new StringJoiner("&");
 
     if (getActualInstance() instanceof Apple) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((Apple)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
         }
         return joiner.toString();
     }
     if (getActualInstance() instanceof Banana) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((Banana)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
         }

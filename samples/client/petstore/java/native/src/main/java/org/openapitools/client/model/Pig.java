@@ -290,12 +290,14 @@ public class Pig extends AbstractOpenApiSchema {
     StringJoiner joiner = new StringJoiner("&");
 
     if (getActualInstance() instanceof BasquePig) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((BasquePig)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
         }
         return joiner.toString();
     }
     if (getActualInstance() instanceof DanishPig) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((DanishPig)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
         }

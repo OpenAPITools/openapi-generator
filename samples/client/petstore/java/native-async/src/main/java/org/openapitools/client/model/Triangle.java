@@ -338,18 +338,21 @@ public class Triangle extends AbstractOpenApiSchema {
     StringJoiner joiner = new StringJoiner("&");
 
     if (getActualInstance() instanceof EquilateralTriangle) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((EquilateralTriangle)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
         }
         return joiner.toString();
     }
     if (getActualInstance() instanceof IsoscelesTriangle) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((IsoscelesTriangle)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
         }
         return joiner.toString();
     }
     if (getActualInstance() instanceof ScaleneTriangle) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((ScaleneTriangle)getActualInstance()).toUrlQueryString(prefix + "one_of_2" + suffix));
         }

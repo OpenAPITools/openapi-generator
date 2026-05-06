@@ -280,12 +280,14 @@ public class FruitReq extends AbstractOpenApiSchema {
     StringJoiner joiner = new StringJoiner("&");
 
     if (getActualInstance() instanceof AppleReq) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((AppleReq)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
         }
         return joiner.toString();
     }
     if (getActualInstance() instanceof BananaReq) {
+            // 1
         if (getActualInstance() != null) {
           joiner.add(((BananaReq)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
         }
