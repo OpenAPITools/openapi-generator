@@ -1139,6 +1139,21 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
+        // x-inner-validation: when set on the items of an array/set, expose a precomputed
+        // datatype string that places the annotation as a JSR-308 type-use annotation on
+        // the element type, e.g. List<@NotNull Stubb> or Set<@NotNull Stubb>.
+        // Restricted to isArray (List/Set) — Maps are intentionally not supported.
+        if (property.isArray && property.items != null
+                && property.items.vendorExtensions != null
+                && property.items.vendorExtensions.get("x-inner-validation") instanceof String) {
+            String innerAnnotation = ((String) property.items.vendorExtensions.get("x-inner-validation")).trim();
+            if (!innerAnnotation.isEmpty()) {
+                String containerType = property.getUniqueItems() ? "Set" : "List";
+                String datatype = containerType + "<" + innerAnnotation + " " + property.items.datatypeWithEnum + ">";
+                property.vendorExtensions.put("x-datatype-with-inner-annotation", datatype);
+            }
+        }
+
         // add org.springframework.format.annotation.DateTimeFormat when needed
         if (property.isDate || property.isDateTime) {
             model.imports.add("DateTimeFormat");
@@ -1543,6 +1558,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
+        extensions.add(VendorExtension.X_INNER_VALIDATION);
         return extensions;
     }
 

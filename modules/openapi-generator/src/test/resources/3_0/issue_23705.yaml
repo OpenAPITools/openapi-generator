@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: issue 23705 x-inner-validation
+  version: 1.0.0
+components:
+  schemas:
+    Stubb:
+      type: object
+      properties:
+        name:
+          type: string
+    SampleModel:
+      type: object
+      properties:
+        listSample:
+          type: array
+          items:
+            x-inner-validation: '@jakarta.validation.constraints.NotNull'
+            allOf:
+              - $ref: '#/components/schemas/Stubb'
+        setSample:
+          type: array
+          uniqueItems: true
+          items:
+            x-inner-validation: '@jakarta.validation.constraints.NotNull'
+            allOf:
+              - $ref: '#/components/schemas/Stubb'
+        regularList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stubb'
+        nullableListSample:
+          type: array
+          nullable: true
+          items:
+            x-inner-validation: '@jakarta.validation.constraints.NotNull'
+            allOf:
+              - $ref: '#/components/schemas/Stubb'
+        mapSample:
+          type: object
+          additionalProperties:
+            x-inner-validation: '@jakarta.validation.constraints.NotNull'
+            allOf:
+              - $ref: '#/components/schemas/Stubb'

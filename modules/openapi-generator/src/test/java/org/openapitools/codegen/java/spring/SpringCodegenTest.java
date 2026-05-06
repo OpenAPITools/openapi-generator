@@ -7725,4 +7725,31 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
             .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
     }
+
+    @Test
+    void innerValidationAnnotationOnCollectionItems_issue23705() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
+            Map.of("useBeanValidation", "true", "useSpringBoot3", "true"));
+
+        JavaFileAssert.assertThat(files.get("SampleModel.java"))
+            // field declarations
+            .fileContains("private List<@jakarta.validation.constraints.NotNull Stubb> listSample")
+            .fileContains("private Set<@jakarta.validation.constraints.NotNull Stubb> setSample")
+            // getter return types
+            .fileContains("public List<@jakarta.validation.constraints.NotNull Stubb> getListSample()")
+            .fileContains("public Set<@jakarta.validation.constraints.NotNull Stubb> getSetSample()")
+            // setter parameter types
+            .fileContains("public void setListSample(List<@jakarta.validation.constraints.NotNull Stubb> listSample)")
+            .fileContains("public void setSetSample(Set<@jakarta.validation.constraints.NotNull Stubb> setSample)")
+            // fluent builder parameter types — the Set builder must use Set, not List
+            .fileContains("public SampleModel listSample(List<@jakarta.validation.constraints.NotNull Stubb> listSample)")
+            .fileContains("public SampleModel setSample(Set<@jakarta.validation.constraints.NotNull Stubb> setSample)")
+            // negative checks: the un-annotated container types should not appear for these fields
+            .fileDoesNotContain("List<Stubb> listSample")
+            .fileDoesNotContain("Set<Stubb> setSample")
+            // nullable container with inner annotation: JsonNullable wrap must keep the annotation
+            .fileContains("JsonNullable<List<@jakarta.validation.constraints.NotNull Stubb>>")
+            // Map (additionalProperties) must NOT receive the inner annotation — only List/Set are supported
+            .fileDoesNotContain("Map<String, @jakarta.validation.constraints.NotNull Stubb>");
+    }
 }
