@@ -757,4 +757,234 @@ public class ModelUtilsTest {
         Schema composedSchema = allSchemas.get("RandomAnimalsResponse_animals_inner");
         assertNull(ModelUtils.getParentName(composedSchema, allSchemas));
     }
+
+    // -------------------------------------------------------------------------
+    // resolveMaximum
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveMaximum_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveMaximum(new OpenAPI(), null));
+    }
+
+    @Test
+    public void resolveMaximum_noMaximumDefined_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        assertNull(ModelUtils.resolveMaximum(openAPI, schema));
+    }
+
+    @Test
+    public void resolveMaximum_inlineMaximum_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(100));
+        assertEquals(ModelUtils.resolveMaximum(openAPI, schema), BigDecimal.valueOf(100));
+    }
+
+    @Test
+    public void resolveMaximum_refToSchemaWithMaximum_resolvesRef() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> refTarget = new IntegerSchema();
+        refTarget.setMaximum(BigDecimal.valueOf(50));
+        openAPI.getComponents().addSchemas("MyInt", refTarget);
+
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
+        assertEquals(ModelUtils.resolveMaximum(openAPI, ref), BigDecimal.valueOf(50));
+    }
+
+    @Test
+    public void resolveMaximum_allOf_returnsMostRestrictive() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // allOf item with max=200 and item with max=50 — 50 should win
+        Schema<?> loose = new IntegerSchema();
+        loose.setMaximum(BigDecimal.valueOf(200));
+        openAPI.getComponents().addSchemas("Loose", loose);
+
+        Schema<?> strict = new IntegerSchema();
+        strict.setMaximum(BigDecimal.valueOf(50));
+        openAPI.getComponents().addSchemas("Strict", strict);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Loose"),
+                new Schema<>().$ref("#/components/schemas/Strict")
+        ));
+        assertEquals(ModelUtils.resolveMaximum(openAPI, schema), BigDecimal.valueOf(50));
+    }
+
+    @Test
+    public void resolveMaximum_inlineAndAllOf_mostRestrictiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // allOf item has maximum=30, which is more restrictive than inline maximum=100
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setMaximum(BigDecimal.valueOf(30));
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(100));
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertEquals(ModelUtils.resolveMaximum(openAPI, schema), BigDecimal.valueOf(30));
+    }
+
+    @Test
+    public void resolveMaximum_allOfItemWithoutMaximum_ignored() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("NoMax", new IntegerSchema()); // no maximum
+
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/NoMax")));
+        assertNull(ModelUtils.resolveMaximum(openAPI, schema));
+    }
+
+    // -------------------------------------------------------------------------
+    // resolveMinimum
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveMinimum_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveMinimum(new OpenAPI(), null));
+    }
+
+    @Test
+    public void resolveMinimum_noMinimumDefined_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        assertNull(ModelUtils.resolveMinimum(openAPI, new IntegerSchema()));
+    }
+
+    @Test
+    public void resolveMinimum_inlineMinimum_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(1));
+        assertEquals(ModelUtils.resolveMinimum(openAPI, schema), BigDecimal.valueOf(1));
+    }
+
+    @Test
+    public void resolveMinimum_refToSchemaWithMinimum_resolvesRef() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> refTarget = new IntegerSchema();
+        refTarget.setMinimum(BigDecimal.valueOf(5));
+        openAPI.getComponents().addSchemas("MyInt", refTarget);
+
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
+        assertEquals(ModelUtils.resolveMinimum(openAPI, ref), BigDecimal.valueOf(5));
+    }
+
+    @Test
+    public void resolveMinimum_allOf_returnsMostRestrictive() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // allOf item with min=1 and item with min=10 — 10 should win (larger = more restrictive lower bound)
+        Schema<?> permissive = new IntegerSchema();
+        permissive.setMinimum(BigDecimal.valueOf(1));
+        openAPI.getComponents().addSchemas("Permissive", permissive);
+
+        Schema<?> strict = new IntegerSchema();
+        strict.setMinimum(BigDecimal.valueOf(10));
+        openAPI.getComponents().addSchemas("Strict", strict);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Permissive"),
+                new Schema<>().$ref("#/components/schemas/Strict")
+        ));
+        assertEquals(ModelUtils.resolveMinimum(openAPI, schema), BigDecimal.valueOf(10));
+    }
+
+    @Test
+    public void resolveMinimum_inlineAndAllOf_mostRestrictiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // allOf item has minimum=20, which is more restrictive than inline minimum=0
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setMinimum(BigDecimal.valueOf(20));
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(0));
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertEquals(ModelUtils.resolveMinimum(openAPI, schema), BigDecimal.valueOf(20));
+    }
+
+    @Test
+    public void resolveMinimum_allOfItemWithoutMinimum_ignored() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("NoMin", new IntegerSchema());
+
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/NoMin")));
+        assertNull(ModelUtils.resolveMinimum(openAPI, schema));
+    }
+
+    // -------------------------------------------------------------------------
+    // resolveDefault
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveDefault_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveDefault(new OpenAPI(), null));
+    }
+
+    @Test
+    public void resolveDefault_noDefaultDefined_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        assertNull(ModelUtils.resolveDefault(openAPI, new IntegerSchema()));
+    }
+
+    @Test
+    public void resolveDefault_inlineDefault_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setDefault(10);
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), 10);
+    }
+
+    @Test
+    public void resolveDefault_refToSchemaWithDefault_resolvesRef() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> refTarget = new IntegerSchema();
+        refTarget.setDefault(0);
+        openAPI.getComponents().addSchemas("MyInt", refTarget);
+
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
+        assertEquals(ModelUtils.resolveDefault(openAPI, ref), 0);
+    }
+
+    @Test
+    public void resolveDefault_allOfItemHasDefault_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setDefault(20);
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        // Inline schema has no default; allOf item has default=20
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), 20);
+    }
+
+    @Test
+    public void resolveDefault_inlineDefaultTakesPrecedenceOverAllOf() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setDefault(99);
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        // Inline schema default=5 should win over allOf item default=99
+        Schema<?> schema = new IntegerSchema();
+        schema.setDefault(5);
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), 5);
+    }
+
+    @Test
+    public void resolveDefault_allOfItemsNoDefault_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("Base", new IntegerSchema()); // no default
+
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertNull(ModelUtils.resolveDefault(openAPI, schema));
+    }
+
+    @Test
+    public void resolveDefault_stringDefault_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new StringSchema();
+        schema.setDefault("hello");
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), "hello");
+    }
 }
