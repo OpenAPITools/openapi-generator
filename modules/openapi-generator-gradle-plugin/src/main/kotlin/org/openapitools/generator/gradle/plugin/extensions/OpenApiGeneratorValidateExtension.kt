@@ -49,6 +49,11 @@ open class OpenApiGeneratorValidateExtension(private val project: Project) {
      */
     val treatWarningsAsErrors: Property<Boolean> = project.objects.property<Boolean>().convention(false)
 
+    /**
+     * Whether to suppress warnings for schemas defined in components/schemas that are not referenced by any operation.
+     */
+    val skipUnusedModels: Property<Boolean> = project.objects.property<Boolean>().convention(false)
+
     // ========================================================================
     // Backwards-compatibility bridge setter for Groovy DSL
     // This allows Groovy users to use assignment syntax: inputSpec = "path"
