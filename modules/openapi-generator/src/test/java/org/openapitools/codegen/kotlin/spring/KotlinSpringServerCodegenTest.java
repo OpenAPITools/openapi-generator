@@ -6013,6 +6013,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
 
+    @Test(description = "oneOf with discriminator generates thin sealed interface with Jackson annotations")
     public void testOneOfWithDiscriminatorGeneratesThinInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
