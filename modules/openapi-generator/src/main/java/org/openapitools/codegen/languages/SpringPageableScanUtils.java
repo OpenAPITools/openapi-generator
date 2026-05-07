@@ -24,7 +24,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -186,7 +185,7 @@ public final class SpringPageableScanUtils {
      * and {@code sort} parameters.
      *
      * @return map from operationId to {@link PageableDefaultsData} (only operations with at
-     *         least one default are included)
+     * least one default are included)
      */
     public static Map<String, PageableDefaultsData> scanPageableDefaults(
             OpenAPI openAPI, boolean autoXSpringPaginated) {
@@ -265,7 +264,7 @@ public final class SpringPageableScanUtils {
      * {@code $ref} schemas so that constraints defined on shared component schemas are honoured.
      *
      * @return map from operationId to {@link PageableConstraintsData} (only operations with
-     *         at least one constraint are included)
+     * at least one constraint are included)
      */
     public static Map<String, PageableConstraintsData> scanPageableConstraints(
             OpenAPI openAPI, boolean autoXSpringPaginated) {
@@ -291,16 +290,22 @@ public final class SpringPageableScanUtils {
                     if (schema == null) {
                         continue;
                     }
-                    BigDecimal maximum = ModelUtils.resolveMaximum(openAPI, schema);
-                    BigDecimal minimum = ModelUtils.resolveMinimum(openAPI, schema);
+                    ModelUtils.ResolvedMaxBound maxBound = ModelUtils.resolveMaximumBound(openAPI, schema);
+                    ModelUtils.ResolvedMinBound minBound = ModelUtils.resolveMinimumBound(openAPI, schema);
+                    Integer adjustedMaxBound = maxBound == null
+                            ? null
+                            : (maxBound.exclusive ? maxBound.maxBound.intValue() - 1 : maxBound.maxBound.intValue());
+                    Integer adjustedMinBound = minBound == null
+                            ? null
+                            : (minBound.exclusive ? minBound.minBound.intValue() + 1 : minBound.minBound.intValue());
                     switch (param.getName()) {
                         case "page":
-                            if (maximum != null) maxPage = maximum.intValue();
-                            if (minimum != null) minPage = minimum.intValue();
+                            if (adjustedMaxBound != null) maxPage = adjustedMaxBound;
+                            if (adjustedMinBound != null) minPage = adjustedMinBound;
                             break;
                         case "size":
-                            if (maximum != null) maxSize = maximum.intValue();
-                            if (minimum != null) minSize = minimum.intValue();
+                            if (adjustedMaxBound != null) maxSize = adjustedMaxBound;
+                            if (adjustedMinBound != null) minSize = adjustedMinBound;
                             break;
                         default:
                             break;

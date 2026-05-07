@@ -759,44 +759,110 @@ public class ModelUtilsTest {
     }
 
     // -------------------------------------------------------------------------
-    // resolveMaximum
+    // resolveMaximumBound
     // -------------------------------------------------------------------------
 
     @Test
-    public void resolveMaximum_nullSchema_returnsNull() {
-        assertNull(ModelUtils.resolveMaximum(new OpenAPI(), null));
+    public void resolveMaximumBound_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveMaximumBound(new OpenAPI(), null));
     }
 
     @Test
-    public void resolveMaximum_noMaximumDefined_returnsNull() {
+    public void resolveMaximumBound_noMaximumDefined_returnsNull() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Schema<?> schema = new IntegerSchema();
-        assertNull(ModelUtils.resolveMaximum(openAPI, schema));
+        assertNull(ModelUtils.resolveMaximumBound(openAPI, schema));
     }
 
     @Test
-    public void resolveMaximum_inlineMaximum_returnsIt() {
+    public void resolveMaximumBound_inclusiveMaximum_returnsInclusiveBound() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Schema<?> schema = new IntegerSchema();
         schema.setMaximum(BigDecimal.valueOf(100));
-        assertEquals(ModelUtils.resolveMaximum(openAPI, schema), BigDecimal.valueOf(100));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(100), bound.maxBound);
+        assertFalse(bound.exclusive);
     }
 
     @Test
-    public void resolveMaximum_refToSchemaWithMaximum_resolvesRef() {
+    public void resolveMaximumBound_exclusiveMaximum_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(50));
+        schema.setExclusiveMaximum(Boolean.TRUE);
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_oas31NumericExclusive_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(10));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(10), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_oas31NumericExclusiveStricterThanInclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(100));         // inclusive 100
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(80)); // exclusive 80 is stricter
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(80), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_oas31NumericExclusiveLooseThanInclusive_inclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(50));           // inclusive 50 is stricter
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(90)); // exclusive 90 is looser
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_sameValueInclusiveAndExclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // maximum=50 (inclusive) + exclusiveMaximumValue=50 → exclusive 50 is stricter
+        Schema<?> schema = new IntegerSchema();
+        schema.setMaximum(BigDecimal.valueOf(50));
+        schema.setExclusiveMaximumValue(BigDecimal.valueOf(50));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_refToSchemaWithMaximum_resolvesRef() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Schema<?> refTarget = new IntegerSchema();
         refTarget.setMaximum(BigDecimal.valueOf(50));
+        refTarget.setExclusiveMaximum(Boolean.TRUE);
         openAPI.getComponents().addSchemas("MyInt", refTarget);
 
         Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
-        assertEquals(ModelUtils.resolveMaximum(openAPI, ref), BigDecimal.valueOf(50));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, ref);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
     }
 
     @Test
-    public void resolveMaximum_allOf_returnsMostRestrictive() {
+    public void resolveMaximumBound_allOf_returnsMostRestrictive() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        // allOf item with max=200 and item with max=50 — 50 should win
         Schema<?> loose = new IntegerSchema();
         loose.setMaximum(BigDecimal.valueOf(200));
         openAPI.getComponents().addSchemas("Loose", loose);
@@ -809,13 +875,38 @@ public class ModelUtilsTest {
                 new Schema<>().$ref("#/components/schemas/Loose"),
                 new Schema<>().$ref("#/components/schemas/Strict")
         ));
-        assertEquals(ModelUtils.resolveMaximum(openAPI, schema), BigDecimal.valueOf(50));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertFalse(bound.exclusive);
     }
 
     @Test
-    public void resolveMaximum_inlineAndAllOf_mostRestrictiveWins() {
+    public void resolveMaximumBound_allOfSameValueDifferentExclusivity_exclusiveWins() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        // allOf item has maximum=30, which is more restrictive than inline maximum=100
+        // allOf: max=50 inclusive vs max=50 exclusive — exclusive is stricter
+        Schema<?> inclusive = new IntegerSchema();
+        inclusive.setMaximum(BigDecimal.valueOf(50));
+        openAPI.getComponents().addSchemas("Inclusive", inclusive);
+
+        Schema<?> exclusive = new IntegerSchema();
+        exclusive.setMaximum(BigDecimal.valueOf(50));
+        exclusive.setExclusiveMaximum(Boolean.TRUE);
+        openAPI.getComponents().addSchemas("Exclusive", exclusive);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Inclusive"),
+                new Schema<>().$ref("#/components/schemas/Exclusive")
+        ));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(50), bound.maxBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_inlineAndAllOf_mostRestrictiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         Schema<?> allOfItem = new IntegerSchema();
         allOfItem.setMaximum(BigDecimal.valueOf(30));
         openAPI.getComponents().addSchemas("Base", allOfItem);
@@ -823,56 +914,122 @@ public class ModelUtilsTest {
         Schema<?> schema = new IntegerSchema();
         schema.setMaximum(BigDecimal.valueOf(100));
         schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
-        assertEquals(ModelUtils.resolveMaximum(openAPI, schema), BigDecimal.valueOf(30));
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(30), bound.maxBound);
     }
 
     @Test
-    public void resolveMaximum_allOfItemWithoutMaximum_ignored() {
+    public void resolveMaximumBound_allOfItemWithoutMaximum_ignored() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        openAPI.getComponents().addSchemas("NoMax", new IntegerSchema()); // no maximum
+        openAPI.getComponents().addSchemas("NoMax", new IntegerSchema());
 
         Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/NoMax")));
-        assertNull(ModelUtils.resolveMaximum(openAPI, schema));
+        assertNull(ModelUtils.resolveMaximumBound(openAPI, schema));
     }
 
     // -------------------------------------------------------------------------
-    // resolveMinimum
+    // resolveMinimumBound
     // -------------------------------------------------------------------------
 
     @Test
-    public void resolveMinimum_nullSchema_returnsNull() {
-        assertNull(ModelUtils.resolveMinimum(new OpenAPI(), null));
+    public void resolveMinimumBound_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveMinimumBound(new OpenAPI(), null));
     }
 
     @Test
-    public void resolveMinimum_noMinimumDefined_returnsNull() {
+    public void resolveMinimumBound_noMinimumDefined_returnsNull() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        assertNull(ModelUtils.resolveMinimum(openAPI, new IntegerSchema()));
+        assertNull(ModelUtils.resolveMinimumBound(openAPI, new IntegerSchema()));
     }
 
     @Test
-    public void resolveMinimum_inlineMinimum_returnsIt() {
+    public void resolveMinimumBound_inclusiveMinimum_returnsInclusiveBound() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Schema<?> schema = new IntegerSchema();
         schema.setMinimum(BigDecimal.valueOf(1));
-        assertEquals(ModelUtils.resolveMinimum(openAPI, schema), BigDecimal.valueOf(1));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(1), bound.minBound);
+        assertFalse(bound.exclusive);
     }
 
     @Test
-    public void resolveMinimum_refToSchemaWithMinimum_resolvesRef() {
+    public void resolveMinimumBound_exclusiveMinimum_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(0));
+        schema.setExclusiveMinimum(Boolean.TRUE);
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(0), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_oas31NumericExclusive_returnsExclusiveBound() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(5));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_oas31NumericExclusiveStricterThanInclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(0));           // inclusive 0
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(3)); // exclusive 3 is stricter
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(3), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_oas31NumericExclusiveLooseThanInclusive_inclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(10));           // inclusive 10 is stricter
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(2)); // exclusive 2 is looser
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(10), bound.minBound);
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_sameValueInclusiveAndExclusive_exclusiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setMinimum(BigDecimal.valueOf(5));
+        schema.setExclusiveMinimumValue(BigDecimal.valueOf(5));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_refToSchemaWithMinimum_resolvesRef() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Schema<?> refTarget = new IntegerSchema();
         refTarget.setMinimum(BigDecimal.valueOf(5));
         openAPI.getComponents().addSchemas("MyInt", refTarget);
 
         Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
-        assertEquals(ModelUtils.resolveMinimum(openAPI, ref), BigDecimal.valueOf(5));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, ref);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertFalse(bound.exclusive);
     }
 
     @Test
-    public void resolveMinimum_allOf_returnsMostRestrictive() {
+    public void resolveMinimumBound_allOf_returnsMostRestrictive() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        // allOf item with min=1 and item with min=10 — 10 should win (larger = more restrictive lower bound)
         Schema<?> permissive = new IntegerSchema();
         permissive.setMinimum(BigDecimal.valueOf(1));
         openAPI.getComponents().addSchemas("Permissive", permissive);
@@ -885,13 +1042,38 @@ public class ModelUtilsTest {
                 new Schema<>().$ref("#/components/schemas/Permissive"),
                 new Schema<>().$ref("#/components/schemas/Strict")
         ));
-        assertEquals(ModelUtils.resolveMinimum(openAPI, schema), BigDecimal.valueOf(10));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(10), bound.minBound);
+        assertFalse(bound.exclusive);
     }
 
     @Test
-    public void resolveMinimum_inlineAndAllOf_mostRestrictiveWins() {
+    public void resolveMinimumBound_allOfSameValueDifferentExclusivity_exclusiveWins() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        // allOf item has minimum=20, which is more restrictive than inline minimum=0
+        // allOf: min=5 inclusive vs min=5 exclusive — exclusive is stricter
+        Schema<?> inclusive = new IntegerSchema();
+        inclusive.setMinimum(BigDecimal.valueOf(5));
+        openAPI.getComponents().addSchemas("Inclusive", inclusive);
+
+        Schema<?> exclusive = new IntegerSchema();
+        exclusive.setMinimum(BigDecimal.valueOf(5));
+        exclusive.setExclusiveMinimum(Boolean.TRUE);
+        openAPI.getComponents().addSchemas("Exclusive", exclusive);
+
+        Schema<?> schema = new Schema<>().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/Inclusive"),
+                new Schema<>().$ref("#/components/schemas/Exclusive")
+        ));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(5), bound.minBound);
+        assertTrue(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_inlineAndAllOf_mostRestrictiveWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         Schema<?> allOfItem = new IntegerSchema();
         allOfItem.setMinimum(BigDecimal.valueOf(20));
         openAPI.getComponents().addSchemas("Base", allOfItem);
@@ -899,16 +1081,18 @@ public class ModelUtilsTest {
         Schema<?> schema = new IntegerSchema();
         schema.setMinimum(BigDecimal.valueOf(0));
         schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
-        assertEquals(ModelUtils.resolveMinimum(openAPI, schema), BigDecimal.valueOf(20));
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, schema);
+        assertNotNull(bound);
+        assertEquals(BigDecimal.valueOf(20), bound.minBound);
     }
 
     @Test
-    public void resolveMinimum_allOfItemWithoutMinimum_ignored() {
+    public void resolveMinimumBound_allOfItemWithoutMinimum_ignored() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas("NoMin", new IntegerSchema());
 
         Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/NoMin")));
-        assertNull(ModelUtils.resolveMinimum(openAPI, schema));
+        assertNull(ModelUtils.resolveMinimumBound(openAPI, schema));
     }
 
     // -------------------------------------------------------------------------
