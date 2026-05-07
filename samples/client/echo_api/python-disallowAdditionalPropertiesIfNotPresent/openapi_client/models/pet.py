@@ -30,8 +30,8 @@ class Pet(BaseModel):
     """
     Pet
     """ # noqa: E501
-    id: Optional[StrictInt] = None
-    name: StrictStr
+    id: Optional[StrictInt] = Field(default=None, json_schema_extra={"examples": [10]})
+    name: StrictStr = Field(json_schema_extra={"examples": ["doggie"]})
     category: Optional[Category] = None
     photo_urls: List[StrictStr] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None

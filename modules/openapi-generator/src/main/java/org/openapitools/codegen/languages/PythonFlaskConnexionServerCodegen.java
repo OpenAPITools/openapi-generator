@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/python-flask/}.
+ */
 public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
 

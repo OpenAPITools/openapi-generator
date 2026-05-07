@@ -14,10 +14,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
-
-
+/**
+ * A tag for a pet
+ **/
+@ApiModel(description = "A tag for a pet")
 @JsonTypeName("Tag")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Tag  implements Serializable {
   private Long id;
   private String name;

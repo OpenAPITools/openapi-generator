@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class DefaultApi {
   private ApiClient apiClient;
 
@@ -80,9 +80,11 @@ public class DefaultApi {
   public ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo() throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("0", new GenericType<FooGetDefaultResponse>() {});
     GenericType<FooGetDefaultResponse> localVarReturnType = new GenericType<FooGetDefaultResponse>() {};
     return apiClient.invokeAPI("DefaultApi.fooGet", "/foo", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
 }

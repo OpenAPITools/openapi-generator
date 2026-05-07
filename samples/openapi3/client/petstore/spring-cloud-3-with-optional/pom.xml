@@ -27,7 +27,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2023.0.0</version>
+                <version>2023.0.6</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.9</version>
+            <version>0.2.10</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

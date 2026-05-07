@@ -59,3 +59,10 @@ internal struct Pet: Sendable, Codable, Hashable {
 
 
 extension Pet: Identifiable {}
+
+extension Pet: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        if status == .encodeValue(.unknownDefaultOpenApi) { return true }
+        return false
+    }
+}

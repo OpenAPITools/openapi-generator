@@ -11,11 +11,10 @@ import java.io.InputStream
 
 
 @Path("/user")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.23.0-SNAPSHOT")
 interface UserApi {
 
     @POST
-    @Path("")
     fun createUser( body: User): io.smallrye.mutiny.Uni<Response>
 
     @POST
@@ -38,7 +37,7 @@ interface UserApi {
     @GET
     @Path("/login")
     @Produces("application/xml", "application/json")
-    fun loginUser(@QueryParam("username")   username: kotlin.String,@QueryParam("password")   password: kotlin.String): io.smallrye.mutiny.Uni<Response>
+    fun loginUser(@QueryParam("username") username: kotlin.String,@QueryParam("password") password: kotlin.String): io.smallrye.mutiny.Uni<Response>
 
     @GET
     @Path("/logout")

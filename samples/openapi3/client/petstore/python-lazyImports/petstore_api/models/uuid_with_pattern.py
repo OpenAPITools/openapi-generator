@@ -38,6 +38,9 @@ class UuidWithPattern(BaseModel):
         if value is None:
             return value
 
+        if not isinstance(value, str):
+            value = str(value)
+
         if not re.match(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$", value):
             raise ValueError(r"must validate the regular expression /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/")
         return value

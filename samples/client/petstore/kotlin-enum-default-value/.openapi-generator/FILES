@@ -1,5 +1,6 @@
 README.md
 build.gradle
+docs/ComplexEnum.md
 docs/DefaultApi.md
 docs/ModelWithEnumPropertyHavingDefault.md
 docs/PropertyOfDay.md
@@ -27,5 +28,6 @@ src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt
 src/main/kotlin/org/openapitools/client/infrastructure/SerializerHelper.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
+src/main/kotlin/org/openapitools/client/models/ComplexEnum.kt
 src/main/kotlin/org/openapitools/client/models/ModelWithEnumPropertyHavingDefault.kt
 src/main/kotlin/org/openapitools/client/models/PropertyOfDay.kt

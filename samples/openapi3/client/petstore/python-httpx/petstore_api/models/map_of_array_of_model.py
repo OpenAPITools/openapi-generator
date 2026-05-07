@@ -91,14 +91,12 @@ class MapOfArrayOfModel(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "shopIdToOrgOnlineLipMap": dict(
-                (_k,
-                        [Tag.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("shopIdToOrgOnlineLipMap", {}).items()
-            )
+            "shopIdToOrgOnlineLipMap": {
+                _k: [Tag.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["shopIdToOrgOnlineLipMap"].items()
+            }
+            if obj.get("shopIdToOrgOnlineLipMap") is not None
+            else None
         })
         return _obj
 

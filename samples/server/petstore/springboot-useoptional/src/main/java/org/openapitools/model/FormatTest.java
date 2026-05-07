@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FormatTest {
 
   private Optional<@Min(value = 10) @Max(value = 100) Integer> integer = Optional.empty();

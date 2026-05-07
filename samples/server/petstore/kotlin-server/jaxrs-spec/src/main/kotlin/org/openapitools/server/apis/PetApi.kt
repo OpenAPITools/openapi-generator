@@ -12,7 +12,7 @@ import java.io.InputStream
 
 
 @Path("/pet")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.23.0-SNAPSHOT")
 class PetApi {
 
     @POST
@@ -23,21 +23,21 @@ class PetApi {
 
     @DELETE
     @Path("/{petId}")
-    suspend fun deletePet(@PathParam("petId") petId: kotlin.Long,@HeaderParam("api_key")   apiKey: kotlin.String?): Response {
+    suspend fun deletePet(@PathParam("petId") petId: kotlin.Long): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Path("/findByStatus")
     @Produces("application/xml", "application/json")
-    suspend fun findPetsByStatus(@QueryParam("status")   status: kotlin.collections.List<kotlin.String>): Response {
+    suspend fun findPetsByStatus(@QueryParam("status") status: kotlin.collections.List<kotlin.String>): Response {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Path("/findByTags")
     @Produces("application/xml", "application/json")
-    suspend fun findPetsByTags(@QueryParam("tags")   tags: kotlin.collections.List<kotlin.String>): Response {
+    suspend fun findPetsByTags(@QueryParam("tags") tags: kotlin.collections.List<kotlin.String>): Response {
         return Response.ok().entity("magic!").build();
     }
 

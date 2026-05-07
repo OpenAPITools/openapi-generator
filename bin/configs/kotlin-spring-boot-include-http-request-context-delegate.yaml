@@ -11,7 +11,7 @@ additionalProperties:
   skipDefaultInterface: true
   interfaceOnly: false
   serializableModel: true
-  beanValidations: true
+  useBeanValidation: true
   includeHttpRequestContext: true
   reactive: true
   delegatePattern: true

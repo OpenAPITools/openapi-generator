@@ -1155,9 +1155,9 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FooObjectOfO
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FooUnnamedAllofUnderProperties {
     #[serde(rename = "name")]
-    #[validate(range(min = 5u8, max = 30u8))]
+    #[validate(range(min = 5u32, max = 30u32))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub name: Option<u8>,
+    pub name: Option<u32>,
 }
 
 impl FooUnnamedAllofUnderProperties {
@@ -1197,7 +1197,7 @@ impl std::str::FromStr for FooUnnamedAllofUnderProperties {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub name: Vec<u8>,
+            pub name: Vec<u32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -1220,9 +1220,9 @@ impl std::str::FromStr for FooUnnamedAllofUnderProperties {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep
-                        .name
-                        .push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "name" => intermediate_rep.name.push(
+                        <u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FooUnnamedAllofUnderProperties"
@@ -1289,37 +1289,118 @@ impl std::convert::TryFrom<HeaderValue>
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct FooUnnamedReference(pub i32);
+pub struct FooUnnamedReference {}
 
-impl validator::Validate for FooUnnamedReference {
-    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+impl FooUnnamedReference {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new() -> FooUnnamedReference {
+        FooUnnamedReference {}
     }
 }
 
-impl std::convert::From<i32> for FooUnnamedReference {
-    fn from(x: i32) -> Self {
-        FooUnnamedReference(x)
+/// Converts the FooUnnamedReference value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for FooUnnamedReference {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
-impl std::convert::From<FooUnnamedReference> for i32 {
-    fn from(x: FooUnnamedReference) -> Self {
-        x.0
+/// Converts Query Parameters representation (style=form, explode=false) to a FooUnnamedReference value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for FooUnnamedReference {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {}
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing FooUnnamedReference".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing FooUnnamedReference".to_string(),
+                        );
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(FooUnnamedReference {})
     }
 }
 
-impl std::ops::Deref for FooUnnamedReference {
-    type Target = i32;
-    fn deref(&self) -> &i32 {
-        &self.0
+// Methods for converting between header::IntoHeaderValue<FooUnnamedReference> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<FooUnnamedReference>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<FooUnnamedReference>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for FooUnnamedReference - value: {hdr_value} is invalid {e}"#
+            )),
+        }
     }
 }
 
-impl std::ops::DerefMut for FooUnnamedReference {
-    fn deref_mut(&mut self) -> &mut i32 {
-        &mut self.0
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FooUnnamedReference> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <FooUnnamedReference as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into FooUnnamedReference - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
     }
 }

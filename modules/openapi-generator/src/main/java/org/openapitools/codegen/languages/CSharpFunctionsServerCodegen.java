@@ -38,6 +38,12 @@ import java.util.*;
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 
+/**
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/csharp-functions/} (root templates shared across all libraries) and
+ * {@code src/main/resources/csharp-functions/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     public static final String NET_CORE_VERSION = "netCoreVersion";
@@ -539,15 +545,8 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setClassModifier() {
-        // CHeck for class modifier if not present set the default value.
+        // Check for class modifier if not present set the default value.
         setCliOption(classModifier);
-
-        // If class modifier is abstract then the methods need to be abstract too.
-        if ("abstract".equals(classModifier.getOptValue())) {
-            operationModifier.setOptValue(classModifier.getOptValue());
-            additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
-        }
     }
 
     private void setOperationModifier() {

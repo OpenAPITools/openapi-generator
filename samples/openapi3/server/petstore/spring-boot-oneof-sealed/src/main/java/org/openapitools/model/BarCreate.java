@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("Bar_Create")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public final class BarCreate extends Entity {
 
   private @Nullable String barPropA;

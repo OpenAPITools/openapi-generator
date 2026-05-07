@@ -56,7 +56,7 @@ export default class {{classname}} {
       method: '{{httpMethod}}',
       url: this.basePath + '{{{path}}}'
       {{#pathParams}}
-        .replace('{' + '{{baseName}}' + '}', ':{{paramName}}')
+        .replace({{=<< >>=}}'{<<baseName>>}'<<={{ }}=>>, ':{{paramName}}')
       {{/pathParams}}
     }
   }

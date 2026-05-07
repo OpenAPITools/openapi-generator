@@ -86,10 +86,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}
-  {{#hasChildren}}protected{{/hasChildren}}{{^hasChildren}}private{{/hasChildren}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{#hasChildren}}protected{{/hasChildren}}{{^hasChildren}}private{{/hasChildren}} {{>nullableDatatypeWithEnum}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/isContainer}}
   {{^isContainer}}
-  {{#hasChildren}}protected{{/hasChildren}}{{^hasChildren}}private{{/hasChildren}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{#hasChildren}}protected{{/hasChildren}}{{^hasChildren}}private{{/hasChildren}} {{>nullableDatatypeWithEnum}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
@@ -142,7 +142,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
 {{#vars}}
   {{^isReadOnly}}
-  public {{classname}} {{name}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullableArgumentWithEnum}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = {{name}};{{/vendorExtensions.x-is-jackson-optional-nullable}}
     return this;
@@ -240,7 +240,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @JsonIgnore
 {{/vendorExtensions.x-is-jackson-optional-nullable}}
 {{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}
-  public {{{datatypeWithEnum}}} {{getter}}() {
+  public {{>nullableDatatypeWithEnum}} {{getter}}() {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     {{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
     if ({{name}} == null) {
@@ -270,7 +270,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   {{^isReadOnly}}
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{>nullableArgumentWithEnum}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -287,7 +287,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#readWriteVars}}
   {{#isOverridden}}
   @Override
-  public {{classname}} {{name}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{>nullableArgumentWithEnum}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{setter}}(JsonNullable.<{{{datatypeWithEnum}}}>of({{name}}));
     {{/vendorExtensions.x-is-jackson-optional-nullable}}

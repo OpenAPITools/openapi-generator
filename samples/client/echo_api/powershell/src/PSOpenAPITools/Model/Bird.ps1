@@ -41,8 +41,8 @@ function Initialize-Bird {
 
 
         $PSO = [PSCustomObject]@{
-            "size" = ${Size}
-            "color" = ${Color}
+            'size' = ${Size}
+            'color' = ${Color}
         }
 
 
@@ -80,28 +80,28 @@ function ConvertFrom-JsonToBird {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in Bird
-        $AllProperties = ("size", "color")
+        $AllProperties = ('size', 'color')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "size"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'size'))) { #optional property not found
             $Size = $null
         } else {
-            $Size = $JsonParameters.PSobject.Properties["size"].value
+            $Size = $JsonParameters.PSobject.Properties['size'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "color"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'color'))) { #optional property not found
             $Color = $null
         } else {
-            $Color = $JsonParameters.PSobject.Properties["color"].value
+            $Color = $JsonParameters.PSobject.Properties['color'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "size" = ${Size}
-            "color" = ${Color}
+            'size' = ${Size}
+            'color' = ${Color}
         }
 
         return $PSO

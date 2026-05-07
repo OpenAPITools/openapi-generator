@@ -459,6 +459,19 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(modelsIndex, "[property: string]:");
     }
 
+    @Test(description = "Verify pattern is not HTML-escaped in validationAttributes")
+    public void testValidationAttributesPatternIsNotHtmlEscaped() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, true);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/validation-attributes.yaml");
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileNotContains(modelsIndex, "pattern: '/^[a-z&amp;]+$/'");
+        TestUtils.assertFileContains(modelsIndex, "pattern: '/^[a-z&]+$/'");
+    }
+
     @Test(description = "Verify withRequestOptsInInterface=true (default) includes RequestOpts in interface")
     public void testRequestOptsInInterfaceByDefault() throws IOException {
         Map<String, Object> properties = new HashMap<>();
@@ -506,6 +519,43 @@ public class TypeScriptFetchClientCodegenTest {
         // Class should still contain RequestOpts methods
         String classSection = content.substring(classStart);
         assertThat(classSection).contains("async addPetRequestOpts(");
+    }
+
+    /**
+     * When a oneOf variant uses allOf to reference another oneOf (nested discriminated unions),
+     * the child model must be generated as a type alias with intersection rather than an
+     * interface with extends, because TypeScript does not allow interfaces to extend union types.
+     */
+    @Test(description = "Verify nested oneOf generates type alias instead of interface extends")
+    public void testNestedOneOfGeneratesTypeAliasForOneOfParent() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/nested-oneOf.yaml"
+        );
+
+        // OuterComposed's parent is Inner (a oneOf union type), so it must use
+        // "type OuterComposed = Inner & { ... }" instead of "interface OuterComposed extends Inner"
+        Path outerComposed = Paths.get(output + "/models/OuterComposed.ts");
+        TestUtils.assertFileExists(outerComposed);
+        TestUtils.assertFileContains(outerComposed, "export type OuterComposed = Inner & {");
+        TestUtils.assertFileNotContains(outerComposed, "export interface OuterComposed extends Inner");
+
+        // Inner should still be a proper oneOf union type with discriminator dispatch
+        Path inner = Paths.get(output + "/models/Inner.ts");
+        TestUtils.assertFileExists(inner);
+        TestUtils.assertFileContains(inner, "export type Inner = { innerDiscriminator: 'a' } & InnerA | { innerDiscriminator: 'b' } & InnerB");
+        TestUtils.assertFileContains(inner, "switch (json['innerDiscriminator'])");
+
+        // Outer should dispatch on outerDiscriminator, including the composed variant
+        Path outer = Paths.get(output + "/models/Outer.ts");
+        TestUtils.assertFileExists(outer);
+        TestUtils.assertFileContains(outer, "switch (json['outerDiscriminator'])");
+        TestUtils.assertFileContains(outer, "case 'composed':");
+
+        // Regular models (not extending a oneOf parent) should still use interface
+        Path outerPlain = Paths.get(output + "/models/OuterPlain.ts");
+        TestUtils.assertFileExists(outerPlain);
+        TestUtils.assertFileContains(outerPlain, "export interface OuterPlain {");
     }
 
     private static File generate(

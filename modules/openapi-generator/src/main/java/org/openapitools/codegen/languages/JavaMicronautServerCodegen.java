@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  * <a href="https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi</a> with the help of the plugin for
  * <a href="https://github.com/micronaut-projects/micronaut-gradle-plugin">Gradle</a> and
  * <a href="https://github.com/micronaut-projects/micronaut-maven-plugin">Maven</a>.
+ * <p>Mustache templates are located in {@code src/main/resources/java-micronaut/}.
  */
 @SuppressWarnings("removal")
 @Deprecated(forRemoval = true)

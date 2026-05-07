@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @JsonTypeName("ApiResponse")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
   @jakarta.annotation.Nullable

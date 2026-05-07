@@ -237,6 +237,7 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
         {{/swagger2AnnotationLibrary}}
+        {{^useJspecify}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -245,6 +246,7 @@
             <version>3.0.2</version>
         </dependency>
 
+        {{/useJspecify}}
         <!-- HTTP client: Spring RestTemplate -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -351,6 +353,13 @@
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
+        {{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        {{/useJspecify}}
 
         <!-- test dependencies -->
         <dependency>
@@ -401,7 +410,7 @@
 
         <jackson-annotations-version>2.21</jackson-annotations-version>
         {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>

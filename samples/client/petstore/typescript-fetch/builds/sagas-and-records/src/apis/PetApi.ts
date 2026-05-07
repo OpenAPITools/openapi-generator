@@ -12,30 +12,37 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Category,
-  FindPetsByStatusResponse,
-  FindPetsByUserResponse,
-  ModelApiResponse,
-  Pet,
-  PetRegionsResponse,
-} from '../models/index';
 import {
+    type Category,
     CategoryFromJSON,
     CategoryToJSON,
+} from '../models/Category';
+import {
+    type FindPetsByStatusResponse,
     FindPetsByStatusResponseFromJSON,
     FindPetsByStatusResponseToJSON,
+} from '../models/FindPetsByStatusResponse';
+import {
+    type FindPetsByUserResponse,
     FindPetsByUserResponseFromJSON,
     FindPetsByUserResponseToJSON,
+} from '../models/FindPetsByUserResponse';
+import {
+    type ModelApiResponse,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
+} from '../models/ModelApiResponse';
+import {
+    type Pet,
     PetFromJSON,
     PetToJSON,
+} from '../models/Pet';
+import {
+    type PetRegionsResponse,
     PetRegionsResponseFromJSON,
     PetRegionsResponseToJSON,
-} from '../models/index';
+} from '../models/PetRegionsResponse';
 
 export interface AddPetRequest {
     dummyCat: Category;
@@ -173,7 +180,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -450,7 +457,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -497,7 +504,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}/regions`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -602,7 +609,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}/regions`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -675,7 +682,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -749,7 +756,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}/uploadImage`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,

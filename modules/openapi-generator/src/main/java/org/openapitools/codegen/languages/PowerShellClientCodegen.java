@@ -40,6 +40,9 @@ import java.util.*;
 import static java.util.UUID.randomUUID;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/powershell/}.
+ */
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
     @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -1527,7 +1530,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
@@ -1536,8 +1539,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             return (getSymbolName(name)).toUpperCase(Locale.ROOT);
         }
 
-        // number
-        if ("Int16".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
+        if (name.matches("^\\d.*") || // any data type (including string) starting with a number
+                // numeric data type
+                "Int16".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
                 "UInt16".equals(datatype) || "UInt32".equals(datatype) || "UInt64".equals(datatype) ||
                 "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
             String varName = name;

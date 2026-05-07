@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Order {
 
   

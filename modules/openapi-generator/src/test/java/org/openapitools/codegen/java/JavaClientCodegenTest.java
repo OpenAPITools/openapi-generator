@@ -666,6 +666,85 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpClientWithJackson3AndOpenApiNullable() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("import org.openapitools.jackson.nullable.JsonNullableJackson3Module;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("JsonNullableModule");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JSON.java")).content()
+                .contains("import org.openapitools.jackson.nullable.JsonNullableJackson3Module;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("JsonNullableModule");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("jackson-databind-nullable");
+    }
+
+    @Test
+    public void testApacheHttpClientWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.APACHE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("import tools.jackson.databind.*")
+                .contains("import tools.jackson.databind.json.JsonMapper;")
+                .contains("import org.openapitools.jackson.nullable.JsonNullableJackson3Module;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("import com.fasterxml.jackson.databind");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
+                .contains("import tools.jackson.core.type.TypeReference;")
+                .doesNotContain("import com.fasterxml.jackson.core.type.TypeReference");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson.core</groupId>")
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>")
+                .contains("jackson-databind-nullable");
+    }
+
+    @Test(dataProvider = "springBoot4Jackson3Libraries")
+    void supportsJackson3WithOpenApiNullableForSpringBoot4Libraries(String library) {
+        String outputDir = newTempFolder().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(USE_JACKSON_3, true)
+                .addAdditionalProperty(USE_SPRING_BOOT4, true)
+                .addAdditionalProperty(OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
+                .setOutputDir(outputDir);
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).isNotEmpty();
+        assertThat(new File(outputDir, "src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("JsonNullableJackson3Module");
+    }
+
+    @Test
     public void testReferencedHeader() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
@@ -1384,12 +1463,8 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
-     * <p>
-     * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
-     * We will contact the contributor of the following test to see if the fix will break their use cases and
-     * how we can fix it accordingly.
      */
-    @Test(enabled = false)
+    @Test
     public void testWebClientWithUseAbstractionForFiles() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -1403,21 +1478,20 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java")).content()
-                .contains(
-                        // multiple files
-                        "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
-                        "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
+                // multiple files
+                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
-                        // mixed
-                        "multipartMixed(org.springframework.core.io.AbstractResource file, MultipartMixedMarker"
-                                + " marker)",
-                        "formParams.add(\"file\", file);",
+                // mixed
+                "multipartMixed(@javax.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.Resource _file, @javax.annotation.Nullable MultipartMixedRequestMarker marker, @javax.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", _file);",
 
-                        // single file
-                        "multipartSingle(org.springframework.core.io.AbstractResource file)",
-                        "formParams.add(\"file\", file);"
-                );
+                // single file
+                "multipartSingle(org.springframework.core.io.Resource _file)",
+                "formParams.add(\"file\", _file);"
+       );
     }
 
     /**
@@ -2075,7 +2149,15 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString());
         consumer.accept(configurator);
         return new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .stream().collect(Collectors.toMap(JavaClientCodegenTest::getUniqueName, Function.identity()));
+    }
+
+    private static String getUniqueName(File file) {
+        String name = file.getName();
+        if ("package-info.java".equals(name)) {
+            return file.getParentFile().getName() + "/" + name;
+        }
+        return name;
     }
 
     @Test
@@ -2640,6 +2722,22 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testQueryParamsExploded_whenQueryParamIsNull_restclient() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
+                .setInputSpec("src/test/resources/3_0/issue_17555.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/DepartmentApi.java"), "if (filter != null) {");
+    }
+
+    @Test
     public void generateAllArgsConstructor() {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
                 Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
@@ -2747,15 +2845,15 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.AbstractResource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.Resource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", _file);",
 
                 // single file
-                "multipartSingle(org.springframework.core.io.AbstractResource _file)",
+                "multipartSingle(org.springframework.core.io.Resource _file)",
                 "formParams.add(\"file\", _file);"
         );
     }
@@ -4237,4 +4335,121 @@ public class JavaClientCodegenTest {
                 "o.getClass().getEnumConstants() != null"
         );
     }
+
+    @DataProvider(name = "jspecifyLibraries")
+    public Object[][] jspecifyLibraries() {
+        return new Object[][]{
+                {"restclient", false, true},
+                {"restclient", true, false},
+                {"webclient", false, true},
+                {"webclient", true, false},
+                {"resttemplate", false, true},
+                {"resttemplate", true, true},
+                {"native", false, true}
+        };
+    }
+
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify(String library, boolean useSpringBoot4, boolean hasJspecifyDependency) throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        "containerDefaultToNull", true,
+                        USE_SPRING_BOOT4, useSpringBoot4
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .setValidateSpec(false)
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant")
+                                .addTypeMapping("BigDecimal", "java.math.BigDecimal"));
+
+        if (hasJspecifyDependency) {
+            assertThat(files.get("build.gradle")).content()
+                    .contains("implementation \"org.jspecify:jspecify:1.0.0\"")
+                    .doesNotContain("findbugs");
+            assertThat(files.get("pom.xml")).content()
+                    .contains(
+                            "<groupId>org.jspecify</groupId>",
+                            "<artifactId>jspecify</artifactId>",
+                            "<version>1.0.0</version>")
+                    .doesNotContain("findbugs");
+        } else {
+            assertThat(files.get("build.gradle")).content()
+                    .doesNotContain("org.jspecify");
+            assertThat(files.get("pom.xml")).content()
+                    .doesNotContain("org.jspecify");
+        }
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "private java.time.@Nullable Instant dt;",
+                        "setDt(java.time.@Nullable Instant dt)",
+                        "dt(java.time.@Nullable Instant dt)",
+                        "setBinary(@Nullable File binary)",
+                        "public @Nullable File getBinary()",
+                        "List<java.time.@Nullable Instant> getListOfDt()",
+                        "setListOfDt(List<java.time.@Nullable Instant> listOfDt)"
+                );
+        if (!RESTTEMPLATE.equals(library)) {
+            JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                    .fileContains(
+                            "import org.jspecify.annotations.Nullable;",
+                            "(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie)"
+                    );
+        }
+        JavaFileAssert.assertThat(files.get("api/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("model/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+        JavaFileAssert.assertThat(files.get("client/package-info.java"))
+                .fileContains("@org.jspecify.annotations.NullMarked");
+
+    }
+
+    @DataProvider(name = "replaceOneOf")
+    public Object[][] replaceOneOf() {
+        return new Object[][]{
+                {"src/test/resources/3_0/oneOf_issue_23527.yaml"},
+                {"src/test/resources/3_0/oneOf_issue_23527_1.yaml"},
+                {"src/test/resources/3_0/oneOf_issue_23527_2.yaml"}
+        };
+    }
+
+    @Test(dataProvider = "replaceOneOf" )
+    void replaceOneOfByDiscriminatorMapping(String file) {
+        Map<String, File> files = generateFromContract(file, APACHE, Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+
+        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String type")
+                .fileDoesNotContain("coordinates")
+                .assertTypeAnnotations()
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "MultiPolygon.class", "name", "\"MultiPolygon\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Polygon.class", "name", "\"Polygon\""));
+
+        JavaFileAssert.assertThat(files.get("Polygon.java"))
+                .extendsClass("GeoJsonObject")
+                .doesNotImplementInterfaces("GeoJsonObject")
+                .fileContains("List<Double> coordinates");
+    }
+
+    @Test
+    void oneOf_issue_912() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_912.yaml", APACHE,
+                Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
+                        .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
+        JavaFileAssert.assertThat(files.get("CatalogEntity.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String entityType")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("include", "JsonTypeInfo.As.PROPERTY", "property", "\"entityType\""))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Folder.class", "name", "\"folder\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Source.class", "name", "\"source\""));
+    }
+
 }

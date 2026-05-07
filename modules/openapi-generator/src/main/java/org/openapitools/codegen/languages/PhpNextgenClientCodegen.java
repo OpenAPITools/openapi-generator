@@ -36,6 +36,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/php-nextgen/}.
+ */
 public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(PhpNextgenClientCodegen.class);

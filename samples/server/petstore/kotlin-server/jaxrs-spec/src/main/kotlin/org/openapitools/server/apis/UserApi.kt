@@ -11,7 +11,7 @@ import java.io.InputStream
 
 
 @Path("/user")
-@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.23.0-SNAPSHOT")
 class UserApi {
 
     @POST
@@ -47,7 +47,7 @@ class UserApi {
     @GET
     @Path("/login")
     @Produces("application/xml", "application/json")
-    suspend fun loginUser(@QueryParam("username")   username: kotlin.String,@QueryParam("password")   password: kotlin.String): Response {
+    suspend fun loginUser(@QueryParam("username") username: kotlin.String,@QueryParam("password") password: kotlin.String): Response {
         return Response.ok().entity("magic!").build();
     }
 

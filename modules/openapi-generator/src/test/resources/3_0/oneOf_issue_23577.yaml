@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Issue reproducer
+  description: Issue reproducer
+  version: 0.1.0
+paths:
+  /reproducer:
+    get:
+      operationId: 'reproduce'
+      responses:
+        '200':
+          description: result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+
+components:
+  schemas:
+    Event:
+      oneOf:
+        - $ref: '#/components/schemas/CreatedEvent'
+        - $ref: '#/components/schemas/UpdatedEvent'
+      discriminator:
+        propertyName: type
+        mapping:
+          created: '#/components/schemas/CreatedEvent'
+          updated: '#/components/schemas/UpdatedEvent'
+
+    CreatedEvent:
+      x-implements: com.example.Notification
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+      required:
+        - type
+        - value
+
+    UpdatedEvent:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+      required:
+        - type
+        - value

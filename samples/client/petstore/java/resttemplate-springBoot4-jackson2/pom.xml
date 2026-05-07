@@ -284,7 +284,7 @@
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
 
         <jackson-annotations-version>2.21</jackson-annotations-version>
-        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <junit-version>5.10.2</junit-version>
     </properties>
 </project>

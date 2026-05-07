@@ -40,9 +40,11 @@ use {{invokerPackage}}\ObjectSerializer;
  * @package  {{invokerPackage}}
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+{{^parentSchema}}
 {{^isEnum}}
  * @implements ArrayAccess<string, mixed>
 {{/isEnum}}
+{{/parentSchema}}
  */
 {{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}
 {{/model}}{{/models}}

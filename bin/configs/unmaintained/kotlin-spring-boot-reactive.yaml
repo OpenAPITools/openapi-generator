@@ -9,4 +9,4 @@ additionalProperties:
   useSwaggerUI: "true"
   serviceImplementation: "true"
   reactive: "true"
-  beanValidations: "true"
+  useBeanValidation: "true"

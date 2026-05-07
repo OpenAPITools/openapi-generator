@@ -45,6 +45,9 @@ import static java.util.Objects.nonNull;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-fetch/}.
+ */
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -457,6 +460,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 if (codegenModel.isEntity) {
                     entityModelClassnames.add(codegenModel.classname);
                 }
+            }
+        }
+
+        // Build a set of classnames that are oneOf models (union types)
+        Set<String> oneOfModelNames = allModels.stream()
+                .filter(m -> !m.oneOf.isEmpty())
+                .map(m -> m.classname)
+                .collect(Collectors.toSet());
+
+        // Mark models whose parent is a oneOf model — these cannot use
+        // "interface X extends Parent" because TypeScript does not allow
+        // an interface to extend a union type.  They use
+        // "type X = Parent & { ... }" instead.
+        for (ExtendedCodegenModel m : allModels) {
+            if (m.parent != null && oneOfModelNames.contains(m.parent)) {
+                m.parentIsOneOf = true;
             }
         }
 
@@ -1545,6 +1564,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
         @Getter @Setter
         public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
+        @Getter @Setter
+        public boolean parentIsOneOf; // true when this model's parent is a oneOf union type
 
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;

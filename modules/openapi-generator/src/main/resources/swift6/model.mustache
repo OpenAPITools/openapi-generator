@@ -26,4 +26,60 @@ extension {{projectName}}API {
 }
 {{/swiftUseApiNamespace}}{{#models}}{{#model}}{{#vendorExtensions.x-swift-identifiable}}
 extension {{#swiftUseApiNamespace}}{{projectName}}API.{{/swiftUseApiNamespace}}{{{classname}}}: Identifiable {}
-{{/vendorExtensions.x-swift-identifiable}}{{/model}}{{/models}}
+{{/vendorExtensions.x-swift-identifiable}}{{#enumUnknownDefaultCase}}{{^vendorExtensions.x-is-one-of-interface}}{{^isArray}}{{^isEnum}}{{#hasEnums}}
+extension {{#swiftUseApiNamespace}}{{projectName}}API.{{/swiftUseApiNamespace}}{{{classname}}}: UnknownCaseCheckable {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var containsUnknownDefaultOpenApiCase: Bool {
+        {{#allVars}}
+        {{#isEnum}}
+        {{^isContainer}}
+        {{#vendorExtensions.x-null-encodable}}
+        if {{{name}}} == .encodeValue(.unknownDefaultOpenApi) { return true }
+        {{/vendorExtensions.x-null-encodable}}
+        {{^vendorExtensions.x-null-encodable}}
+        if {{{name}}} == .unknownDefaultOpenApi { return true }
+        {{/vendorExtensions.x-null-encodable}}
+        {{/isContainer}}
+        {{#isArray}}
+        {{#required}}{{^isNullable}}
+        if {{{name}}}.contains(.unknownDefaultOpenApi) { return true }
+        {{/isNullable}}{{#isNullable}}
+        if {{{name}}}?.contains(.unknownDefaultOpenApi) == true { return true }
+        {{/isNullable}}{{/required}}
+        {{^required}}
+        if {{{name}}}?.contains(.unknownDefaultOpenApi) == true { return true }
+        {{/required}}
+        {{/isArray}}
+        {{/isEnum}}
+        {{^isEnum}}
+        {{#isEnumRef}}
+        {{^isContainer}}
+        {{#vendorExtensions.x-null-encodable}}
+        if {{{name}}} == .encodeValue(.unknownDefaultOpenApi) { return true }
+        {{/vendorExtensions.x-null-encodable}}
+        {{^vendorExtensions.x-null-encodable}}
+        if {{{name}}} == .unknownDefaultOpenApi { return true }
+        {{/vendorExtensions.x-null-encodable}}
+        {{/isContainer}}
+        {{#isArray}}
+        {{#required}}{{^isNullable}}
+        if {{{name}}}.contains(.unknownDefaultOpenApi) { return true }
+        {{/isNullable}}{{#isNullable}}
+        if {{{name}}}?.contains(.unknownDefaultOpenApi) == true { return true }
+        {{/isNullable}}{{/required}}
+        {{^required}}
+        if {{{name}}}?.contains(.unknownDefaultOpenApi) == true { return true }
+        {{/required}}
+        {{/isArray}}
+        {{/isEnumRef}}
+        {{/isEnum}}
+        {{/allVars}}
+        return false
+    }
+}
+{{/hasEnums}}{{/isEnum}}{{/isArray}}{{/vendorExtensions.x-is-one-of-interface}}{{#isEnum}}
+extension {{#swiftUseApiNamespace}}{{projectName}}API.{{/swiftUseApiNamespace}}{{{classname}}}: UnknownCaseCheckable {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var containsUnknownDefaultOpenApiCase: Bool {
+        self == .unknownDefaultOpenApi
+    }
+}
+{{/isEnum}}{{/enumUnknownDefaultCase}}{{/model}}{{/models}}

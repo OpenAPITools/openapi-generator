@@ -23,8 +23,6 @@ import javax.ws.rs.core.Response;
 
 
 
-
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -77,7 +75,7 @@ import javax.validation.Valid;
     ), 
 })
 @Path("/fake")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FakeApi {
 
     @GET
@@ -95,6 +93,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @GET
     @Path("/health")
     @Produces({ "application/json" })
@@ -109,6 +108,7 @@ public class FakeApi {
     public Response fakeHealthGet() {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/http-signature-test")
@@ -127,6 +127,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
@@ -142,6 +143,7 @@ public class FakeApi {
     public Response fakeOuterBooleanSerialize(@Valid Boolean body) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Path("/outer/composite")
@@ -159,6 +161,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/outer/number")
     @Consumes({ "application/json" })
@@ -174,6 +177,7 @@ public class FakeApi {
     public Response fakeOuterNumberSerialize(@Valid BigDecimal body) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Path("/outer/string")
@@ -191,6 +195,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/property/enum-int")
     @Consumes({ "application/json" })
@@ -207,6 +212,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/additionalProperties-reference")
     @Consumes({ "application/json" })
@@ -221,6 +227,7 @@ public class FakeApi {
     public Response testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @PUT
     @Path("/body-with-binary")
@@ -237,6 +244,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
@@ -251,6 +259,7 @@ public class FakeApi {
     public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass fileSchemaTestClass) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @PUT
     @Path("/body-with-query-params")
@@ -267,6 +276,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
@@ -281,6 +291,7 @@ public class FakeApi {
     public Response testClientModel(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -297,9 +308,10 @@ public class FakeApi {
                 
             })
         })
-    public Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string, @FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  LocalDateTime dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback) {
+    public Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string,@FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  LocalDateTime dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -318,6 +330,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @DELETE
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
              @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "bearer_test")
@@ -332,6 +345,7 @@ public class FakeApi {
     public Response testGroupParameters(@QueryParam("required_string_group") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Integer in group parameters")  Long int64Group) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Path("/inline-additionalProperties")
@@ -348,6 +362,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/inline-freeform-additionalProperties")
     @Consumes({ "application/json" })
@@ -362,6 +377,7 @@ public class FakeApi {
     public Response testInlineFreeformAdditionalProperties(@Valid @NotNull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/jsonFormData")
@@ -378,6 +394,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/nullable")
     @Consumes({ "application/json" })
@@ -393,6 +410,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @PUT
     @Path("/test-query-parameters")
     
@@ -406,6 +424,7 @@ public class FakeApi {
     public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context,@QueryParam("allowEmpty") @NotNull   String allowEmpty,@QueryParam("language")   Map<String, String> language) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Path("/stringMap-reference")
@@ -422,6 +441,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
@@ -436,7 +456,8 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = ModelApiResponse.class))
             })
         })
-    public Response uploadFileWithRequiredFile(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
+    public Response uploadFileWithRequiredFile(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId,@FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
         return Response.ok().entity("magic!").build();
     }
+
 }

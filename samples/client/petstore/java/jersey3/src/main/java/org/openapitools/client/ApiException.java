@@ -19,13 +19,14 @@ import java.util.List;
 /**
  * API Exception
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ApiException extends Exception {
     private static final long serialVersionUID = 1L;
 
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
+    private transient Object errorEntity = null;
 
     public ApiException() {}
 
@@ -67,6 +68,11 @@ public class ApiException extends Exception {
         this.responseBody = responseBody;
     }
 
+    public ApiException(int code, String message, Map<String, List<String>> responseHeaders, String responseBody, Object errorEntity) {
+        this(code, message, responseHeaders, responseBody);
+        this.errorEntity = errorEntity;
+    }
+
     /**
      * Get the HTTP status code.
      *
@@ -92,5 +98,14 @@ public class ApiException extends Exception {
      */
     public String getResponseBody() {
         return responseBody;
+    }
+
+    /**
+     * Get the deserialized error entity (or null if this error doesn't have a model associated).
+     *
+     * @return Deserialized error entity
+     */
+    public Object getErrorEntity() {
+        return errorEntity;
     }
 }
