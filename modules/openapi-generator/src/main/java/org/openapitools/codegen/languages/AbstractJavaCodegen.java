@@ -30,10 +30,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
@@ -642,6 +639,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
         importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
+        importMapping.put("JsonUnwrapped", "com.fasterxml.jackson.annotation.JsonUnwrapped");
         if (openApiNullable) {
             importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
         }
@@ -722,6 +720,37 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         Map<String, CodegenModel> allModels = getAllModels(objs);
 
+        if (false && useOneOfInterfaces) {
+            for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+                CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+                for (CodegenProperty p : model.getVars()) {
+                    if (p.vendorExtensions.containsKey("x-unwrapped")) {
+                        String dataType = p.getDataType();
+                        ModelsMap child = objs.values().stream().filter(ms -> ms.getModels().stream().anyMatch(m -> dataType.equals(m.getModel().dataType  )))
+                                .findFirst().orElseThrow();
+                        child.getImports().add(Map.of("import", this.importMapping.get("JsonNode")));
+                        child.getImports().add(Map.of("import", this.importMapping.get("JsonMapper")));
+//                        modelsMap.getImports();
+                        child.getModels().forEach(m -> m.getModel().vendorExtensions.put("x-oneof-jsonCreator", true));
+                        ModelsMap modelsMap = entry.getValue();
+//                        CodegenModel child = ModelUtils.getModelByName(p.getDataType(), objs);
+
+                    }
+                }
+            }
+
+//                for (CodegenModel model : allModels.values()) {
+//                for (CodegenProperty p : model.getVars()) {
+//                    if (p.vendorExtensions.containsKey("x-unwrapped")) {
+//                        CodegenModel child = allModels.get(p.getDataType());
+//                        child.imports.add("JsonNode");
+//                        child.imports.add("JsonMapper");
+//                        child.imports.add("JsonCreator");
+//                        child.getVendorExtensions().put("x-oneof-jsonCreator", true);
+//                    }
+//                }
+//            }
+        }
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
@@ -1985,6 +2014,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
         }
+        if (property.getVendorExtensions().containsKey("x-unwrapped")) {
+            model.imports.add("JsonUnwrapped");
+            property.getVendorExtensions().put("x-field-extra-annotation", "@JsonUnwrapped");
+//            property.vendorExtensions.put("x-oneof-jsonCreator", Boolean.TRUE);
+//            property.getComposedSchemas().getOneOf()
+//                pro.imports.add("JsonNode");
+//                codegenModel.imports.add("JsonMapper");
+
+        }
     }
 
     @Override
@@ -2784,5 +2822,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .filter(CodegenParameter::notRequiredOrIsNullable)
                 .findAny()
                 .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+    }
+
+    boolean unwrappedOneOf = true;
+    @Override
+    protected void preprocessOneOfWithProperties(Schema s, String schemaName) {
+        if (unwrappedOneOf) {
+            Schema newSchema = new ComposedSchema();
+            newSchema.oneOf(s.getOneOf());
+            newSchema.addExtension("x-unwrapped", true);
+            String nOneOf = toModelName(schemaName + "OneOf");
+//            newSchema.setName(nOneOf+"Wrapper");
+            String newSchemaName = nOneOf+ "Wrapper";
+            openAPI.getComponents().getSchemas().put(newSchemaName, newSchema);
+            Schema newSchemaRef = new Schema().$ref("#/components/schemas/" + newSchemaName);
+            s.getProperties().put("oneOf", newSchemaRef);
+            s.oneOf(null);
+            addOneOfNameExtension(newSchema, newSchemaName);
+            addOneOfInterfaceModel(newSchema, newSchemaName);
+            CodegenModel cm = addOneOfInterfaces.get(addOneOfInterfaces.size() - 1);
+            cm.vendorExtensions.put("x-oneof-jsonCreator", "true");
+            cm.imports.add("JsonNode");
+            cm.imports.add("JsonMapper");
+
+        } else {
+            super.preprocessOneOfWithProperties(s, schemaName);
+        }
     }
 }

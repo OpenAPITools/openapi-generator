@@ -609,6 +609,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
+        String jacksonPackage = (String)additionalProperties.get("jacksonPackage");
+        importMapping.put("JsonNode", jacksonPackage + ".databind.JsonNode");
+        importMapping.put("JsonMapper", jacksonPackage + ".databind.json.JsonMapper");
+
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
         }

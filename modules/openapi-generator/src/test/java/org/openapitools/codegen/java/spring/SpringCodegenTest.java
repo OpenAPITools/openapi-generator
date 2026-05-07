@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.java.spring;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -28,6 +29,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.MapAssert;
+import org.jetbrains.kotlin.name.StandardClassIds;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -7611,5 +7613,45 @@ public class SpringCodegenTest {
             Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false"));
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
             .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
+    }
+
+    @Test
+    void unwrapped_oneOf_with_inheritance() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_23635.yaml", SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true,
+                        USE_DEDUCTION_FOR_ONE_OF_INTERFACES, true,
+                        USE_SPRING_BOOT4, true,
+                        USE_JACKSON_3, true),
+                codegen -> codegen.addOpenapiNormalizer("USE_UNWRAPPED_FOR_INLINE_ONEOF", "false"));
+
+        JavaFileAssert.assertThat(files.get("Dummy.java"))
+                .assertProperty("oneOf")
+                .assertPropertyAnnotations().containsWithName("JsonUnwrapped")
+                .toProperty().doesImportAnnotation("JsonUnwrapped");
+
+        JavaFileAssert.assertThat(files.get("DummyOneOf.java"))
+                .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
+                .fileContains("static interface DummyOneOfMixin", "@JsonCreator")
+                .hasImports("tools.jackson.databind.JsonNode", "tools.jackson.databind.json.JsonMapper");
+    }
+
+    @Test
+    void unwrapped_oneOf_with_composition() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_23635.yaml", SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, false,
+                        USE_DEDUCTION_FOR_ONE_OF_INTERFACES, false,
+                        USE_SPRING_BOOT4, true,
+                        USE_JACKSON_3, true),
+                codegen -> codegen.addOpenapiNormalizer("USE_UNWRAPPED_FOR_INLINE_ONEOF", "true"));
+
+        JavaFileAssert.assertThat(files.get("Dummy.java"))
+                .assertProperty("oneOf")
+                .assertPropertyAnnotations().containsWithName("JsonUnwrapped")
+                .toProperty().doesImportAnnotation("JsonUnwrapped");
+
+        JavaFileAssert.assertThat(files.get("DummyOneOf.java"))
+                .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
+                .fileDoesNotContain("static interface DummyOneOfMixin", "@JsonCreator")
+                .fileContains("String good;", " String bad;");
     }
 }

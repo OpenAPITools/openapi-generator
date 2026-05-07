@@ -6,14 +6,14 @@
 {{#discriminator}}
 {{>typeInfoAnnotation}}
 
-{{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}
+{{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}{{^vendorExtensions.x-oneof-jsonCreator}}
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 @JsonSubTypes({
     {{#interfaceModels}}
     @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
     {{/interfaceModels}}
 })
-{{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-class-extra-annotation}}{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-oneof-jsonCreator}}{{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-class-extra-annotation}}{{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 {{/discriminator}}
 {{>generatedAnnotation}}
@@ -21,5 +21,27 @@
 public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
-    {{/discriminator}}
+    {{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}{{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-oneof-jsonCreator}}
+
+    static JsonMapper getJsonMapperForJsonCreator() {
+       return JsonMapper.shared().rebuild()
+       .addMixIn({{classname}}.class, {{classname}}Mixin.class)
+       .build();
+    }
+
+    @JsonCreator
+    static {{classname}} valueOf(JsonNode node) {
+        {{classname}} value = getJsonMapperForJsonCreator().treeToValue(node, {{classname}}.class);
+        return value;
+    }
+    @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+    @JsonSubTypes({
+    {{#interfaceModels}}
+        @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
+    {{/interfaceModels}}
+    })
+    static interface {{classname}}Mixin {
+
+    }
+    {{/vendorExtensions.x-oneof-jsonCreator}}{{/discriminator}}
 }
