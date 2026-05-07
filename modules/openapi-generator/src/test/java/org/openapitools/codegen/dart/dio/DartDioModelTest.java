@@ -387,6 +387,104 @@ public class DartDioModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
+    @Test(description = "uses schema-local discriminator mapping for dart-dio")
+    public void localDiscriminatorUsesDeclaredMappingsOnly() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/bugs/issue_15467.json");
+
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+
+        final String modelName = "Animal";
+        final Schema model = openAPI.getComponents().getSchemas().get(modelName);
+        final CodegenModel cm = codegen.fromModel(modelName, model);
+
+        Assert.assertNotNull(cm.discriminator);
+        Assert.assertEquals(cm.discriminator.getMapping().size(), 4);
+        Assert.assertTrue(cm.discriminator.getMapping().containsKey("Bird"));
+        Assert.assertTrue(cm.discriminator.getMapping().containsKey("Reptile"));
+        Assert.assertTrue(cm.discriminator.getMapping().containsKey("Crocodile"));
+        Assert.assertTrue(cm.discriminator.getMapping().containsKey("Turtle"));
+        Assert.assertFalse(cm.discriminator.getMapping().containsKey("Lizard"));
+    }
+
+    @Test(description = "does not leak sibling mappings into inherited discriminator for intermediate allOf models")
+    public void inheritedDiscriminatorKeepsOnlyDescendantsForIntermediateModel() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/bugs/issue_15467.json");
+
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+
+        final Schema reptileSchema = openAPI.getComponents().getSchemas().get("Reptile");
+        final CodegenModel reptileModel = codegen.fromModel("Reptile", reptileSchema);
+
+        Assert.assertNotNull(reptileModel.discriminator);
+        Assert.assertNotNull(reptileModel.discriminator.getMapping());
+        Assert.assertTrue(reptileModel.discriminator.getMapping().containsKey("Crocodile"));
+        Assert.assertTrue(reptileModel.discriminator.getMapping().containsKey("Turtle"));
+        Assert.assertTrue(reptileModel.discriminator.getMapping().containsKey("Reptile"));
+        Assert.assertFalse(reptileModel.discriminator.getMapping().containsKey("Bird"));
+
+        java.util.List<String> reptileMappedModelOrder = reptileModel.discriminator.getMappedModels().stream()
+                .map(CodegenDiscriminator.MappedModel::getModelName)
+                .collect(java.util.stream.Collectors.toList());
+        Assert.assertEquals(reptileMappedModelOrder.get(reptileMappedModelOrder.size() - 1), "Reptile");
+
+        Assert.assertEquals(reptileModel.discriminator.getVendorExtensions().get("x-has-discriminator-self-mapping"), Boolean.TRUE);
+        Assert.assertEquals(reptileModel.discriminator.getVendorExtensions().get("x-discriminator-self-mapping-name"), "Reptile");
+        @SuppressWarnings("unchecked")
+        java.util.List<CodegenDiscriminator.MappedModel> reptileNonSelfMappedModels =
+                (java.util.List<CodegenDiscriminator.MappedModel>) reptileModel.discriminator.getVendorExtensions().get("x-discriminator-mapped-models-nonself");
+        Assert.assertNotNull(reptileNonSelfMappedModels);
+        Assert.assertEquals(
+                reptileNonSelfMappedModels.stream()
+                        .map(CodegenDiscriminator.MappedModel::getModelName)
+                        .collect(java.util.stream.Collectors.toList()),
+                java.util.Arrays.asList("Crocodile", "Turtle"));
+
+        final Schema animalSchema = openAPI.getComponents().getSchemas().get("Animal");
+        final CodegenModel animalModel = codegen.fromModel("Animal", animalSchema);
+        Assert.assertNotNull(animalModel.discriminator);
+        Assert.assertNotNull(animalModel.discriminator.getMapping());
+        Assert.assertTrue(animalModel.discriminator.getMapping().containsKey("Bird"));
+        Assert.assertTrue(animalModel.discriminator.getMapping().containsKey("Reptile"));
+        Assert.assertEquals(animalModel.discriminator.getVendorExtensions().get("x-has-discriminator-self-mapping"), Boolean.FALSE);
+    }
+
+    @Test(description = "orders discriminator mappings so subclasses are checked before ancestor types")
+    public void discriminatorChecksSubclassesBeforeParentTypes() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/bugs/issue_15467.json");
+
+        final DefaultCodegen codegen = new DartDioClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+
+        final Schema animalSchema = openAPI.getComponents().getSchemas().get("Animal");
+        final CodegenModel animalModel = codegen.fromModel("Animal", animalSchema);
+
+        Assert.assertNotNull(animalModel.discriminator);
+        java.util.List<String> mappedModelOrder = animalModel.discriminator.getMappedModels().stream()
+                .map(CodegenDiscriminator.MappedModel::getModelName)
+                .collect(java.util.stream.Collectors.toList());
+
+        Assert.assertTrue(mappedModelOrder.indexOf("Turtle") < mappedModelOrder.indexOf("Reptile"));
+        Assert.assertTrue(mappedModelOrder.indexOf("Crocodile") < mappedModelOrder.indexOf("Reptile"));
+
+        @SuppressWarnings("unchecked")
+        java.util.List<CodegenDiscriminator.MappedModel> animalNonSelfMappedModels =
+                (java.util.List<CodegenDiscriminator.MappedModel>) animalModel.discriminator.getVendorExtensions().get("x-discriminator-mapped-models-nonself");
+        Assert.assertNotNull(animalNonSelfMappedModels);
+        java.util.List<String> animalNonSelfMappedModelOrder = animalNonSelfMappedModels.stream()
+                .map(CodegenDiscriminator.MappedModel::getModelName)
+                .collect(java.util.stream.Collectors.toList());
+        Assert.assertTrue(animalNonSelfMappedModelOrder.indexOf("Turtle") < animalNonSelfMappedModelOrder.indexOf("Reptile"));
+        Assert.assertTrue(animalNonSelfMappedModelOrder.indexOf("Crocodile") < animalNonSelfMappedModelOrder.indexOf("Reptile"));
+    }
+
     @DataProvider(name = "modelNames")
     public static Object[][] modelNames() {
         return new Object[][]{
