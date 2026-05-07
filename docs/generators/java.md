@@ -95,7 +95,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
-|useDeductionForOneOfInterfaces|whether to use deduction for generated oneOf interfaces| |false|
+|useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
 |useJackson3|Use Jackson 3 instead of Jackson 2. Supported for 'native' and 'apache-httpclient' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).| |false|
