@@ -7727,7 +7727,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void innerValidationAnnotationOnCollectionItems_issue23705() throws IOException {
+    void itemValidationAnnotationOnCollectionItems_issue23705() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
             Map.of("useBeanValidation", "true", "useSpringBoot3", "true"));
 
@@ -7747,9 +7747,9 @@ public class SpringCodegenTest {
             // negative checks: the un-annotated container types should not appear for these fields
             .fileDoesNotContain("List<Stubb> listSample")
             .fileDoesNotContain("Set<Stubb> setSample")
-            // nullable container with inner annotation: JsonNullable wrap must keep the annotation
+            // nullable container with item annotation: JsonNullable wrap must keep the annotation
             .fileContains("JsonNullable<List<@jakarta.validation.constraints.NotNull Stubb>>")
-            // Map (additionalProperties) must NOT receive the inner annotation — only List/Set are supported
+            // Map (additionalProperties) must NOT receive the item annotation — only List/Set are supported
             .fileDoesNotContain("Map<String, @jakarta.validation.constraints.NotNull Stubb>");
     }
 }

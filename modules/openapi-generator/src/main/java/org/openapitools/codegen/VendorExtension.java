@@ -24,7 +24,7 @@ public enum VendorExtension {
     X_CONTENT_TYPE("x-content-type", ExtensionLevel.OPERATION, "Specify custom value for 'Content-Type' header for operation", null),
     X_CLASS_EXTRA_ANNOTATION("x-class-extra-annotation", ExtensionLevel.MODEL, "List of custom annotations to be added to model", null),
     X_FIELD_EXTRA_ANNOTATION("x-field-extra-annotation", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "List of custom annotations to be added to property", null),
-    X_INNER_VALIDATION("x-inner-validation", ExtensionLevel.FIELD, "Custom annotation to be placed on the type argument of a collection (List, Set), set on the array/set `items` schema, enabling per-element bean validation constraints (e.g. `@NotNull`)", null),
+    X_ITEM_VALIDATION("x-item-validation", ExtensionLevel.FIELD, "Custom annotation to be placed on the type argument of a collection (List, Set), set on the array property itself, enabling per-element bean validation constraints (e.g. `@NotNull`)", null),
     X_OPERATION_EXTRA_ANNOTATION("x-operation-extra-annotation", ExtensionLevel.OPERATION, "List of custom annotations to be added to operation", null),
     X_VERSION_PARAM("x-version-param", ExtensionLevel.OPERATION_PARAMETER, "Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false", null),
     X_PATTERN_MESSAGE("x-pattern-message", Arrays.asList(ExtensionLevel.FIELD, ExtensionLevel.OPERATION_PARAMETER), "Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable", null),

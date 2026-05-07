@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: issue 23705 x-inner-validation
+  title: issue 23705 x-item-validation
   version: 1.0.0
 components:
   schemas:
@@ -14,17 +14,15 @@ components:
       properties:
         listSample:
           type: array
+          x-item-validation: '@jakarta.validation.constraints.NotNull'
           items:
-            x-inner-validation: '@jakarta.validation.constraints.NotNull'
-            allOf:
-              - $ref: '#/components/schemas/Stubb'
+            $ref: '#/components/schemas/Stubb'
         setSample:
           type: array
           uniqueItems: true
+          x-item-validation: '@jakarta.validation.constraints.NotNull'
           items:
-            x-inner-validation: '@jakarta.validation.constraints.NotNull'
-            allOf:
-              - $ref: '#/components/schemas/Stubb'
+            $ref: '#/components/schemas/Stubb'
         regularList:
           type: array
           items:
@@ -32,13 +30,11 @@ components:
         nullableListSample:
           type: array
           nullable: true
+          x-item-validation: '@jakarta.validation.constraints.NotNull'
           items:
-            x-inner-validation: '@jakarta.validation.constraints.NotNull'
-            allOf:
-              - $ref: '#/components/schemas/Stubb'
+            $ref: '#/components/schemas/Stubb'
         mapSample:
           type: object
+          x-item-validation: '@jakarta.validation.constraints.NotNull'
           additionalProperties:
-            x-inner-validation: '@jakarta.validation.constraints.NotNull'
-            allOf:
-              - $ref: '#/components/schemas/Stubb'
+            $ref: '#/components/schemas/Stubb'

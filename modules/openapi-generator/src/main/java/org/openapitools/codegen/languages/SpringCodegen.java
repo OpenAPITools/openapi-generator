@@ -1139,18 +1139,17 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        // x-inner-validation: when set on the items of an array/set, expose a precomputed
+        // x-item-validation: when set on an array/set property, expose a precomputed
         // datatype string that places the annotation as a JSR-308 type-use annotation on
         // the element type, e.g. List<@NotNull Stubb> or Set<@NotNull Stubb>.
         // Restricted to isArray (List/Set) — Maps are intentionally not supported.
-        if (property.isArray && property.items != null
-                && property.items.vendorExtensions != null
-                && property.items.vendorExtensions.get("x-inner-validation") instanceof String) {
-            String innerAnnotation = ((String) property.items.vendorExtensions.get("x-inner-validation")).trim();
-            if (!innerAnnotation.isEmpty()) {
+        if (property.isArray && property.vendorExtensions != null
+                && property.vendorExtensions.get("x-item-validation") instanceof String) {
+            String itemAnnotation = ((String) property.vendorExtensions.get("x-item-validation")).trim();
+            if (!itemAnnotation.isEmpty() && property.items != null) {
                 String containerType = property.getUniqueItems() ? "Set" : "List";
-                String datatype = containerType + "<" + innerAnnotation + " " + property.items.datatypeWithEnum + ">";
-                property.vendorExtensions.put("x-datatype-with-inner-annotation", datatype);
+                String datatype = containerType + "<" + itemAnnotation + " " + property.items.datatypeWithEnum + ">";
+                property.vendorExtensions.put("x-datatype-with-item-annotation", datatype);
             }
         }
 
@@ -1558,7 +1557,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
-        extensions.add(VendorExtension.X_INNER_VALIDATION);
+        extensions.add(VendorExtension.X_ITEM_VALIDATION);
         return extensions;
     }
 
