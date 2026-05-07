@@ -22,6 +22,8 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
 
+@Deprecated
+
 
 @JsonTypeName("DeprecatedObject")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)

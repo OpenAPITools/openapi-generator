@@ -78,6 +78,7 @@ Class | Method | HTTP request | Description
 *StoreApi* | **deleteOrder** | **DELETE** /store/order/${orderId} | Delete purchase order by ID
 *StoreApi* | **getInventory** | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | **getOrderById** | **GET** /store/order/${orderId} | Find purchase order by ID
+*StoreApi* | **getStoreStats** | **GET** /store/stats | Returns store statistics as a free-form JSON object
 *StoreApi* | **placeOrder** | **POST** /store/order | Place an order for a pet
 *UserApi* | **createUser** | **POST** /user | Create user
 *UserApi* | **createUsersWithArrayInput** | **POST** /user/createWithArray | Creates list of users with given input array

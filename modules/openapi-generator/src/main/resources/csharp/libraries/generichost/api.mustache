@@ -452,23 +452,6 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/-last}}
                     {{/queryParams}}
-                    {{#constantParams}}
-                    {{#isHeaderParam}}
-                    // Set client side default value of Header Param "{{baseName}}".
-                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
-                    {{/isHeaderParam}}
-                    {{/constantParams}}
-                    {{#headerParams}}
-                    {{#required}}
-                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
-
-                    {{/required}}
-                    {{^required}}
-                    if ({{paramName}}.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
-
-                    {{/required}}
-                    {{/headerParams}}
                     {{#formParams}}
                     {{#-first}}
                     {{#isMultipart}}
@@ -561,18 +544,65 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/formParams}}
                     {{#bodyParam}}
                     {{#required}}
-                    httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
                     {{/required}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream
-                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
+                    {
+                      httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is {{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
+                    }
                     {{/required}}
 
                     {{/bodyParam}}
+
+                    {{#constantParams}}
+                    {{#isHeaderParam}}
+                    // Set client side default value of Header Param "{{baseName}}".                    
+                    if (ClientUtils.IsContentHeader("{{baseName}}"))
+                    {
+                        httpRequestMessageLocalVar.Content.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+                    }
+                    else
+                    {
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+                    }
+
+                    {{/isHeaderParam}}
+                    {{/constantParams}}
+                    {{#headerParams}}
+                    {{#required}}
+                    // Set client side default value of Header Param "{{baseName}}".                    
+                    if (ClientUtils.IsContentHeader("{{baseName}}"))
+                    {
+                        httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                    }
+                    else
+                    {
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                    }
+
+                    {{/required}}
+                    {{^required}}
+                    if ({{paramName}}.IsSet)
+                    {
+                      // Set client side default value of Header Param "{{baseName}}".                    
+                      if (ClientUtils.IsContentHeader("{{baseName}}"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
+                      }
+                    }
+
+                    {{/required}}
+                    {{/headerParams}}
+
                     {{#authMethods}}
                     {{#-first}}
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();

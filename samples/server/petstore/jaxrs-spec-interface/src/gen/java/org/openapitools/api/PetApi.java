@@ -82,7 +82,7 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class, responseContainer = "List") })
-    List<Pet> findPetsByStatus(@QueryParam("status") @NotNull  @ApiParam("Status values that need to be considered for filter")  List<String> status);
+    List<Pet> findPetsByStatus(@Deprecated @QueryParam("status") @NotNull  @ApiParam("Status values that need to be considered for filter")  List<String> status);
 
 
     /**
@@ -91,7 +91,9 @@ public interface PetApi {
      * @param tags Tags to filter by
      * @return successful operation
      * @return Invalid tag value
+     * @deprecated
      */
+    @Deprecated
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
@@ -192,6 +194,6 @@ public interface PetApi {
          }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    ModelApiResponse uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream);
+    ModelApiResponse uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata,@FormParam(value = "file") InputStream _fileInputStream);
 
 }

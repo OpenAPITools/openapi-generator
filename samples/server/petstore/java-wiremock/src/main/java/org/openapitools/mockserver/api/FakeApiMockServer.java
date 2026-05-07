@@ -111,7 +111,7 @@ public class FakeApiMockServer {
 
 
     public static String fakeHttpSignatureTestRequestSample1() {
-        return "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
+        return "{ \"id\" : 0, \"category\" : { \"id\" : 6, \"name\" : \"default-name\" }, \"name\" : \"doggie\", \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"tags\" : [ { \"id\" : 1, \"name\" : \"name\" }, { \"id\" : 1, \"name\" : \"name\" } ], \"status\" : \"available\" }";
     }
     public static String fakeHttpSignatureTestRequestSample2() {
         return "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
@@ -177,11 +177,11 @@ public class FakeApiMockServer {
     }
 
     public static String fakeOuterCompositeSerialize200ResponseSample1() {
-        return "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+        return "{ \"my_number\" : 0.8008281904610115, \"my_string\" : \"my_string\", \"my_boolean\" : true }";
     }
 
     public static String fakeOuterCompositeSerializeRequestSample1() {
-        return "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+        return "{ \"my_number\" : 0.8008281904610115, \"my_string\" : \"my_string\", \"my_boolean\" : true }";
     }
 
 
@@ -394,7 +394,7 @@ public class FakeApiMockServer {
 
 
     public static String testBodyWithQueryParamsRequestSample1() {
-        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
+        return "{ \"id\" : 0, \"username\" : \"username\", \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"email\" : \"email\", \"password\" : \"password\", \"phone\" : \"phone\", \"userStatus\" : 6 }";
     }
 
 
@@ -844,7 +844,7 @@ public class FakeApiMockServer {
 
 
     public static String testNullableRequestSample1() {
-        return "{ \"otherProperty\" : \"otherProperty\", \"nullableProperty\" : \"nullableProperty\", \"type\" : \"ChildWithNullable\" }";
+        return "{ \"type\" : \"ChildWithNullable\", \"nullableProperty\" : \"nullableProperty\", \"otherProperty\" : \"otherProperty\" }";
     }
 
 

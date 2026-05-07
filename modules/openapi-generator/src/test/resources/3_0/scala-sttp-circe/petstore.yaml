@@ -283,6 +283,22 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
+  /store/stats:
+    get:
+      tags:
+        - store
+      summary: Returns store statistics as a free-form JSON object
+      description: Returns arbitrary store metrics whose schema is not fixed
+      operationId: getStoreStats
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - api_key: []
   /store/inventory:
     get:
       tags:

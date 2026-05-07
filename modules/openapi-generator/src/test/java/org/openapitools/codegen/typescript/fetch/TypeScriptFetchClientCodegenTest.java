@@ -521,6 +521,43 @@ public class TypeScriptFetchClientCodegenTest {
         assertThat(classSection).contains("async addPetRequestOpts(");
     }
 
+    /**
+     * When a oneOf variant uses allOf to reference another oneOf (nested discriminated unions),
+     * the child model must be generated as a type alias with intersection rather than an
+     * interface with extends, because TypeScript does not allow interfaces to extend union types.
+     */
+    @Test(description = "Verify nested oneOf generates type alias instead of interface extends")
+    public void testNestedOneOfGeneratesTypeAliasForOneOfParent() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/nested-oneOf.yaml"
+        );
+
+        // OuterComposed's parent is Inner (a oneOf union type), so it must use
+        // "type OuterComposed = Inner & { ... }" instead of "interface OuterComposed extends Inner"
+        Path outerComposed = Paths.get(output + "/models/OuterComposed.ts");
+        TestUtils.assertFileExists(outerComposed);
+        TestUtils.assertFileContains(outerComposed, "export type OuterComposed = Inner & {");
+        TestUtils.assertFileNotContains(outerComposed, "export interface OuterComposed extends Inner");
+
+        // Inner should still be a proper oneOf union type with discriminator dispatch
+        Path inner = Paths.get(output + "/models/Inner.ts");
+        TestUtils.assertFileExists(inner);
+        TestUtils.assertFileContains(inner, "export type Inner = { innerDiscriminator: 'a' } & InnerA | { innerDiscriminator: 'b' } & InnerB");
+        TestUtils.assertFileContains(inner, "switch (json['innerDiscriminator'])");
+
+        // Outer should dispatch on outerDiscriminator, including the composed variant
+        Path outer = Paths.get(output + "/models/Outer.ts");
+        TestUtils.assertFileExists(outer);
+        TestUtils.assertFileContains(outer, "switch (json['outerDiscriminator'])");
+        TestUtils.assertFileContains(outer, "case 'composed':");
+
+        // Regular models (not extending a oneOf parent) should still use interface
+        Path outerPlain = Paths.get(output + "/models/OuterPlain.ts");
+        TestUtils.assertFileExists(outerPlain);
+        TestUtils.assertFileContains(outerPlain, "export interface OuterPlain {");
+    }
+
     private static File generate(
         Map<String, Object> properties
     ) throws IOException {

@@ -463,6 +463,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
+        // Build a set of classnames that are oneOf models (union types)
+        Set<String> oneOfModelNames = allModels.stream()
+                .filter(m -> !m.oneOf.isEmpty())
+                .map(m -> m.classname)
+                .collect(Collectors.toSet());
+
+        // Mark models whose parent is a oneOf model — these cannot use
+        // "interface X extends Parent" because TypeScript does not allow
+        // an interface to extend a union type.  They use
+        // "type X = Parent & { ... }" instead.
+        for (ExtendedCodegenModel m : allModels) {
+            if (m.parent != null && oneOfModelNames.contains(m.parent)) {
+                m.parentIsOneOf = true;
+            }
+        }
+
         for (ExtendedCodegenModel rootModel : allModels) {
             for (String curImport : rootModel.imports) {
                 boolean isModelImport = false;
@@ -1548,6 +1564,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
         @Getter @Setter
         public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
+        @Getter @Setter
+        public boolean parentIsOneOf; // true when this model's parent is a oneOf union type
 
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;

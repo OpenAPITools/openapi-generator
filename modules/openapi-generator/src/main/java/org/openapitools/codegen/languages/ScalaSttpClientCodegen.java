@@ -125,11 +125,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-//        importMapping.remove("Seq");
-//        importMapping.remove("List");
-//        importMapping.remove("Set");
-//        importMapping.remove("Map");
-
         // TODO: there is no specific sttp mapping. All Scala Type mappings should be in AbstractScala
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
@@ -170,9 +165,12 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         modelPackage = PACKAGE_PROPERTY.getModelPackage(additionalProperties);
 
         String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
-        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
-        typeMapping.put("object", jsonValueClass);
-        typeMapping.put("AnyType", jsonValueClass);
+        String jsonValueFqn = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
+        String jsonValueSimpleName = jsonValueFqn.substring(jsonValueFqn.lastIndexOf('.') + 1);
+
+        typeMapping.put("object", jsonValueSimpleName);
+        typeMapping.put("AnyType", jsonValueSimpleName);
+        importMapping.put(jsonValueSimpleName, jsonValueFqn);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));

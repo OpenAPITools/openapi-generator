@@ -51,6 +51,7 @@ All URIs are relative to *http://localhost*
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [org.openapitools.client.models.ComplexEnum](docs/ComplexEnum.md)
  - [org.openapitools.client.models.ModelWithEnumPropertyHavingDefault](docs/ModelWithEnumPropertyHavingDefault.md)
  - [org.openapitools.client.models.PropertyOfDay](docs/PropertyOfDay.md)
 

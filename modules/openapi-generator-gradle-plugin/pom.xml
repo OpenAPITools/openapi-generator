@@ -91,6 +91,10 @@
 
                 <configuration>
                     <gradleVersion>${gradleVersion}</gradleVersion>
+                    <!-- Force the Gradle daemon to use the same JVM Maven is running with.
+                         This prevents Gradle from picking up a system-level JDK (e.g. JDK 25)
+                         when Maven is configured to run on a different JDK (e.g. JDK 21). -->
+                    <javaHome>${java.home}</javaHome>
                     <args>
                         <arg>-P openApiGeneratorVersion=${project.version}</arg>
                         <!--
@@ -99,12 +103,6 @@
                         <arg>-Psigning.secretKeyRingFile=${env.TRAVIS_BUILD_DIR}/sec.gpg</arg>
                         -->
                     </args>
-                    <!-- Force the Gradle daemon to use the same JVM Maven is running with.
-                         This prevents Gradle from picking up a system-level JDK (e.g. JDK 25)
-                         when Maven is configured to run on a different JDK (e.g. JDK 21). -->
-                    <jvmArgs>
-                        <jvmArg>-Dorg.gradle.java.home=${java.home}</jvmArg>
-                    </jvmArgs>
                 </configuration>
                 <executions>
                     <execution>

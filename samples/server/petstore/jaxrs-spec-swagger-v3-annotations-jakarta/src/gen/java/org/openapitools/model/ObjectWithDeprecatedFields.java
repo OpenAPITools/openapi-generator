@@ -24,8 +24,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields  implements Serializable {
   private String uuid;
+  @Deprecated
   private BigDecimal id;
+  @Deprecated
   private DeprecatedObject deprecatedRef;
+  @Deprecated
   private @Valid List<String> bars = new ArrayList<>();
 
   protected ObjectWithDeprecatedFields(ObjectWithDeprecatedFieldsBuilder<?, ?> b) {
@@ -58,62 +61,96 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   }
 
   /**
+   * @deprecated
    **/
+  @Deprecated
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     this.id = id;
     return this;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
-  @Schema(description = "")
+  @Schema(description = "", deprecated = true)
   @JsonProperty("id")
   @Valid public BigDecimal getId() {
     return id;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("id")
   public void setId(BigDecimal id) {
     this.id = id;
   }
 
   /**
+   * @deprecated
    **/
+  @Deprecated
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
-  @Schema(description = "")
+  @Schema(description = "", deprecated = true)
   @JsonProperty("deprecatedRef")
   @Valid public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("deprecatedRef")
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
   /**
+   * @deprecated
    **/
+  @Deprecated
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     this.bars = bars;
     return this;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
-  @Schema(description = "")
+  @Schema(description = "", deprecated = true)
   @JsonProperty("bars")
   public List<String> getBars() {
     return bars;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("bars")
   public void setBars(List<String> bars) {
     this.bars = bars;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
     if (this.bars == null) {
       this.bars = new ArrayList<>();
@@ -123,6 +160,10 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     return this;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public ObjectWithDeprecatedFields removeBarsItem(String barsItem) {
     if (barsItem != null && this.bars != null) {
       this.bars.remove(barsItem);
@@ -203,14 +244,17 @@ public class ObjectWithDeprecatedFields  implements Serializable {
       this.uuid = uuid;
       return self();
     }
+    @Deprecated
     public B id(BigDecimal id) {
       this.id = id;
       return self();
     }
+    @Deprecated
     public B deprecatedRef(DeprecatedObject deprecatedRef) {
       this.deprecatedRef = deprecatedRef;
       return self();
     }
+    @Deprecated
     public B bars(List<String> bars) {
       this.bars = bars;
       return self();

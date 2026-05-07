@@ -7,8 +7,6 @@ import javax.ws.rs.core.Response;
 
 
 
-
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -80,4 +78,5 @@ public class FakeClassnameTestApi {
     public Response testClassname(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
+
 }

@@ -91,7 +91,34 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Setter protected boolean nonPublicApi = false;
 
-    @Getter protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original;
+    /**
+     * Naming convention options for Kotlin enum properties. Extends the shared
+     * {@link org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE} with
+     * Kotlin-specific options so that Kotlin generators are not forced to add language-specific
+     * values to the shared enum (which cannot be extended in Java).
+     */
+    public enum KotlinEnumNamingType {
+        camelCase, PascalCase, snake_case, original, UPPERCASE,
+        /**
+         * Like {@code original}, but uses Kotlin's backtick-escaped identifier syntax to preserve
+         * more values without falling back to sanitization. Where {@code original} would silently
+         * replace characters (e.g. {@code in-progress} → {@code inMinusProgress}), this option
+         * wraps the value in backticks instead (e.g. {@code `in-progress`}).
+         * <p>
+         * Particularly useful for sort/order enums whose values contain commas or other punctuation,
+         * e.g. {@code name,asc}, {@code name,desc}, {@code id,asc}, {@code id,desc} — these are
+         * preserved as `name,asc` etc. rather than being mangled into {@code nameCommaAsc}.
+         * </p>
+         * <ul>
+         *   <li>Already a valid plain Kotlin identifier and not reserved → used as-is</li>
+         *   <li>Contains no backtick / newline / CR / NUL → wrapped in backticks</li>
+         *   <li>Otherwise → falls back to the standard sanitization (same as {@code original})</li>
+         * </ul>
+         */
+        bestEffortBacktick
+    }
+
+    @Getter protected KotlinEnumNamingType enumPropertyNaming = KotlinEnumNamingType.original;
 
     // model classes cannot use the same property names defined in HashMap
     // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
@@ -287,7 +314,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         addOption(CodegenConstants.ARTIFACT_ID, "Generated artifact id (name of jar).", artifactId);
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion);
 
-        CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
+        CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING,
+                "Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case'," +
+                " 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original'" +
+                " but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays" +
+                " `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)");
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
@@ -341,14 +372,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Sets the naming convention for Kotlin enum properties
      *
-     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
+     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link KotlinEnumNamingType}
      */
     public void setEnumPropertyNaming(final String enumPropertyNamingType) {
         try {
-            this.enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
+            this.enumPropertyNaming = KotlinEnumNamingType.valueOf(enumPropertyNamingType);
         } catch (IllegalArgumentException ex) {
             StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
-            for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
+            for (KotlinEnumNamingType t : KotlinEnumNamingType.values()) {
                 sb.append("\n  ").append(t.name());
             }
             throw new RuntimeException(sb.toString());
@@ -699,6 +730,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
             case UPPERCASE:
                 modified = underscore(modified).toUpperCase(Locale.ROOT);
+                break;
+            case bestEffortBacktick:
+                // Use the original value as a plain identifier if already valid and not reserved.
+                if (!reservedWords.contains(value) && value.matches("[a-zA-Z_$][a-zA-Z0-9_$]*")) {
+                    return value;
+                }
+                // Wrap in backticks when the value contains no character that is illegal inside them.
+                if (!value.contains("`") && !value.contains("\n") && !value.contains("\r") && !value.contains("\0")) {
+                    return "`" + value + "`";
+                }
+                // Fall back: use the already-sanitized modified (pre-switch value).
                 break;
         }
 

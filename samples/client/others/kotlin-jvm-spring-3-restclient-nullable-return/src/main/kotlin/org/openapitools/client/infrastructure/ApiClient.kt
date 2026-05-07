@@ -10,13 +10,13 @@ import org.springframework.util.LinkedMultiValueMap
 
 open class ApiClient(protected val client: RestClient) {
 
-    protected inline fun <reified I : Any?, reified T: Any?> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
+    protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
         return prepare(defaults(requestConfig))
             .retrieve()
             .toEntity(object : ParameterizedTypeReference<T>() {})
     }
 
-    protected fun <I : Any?> prepare(requestConfig: RequestConfig<I>) =
+    protected fun <I : Any> prepare(requestConfig: RequestConfig<I>) =
         client.method(requestConfig)
             .uri(requestConfig)
             .headers(requestConfig)
@@ -45,7 +45,7 @@ open class ApiClient(protected val client: RestClient) {
     private fun <I> RestClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
         apply { requestConfig.headers.forEach { (name, value) -> header(name, value) } }
 
-    private fun <I : Any?> RestClient.RequestBodySpec.nullableBody(requestConfig: RequestConfig<I>): RestClient.RequestBodySpec {
+    private fun <I : Any> RestClient.RequestBodySpec.nullableBody(requestConfig: RequestConfig<I>): RestClient.RequestBodySpec {
         when {
             requestConfig.headers[HttpHeaders.CONTENT_TYPE] == MediaType.MULTIPART_FORM_DATA_VALUE -> {
                 val parts = LinkedMultiValueMap<String, Any>()
@@ -59,7 +59,7 @@ open class ApiClient(protected val client: RestClient) {
             }
 
             else -> {
-                return apply { if (requestConfig.body != null) body(requestConfig.body as Any) }
+                return apply { if (requestConfig.body != null) body(requestConfig.body) }
             }
         }
     }

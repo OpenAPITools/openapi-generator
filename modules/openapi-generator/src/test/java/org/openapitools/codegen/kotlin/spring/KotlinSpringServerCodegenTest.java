@@ -5833,6 +5833,73 @@ public class KotlinSpringServerCodegenTest {
         return props;
     }
 
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel — spring-cloud
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_replacesReturnTypeInOperation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        assertThat(content).contains("PagedModel<User>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        assertThat(files).containsKey("PagedModel.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .setLibrary(SPRING_CLOUD_LIBRARY)
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_respectsCustomImportMappingClassName() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .setLibrary(SPRING_CLOUD_LIBRARY)
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        assertThat(content).contains("MyPagedModel<User>");
+        assertThat(content).contains("import com.example.custom.MyPagedModel");
+    }
+
+    /** Common properties for substituteGenericPagedModel tests using spring-cloud. */
+    private Map<String, Object> springCloudKotlinPagedModelProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_TAGS, "true");
+        props.put(SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
+        return props;
+    }
+
     @Test(description = "oneOf with discriminator generates thin sealed interface with Jackson annotations")
     public void testOneOfWithDiscriminatorGeneratesThinInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
