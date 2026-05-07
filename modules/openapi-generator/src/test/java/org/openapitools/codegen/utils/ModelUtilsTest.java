@@ -928,6 +928,49 @@ public class ModelUtilsTest {
         assertNull(ModelUtils.resolveMaximumBound(openAPI, schema));
     }
 
+    @Test
+    public void resolveMaximumBound_nestedAllOf_recurses() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines maximum=50
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMaximum(BigDecimal.valueOf(50));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent has allOf → Grandparent (no direct maximum)
+        Schema<?> parent = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child has allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.maxBound, BigDecimal.valueOf(50));
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMaximumBound_nestedAllOf_mostRestrictiveAcrossAllLevels() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines maximum=30 (stricter)
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMaximum(BigDecimal.valueOf(30));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent defines maximum=100 and also allOf → Grandparent
+        Schema<?> parent = new IntegerSchema();
+        parent.setMaximum(BigDecimal.valueOf(100));
+        parent.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMaxBound bound = ModelUtils.resolveMaximumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.maxBound, BigDecimal.valueOf(30));
+    }
+
     // -------------------------------------------------------------------------
     // resolveMinimumBound
     // -------------------------------------------------------------------------
@@ -1093,6 +1136,49 @@ public class ModelUtilsTest {
 
         Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/NoMin")));
         assertNull(ModelUtils.resolveMinimumBound(openAPI, schema));
+    }
+
+    @Test
+    public void resolveMinimumBound_nestedAllOf_recurses() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines minimum=10
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMinimum(BigDecimal.valueOf(10));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent has allOf → Grandparent (no direct minimum)
+        Schema<?> parent = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child has allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.minBound, BigDecimal.valueOf(10));
+        assertFalse(bound.exclusive);
+    }
+
+    @Test
+    public void resolveMinimumBound_nestedAllOf_mostRestrictiveAcrossAllLevels() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Grandparent defines minimum=20 (stricter)
+        Schema<?> grandparent = new IntegerSchema();
+        grandparent.setMinimum(BigDecimal.valueOf(20));
+        openAPI.getComponents().addSchemas("Grandparent", grandparent);
+
+        // Parent defines minimum=5 and also allOf → Grandparent
+        Schema<?> parent = new IntegerSchema();
+        parent.setMinimum(BigDecimal.valueOf(5));
+        parent.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Grandparent")));
+        openAPI.getComponents().addSchemas("Parent", parent);
+
+        // Child allOf → Parent
+        Schema<?> child = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Parent")));
+
+        ModelUtils.ResolvedMinBound bound = ModelUtils.resolveMinimumBound(openAPI, child);
+        assertNotNull(bound);
+        assertEquals(bound.minBound, BigDecimal.valueOf(20));
     }
 
     // -------------------------------------------------------------------------

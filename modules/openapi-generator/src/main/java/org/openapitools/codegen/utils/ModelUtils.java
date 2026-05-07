@@ -989,9 +989,8 @@ public class ModelUtils {
         return !hasAllOf(schema)
                 ? result
                 : schema.getAllOf().stream()
-                  .map(allOfItem -> getReferencedSchema(openAPI, allOfItem))
-                  .filter(Objects::nonNull)
-                  .map(ModelUtils::extractMaxBound)
+                   // recursive search for smallest max bound
+                  .map(allOfItem -> resolveMaximumBound(openAPI, allOfItem))
                   .reduce(result, ResolvedMaxBound::getSmallerMaxBound);
     }
 
@@ -1016,9 +1015,8 @@ public class ModelUtils {
         return !hasAllOf(schema)
                 ? result
                 : schema.getAllOf().stream()
-                  .map(allOfItem -> getReferencedSchema(openAPI, allOfItem))
-                  .filter(Objects::nonNull)
-                  .map(ModelUtils::extractMinBound)
+                  // recursive search for largest min bound
+                  .map(allOfItem -> resolveMinimumBound(openAPI, allOfItem))
                   .reduce(result, ResolvedMinBound::getLargerMinBound);
     }
 
