@@ -1257,4 +1257,20 @@ public class ModelUtilsTest {
         schema.setDefault("hello");
         assertEquals(ModelUtils.resolveDefault(openAPI, schema), "hello");
     }
+
+    @Test
+    public void resolveDefault_nestedAllOf_findsDefaultInNestedItem() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // base has default=99; mid allOf → base; top allOf → mid
+        Schema<?> base = new IntegerSchema();
+        base.setDefault(99);
+        openAPI.getComponents().addSchemas("Base", base);
+
+        Schema<?> mid = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        openAPI.getComponents().addSchemas("Mid", mid);
+
+        Schema<?> top = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Mid")));
+
+        assertEquals(ModelUtils.resolveDefault(openAPI, top), 99);
+    }
 }

@@ -583,7 +583,7 @@ public class ModelUtils {
 
         // additionalProperties explicitly set to false
         if ((schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) ||
-            (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
+                (schema.getAdditionalProperties() instanceof Schema && Boolean.FALSE.equals(((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue()))
         ) {
             return false;
         }
@@ -726,7 +726,7 @@ public class ModelUtils {
     public static boolean isTimeLocalSchema(Schema schema) {
         // format: time-local, see https://spec.openapis.org/registry/format/time-local.html
         return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
-                        && "time-local".equals(schema.getFormat()));
+                && "time-local".equals(schema.getFormat()));
     }
 
     public static boolean isPasswordSchema(Schema schema) {
@@ -845,12 +845,12 @@ public class ModelUtils {
                 (null != schema.getProperties() && !schema.getProperties().isEmpty()) &&
                 // no additionalProperties is set
                 (schema.getAdditionalProperties() == null ||
-                // additionalProperties is boolean and set to false
-                (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()) ||
-                // additionalProperties is a schema with its boolean value set to false
-                (schema.getAdditionalProperties() instanceof Schema &&
-                        ((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue() != null &&
-                              !((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue())
+                        // additionalProperties is boolean and set to false
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()) ||
+                        // additionalProperties is a schema with its boolean value set to false
+                        (schema.getAdditionalProperties() instanceof Schema &&
+                                ((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue() != null &&
+                                !((Schema) schema.getAdditionalProperties()).getBooleanSchemaValue())
                 );
     }
 
@@ -989,7 +989,7 @@ public class ModelUtils {
         return !hasAllOf(schema)
                 ? result
                 : schema.getAllOf().stream()
-                   // recursive search for smallest max bound
+                // recursive search for smallest max bound
                   .map(allOfItem -> resolveMaximumBound(openAPI, allOfItem))
                   .reduce(result, ResolvedMaxBound::getSmallerMaxBound);
     }
@@ -1022,9 +1022,20 @@ public class ModelUtils {
 
     /**
      * Returns the effective {@code default} for the given schema, resolving through a top-level
-     * {@code $ref} and walking any {@code allOf} items (each resolved via their own {@code $ref}).
-     * Unlike constraints, the inline schema's default takes precedence (explicit per-endpoint
-     * override); falls back to the first non-null default found in {@code allOf} items.
+     * {@code $ref} and recursively walking any {@code allOf} items.
+     * The inline schema's default takes precedence (explicit per-endpoint override);
+     * falls back to the first non-null default found via depth-first search of {@code allOf} items.
+     * Circular {@code allOf} references are detected and skipped.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective default value, or {@code null} if none is defined
+     */
+    /**
+     * Returns the effective {@code default} for the given schema, resolving through a top-level
+     * {@code $ref} and recursively walking any {@code allOf} items.
+     * The inline schema's default takes precedence (explicit per-endpoint override);
+     * falls back to the first non-null default found via depth-first search of {@code allOf} items.
      *
      * @param openAPI the OpenAPI document used to resolve {@code $ref}s
      * @param schema  the schema to inspect
@@ -1042,9 +1053,8 @@ public class ModelUtils {
         return !hasAllOf(schema)
                 ? null
                 : schema.getAllOf().stream()
-                  .map(item -> getReferencedSchema(openAPI, item))
-                  .filter(Objects::nonNull)
-                  .map(Schema::getDefault)
+                  // recursive search for default
+                  .map(item -> resolveDefault(openAPI, item))
                   .filter(Objects::nonNull)
                   .findFirst()
                   .orElse(null);
