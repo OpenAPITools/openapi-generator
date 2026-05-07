@@ -1056,6 +1056,8 @@ public class ModelUtils {
                   // recursive search for default
                   .map(item -> resolveDefault(openAPI, item))
                   .filter(Objects::nonNull)
+                  // first non-null default in allOf wins.
+                  // This is very arbitrary and might not be correct behavior, since behavior regarding default inheritance/overriding is unspecified
                   .findFirst()
                   .orElse(null);
     }
