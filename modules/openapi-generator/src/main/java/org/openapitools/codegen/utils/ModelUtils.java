@@ -720,7 +720,7 @@ public class ModelUtils {
     public static boolean isDateTimeLocalSchema(Schema schema) {
         // format: date-time-local, see https://spec.openapis.org/registry/format/date-time-local.html
         return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
-                        && "date-time-local".equals(schema.getFormat()));
+                && "date-time-local".equals(schema.getFormat()));
     }
 
     public static boolean isTimeLocalSchema(Schema schema) {
@@ -982,22 +982,17 @@ public class ModelUtils {
      */
     @Nullable
     public static ResolvedMaxBound resolveMaximumBound(OpenAPI openAPI, Schema<?> schema) {
-        if (schema == null) return null;
-
-        if (schema.get$ref() != null) {
-            schema = getReferencedSchema(openAPI, schema);
-        }
+        schema = getReferencedSchema(openAPI, schema);
         if (schema == null) return null;
 
         ResolvedMaxBound result = extractMaxBound(schema);
-        List<Schema> allOf = schema.getAllOf();
-        if (allOf == null) return result;
-
-        return allOf.stream()
-                .map(allOfItem -> getReferencedSchema(openAPI, allOfItem))
-                .filter(Objects::nonNull)
-                .map(ModelUtils::extractMaxBound)
-                .reduce(result, ResolvedMaxBound::getSmallerMaxBound);
+        return !hasAllOf(schema)
+                ? result
+                : schema.getAllOf().stream()
+                  .map(allOfItem -> getReferencedSchema(openAPI, allOfItem))
+                  .filter(Objects::nonNull)
+                  .map(ModelUtils::extractMaxBound)
+                  .reduce(result, ResolvedMaxBound::getSmallerMaxBound);
     }
 
     /**
@@ -1014,22 +1009,17 @@ public class ModelUtils {
      */
     @Nullable
     public static ResolvedMinBound resolveMinimumBound(OpenAPI openAPI, Schema<?> schema) {
-        if (schema == null) return null;
-
-        if (schema.get$ref() != null) {
-            schema = getReferencedSchema(openAPI, schema);
-        }
+        schema = getReferencedSchema(openAPI, schema);
         if (schema == null) return null;
 
         ResolvedMinBound result = extractMinBound(schema);
-        List<Schema> allOf = schema.getAllOf();
-        if (allOf == null) return result;
-
-        return allOf.stream()
-                .map(allOfItem -> getReferencedSchema(openAPI, allOfItem))
-                .filter(Objects::nonNull)
-                .map(ModelUtils::extractMinBound)
-                .reduce(result, ResolvedMinBound::getLargerMinBound);
+        return !hasAllOf(schema)
+                ? result
+                : schema.getAllOf().stream()
+                  .map(allOfItem -> getReferencedSchema(openAPI, allOfItem))
+                  .filter(Objects::nonNull)
+                  .map(ModelUtils::extractMinBound)
+                  .reduce(result, ResolvedMinBound::getLargerMinBound);
     }
 
     /**
@@ -1043,32 +1033,23 @@ public class ModelUtils {
      * @return the effective default value, or {@code null} if none is defined
      */
     public static Object resolveDefault(OpenAPI openAPI, Schema<?> schema) {
-        if (schema == null) {
-            return null;
-        }
+        schema = getReferencedSchema(openAPI, schema);
+        if (schema == null) return null;
 
-        Schema<?> resolvedSchema = getReferencedSchema(openAPI, schema);
-        if (resolvedSchema == null) {
-            return null;
-        }
-
-        Object defaultValue = resolvedSchema.getDefault();
+        Object defaultValue = schema.getDefault();
         if (defaultValue != null) {
+            // inline default value takes precedence
             return defaultValue;
         }
-
-        List<Schema> allOf = resolvedSchema.getAllOf();
-        if (allOf == null) {
-            return null;
-        }
-
-        return allOf.stream()
-                .map(item -> getReferencedSchema(openAPI, item))
-                .filter(Objects::nonNull)
-                .map(Schema::getDefault)
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        return !hasAllOf(schema)
+                ? null
+                : schema.getAllOf().stream()
+                  .map(item -> getReferencedSchema(openAPI, item))
+                  .filter(Objects::nonNull)
+                  .map(Schema::getDefault)
+                  .filter(Objects::nonNull)
+                  .findFirst()
+                  .orElse(null);
     }
 
     public static boolean hasValidation(Schema sc) {
