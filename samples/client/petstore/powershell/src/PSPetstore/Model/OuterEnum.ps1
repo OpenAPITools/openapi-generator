@@ -17,10 +17,10 @@ No description available.
 
 enum OuterEnum {
     # enum value: "placed"
-    'placed'
+    "placed"
     # enum value: "approved"
-    'approved'
+    "approved"
     # enum value: "delivered"
-    'delivered'
+    "delivered"
 }
 
