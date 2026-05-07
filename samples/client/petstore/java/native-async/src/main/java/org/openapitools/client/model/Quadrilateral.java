@@ -288,14 +288,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     StringJoiner joiner = new StringJoiner("&");
 
     if (getActualInstance() instanceof SimpleQuadrilateral) {
-            // 1
         if (getActualInstance() != null) {
           joiner.add(((SimpleQuadrilateral)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
         }
         return joiner.toString();
     }
     if (getActualInstance() instanceof ComplexQuadrilateral) {
-            // 1
         if (getActualInstance() != null) {
           joiner.add(((ComplexQuadrilateral)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
         }

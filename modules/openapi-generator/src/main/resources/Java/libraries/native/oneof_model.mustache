@@ -430,7 +430,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isModel}}
-            // 1
         if (getActualInstance() != null) {
           joiner.add((({{{dataType}}})getActualInstance()).toUrlQueryString(prefix + "{{{baseName}}}" + suffix));
         }

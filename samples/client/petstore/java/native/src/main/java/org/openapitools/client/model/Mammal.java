@@ -340,7 +340,6 @@ public class Mammal extends AbstractOpenApiSchema {
     StringJoiner joiner = new StringJoiner("&");
 
     if (getActualInstance() instanceof Whale) {
-            // 1
         if (getActualInstance() != null) {
           joiner.add(((Whale)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
         }
@@ -353,7 +352,6 @@ public class Mammal extends AbstractOpenApiSchema {
         return joiner.toString();
     }
     if (getActualInstance() instanceof Pig) {
-            // 1
         if (getActualInstance() != null) {
           joiner.add(((Pig)getActualInstance()).toUrlQueryString(prefix + "one_of_2" + suffix));
         }
