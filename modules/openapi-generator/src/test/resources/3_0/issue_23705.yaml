@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: issue 23705 x-item-validation
+  title: issue 23705 x-items-extra-annotation
   version: 1.0.0
 components:
   schemas:
@@ -14,13 +14,13 @@ components:
       properties:
         listSample:
           type: array
-          x-item-validation: '@jakarta.validation.constraints.NotNull'
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
           items:
             $ref: '#/components/schemas/Stubb'
         setSample:
           type: array
           uniqueItems: true
-          x-item-validation: '@jakarta.validation.constraints.NotNull'
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
           items:
             $ref: '#/components/schemas/Stubb'
         regularList:
@@ -30,11 +30,11 @@ components:
         nullableListSample:
           type: array
           nullable: true
-          x-item-validation: '@jakarta.validation.constraints.NotNull'
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
           items:
             $ref: '#/components/schemas/Stubb'
         mapSample:
           type: object
-          x-item-validation: '@jakarta.validation.constraints.NotNull'
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
           additionalProperties:
             $ref: '#/components/schemas/Stubb'

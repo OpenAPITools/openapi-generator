@@ -7727,7 +7727,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void itemValidationAnnotationOnCollectionItems_issue23705() throws IOException {
+    void itemsExtraAnnotationOnCollectionItems_issue23705() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_23705.yaml", SPRING_BOOT,
             Map.of("useBeanValidation", "true", "useSpringBoot3", "true"));
 

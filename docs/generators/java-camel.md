@@ -151,7 +151,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-minimum-message|Add this property whenever you need to customize the invalidation error message for the minimum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-maximum-message|Add this property whenever you need to customize the invalidation error message for the maximum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-spring-api-version|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).|OPERATION|null
-|x-item-validation|Custom annotation to be placed on the type argument of a collection (List, Set), set on the array property itself, enabling per-element bean validation constraints (e.g. `@NotNull`)|FIELD|null
+|x-items-extra-annotation|Custom annotation to be placed on the type argument of a collection (List, Set), set on the array property itself. Typically used for per-element bean validation constraints (e.g. `@NotNull`), but accepts any type-use annotation.|FIELD|null
 
 
 ## IMPORT MAPPING
