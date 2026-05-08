@@ -85,6 +85,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useMicroProfileOpenAPIAnnotations|Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.| |false|
 |useMutiny|Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
+|useQuarkusSecurityAnnotations|Whether to generate Quarkus security annotations (@Authenticated, @RolesAllowed, @PermitAll). Only valid when library is set to quarkus.| |false|
 |useSwaggerAnnotations|Whether to generate Swagger annotations.| |true|
 |useSwaggerV3Annotations|Whether to generate Swagger v3 (OpenAPI v3) annotations.| |false|
 |useTags|use tags for creating interface and controller classnames| |false|

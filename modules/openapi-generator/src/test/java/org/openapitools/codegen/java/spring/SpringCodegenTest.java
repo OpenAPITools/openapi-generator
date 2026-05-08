@@ -7527,6 +7527,61 @@ public class SpringCodegenTest {
         return props;
     }
 
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel — spring-cloud
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_replacesReturnTypeInOperation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_CLOUD_LIBRARY,
+                springCloudPagedModelProps());
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<User>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_CLOUD_LIBRARY,
+                springCloudPagedModelProps());
+
+        assertThat(files).containsKey("PagedModel.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_CLOUD_LIBRARY,
+                springCloudPagedModelProps(),
+                configurator -> configurator.addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.java");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_respectsCustomImportMappingClassName() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_CLOUD_LIBRARY,
+                springCloudPagedModelProps(),
+                configurator -> configurator.addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("com.example.custom.MyPagedModel")
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<MyPagedModel<User>>");
+    }
+
+    /** Common properties for substituteGenericPagedModel tests using spring-cloud. */
+    private Map<String, Object> springCloudPagedModelProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
+        return props;
+    }
+
 
     @DataProvider(name = "replaceOneOf")
     public Object[][] replaceOneOf() {

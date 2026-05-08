@@ -81,6 +81,7 @@ components:
             items:
               $ref: "#/components/schemas/FooRefOrValue"
             type: array
+            default: null
       description: Success
   schemas:
     Addressable:
