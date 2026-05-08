@@ -674,14 +674,22 @@ public class OpenAPINormalizer {
      *
      * @param schemesToClean the security schemes keys to clean up
      */
-    protected void cleanupSecuritySchemeReferences(Iterable<String> schemesToClean) {
-        if (schemesToClean == null || openAPI.getPaths() == null) {
+    private void cleanupSecuritySchemeReferences(Iterable<String> schemesToClean) {
+        if (schemesToClean == null) {
             return;
         }
 
-        for (String schemeKey : schemesToClean) {
-            // loop through all the paths and operations to clean up the reference
+        // clean up global security requirements
+        if (openAPI.getSecurity() != null) {
+            List<SecurityRequirement> cleanRequirements = cleanupSecurityRequirements(openAPI.getSecurity(),
+                    schemesToClean);
+            if (cleanRequirements.size() != openAPI.getSecurity().size()) {
+                openAPI.setSecurity(cleanRequirements);
+            }
+        }
 
+        // loop through all the paths and operations to clean up the references
+        if (openAPI.getPaths() != null) {
             for (PathItem path : openAPI.getPaths().values()) {
                 List<Operation> operations = new ArrayList<>(path.readOperations());
                 for (Operation operation : operations) {
@@ -689,14 +697,43 @@ public class OpenAPINormalizer {
                         continue;
                     }
 
-                    for (SecurityRequirement securityRequirement : operation.getSecurity()) {
-                        if (securityRequirement.containsKey(schemeKey)) {
-                            securityRequirement.remove(schemeKey);
-                        }
+                    List<SecurityRequirement> cleanRequirements = cleanupSecurityRequirements(operation.getSecurity(), schemesToClean);
+                    if (cleanRequirements.size() != operation.getSecurity().size()) {
+                        operation.setSecurity(cleanRequirements);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Removes given security schemes from the list of security requirements and remove the requirement if it becomes empty after the cleanup.
+     *
+     * @param requirements the list of security requirements to clean up
+     * @param schemesToClean the security schemes keys to clean up
+     * @return the cleaned list of security requirements
+     */
+    private List<SecurityRequirement> cleanupSecurityRequirements(List<SecurityRequirement> requirements, Iterable<String> schemesToClean) {
+        if (requirements == null || schemesToClean == null) {
+            return requirements;
+        }
+
+        List<SecurityRequirement> cleanRequirements = new ArrayList<>();
+        for (SecurityRequirement req : requirements) {
+            boolean hasSchemeToClean = false;
+            for (String schemeKey : schemesToClean) {
+                if (req.containsKey(schemeKey)) {
+                    req.remove(schemeKey);
+                    hasSchemeToClean = true;
+                }
+            }
+            // Remove the requirement if it becomes empty after the cleanup.
+            // The requirement could be empty from the beginning we leave it in such a case.
+            if (!req.isEmpty() || !hasSchemeToClean) {
+                cleanRequirements.add(req);
+            }
+        }
+        return cleanRequirements;
     }
 
     /**

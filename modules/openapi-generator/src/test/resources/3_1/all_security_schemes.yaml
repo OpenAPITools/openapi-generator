@@ -9,6 +9,18 @@ info:
   license:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+security:
+  - {}
+  - api_key1: []
+  - api_key2: []
+  - http1: []
+  - http2: []
+  - mutualTLS1: []
+  - mutualTLS2: []
+  - oauth2_1: ["read:pets"]
+  - oauth2_2: ["write:pets", "read:pets"]
+  - openIdConnect1: []
+  - openIdConnect2: []
 paths:
   '/api_keys':
     get:
@@ -174,7 +186,26 @@ paths:
           description: successful operation
       security:
         - openIdConnect2: []
-
+  '/multipleSecuritySchemes':
+    get:
+      summary: Dummy endpoint with multiple security schemes. To test how schemes are cleaned up.
+      operationId: getMultipleSecuritySchemes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+      security:
+        - api_key1: []
+          http1: []
+          mutualTLS1: []
+          oauth2_1: ["read:pets"]
+          openIdConnect1: []
+        - http1: []
+          mutualTLS2: []
+          openIdConnect1: []
 components:
   securitySchemes:
     api_key1:
