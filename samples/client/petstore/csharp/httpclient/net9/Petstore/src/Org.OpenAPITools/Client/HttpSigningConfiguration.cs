@@ -33,9 +33,8 @@ namespace Org.OpenAPITools.Client
         {
             HashAlgorithm = HashAlgorithmName.SHA256;
             SigningAlgorithm = "PKCS1-v15";
-            string framework = RuntimeInformation.FrameworkDescription;
-            _skipUrlEncode = framework.StartsWith(".NET ") &&
-                int.TryParse(framework.Substring(5).Split('.')[0], out int fwMajor) && fwMajor >= 9;
+            _skipUrlEncode = RuntimeInformation.FrameworkDescription.StartsWith(".NET ") &&
+                int.TryParse(RuntimeInformation.FrameworkDescription.Substring(5).Split('.')[0], out int fwMajor) && fwMajor >= 9;
         }
 
         /// <summary>
