@@ -973,7 +973,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testSecuritySchemesFilterAndBearerAuthName() {
-        // We expect that api_key1 scheme will converted to bearer auth at first and then the filter will be applied
+        // We expect that api_key1 scheme will be converted to bearer auth at first and then the filter will be applied
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/all_security_schemes.yaml");
         Map<String, String> options = Map.of("SECURITY_SCHEMES_FILTER", "key:api_key1",
                     "SET_BEARER_AUTH_FOR_NAME", "api_key1"
