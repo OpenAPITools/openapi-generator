@@ -71,7 +71,7 @@ public class PythonFastAPIServerCodegenTest {
         final Path p = Paths.get(outputPath + "src/openapi_server/apis/user_api.py");
 
         assertFileExists(p);
-        assertFileContains(p, "user: Annotated[List[User], Field(description=\"List of user object\")] = Body(None, description=\"List of user object\", examples=[[{\"username\": \"foo\"}, {\"username\": \"bar\"}]])");
+        assertFileContains(p, "user: Annotated[List[User], Field(description=\"List of user object\")] = Body(..., description=\"List of user object\", examples=[[{\"username\": \"foo\"}, {\"username\": \"bar\"}]])");
         assertFileNotContains(p, "examples=[[[],");
     }
 
