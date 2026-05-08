@@ -947,6 +947,28 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("oauth2_2"), true);
         assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect1"), false);
         assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect2"), false);
+
+        // Check how we clean up the references to the removed security schemes in the paths
+        assertTrue(openAPI.getPaths().get("/api_keys").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getPaths().get("/api_keys").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("api_key2")));
+        assertTrue(openAPI.getPaths().get("/api_key1").getHead().getSecurity().stream().anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getPaths().get("/api_key2").getPost().getSecurity().stream().anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getPaths().get("/httpschemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getPaths().get("/httpschemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getPaths().get("/http1").getHead().getSecurity().stream().anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getPaths().get("/http2").getPost().getSecurity().stream().anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getPaths().get("/mutualTLSschemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getPaths().get("/mutualTLSschemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertFalse(openAPI.getPaths().get("/mutualTLS1").getHead().getSecurity().stream().anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getPaths().get("/mutualTLS2").getPost().getSecurity().stream().anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getPaths().get("/oauth2schemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getPaths().get("/oauth2schemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("oauth2_2")));
+        assertTrue(openAPI.getPaths().get("/oauth2_1").getHead().getSecurity().stream().anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getPaths().get("/oauth2_2").getPost().getSecurity().stream().anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getPaths().get("/openidconnectschemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getPaths().get("/openidconnectschemes").getGet().getSecurity().stream().anyMatch(map -> map.containsKey("openIdConnect2")));
+        assertFalse(openAPI.getPaths().get("/openIdConnect1").getHead().getSecurity().stream().anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getPaths().get("/openIdConnect2").getPost().getSecurity().stream().anyMatch(map -> map.containsKey("openIdConnect2")));
     }
 
     @Test

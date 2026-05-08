@@ -28,6 +28,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.security.SecurityScheme.Type;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -632,6 +633,7 @@ public class OpenAPINormalizer {
             }
         }
 
+        List<String> deletedSchemes = new ArrayList<>();
         Iterator<Map.Entry<String, SecurityScheme>> it = schemes.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, SecurityScheme> entry = it.next();
@@ -657,7 +659,41 @@ public class OpenAPINormalizer {
             if (filter != null && filter.hasFilter()) {
                 boolean keep = filter.apply(schemeKey, scheme);
                 if (!keep) {
+                    deletedSchemes.add(schemeKey);
                     it.remove();
+                }
+            }
+        }
+
+        // Cleanup all the references to schemes we just deleted.
+        cleanupSecuritySchemeReferences(deletedSchemes);
+    }
+
+    /**
+     * Cleans up the references to the security schemes that are removed by the filter.
+     *
+     * @param schemesToClean the security schemes keys to clean up
+     */
+    protected void cleanupSecuritySchemeReferences(Iterable<String> schemesToClean) {
+        if (schemesToClean == null || openAPI.getPaths() == null) {
+            return;
+        }
+
+        for (String schemeKey : schemesToClean) {
+            // loop through all the paths and operations to clean up the reference
+
+            for (PathItem path : openAPI.getPaths().values()) {
+                List<Operation> operations = new ArrayList<>(path.readOperations());
+                for (Operation operation : operations) {
+                    if (operation.getSecurity() == null) {
+                        continue;
+                    }
+
+                    for (SecurityRequirement securityRequirement : operation.getSecurity()) {
+                        if (securityRequirement.containsKey(schemeKey)) {
+                            securityRequirement.remove(schemeKey);
+                        }
+                    }
                 }
             }
         }
@@ -2271,9 +2307,6 @@ public class OpenAPINormalizer {
         // Can be overridden by child classes to customize filtering.
         public abstract Set<String> filteringMethods();
 
-        // Defines the subject being filtered, e.g. operation, security scheme, etc. This is used for logging purposes.
-        public abstract String filteringSubject();
-
         // Defines the usage message for the filter. This is used for logging purposes when the filter syntax is incorrect.
         public abstract String usageMessage();
 
@@ -2342,10 +2375,7 @@ public class OpenAPINormalizer {
             return filterMatched;
         }
 
-        protected void logMatch(String filterName, String subjectId) {
-            getLogger().info("{} `{}` marked as internal only (x-internal: true) by the {} filter", filteringSubject(),
-                    subjectId, filterName);
-        }
+        protected abstract void logMatch(String filterName, String subjectId);
 
         protected Logger getLogger() {
             return OpenAPINormalizer.LOGGER;
@@ -2368,15 +2398,15 @@ public class OpenAPINormalizer {
         }
 
         @Override
-        public String filteringSubject() {
-            return "Operation";
-        }
-
-        @Override
         public String usageMessage() {
             return String.format(Locale.ROOT,
                         "FILTER rule must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`.",
                         OperationsFilter.OPERATION_ID, OperationsFilter.METHOD, OperationsFilter.TAG, OperationsFilter.PATH);
+        }
+
+        @Override
+        protected void logMatch(String filterName, String subjectId) {
+            getLogger().info("Operation `{}` matches the {} filter and remains", subjectId, filterName);
         }
 
         /**
@@ -2406,6 +2436,9 @@ public class OpenAPINormalizer {
                     found |= hasCustomFilterMatch(path, operation);
 
                     operation.addExtension(X_INTERNAL, !found);
+                    if (!found) {
+                        getLogger().info("Operation `{}` does not match any filter and is marked as internal only (x-internal: true)", operationId);
+                    }
                 }
             });
         }
@@ -2445,15 +2478,15 @@ public class OpenAPINormalizer {
         }
 
         @Override
-        public String filteringSubject() {
-            return "Security scheme";
-        }
-
-        @Override
         public String usageMessage() {
             return String.format(Locale.ROOT,
                         "SECURITY_SCHEMES_FILTER rule must be in the form of `%s:key1|key2|key3` or `%s:apiKey|http|mutualTLS|oauth2|openIdConnect`.",
                         KEY, TYPE);
+        }
+
+        @Override
+        protected void logMatch(String filterName, String subjectId) {
+            getLogger().info("Security scheme `{}` matches the {} filter and remains", subjectId, filterName);
         }
 
         /**
@@ -2476,6 +2509,9 @@ public class OpenAPINormalizer {
             found |= logIfMatch(TYPE, schemeKey, hasType(scheme.getType().toString()));
             found |= hasCustomFilterMatch(schemeKey, scheme);
 
+            if (!found) {
+                getLogger().info("Security scheme `{}` does not match any filter and is removed", schemeKey);
+            }
             return found;
         }
 
