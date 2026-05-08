@@ -1423,6 +1423,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
+
+        if (property.isArray) {
+            postProcessPattern(property.items.pattern, property.items.vendorExtensions);
+        }
     }
 
     /*
