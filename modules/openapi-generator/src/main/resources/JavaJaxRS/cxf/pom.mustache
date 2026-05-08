@@ -246,7 +246,12 @@ for this project used jakarta.validation-api -->
     </repository>
   </repositories>
   <properties>
-    <java.version>1.8</java.version>
+    {{#useJackson3}}
+    <java.version>11</java.version>
+    {{/useJackson3}}
+    {{^useJackson3}}
+    java.version>8</java.version>
+    {{/useJackson3}}
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 {{#swagger1AnnotationLibrary}}
