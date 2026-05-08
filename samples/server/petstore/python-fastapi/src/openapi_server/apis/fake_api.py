@@ -46,10 +46,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def fake_query_param_default(
-    has_default: Annotated[Optional[StrictStr], Field(description="has default value")] = Query('Hello World', description="has default value", alias="hasDefault")
-,
-    no_default: Annotated[Optional[StrictStr], Field(description="no default value")] = Query(None, description="no default value", alias="noDefault")
-,
+    has_default: Annotated[Optional[StrictStr], Field(description="has default value")] = Query('Hello World', description="has default value", alias="hasDefault"),
+    no_default: Annotated[Optional[StrictStr], Field(description="no default value")] = Query(None, description="no default value", alias="noDefault"),
 ) -> None:
     """"""
     if not BaseFakeApi.subclasses:
