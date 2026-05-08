@@ -96,13 +96,9 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                 // OAS spec is 3.0.x
                 if (ModelUtils.isNullType(schema)) {
                     result = new ValidationRule.Fail();
-                    String name = schema.getName();
-                    if (name == null) {
-                        name = schema.getTitle();
-                    }
                     result.setDetails(String.format(Locale.ROOT,
                             "Schema '%s' uses a 'null' type, which is specified in OAS 3.1 and above, but OAS document is version %s",
-                            name, schemaWrapper.getOpenAPI().getOpenapi()));
+                            nameOf(schema), schemaWrapper.getOpenAPI().getOpenapi()));
                     return result;
                 }
             }
@@ -126,18 +122,18 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             if (version.atLeast("3.1")) {
                 if (ModelUtils.isNullable(schema)) {
                     result = new ValidationRule.Fail();
-                    String name = schema.getName();
-                    if (name == null) {
-                        name = schema.getTitle();
-                    }
                     result.setDetails(String.format(Locale.ROOT,
                             "OAS document is version '%s'. Schema '%s' uses 'nullable' attribute, which has been deprecated in OAS 3.1.",
-                            schemaWrapper.getOpenAPI().getOpenapi(), name));
+                            schemaWrapper.getOpenAPI().getOpenapi(), nameOf(schema)));
                     return result;
                 }
             }
         }
         return result;
+    }
+
+    private static String nameOf(Schema schema) {
+        return schema.getName() != null ? schema.getName() : schema.getTitle();
     }
 
     // The set of valid OAS values for the 'type' attribute.
@@ -157,13 +153,9 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         ValidationRule.Result result = ValidationRule.Pass.empty();
         if (schema.getType() != null && !validTypes.contains(schema.getType())) {
             result = new ValidationRule.Fail();
-            String name = schema.getName();
-            if (name == null) {
-                name = schema.getTitle();
-            }
             result.setDetails(String.format(Locale.ROOT,
                     "Schema '%s' uses the '%s' type, which is not a valid type.",
-                    name, schema.getType()));
+                    nameOf(schema), schema.getType()));
             return result;
         }
         return result;

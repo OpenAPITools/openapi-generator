@@ -62,11 +62,11 @@ components:
       description: |
         A Widget demonstrating every OAS 3.1 null-type pattern that the C# generator must handle correctly.
       example:
+        id: 0
+        name: name
+        debugInfo: ""
         shape: ""
         color: color
-        name: name
-        id: 0
-        debugInfo: ""
       properties:
         id:
           description: Unique identifier.

@@ -7,8 +7,6 @@ import javax.ws.rs.core.Response;
 
 
 
-
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -77,4 +75,5 @@ public class FooApi {
     public Response fooGet() {
         return Response.ok().entity("magic!").build();
     }
+
 }

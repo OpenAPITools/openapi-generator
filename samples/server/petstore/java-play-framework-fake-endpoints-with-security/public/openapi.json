@@ -192,8 +192,8 @@
       "Category" : {
         "description" : "A category for a pet",
         "example" : {
-          "name" : "name",
-          "id" : 6
+          "id" : 6,
+          "name" : "name"
         },
         "properties" : {
           "id" : {
@@ -250,8 +250,8 @@
       "Tag" : {
         "description" : "A tag for a pet",
         "example" : {
-          "name" : "name",
-          "id" : 1
+          "id" : 1,
+          "name" : "name"
         },
         "properties" : {
           "id" : {
@@ -271,19 +271,19 @@
       "Pet" : {
         "description" : "A pet for sale in the pet store",
         "example" : {
-          "photoUrls" : [ "photoUrls", "photoUrls" ],
-          "name" : "doggie",
           "id" : 0,
           "category" : {
-            "name" : "name",
-            "id" : 6
+            "id" : 6,
+            "name" : "name"
           },
+          "name" : "doggie",
+          "photoUrls" : [ "photoUrls", "photoUrls" ],
           "tags" : [ {
-            "name" : "name",
-            "id" : 1
+            "id" : 1,
+            "name" : "name"
           }, {
-            "name" : "name",
-            "id" : 1
+            "id" : 1,
+            "name" : "name"
           } ],
           "status" : "available"
         },
