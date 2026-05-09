@@ -2543,7 +2543,7 @@ public class OpenAPINormalizer {
         public boolean apply(String schemeKey, SecurityScheme scheme) {
             boolean found = false;
             found |= logIfMatch(KEY, schemeKey, hasKey(schemeKey));
-            found |= logIfMatch(TYPE, schemeKey, hasType(scheme.getType().toString()));
+            found |= logIfMatch(TYPE, schemeKey, scheme.getType() != null && hasType(scheme.getType().toString()));
             found |= hasCustomFilterMatch(schemeKey, scheme);
 
             if (!found) {
