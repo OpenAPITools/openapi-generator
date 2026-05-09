@@ -75,7 +75,7 @@ Excluding `SupportingFiles`, each of the above options may result in multiple fi
 Note that user-defined templates will merge with built-in template definitions. If a supporting file with the sample template file path exists, it will be replaced with the user-defined template, otherwise the user-defined template will be added to the list of template files to compile. If the generator's built-in template is `model_docs.mustache` and you define `model-docs.mustache`, this will result in duplicated model docs (if `destinationFilename` differs) or undefined behavior as whichever template compiles last will overwrite the previous model docs (if `destinationFilename` matches the extension or suffix in the generator's code).
 
 ## Custom Generator (and Template)
- 
+
 <a id="creating-a-new-template"></a> If none of the built-in generators suit your needs and you need to do more than just modify the mustache templates to tweak generated code, you can create a brand new generator and its associated templates. OpenAPI Generator can help with this, using the `meta` command:
 
 ```sh
@@ -95,7 +95,7 @@ To compile your library, enter the `out/generators/my-codegen` directory, run `m
 
 **NOTE** Running your custom generator requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
 If you are running a Windows Subsystem for Linux or a shell such as gitbash, and have issues with the unix variant, try the Windows syntax below.
- 
+
 Now, execute the generator:
 
 ```sh
@@ -536,7 +536,7 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 
 OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectly conform to the specification) to make it workable with OpenAPI Generator. A few rules are switched on by default since 7.0.0 release:
 
-- SIMPLIFY_ONEOF_ANYOF 
+- SIMPLIFY_ONEOF_ANYOF
 - SIMPLIFY_BOOLEAN_ENUM
 - SIMPLIFY_ONEOF_ANYOF_ENUM
 - REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
@@ -637,7 +637,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_X_INTERNAL=true
 ```
 
-- `NORMALIZER_CLASS`: Set to full classname of a class extending the default org.openapitools.codegen.OpenAPINormalizer. It allows customization of the default normalizer. 
+- `NORMALIZER_CLASS`: Set to full classname of a class extending the default org.openapitools.codegen.OpenAPINormalizer. It allows customization of the default normalizer.
 
 Example:
 ```
@@ -687,16 +687,16 @@ The `FILTER` parameter allows selective inclusion of API operations based on spe
 
 ### Available Filters
 
-- **`operationId`**  
+- **`operationId`**
   When set to `operationId:addPet|getPetById`, operations **not** matching `addPet` or `getPetById` will be marked as internal (`x-internal: true`), and excluded from generation. Matching operations will have `x-internal: false`.
 
-- **`method`**  
+- **`method`**
   When set to `method:get|post`, operations **not** using `GET` or `POST` methods will be marked as internal (`x-internal: true`), preventing their generation.
 
-- **`tag`**  
+- **`tag`**
   When set to `tag:person|basic`, operations **not** tagged with `person` or `basic` will be marked as internal (`x-internal: true`), and will not be generated.
 
-- **`path`**  
+- **`path`**
   When set to `path:/v1|/v2`, operations on paths **not** starting with `/v1` or with `/v2` will be marked as internal (`x-internal: true`), and will not be generated.
 
 ### Example Usage
@@ -756,7 +756,7 @@ Into this securityScheme:
 
 - `SECURITY_SCHEMES_FILTER`
 
-The `SECURITY_SCHEMES_FILTER` parameter allows selective inclusion of API security schemes based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
+The `SECURITY_SCHEMES_FILTER` parameter allows selective inclusion of API security schemes based on specific criteria. It removes security schemes that do **not** match the specified values, preventing them from being generated. All references to removed security schemes also deleted. Multiple filters can be separated by a semicolon.
 
 ### Available Filters
 
