@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: allOf Annotations Test
+  version: 0.0.1
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: desc
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dog'
+components:
+  schemas:
+    Animal:
+      type: object
+      properties:
+        name:
+          type: string
+    Dog:
+      x-class-extra-annotation:
+        - '@SuppressWarnings("unchecked")'
+        - '@Deprecated'
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        breed:
+          type: string
+    Cat:
+      x-class-extra-annotation: '@SuppressWarnings("unchecked")'
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        indoor:
+          type: boolean

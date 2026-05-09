@@ -2143,6 +2143,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // normalize x-class-extra-annotation to always be a List<String> so that
+        // mustache templates can iterate over it for both single and multiple annotations.
+        // This also ensures allOf schemas with x-class-extra-annotation are handled correctly.
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            Object annotation = cm.getVendorExtensions().get(VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
+            if (annotation instanceof String) {
+                cm.getVendorExtensions().put(
+                        VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName(),
+                        Collections.singletonList(annotation));
+            }
+            // if annotation is already a List (e.g. from a YAML sequence), leave it as-is
+        }
+
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
         if (!this.xImplementsSkip.isEmpty()) {
             for (ModelMap mo : objs.getModels()) {
