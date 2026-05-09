@@ -298,7 +298,6 @@ class _$NullableClassSerializer implements PrimitiveSerializer<NullableClass> {
     }
   }
 
-
   @override
   NullableClass deserialize(
     Serializers serializers,

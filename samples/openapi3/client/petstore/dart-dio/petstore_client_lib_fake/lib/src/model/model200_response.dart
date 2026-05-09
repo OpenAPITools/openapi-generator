@@ -105,7 +105,6 @@ class _$Model200ResponseSerializer implements PrimitiveSerializer<Model200Respon
     }
   }
 
-
   @override
   Model200Response deserialize(
     Serializers serializers,

@@ -86,7 +86,6 @@ class _$ModelListSerializer implements PrimitiveSerializer<ModelList> {
     }
   }
 
-
   @override
   ModelList deserialize(
     Serializers serializers,

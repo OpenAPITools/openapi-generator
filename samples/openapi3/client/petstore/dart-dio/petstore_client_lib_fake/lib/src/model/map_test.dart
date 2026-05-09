@@ -145,7 +145,6 @@ class _$MapTestSerializer implements PrimitiveSerializer<MapTest> {
     }
   }
 
-
   @override
   MapTest deserialize(
     Serializers serializers,

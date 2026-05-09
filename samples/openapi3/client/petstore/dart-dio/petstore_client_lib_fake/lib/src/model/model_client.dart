@@ -86,7 +86,6 @@ class _$ModelClientSerializer implements PrimitiveSerializer<ModelClient> {
     }
   }
 
-
   @override
   ModelClient deserialize(
     Serializers serializers,

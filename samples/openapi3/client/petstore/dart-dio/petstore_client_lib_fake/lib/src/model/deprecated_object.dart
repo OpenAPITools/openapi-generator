@@ -87,7 +87,6 @@ class _$DeprecatedObjectSerializer implements PrimitiveSerializer<DeprecatedObje
     }
   }
 
-
   @override
   DeprecatedObject deserialize(
     Serializers serializers,

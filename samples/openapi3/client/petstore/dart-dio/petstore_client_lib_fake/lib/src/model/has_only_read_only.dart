@@ -105,7 +105,6 @@ class _$HasOnlyReadOnlySerializer implements PrimitiveSerializer<HasOnlyReadOnly
     }
   }
 
-
   @override
   HasOnlyReadOnly deserialize(
     Serializers serializers,

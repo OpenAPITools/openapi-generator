@@ -117,7 +117,6 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     }
   }
 
-
   @override
   Cat deserialize(
     Serializers serializers,

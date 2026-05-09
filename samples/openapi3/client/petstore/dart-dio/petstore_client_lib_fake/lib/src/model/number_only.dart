@@ -86,7 +86,6 @@ class _$NumberOnlySerializer implements PrimitiveSerializer<NumberOnly> {
     }
   }
 
-
   @override
   NumberOnly deserialize(
     Serializers serializers,

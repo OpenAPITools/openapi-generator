@@ -106,7 +106,6 @@ class _$FakeBigDecimalMap200ResponseSerializer implements PrimitiveSerializer<Fa
     }
   }
 
-
   @override
   FakeBigDecimalMap200Response deserialize(
     Serializers serializers,

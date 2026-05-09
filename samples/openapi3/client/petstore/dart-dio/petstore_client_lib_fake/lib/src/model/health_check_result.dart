@@ -86,7 +86,6 @@ class _$HealthCheckResultSerializer implements PrimitiveSerializer<HealthCheckRe
     }
   }
 
-
   @override
   HealthCheckResult deserialize(
     Serializers serializers,

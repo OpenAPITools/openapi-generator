@@ -180,7 +180,6 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
     }
   }
 
-
   @override
   Pet deserialize(
     Serializers serializers,

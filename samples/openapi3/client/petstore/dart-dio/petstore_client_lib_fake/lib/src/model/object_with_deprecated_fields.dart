@@ -148,7 +148,6 @@ class _$ObjectWithDeprecatedFieldsSerializer implements PrimitiveSerializer<Obje
     }
   }
 
-
   @override
   ObjectWithDeprecatedFields deserialize(
     Serializers serializers,

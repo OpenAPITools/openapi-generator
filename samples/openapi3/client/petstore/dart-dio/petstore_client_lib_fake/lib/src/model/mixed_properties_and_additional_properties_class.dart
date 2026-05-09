@@ -126,7 +126,6 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Primiti
     }
   }
 
-
   @override
   MixedPropertiesAndAdditionalPropertiesClass deserialize(
     Serializers serializers,

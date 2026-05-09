@@ -185,7 +185,6 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
     }
   }
 
-
   @override
   Order deserialize(
     Serializers serializers,

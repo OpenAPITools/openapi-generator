@@ -105,7 +105,6 @@ class _$TagSerializer implements PrimitiveSerializer<Tag> {
     }
   }
 
-
   @override
   Tag deserialize(
     Serializers serializers,

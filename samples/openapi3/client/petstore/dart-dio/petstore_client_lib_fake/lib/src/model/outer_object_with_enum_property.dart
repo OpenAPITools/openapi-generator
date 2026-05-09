@@ -85,7 +85,6 @@ class _$OuterObjectWithEnumPropertySerializer implements PrimitiveSerializer<Out
     }
   }
 
-
   @override
   OuterObjectWithEnumProperty deserialize(
     Serializers serializers,

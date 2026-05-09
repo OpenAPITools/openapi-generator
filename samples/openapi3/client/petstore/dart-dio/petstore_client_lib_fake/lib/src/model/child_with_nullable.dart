@@ -119,7 +119,6 @@ class _$ChildWithNullableSerializer implements PrimitiveSerializer<ChildWithNull
     }
   }
 
-
   @override
   ChildWithNullable deserialize(
     Serializers serializers,

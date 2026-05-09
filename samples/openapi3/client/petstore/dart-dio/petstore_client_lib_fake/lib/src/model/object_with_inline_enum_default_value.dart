@@ -90,7 +90,6 @@ class _$ObjectWithInlineEnumDefaultValueSerializer implements PrimitiveSerialize
     }
   }
 
-
   @override
   ObjectWithInlineEnumDefaultValue deserialize(
     Serializers serializers,

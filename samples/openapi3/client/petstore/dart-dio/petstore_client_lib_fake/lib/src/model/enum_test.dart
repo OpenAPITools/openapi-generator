@@ -229,7 +229,6 @@ class _$EnumTestSerializer implements PrimitiveSerializer<EnumTest> {
     }
   }
 
-
   @override
   EnumTest deserialize(
     Serializers serializers,

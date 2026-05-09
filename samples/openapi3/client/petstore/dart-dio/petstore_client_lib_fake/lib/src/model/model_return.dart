@@ -86,7 +86,6 @@ class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
     }
   }
 
-
   @override
   ModelReturn deserialize(
     Serializers serializers,

@@ -108,7 +108,6 @@ class _$EnumArraysSerializer implements PrimitiveSerializer<EnumArrays> {
     }
   }
 
-
   @override
   EnumArrays deserialize(
     Serializers serializers,

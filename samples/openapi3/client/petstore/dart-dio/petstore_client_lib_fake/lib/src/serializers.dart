@@ -137,42 +137,12 @@ Serializers serializers = (_$serializers.toBuilder()
         () => MapBuilder<String, String>(),
       )
       ..addBuilderFactory(
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltMap, [FullType(String), FullType(num)]),
-        () => MapBuilder<String, num>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
-        () => MapBuilder<String, Animal>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(ReadOnlyFirst)]),
-        () => ListBuilder<ReadOnlyFirst>(),
-      )
-      ..addBuilderFactory(
-      )
-      ..addBuilderFactory(
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltMap, [FullType(String), FullType(int)]),
-        () => MapBuilder<String, int>(),
-      )
-      ..addBuilderFactory(
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(num)]),
-        () => ListBuilder<num>(),
-      )
-      ..addBuilderFactory(
         const FullType(BuiltList, [FullType(User)]),
         () => ListBuilder<User>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltSet, [FullType(String)]),
         () => SetBuilder<String>(),
-      )
-      ..addBuilderFactory(
       )
       ..addBuilderFactory(
         const FullType(BuiltSet, [FullType(Pet)]),
@@ -183,44 +153,20 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<Pet>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(JsonObject)]),
-        () => ListBuilder<JsonObject>(),
+        const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
+        () => MapBuilder<String, JsonObject?>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltMap, [FullType(String), FullType(int)]),
+        () => MapBuilder<String, int>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(ModelEnumClass)]),
         () => ListBuilder<ModelEnumClass>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType.nullable(JsonObject)]),
-        () => ListBuilder<JsonObject>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(Tag)]),
-        () => ListBuilder<Tag>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(ModelFile)]),
-        () => ListBuilder<ModelFile>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(int)]),
-        () => ListBuilder<int>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
-        () => MapBuilder<String, JsonObject?>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltMap, [FullType(String), FullType(bool)]),
-        () => MapBuilder<String, bool>(),
-      )
-      ..addBuilderFactory(
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltMap, [FullType(String), FullType(JsonObject)]),
-        () => MapBuilder<String, JsonObject>(),
       )
       ..add(Animal.serializer)
       ..add(ParentWithNullable.serializer)

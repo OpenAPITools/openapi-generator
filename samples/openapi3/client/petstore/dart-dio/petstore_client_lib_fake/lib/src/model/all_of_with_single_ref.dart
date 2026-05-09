@@ -107,7 +107,6 @@ class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSin
     }
   }
 
-
   @override
   AllOfWithSingleRef deserialize(
     Serializers serializers,

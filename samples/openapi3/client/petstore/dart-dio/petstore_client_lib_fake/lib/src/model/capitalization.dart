@@ -182,7 +182,6 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
     }
   }
 
-
   @override
   Capitalization deserialize(
     Serializers serializers,

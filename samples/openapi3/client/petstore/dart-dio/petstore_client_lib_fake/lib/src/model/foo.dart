@@ -87,7 +87,6 @@ class _$FooSerializer implements PrimitiveSerializer<Foo> {
     }
   }
 
-
   @override
   Foo deserialize(
     Serializers serializers,

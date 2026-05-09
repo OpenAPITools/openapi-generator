@@ -126,7 +126,6 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
     }
   }
 
-
   @override
   ArrayTest deserialize(
     Serializers serializers,

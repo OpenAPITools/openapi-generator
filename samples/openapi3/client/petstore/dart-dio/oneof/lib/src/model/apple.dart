@@ -73,8 +73,9 @@ class _$AppleSerializer implements PrimitiveSerializer<Apple> {
         case r'kind':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.kind = valueDes;
           break;
         default:

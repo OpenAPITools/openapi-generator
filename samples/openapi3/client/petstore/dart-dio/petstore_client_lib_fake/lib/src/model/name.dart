@@ -140,7 +140,6 @@ class _$NameSerializer implements PrimitiveSerializer<Name> {
     }
   }
 
-
   @override
   Name deserialize(
     Serializers serializers,

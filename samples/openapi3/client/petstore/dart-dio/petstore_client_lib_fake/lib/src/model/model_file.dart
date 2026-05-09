@@ -87,7 +87,6 @@ class _$ModelFileSerializer implements PrimitiveSerializer<ModelFile> {
     }
   }
 
-
   @override
   ModelFile deserialize(
     Serializers serializers,

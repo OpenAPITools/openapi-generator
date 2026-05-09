@@ -87,7 +87,6 @@ class _$FooGetDefaultResponseSerializer implements PrimitiveSerializer<FooGetDef
     }
   }
 
-
   @override
   FooGetDefaultResponse deserialize(
     Serializers serializers,

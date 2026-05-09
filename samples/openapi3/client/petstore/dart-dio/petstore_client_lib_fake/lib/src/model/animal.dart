@@ -183,7 +183,6 @@ class _$$AnimalSerializer implements PrimitiveSerializer<$Animal> {
     }
   }
 
-
   @override
   $Animal deserialize(
     Serializers serializers,

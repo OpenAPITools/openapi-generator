@@ -86,7 +86,6 @@ class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelNa
     }
   }
 
-
   @override
   SpecialModelName deserialize(
     Serializers serializers,

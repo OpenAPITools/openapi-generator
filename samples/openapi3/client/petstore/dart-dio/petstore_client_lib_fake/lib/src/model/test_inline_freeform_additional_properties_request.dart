@@ -88,7 +88,6 @@ class _$TestInlineFreeformAdditionalPropertiesRequestSerializer implements Primi
     }
   }
 
-
   @override
   TestInlineFreeformAdditionalPropertiesRequest deserialize(
     Serializers serializers,

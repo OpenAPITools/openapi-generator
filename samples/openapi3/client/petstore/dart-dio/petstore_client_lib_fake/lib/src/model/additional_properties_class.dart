@@ -125,7 +125,6 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
     }
   }
 
-
   @override
   AdditionalPropertiesClass deserialize(
     Serializers serializers,

@@ -124,7 +124,6 @@ class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> 
     }
   }
 
-
   @override
   OuterComposite deserialize(
     Serializers serializers,

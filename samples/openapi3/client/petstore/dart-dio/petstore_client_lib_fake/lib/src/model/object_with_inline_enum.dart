@@ -89,7 +89,6 @@ class _$ObjectWithInlineEnumSerializer implements PrimitiveSerializer<ObjectWith
     }
   }
 
-
   @override
   ObjectWithInlineEnum deserialize(
     Serializers serializers,

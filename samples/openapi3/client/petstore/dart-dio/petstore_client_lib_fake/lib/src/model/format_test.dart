@@ -363,7 +363,6 @@ class _$FormatTestSerializer implements PrimitiveSerializer<FormatTest> {
     }
   }
 
-
   @override
   FormatTest deserialize(
     Serializers serializers,

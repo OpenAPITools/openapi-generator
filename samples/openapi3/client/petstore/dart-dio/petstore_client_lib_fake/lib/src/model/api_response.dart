@@ -124,7 +124,6 @@ class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
     }
   }
 
-
   @override
   ApiResponse deserialize(
     Serializers serializers,

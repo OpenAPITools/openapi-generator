@@ -173,7 +173,6 @@ class _$$ParentWithNullableSerializer implements PrimitiveSerializer<$ParentWith
     }
   }
 
-
   @override
   $ParentWithNullable deserialize(
     Serializers serializers,

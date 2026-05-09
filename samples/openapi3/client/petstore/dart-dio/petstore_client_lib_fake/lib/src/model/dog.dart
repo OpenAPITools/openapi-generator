@@ -117,7 +117,6 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
     }
   }
 
-
   @override
   Dog deserialize(
     Serializers serializers,

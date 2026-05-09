@@ -86,7 +86,6 @@ class _$ClassModelSerializer implements PrimitiveSerializer<ClassModel> {
     }
   }
 
-
   @override
   ClassModel deserialize(
     Serializers serializers,

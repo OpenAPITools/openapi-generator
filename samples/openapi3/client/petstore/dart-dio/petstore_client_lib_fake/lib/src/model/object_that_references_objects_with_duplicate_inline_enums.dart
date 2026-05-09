@@ -107,7 +107,6 @@ class _$ObjectThatReferencesObjectsWithDuplicateInlineEnumsSerializer implements
     }
   }
 
-
   @override
   ObjectThatReferencesObjectsWithDuplicateInlineEnums deserialize(
     Serializers serializers,

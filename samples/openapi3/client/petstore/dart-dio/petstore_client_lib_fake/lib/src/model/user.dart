@@ -220,7 +220,6 @@ class _$UserSerializer implements PrimitiveSerializer<User> {
     }
   }
 
-
   @override
   User deserialize(
     Serializers serializers,

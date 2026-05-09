@@ -107,7 +107,6 @@ class _$FileSchemaTestClassSerializer implements PrimitiveSerializer<FileSchemaT
     }
   }
 
-
   @override
   FileSchemaTestClass deserialize(
     Serializers serializers,

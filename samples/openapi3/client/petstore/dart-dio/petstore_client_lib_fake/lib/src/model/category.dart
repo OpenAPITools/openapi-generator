@@ -103,7 +103,6 @@ class _$CategorySerializer implements PrimitiveSerializer<Category> {
     }
   }
 
-
   @override
   Category deserialize(
     Serializers serializers,
