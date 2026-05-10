@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import java.util.Locale;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,7 +55,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_MUTINY = "useMutiny";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
-    public static final String USE_QUARKUS_SECURITY_ANNOTATIONS = "useQuarkusSecurityAnnotations";
+    public static final String USE_JAKARTA_SECURITY_ANNOTATIONS = "useJakartaSecurityAnnotations";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -69,7 +71,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerV3Annotations = false;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
-    private boolean useQuarkusSecurityAnnotations = false;
+    private boolean useJakartaSecurityAnnotations = false;
+
+    private final JakartaSecurityAnnotationProcessor jakartaSecurityAnnotationProcessor = new JakartaSecurityAnnotationProcessor();
 
     @Getter @Setter
     protected boolean generateJsonCreator = true;
@@ -149,7 +153,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
-        cliOptions.add(CliOption.newBoolean(USE_QUARKUS_SECURITY_ANNOTATIONS, "Whether to generate Quarkus security annotations (@Authenticated, @RolesAllowed, @PermitAll). Only valid when library is set to quarkus.", useQuarkusSecurityAnnotations));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_SECURITY_ANNOTATIONS, "Whether to generate Jakarta security annotations (@RolesAllowed, @PermitAll). Requires useJakartaEe=true. Currently only supported when library is set to quarkus.", useJakartaSecurityAnnotations));
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
     }
 
@@ -192,10 +196,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             convertPropertyToBooleanAndWriteBack(USE_MUTINY, value -> useMutiny = value);
         }
 
-        if (QUARKUS_LIBRARY.equals(library)) {
-            convertPropertyToBooleanAndWriteBack(USE_QUARKUS_SECURITY_ANNOTATIONS, value -> useQuarkusSecurityAnnotations = value);
-        }
-
         convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
@@ -214,6 +214,18 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         super.processOpts();
+
+        // We need to call super.processOpts() before evaluating the `library`, otherwise `library` is null when set via `configOptions` instead of via `library.set("quarkus")` in Gradle
+        if (QUARKUS_LIBRARY.equals(library)) {
+            convertPropertyToBooleanAndWriteBack(USE_JAKARTA_SECURITY_ANNOTATIONS, value -> useJakartaSecurityAnnotations = value);
+        }
+
+        if (useJakartaSecurityAnnotations && !useJakartaEe) {
+            throw new IllegalArgumentException(
+                    "Flag '" + USE_JAKARTA_SECURITY_ANNOTATIONS + "' requires '" + USE_JAKARTA_EE
+                            + "=true'. The generated annotation '@jakarta.annotation.security.RolesAllowed' "
+                            + "is incompatible with the javax.* namespace.");
+        }
 
         // expose flags to templates
         additionalProperties.put(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
@@ -390,5 +402,14 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             }
         }
         return result;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        if (QUARKUS_LIBRARY.equals(getLibrary()) && useJakartaSecurityAnnotations) {
+            jakartaSecurityAnnotationProcessor.applyTo(op, operation, openAPI);
+        }
+        return op;
     }
 }
