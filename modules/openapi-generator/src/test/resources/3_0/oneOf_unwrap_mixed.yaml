@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  version: "1.0.0"
+  title: test inline enum
+paths:
+  /test:
+    post:
+      requestBody:
+        description: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      responses:
+        200:
+          description: ok
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        owner:
+          type: string
+        bank:
+          $ref: '#/components/schemas/Bank'
+      oneOf:
+        - properties:
+            bankNumber:
+              type: string
+            bic:
+              type: string
+        - properties:
+            iban:
+              type: string
+    Bank:
+      allOf:
+        - properties:
+            name:
+              type: string
+      oneOf:
+        - properties:
+            countryAlpha2:
+              type: string
+        - properties:
+            countryAlpha3:
+              type: string
+    Additional:
+      oneOf:
+        - properties:
+            a:
+             type: string
+        - properties:
+            b:
+              type: string
+
+      additionalProperties:
+        type: integer
+    Other:
+      properties:
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/OtherA'
+        - $ref: '#/components/schemas/OtherB'
+    OtherA:
+      properties:
+        a:
+          type: string
+    OtherB:
+      properties:
+        b:
+          type: string

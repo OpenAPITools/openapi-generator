@@ -1559,4 +1559,20 @@ public class SpringCodegen extends AbstractJavaCodegen
             imports.add("Nullable");
         }
     }
+
+    @Override
+    protected void addOneOfMixinSupport(ModelsMap obj, CodegenModel cm) {
+        super.addOneOfMixinSupport(obj, cm);
+
+        vendorExtensions.put("x-jackson-mixins-mapper", useJackson3? "JsonMapper": "ObjectMapper");
+        obj.getImports().add(Map.of("import", configPackage + ".JacksonMixinConfig"));
+        if (!useJackson3) {
+            obj.getImports().add(Map.of("import", "com.fasterxml.jackson.core.JsonProcessingException"));
+        }
+        if (supportingFiles.stream().noneMatch(sf -> "JacksonMixinConfig.java".equals(sf.getDestinationFilename()))) {
+            supportingFiles.add(new SupportingFile("jacksonMixinConfig.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                    "JacksonMixinConfig.java"));
+        }
+    }
 }

@@ -21,19 +21,13 @@
 public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
-    {{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}{{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-oneof-jsonCreator}}
-
-    static JsonMapper getJsonMapperForJsonCreator() {
-       return JsonMapper.shared().rebuild()
-       .addMixIn({{classname}}.class, {{classname}}Mixin.class)
-       .build();
-    }
+    {{/discriminator}}{{#vendorExtensions.x-oneof-jsonCreator}}
 
     @JsonCreator
-    static {{classname}} valueOf(JsonNode node) {
-        {{classname}} value = getJsonMapperForJsonCreator().treeToValue(node, {{classname}}.class);
-        return value;
+    static {{classname}} valueOf(JsonNode node) {{^useJackson3}}throws JsonProcessingException {{/useJackson3}}{
+        return JacksonMixinConfig.getMapper().treeToValue(node, {{classname}}.class);
     }
+
     @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
     @JsonSubTypes({
     {{#interfaceModels}}
@@ -43,5 +37,5 @@ public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-f
     static interface {{classname}}Mixin {
 
     }
-    {{/vendorExtensions.x-oneof-jsonCreator}}{{/discriminator}}
+    {{/vendorExtensions.x-oneof-jsonCreator}}
 }

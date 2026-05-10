@@ -1117,12 +1117,14 @@ public class DefaultCodegen implements CodegenConfig {
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
                     if (e.getKey().contains("/")) {
+                        if (true)
+                            throw new IllegalStateException("Impossible location");
                         // if this is property schema, we also need to generate the oneOf interface model
                         addOneOfNameExtension(s, nOneOf);
                         addOneOfInterfaceModel(s, nOneOf);
                     } else {
-                        if (ModelUtils.hasProperties(s) && ModelUtils.hasProperties(s)) {
-                            preprocessOneOfWithProperties(s, n);
+                        if (ModelUtils.hasOneOf(s) && (ModelUtils.hasProperties(s) || ModelUtils.hasAllOf(s))) {
+                            preprocessMixedOneOf(s, n);
                         } else {
                             // else this is a component schema, so we will just use that as the oneOf interface model
                             addOneOfNameExtension(s, n);
@@ -1145,7 +1147,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    protected void preprocessOneOfWithProperties(Schema s, String schemaName) {
+    // override with any special handling of OneOf mixed with allOf or properties.
+    protected void preprocessMixedOneOf(Schema s, String schemaName) {
+        // backward compatible code (probably wrong)
         addOneOfNameExtension(s, schemaName);
     }
 

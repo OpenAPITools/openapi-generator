@@ -111,6 +111,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
+    public static final String USE_WRAPPER_FOR_MIXED_ONE_OF = "useWrapperForMixedOneOf";
     public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
@@ -222,6 +223,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter
     protected boolean useJspecify;
     protected JSpecifyNullableLambda jSpecifyNullableLambda;
+    @Getter @Setter
+    protected boolean useWrapperForMixedOneOf;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -340,6 +343,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(USE_ONE_OF_INTERFACES, "whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface"));
+        cliOptions.add(CliOption.newBoolean(USE_WRAPPER_FOR_MIXED_ONE_OF, "whether to use @JsonUnwrapped and a Wrapper interface for inline oneOf combined with allOf/properties and without discriminator"));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -603,6 +607,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(IMPLICIT_HEADERS_REGEX, this::setImplicitHeadersRegex);
         convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
+        convertPropertyToBooleanAndWriteBack(USE_WRAPPER_FOR_MIXED_ONE_OF, this::setUseWrapperForMixedOneOf);
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
         convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
 
@@ -721,38 +726,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         objs = super.updateAllModels(objs);
 
         Map<String, CodegenModel> allModels = getAllModels(objs);
-
-        if (false && useOneOfInterfaces) {
-            for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
-                CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-                for (CodegenProperty p : model.getVars()) {
-                    if (p.vendorExtensions.containsKey("x-unwrapped")) {
-                        String dataType = p.getDataType();
-                        ModelsMap child = objs.values().stream().filter(ms -> ms.getModels().stream().anyMatch(m -> dataType.equals(m.getModel().dataType  )))
-                                .findFirst().orElseThrow();
-                        child.getImports().add(Map.of("import", this.importMapping.get("JsonNode")));
-                        child.getImports().add(Map.of("import", this.importMapping.get("JsonMapper")));
-//                        modelsMap.getImports();
-                        child.getModels().forEach(m -> m.getModel().vendorExtensions.put("x-oneof-jsonCreator", true));
-                        ModelsMap modelsMap = entry.getValue();
-//                        CodegenModel child = ModelUtils.getModelByName(p.getDataType(), objs);
-
-                    }
-                }
-            }
-
-//                for (CodegenModel model : allModels.values()) {
-//                for (CodegenProperty p : model.getVars()) {
-//                    if (p.vendorExtensions.containsKey("x-unwrapped")) {
-//                        CodegenModel child = allModels.get(p.getDataType());
-//                        child.imports.add("JsonNode");
-//                        child.imports.add("JsonMapper");
-//                        child.imports.add("JsonCreator");
-//                        child.getVendorExtensions().put("x-oneof-jsonCreator", true);
-//                    }
-//                }
-//            }
-        }
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
@@ -2038,14 +2011,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
         }
-        if (property.getVendorExtensions().containsKey("x-unwrapped")) {
+        if (property.getVendorExtensions().containsKey("x-unwrappedOneOf")) {
             model.imports.add("JsonUnwrapped");
             property.getVendorExtensions().put("x-field-extra-annotation", "@JsonUnwrapped");
-//            property.vendorExtensions.put("x-oneof-jsonCreator", Boolean.TRUE);
-//            property.getComposedSchemas().getOneOf()
-//                pro.imports.add("JsonNode");
-//                codegenModel.imports.add("JsonMapper");
-
         }
     }
 
@@ -2848,29 +2816,60 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .ifPresent(param -> codegenOperation.imports.add("Nullable"));
     }
 
-    boolean unwrappedOneOf = true;
     @Override
-    protected void preprocessOneOfWithProperties(Schema s, String schemaName) {
-        if (unwrappedOneOf) {
-            Schema newSchema = new ComposedSchema();
-            newSchema.oneOf(s.getOneOf());
-            newSchema.addExtension("x-unwrapped", true);
-            String nOneOf = toModelName(schemaName + "OneOf");
-//            newSchema.setName(nOneOf+"Wrapper");
-            String newSchemaName = nOneOf+ "Wrapper";
-            openAPI.getComponents().getSchemas().put(newSchemaName, newSchema);
-            Schema newSchemaRef = new Schema().$ref("#/components/schemas/" + newSchemaName);
-            s.getProperties().put("oneOf", newSchemaRef);
-            s.oneOf(null);
-            addOneOfNameExtension(newSchema, newSchemaName);
-            addOneOfInterfaceModel(newSchema, newSchemaName);
-            CodegenModel cm = addOneOfInterfaces.get(addOneOfInterfaces.size() - 1);
-            cm.vendorExtensions.put("x-oneof-jsonCreator", "true");
-            cm.imports.add("JsonNode");
-            cm.imports.add("JsonMapper");
+    protected void preprocessMixedOneOf(Schema s, String schemaName) {
 
+        // skip handling of oneOf + properties + discriminator
+        // TOOD: improve the logic to accept discriminator mappings NOT matching the oneOf elements.
+        boolean hasDiscriminator = s.getDiscriminator() != null;
+        if (useWrapperForMixedOneOf && !hasDiscriminator) {
+            Schema newOneOfSchema = new ComposedSchema();
+            newOneOfSchema.oneOf(s.getOneOf());
+            newOneOfSchema.addExtension("x-unwrappedOneOf", true);
+            String nOneOf = toModelName(schemaName + "OneOf");
+            String newSchemaName = nOneOf+ "_wrapper";
+            openAPI.getComponents().getSchemas().put(newSchemaName, newOneOfSchema);
+            Schema newSchemaRef = new Schema().$ref("#/components/schemas/" + newSchemaName);
+            s.oneOf(null);
+            // TODO: configuration of the property name
+            String propertyName = "oneOf";
+            if (ModelUtils.hasProperties(s)) {
+                s.getProperties().put(propertyName, newSchemaRef);
+            } else if (ModelUtils.hasAllOf(s)) {
+                Schema schema = new Schema();
+                schema.setProperties(Map.of(propertyName, newSchemaRef));
+                s.getAllOf().add(schema);
+            }
         } else {
-            super.preprocessOneOfWithProperties(s, schemaName);
+            super.preprocessMixedOneOf(s, schemaName);
         }
+    }
+
+    @Override
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
+        objs = super.updateAllModels(objs);
+        if (jackson) {
+            // handling of USE_WRAPPER_FOR_MIXED_ONE_OF
+            for (ModelsMap obj : objs.values()) {
+                for (ModelMap mo : obj.getModels()) {
+                    CodegenModel cm = mo.getModel();
+                    if (cm.getVendorExtensions().containsKey("x-unwrappedOneOf") && cm.getInterfaceModels() != null) {
+                        addOneOfMixinSupport(obj, cm);
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    /**
+     * add JsonCreator and mixin interface to the oneOf interface.
+     */
+    protected void addOneOfMixinSupport(ModelsMap obj, CodegenModel cm) {
+        ((List)vendorExtensions.computeIfAbsent("x-jackson-mixins", s -> new ArrayList<>()))
+                .add(cm.classname);
+
+        cm.getVendorExtensions().put("x-oneof-jsonCreator", true);
+        obj.getImports().add(Map.of("import", importMapping.get("JsonNode")));
     }
 }

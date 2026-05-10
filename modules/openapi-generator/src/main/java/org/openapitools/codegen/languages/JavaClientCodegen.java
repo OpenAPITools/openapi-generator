@@ -1321,10 +1321,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     protected void applyJackson2Package() {
         writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+        importMapping.put("JsonNode", JACKSON2_PACKAGE + ".databind.JsonNode");
+        importMapping.put("JsonMapper", JACKSON2_PACKAGE + ".databind.json.JsonMapper");
     }
 
     protected void applyJackson3Package() {
         writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
+        importMapping.put("JsonNode", JACKSON3_PACKAGE + ".databind.JsonNode");
+        importMapping.put("JsonMapper", JACKSON3_PACKAGE + ".databind.json.JsonMapper");
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
@@ -1396,5 +1400,21 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
         // override the default pattern for the "find and replace"
         jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
+    }
+
+    @Override
+    protected void addOneOfMixinSupport(ModelsMap obj, CodegenModel cm) {
+        super.addOneOfMixinSupport(obj, cm);
+
+        vendorExtensions.put("x-jackson-mixins-mapper", useJackson3? "JsonMapper": "ObjectMapper");
+        obj.getImports().add(Map.of("import", invokerPackage + ".JacksonMixinConfig"));
+        if (!useJackson3) {
+            obj.getImports().add(Map.of("import", "com.fasterxml.jackson.core.JsonProcessingException"));
+        }
+        if (supportingFiles.stream().noneMatch(sf -> "JacksonMixinConfig.java".equals(sf.getDestinationFilename()))) {
+            supportingFiles.add(new SupportingFile("jacksonMixinConfig.mustache",
+                    (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
+                    "JacksonMixinConfig.java"));
+        }
     }
 }

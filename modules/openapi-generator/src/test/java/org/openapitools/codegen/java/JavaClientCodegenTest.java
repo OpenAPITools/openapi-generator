@@ -4452,4 +4452,28 @@ public class JavaClientCodegenTest {
                 .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Source.class", "name", "\"source\""));
     }
 
+    @Test
+    void unwrapped_oneOf_with_inheritance_sb3() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_unwrap_mixed.yaml", RESTCLIENT,
+                Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true,
+                        USE_WRAPPER_FOR_MIXED_ONE_OF, true,
+                        USE_SPRING_BOOT4, false));
+
+        JavaFileAssert.assertThat(files.get("Account.java"))
+                .assertProperty("oneOf")
+                .doesImportAnnotation("JsonUnwrapped")
+                .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
+
+        JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
+                .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
+                .fileContains("static interface AccountOneOfWrapperMixin", "@JsonCreator")
+                .hasImports("com.fasterxml.jackson.databind.JsonNode");
+        JavaFileAssert.assertThat(files.get("JacksonMixinConfig.java"))
+                .fileContains(".addMixIn(AccountOneOfWrapper.class, AccountOneOfWrapper.AccountOneOfWrapperMixin.class)",
+                        ".addMixIn(BankOneOfWrapper.class, BankOneOfWrapper.BankOneOfWrapperMixin.class)")
+                .hasImports("org.openapitools.client.model.AccountOneOfWrapper",
+                        "org.openapitools.client.model.BankOneOfWrapper",
+                        "com.fasterxml.jackson.databind.ObjectMapper",
+                        "com.fasterxml.jackson.databind.json.JsonMapper");
+    }
 }

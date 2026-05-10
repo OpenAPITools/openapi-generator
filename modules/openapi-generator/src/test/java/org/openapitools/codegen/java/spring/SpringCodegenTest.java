@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.java.spring;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -29,7 +28,6 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.MapAssert;
-import org.jetbrains.kotlin.name.StandardClassIds;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -7729,42 +7727,56 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void unwrapped_oneOf_with_inheritance() throws IOException {
-        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_23635.yaml", SPRING_BOOT,
+    void unwrapped_oneOf_with_inheritance_sb4() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_unwrap_mixed.yaml", SPRING_BOOT,
                 Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true,
                         USE_DEDUCTION_FOR_ONE_OF_INTERFACES, true,
+                        USE_WRAPPER_FOR_MIXED_ONE_OF, true,
                         USE_SPRING_BOOT4, true,
-                        USE_JACKSON_3, true),
-                codegen -> codegen.addOpenapiNormalizer("USE_UNWRAPPED_FOR_INLINE_ONEOF", "false"));
+                        USE_JACKSON_3, true));
 
-        JavaFileAssert.assertThat(files.get("Dummy.java"))
+        JavaFileAssert.assertThat(files.get("Account.java"))
                 .assertProperty("oneOf")
-                .assertPropertyAnnotations().containsWithName("JsonUnwrapped")
-                .toProperty().doesImportAnnotation("JsonUnwrapped");
+                .doesImportAnnotation("JsonUnwrapped")
+                .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
 
-        JavaFileAssert.assertThat(files.get("DummyOneOf.java"))
+        JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
-                .fileContains("static interface DummyOneOfMixin", "@JsonCreator")
-                .hasImports("tools.jackson.databind.JsonNode", "tools.jackson.databind.json.JsonMapper");
+                .fileContains("static interface AccountOneOfWrapperMixin", "@JsonCreator")
+                .hasImports("tools.jackson.databind.JsonNode");
+        JavaFileAssert.assertThat(files.get("JacksonMixinConfig.java"))
+                .fileContains(".addMixIn(AccountOneOfWrapper.class, AccountOneOfWrapper.AccountOneOfWrapperMixin.class)",
+                        ".addMixIn(BankOneOfWrapper.class, BankOneOfWrapper.BankOneOfWrapperMixin.class)")
+                .hasImports("org.openapitools.model.AccountOneOfWrapper",
+                        "org.openapitools.model.BankOneOfWrapper",
+                        "tools.jackson.databind.json.JsonMapper");
+        JavaFileAssert.assertThat(files.get("Other.java"))
+                .fileDoesNotContain("JsonUnwrapped");
     }
 
     @Test
-    void unwrapped_oneOf_with_composition() throws IOException {
-        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_23635.yaml", SPRING_BOOT,
-                Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, false,
-                        USE_DEDUCTION_FOR_ONE_OF_INTERFACES, false,
-                        USE_SPRING_BOOT4, true,
-                        USE_JACKSON_3, true),
-                codegen -> codegen.addOpenapiNormalizer("USE_UNWRAPPED_FOR_INLINE_ONEOF", "true"));
+    void unwrapped_oneOf_with_inheritance_sb3() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_unwrap_mixed.yaml", SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true,
+                        USE_DEDUCTION_FOR_ONE_OF_INTERFACES, true,
+                        USE_WRAPPER_FOR_MIXED_ONE_OF, true,
+                        USE_SPRING_BOOT3, true));
 
-        JavaFileAssert.assertThat(files.get("Dummy.java"))
+        JavaFileAssert.assertThat(files.get("Account.java"))
                 .assertProperty("oneOf")
-                .assertPropertyAnnotations().containsWithName("JsonUnwrapped")
-                .toProperty().doesImportAnnotation("JsonUnwrapped");
+                .doesImportAnnotation("JsonUnwrapped")
+                .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
 
-        JavaFileAssert.assertThat(files.get("DummyOneOf.java"))
+        JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
-                .fileDoesNotContain("static interface DummyOneOfMixin", "@JsonCreator")
-                .fileContains("String good;", " String bad;");
+                .fileContains("static interface AccountOneOfWrapperMixin", "@JsonCreator")
+                .hasImports("com.fasterxml.jackson.databind.JsonNode");
+        JavaFileAssert.assertThat(files.get("JacksonMixinConfig.java"))
+                .fileContains(".addMixIn(AccountOneOfWrapper.class, AccountOneOfWrapper.AccountOneOfWrapperMixin.class)",
+                        ".addMixIn(BankOneOfWrapper.class, BankOneOfWrapper.BankOneOfWrapperMixin.class)")
+                .hasImports("org.openapitools.model.AccountOneOfWrapper",
+                        "org.openapitools.model.BankOneOfWrapper",
+                        "com.fasterxml.jackson.databind.ObjectMapper",
+                        "com.fasterxml.jackson.databind.json.JsonMapper");
     }
 }

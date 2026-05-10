@@ -159,7 +159,6 @@ public class OpenAPINormalizer {
     // when set to true, sort model properties by name to ensure deterministic output
     final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
 
-    final String USE_UNWRAPPED_FOR_INLINE_ONEOF = "USE_UNWRAPPED_FOR_INLINE_ONEOF";
     // ============= end of rules =============
 
     /**
@@ -220,7 +219,6 @@ public class OpenAPINormalizer {
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
-        ruleNames.add(USE_UNWRAPPED_FOR_INLINE_ONEOF);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -1064,8 +1062,6 @@ public class OpenAPINormalizer {
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
-        schema = processUnwrappedOneOf(schema);
-
         // if it's still a oneOf, loop through the sub-schemas
         if (schema.getOneOf() != null) {
             for (int i = 0; i < schema.getOneOf().size(); i++) {
@@ -1088,21 +1084,6 @@ public class OpenAPINormalizer {
             schema = normalizeSchema(schema, visitedSchemas);
         }
 
-        return schema;
-    }
-
-    protected Schema processUnwrappedOneOf(Schema schema) {
-        if (!getRule(USE_UNWRAPPED_FOR_INLINE_ONEOF) || !ModelUtils.hasOneOf(schema) || !ModelUtils.hasProperties(schema)) {
-            return schema;
-        }
-
-        Schema newSchema = new ComposedSchema();
-        newSchema.oneOf(schema.getOneOf());
-        newSchema.addExtension("x-unwrapped", true);
-//        newSchema.addExtension("x-oneof-jsonCreator", true);
-//        newSchema.addExtension("x-field-extra-a   nnotation", "@JsonUnwrapped");
-        schema.getProperties().put("oneOf", newSchema);
-        schema.oneOf(null);
         return schema;
     }
 
