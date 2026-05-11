@@ -445,6 +445,66 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
     }
 
+    @Test(description = "Verify instanceOf checks discriminator value for single-value enums")
+    public void testInstanceOfChecksDiscriminatorValue() throws IOException {
+        File output = generate(Collections.emptyMap(), "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+
+        // OptionOne should check discriminator value
+        Path optionOne = Paths.get(output + "/models/OptionOne.ts");
+        TestUtils.assertFileExists(optionOne);
+        TestUtils.assertFileContains(optionOne, "value['discriminatorField'] !== 'optionOne'");
+
+        // OptionTwo should check discriminator value
+        Path optionTwo = Paths.get(output + "/models/OptionTwo.ts");
+        TestUtils.assertFileExists(optionTwo);
+        TestUtils.assertFileContains(optionTwo, "value['discriminatorField'] !== 'optionTwo'");
+
+        // TestA should NOT have a value check (foo is a plain string, not a single-value enum)
+        Path testA = Paths.get(output + "/models/TestA.ts");
+        TestUtils.assertFileExists(testA);
+        TestUtils.assertFileNotContains(testA, "value['foo'] !==");
+
+        // SnakeOptionOne: discriminator_field (snake_case baseName) vs discriminatorField (camelCase name)
+        // instanceOf should check both casings for field presence and discriminator value
+        Path snakeOptionOne = Paths.get(output + "/models/SnakeOptionOne.ts");
+        TestUtils.assertFileExists(snakeOptionOne);
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminatorField' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminator_field' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "value['discriminatorField'] !== 'snakeOptionOne'");
+        TestUtils.assertFileContains(snakeOptionOne, "value['discriminator_field'] !== 'snakeOptionOne'");
+        // Also verify the non-enum required field checks both casings
+        TestUtils.assertFileContains(snakeOptionOne, "'someProperty' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "'some_property' in value");
+
+        // DashedOptionOne: discriminator-field (dashed baseName) vs discriminatorField (camelCase name)
+        Path dashedOptionOne = Paths.get(output + "/models/DashedOptionOne.ts");
+        TestUtils.assertFileExists(dashedOptionOne);
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminatorField' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminator-field' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "value['discriminatorField'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "value['discriminator-field'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "'someProperty' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "'some-property' in value");
+
+        // Numeric singleton enum: value check must NOT quote the literal
+        Path numericModel = Paths.get(output + "/models/NumericSingletonEnumModel.ts");
+        TestUtils.assertFileExists(numericModel);
+        TestUtils.assertFileContains(numericModel, "value['kind'] !== 42");
+        TestUtils.assertFileNotContains(numericModel, "value['kind'] !== '42'");
+
+        // ToJSONTyped of discriminated oneOf must emit the wire-format discriminator key
+        // (propertyBaseName), not the camelCase TS property name
+        Path dashedDiscriminatorResponse = Paths.get(output + "/models/TestDashedDiscriminatorResponse.ts");
+        TestUtils.assertFileExists(dashedDiscriminatorResponse);
+        TestUtils.assertFileContains(dashedDiscriminatorResponse, "{ 'discriminator-field': 'dashedOptionOne' }");
+        TestUtils.assertFileContains(dashedDiscriminatorResponse, "{ 'discriminator-field': 'dashedOptionTwo' }");
+
+        Path snakeDiscriminatorResponse = Paths.get(output + "/models/TestSnakeCaseDiscriminatorResponse.ts");
+        TestUtils.assertFileExists(snakeDiscriminatorResponse);
+        TestUtils.assertFileContains(snakeDiscriminatorResponse, "{ 'discriminator_field': 'snakeOptionOne' }");
+        TestUtils.assertFileContains(snakeDiscriminatorResponse, "{ 'discriminator_field': 'snakeOptionTwo' }");
+    }
+
     @Test(description = "Verify validationAttributes works with withoutRuntimeChecks=true")
     public void testValidationAttributesWithWithoutRuntimeChecks() throws IOException {
         Map<String, Object> properties = new HashMap<>();
