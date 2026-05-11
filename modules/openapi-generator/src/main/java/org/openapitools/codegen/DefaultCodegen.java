@@ -1060,12 +1060,9 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (openAPI.getComponents() != null) {
+        if (openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());
-            if (schemas == null) {
-                schemas = new HashMap<>();
-            }
             Map<String, PathItem> pathItems = openAPI.getPaths();
 
             // we need to add all request and response bodies to processed schemas
