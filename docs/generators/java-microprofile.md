@@ -112,6 +112,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x.| |false|
 |useUnaryInterceptor|If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption| |false|
 |useVertx5|Whether to use Vert.x 5 syntax.| |false|
+|useWrapperForMixedOneOf|whether to use @JsonUnwrapped and a Wrapper interface for inline oneOf combined with allOf/properties and without discriminator| |false|
 |webclientBlockingOperations|Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support (only available for okhttp-gson library)| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
