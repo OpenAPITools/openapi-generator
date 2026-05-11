@@ -1151,9 +1151,9 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 // mixed oneof support even if useOneOfInterfaces=false
                 for (Map.Entry<String, Schema> e : schemas.entrySet()) {
-                    String n = toModelName(e.getKey());
                     Schema s = e.getValue();
                     if (ModelUtils.hasOneOf(s) && (ModelUtils.hasProperties(s) || ModelUtils.hasAllOf(s))) {
+                        String n = toModelName(e.getKey());
                         preprocessMixedOneOf(s, n);
                     }
                 }
