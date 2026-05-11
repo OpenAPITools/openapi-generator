@@ -41,9 +41,9 @@ value class DelegateProvider(val call: RoutingCall) {
             ?: call.attributes.getOrNull(AppDelegates.AttributeKey)
 
         return when (T::class) {
-            {{#apiInfo}}{{#apis}}{{classname}}Delegate::class ->  appDelegates?.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate as T
+            {{#apiInfo}}{{#apis}}{{classname}}Delegate::class ->  appDelegates?.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate as? T
             {{/apis}}{{/apiInfo}}
-            else -> null as T
+            else -> null
         }
     }
 }

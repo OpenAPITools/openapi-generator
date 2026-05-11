@@ -47,11 +47,11 @@ value class DelegateProvider(val call: RoutingCall) {
             ?: call.attributes.getOrNull(AppDelegates.AttributeKey)
 
         return when (T::class) {
-            PetApiDelegate::class ->  appDelegates?.petApiDelegate as T
-            StoreApiDelegate::class ->  appDelegates?.storeApiDelegate as T
-            UserApiDelegate::class ->  appDelegates?.userApiDelegate as T
+            PetApiDelegate::class ->  appDelegates?.petApiDelegate as? T
+            StoreApiDelegate::class ->  appDelegates?.storeApiDelegate as? T
+            UserApiDelegate::class ->  appDelegates?.userApiDelegate as? T
             
-            else -> null as T
+            else -> null
         }
     }
 }
