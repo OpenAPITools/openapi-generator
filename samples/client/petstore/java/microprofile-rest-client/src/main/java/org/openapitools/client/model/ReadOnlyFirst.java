@@ -32,10 +32,10 @@ import javax.json.bind.annotation.JsonbCreator;
 public class ReadOnlyFirst  {
   
   @JsonbProperty("bar")
-  private String bar;
+  protected String bar;
 
   @JsonbProperty("baz")
-  private String baz;
+  protected String baz;
 
 
   public ReadOnlyFirst() {
@@ -114,10 +114,7 @@ public class ReadOnlyFirst  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

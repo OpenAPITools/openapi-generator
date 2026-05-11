@@ -1,0 +1,356 @@
+{{!
+  server-operation-handler.mustache
+
+  WHY THIS FILE EXISTS:
+  The rust-server generator previously inlined every route handler directly inside
+  a single `async fn run()` defined within `Service::call()`. For large APIs this
+  produces a single function with tens of thousands of lines, which causes rustc to
+  exhaust memory (OOM) on memory-constrained CI runners (e.g. 3 GB) when compiling
+  with `--all-features`.
+
+  This template generates one standalone module-level `async fn handle_<operation>()`
+  per API operation. The `run()` match arms are replaced with thin single-line
+  dispatch calls (see server-operation.mustache). The generated behaviour is
+  identical; only the compilation-unit structure changes.
+}}
+#[allow(unused_variables)]
+async fn handle_{{#exts}}{{{x-operation-id}}}{{/exts}}<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+{{#apiUsesMultipartFormData}}
+    multipart_form_size_limit: Option<u64>,
+{{/apiUsesMultipartFormData}}
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
+{{#hasAuthMethods}}
+                {
+                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
+                        Some(ref authorization) => authorization,
+                        None => return Ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(body_from_str("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response")),
+                    };
+                    {{#authMethods}}
+                    {{#isOAuth}}
+
+                    // Authorization
+                    if let Scopes::Some(ref scopes) = authorization.scopes {
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
+                            {{#scopes}}
+                            "{{{scope}}}".to_string(), // {{{description}}}
+                            {{/scopes}}
+                        ].into_iter().collect();
+
+                        if !required_scopes.is_subset(scopes) {
+                            let missing_scopes = required_scopes.difference(scopes);
+                            return Ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(BoxBody::new(missing_scopes.fold(
+                                    "Insufficient authorization, missing scopes".to_string(),
+                                    |s, scope| format!("{s} {scope}"))
+                                ))
+                                .expect("Unable to create Authentication Insufficient response")
+                            );
+                        }
+                    }
+                    {{/isOAuth}}
+                    {{/authMethods}}
+                }
+
+{{/hasAuthMethods}}
+{{#exts}}
+  {{#x-has-path-params}}
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_{{{x-path-id}}}
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE {{{x-path-id}}} in set but failed match against \"{}\"", path, paths::REGEX_{{{x-path-id}}}.as_str())
+                    );
+
+  {{/x-has-path-params}}
+{{/exts}}
+{{#pathParams}}
+                let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{baseName}}}"].as_bytes()).decode_utf8() {
+                    Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
+                        Ok(param_{{{paramName}}}) => param_{{{paramName}}},
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(body_from_string(format!("Couldn't parse path parameter {{{baseName}}}: {e}")))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(body_from_string(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+{{/pathParams}}
+{{#exts}}
+  {{#x-callback-params}}
+                let callback_{{.}} = path_params["{{{.}}}"].to_string();
+  {{/x-callback-params}}
+{{/exts}}
+{{#headerParams}}
+  {{#-first}}
+                // Header parameters
+  {{/-first}}
+                let param_{{{paramName}}} = headers.get(HeaderName::from_static("{{{nameInLowerCase}}}"));
+
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(v) => match header::IntoHeaderValue::<{{{dataType}}}>::try_from((*v).clone()) {
+                        Ok(result) =>
+{{#required}}
+                            result.0,
+{{/required}}
+{{^required}}
+                            Some(result.0),
+{{/required}}
+                        Err(err) => {
+                            return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(body_from_string(format!("Invalid header {{{baseName}}} - {err}")))
+                                        .expect("Unable to create Bad Request response for invalid header {{{baseName}}}"));
+
+                        },
+                    },
+                    None => {
+{{#required}}
+                        return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(body_from_str("Missing required header {{{baseName}}}"))
+                                        .expect("Unable to create Bad Request response for missing required header {{{baseName}}}"));
+{{/required}}
+{{^required}}
+                        None
+{{/required}}
+                    }
+                };
+  {{#-last}}
+
+  {{/-last}}
+{{/headerParams}}
+{{#queryParams}}
+  {{#-first}}
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+  {{/-first}}
+                let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.clone())
+  {{#isArray}}
+    {{^exts.x-consumes-json}}
+                    .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse().ok())
+                    .collect::<Vec<_>>();
+      {{^required}}
+                let param_{{{paramName}}} = if !param_{{{paramName}}}.is_empty() {
+                    Some(param_{{{paramName}}})
+                } else {
+                    None
+                };
+      {{/required}}
+    {{/exts.x-consumes-json}}
+    {{#exts.x-consumes-json}}
+                    .next();
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(param_{{{paramName}}}) => {
+                        let param_{{{paramName}}} =
+                            serde_json::from_str::<{{{dataType}}}>
+                                (&param_{{{paramName}}});
+                        match param_{{{paramName}}} {
+                            Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {e}")))
+                                .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
+                        }
+                    },
+                    None => None,
+                };
+      {{#required}}
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(param_{{{paramName}}}) => param_{{{paramName}}},
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(body_from_str("Missing required query parameter {{{baseName}}}"))
+                        .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
+                };
+      {{/required}}
+    {{/exts.x-consumes-json}}
+  {{/isArray}}
+  {{^isArray}}
+                    .next();
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(param_{{{paramName}}}) => {
+                        let param_{{{paramName}}} =
+    {{#exts.x-consumes-json}}
+                            serde_json::from_str::<{{{dataType}}}>
+    {{/exts.x-consumes-json}}
+    {{^exts.x-consumes-json}}
+                            <{{{dataType}}} as std::str::FromStr>::from_str
+    {{/exts.x-consumes-json}}
+                                (&param_{{{paramName}}});
+                        match param_{{{paramName}}} {
+                            Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(body_from_string(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {e}")))
+                                .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
+                        }
+                    },
+                    None => None,
+                };
+    {{#required}}
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(param_{{{paramName}}}) => param_{{{paramName}}},
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(body_from_str("Missing required query parameter {{{baseName}}}"))
+                        .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
+                };
+    {{/required}}
+    {{#exts.x-can-validate}}
+    #[cfg(not(feature = "validate"))]
+                run_validation!(param_{{{paramName}}}, "{{{baseName}}}", validation);
+    {{/exts.x-can-validate}}
+  {{/isArray}}
+  {{#-last}}
+
+  {{/-last}}
+{{/queryParams}}
+{{#exts.x-has-request-body}}
+                // Handle body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                let result = http_body_util::BodyExt::collect(body).await.map(|f| f.to_bytes().to_vec());
+                match result {
+                     Ok(body) => {
+  {{^exts.x-consumes-multipart-form}}
+    {{^exts.x-consumes-form}}
+      {{^bodyParam.exts.x-consumes-plain-text}}
+                                let mut unused_elements : Vec<String> = vec![];
+      {{/bodyParam.exts.x-consumes-plain-text}}
+    {{/exts.x-consumes-form}}
+  {{/exts.x-consumes-multipart-form}}
+{{>server-request-body-instance}}
+
+{{/exts.x-has-request-body}}
+                                let result = api_impl.{{#exts}}{{{x-operation-id}}}{{/exts}}(
+                                        {{#exts}}
+                                          {{#x-callback-params}}
+                                            callback_{{.}},
+                                          {{/x-callback-params}}
+                                        {{/exts}}
+                                        {{#allParams}}
+                                            param_{{{paramName}}}{{#isArray}}.as_ref(){{/isArray}},
+                                        {{/allParams}}
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(BoxBody::new(http_body_util::Empty::new()));
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+{{#exts.x-has-request-body}}
+  {{^exts.x-consumes-multipart-form}}
+    {{^exts.x-consumes-form}}
+      {{^bodyParam.exts.x-consumes-plain-text}}
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
+                                                    .expect("Unable to create Warning header value"));
+                                        }
+      {{/bodyParam.exts.x-consumes-plain-text}}
+    {{/exts.x-consumes-form}}
+  {{/exts.x-consumes-multipart-form}}
+{{/exts.x-has-request-body}}
+                                        match result {
+                                            Ok(rsp) => match rsp {
+{{#responses}}
+                                                {{{operationId}}}Response::{{#exts}}{{x-response-id}}{{/exts}}
+{{#dataType}}
+{{^headers}}
+                                                    (body)
+{{/headers}}
+{{#headers}}
+{{#-first}}
+                                                    {
+                                                        body,
+{{/-first}}
+                                                        {{{name}}}{{^-last}},{{/-last}}
+{{#-last}}
+                                                    }
+{{/-last}}
+{{/headers}}
+{{/dataType}}
+{{^dataType}}
+{{#headers}}
+{{#-first}}
+                                                    {
+{{/-first}}
+                                                        {{{name}}}{{^-last}},{{/-last}}
+{{#-last}}
+                                                    }
+{{/-last}}
+{{/headers}}
+{{/dataType}}
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16({{{code}}}).expect("Unable to turn {{{code}}} into a StatusCode");
+{{#headers}}
+
+  {{^required}}
+                                                    if let Some({{{name}}}) = {{{name}}} {
+  {{/required}}
+                                                    let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return Ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(body_from_string(format!("An internal server error occurred handling {{name}} header - {e}")))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("{{{nameInLowerCase}}}"),
+                                                        {{name}}
+                                                    );
+  {{^required}}
+                                                    }
+  {{/required}}
+{{/headers}}
+{{>server-response-body-instance}}
+
+                                                },
+{{/responses}}
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = body_from_str("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+{{#exts.x-has-request-body}}
+                            },
+                            Err(e) => Ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(body_from_string(format!("Unable to read body: {}", e.into())))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
+                        }
+{{/exts.x-has-request-body}}
+}

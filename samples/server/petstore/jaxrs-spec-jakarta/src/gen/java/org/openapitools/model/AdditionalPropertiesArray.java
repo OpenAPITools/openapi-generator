@@ -26,7 +26,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @JsonTypeName("AdditionalPropertiesArray")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AdditionalPropertiesArray extends HashMap<String, List> implements Serializable {
   private String name;
 
@@ -116,12 +116,8 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
 }
-

@@ -146,6 +146,12 @@ pub enum ParamgetGetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum QueryExampleGetResponse {
+    /// OK
+    OK
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
     CheckThatLimitingToASingleRequiredAuthSchemeWorks
@@ -387,6 +393,13 @@ pub trait Api<C: Send + Sync> {
         some_list: Option<models::MyIdList>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>;
 
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        context: &C) -> Result<QueryExampleGetResponse, ApiError>;
+
     async fn readonly_auth_scheme_get(
         &self,
         context: &C) -> Result<ReadonlyAuthSchemeGetResponse, ApiError>;
@@ -556,6 +569,13 @@ pub trait ApiNoContext<C: Send + Sync> {
         some_object: Option<models::ObjectParam>,
         some_list: Option<models::MyIdList>,
         ) -> Result<ParamgetGetResponse, ApiError>;
+
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        ) -> Result<QueryExampleGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
         &self,
@@ -788,6 +808,17 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().paramget_get(uuid, some_object, some_list, &context).await
+    }
+
+    /// Test required query params with and without examples
+    async fn query_example_get(
+        &self,
+        required_no_example: String,
+        required_with_example: i32,
+        ) -> Result<QueryExampleGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().query_example_get(required_no_example, required_with_example, &context).await
     }
 
     async fn readonly_auth_scheme_get(

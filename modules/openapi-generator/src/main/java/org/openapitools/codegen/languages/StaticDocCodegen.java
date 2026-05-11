@@ -23,6 +23,9 @@ import org.openapitools.codegen.meta.features.*;
 import java.io.File;
 import java.util.EnumSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/openapi-static/}.
+ */
 public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";

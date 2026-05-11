@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ClassModel")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ClassModelDto {
 
   private @Nullable String propertyClass;
@@ -38,6 +38,7 @@ public class ClassModelDto {
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
@@ -73,10 +74,7 @@ public class ClassModelDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -52,6 +52,9 @@ import static org.openapitools.codegen.CodegenConstants.X_ONE_OF_NAME;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/rust-server/}.
+ */
 public class RustServerCodegen extends AbstractRustCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
@@ -70,6 +73,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     protected String externCrateName;
     protected Map<String, Map<String, String>> pathSetMap = new HashMap();
     protected Map<String, Map<String, String>> callbacksPathSetMap = new HashMap();
+    protected Set<String> globalOperationIds = new HashSet<>();
 
     private static final String uuidType = "uuid::Uuid";
     private static final String bytesType = "swagger::ByteArray";
@@ -583,8 +587,20 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         String underscoredOperationId = underscore(op.operationId);
-        op.vendorExtensions.put("x-operation-id", underscoredOperationId);
-        op.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId.toUpperCase(Locale.ROOT));
+        // Deduplicate x-operation-id across all tag groups. All operations are merged into a single
+        // mod.rs, so handle_<x-operation-id>() functions must be globally unique, not just per-tag.
+        String uniqueOperationId = underscoredOperationId;
+        int opIdCounter = 0;
+        while (globalOperationIds.contains(uniqueOperationId)) {
+            uniqueOperationId = underscoredOperationId + "_" + opIdCounter;
+            opIdCounter++;
+        }
+        globalOperationIds.add(uniqueOperationId);
+        if (!uniqueOperationId.equals(underscoredOperationId)) {
+            LOGGER.warn("generated unique x-operation-id `{}` for operationId `{}`", uniqueOperationId, op.operationId);
+        }
+        op.vendorExtensions.put("x-operation-id", uniqueOperationId);
+        op.vendorExtensions.put("x-uppercase-operation-id", uniqueOperationId.toUpperCase(Locale.ROOT));
         String vendorExtensionPath = op.path.replace("{", ":").replace("}", "");
         op.vendorExtensions.put("x-path", vendorExtensionPath);
         op.vendorExtensions.put("x-path-id", pathId);
@@ -611,6 +627,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         for (CodegenParameter param : op.pathParams) {
+            processParam(param, op);
+        }
+
+        for (CodegenParameter param : op.queryParams) {
             processParam(param, op);
         }
 
@@ -1062,6 +1082,25 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return codegenParameter;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        // Check whether the spec provides an example before calling super, which
+        // will fall back to auto-generating one from the param name/type.
+        boolean hasSpecExample =
+                parameter.getExample() != null ||
+                (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) ||
+                (parameter.getSchema() != null && parameter.getSchema().getExample() != null);
+
+        super.setParameterExampleValue(codegenParameter, parameter);
+
+        if (!hasSpecExample) {
+            // Null out the auto-generated example so processParam can detect
+            // required params with no user-provided example and disable the
+            // client example stub accordingly.
+            codegenParameter.example = null;
+        }
     }
 
     @Override
@@ -1675,15 +1714,30 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             example = (param.example != null) ? "&vec![\"" + param.example + "\".to_string()]" : "&Vec::new()";
         } else if (param.isString) {
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
-            example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
+            if (param.example != null) {
+                example = "\"" + param.example + "\".to_string()";
+            }
         } else if (param.isPrimitiveType) {
             if ((param.isByteArray) || (param.isBinary)) {
                 // Binary primitive types don't implement `Display`.
                 param.vendorExtensions.put("x-format-string", "{:?}");
                 example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
+            } else if (param.isBoolean) {
+                param.vendorExtensions.put("x-format-string", "{}");
+                example = (param.example != null) ? param.example : "true";
             } else {
                 param.vendorExtensions.put("x-format-string", "{}");
-                example = (param.example != null) ? param.example : "";
+                if (param.example != null) {
+                    example = param.example;
+                } else if (param.isFloat || param.isDouble) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0.0";
+                } else if (param.isInteger || param.isLong || param.isShort || param.isNumber) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0";
+                }
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");

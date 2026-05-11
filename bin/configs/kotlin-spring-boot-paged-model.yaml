@@ -1,0 +1,17 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-paged-model
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-paged-model.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  serviceImplementation: "false"
+  serializableModel: "true"
+  useBeanValidation: "true"
+  interfaceOnly: "true"
+  useSpringBoot3: "true"
+  substituteGenericPagedModel: "true"
+  useTags: "true"
+  requestMappingMode: api_interface

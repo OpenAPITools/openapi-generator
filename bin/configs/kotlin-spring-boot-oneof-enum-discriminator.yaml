@@ -1,0 +1,11 @@
+generatorName: kotlin-spring
+outputDir: samples/server/others/kotlin-springboot/oneOf-enum-discriminator
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/polymorphism-oneof-enum-discriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  interfaceOnly: "true"
+  useSpringBoot3: "true"

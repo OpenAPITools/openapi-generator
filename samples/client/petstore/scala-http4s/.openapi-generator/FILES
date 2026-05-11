@@ -1,5 +1,7 @@
+.scalafmt.conf
 build.sbt
 project/build.properties
+project/plugins.sbt
 src/main/scala/org/openapitools/client/apis/BaseClient.scala
 src/main/scala/org/openapitools/client/apis/JsonSupports.scala
 src/main/scala/org/openapitools/client/apis/PetApi.scala

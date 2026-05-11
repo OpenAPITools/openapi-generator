@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Category")
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Category {
 
   private @Nullable Long id;
@@ -63,6 +63,8 @@ public class Category {
     return id;
   }
 
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -85,6 +87,8 @@ public class Category {
     return name;
   }
 
+  @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public void setName(@Nullable String name) {
     this.name = name;
   }
@@ -122,10 +126,7 @@ public class Category {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
   
   public static class Builder {

@@ -38,7 +38,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class ModelReturn  {
   
   @JsonbProperty("return")
-  private Integer _return;
+  protected Integer _return;
 
 
   /**
@@ -96,10 +96,7 @@ public class ModelReturn  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

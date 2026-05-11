@@ -27,6 +27,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -580,6 +581,38 @@ public class ModelUtilsTest {
         assertTrue(schema.getReadOnly());
         assertNull(schema.getWriteOnly());
         assertEquals(schema.get$ref(), "#/components/schemas/IntegerRef");
+    }
+
+    @Test
+    public void simplifyOneOfAnyOfWithOnlyOneNonNullSubSchemaKeepsParentDescription() {
+        OpenAPI openAPI = new OpenAPI();
+
+        Schema anyOfParent = new Schema().description("Access token");
+        anyOfParent.setAnyOf(new ArrayList<>(Arrays.asList(
+                new StringSchema(),
+                new Schema<>().type("null")
+        )));
+        Schema anyOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfParent, anyOfParent.getAnyOf());
+        assertEquals(anyOfSchema.getDescription(), "Access token");
+
+        Schema oneOfParent = new Schema().description("Expires at");
+        oneOfParent.setOneOf(new ArrayList<>(Arrays.asList(
+                new IntegerSchema(),
+                new Schema<>().type("null")
+        )));
+        Schema oneOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfParent, oneOfParent.getOneOf());
+        assertEquals(oneOfSchema.getDescription(), "Expires at");
+
+        Schema anyOfParentWithChildDescription = new Schema().description("Parent description");
+        anyOfParentWithChildDescription.setAnyOf(new ArrayList<>(Arrays.asList(
+                new StringSchema().description("Child description"),
+                new Schema<>().type("null")
+        )));
+        Schema anyOfSchemaWithChildDescription = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI,
+                anyOfParentWithChildDescription,
+                anyOfParentWithChildDescription.getAnyOf());
+        assertEquals(anyOfSchemaWithChildDescription.getDescription(), "Child description");
     }
 
     @Test

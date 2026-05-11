@@ -101,6 +101,27 @@ public class AbstractScalaCodegenTest {
     }
 
     @Test
+    void checkDateTimeLocalTypeMappingJava8() {
+        P_AbstractScalaCodegen codegen = new P_AbstractScalaCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.typeMapping().get("date-time-local"), "LocalDateTime",
+                "date-time-local format should map to LocalDateTime");
+        Assert.assertEquals(codegen.importMapping().get("LocalDateTime"), "java.time.LocalDateTime",
+                "LocalDateTime should import from java.time when using java8 date library");
+    }
+
+    @Test
+    void checkDateTimeLocalTypeDeclaration() {
+        P_AbstractScalaCodegen codegen = new P_AbstractScalaCodegen();
+        codegen.processOpts();
+        Schema<?> schema = new ObjectSchema();
+        schema.setType("string");
+        schema.setFormat("date-time-local");
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "LocalDateTime",
+                "Schema with date-time-local format should produce LocalDateTime type");
+    }
+
+    @Test
     void checkTypeDeclarationWithByteString() {
         Schema<?> byteArraySchema = new ObjectSchema();
         byteArraySchema.setType("string");

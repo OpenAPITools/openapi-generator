@@ -37,13 +37,13 @@ import javax.json.bind.annotation.JsonbCreator;
 public class MixedPropertiesAndAdditionalPropertiesClass  {
   
   @JsonbProperty("uuid")
-  private UUID uuid;
+  protected UUID uuid;
 
   @JsonbProperty("dateTime")
-  private Date dateTime;
+  protected Date dateTime;
 
   @JsonbProperty("map")
-  private Map<String, Animal> map = null;
+  protected Map<String, Animal> map = null;
 
 
   /**
@@ -153,10 +153,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

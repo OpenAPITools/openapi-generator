@@ -4,7 +4,7 @@ outputDir: samples/client/petstore/spring-cloud-date-time
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
-  documentationProvider: springfox
+  documentationProvider: springdoc
   artifactId: spring-cloud-date-time
   interfaceOnly: "true"
   singleContentTypes: "true"

@@ -68,6 +68,7 @@ class ApiClient:
         'date': datetime.date,
         'datetime': datetime.datetime,
         'decimal': decimal.Decimal,
+        'UUID': uuid.UUID,
         'object': object,
     }
     _pool = None
@@ -305,7 +306,7 @@ class ApiClient:
         response_text = None
         return_data = None
         try:
-            if response_type == "bytearray":
+            if response_type in ("bytearray", "bytes"):
                 return_data = response_data.data
             elif response_type == "file":
                 return_data = self.__deserialize_file(response_data)
@@ -370,28 +371,24 @@ class ApiClient:
             return obj.isoformat()
         elif isinstance(obj, decimal.Decimal):
             return str(obj)
-
         elif isinstance(obj, dict):
-            obj_dict = obj
+            return {
+                key: self.sanitize_for_serialization(val)
+                for key, val in obj.items()
+            }
+
+        # Convert model obj to dict except
+        # attributes `openapi_types`, `attribute_map`
+        # and attributes which value is not None.
+        # Convert attribute name to json key in
+        # model definition for request.
+        if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
+            obj_dict = obj.to_dict()
         else:
-            # Convert model obj to dict except
-            # attributes `openapi_types`, `attribute_map`
-            # and attributes which value is not None.
-            # Convert attribute name to json key in
-            # model definition for request.
-            if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
-                obj_dict = obj.to_dict()
-            else:
-                obj_dict = obj.__dict__
+            obj_dict = obj.__dict__
 
-        if isinstance(obj_dict, list):
-            # here we handle instances that can either be a list or something else, and only became a real list by calling to_dict()
-            return self.sanitize_for_serialization(obj_dict)
+        return self.sanitize_for_serialization(obj_dict)
 
-        return {
-            key: self.sanitize_for_serialization(val)
-            for key, val in obj_dict.items()
-        }
 
     def deserialize(self, response_text: str, response_type: str, content_type: Optional[str]):
         """Deserializes response into an object.
@@ -467,6 +464,8 @@ class ApiClient:
             return self.__deserialize_datetime(data)
         elif klass is decimal.Decimal:
             return decimal.Decimal(data)
+        elif klass is uuid.UUID:
+            return uuid.UUID(data)
         elif issubclass(klass, Enum):
             return self.__deserialize_enum(data, klass)
         else:

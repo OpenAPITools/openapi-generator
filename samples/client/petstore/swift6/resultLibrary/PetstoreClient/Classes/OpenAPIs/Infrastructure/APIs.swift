@@ -10,19 +10,68 @@ import FoundationNetworking
 #endif
 
 internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
-    internal var basePath: String
-    internal var customHeaders: [String: String]
-    internal var credential: URLCredential?
-    internal var requestBuilderFactory: RequestBuilderFactory
-    internal var apiResponseQueue: DispatchQueue
-    internal var codableHelper: CodableHelper
 
-    /// Configures the range of HTTP status codes that will result in a successful response
+    // MARK: - Private state
+
+    private struct State {
+        var basePath: String
+        var customHeaders: [String: String]
+        var credential: URLCredential?
+        var requestBuilderFactory: RequestBuilderFactory
+        var apiResponseQueue: DispatchQueue
+        var codableHelper: CodableHelper
+        var successfulStatusCodeRange: Range<Int>
+        var interceptor: OpenAPIInterceptor
+    }
+
+    private let _state: OpenAPIMutex<State>
+
+    // MARK: - Public interface
+
+    internal var basePath: String {
+        get { _state.value.basePath }
+        set { _state.withValue { $0.basePath = newValue } }
+    }
+
+    internal var customHeaders: [String: String] {
+        get { _state.value.customHeaders }
+        set { _state.withValue { $0.customHeaders = newValue } }
+    }
+
+    internal var credential: URLCredential? {
+        get { _state.value.credential }
+        set { _state.withValue { $0.credential = newValue } }
+    }
+
+    internal var requestBuilderFactory: RequestBuilderFactory {
+        get { _state.value.requestBuilderFactory }
+        set { _state.withValue { $0.requestBuilderFactory = newValue } }
+    }
+
+    internal var apiResponseQueue: DispatchQueue {
+        get { _state.value.apiResponseQueue }
+        set { _state.withValue { $0.apiResponseQueue = newValue } }
+    }
+
+    internal var codableHelper: CodableHelper {
+        get { _state.value.codableHelper }
+        set { _state.withValue { $0.codableHelper = newValue } }
+    }
+
+    /// Configures the range of HTTP status codes that will result in a successful response.
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
-    internal var successfulStatusCodeRange: Range<Int>
+    internal var successfulStatusCodeRange: Range<Int> {
+        get { _state.value.successfulStatusCodeRange }
+        set { _state.withValue { $0.successfulStatusCodeRange = newValue } }
+    }
 
-    internal var interceptor: OpenAPIInterceptor
+    internal var interceptor: OpenAPIInterceptor {
+        get { _state.value.interceptor }
+        set { _state.withValue { $0.interceptor = newValue } }
+    }
+
+    // MARK: - Init
 
     internal init(
         basePath: String = "http://petstore.swagger.io:80/v2",
@@ -34,22 +83,25 @@ internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
         successfulStatusCodeRange: Range<Int> = 200..<300,
         interceptor: OpenAPIInterceptor = DefaultOpenAPIInterceptor()
     ) {
-        self.basePath = basePath
-        self.customHeaders = customHeaders
-        self.credential = credential
-        self.requestBuilderFactory = requestBuilderFactory
-        self.apiResponseQueue = apiResponseQueue
-        self.codableHelper = codableHelper
-        self.successfulStatusCodeRange = successfulStatusCodeRange
-        self.interceptor = interceptor
+        _state = OpenAPIMutex(State(
+            basePath: basePath,
+            customHeaders: customHeaders,
+            credential: credential,
+            requestBuilderFactory: requestBuilderFactory,
+            apiResponseQueue: apiResponseQueue,
+            codableHelper: codableHelper,
+            successfulStatusCodeRange: successfulStatusCodeRange,
+            interceptor: interceptor
+        ))
     }
 
     internal static let shared = PetstoreClientAPIConfiguration()
 }
 
 internal class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
-    internal var credential: URLCredential?
-    internal var headers: [String: String]
+
+    // MARK: - Immutable properties
+
     internal let parameters: [String: any Sendable]?
     internal let method: String
     internal let URLString: String
@@ -57,24 +109,62 @@ internal class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
     internal let requiresAuthentication: Bool
     internal let apiConfiguration: PetstoreClientAPIConfiguration
 
-    /// Optional block to obtain a reference to the request's progress instance when available.
-    internal var onProgressReady: ((Progress) -> Void)?
+    // MARK: - Private mutable state
 
-    required internal init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+    private struct MutableState {
+        var credential: URLCredential? = nil
+        var headers: [String: String]
+        var onProgressReady: ((Progress) -> Void)? = nil
+    }
+
+    private let _state: OpenAPIMutex<MutableState>
+
+    // MARK: - Public mutable interface
+
+    internal var credential: URLCredential? {
+        get { _state.value.credential }
+        set { _state.withValue { $0.credential = newValue } }
+    }
+
+    internal var headers: [String: String] {
+        get { _state.value.headers }
+        set { _state.withValue { $0.headers = newValue } }
+    }
+
+    /// Optional block to obtain a reference to the request's progress instance when available.
+    internal var onProgressReady: ((Progress) -> Void)? {
+        get { _state.value.onProgressReady }
+        set { _state.withValue { $0.onProgressReady = newValue } }
+    }
+
+    // MARK: - Init
+
+    required internal init(
+        method: String,
+        URLString: String,
+        parameters: [String: any Sendable]?,
+        headers: [String: String] = [:],
+        requiresAuthentication: Bool,
+        apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared
+    ) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
-        self.headers = headers
         self.requiresAuthentication = requiresAuthentication
         self.apiConfiguration = apiConfiguration
+        self._state = OpenAPIMutex(MutableState(headers: headers))
 
         addHeaders(apiConfiguration.customHeaders)
         addCredential()
     }
 
+    // MARK: - Public methods
+
     internal func addHeaders(_ aHeaders: [String: String]) {
-        for (header, value) in aHeaders {
-            headers[header] = value
+        _state.withValue { state in
+            for (header, value) in aHeaders {
+                state.headers[header] = value
+            }
         }
     }
 
@@ -85,13 +175,15 @@ internal class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
 
     internal func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
-            headers[name] = value
+            _state.withValue { $0.headers[name] = value }
         }
         return self
     }
 
     internal func addCredential() {
-        credential = apiConfiguration.credential
+        _state.withValue { [apiConfiguration] state in
+            state.credential = apiConfiguration.credential
+        }
     }
 }
 

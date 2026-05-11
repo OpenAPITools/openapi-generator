@@ -48,15 +48,11 @@ class ObjectWithInlineEnumDefaultValue {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ObjectWithInlineEnumDefaultValue[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ObjectWithInlineEnumDefaultValue[$key]" has a null value in JSON.');
-        });
         return true;
       }());
 
       return ObjectWithInlineEnumDefaultValue(
-        attribute: ObjectWithInlineEnumDefaultValueAttributeEnum.fromJson(json[r'attribute']) ?? 'value_one',
+        attribute: ObjectWithInlineEnumDefaultValueAttributeEnum.fromJson(json[r'attribute']) ?? const ObjectWithInlineEnumDefaultValueAttributeEnum._('value_one'),
       );
     }
     return null;

@@ -98,7 +98,7 @@ CompletableFuture<void> (empty response body)
 
 ## addPetWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> addPet addPetWithHttpInfo(pet)
+> CompletableFuture<ApiResponse<Void>> addPetWithHttpInfo(pet)
 
 Add a new pet to the store
 
@@ -252,7 +252,7 @@ CompletableFuture<void> (empty response body)
 
 ## deletePetWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> deletePet deletePetWithHttpInfo(petId, apiKey)
+> CompletableFuture<ApiResponse<Void>> deletePetWithHttpInfo(petId, apiKey)
 
 Deletes a pet
 
@@ -408,7 +408,7 @@ CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
 
 ## findPetsByStatusWithHttpInfo
 
-> CompletableFuture<ApiResponse<List<Pet>>> findPetsByStatus findPetsByStatusWithHttpInfo(status)
+> CompletableFuture<ApiResponse<List<Pet>>> findPetsByStatusWithHttpInfo(status)
 
 Finds Pets by status
 
@@ -565,7 +565,7 @@ CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
 
 ## findPetsByTagsWithHttpInfo
 
-> CompletableFuture<ApiResponse<List<Pet>>> findPetsByTags findPetsByTagsWithHttpInfo(tags)
+> CompletableFuture<ApiResponse<List<Pet>>> findPetsByTagsWithHttpInfo(tags)
 
 Finds Pets by tags
 
@@ -724,7 +724,7 @@ CompletableFuture<[**Pet**](Pet.md)>
 
 ## getPetByIdWithHttpInfo
 
-> CompletableFuture<ApiResponse<Pet>> getPetById getPetByIdWithHttpInfo(petId)
+> CompletableFuture<ApiResponse<Pet>> getPetByIdWithHttpInfo(petId)
 
 Find pet by ID
 
@@ -883,7 +883,7 @@ CompletableFuture<void> (empty response body)
 
 ## updatePetWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> updatePet updatePetWithHttpInfo(pet)
+> CompletableFuture<ApiResponse<Void>> updatePetWithHttpInfo(pet)
 
 Update an existing pet
 
@@ -1041,7 +1041,7 @@ CompletableFuture<void> (empty response body)
 
 ## updatePetWithFormWithHttpInfo
 
-> CompletableFuture<ApiResponse<Void>> updatePetWithForm updatePetWithFormWithHttpInfo(petId, name, status)
+> CompletableFuture<ApiResponse<Void>> updatePetWithFormWithHttpInfo(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -1201,7 +1201,7 @@ CompletableFuture<[**ModelApiResponse**](ModelApiResponse.md)>
 
 ## uploadFileWithHttpInfo
 
-> CompletableFuture<ApiResponse<ModelApiResponse>> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, _file)
+> CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithHttpInfo(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -1362,7 +1362,7 @@ CompletableFuture<[**ModelApiResponse**](ModelApiResponse.md)>
 
 ## uploadFileWithRequiredFileWithHttpInfo
 
-> CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithRequiredFile uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata)
+> CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 

@@ -37,6 +37,25 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 {{/enumUnknownDefaultCase}}
+{{^enumUnknownDefaultCase}}
+{{#generateOneOfAnyOfWrappers}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+{{/generateOneOfAnyOfWrappers}}
+{{/enumUnknownDefaultCase}}
+{{#generateOneOfAnyOfWrappers}}
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.encodeToJsonElement
+{{/generateOneOfAnyOfWrappers}}
 {{#hasEnums}}
 {{/hasEnums}}
 {{/kotlinx_serialization}}
@@ -57,7 +76,9 @@ import java.io.Serializable
 import {{roomModelPackage}}.{{classname}}RoomModel
 import {{packageName}}.infrastructure.ITransformForStorage
 {{/generateRoomModels}}
+{{^kotlinx_serialization}}
 import java.io.IOException
+{{/kotlinx_serialization}}
 
 /**
  * {{{description}}}
@@ -66,12 +87,144 @@ import java.io.IOException
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
+{{^generateOneOfAnyOfWrappers}}
 {{#multiplatform}}{{^discriminator}}@Serializable{{/discriminator}}{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
+{{/generateOneOfAnyOfWrappers}}
+{{#kotlinx_serialization}}
+{{#generateOneOfAnyOfWrappers}}
+{{#serializableModel}}@KSerializable(with = {{classname}}Serializer::class){{/serializableModel}}{{^serializableModel}}@Serializable(with = {{classname}}Serializer::class){{/serializableModel}}
+{{/generateOneOfAnyOfWrappers}}
+{{/kotlinx_serialization}}
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
 
+{{#kotlinx_serialization}}
+{{#generateOneOfAnyOfWrappers}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
+{{#composedSchemas}}
+{{#anyOf}}
+{{^vendorExtensions.x-duplicated-data-type}}
+    @JvmInline
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}value class {{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(val value: {{{dataType}}}) : {{classname}}
+
+{{/vendorExtensions.x-duplicated-data-type}}
+{{/anyOf}}
+{{/composedSchemas}}
+}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object {{classname}}Serializer : KSerializer<{{classname}}> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("{{classname}}")
+
+    override fun serialize(encoder: Encoder, value: {{classname}}) {
+        val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("{{classname}} can only be serialized with Json")
+
+        when (value) {
+            {{#composedSchemas}}
+            {{#anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            {{#isArray}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeJsonElement(jsonEncoder.json.encodeToJsonElement(value.value))
+            {{/isArray}}
+            {{^isArray}}
+            {{#isPrimitiveType}}
+            {{#isString}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeString(value.value)
+            {{/isString}}
+            {{#isBoolean}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeBoolean(value.value)
+            {{/isBoolean}}
+            {{#isInteger}}
+            {{^isLong}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeInt(value.value)
+            {{/isLong}}
+            {{/isInteger}}
+            {{#isLong}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeLong(value.value)
+            {{/isLong}}
+            {{#isNumber}}
+            {{#isDouble}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeDouble(value.value)
+            {{/isDouble}}
+            {{#isFloat}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeFloat(value.value)
+            {{/isFloat}}
+            {{/isNumber}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+            {{/isPrimitiveType}}
+            {{/isArray}}
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/anyOf}}
+            {{/composedSchemas}}
+        }
+    }
+
+    override fun deserialize(decoder: Decoder): {{classname}} {
+        val jsonDecoder = decoder as? JsonDecoder ?: throw SerializationException("{{classname}} can only be deserialized with Json")
+        val jsonElement = jsonDecoder.decodeJsonElement()
+
+        val errorMessages = mutableListOf<String>()
+
+        {{#composedSchemas}}
+        {{#anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        {{#isArray}}
+        if (jsonElement is JsonArray) {
+            try {
+                val instance = jsonDecoder.json.decodeFromJsonElement<{{{dataType}}}>(jsonElement)
+                return {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(instance)
+            } catch (e: Exception) {
+                errorMessages.add("Failed to deserialize as {{{dataType}}}: ${e.message}")
+            }
+        }
+        {{/isArray}}
+        {{^isArray}}
+        {{#isPrimitiveType}}
+        {{#isString}}
+        if (jsonElement is JsonPrimitive && jsonElement.isString) {
+            try {
+                val instance = jsonDecoder.json.decodeFromJsonElement<{{{dataType}}}>(jsonElement)
+                return {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(instance)
+            } catch (e: Exception) {
+                errorMessages.add("Failed to deserialize as {{{dataType}}}: ${e.message}")
+            }
+        }
+        {{/isString}}
+        {{^isString}}
+        if (jsonElement is JsonPrimitive && !jsonElement.isString) {
+            try {
+                val instance = jsonDecoder.json.decodeFromJsonElement<{{{dataType}}}>(jsonElement)
+                return {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(instance)
+            } catch (e: Exception) {
+                errorMessages.add("Failed to deserialize as {{{dataType}}}: ${e.message}")
+            }
+        }
+        {{/isString}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        if (jsonElement !is JsonPrimitive) {
+            try {
+                val instance = jsonDecoder.json.decodeFromJsonElement<{{{dataType}}}>(jsonElement)
+                return {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(instance)
+            } catch (e: Exception) {
+                errorMessages.add("Failed to deserialize as {{{dataType}}}: ${e.message}")
+            }
+        }
+        {{/isPrimitiveType}}
+        {{/isArray}}
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/anyOf}}
+        {{/composedSchemas}}
+
+        throw SerializationException("Cannot deserialize {{classname}}. Tried: ${errorMessages.joinToString(", ")}")
+    }
+}
+{{/generateOneOfAnyOfWrappers}}
+{{/kotlinx_serialization}}
+{{^kotlinx_serialization}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
@@ -335,3 +488,4 @@ import java.io.IOException
         }
     }
 }
+{{/kotlinx_serialization}}

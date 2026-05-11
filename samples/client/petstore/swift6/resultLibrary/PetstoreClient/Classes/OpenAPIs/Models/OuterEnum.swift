@@ -16,3 +16,9 @@ internal enum OuterEnum: String, Sendable, Codable, CaseIterable, CaseIterableDe
     case delivered = "delivered"
     case unknownDefaultOpenApi = "unknown_default_open_api"
 }
+
+extension OuterEnum: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        self == .unknownDefaultOpenApi
+    }
+}

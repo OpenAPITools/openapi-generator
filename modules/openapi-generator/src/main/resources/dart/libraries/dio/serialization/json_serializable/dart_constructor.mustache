@@ -6,6 +6,6 @@
         A field is required in Dart when it is
         required && !defaultValue in OAS
     }}
-    {{#required}}{{^defaultValue}}required {{/defaultValue}}{{/required}} this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},
+    {{^required}}{{#useOptional}}this.{{{name}}}{{#defaultValue}} = const Optional.present({{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^defaultValue}} = const Optional.absent(){{/defaultValue}},{{/useOptional}}{{/required}}{{^required}}{{^useOptional}} this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},{{/useOptional}}{{/required}}{{#required}}{{^defaultValue}}required {{/defaultValue}}{{/required}}{{#required}} this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},{{/required}}
   {{/vars}}
   });

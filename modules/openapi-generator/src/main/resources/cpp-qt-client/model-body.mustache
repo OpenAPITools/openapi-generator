@@ -12,7 +12,7 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}(QString json) {
+{{classname}}::{{classname}}(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -33,7 +33,7 @@ void {{classname}}::initializeModel() {
     m_value = e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;{{/isEnum}}
 }
 
-void {{classname}}::fromJson(QString jsonString) {
+void {{classname}}::fromJson(const QString &jsonString) {
     {{^isEnum}}QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();

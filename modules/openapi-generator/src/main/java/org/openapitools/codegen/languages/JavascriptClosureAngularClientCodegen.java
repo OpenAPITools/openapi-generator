@@ -39,6 +39,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/Javascript-Closure-Angular/}.
+ */
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
 

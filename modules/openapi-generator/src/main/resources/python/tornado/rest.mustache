@@ -122,6 +122,8 @@ class RESTClientObject:
             if re.search('json', headers['Content-Type'], re.IGNORECASE):
                 if body:
                     body = json.dumps(body)
+                if body is None and post_params:
+                    body = json.dumps(dict(post_params))
                 request.body = body
             elif headers['Content-Type'] == 'application/x-www-form-urlencoded':
                 request.body = urlencode(post_params)

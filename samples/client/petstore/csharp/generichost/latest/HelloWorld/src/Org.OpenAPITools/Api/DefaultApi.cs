@@ -246,12 +246,14 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/helloWorld"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/helloWorld");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/helloWorld");
 
                     if (helloWorldPostRequest.IsSet)
-                        httpRequestMessageLocalVar.Content = (helloWorldPostRequest.Value as object) is System.IO.Stream stream
-                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(helloWorldPostRequest.Value, _jsonSerializerOptions));
+                    {
+                      httpRequestMessageLocalVar.Content = (helloWorldPostRequest.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(helloWorldPostRequest.Value, _jsonSerializerOptions));
+                    }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 

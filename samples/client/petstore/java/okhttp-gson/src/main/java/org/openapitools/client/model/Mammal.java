@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Mammal extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Mammal.class.getName());
 
@@ -258,6 +258,7 @@ public class Mammal extends AbstractOpenApiSchema {
      * @return The actual instance of `Whale`
      * @throws ClassCastException if the instance is not `Whale`
      */
+    @SuppressWarnings("unchecked")
     public Whale getWhale() throws ClassCastException {
         return (Whale)super.getActualInstance();
     }
@@ -269,6 +270,7 @@ public class Mammal extends AbstractOpenApiSchema {
      * @return The actual instance of `Zebra`
      * @throws ClassCastException if the instance is not `Zebra`
      */
+    @SuppressWarnings("unchecked")
     public Zebra getZebra() throws ClassCastException {
         return (Zebra)super.getActualInstance();
     }
@@ -280,6 +282,7 @@ public class Mammal extends AbstractOpenApiSchema {
      * @return The actual instance of `Pig`
      * @throws ClassCastException if the instance is not `Pig`
      */
+    @SuppressWarnings("unchecked")
     public Pig getPig() throws ClassCastException {
         return (Pig)super.getActualInstance();
     }

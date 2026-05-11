@@ -6,11 +6,14 @@ on:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
       - samples/client/others/kotlin-integer-enum/**
+      - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
       - samples/client/others/kotlin-integer-enum/**
+      - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization/**
+      - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
 
 jobs:
   build:
@@ -47,8 +50,11 @@ jobs:
           - samples/client/petstore/kotlin-default-values-jvm-okhttp4
           - samples/client/petstore/kotlin-default-values-jvm-retrofit2
           - samples/client/petstore/kotlin-default-values-multiplatform
+          - samples/client/petstore/kotlin-enum-integers-multiplatform
           - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
           - samples/client/petstore/kotlin-array-simple-string-multiplatform
+          - samples/client/petstore/kotlin-array-nullable-items
+          - samples/client/petstore/kotlin-array-nullable-items-multiplatform
           - samples/client/petstore/kotlin-bigdecimal-default-multiplatform
           - samples/client/petstore/kotlin-bigdecimal-default-okhttp4
           - samples/client/petstore/kotlin-jvm-jackson
@@ -64,12 +70,14 @@ jobs:
           - samples/client/echo_api/kotlin-jvm-spring-3-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/echo_api/kotlin-jvm-spring-3-restclient
+          - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
           - samples/client/others/kotlin-jvm-okhttp-path-comments
           - samples/client/others/kotlin-integer-enum
           - samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
           - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization
+          - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

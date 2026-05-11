@@ -153,10 +153,6 @@ class NullableClass {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "NullableClass[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "NullableClass[$key]" has a null value in JSON.');
-        });
         return true;
       }());
 
@@ -169,9 +165,15 @@ class NullableClass {
         stringProp: mapValueOfType<String>(json, r'string_prop'),
         dateProp: mapDateTime(json, r'date_prop', r''),
         datetimeProp: mapDateTime(json, r'datetime_prop', r''),
-        arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']),
-        arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']),
-        arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']),
+        arrayNullableProp: json[r'array_nullable_prop'] is Iterable
+            ? (json[r'array_nullable_prop'] as Iterable).cast<Object>().toList(growable: false)
+            : const [],
+        arrayAndItemsNullableProp: json[r'array_and_items_nullable_prop'] is Iterable
+            ? (json[r'array_and_items_nullable_prop'] as Iterable).cast<Object>().toList(growable: false)
+            : const [],
+        arrayItemsNullable: json[r'array_items_nullable'] is Iterable
+            ? (json[r'array_items_nullable'] as Iterable).cast<Object>().toList(growable: false)
+            : const [],
         objectNullableProp: mapCastOfType<String, Object>(json, r'object_nullable_prop') ?? const {},
         objectAndItemsNullableProp: mapCastOfType<String, Object>(json, r'object_and_items_nullable_prop') ?? const {},
         objectItemsNullable: mapCastOfType<String, Object>(json, r'object_items_nullable') ?? const {},

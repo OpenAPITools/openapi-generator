@@ -57,6 +57,9 @@ import java.util.stream.Collectors;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/k6/}.
+ */
 public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     // K6 vendor extension - operation grouping - group operations and define their

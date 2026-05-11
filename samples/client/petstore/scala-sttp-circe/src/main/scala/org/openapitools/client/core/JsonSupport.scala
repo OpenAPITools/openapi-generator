@@ -13,10 +13,9 @@ package org.openapitools.client.core
 
 import org.openapitools.client.model._
 import io.circe.{Decoder, Encoder}
-import io.circe.generic.AutoDerivation
 import sttp.client3.circe.SttpCirceApi
 
-object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers with AdditionalTypeSerializers {
+object JsonSupport extends SttpCirceApi with DateSerializers with AdditionalTypeSerializers {
 
   implicit val EnumTestSearchDecoder: Decoder[EnumTestEnums.Search] = Decoder.decodeEnumeration(EnumTestEnums.Search)
   implicit val EnumTestSearchEncoder: Encoder[EnumTestEnums.Search] = Encoder.encodeEnumeration(EnumTestEnums.Search)

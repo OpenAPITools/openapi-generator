@@ -79,10 +79,10 @@ public class ParentWithNullable  {
   }
 
   @JsonbTransient
-  private TypeEnum type;
+  protected TypeEnum type;
 
   @JsonbProperty("nullableProperty")
-  private String nullableProperty;
+  protected String nullableProperty;
 
 
   /**
@@ -162,10 +162,7 @@ public class ParentWithNullable  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

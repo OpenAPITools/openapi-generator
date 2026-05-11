@@ -158,12 +158,14 @@
         </dependency>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
+        {{^useJspecify}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+        {{/useJspecify}}
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
@@ -189,7 +191,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.9</version>
+            <version>0.2.10</version>
         </dependency>
         {{/openApiNullable}}
 {{#useBeanValidation}}
@@ -231,6 +233,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+{{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+{{/useJspecify}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

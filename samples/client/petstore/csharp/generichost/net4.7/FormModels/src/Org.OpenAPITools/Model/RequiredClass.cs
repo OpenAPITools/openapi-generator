@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableEnumInteger
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_enum_integer")]
-        public RequiredClassRequiredNotnullableEnumInteger? NotrequiredNotnullableEnumInteger { get { return this.NotrequiredNotnullableEnumIntegerOption; } set { this.NotrequiredNotnullableEnumIntegerOption = new Option<RequiredClassRequiredNotnullableEnumInteger?>(value); } }
+        public RequiredClassRequiredNotnullableEnumInteger? NotrequiredNotnullableEnumInteger { get { return this.NotrequiredNotnullableEnumIntegerOption.Value; } set { this.NotrequiredNotnullableEnumIntegerOption = new Option<RequiredClassRequiredNotnullableEnumInteger?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableEnumIntegerOnly
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableEnumIntegerOnly
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_enum_integer_only")]
-        public RequiredClassRequiredNotnullableEnumIntegerOnly? NotrequiredNotnullableEnumIntegerOnly { get { return this.NotrequiredNotnullableEnumIntegerOnlyOption; } set { this.NotrequiredNotnullableEnumIntegerOnlyOption = new Option<RequiredClassRequiredNotnullableEnumIntegerOnly?>(value); } }
+        public RequiredClassRequiredNotnullableEnumIntegerOnly? NotrequiredNotnullableEnumIntegerOnly { get { return this.NotrequiredNotnullableEnumIntegerOnlyOption.Value; } set { this.NotrequiredNotnullableEnumIntegerOnlyOption = new Option<RequiredClassRequiredNotnullableEnumIntegerOnly?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableEnumString
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableEnumString
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_enum_string")]
-        public RequiredClassRequiredNotnullableEnumString? NotrequiredNotnullableEnumString { get { return this.NotrequiredNotnullableEnumStringOption; } set { this.NotrequiredNotnullableEnumStringOption = new Option<RequiredClassRequiredNotnullableEnumString?>(value); } }
+        public RequiredClassRequiredNotnullableEnumString? NotrequiredNotnullableEnumString { get { return this.NotrequiredNotnullableEnumStringOption.Value; } set { this.NotrequiredNotnullableEnumStringOption = new Option<RequiredClassRequiredNotnullableEnumString?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableOuterEnumDefaultValue
@@ -202,7 +202,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableOuterEnumDefaultValue
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_outerEnumDefaultValue")]
-        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue { get { return this.NotrequiredNotnullableOuterEnumDefaultValueOption; } set { this.NotrequiredNotnullableOuterEnumDefaultValueOption = new Option<OuterEnumDefaultValue?>(value); } }
+        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue { get { return this.NotrequiredNotnullableOuterEnumDefaultValueOption.Value; } set { this.NotrequiredNotnullableOuterEnumDefaultValueOption = new Option<OuterEnumDefaultValue?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableEnumInteger
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableEnumInteger
         /// </summary>
         [JsonPropertyName("notrequired_nullable_enum_integer")]
-        public RequiredClassRequiredNullableEnumInteger? NotrequiredNullableEnumInteger { get { return this.NotrequiredNullableEnumIntegerOption; } set { this.NotrequiredNullableEnumIntegerOption = new Option<RequiredClassRequiredNullableEnumInteger?>(value); } }
+        public RequiredClassRequiredNullableEnumInteger? NotrequiredNullableEnumInteger { get { return this.NotrequiredNullableEnumIntegerOption.Value; } set { this.NotrequiredNullableEnumIntegerOption = new Option<RequiredClassRequiredNullableEnumInteger?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableEnumIntegerOnly
@@ -228,7 +228,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableEnumIntegerOnly
         /// </summary>
         [JsonPropertyName("notrequired_nullable_enum_integer_only")]
-        public RequiredClassRequiredNullableEnumIntegerOnly? NotrequiredNullableEnumIntegerOnly { get { return this.NotrequiredNullableEnumIntegerOnlyOption; } set { this.NotrequiredNullableEnumIntegerOnlyOption = new Option<RequiredClassRequiredNullableEnumIntegerOnly?>(value); } }
+        public RequiredClassRequiredNullableEnumIntegerOnly? NotrequiredNullableEnumIntegerOnly { get { return this.NotrequiredNullableEnumIntegerOnlyOption.Value; } set { this.NotrequiredNullableEnumIntegerOnlyOption = new Option<RequiredClassRequiredNullableEnumIntegerOnly?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableEnumString
@@ -241,7 +241,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableEnumString
         /// </summary>
         [JsonPropertyName("notrequired_nullable_enum_string")]
-        public RequiredClassRequiredNullableEnumString? NotrequiredNullableEnumString { get { return this.NotrequiredNullableEnumStringOption; } set { this.NotrequiredNullableEnumStringOption = new Option<RequiredClassRequiredNullableEnumString?>(value); } }
+        public RequiredClassRequiredNullableEnumString? NotrequiredNullableEnumString { get { return this.NotrequiredNullableEnumStringOption.Value; } set { this.NotrequiredNullableEnumStringOption = new Option<RequiredClassRequiredNullableEnumString?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableOuterEnumDefaultValue
@@ -254,7 +254,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableOuterEnumDefaultValue
         /// </summary>
         [JsonPropertyName("notrequired_nullable_outerEnumDefaultValue")]
-        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue { get { return this.NotrequiredNullableOuterEnumDefaultValueOption; } set { this.NotrequiredNullableOuterEnumDefaultValueOption = new Option<OuterEnumDefaultValue?>(value); } }
+        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue { get { return this.NotrequiredNullableOuterEnumDefaultValueOption.Value; } set { this.NotrequiredNullableOuterEnumDefaultValueOption = new Option<OuterEnumDefaultValue?>(value); } }
 
         /// <summary>
         /// Gets or Sets RequiredNullableEnumInteger
@@ -334,7 +334,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNotnullableDateProp
         /// </summary>
         [JsonPropertyName("not_required_notnullable_date_prop")]
-        public DateTime? NotRequiredNotnullableDateProp { get { return this.NotRequiredNotnullableDatePropOption; } set { this.NotRequiredNotnullableDatePropOption = new Option<DateTime?>(value); } }
+        public DateTime? NotRequiredNotnullableDateProp { get { return this.NotRequiredNotnullableDatePropOption.Value; } set { this.NotRequiredNotnullableDatePropOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNotnullableintegerProp
@@ -347,7 +347,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
         [JsonPropertyName("not_required_notnullableinteger_prop")]
-        public int? NotRequiredNotnullableintegerProp { get { return this.NotRequiredNotnullableintegerPropOption; } set { this.NotRequiredNotnullableintegerPropOption = new Option<int?>(value); } }
+        public int? NotRequiredNotnullableintegerProp { get { return this.NotRequiredNotnullableintegerPropOption.Value; } set { this.NotRequiredNotnullableintegerPropOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNullableDateProp
@@ -360,7 +360,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNullableDateProp
         /// </summary>
         [JsonPropertyName("not_required_nullable_date_prop")]
-        public DateTime? NotRequiredNullableDateProp { get { return this.NotRequiredNullableDatePropOption; } set { this.NotRequiredNullableDatePropOption = new Option<DateTime?>(value); } }
+        public DateTime? NotRequiredNullableDateProp { get { return this.NotRequiredNullableDatePropOption.Value; } set { this.NotRequiredNullableDatePropOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNullableIntegerProp
@@ -373,7 +373,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNullableIntegerProp
         /// </summary>
         [JsonPropertyName("not_required_nullable_integer_prop")]
-        public int? NotRequiredNullableIntegerProp { get { return this.NotRequiredNullableIntegerPropOption; } set { this.NotRequiredNullableIntegerPropOption = new Option<int?>(value); } }
+        public int? NotRequiredNullableIntegerProp { get { return this.NotRequiredNullableIntegerPropOption.Value; } set { this.NotRequiredNullableIntegerPropOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableArrayOfString
@@ -386,7 +386,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableArrayOfString
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_array_of_string")]
-        public List<string> NotrequiredNotnullableArrayOfString { get { return this.NotrequiredNotnullableArrayOfStringOption; } set { this.NotrequiredNotnullableArrayOfStringOption = new Option<List<string>>(value); } }
+        public List<string> NotrequiredNotnullableArrayOfString { get { return this.NotrequiredNotnullableArrayOfStringOption.Value; } set { this.NotrequiredNotnullableArrayOfStringOption = new Option<List<string>>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableBooleanProp
@@ -399,7 +399,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableBooleanProp
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_boolean_prop")]
-        public bool? NotrequiredNotnullableBooleanProp { get { return this.NotrequiredNotnullableBooleanPropOption; } set { this.NotrequiredNotnullableBooleanPropOption = new Option<bool?>(value); } }
+        public bool? NotrequiredNotnullableBooleanProp { get { return this.NotrequiredNotnullableBooleanPropOption.Value; } set { this.NotrequiredNotnullableBooleanPropOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableDatetimeProp
@@ -412,7 +412,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableDatetimeProp
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_datetime_prop")]
-        public DateTime? NotrequiredNotnullableDatetimeProp { get { return this.NotrequiredNotnullableDatetimePropOption; } set { this.NotrequiredNotnullableDatetimePropOption = new Option<DateTime?>(value); } }
+        public DateTime? NotrequiredNotnullableDatetimeProp { get { return this.NotrequiredNotnullableDatetimePropOption.Value; } set { this.NotrequiredNotnullableDatetimePropOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableStringProp
@@ -425,7 +425,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableStringProp
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_string_prop")]
-        public string NotrequiredNotnullableStringProp { get { return this.NotrequiredNotnullableStringPropOption; } set { this.NotrequiredNotnullableStringPropOption = new Option<string>(value); } }
+        public string NotrequiredNotnullableStringProp { get { return this.NotrequiredNotnullableStringPropOption.Value; } set { this.NotrequiredNotnullableStringPropOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableUuid
@@ -439,7 +439,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("notrequired_notnullable_uuid")]
-        public Guid? NotrequiredNotnullableUuid { get { return this.NotrequiredNotnullableUuidOption; } set { this.NotrequiredNotnullableUuidOption = new Option<Guid?>(value); } }
+        public Guid? NotrequiredNotnullableUuid { get { return this.NotrequiredNotnullableUuidOption.Value; } set { this.NotrequiredNotnullableUuidOption = new Option<Guid?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableArrayOfString
@@ -452,7 +452,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableArrayOfString
         /// </summary>
         [JsonPropertyName("notrequired_nullable_array_of_string")]
-        public List<string> NotrequiredNullableArrayOfString { get { return this.NotrequiredNullableArrayOfStringOption; } set { this.NotrequiredNullableArrayOfStringOption = new Option<List<string>>(value); } }
+        public List<string> NotrequiredNullableArrayOfString { get { return this.NotrequiredNullableArrayOfStringOption.Value; } set { this.NotrequiredNullableArrayOfStringOption = new Option<List<string>>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableBooleanProp
@@ -465,7 +465,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableBooleanProp
         /// </summary>
         [JsonPropertyName("notrequired_nullable_boolean_prop")]
-        public bool? NotrequiredNullableBooleanProp { get { return this.NotrequiredNullableBooleanPropOption; } set { this.NotrequiredNullableBooleanPropOption = new Option<bool?>(value); } }
+        public bool? NotrequiredNullableBooleanProp { get { return this.NotrequiredNullableBooleanPropOption.Value; } set { this.NotrequiredNullableBooleanPropOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableDatetimeProp
@@ -478,7 +478,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableDatetimeProp
         /// </summary>
         [JsonPropertyName("notrequired_nullable_datetime_prop")]
-        public DateTime? NotrequiredNullableDatetimeProp { get { return this.NotrequiredNullableDatetimePropOption; } set { this.NotrequiredNullableDatetimePropOption = new Option<DateTime?>(value); } }
+        public DateTime? NotrequiredNullableDatetimeProp { get { return this.NotrequiredNullableDatetimePropOption.Value; } set { this.NotrequiredNullableDatetimePropOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableStringProp
@@ -491,7 +491,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableStringProp
         /// </summary>
         [JsonPropertyName("notrequired_nullable_string_prop")]
-        public string NotrequiredNullableStringProp { get { return this.NotrequiredNullableStringPropOption; } set { this.NotrequiredNullableStringPropOption = new Option<string>(value); } }
+        public string NotrequiredNullableStringProp { get { return this.NotrequiredNullableStringPropOption.Value; } set { this.NotrequiredNullableStringPropOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableUuid
@@ -505,7 +505,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("notrequired_nullable_uuid")]
-        public Guid? NotrequiredNullableUuid { get { return this.NotrequiredNullableUuidOption; } set { this.NotrequiredNullableUuidOption = new Option<Guid?>(value); } }
+        public Guid? NotrequiredNullableUuid { get { return this.NotrequiredNullableUuidOption.Value; } set { this.NotrequiredNullableUuidOption = new Option<Guid?>(value); } }
 
         /// <summary>
         /// Gets or Sets RequiredNullableArrayOfString

@@ -8,9 +8,17 @@
 
 @file:Suppress(
     "ArrayInDataClass",
+    "DuplicatedCode",
     "EnumEntryName",
     "RemoveRedundantQualifierName",
-    "UnusedImport"
+    "RemoveRedundantCallsOfConversionMethods",
+    "REDUNDANT_CALL_OF_CONVERSION_METHOD",
+    "RedundantUnitReturnType",
+    "RemoveEmptyClassBody",
+    "UnnecessaryVariable",
+    "UnusedImport",
+    "UnnecessaryVariable",
+    "unused"
 )
 
 package org.openapitools.client.apis
@@ -43,7 +51,7 @@ open class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://localhost:3000")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://localhost:3000")
         }
     }
 
@@ -217,10 +225,10 @@ open class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (datetimeQuery != null) {
-                    put("datetime_query", listOf(parseDateToQueryString(datetimeQuery)))
+                    put("datetime_query", listOf(parseDateToQueryString<java.time.OffsetDateTime>(datetimeQuery)))
                 }
                 if (dateQuery != null) {
-                    put("date_query", listOf(parseDateToQueryString(dateQuery)))
+                    put("date_query", listOf(parseDateToQueryString<java.time.LocalDate>(dateQuery)))
                 }
                 if (stringQuery != null) {
                     put("string_query", listOf(stringQuery.toString()))

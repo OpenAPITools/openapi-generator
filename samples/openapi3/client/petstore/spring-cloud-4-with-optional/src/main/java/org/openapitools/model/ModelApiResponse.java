@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private Integer code;
@@ -43,6 +43,7 @@ public class ModelApiResponse {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -62,6 +63,7 @@ public class ModelApiResponse {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(String type) {
     this.type = type;
   }
@@ -81,6 +83,7 @@ public class ModelApiResponse {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(String message) {
     this.message = message;
   }
@@ -120,10 +123,7 @@ public class ModelApiResponse {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

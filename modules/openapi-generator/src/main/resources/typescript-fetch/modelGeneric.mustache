@@ -25,7 +25,30 @@ import { type {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON, {{
 export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{#vars}}
     {{#required}}
+    {{#hasSanitizedName}}
+    if ((!('{{name}}' in value) && !('{{baseName}}' in value)) || (value['{{name}}'] === undefined && value['{{baseName}}'] === undefined)) return false;
+    {{/hasSanitizedName}}
+    {{^hasSanitizedName}}
     if (!('{{name}}' in value) || value['{{name}}'] === undefined) return false;
+    {{/hasSanitizedName}}
+    {{#isEnum}}
+    {{#allowableValues}}
+    {{#values}}
+    {{#-first}}
+    {{#-last}}
+    {{#hasSanitizedName}}
+    {{#isString}}if (value['{{name}}'] !== '{{.}}' && value['{{baseName}}'] !== '{{.}}') return false;{{/isString}}
+    {{^isString}}if (value['{{name}}'] !== {{.}} && value['{{baseName}}'] !== {{.}}) return false;{{/isString}}
+    {{/hasSanitizedName}}
+    {{^hasSanitizedName}}
+    {{#isString}}if (value['{{name}}'] !== '{{.}}') return false;{{/isString}}
+    {{^isString}}if (value['{{name}}'] !== {{.}}) return false;{{/isString}}
+    {{/hasSanitizedName}}
+    {{/-last}}
+    {{/-first}}
+    {{/values}}
+    {{/allowableValues}}
+    {{/isEnum}}
     {{/required}}
     {{/vars}}
     return true;
@@ -194,68 +217,3 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
     return value;
     {{/hasVars}}
 }
-{{#validationAttributes}}
-
-export const {{classname}}PropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-{{#vars}}
-{{#hasValidation}}
-    {{name}}: {
-        {{#maxLength}}
-        maxLength: {{maxLength}},
-        {{/maxLength}}
-        {{#minLength}}
-        minLength: {{minLength}},
-        {{/minLength}}
-        {{#pattern}}
-        pattern: '{{pattern}}',
-        {{/pattern}}
-        {{#maximum}}
-        maximum: {{maximum}},
-        exclusiveMaximum: {{exclusiveMaximum}},
-        {{/maximum}}
-        {{#minimum}}
-        minimum: {{minimum}},
-        exclusiveMinimum: {{exclusiveMinimum}},
-        {{/minimum}}
-        {{#multipleOf}}
-        multipleOf: {{multipleOf}},
-        {{/multipleOf}}
-        {{#maxItems}}
-        maxItems: {{maxItems}},
-        {{/maxItems}}
-        {{#minItems}}
-        minItems: {{minItems}},
-        {{/minItems}}
-        {{#isArray}}
-        uniqueItems: {{uniqueItems}},
-        {{/isArray}}
-    },
-{{/hasValidation}}
-{{/vars}}
-}
-{{#isAdditionalPropertiesTrue}}
-
-export const {{classname}}AdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
-    {{#maxProperties}}
-    maxProperties: {{maxProperties}},
-    {{/maxProperties}}
-    {{#minProperties}}
-    minProperties: {{minProperties}},
-    {{/minProperties}}
-}
-{{/isAdditionalPropertiesTrue}}
-{{/validationAttributes}}

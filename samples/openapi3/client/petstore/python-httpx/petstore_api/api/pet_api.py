@@ -1998,7 +1998,7 @@ class PetApi:
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: bytearray
+        :type file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2073,7 +2073,7 @@ class PetApi:
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: bytearray
+        :type file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2148,7 +2148,7 @@ class PetApi:
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param file: file to upload
-        :type file: bytearray
+        :type file: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2300,7 +2300,7 @@ class PetApi:
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: bytearray
+        :type required_file: bytes
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2375,7 +2375,7 @@ class PetApi:
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: bytearray
+        :type required_file: bytes
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2450,7 +2450,7 @@ class PetApi:
         :param pet_id: ID of pet to update (required)
         :type pet_id: int
         :param required_file: file to upload (required)
-        :type required_file: bytearray
+        :type required_file: bytes
         :param additional_metadata: Additional data to pass to server
         :type additional_metadata: str
         :param _request_timeout: timeout setting for this request. If one

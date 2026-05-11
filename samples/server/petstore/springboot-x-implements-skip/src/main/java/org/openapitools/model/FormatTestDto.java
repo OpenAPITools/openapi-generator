@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -16,19 +14,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * FormatTestDto
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FormatTestDto {
 
   private @Nullable Integer integer;
@@ -91,12 +90,13 @@ public class FormatTestDto {
    * @return integer
    */
   @Min(value = 10) @Max(value = 100) 
-  @ApiModelProperty(value = "")
+  @Schema(name = "integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("integer")
   public @Nullable Integer getInteger() {
     return integer;
   }
 
+  @JsonProperty("integer")
   public void setInteger(@Nullable Integer integer) {
     this.integer = integer;
   }
@@ -113,12 +113,13 @@ public class FormatTestDto {
    * @return int32
    */
   @Min(value = 20) @Max(value = 200) 
-  @ApiModelProperty(value = "")
+  @Schema(name = "int32", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int32")
   public @Nullable Integer getInt32() {
     return int32;
   }
 
+  @JsonProperty("int32")
   public void setInt32(@Nullable Integer int32) {
     this.int32 = int32;
   }
@@ -133,12 +134,13 @@ public class FormatTestDto {
    * @return int64
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "int64", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int64")
   public @Nullable Long getInt64() {
     return int64;
   }
 
+  @JsonProperty("int64")
   public void setInt64(@Nullable Long int64) {
     this.int64 = int64;
   }
@@ -155,12 +157,13 @@ public class FormatTestDto {
    * @return number
    */
   @NotNull @Valid @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "number", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
   }
 
+  @JsonProperty("number")
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
@@ -177,12 +180,13 @@ public class FormatTestDto {
    * @return _float
    */
   @DecimalMin(value = "54.3") @DecimalMax(value = "987.6") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "float", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("float")
   public @Nullable Float getFloat() {
     return _float;
   }
 
+  @JsonProperty("float")
   public void setFloat(@Nullable Float _float) {
     this._float = _float;
   }
@@ -199,12 +203,13 @@ public class FormatTestDto {
    * @return _double
    */
   @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "double", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("double")
   public @Nullable Double getDouble() {
     return _double;
   }
 
+  @JsonProperty("double")
   public void setDouble(@Nullable Double _double) {
     this._double = _double;
   }
@@ -219,12 +224,13 @@ public class FormatTestDto {
    * @return decimal
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "decimal", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("decimal")
   public @Nullable BigDecimal getDecimal() {
     return decimal;
   }
 
+  @JsonProperty("decimal")
   public void setDecimal(@Nullable BigDecimal decimal) {
     this.decimal = decimal;
   }
@@ -239,12 +245,13 @@ public class FormatTestDto {
    * @return string
    */
   @Pattern(regexp = "/[a-z]/i") 
-  @ApiModelProperty(value = "")
+  @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
   public @Nullable String getString() {
     return string;
   }
 
+  @JsonProperty("string")
   public void setString(@Nullable String string) {
     this.string = string;
   }
@@ -259,12 +266,13 @@ public class FormatTestDto {
    * @return _byte
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "byte", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
   }
 
+  @JsonProperty("byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
@@ -279,12 +287,13 @@ public class FormatTestDto {
    * @return binary
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "binary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("binary")
   public @Nullable org.springframework.core.io.Resource getBinary() {
     return binary;
   }
 
+  @JsonProperty("binary")
   public void setBinary(@Nullable org.springframework.core.io.Resource binary) {
     this.binary = binary;
   }
@@ -299,12 +308,13 @@ public class FormatTestDto {
    * @return date
    */
   @NotNull @Valid 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "date", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("date")
   public LocalDate getDate() {
     return date;
   }
 
+  @JsonProperty("date")
   public void setDate(LocalDate date) {
     this.date = date;
   }
@@ -319,12 +329,13 @@ public class FormatTestDto {
    * @return dateTime
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
   public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
   }
 
+  @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -339,12 +350,13 @@ public class FormatTestDto {
    * @return uuid
    */
   @Valid 
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public @Nullable UUID getUuid() {
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
   }
@@ -359,12 +371,13 @@ public class FormatTestDto {
    * @return password
    */
   @NotNull @Size(min = 10, max = 64) 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("password")
   public String getPassword() {
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
   }
@@ -379,12 +392,13 @@ public class FormatTestDto {
    * @return patternWithDigits
    */
   @Pattern(regexp = "^\\d{10}$") 
-  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
+  @Schema(name = "pattern_with_digits", description = "A string that is a 10 digit number. Can have leading zeros.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pattern_with_digits")
   public @Nullable String getPatternWithDigits() {
     return patternWithDigits;
   }
 
+  @JsonProperty("pattern_with_digits")
   public void setPatternWithDigits(@Nullable String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
   }
@@ -399,12 +413,13 @@ public class FormatTestDto {
    * @return patternWithDigitsAndDelimiter
    */
   @Pattern(regexp = "/^image_\\d{1,3}$/i") 
-  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+  @Schema(name = "pattern_with_digits_and_delimiter", description = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pattern_with_digits_and_delimiter")
   public @Nullable String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }
 
+  @JsonProperty("pattern_with_digits_and_delimiter")
   public void setPatternWithDigitsAndDelimiter(@Nullable String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
@@ -470,10 +485,7 @@ public class FormatTestDto {
    * (except the first line).
    */
   private String toIndentedString(@Nullable Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

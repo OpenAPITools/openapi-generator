@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.21.0-SNAPSHOT
+  - Generator version: 7.23.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -142,6 +142,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testNullableRequiredFieldsAnyOf**](docs/FakeApi.md#testNullableRequiredFieldsAnyOf) | **GET** /fake/nullable-required-fields-anyof | test anyOf with map of objects containing nullable required fields
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**testStringMapReference**](docs/FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -242,6 +243,10 @@ Class | Method | HTTP request | Description
  - [NewPetCategoryInlineAllofAllOfCategoryTag](docs/NewPetCategoryInlineAllofAllOfCategoryTag.md)
  - [NullableClass](docs/NullableClass.md)
  - [NullableEnum](docs/NullableEnum.md)
+ - [NullableFieldsMapError](docs/NullableFieldsMapError.md)
+ - [NullableFieldsMapResponse](docs/NullableFieldsMapResponse.md)
+ - [NullableFieldsMapSuccess](docs/NullableFieldsMapSuccess.md)
+ - [NullableFieldsValue](docs/NullableFieldsValue.md)
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)

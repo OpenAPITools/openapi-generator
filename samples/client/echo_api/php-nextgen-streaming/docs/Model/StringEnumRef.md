@@ -1,4 +1,4 @@
-# # StringEnumRef
+# StringEnumRef
 
 ## Properties
 

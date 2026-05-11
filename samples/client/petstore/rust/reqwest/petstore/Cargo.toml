@@ -13,6 +13,7 @@ serde_json = "^1.0"
 serde_repr = "^0.1"
 url = "^2.5"
 uuid = { version = "^1.8", features = ["serde", "v4"] }
+chrono = { version = "^0.4",  features = ["serde"] }
 reqwest = { version = "^0.13", default-features = false, features = ["json", "blocking", "multipart", "query", "form"] }
 
 [dev-dependencies]

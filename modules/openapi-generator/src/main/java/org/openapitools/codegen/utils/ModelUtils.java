@@ -410,6 +410,25 @@ public class ModelUtils {
         return ref;
     }
 
+    public static boolean hasProperties(Schema<?> schema) {
+        return schema.getProperties() != null && !schema.getProperties().isEmpty();
+    }
+
+    public static boolean hasEnum(Schema<?> schema) {
+        return schema.getEnum() != null && !schema.getEnum().isEmpty();
+    }
+
+    /**
+     * Return true if the specified schema is type object
+     * Only considers OAS 3.0 {@code type} and not OAS 3.1 {@code types}
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an OAS 3.0 {@code object} schema.
+     */
+    public static boolean isObjectTypeOAS30(Schema<?> schema) {
+        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
+    }
+
     /**
      * Return true if the specified schema is type object
      * We can't use isObjectSchema because it requires properties to exist which is not required
@@ -453,7 +472,7 @@ public class ModelUtils {
                 // must not be a map
                 (SchemaTypeUtil.OBJECT_TYPE.equals(getType(schema)) && !(ModelUtils.isMapSchema(schema))) ||
                 // must have at least one property
-                (getType(schema) == null && schema.getProperties() != null && !schema.getProperties().isEmpty());
+                (getType(schema) == null && hasProperties(schema));
     }
 
     /**
@@ -502,19 +521,19 @@ public class ModelUtils {
     public static boolean isComplexComposedSchema(Schema schema) {
         int count = 0;
 
-        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+        if (hasAllOf(schema)) {
             count++;
         }
 
-        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+        if (hasOneOf(schema)) {
             count++;
         }
 
-        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+        if (hasAnyOf(schema)) {
             count++;
         }
 
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        if (hasProperties(schema)) {
             count++;
         }
 
@@ -696,6 +715,18 @@ public class ModelUtils {
                         && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat()));
     }
 
+    public static boolean isDateTimeLocalSchema(Schema schema) {
+        // format: date-time-local, see https://spec.openapis.org/registry/format/date-time-local.html
+        return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
+                        && "date-time-local".equals(schema.getFormat()));
+    }
+
+    public static boolean isTimeLocalSchema(Schema schema) {
+        // format: time-local, see https://spec.openapis.org/registry/format/time-local.html
+        return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
+                        && "time-local".equals(schema.getFormat()));
+    }
+
     public static boolean isPasswordSchema(Schema schema) {
         return (schema instanceof PasswordSchema) ||
                 // double
@@ -835,6 +866,8 @@ public class ModelUtils {
                         sc.getMaximum() != null ||
                         sc.getExclusiveMaximum() != null ||
                         sc.getExclusiveMinimum() != null ||
+                        sc.getExclusiveMaximumValue() != null ||
+                        sc.getExclusiveMinimumValue() != null ||
                         sc.getUniqueItems() != null
         );
     }
@@ -882,7 +915,7 @@ public class ModelUtils {
                 return false;
             }
 
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // has properties
+            if (hasProperties(schema)) {
                 return false;
             }
 
@@ -919,7 +952,7 @@ public class ModelUtils {
                 if (schema.getExtensions() != null && schema.getExtensions().containsKey(freeFormExplicit)) {
                     // User has hard-coded vendor extension to handle free-form evaluation.
                     boolean isFreeFormExplicit = Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(freeFormExplicit)));
-                    if (!isFreeFormExplicit && addlProps != null && addlProps.getProperties() != null && !addlProps.getProperties().isEmpty()) {
+                    if (!isFreeFormExplicit && addlProps != null && hasProperties(addlProps)) {
                         once(LOGGER).error(String.format(Locale.ROOT, "Potentially confusing usage of %s within model which defines additional properties", freeFormExplicit));
                     }
                     return isFreeFormExplicit;
@@ -1332,7 +1365,7 @@ public class ModelUtils {
             }
         } else if (schema.getNot() != null) {
             return hasSelfReference(openAPI, schema.getNot(), visitedSchemaNames);
-        } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        } else if (hasProperties(schema)) {
             // go through properties to see if there's any self-reference
             for (Schema property : ((Map<String, Schema>) schema.getProperties()).values()) {
                 if (hasSelfReference(openAPI, property, visitedSchemaNames)) {
@@ -1398,7 +1431,7 @@ public class ModelUtils {
             } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
+                if (hasProperties(ref))
                     return schema; // treat it as model
                 else {
                     if (isGenerateAliasAsModel(ref)) {
@@ -1410,7 +1443,7 @@ public class ModelUtils {
                     }
                 }
             } else if (isObjectSchema(ref)) { // model
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                if (hasProperties(ref)) {
                     // TODO we may need to check `hasSelfReference(openAPI, ref)` as a special/edge case:
                     // TODO we may also need to revise below to return `ref` instead of schema
                     // which is the last reference to the actual model/object
@@ -1528,11 +1561,11 @@ public class ModelUtils {
      * @return a list of schema defined in allOf, anyOf or oneOf
      */
     public static List<Schema> getInterfaces(Schema composed) {
-        if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+        if (hasAllOf(composed)) {
             return composed.getAllOf();
-        } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
+        } else if (hasAnyOf(composed)) {
             return composed.getAnyOf();
-        } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+        } else if (hasOneOf(composed)) {
             return composed.getOneOf();
         } else {
             return Collections.emptyList();
@@ -1869,15 +1902,44 @@ public class ModelUtils {
         if (multipleOf != null) vSB.withMultipleOf();
 
         BigDecimal minimum = schema.getMinimum();
-        if (minimum != null) vSB.withMinimum();
-
         BigDecimal maximum = schema.getMaximum();
-        if (maximum != null) vSB.withMaximum();
-
         Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-        if (exclusiveMinimum != null) vSB.withExclusiveMinimum();
-
         Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+
+        // === START: Added code to handle OpenAPI 3.1.0+ numeric exclusiveMinimum/exclusiveMaximum ===
+        // Logic synced from OpenAPINormalizer#normalizeExclusiveMinMax31()
+        BigDecimal exclusiveMinValue = schema.getExclusiveMinimumValue();
+        if (exclusiveMinValue != null) {
+            if (minimum == null) {
+                minimum = exclusiveMinValue;
+                exclusiveMinimum = Boolean.TRUE;
+            } else {
+                int cmp = exclusiveMinValue.compareTo(minimum);
+                if (cmp >= 0) {
+                    minimum = exclusiveMinValue;
+                    exclusiveMinimum = Boolean.TRUE;
+                }
+            }
+        }
+
+        BigDecimal exclusiveMaxValue = schema.getExclusiveMaximumValue();
+        if (exclusiveMaxValue != null) {
+            if (maximum == null) {
+                maximum = exclusiveMaxValue;
+                exclusiveMaximum = Boolean.TRUE;
+            } else {
+                int cmp = exclusiveMaxValue.compareTo(maximum);
+                if (cmp <= 0) {
+                    maximum = exclusiveMaxValue;
+                    exclusiveMaximum = Boolean.TRUE;
+                }
+            }
+        }
+        // === END: Added code ===
+
+        if (minimum != null) vSB.withMinimum();
+        if (maximum != null) vSB.withMaximum();
+        if (exclusiveMinimum != null) vSB.withExclusiveMinimum();
         if (exclusiveMaximum != null) vSB.withExclusiveMaximum();
 
         LinkedHashSet<String> setValidations = vSB.build();
@@ -2081,7 +2143,7 @@ public class ModelUtils {
      * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
      */
     public static boolean isAllOfWithProperties(Schema schema) {
-        return hasAllOf(schema) && (schema.getProperties() != null && !schema.getProperties().isEmpty()) &&
+        return hasAllOf(schema) && (hasProperties(schema)) &&
                 (schema.getOneOf() == null || schema.getOneOf().isEmpty()) &&
                 (schema.getAnyOf() == null || schema.getAnyOf().isEmpty());
     }
@@ -2207,6 +2269,7 @@ public class ModelUtils {
         if (schema.getNullable() != null || schema.getDefault() != null ||
                 schema.getMinimum() != null || schema.getMaximum() != null ||
                 schema.getExclusiveMaximum() != null || schema.getExclusiveMinimum() != null ||
+                schema.getExclusiveMaximumValue() != null || schema.getExclusiveMinimumValue() != null ||
                 schema.getMinLength() != null || schema.getMaxLength() != null ||
                 schema.getMinItems() != null || schema.getMaxItems() != null ||
                 schema.getReadOnly() != null || schema.getWriteOnly() != null ||
@@ -2268,6 +2331,10 @@ public class ModelUtils {
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
+            // Preserve parent-level docs when nullable anyOf/oneOf collapses to a single child schema.
+            if (subSchema.getDescription() == null && schema.getDescription() != null) {
+                subSchema.setDescription(schema.getDescription());
+            }
             if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
                 subSchema.setNullable(true);
             }

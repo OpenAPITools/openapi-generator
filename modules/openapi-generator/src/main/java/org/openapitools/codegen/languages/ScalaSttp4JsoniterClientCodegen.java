@@ -40,6 +40,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-sttp4-jsoniter/}.
+ */
 public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion",
             "The version of " +
@@ -187,6 +190,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("helpers.mustache", invokerFolder,
                 "Helpers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
     }
 
     @Override

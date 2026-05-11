@@ -80,6 +80,10 @@ docs/NewPetCategoryInlineAllof.md
 docs/NewPetCategoryInlineAllofAllOfCategoryTag.md
 docs/NullableClass.md
 docs/NullableEnum.md
+docs/NullableFieldsMapError.md
+docs/NullableFieldsMapResponse.md
+docs/NullableFieldsMapSuccess.md
+docs/NullableFieldsValue.md
 docs/NullableShape.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
@@ -231,6 +235,10 @@ src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllof.java
 src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllofAllOfCategoryTag.java
 src/main/java/org/openapitools/client/model/NullableClass.java
 src/main/java/org/openapitools/client/model/NullableEnum.java
+src/main/java/org/openapitools/client/model/NullableFieldsMapError.java
+src/main/java/org/openapitools/client/model/NullableFieldsMapResponse.java
+src/main/java/org/openapitools/client/model/NullableFieldsMapSuccess.java
+src/main/java/org/openapitools/client/model/NullableFieldsValue.java
 src/main/java/org/openapitools/client/model/NullableShape.java
 src/main/java/org/openapitools/client/model/NumberOnly.java
 src/main/java/org/openapitools/client/model/ObjectWithDeprecatedFields.java

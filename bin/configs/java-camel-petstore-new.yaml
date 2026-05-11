@@ -14,3 +14,4 @@ additionalProperties:
   camelRestClientRequestValidation: true
   camelSecurityDefinitions: true
   implicitHeaders: true
+  useSpringBoot3: false

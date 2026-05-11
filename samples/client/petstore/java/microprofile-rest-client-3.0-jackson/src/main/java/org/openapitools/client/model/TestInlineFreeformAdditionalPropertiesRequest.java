@@ -35,7 +35,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest  {
   
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   
-  private String someProperty;
+  protected String someProperty;
   /**
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with
@@ -134,10 +134,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

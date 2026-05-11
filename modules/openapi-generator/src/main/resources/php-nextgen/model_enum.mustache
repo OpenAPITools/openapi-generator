@@ -1,11 +1,11 @@
-enum {{classname}}: {{exts.x-php-enum-type}}
+enum {{classname}}: {{dataType}}
 {
     {{#allowableValues}}
     {{#enumVars}}
     {{#enumDescription}}
     /**
-    * {{enumDescription}}
-    */
+     * {{enumDescription}}
+     */
     {{/enumDescription}}
     case {{{name}}} = {{{value}}};
 {{^-last}}

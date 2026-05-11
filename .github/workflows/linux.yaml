@@ -45,12 +45,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@v6
         with:
+          cache-disabled: true
           gradle-version: '8.14.3'
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.19.0
+        uses: s4u/setup-maven-action@v1.20.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -62,7 +63,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: matrix.java == '11' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
@@ -92,13 +93,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v5
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.19.0
+        uses: s4u/setup-maven-action@v1.20.0
         with:
           java-version: 11
           maven-version: 3.8.8
           cache: gradle
       - name: Download build artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: artifact
       - name: Run Ensures Script

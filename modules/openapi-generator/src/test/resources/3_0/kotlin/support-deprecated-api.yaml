@@ -1,0 +1,14 @@
+openapi: "3.0.0"
+info:
+  title: Verify @Deprecated annotation
+  version: "1.0"
+
+paths:
+
+  /ping:
+    get:
+      deprecated: true
+      operationId: ping
+      responses:
+        200:
+          description: OK

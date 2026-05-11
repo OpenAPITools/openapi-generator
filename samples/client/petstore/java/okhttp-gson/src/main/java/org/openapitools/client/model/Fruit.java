@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Fruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Fruit.class.getName());
 
@@ -207,6 +207,7 @@ public class Fruit extends AbstractOpenApiSchema {
      * @return The actual instance of `Apple`
      * @throws ClassCastException if the instance is not `Apple`
      */
+    @SuppressWarnings("unchecked")
     public Apple getApple() throws ClassCastException {
         return (Apple)super.getActualInstance();
     }
@@ -218,6 +219,7 @@ public class Fruit extends AbstractOpenApiSchema {
      * @return The actual instance of `Banana`
      * @throws ClassCastException if the instance is not `Banana`
      */
+    @SuppressWarnings("unchecked")
     public Banana getBanana() throws ClassCastException {
         return (Banana)super.getActualInstance();
     }

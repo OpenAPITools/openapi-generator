@@ -17,9 +17,27 @@ class TestParameters(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def _iter_items(self, items):
+        for item in items:
+            yield item
+            children = item.get('item', [])
+            if isinstance(children, list):
+                for child in self._iter_items(children):
+                    yield child
+
+    def _find_item_by_name(self, name):
+        for item in self._iter_items(self.json_data.get('item', [])):
+            if item.get('name') == name:
+                return item
+        return None
+
+    def _get_query_param_request(self):
+        item = self._find_item_by_name('Get User Info by Query Param')
+        self.assertIsNotNone(item)
+        return item['request']
+
     def test_request_parameter_description(self):
-        # request url
-        request = self.json_data['item'][2]['item'][1]['item'][0]['request']
+        request = self._get_query_param_request()
         self.assertEqual(request['url']['raw'], '{{baseUrl}}/users/')
         # first query parameter
         self.assertEqual(request['url']['query'][0]['key'], 'pUserId')
@@ -27,15 +45,13 @@ class TestParameters(unittest.TestCase):
         self.assertEqual(request['url']['query'][0]['description'], 'Query Id.')
 
     def test_request_parameter_required(self):
-        # request url
-        request = self.json_data['item'][2]['item'][1]['item'][0]['request']
+        request = self._get_query_param_request()
         self.assertEqual(request['url']['raw'], '{{baseUrl}}/users/')
         # first query parameter
         self.assertEqual(request['url']['query'][0]['disabled'], False)
 
     def test_request_header(self):
-        # request url
-        request = self.json_data['item'][2]['item'][1]['item'][0]['request']
+        request = self._get_query_param_request()
         self.assertEqual(request['url']['raw'], '{{baseUrl}}/users/')
         # headers
         self.assertEqual(request['header'][0]['key'], 'Accept')

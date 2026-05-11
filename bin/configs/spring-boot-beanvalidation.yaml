@@ -4,7 +4,7 @@ library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
-  documentationProvider: springfox
+  #documentationProvider: springdoc
   useSwaggerUI: false
   java8: true
   useBeanValidation: true

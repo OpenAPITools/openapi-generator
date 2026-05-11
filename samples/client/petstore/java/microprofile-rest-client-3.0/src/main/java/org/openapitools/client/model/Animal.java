@@ -38,10 +38,10 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Animal  {
   
   @JsonbTransient
-  private String className;
+  protected String className;
 
   @JsonbProperty("color")
-  private String color = "red";
+  protected String color = "red";
 
 
   /**
@@ -121,10 +121,7 @@ public class Animal  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

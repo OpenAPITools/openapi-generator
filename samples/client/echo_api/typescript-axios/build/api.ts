@@ -64,7 +64,7 @@ export interface DefaultValue {
 export const DefaultValueArrayStringEnumDefaultEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 
 export type DefaultValueArrayStringEnumDefaultEnum = typeof DefaultValueArrayStringEnumDefaultEnum[keyof typeof DefaultValueArrayStringEnumDefaultEnum];
@@ -89,7 +89,7 @@ export interface Pet {
 export const PetStatusEnum = {
     Available: 'available',
     Pending: 'pending',
-    Sold: 'sold'
+    Sold: 'sold',
 } as const;
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
@@ -105,7 +105,7 @@ export interface Query {
 export const QueryOutcomesEnum = {
     Success: 'SUCCESS',
     Failure: 'FAILURE',
-    Skipped: 'SKIPPED'
+    Skipped: 'SKIPPED',
 } as const;
 
 export type QueryOutcomesEnum = typeof QueryOutcomesEnum[keyof typeof QueryOutcomesEnum];
@@ -114,7 +114,7 @@ export type QueryOutcomesEnum = typeof QueryOutcomesEnum[keyof typeof QueryOutco
 export const StringEnumRef = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 
 export type StringEnumRef = typeof StringEnumRef[keyof typeof StringEnumRef];
@@ -1454,7 +1454,7 @@ export class HeaderApi extends BaseAPI {
 export const TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 export type TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = typeof TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum[keyof typeof TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum];
 
@@ -1484,10 +1484,10 @@ export const PathApiAxiosParamCreator = function (configuration?: Configuration)
             // verify required parameter 'enumRefStringPath' is not null or undefined
             assertParamExists('testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'enumRefStringPath', enumRefStringPath)
             const localVarPath = `/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}`
-                .replace(`{${"path_string"}}`, encodeURIComponent(String(pathString)))
-                .replace(`{${"path_integer"}}`, encodeURIComponent(String(pathInteger)))
-                .replace(`{${"enum_nonref_string_path"}}`, encodeURIComponent(String(enumNonrefStringPath)))
-                .replace(`{${"enum_ref_string_path"}}`, encodeURIComponent(String(enumRefStringPath)));
+                .replace('{path_string}', encodeURIComponent(String(pathString)))
+                .replace('{path_integer}', encodeURIComponent(String(pathInteger)))
+                .replace('{enum_nonref_string_path}', encodeURIComponent(String(enumNonrefStringPath)))
+                .replace('{enum_ref_string_path}', encodeURIComponent(String(enumRefStringPath)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1582,7 +1582,7 @@ export class PathApi extends BaseAPI {
 export const TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 export type TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum[keyof typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum];
 
@@ -2442,7 +2442,7 @@ export class QueryApi extends BaseAPI {
 export const TestEnumRefStringEnumNonrefStringQueryEnum = {
     Success: 'success',
     Failure: 'failure',
-    Unclassified: 'unclassified'
+    Unclassified: 'unclassified',
 } as const;
 export type TestEnumRefStringEnumNonrefStringQueryEnum = typeof TestEnumRefStringEnumNonrefStringQueryEnum[keyof typeof TestEnumRefStringEnumNonrefStringQueryEnum];
 

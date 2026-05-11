@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -49,7 +51,7 @@ data class User(
 
     @Schema(example = "null", description = "User Status")
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
-) {
+) : UserOrPet, UserOrPetOrArrayString {
 
 }
 
