@@ -22,6 +22,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -476,13 +477,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         operations.put("hasSomeEncodableParams", hasSomeEncodableParams);
 
         // Add additional filename information for model imports in the services
-        List<Map<String, String>> imports = operations.getImports();
-        for (Map<String, String> im : imports) {
+        List<Map<String, String>> mergedImports = mergeImports(operations.getImports());
+        for (Map<String, String> im : mergedImports) {
             // This property is not used in the templates any more, subject for removal
             im.put("filename", im.get("import"));
             im.put("classname", im.get("classname"));
         }
-
+        operations.setImports(mergedImports);
         return operations;
     }
 
@@ -578,6 +579,28 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             }
         }
         return tsImports;
+    }
+
+    /**
+     * Merge imports that belong to the same file
+     */
+    private List<Map<String, String>> mergeImports(List<Map<String, String>> imports) {
+        Map<String, String> importLookup = new HashMap<>();
+        imports.forEach(importMap -> {
+            String importPackage = importMap.get("import");
+            String importType = importMap.get("classname");
+            String existingImportType = importLookup.get(importPackage);
+            if (existingImportType != null && !existingImportType.equals(importType)) {
+                String newImportType = String.join(", ", existingImportType, importType);
+                importLookup.put(importPackage, newImportType);
+            } else {
+                importLookup.put(importPackage, importType);
+            }
+        });
+
+        return importLookup.entrySet().stream()
+                .map(entry -> new HashMap<>(Map.of("import", entry.getKey(), "classname", entry.getValue())))
+                .collect(Collectors.toList());
     }
 
     @Override

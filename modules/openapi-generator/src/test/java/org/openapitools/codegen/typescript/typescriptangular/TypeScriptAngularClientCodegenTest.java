@@ -11,6 +11,8 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -19,11 +21,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypeScriptAngularClientCodegenTest {
@@ -117,14 +120,14 @@ public class TypeScriptAngularClientCodegenTest {
     @Test
     public void testOperationIdParser() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
+        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags").responses(new ApiResponses().addApiResponse("201"
+                , new ApiResponse().description("OK")));
         openAPI.path("another-fake/dummy/", new PathItem().get(operation1));
         final TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
         org.testng.Assert.assertEquals(co1.operationId, "_123testSpecialTags");
-
     }
 
     @Test
@@ -148,7 +151,6 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
-
     }
 
     @Test
@@ -172,7 +174,6 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
-
     }
 
     @Test
@@ -426,9 +427,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("typescript-angular")
-            .setInputSpec(specPath)
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -450,9 +451,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("typescript-angular")
-            .setInputSpec(specPath)
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -475,9 +476,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("typescript-angular")
-            .setInputSpec(specPath)
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -511,7 +512,31 @@ public class TypeScriptAngularClientCodegenTest {
 
         //THEN
         final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
-        String credentialsSet = "localVarHeaders = this.configuration.addCredentialToHeaders('oidc', 'Authorization', localVarHeaders, 'Bearer ');";
+        String credentialsSet = "localVarHeaders = this.configuration.addCredentialToHeaders('oidc', 'Authorization', localVarHeaders, " +
+                "'Bearer ');";
         assertThat(fileContents).contains(credentialsSet);
+    }
+
+    @Test
+    public void testMergingImports() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+
+        List<Map<String, String>> imports = new ArrayList<>();
+        imports.add(Map.of("classname", "type1", "import", "npmPackage"));
+        imports.add(Map.of("classname", "type2", "import", "npmPackage"));
+        imports.add(Map.of("classname", "type3", "import", "npmPackage2"));
+        OperationMap operation = new OperationMap();
+        operation.setClassname("classname");
+        operation.setOperation(List.of());
+        OperationsMap operationsMap = new OperationsMap();
+        operationsMap.setImports(imports);
+        operationsMap.setOperation(operation);
+
+        OperationsMap result = codegen.postProcessOperationsWithModels(operationsMap, List.of());
+
+        assertThat(result.getImports()).containsExactlyInAnyOrder(
+                Map.of("classname", "type1, type2", "filename", "npmPackage", "import", "npmPackage"),
+                Map.of("classname", "type3", "filename", "npmPackage2", "import", "npmPackage2")
+        );
     }
 }

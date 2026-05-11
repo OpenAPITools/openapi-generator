@@ -31,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.api.*;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
@@ -1656,7 +1657,7 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(op.imports);
         }
 
-        Map<String, String> mappings = getAllImportsMappings(allImports);
+        Set<Pair<String, String>> mappings = getAllImportMappings(allImports);
         Set<Map<String, String>> imports = toImportsObjects(mappings);
 
         //Some codegen implementations rely on a list interface for the imports
@@ -1734,6 +1735,16 @@ public class DefaultGenerator implements Generator {
         return result;
     }
 
+    private Set<Pair<String, String>> getAllImportMappings(Set<String> allImports) {
+        return allImports.stream().map(nextImport -> {
+            String mapping = config.importMapping().get(nextImport);
+            if (mapping != null) {
+                return Pair.of(mapping, nextImport);
+            }
+            return Pair.of(config.toModelImport(nextImport), nextImport);
+        }).collect(Collectors.toSet());
+    }
+
     /**
      * Using an import map created via {@link #getAllImportsMappings(Set)} to build a list import objects.
      * The import objects have two keys: import and classname which hold the key and value of the initial map entry.
@@ -1750,6 +1761,20 @@ public class DefaultGenerator implements Generator {
             Map<String, String> im = new LinkedHashMap<>();
             im.put("import", key);
             im.put("classname", value);
+            result.add(im);
+        });
+        return result;
+    }
+
+    private Set<Map<String, String>> toImportsObjects(Set<Pair<String, String>> importPairs) {
+        Set<Map<String, String>> result = new TreeSet<>(
+                Comparator.comparing(o -> o.get("classname"))
+        );
+
+        importPairs.forEach((pair) -> {
+            Map<String, String> im = new LinkedHashMap<>();
+            im.put("import", pair.getLeft());
+            im.put("classname", pair.getRight());
             result.add(im);
         });
         return result;
