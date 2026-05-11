@@ -42,6 +42,7 @@ import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.U
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.KTOR;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RESOURCES;
 
 public class KotlinServerCodegenTest {
 
@@ -668,5 +669,43 @@ public class KotlinServerCodegenTest {
         Assert.assertTrue(Files.exists(Paths.get(infraPath + "/AppDelegates.kt")));
         Assert.assertTrue(Files.exists(Paths.get(infraPath + "/BadParameterException.kt")));
         Assert.assertTrue(Files.exists(Paths.get(infraPath + "/APINotImplementedException.kt")));
+    }
+
+    @Test
+    public void delegatePattern_enumWireValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        var codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+        codegen.additionalProperties().put(RESOURCES, false);
+        codegen.inlineSchemaOption().put("RESOLVE_INLINE_ENUMS","true");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/enum-wire-value.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+
+
+        Path statusFile = Paths.get(outputPath + "/models/TestEnumStatusParameter.kt");
+
+        assertFileContains(
+                statusFile,
+                "companion object {",
+                "fun fromValue(value: kotlin.String): TestEnumStatusParameter =",
+                "values().firstOrNull { it.value == value } ?: throw IllegalArgumentException(\"No enum constant TestEnumStatusParameter.$value\")"
+        );
+
+        // Check parameter extraction
+        // Check Enum definition in the API file (inline enum)
+        Path apiPath = Paths.get(outputPath + "/apis/DefaultApi.kt");
+        assertFileContains(
+                apiPath,
+                "val status = call.request.queryParameters[\"status\"]?.let { runCatching { TestEnumStatusParameter.fromValue(it) }.getOrElse { throw BadParameterException(message = \"Invalid enum value for parameter status: $it\", parameterName = \"status\") } }"
+        );
     }
 }

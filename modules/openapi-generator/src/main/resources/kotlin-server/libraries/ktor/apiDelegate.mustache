@@ -36,14 +36,14 @@ interface {{classname}}Delegate {
         fun build(): {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPart {
 {{#allParams}}{{#isFormParam}}{{^isFile}}{{#required}}
             if ({{paramName}} == null) {
-                throw BadRequestException(message = "Missing form parameter: {{baseName}}", parameterName = "{{baseName}}", validationType = "required")
+                throw BadParameterException(message = "Missing form parameter: {{baseName}}", parameterName = "{{baseName}}", validationType = "required")
             }
 {{/required}}{{^required}}{{#defaultValue}}
             if ({{paramName}} == null) {
                 {{paramName}} = {{{defaultValue}}}
             }
 {{/defaultValue}}{{/required}}{{/isFile}}{{/isFormParam}}{{/allParams}}
-            return {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPart({{#allParams}}{{#isFormParam}}{{^isFile}}{{paramName}}, {{/isFile}}{{/isFormParam}}{{/allParams}})
+            return {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPart({{#allParams}}{{#isFormParam}}{{^isFile}}{{paramName}}{{^isNullable}}{{#defaultValue}}!!{{/defaultValue}}{{^defaultValue}}{{#required}}!!{{/required}}{{/defaultValue}}{{/isNullable}}, {{/isFile}}{{/isFormParam}}{{/allParams}})
         }
     }
     fun interface {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPartReceiver{

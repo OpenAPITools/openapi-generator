@@ -177,7 +177,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.OMIT_GRADLE_WRAPPER, Constants.OMIT_GRADLE_WRAPPER_DESC, omitGradleWrapper);
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
         addSwitch(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC, fixJacksonJsonTypeInfoInheritance);
-        addSwitch(Constants.DELEGATE_PATTERN, Constants.DELEGATE_PATTERN_DESC, getAutoHeadFeatureEnabled());
+        addSwitch(Constants.DELEGATE_PATTERN, Constants.DELEGATE_PATTERN_DESC, getDelegatePatternEnabled());
     }
 
     @Override
