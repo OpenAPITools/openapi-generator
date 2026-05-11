@@ -7741,6 +7741,7 @@ public class SpringCodegenTest {
                 .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
 
         JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
+                .isInterface()
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
                 .fileContains("static interface AccountOneOfWrapperMixin", "@JsonCreator")
                 .hasImports("tools.jackson.databind.JsonNode");
@@ -7768,6 +7769,7 @@ public class SpringCodegenTest {
                 .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
 
         JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
+                .isInterface()
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
                 .fileContains("static interface AccountOneOfWrapperMixin", "@JsonCreator")
                 .hasImports("com.fasterxml.jackson.databind.JsonNode");
@@ -7793,6 +7795,7 @@ public class SpringCodegenTest {
                 .doesImportAnnotation("JsonUnwrapped")
                 .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
         JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
+                .isNormalClass()
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
                 .fileDoesNotContain("AccountOneOfWrapperMixin", "@JsonCreator");
     }
