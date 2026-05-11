@@ -45,17 +45,6 @@ components:
         - properties:
             countryAlpha3:
               type: string
-    Additional:
-      oneOf:
-        - properties:
-            a:
-             type: string
-        - properties:
-            b:
-              type: string
-
-      additionalProperties:
-        type: integer
     Other:
       properties:
         type:

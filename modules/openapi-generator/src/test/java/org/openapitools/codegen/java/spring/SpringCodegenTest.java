@@ -7779,4 +7779,21 @@ public class SpringCodegenTest {
                         "com.fasterxml.jackson.databind.ObjectMapper",
                         "com.fasterxml.jackson.databind.json.JsonMapper");
     }
+
+    @Test
+    void unwrapped_oneOf_with_composition() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_unwrap_mixed.yaml", SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, false,
+                        USE_DEDUCTION_FOR_ONE_OF_INTERFACES, false,
+                        USE_WRAPPER_FOR_MIXED_ONE_OF, true,
+                        USE_SPRING_BOOT4, true,
+                        USE_JACKSON_3, true));
+        JavaFileAssert.assertThat(files.get("Account.java"))
+                .assertProperty("oneOf")
+                .doesImportAnnotation("JsonUnwrapped")
+                .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
+        JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
+                .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
+                .fileDoesNotContain("AccountOneOfWrapperMixin", "@JsonCreator");
+    }
 }

@@ -1060,7 +1060,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (useOneOfInterfaces && openAPI.getComponents() != null) {
+        if (openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());
             if (schemas == null) {
@@ -1110,40 +1110,51 @@ public class DefaultCodegen implements CodegenConfig {
             }
             schemas.putAll(propertySchemas);
 
-            // go through all gathered schemas and add them as interfaces to be created
-            for (Map.Entry<String, Schema> e : schemas.entrySet()) {
-                String n = toModelName(e.getKey());
-                Schema s = e.getValue();
-                String nOneOf = toModelName(n + "OneOf");
-                if (ModelUtils.isComposedSchema(s)) {
-                    if (e.getKey().contains("/")) {
-                        // WARNING: this code was introduce in PR #5400.
-                        // it fixed a NPE
-                        // there is no unit test reaching it with oneOf != null
-                        // So most prabably this code can be removed
+            if (useOneOfInterfaces) {
+                // go through all gathered schemas and add them as interfaces to be created
+                for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+                    String n = toModelName(e.getKey());
+                    Schema s = e.getValue();
+                    String nOneOf = toModelName(n + "OneOf");
+                    if (ModelUtils.isComposedSchema(s)) {
+                        if (e.getKey().contains("/")) {
+                            // WARNING: this code was introduce in PR #5400.
+                            // it fixed a NPE
+                            // there is no unit test reaching it with oneOf != null
+                            // So most prabably this code can be removed
 
-                        // if this is property schema, we also need to generate the oneOf interface model
-                        addOneOfNameExtension(s, nOneOf);
-                        addOneOfInterfaceModel(s, nOneOf);
-                    } else {
-                        if (ModelUtils.hasOneOf(s) && (ModelUtils.hasProperties(s) || ModelUtils.hasAllOf(s))) {
-                            preprocessMixedOneOf(s, n);
+                            // if this is property schema, we also need to generate the oneOf interface model
+                            addOneOfNameExtension(s, nOneOf);
+                            addOneOfInterfaceModel(s, nOneOf);
                         } else {
-                            // else this is a component schema, so we will just use that as the oneOf interface model
-                            addOneOfNameExtension(s, n);
+                            if (ModelUtils.hasOneOf(s) && (ModelUtils.hasProperties(s) || ModelUtils.hasAllOf(s))) {
+                                preprocessMixedOneOf(s, n);
+                            } else {
+                                // else this is a component schema, so we will just use that as the oneOf interface model
+                                addOneOfNameExtension(s, n);
+                            }
+                        }
+                    } else if (ModelUtils.isArraySchema(s)) {
+                        Schema items = ModelUtils.getSchemaItems(s);
+                        if (ModelUtils.isComposedSchema(items)) {
+                            addOneOfNameExtension(items, nOneOf);
+                            addOneOfInterfaceModel(items, nOneOf);
+                        }
+                    } else if (ModelUtils.isMapSchema(s)) {
+                        Schema addProps = ModelUtils.getAdditionalProperties(s);
+                        if (ModelUtils.isComposedSchema(addProps)) {
+                            addOneOfNameExtension(addProps, nOneOf);
+                            addOneOfInterfaceModel(addProps, nOneOf);
                         }
                     }
-                } else if (ModelUtils.isArraySchema(s)) {
-                    Schema items = ModelUtils.getSchemaItems(s);
-                    if (ModelUtils.isComposedSchema(items)) {
-                        addOneOfNameExtension(items, nOneOf);
-                        addOneOfInterfaceModel(items, nOneOf);
-                    }
-                } else if (ModelUtils.isMapSchema(s)) {
-                    Schema addProps = ModelUtils.getAdditionalProperties(s);
-                    if (ModelUtils.isComposedSchema(addProps)) {
-                        addOneOfNameExtension(addProps, nOneOf);
-                        addOneOfInterfaceModel(addProps, nOneOf);
+                }
+            } else {
+                // mixed oneof support even if useOneOfInterfaces=false
+                for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+                    String n = toModelName(e.getKey());
+                    Schema s = e.getValue();
+                    if (ModelUtils.hasOneOf(s) && (ModelUtils.hasProperties(s) || ModelUtils.hasAllOf(s))) {
+                        preprocessMixedOneOf(s, n);
                     }
                 }
             }
@@ -1152,8 +1163,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     // override with any special handling of OneOf mixed with allOf or properties.
     protected void preprocessMixedOneOf(Schema s, String schemaName) {
-        // backward compatible code (probably wrong)
-        addOneOfNameExtension(s, schemaName);
+        if (useOneOfInterfaces) {
+            // backward compatible code (probably wrong)
+            addOneOfNameExtension(s, schemaName);
+        }
     }
 
     // override with any special handling of the entire OpenAPI spec document

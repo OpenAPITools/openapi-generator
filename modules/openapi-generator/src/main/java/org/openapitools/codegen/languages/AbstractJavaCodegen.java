@@ -2847,8 +2847,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
         objs = super.updateAllModels(objs);
-        if (jackson) {
-            // handling of USE_WRAPPER_FOR_MIXED_ONE_OF
+        if (jackson && useOneOfInterfaces) {
+            // handling of USE_WRAPPER_FOR_MIXED_ONE_OF with inheritance
             for (ModelsMap obj : objs.values()) {
                 for (ModelMap mo : obj.getModels()) {
                     CodegenModel cm = mo.getModel();
