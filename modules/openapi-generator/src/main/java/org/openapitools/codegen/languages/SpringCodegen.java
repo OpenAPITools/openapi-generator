@@ -345,6 +345,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             .defaultValue("false")
         );
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
+        cliOptions.add(CliOption.newBoolean(USE_WRAPPER_FOR_MIXED_ONE_OF, "whether to use jackson @JsonUnwrapped and a Wrapper interface for inline oneOf combined with allOf/properties and without discriminator"));
+
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
