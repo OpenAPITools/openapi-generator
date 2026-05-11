@@ -25,6 +25,7 @@
 #include "CppRestPetstoreClient/model/User.h"
 #include <vector>
 #include <cpprest/details/basic_types.h>
+#include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 
 namespace org {

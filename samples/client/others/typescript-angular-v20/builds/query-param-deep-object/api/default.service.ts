@@ -17,9 +17,9 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
-import { Car } from '../model/car';
-// @ts-ignore
 import { CarFilter } from '../model/carFilter';
+// @ts-ignore
+import { Car } from '../model/car';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
