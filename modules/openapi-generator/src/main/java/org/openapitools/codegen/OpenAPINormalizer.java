@@ -349,10 +349,10 @@ public class OpenAPINormalizer {
      * @param openApi Contract used in the filtering (could be used for customization).
      * @param input full input value
      *
-     * @return an OperationsFilter containing the parsed filters.
+     * @return an Filter containing the parsed filters.
      */
-    protected OperationsFilter createOperationsFilter(OpenAPI openApi, String input) {
-        return new OperationsFilter(input);
+    protected Filter createFilter(OpenAPI openApi, String input) {
+        return new Filter(input);
     }
 
     /**
@@ -415,10 +415,10 @@ public class OpenAPINormalizer {
             return;
         }
 
-        OperationsFilter filter = null;
+        Filter filter = null;
         if (Boolean.TRUE.equals(getRule(FILTER))) {
             String filters = inputRules.get(FILTER);
-            filter = createOperationsFilter(this.openAPI, filters);
+            filter = createFilter(this.openAPI, filters);
             if (!filter.parse()) {
                 filter = null;
             }
@@ -702,7 +702,7 @@ public class OpenAPINormalizer {
             }
         }
 
-        // Callbacks
+        // Callbacks from Components
         if (openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
             Map<String, Callback> callbacks = openAPI.getComponents().getCallbacks();
             for (Callback callback : callbacks.values()) {
@@ -714,11 +714,21 @@ public class OpenAPINormalizer {
                 }
             }
         }
+
+        // Path items from Components
+        if (openAPI.getComponents() != null && openAPI.getComponents().getPathItems() != null) {
+            Map<String, PathItem> pathItems = openAPI.getComponents().getPathItems();
+            for (PathItem path : pathItems.values()) {
+                cleanupPathItemSecuritySchemes(path, schemesToClean);
+            }
+        }
     }
 
     /**
-     * Cleans up the references to the security schemes that are removed by the filter in a given PathItem.
-     * @param path the PathItem to clean up
+     * Cleans up the references to the security schemes that are removed by the
+     * filter in a given PathItem.
+     *
+     * @param path           the PathItem to clean up
      * @param schemesToClean the security schemes keys to remove
      */
     private void cleanupPathItemSecuritySchemes(PathItem path, Iterable<String> schemesToClean) {
@@ -726,8 +736,20 @@ public class OpenAPINormalizer {
             return;
         }
 
-        List<Operation> operations = new ArrayList<>(path.readOperations());
-        for (Operation operation : operations) {
+        List<Operation> operations = new LinkedList<>(path.readOperations());
+        // An infinite loop is impossible here because it is impossible without using
+        // references from components and we clean up components separately
+        while (!operations.isEmpty()) {
+            Operation operation = operations.remove(0);
+            Map<String, Callback> callbacks = operation.getCallbacks();
+            if (callbacks != null) {
+                for (Callback callback : callbacks.values()) {
+                    for (PathItem callbackPath : callback.values()) {
+                        operations.addAll(callbackPath.readOperations());
+                    }
+                }
+            }
+
             if (operation.getSecurity() == null) {
                 continue;
             }
@@ -2453,13 +2475,19 @@ public class OpenAPINormalizer {
         }
     }
 
-    protected static class OperationsFilter extends BaseFilter {
+    // Filter for API operations
+    protected static class Filter extends BaseFilter {
         public static final String OPERATION_ID = "operationId";
         public static final String METHOD = "method";
         public static final String TAG = "tag";
         public static final String PATH = "path";
+        // Keep next four fields for backward compatibility of custom made filters. New filters should use filteringMethodsMap directly.
+        protected Set<String> operationIdFilters = Collections.emptySet();
+        protected Set<String> methodFilters = Collections.emptySet();
+        protected Set<String> tagFilters = Collections.emptySet();
+        protected Set<String> pathStartingWithFilters = Collections.emptySet();
 
-        protected OperationsFilter(String filters) {
+        protected Filter(String filters) {
             super(filters);
         }
 
@@ -2472,12 +2500,35 @@ public class OpenAPINormalizer {
         public String usageMessage() {
             return String.format(Locale.ROOT,
                         "FILTER rule must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`.",
-                        OperationsFilter.OPERATION_ID, OperationsFilter.METHOD, OperationsFilter.TAG, OperationsFilter.PATH);
+                        Filter.OPERATION_ID, Filter.METHOD, Filter.TAG, Filter.PATH);
         }
 
         @Override
         protected void logMatch(String filterName, String subjectId) {
             getLogger().info("Operation `{}` matches the {} filter and remains", subjectId, filterName);
+        }
+
+        // Having that just to fill the fields for backward compatibility of custom made filters
+        @Override
+        public boolean parse() {
+            boolean result = super.parse();
+            operationIdFilters = filteringMethodsMap.getOrDefault(OPERATION_ID, Collections.emptySet());
+            methodFilters = filteringMethodsMap.getOrDefault(METHOD, Collections.emptySet());
+            tagFilters = filteringMethodsMap.getOrDefault(TAG, Collections.emptySet());
+            pathStartingWithFilters = filteringMethodsMap.getOrDefault(PATH, Collections.emptySet());
+            return result;
+        }
+
+        // Keep next two methods for backward compatibility of custom made filters.
+        protected boolean logIfMatch(String filterName, Operation operation, boolean filterMatched) {
+            if (filterMatched) {
+                logMatch(filterName, operation);
+            }
+            return filterMatched;
+        }
+
+        protected void logMatch(String filterName, Operation operation) {
+            getLogger().info("operation `{}` marked as internal only (x-internal: true) by the {} FILTER", operation.getOperationId(), filterName);
         }
 
         /**

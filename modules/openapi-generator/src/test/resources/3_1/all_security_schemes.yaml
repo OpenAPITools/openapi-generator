@@ -206,6 +206,45 @@ paths:
         - http1: []
           mutualTLS2: []
           openIdConnect1: []
+  '/callbackInline':
+    post:
+      summary: Dummy endpoint with inline callback with all security schemes
+      operationId: postCallbackInline
+      requestBody:
+        description: Request payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dummy'
+      responses:
+        '200':
+          description: successful operation
+      callbacks:
+        callbackAllSecuritySchemes:
+          '{$request.body#/callbackUrl}':
+            post:
+              requestBody:
+                description: Callback payload
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/Dummy'
+              responses:
+                '200':
+                  description: successful operation
+              security:
+                - {}
+                - api_key1: []
+                - api_key2: []
+                - http1: []
+                - http2: []
+                - mutualTLS1: []
+                - mutualTLS2: []
+                - oauth2_1: ["read:pets"]
+                - oauth2_2: ["write:pets", "read:pets"]
+                - openIdConnect1: []
+                - openIdConnect2: []
+
 components:
   securitySchemes:
     api_key1:
@@ -285,6 +324,56 @@ components:
             - oauth2_2: ["write:pets", "read:pets"]
             - openIdConnect1: []
             - openIdConnect2: []
+
+  pathItems:
+    pathItemAllSecuritySchemes:
+      summary: Dummy path item with all security schemes
+      description: >-
+        This is a dummy path item to test that security schemes defined on path items are cleaned up correctly.
+      get:
+        summary: Dummy GET operation
+        operationId: dummyGetOperation
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dummy'
+        security:
+          - {}
+          - api_key1: []
+          - api_key2: []
+          - http1: []
+          - http2: []
+          - mutualTLS1: []
+          - mutualTLS2: []
+          - oauth2_1: ["read:pets"]
+          - oauth2_2: ["write:pets", "read:pets"]
+          - openIdConnect1: []
+          - openIdConnect2: []
+      post:
+        summary: Dummy POST operation
+        operationId: dummyPostOperation
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dummy'
+        security:
+          - {}
+          - api_key1: []
+          - api_key2: []
+          - http1: []
+          - http2: []
+          - mutualTLS1: []
+          - mutualTLS2: []
+          - oauth2_1: ["read:pets"]
+          - oauth2_2: ["write:pets", "read:pets"]
+          - openIdConnect1: []
+          - openIdConnect2: []
 
   schemas:
     Dummy:

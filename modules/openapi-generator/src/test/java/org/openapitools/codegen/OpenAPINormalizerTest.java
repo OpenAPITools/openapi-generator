@@ -795,15 +795,15 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
 
-    static OpenAPINormalizer.OperationsFilter parseOperationsFilter(String filters) {
-        OpenAPINormalizer.OperationsFilter filter = new OpenAPINormalizer.OperationsFilter(filters);
+    static OpenAPINormalizer.Filter parseOperationsFilter(String filters) {
+        OpenAPINormalizer.Filter filter = new OpenAPINormalizer.Filter(filters);
         filter.parse();
         return filter;
     }
 
     @Test
     public void testOperationsFilterParsing() {
-        OpenAPINormalizer.OperationsFilter filter;
+        OpenAPINormalizer.Filter filter;
 
         // no filter
         filter = parseOperationsFilter(" ");
@@ -819,33 +819,51 @@ public class OpenAPINormalizerTest {
         // extra spaces are trimmed
         filter = parseOperationsFilter("method:\n\t\t\t\tget");
         assertTrue(filter.hasFilter());
-        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.METHOD), Set.of("get"));
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.OPERATION_ID));
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.TAG));
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.PATH));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.METHOD), Set.of("get"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.OPERATION_ID));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.TAG));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.PATH));
+        // Verify also compatibility fields
+        assertEquals(filter.methodFilters, Set.of("get"));
+        assertTrue(filter.operationIdFilters.isEmpty());
+        assertTrue(filter.tagFilters.isEmpty());
+        assertTrue(filter.pathStartingWithFilters.isEmpty());
 
         // multiple values separated by pipe
         filter = parseOperationsFilter("operationId:\n\t\t\t\tdelete|\n\t\tlist\t");
         assertTrue(filter.hasFilter());
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.METHOD));
-        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.OPERATION_ID), Set.of("delete", "list"));
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.TAG));
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.PATH));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.METHOD));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.OPERATION_ID), Set.of("delete", "list"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.TAG));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.PATH));
+        // Verify also compatibility fields
+        assertTrue(filter.methodFilters.isEmpty());
+        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
+        assertTrue(filter.tagFilters.isEmpty());
+        assertTrue(filter.pathStartingWithFilters.isEmpty());
 
         // multiple filters
         filter = parseOperationsFilter("operationId:delete|list;path:/v1");
         assertTrue(filter.hasFilter());
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.METHOD));
-        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.OPERATION_ID), Set.of("delete", "list"));
-        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.OperationsFilter.TAG));
-        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.PATH), Set.of("/v1"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.METHOD));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.OPERATION_ID), Set.of("delete", "list"));
+        assertFalse(filter.filteringMethodsMap.containsKey(OpenAPINormalizer.Filter.TAG));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.PATH), Set.of("/v1"));
+        // Verify also compatibility fields
+        assertTrue(filter.methodFilters.isEmpty());
+        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
+        assertTrue(filter.tagFilters.isEmpty());
+        assertEquals(filter.pathStartingWithFilters, Set.of("/v1"));
     }
 
     @Test
     public void testMultiFilterParsing() {
-        OpenAPINormalizer.OperationsFilter filter = parseOperationsFilter("operationId: delete| list ;  tag : testA |testB ");
-        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.OPERATION_ID), Set.of("delete", "list"));
-        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.OperationsFilter.TAG), Set.of("testA", "testB"));
+        OpenAPINormalizer.Filter filter = parseOperationsFilter("operationId: delete| list ;  tag : testA |testB ");
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.OPERATION_ID), Set.of("delete", "list"));
+        assertEquals(filter.filteringMethodsMap.get(OpenAPINormalizer.Filter.TAG), Set.of("testA", "testB"));
+        // Verify also compatibility fields
+        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
+        assertEquals(filter.tagFilters, Set.of("testA", "testB"));
     }
 
     @Test
@@ -871,7 +889,7 @@ public class OpenAPINormalizerTest {
         Map<String, String> options = Map.of("FILTER", "role:admin");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options) {
             @Override
-            protected OperationsFilter createOperationsFilter(OpenAPI openApi, String filters) {
+            protected OpenAPINormalizer.Filter createFilter(OpenAPI openApi, String filters) {
                 return new CustomRoleFilter(filters);
             }
         };
@@ -882,7 +900,7 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), false);
     }
 
-    private class CustomRoleFilter extends OpenAPINormalizer.OperationsFilter {
+    private class CustomRoleFilter extends OpenAPINormalizer.Filter {
         private Set<String> filteredRoles;
 
         public CustomRoleFilter(String filters) {
@@ -1004,8 +1022,7 @@ public class OpenAPINormalizerTest {
                 .anyMatch(map -> map.containsKey("openIdConnect1")));
         assertFalse(openAPI.getPaths().get("/openIdConnect2").getPost().getSecurity().stream()
                 .anyMatch(map -> map.containsKey("openIdConnect2")));
-        // One of security requirements becomes empty after clean up - we should remove
-        // it
+        // One of security requirements becomes empty after clean up - we should remove it
         assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().size(), 1);
         // Another requirement should contain only api_key1 and oauth2_1 schemes
         assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).size(), 2);
@@ -1019,6 +1036,41 @@ public class OpenAPINormalizerTest {
         assertEquals(
                 openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).get("oauth2_1").get(0),
                 "read:pets");
+        // Callbacks defined inline
+        assertTrue(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getPaths().get("/callbackInline").getPost().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
 
         // Webhooks
         assertTrue(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
@@ -1045,7 +1097,7 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
                 .filter(map -> map.isEmpty()).count(), 1);
 
-        // Callbacks
+        // Callbacks from Components
         assertTrue(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
                 .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
                 .anyMatch(map -> map.containsKey("api_key1")));
@@ -1080,6 +1132,77 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
                 .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream().filter(map -> map.isEmpty())
                 .count(), 1);
+
+        // Path items from Components
+        // Get operation
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getGet().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
+
+        // The same for POST operation
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(
+                openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                        .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getComponents().getPathItems().get("pathItemAllSecuritySchemes").getPost().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
     }
 
     @Test
