@@ -42,7 +42,6 @@ docker run -p 8080:8080 kotlin-server
 * ~Supports collection formats for query parameters: csv, tsv, ssv, pipes.~
 * Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
 
-
 <a id="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
 
