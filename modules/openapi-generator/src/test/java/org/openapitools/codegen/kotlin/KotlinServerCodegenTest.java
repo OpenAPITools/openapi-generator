@@ -40,6 +40,8 @@ import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.J
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RETURN_RESPONSE;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.DELEGATE_PATTERN;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.KTOR;
 
 public class KotlinServerCodegenTest {
 
