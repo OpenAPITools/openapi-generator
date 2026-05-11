@@ -142,7 +142,7 @@ export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof 
  * Check if a given object implements the EnumTest interface.
  */
 export function instanceOfEnumTest(value: object): value is EnumTest {
-    if (!('enumStringRequired' in value) || value['enumStringRequired'] === undefined) return false;
+    if ((!('enumStringRequired' in value) && !('enum_string_required' in value)) || (value['enumStringRequired'] === undefined && value['enum_string_required'] === undefined)) return false;
     return true;
 }
 

@@ -1401,6 +1401,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.xmlName = cp.xmlName;
             this.xmlNamespace = cp.xmlNamespace;
             this.isXmlWrapped = cp.isXmlWrapped;
+            this.setHasSanitizedName(cp.getHasSanitizedName());
         }
 
         @Override
