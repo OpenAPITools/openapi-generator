@@ -1117,8 +1117,11 @@ public class DefaultCodegen implements CodegenConfig {
                 String nOneOf = toModelName(n + "OneOf");
                 if (ModelUtils.isComposedSchema(s)) {
                     if (e.getKey().contains("/")) {
-                        if (true)
-                            throw new IllegalStateException("Impossible location");
+                        // WARNING: this code was introduce in PR #5400.
+                        // it fixed a NPE
+                        // there is no unit test reaching it with oneOf != null
+                        // So most prabably this code can be removed
+
                         // if this is property schema, we also need to generate the oneOf interface model
                         addOneOfNameExtension(s, nOneOf);
                         addOneOfInterfaceModel(s, nOneOf);

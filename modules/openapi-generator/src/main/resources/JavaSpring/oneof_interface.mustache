@@ -21,7 +21,8 @@
 public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
-    {{/discriminator}}{{#vendorExtensions.x-oneof-jsonCreator}}
+    {{/discriminator}}
+    {{#vendorExtensions.x-oneof-jsonCreator}}
 
     @JsonCreator
     static {{classname}} valueOf(JsonNode node) {{^useJackson3}}throws JsonProcessingException {{/useJackson3}}{
