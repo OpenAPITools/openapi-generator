@@ -948,8 +948,8 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect1"), false);
         assertEquals(openAPI.getComponents().getSecuritySchemes().containsKey("openIdConnect2"), false);
 
-        // Check how we clean up the references to the removed security schemes in the
-        // global security requirement
+        // Check how we clean up the references to the removed security schemes
+        // Global security requirements
         assertTrue(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("api_key1")));
         assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("api_key2")));
         assertFalse(openAPI.getSecurity().stream().anyMatch(map -> map.containsKey("http1")));
@@ -963,8 +963,7 @@ public class OpenAPINormalizerTest {
         // We should leave only one (the original one) empty security requirement object
         assertEquals(openAPI.getSecurity().stream().filter(map -> map.isEmpty()).count(), 1);
 
-        // Check how we clean up the references to the removed security schemes in the
-        // paths
+        // Paths
         assertTrue(openAPI.getPaths().get("/api_keys").getGet().getSecurity().stream()
                 .anyMatch(map -> map.containsKey("api_key1")));
         assertFalse(openAPI.getPaths().get("/api_keys").getGet().getSecurity().stream()
@@ -1005,14 +1004,82 @@ public class OpenAPINormalizerTest {
                 .anyMatch(map -> map.containsKey("openIdConnect1")));
         assertFalse(openAPI.getPaths().get("/openIdConnect2").getPost().getSecurity().stream()
                 .anyMatch(map -> map.containsKey("openIdConnect2")));
-        // One of security requirements becomes empty after clean up - we should remove it
+        // One of security requirements becomes empty after clean up - we should remove
+        // it
         assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().size(), 1);
         // Another requirement should contain only api_key1 and oauth2_1 schemes
         assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).size(), 2);
-        assertTrue(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).containsKey("api_key1"));
-        assertTrue(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).containsKey("oauth2_1"));
-        assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).get("oauth2_1").size(), 1);
-        assertEquals(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).get("oauth2_1").get(0), "read:pets");
+        assertTrue(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0)
+                .containsKey("api_key1"));
+        assertTrue(openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0)
+                .containsKey("oauth2_1"));
+        assertEquals(
+                openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).get("oauth2_1").size(),
+                1);
+        assertEquals(
+                openAPI.getPaths().get("/multipleSecuritySchemes").getGet().getSecurity().get(0).get("oauth2_1").get(0),
+                "read:pets");
+
+        // Webhooks
+        assertTrue(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getWebhooks().get("webhookAllSecuritySchemes").getPost().getSecurity().stream()
+                .filter(map -> map.isEmpty()).count(), 1);
+
+        // Callbacks
+        assertTrue(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("api_key2")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("http2")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("mutualTLS2")));
+        assertTrue(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_1")));
+        assertTrue(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("oauth2_2")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect1")));
+        assertFalse(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream()
+                .anyMatch(map -> map.containsKey("openIdConnect2")));
+        // We should leave only one (the original one) empty security requirement object
+        assertEquals(openAPI.getComponents().getCallbacks().get("callbackAllSecuritySchemes")
+                .get("{$request.body#/callbackUrl}").getPost().getSecurity().stream().filter(map -> map.isEmpty())
+                .count(), 1);
     }
 
     @Test

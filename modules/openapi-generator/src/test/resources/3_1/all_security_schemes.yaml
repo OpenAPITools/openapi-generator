@@ -260,6 +260,32 @@ components:
       description: OpenID Connect Authentication sample 2
       openIdConnectUrl: 'http://petstore.swagger.io/.well-known/openid-configuration2'
 
+  callbacks:
+    callbackAllSecuritySchemes:
+      '{$request.body#/callbackUrl}':
+        post:
+          requestBody:
+            description: Callback payload
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Dummy'
+          responses:
+            '200':
+              description: successful operation
+          security:
+            - {}
+            - api_key1: []
+            - api_key2: []
+            - http1: []
+            - http2: []
+            - mutualTLS1: []
+            - mutualTLS2: []
+            - oauth2_1: ["read:pets"]
+            - oauth2_2: ["write:pets", "read:pets"]
+            - openIdConnect1: []
+            - openIdConnect2: []
+
   schemas:
     Dummy:
       title: Dummy schema
@@ -269,3 +295,30 @@ components:
         id:
           type: integer
           format: int64
+
+webhooks:
+  webhookAllSecuritySchemes:
+    post:
+      summary: Dummy webhook endpoint
+      operationId: dummyWebhook
+      requestBody:
+        description: Webhook payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dummy'
+      responses:
+        '200':
+          description: successful operation
+      security:
+          - {}
+          - api_key1: []
+          - api_key2: []
+          - http1: []
+          - http2: []
+          - mutualTLS1: []
+          - mutualTLS2: []
+          - oauth2_1: ["read:pets"]
+          - oauth2_2: ["write:pets", "read:pets"]
+          - openIdConnect1: []
+          - openIdConnect2: []

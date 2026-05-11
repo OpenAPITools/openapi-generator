@@ -679,7 +679,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-        // clean up global security requirements
+        // Global security requirements
         if (openAPI.getSecurity() != null) {
             List<SecurityRequirement> cleanRequirements = cleanupSecurityRequirements(openAPI.getSecurity(),
                     schemesToClean);
@@ -688,20 +688,54 @@ public class OpenAPINormalizer {
             }
         }
 
-        // loop through all the paths and operations to clean up the references
+        // Paths
         if (openAPI.getPaths() != null) {
             for (PathItem path : openAPI.getPaths().values()) {
-                List<Operation> operations = new ArrayList<>(path.readOperations());
-                for (Operation operation : operations) {
-                    if (operation.getSecurity() == null) {
-                        continue;
-                    }
+                cleanupPathItemSecuritySchemes(path, schemesToClean);
+            }
+        }
 
-                    List<SecurityRequirement> cleanRequirements = cleanupSecurityRequirements(operation.getSecurity(), schemesToClean);
-                    if (cleanRequirements.size() != operation.getSecurity().size()) {
-                        operation.setSecurity(cleanRequirements);
-                    }
+        // Webhooks
+        if (openAPI.getWebhooks() != null) {
+            for (PathItem path : openAPI.getWebhooks().values()) {
+                cleanupPathItemSecuritySchemes(path, schemesToClean);
+            }
+        }
+
+        // Callbacks
+        if (openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
+            Map<String, Callback> callbacks = openAPI.getComponents().getCallbacks();
+            for (Callback callback : callbacks.values()) {
+                if (callback == null)
+                    continue;
+
+                for (PathItem path : callback.values()) {
+                    cleanupPathItemSecuritySchemes(path, schemesToClean);
                 }
+            }
+        }
+    }
+
+    /**
+     * Cleans up the references to the security schemes that are removed by the filter in a given PathItem.
+     * @param path the PathItem to clean up
+     * @param schemesToClean the security schemes keys to remove
+     */
+    private void cleanupPathItemSecuritySchemes(PathItem path, Iterable<String> schemesToClean) {
+        if (path == null || schemesToClean == null) {
+            return;
+        }
+
+        List<Operation> operations = new ArrayList<>(path.readOperations());
+        for (Operation operation : operations) {
+            if (operation.getSecurity() == null) {
+                continue;
+            }
+
+            List<SecurityRequirement> cleanRequirements = cleanupSecurityRequirements(operation.getSecurity(),
+                    schemesToClean);
+            if (cleanRequirements.size() != operation.getSecurity().size()) {
+                operation.setSecurity(cleanRequirements);
             }
         }
     }
