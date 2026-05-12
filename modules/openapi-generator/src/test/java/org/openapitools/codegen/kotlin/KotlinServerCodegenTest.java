@@ -708,4 +708,47 @@ public class KotlinServerCodegenTest {
                 "val status = call.request.queryParameters[\"status\"]?.let { runCatching { TestEnumStatusParameter.fromValue(it) }.getOrElse { throw BadParameterException(message = \"Invalid enum value for parameter status: $it\", parameterName = \"status\") } }"
         );
     }
+
+
+    @Test
+    public void testFloatingPointMultipleOfValidationUsesTolerance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+        codegen.additionalProperties().put(DELEGATE_PATTERN, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/kotlin/multiple-of-validation.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String modelPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/models/MultipleOfModel.kt";
+        Path multipleOfModel = Paths.get(modelPath);
+
+        Assert.assertTrue(Files.exists(multipleOfModel));
+
+        // Floating-point multipleOf validation must tolerate JVM representation error.
+        assertFileContains(
+                multipleOfModel,
+                "if (kotlin.math.abs((floatVal.toDouble() / 0.1) - kotlin.math.round(floatVal.toDouble() / 0.1)) > 1.0e-6) {",
+                "if (kotlin.math.abs((doubleVal.toDouble() / 0.1) - kotlin.math.round(doubleVal.toDouble() / 0.1)) > 1.0e-10) {",
+                "if (kotlin.math.abs((it.toString().toDouble() / 0.1) - kotlin.math.round(it.toString().toDouble() / 0.1)) > 1.0e-6) {",
+                "if (kotlin.math.abs((value.toString().toDouble() / 0.01) - kotlin.math.round(value.toString().toDouble() / 0.01)) > 1.0e-10) {"
+        );
+
+        assertFileNotContains(
+                multipleOfModel,
+                "if (floatVal % 0.1 != 0) {",
+                "if (doubleVal % 0.1 != 0) {"
+        );
+
+        // Integral multipleOf validation remains exact.
+        assertFileContains(
+                multipleOfModel,
+                "if (intVal % 2 != 0) {"
+        );
+    }
 }

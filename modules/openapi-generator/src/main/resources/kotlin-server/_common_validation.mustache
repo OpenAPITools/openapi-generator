@@ -54,7 +54,15 @@ if ({{{name}}}{{{paramName}}} {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exc
 }
 {{/maximum}}
 {{#multipleOf}}
+{{#isFloat}}
+if (kotlin.math.abs(({{{name}}}{{{paramName}}}.toDouble() / {{{multipleOf}}}) - kotlin.math.round({{{name}}}{{{paramName}}}.toDouble() / {{{multipleOf}}})) > 1.0e-6) {
+{{/isFloat}}
+{{#isDouble}}
+if (kotlin.math.abs(({{{name}}}{{{paramName}}}.toDouble() / {{{multipleOf}}}) - kotlin.math.round({{{name}}}{{{paramName}}}.toDouble() / {{{multipleOf}}})) > 1.0e-10) {
+{{/isDouble}}
+{{^isFloat}}{{^isDouble}}
 if ({{{name}}}{{{paramName}}} % {{{multipleOf}}} != 0) {
+{{/isDouble}}{{/isFloat}}
     throw BadParameterException(
         message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} should be a multiple of {{{multipleOf}}}",
         parameterName = "{{{name}}}{{{paramName}}}",
@@ -195,7 +203,15 @@ try {
     }
 {{/maximum}}
 {{#multipleOf}}
+    {{#isFloat}}
+    if (kotlin.math.abs((it.toString().toDouble() / {{{multipleOf}}}) - kotlin.math.round(it.toString().toDouble() / {{{multipleOf}}})) > 1.0e-6) {
+    {{/isFloat}}
+    {{#isDouble}}
+    if (kotlin.math.abs((it.toString().toDouble() / {{{multipleOf}}}) - kotlin.math.round(it.toString().toDouble() / {{{multipleOf}}})) > 1.0e-10) {
+    {{/isDouble}}
+    {{^isFloat}}{{^isDouble}}
     if (it.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() % {{{multipleOf}}} != 0{{#isFloat}}.0{{/isFloat}}{{#isDouble}}.0{{/isDouble}}) {
+    {{/isDouble}}{{/isFloat}}
         throw BadParameterException(
             message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} item $it should be a multiple of {{{multipleOf}}}",
             parameterName = "{{{name}}}{{{paramName}}}",
@@ -306,7 +322,15 @@ try {
     }
 {{/maximum}}
 {{#multipleOf}}
+    {{#isFloat}}
+    if (kotlin.math.abs((value.toString().toDouble() / {{{multipleOf}}}) - kotlin.math.round(value.toString().toDouble() / {{{multipleOf}}})) > 1.0e-6) {
+    {{/isFloat}}
+    {{#isDouble}}
+    if (kotlin.math.abs((value.toString().toDouble() / {{{multipleOf}}}) - kotlin.math.round(value.toString().toDouble() / {{{multipleOf}}})) > 1.0e-10) {
+    {{/isDouble}}
+    {{^isFloat}}{{^isDouble}}
     if (value.toString().to{{#isFloat}}Float{{/isFloat}}{{#isDouble}}Double{{/isDouble}}{{#isLong}}Long{{/isLong}}{{#isInteger}}Int{{/isInteger}}{{^isFloat}}{{^isDouble}}{{^isLong}}{{^isInteger}}Double{{/isInteger}}{{/isLong}}{{/isDouble}}{{/isFloat}}() % {{{multipleOf}}} != 0{{#isFloat}}.0{{/isFloat}}{{#isDouble}}.0{{/isDouble}}) {
+    {{/isDouble}}{{/isFloat}}
         throw BadParameterException(
             message = "{{#isPathParam}}Path parameter{{/isPathParam}}{{#isQueryParam}}Query parameter{{/isQueryParam}}{{#isHeaderParam}}Header parameter{{/isHeaderParam}}{{#isCookieParam}}Cookie parameter{{/isCookieParam}}{{#isBodyParam}}Body parameter{{/isBodyParam}}{{#isFormParam}}Form parameter{{/isFormParam}}{{^isPathParam}}{{^isQueryParam}}{{^isHeaderParam}}{{^isCookieParam}}{{^isBodyParam}}{{^isFormParam}}Property{{/isFormParam}}{{/isBodyParam}}{{/isCookieParam}}{{/isHeaderParam}}{{/isQueryParam}}{{/isPathParam}} {{{name}}}{{{paramName}}} value $value for key $key should be a multiple of {{{multipleOf}}}",
             parameterName = "{{{name}}}{{{paramName}}}",
