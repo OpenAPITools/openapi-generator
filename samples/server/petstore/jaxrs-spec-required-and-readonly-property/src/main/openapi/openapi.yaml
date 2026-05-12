@@ -22,8 +22,8 @@ components:
     ReadonlyAndRequiredProperties:
       example:
         requiredYesReadonlyYes: requiredYesReadonlyYes
-        requiredNoReadonlyYes: requiredNoReadonlyYes
         requiredYesReadonlyNo: requiredYesReadonlyNo
+        requiredNoReadonlyYes: requiredNoReadonlyYes
         requiredNoReadonlyNo: requiredNoReadonlyNo
       properties:
         requiredYesReadonlyYes:

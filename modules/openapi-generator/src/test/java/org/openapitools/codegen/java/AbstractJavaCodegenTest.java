@@ -537,6 +537,15 @@ public class AbstractJavaCodegenTest {
 
         // dateLibrary <> java8
         Assert.assertEquals(defaultValue, "10:15:30");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault(LocalDateTime.parse("2007-12-03T10:15:30"));
+        defaultValue = codegen.toDefaultValue(dateTimeLocalSchema);
+
+        // dateLibrary <> java8
+        Assert.assertEquals(defaultValue, "2007-12-03T10:15:30");
     }
 
     @Test
@@ -606,6 +615,13 @@ public class AbstractJavaCodegenTest {
         timeLocalSchema.setDefault("10:15:30");
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", timeLocalSchema), timeLocalSchema);
         Assert.assertEquals(defaultValue, "LocalTime.parse(\"10:15:30\")");
+
+        // Test default value for date-time-local format
+        StringSchema dateTimeLocalSchema = new StringSchema();
+        dateTimeLocalSchema.setFormat("date-time-local");
+        dateTimeLocalSchema.setDefault("2007-12-03T10:15:30");
+        defaultValue = codegen.toDefaultValue(codegen.fromProperty("", dateTimeLocalSchema), dateTimeLocalSchema);
+        Assert.assertEquals(defaultValue, "LocalDateTime.parse(\"2007-12-03T10:15:30\")");
     }
 
     @Test

@@ -72,7 +72,7 @@ public interface BarApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"foo\" : { \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\" }, \"href\" : \"href\", \"id\" : \"id\", \"fooPropB\" : \"fooPropB\", \"@schemaLocation\" : \"@schemaLocation\", \"barPropA\" : \"barPropA\" }";
+                    String exampleString = "{ \"href\" : \"href\", \"id\" : \"id\", \"@schemaLocation\" : \"@schemaLocation\", \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"barPropA\" : \"barPropA\", \"fooPropB\" : \"fooPropB\", \"foo\" : { \"href\" : \"href\", \"id\" : \"id\", \"@schemaLocation\" : \"@schemaLocation\", \"@baseType\" : \"@baseType\", \"@type\" : \"@type\", \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" } }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

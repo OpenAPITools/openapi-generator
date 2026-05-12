@@ -53,4 +53,7 @@
     {{#vendorExtensions.x-java-success-response-code}}
     @ResponseStatus({{{vendorExtensions.x-java-success-response-code}}})
     {{/vendorExtensions.x-java-success-response-code}}
+{{#vendorExtensions.x-jakarta-roles-allowed.0}}
+    @jakarta.annotation.security.RolesAllowed({{openbrace}}{{#vendorExtensions.x-jakarta-roles-allowed}}"{{.}}"{{^-last}},{{/-last}}{{/vendorExtensions.x-jakarta-roles-allowed}}{{closebrace}})
+{{/vendorExtensions.x-jakarta-roles-allowed.0}}
     {{#supportAsync}}{{>returnAsyncTypeInterface}}{{/supportAsync}}{{^supportAsync}}{{#returnJBossResponse}}{{>returnResponseTypeInterface}}{{/returnJBossResponse}}{{^returnJBossResponse}}{{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}}{{/returnJBossResponse}}{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}});

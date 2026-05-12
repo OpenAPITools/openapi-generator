@@ -492,10 +492,10 @@ public class CodegenConstants {
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC =
             "Annotate discriminator-free oneOf interfaces with Jackson's " +
-            "@JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype " +
-            "is resolved from the JSON field set rather than a type-tag property. " +
-            "Has no effect when a discriminator is present (name-based resolution is used instead). " +
-            "Requires subtypes to have structurally distinct sets of properties.";
+                    "@JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype " +
+                    "is resolved from the JSON field set rather than a type-tag property. " +
+                    "Has no effect when a discriminator is present (name-based resolution is used instead). " +
+                    "Requires subtypes to have structurally distinct sets of properties.";
     public static final String X_DISCRIMINATOR_VALUE = "x-discriminator-value";
     public static final String X_ONE_OF_NAME = "x-one-of-name";
     public static final String X_NULLABLE = "x-nullable";

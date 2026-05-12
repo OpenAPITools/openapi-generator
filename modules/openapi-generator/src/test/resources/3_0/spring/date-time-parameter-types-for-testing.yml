@@ -106,3 +106,7 @@ components:
           type: string
           format: time-local
           default: '10:15:30'
+        adoptionDate:
+          type: string
+          format: date-time-local
+          default: '2007-12-03T10:15:30'

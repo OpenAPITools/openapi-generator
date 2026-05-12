@@ -753,7 +753,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ModelUtils.getSchemaItems(p);
             return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = unaliasSchema(ModelUtils.getAdditionalProperties(p));
             return "[String: " + getItemsTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

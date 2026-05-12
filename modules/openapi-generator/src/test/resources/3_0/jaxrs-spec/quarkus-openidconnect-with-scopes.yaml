@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: Quarkus OpenID Connect with scopes test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Get items
+      security:
+        - oidc_scheme:
+            - read:items
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Create item
+      security:
+        - oidc_scheme:
+            - write:items
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    oidc_scheme:
+      type: openIdConnect
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration

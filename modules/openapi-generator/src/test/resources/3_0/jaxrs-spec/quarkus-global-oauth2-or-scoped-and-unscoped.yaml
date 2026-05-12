@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Quarkus global OAuth2 OR — unscoped and scoped entries
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+security:
+  - oauth2_no_scope: []
+  - oauth2_with_scope:
+      - admin
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Inherits global security — unscoped entry in OR list makes it least-restrictive
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Also inherits global security — same OR reasoning applies
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    oauth2_no_scope:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes: {}
+    oauth2_with_scope:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: Admin access

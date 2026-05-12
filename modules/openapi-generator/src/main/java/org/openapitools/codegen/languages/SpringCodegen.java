@@ -54,6 +54,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
+import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -185,8 +187,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean optionalAcceptNullable = true;
     @Getter @Setter
     protected boolean useSpringBuiltInValidation = false;
-    @Getter @Setter
-    protected boolean useDeductionForOneOfInterfaces = false;
     @Getter @Setter
     protected boolean useJackson3 = false;
     @Getter @Setter
@@ -337,7 +337,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use `ofNullable` instead of just `of` to accept null values when using Optional.",
                 optionalAcceptNullable));
 
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         cliOptions.add(CliOption.newString(SPRING_API_VERSION, "Value for 'version' attribute in @RequestMapping (for Spring 7 and above)."));
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
             "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
@@ -379,7 +379,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
                 + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
-                + "schema are suppressed from code generation. Only applies when library=spring-boot or spring-http-interface.",
+                + "schema are suppressed from code generation.",
                 substituteGenericPagedModel));
 
     }
@@ -590,9 +590,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
 
-        if (SPRING_BOOT.equals(library) || SPRING_HTTP_INTERFACE.equals(library)) {
-            convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
-        }
+        convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
 
         if (SPRING_BOOT.equals(library)) {
             convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
@@ -872,7 +870,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
-        if ((SPRING_BOOT.equals(library) || SPRING_HTTP_INTERFACE.equals(library)) && substituteGenericPagedModel) {
+        if (substituteGenericPagedModel) {
             pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
             if (!pagedModelRegistry.isEmpty()) {
                 boolean customMapping = importMapping.containsKey("PagedModel");
