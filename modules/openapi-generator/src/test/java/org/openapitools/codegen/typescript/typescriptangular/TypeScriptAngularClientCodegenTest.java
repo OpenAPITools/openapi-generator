@@ -120,8 +120,7 @@ public class TypeScriptAngularClientCodegenTest {
     @Test
     public void testOperationIdParser() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags").responses(new ApiResponses().addApiResponse("201"
-                , new ApiResponse().description("OK")));
+        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
         openAPI.path("another-fake/dummy/", new PathItem().get(operation1));
         final TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -427,9 +426,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("typescript-angular")
-                .setInputSpec(specPath)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -451,9 +450,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("typescript-angular")
-                .setInputSpec(specPath)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -476,9 +475,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("typescript-angular")
-                .setInputSpec(specPath)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -501,9 +500,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("typescript-angular")
-                .setInputSpec(specPath)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -512,8 +511,7 @@ public class TypeScriptAngularClientCodegenTest {
 
         //THEN
         final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
-        String credentialsSet = "localVarHeaders = this.configuration.addCredentialToHeaders('oidc', 'Authorization', localVarHeaders, " +
-                "'Bearer ');";
+        String credentialsSet = "localVarHeaders = this.configuration.addCredentialToHeaders('oidc', 'Authorization', localVarHeaders, 'Bearer ');";
         assertThat(fileContents).contains(credentialsSet);
     }
 
