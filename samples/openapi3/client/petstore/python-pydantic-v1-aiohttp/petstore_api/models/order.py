@@ -26,9 +26,9 @@ class Order(BaseModel):
     Order
     """
     id: Optional[StrictInt] = None
-    pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
+    pet_id: Optional[StrictInt] = Field(default=None, validation_alias="petId", serialization_alias="petId")
     quantity: Optional[StrictInt] = None
-    ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
+    ship_date: Optional[datetime] = Field(default=None, validation_alias="shipDate", serialization_alias="shipDate")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
     __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]

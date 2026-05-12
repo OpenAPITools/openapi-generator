@@ -26,7 +26,7 @@ class Parent(BaseModel):
     """
     Parent
     """
-    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
+    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, validation_alias="optionalDict", serialization_alias="optionalDict")
     __properties = ["optionalDict"]
 
     class Config:

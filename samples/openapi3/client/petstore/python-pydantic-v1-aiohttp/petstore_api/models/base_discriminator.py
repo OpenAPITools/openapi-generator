@@ -31,7 +31,7 @@ class BaseDiscriminator(BaseModel):
     """
     BaseDiscriminator
     """
-    type_name: Optional[StrictStr] = Field(default=None, alias="_typeName")
+    type_name: Optional[StrictStr] = Field(default=None, validation_alias="_typeName", serialization_alias="_typeName")
     __properties = ["_typeName"]
 
     class Config:

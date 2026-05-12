@@ -31,7 +31,7 @@ class Pet(BaseModel):
     id: Optional[StrictInt] = None
     name: StrictStr = Field(...)
     category: Optional[Category] = None
-    photo_urls: conlist(StrictStr) = Field(default=..., alias="photoUrls")
+    photo_urls: conlist(StrictStr) = Field(default=..., validation_alias="photoUrls", serialization_alias="photoUrls")
     tags: Optional[conlist(Tag)] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     __properties = ["id", "name", "category", "photoUrls", "tags", "status"]

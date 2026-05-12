@@ -27,7 +27,7 @@ class HuntingDog(Creature):
     """
     HuntingDog
     """
-    is_trained: Optional[StrictBool] = Field(default=None, alias="isTrained")
+    is_trained: Optional[StrictBool] = Field(default=None, validation_alias="isTrained", serialization_alias="isTrained")
     additional_properties: Dict[str, Any] = {}
     __properties = ["info", "type", "isTrained"]
 

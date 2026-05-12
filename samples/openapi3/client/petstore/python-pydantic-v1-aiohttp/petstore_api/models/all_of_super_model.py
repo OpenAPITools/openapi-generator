@@ -25,7 +25,7 @@ class AllOfSuperModel(BaseModel):
     """
     AllOfSuperModel
     """
-    name: Optional[StrictStr] = Field(default=None, alias="_name")
+    name: Optional[StrictStr] = Field(default=None, validation_alias="_name", serialization_alias="_name")
     __properties = ["_name"]
 
     class Config:

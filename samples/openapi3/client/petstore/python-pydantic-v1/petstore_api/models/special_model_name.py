@@ -25,7 +25,7 @@ class SpecialModelName(BaseModel):
     """
     SpecialModelName
     """
-    special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
+    special_property_name: Optional[StrictInt] = Field(default=None, validation_alias="$special[property.name]", serialization_alias="$special[property.name]")
     additional_properties: Dict[str, Any] = {}
     __properties = ["$special[property.name]"]
 

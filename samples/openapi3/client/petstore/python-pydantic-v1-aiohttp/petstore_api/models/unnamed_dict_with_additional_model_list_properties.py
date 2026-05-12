@@ -26,7 +26,7 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalModelListProperties
     """
-    dict_property: Optional[Dict[str, conlist(CreatureInfo)]] = Field(default=None, alias="dictProperty")
+    dict_property: Optional[Dict[str, conlist(CreatureInfo)]] = Field(default=None, validation_alias="dictProperty", serialization_alias="dictProperty")
     __properties = ["dictProperty"]
 
     class Config:

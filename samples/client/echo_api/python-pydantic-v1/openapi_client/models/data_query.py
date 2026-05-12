@@ -29,7 +29,7 @@ class DataQuery(Query):
     """
     suffix: Optional[StrictStr] = Field(default=None, description="test suffix")
     text: Optional[StrictStr] = Field(default=None, description="Some text containing white spaces")
-    var_date: Optional[datetime] = Field(default=None, alias="date", description="A date")
+    var_date: Optional[datetime] = Field(default=None, validation_alias="date", serialization_alias="date", description="A date")
     __properties = ["id", "outcomes", "suffix", "text", "date"]
 
     class Config:

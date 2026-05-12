@@ -26,7 +26,7 @@ class PrimitiveString(BaseDiscriminator):
     """
     PrimitiveString
     """
-    value: Optional[StrictStr] = Field(default=None, alias="_value")
+    value: Optional[StrictStr] = Field(default=None, validation_alias="_value", serialization_alias="_value")
     additional_properties: Dict[str, Any] = {}
     __properties = ["_typeName", "_value"]
 

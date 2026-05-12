@@ -38,12 +38,12 @@ class EnumTest(BaseModel):
     enum_number: Optional[float] = None
     enum_string_single_member: Optional[StrictStr] = None
     enum_integer_single_member: Optional[StrictInt] = None
-    outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
-    outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
-    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
-    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
-    enum_number_vendor_ext: Optional[EnumNumberVendorExt] = Field(default=None, alias="enumNumberVendorExt")
-    enum_string_vendor_ext: Optional[EnumStringVendorExt] = Field(default=None, alias="enumStringVendorExt")
+    outer_enum: Optional[OuterEnum] = Field(default=None, validation_alias="outerEnum", serialization_alias="outerEnum")
+    outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, validation_alias="outerEnumInteger", serialization_alias="outerEnumInteger")
+    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, validation_alias="outerEnumDefaultValue", serialization_alias="outerEnumDefaultValue")
+    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, validation_alias="outerEnumIntegerDefaultValue", serialization_alias="outerEnumIntegerDefaultValue")
+    enum_number_vendor_ext: Optional[EnumNumberVendorExt] = Field(default=None, validation_alias="enumNumberVendorExt", serialization_alias="enumNumberVendorExt")
+    enum_string_vendor_ext: Optional[EnumStringVendorExt] = Field(default=None, validation_alias="enumStringVendorExt", serialization_alias="enumStringVendorExt")
     __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_string_single_member", "enum_integer_single_member", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue", "enumNumberVendorExt", "enumStringVendorExt"]
 
     @validator('enum_string')

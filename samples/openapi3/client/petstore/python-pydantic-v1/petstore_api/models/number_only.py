@@ -25,7 +25,7 @@ class NumberOnly(BaseModel):
     """
     NumberOnly
     """
-    just_number: Optional[StrictFloat] = Field(default=None, alias="JustNumber")
+    just_number: Optional[StrictFloat] = Field(default=None, validation_alias="JustNumber", serialization_alias="JustNumber")
     additional_properties: Dict[str, Any] = {}
     __properties = ["JustNumber"]
 

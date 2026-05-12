@@ -36,8 +36,8 @@ class FormatTest(BaseModel):
     string_with_double_quote_pattern: Optional[constr(strict=True)] = None
     byte: Optional[Union[StrictBytes, StrictStr]] = None
     binary: Optional[Union[StrictBytes, StrictStr]] = None
-    var_date: date = Field(default=..., alias="date")
-    date_time: Optional[datetime] = Field(default=None, alias="dateTime")
+    var_date: date = Field(default=..., validation_alias="date", serialization_alias="date")
+    date_time: Optional[datetime] = Field(default=None, validation_alias="dateTime", serialization_alias="dateTime")
     uuid: Optional[StrictStr] = None
     password: constr(strict=True, max_length=64, min_length=10) = Field(...)
     pattern_with_digits: Optional[constr(strict=True)] = Field(default=None, description="A string that is a 10 digit number. Can have leading zeros.")

@@ -25,7 +25,7 @@ class File(BaseModel):
     """
     Must be named `File` for test.  # noqa: E501
     """
-    source_uri: Optional[StrictStr] = Field(default=None, alias="sourceURI", description="Test capitalization")
+    source_uri: Optional[StrictStr] = Field(default=None, validation_alias="sourceURI", serialization_alias="sourceURI", description="Test capitalization")
     __properties = ["sourceURI"]
 
     class Config:

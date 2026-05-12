@@ -26,7 +26,7 @@ class Model200Response(BaseModel):
     Model for testing model name starting with number  # noqa: E501
     """
     name: Optional[StrictInt] = None
-    var_class: Optional[StrictStr] = Field(default=None, alias="class")
+    var_class: Optional[StrictStr] = Field(default=None, validation_alias="class", serialization_alias="class")
     __properties = ["name", "class"]
 
     class Config:

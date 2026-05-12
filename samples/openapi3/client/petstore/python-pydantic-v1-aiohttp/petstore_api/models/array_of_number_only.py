@@ -25,7 +25,7 @@ class ArrayOfNumberOnly(BaseModel):
     """
     ArrayOfNumberOnly
     """
-    array_number: Optional[conlist(float)] = Field(default=None, alias="ArrayNumber")
+    array_number: Optional[conlist(float)] = Field(default=None, validation_alias="ArrayNumber", serialization_alias="ArrayNumber")
     __properties = ["ArrayNumber"]
 
     class Config:

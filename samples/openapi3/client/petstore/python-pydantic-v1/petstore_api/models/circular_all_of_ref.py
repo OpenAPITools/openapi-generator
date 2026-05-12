@@ -25,8 +25,8 @@ class CircularAllOfRef(BaseModel):
     """
     CircularAllOfRef
     """
-    name: Optional[StrictStr] = Field(default=None, alias="_name")
-    second_circular_all_of_ref: Optional[conlist(SecondCircularAllOfRef)] = Field(default=None, alias="secondCircularAllOfRef")
+    name: Optional[StrictStr] = Field(default=None, validation_alias="_name", serialization_alias="_name")
+    second_circular_all_of_ref: Optional[conlist(SecondCircularAllOfRef)] = Field(default=None, validation_alias="secondCircularAllOfRef", serialization_alias="secondCircularAllOfRef")
     additional_properties: Dict[str, Any] = {}
     __properties = ["_name", "secondCircularAllOfRef"]
 

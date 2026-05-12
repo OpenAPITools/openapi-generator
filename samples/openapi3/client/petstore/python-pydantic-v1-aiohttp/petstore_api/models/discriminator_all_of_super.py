@@ -30,7 +30,7 @@ class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
     """
-    element_type: StrictStr = Field(default=..., alias="elementType")
+    element_type: StrictStr = Field(default=..., validation_alias="elementType", serialization_alias="elementType")
     __properties = ["elementType"]
 
     class Config:

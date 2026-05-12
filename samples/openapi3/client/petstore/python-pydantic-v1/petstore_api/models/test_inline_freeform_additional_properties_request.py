@@ -25,7 +25,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     """
     TestInlineFreeformAdditionalPropertiesRequest
     """
-    some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
+    some_property: Optional[StrictStr] = Field(default=None, validation_alias="someProperty", serialization_alias="someProperty")
     additional_properties: Dict[str, Any] = {}
     __properties = ["someProperty"]
 
