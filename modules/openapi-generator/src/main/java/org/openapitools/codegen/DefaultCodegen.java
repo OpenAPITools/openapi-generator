@@ -4107,7 +4107,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getWriteOnly() != null) {
             property.isWriteOnly = p.getWriteOnly();
         }
-        if (p.getNullable() != null) {
+        if (ModelUtils.isNullable(p)) {
+            property.isNullable = true;
+        } else if (p.getNullable() != null) {
             property.isNullable = p.getNullable();
         }
 
@@ -4159,7 +4161,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // set isNullable using nullable or x-nullable in the schema
-        if (referencedSchema.getNullable() != null) {
+        if (ModelUtils.isNullable(referencedSchema)) {
+            property.isNullable = true;
+        } else if (referencedSchema.getNullable() != null) {
             property.isNullable = referencedSchema.getNullable();
         } else if (referencedSchema.getExtensions() != null &&
                 referencedSchema.getExtensions().containsKey(X_NULLABLE)) {
@@ -4262,7 +4266,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (original != null) {
             p = original;
             // evaluate common attributes if defined in the top level
-            if (p.getNullable() != null) {
+            if (ModelUtils.isNullable(p)) {
+                property.isNullable = true;
+            } else if (p.getNullable() != null) {
                 property.isNullable = p.getNullable();
             } else if (p.getExtensions() != null && p.getExtensions().containsKey(X_NULLABLE)) {
                 property.isNullable = (Boolean) p.getExtensions().get(X_NULLABLE);

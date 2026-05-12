@@ -180,6 +180,28 @@ public class TypeScriptAxiosClientCodegenTest {
     }
 
     @Test
+    public void generatesNullUnionsForOpenApi31NullableContainers() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_nullable_container_types_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/typescript-axios/nullable-container-types.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path file = Paths.get(output + "/api.ts");
+
+        TestUtils.assertFileContains(file, "'validation'?: { [key: string]: string; } | null;");
+        TestUtils.assertFileContains(file, "'requirements'?: Array<string> | null;");
+        TestUtils.assertFileContains(file, "'settings': MappingItemResourceSettings | null;");
+    }
+
+    @Test
     public void generatesTrailingCommasInAsConstEnumObjects() throws Exception {
         final File output = Files.createTempDirectory("typescript_axios_trailing_commas_").toFile();
         output.deleteOnExit();
