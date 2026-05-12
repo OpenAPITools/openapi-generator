@@ -53,6 +53,19 @@ paths:
         })"
       x-accepts:
       - application/json
+  /anonymous-or-authenticated:
+    get:
+      operationId: getAnonymousOrAuthenticated
+      responses:
+        "200":
+          description: OK
+      security:
+      - oauth2_scheme: []
+      - {}
+      summary: OR with anonymous alternative — emits @PermitAll (least-restrictive
+        wins)
+      x-accepts:
+      - application/json
 components:
   schemas: {}
   securitySchemes:

@@ -14,13 +14,13 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 
-@Path("/public")
+@Path("/anonymous-or-authenticated")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
-public interface PublicApi {
+public interface AnonymousOrAuthenticatedApi {
 
     @GET
     @ResponseStatus(200)
     @jakarta.annotation.security.PermitAll
-    void getPublic();
+    void getAnonymousOrAuthenticated();
 
 }
