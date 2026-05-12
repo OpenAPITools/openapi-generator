@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: Quarkus mixed security CI sample
+  version: "1.0"
+servers:
+- url: http://localhost:8080/
+paths:
+  /public:
+    get:
+      operationId: getPublic
+      responses:
+        "200":
+          description: OK
+      security: []
+      summary: Explicitly disabled security — no annotation emitted
+      x-accepts:
+      - application/json
+  /authenticated:
+    get:
+      operationId: getAuthenticated
+      responses:
+        "200":
+          description: OK
+      security:
+      - oauth2_scheme: []
+      summary: "Unscoped OAuth2 — emits @RolesAllowed({\"**\"})"
+      x-accepts:
+      - application/json
+  /admin:
+    get:
+      operationId: getAdmin
+      responses:
+        "200":
+          description: OK
+      security:
+      - oauth2_scheme:
+        - admin
+      summary: "Single scoped OAuth2 — emits @RolesAllowed({\"admin\"})"
+      x-accepts:
+      - application/json
+  /admin-or-user:
+    get:
+      operationId: getAdminOrUser
+      responses:
+        "200":
+          description: OK
+      security:
+      - oauth2_scheme:
+        - admin
+      - oauth2_scheme:
+        - user
+      summary: "Two scoped OR alternatives — emits @RolesAllowed({\"admin\", \"user\"\
+        })"
+      x-accepts:
+      - application/json
+components:
+  schemas: {}
+  securitySchemes:
+    oauth2_scheme:
+      flows:
+        clientCredentials:
+          scopes:
+            admin: Admin access
+            user: User access
+          tokenUrl: https://example.com/oauth/token
+      type: oauth2
