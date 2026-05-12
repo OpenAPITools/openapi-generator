@@ -28,7 +28,6 @@ import ../models/model_pet_audit_log
 import ../models/model_pet_review
 import ../models/model_pet_reviews_response
 import ../models/model_unfavorite_pet_request
-import ../models/model_unfavorite_pet_request
 
 const basepath = "http://petstore.swagger.io/v2"
 

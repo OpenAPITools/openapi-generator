@@ -17,7 +17,6 @@ local basexx = require "basexx"
 
 -- model import
 local petstore_user = require "petstore.model.user"
-local petstore_user = require "petstore.model.user"
 
 local user_api = {}
 local user_api_mt = {
