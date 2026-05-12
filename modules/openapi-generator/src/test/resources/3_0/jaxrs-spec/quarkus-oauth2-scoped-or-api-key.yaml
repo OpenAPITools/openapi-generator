@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: Quarkus OAuth2 scoped OR API Key — API Key qualifies for @Authenticated
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Scoped OAuth2 alone would not qualify, but API Key in the OR list does
+      security:
+        - oauth2_with_scope:
+            - admin
+        - api_key: []
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createItem
+      summary: Scoped OAuth2 only — no qualifying scheme
+      security:
+        - oauth2_with_scope:
+            - admin
+      responses:
+        '201':
+          description: Created
+components:
+  securitySchemes:
+    oauth2_with_scope:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: Admin access
+    api_key:
+      type: apiKey
+      in: header
+      name: X-API-Key

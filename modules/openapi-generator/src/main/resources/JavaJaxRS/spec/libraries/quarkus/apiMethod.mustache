@@ -47,6 +47,9 @@
                 {{^vendorExtensions.x-java-is-response-void}}@org.eclipse.microprofile.openapi.annotations.media.Content(schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = {{{baseType}}}.class{{#vendorExtensions.x-microprofile-open-api-return-schema-container}}, type = {{{.}}} {{/vendorExtensions.x-microprofile-open-api-return-schema-container}}{{#vendorExtensions.x-microprofile-open-api-return-unique-items}}, uniqueItems = true {{/vendorExtensions.x-microprofile-open-api-return-unique-items}})){{/vendorExtensions.x-java-is-response-void}}
             }){{^-last}},{{/-last}}{{/responses}}
         }){{/hasProduces}}{{/useMicroProfileOpenAPIAnnotations}}
+{{#vendorExtensions.x-jakarta-roles-allowed.0}}
+    @jakarta.annotation.security.RolesAllowed({{openbrace}}{{#vendorExtensions.x-jakarta-roles-allowed}}"{{.}}"{{^-last}},{{/-last}}{{/vendorExtensions.x-jakarta-roles-allowed}}{{closebrace}})
+{{/vendorExtensions.x-jakarta-roles-allowed.0}}
     public {{#supportAsync}}{{#useMutiny}}Uni{{/useMutiny}}{{^useMutiny}}CompletionStage{{/useMutiny}}<{{/supportAsync}}{{#returnJBossResponse}}{{>returnResponseTypeInterface}}{{/returnJBossResponse}}{{^returnJBossResponse}}Response{{/returnJBossResponse}}{{#supportAsync}}>{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
         return {{#supportAsync}}{{#useMutiny}}Uni.createFrom().item({{/useMutiny}}{{^useMutiny}}CompletableFuture.supplyAsync(() -> {{/useMutiny}}{{/supportAsync}}Response.ok().entity("magic!").build(){{#supportAsync}}){{/supportAsync}};
     }
