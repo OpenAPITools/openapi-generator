@@ -1217,6 +1217,34 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfWithOneOfRefPreservesWrapperProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_oneOf_noDiscriminator.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.supportsInheritance = true;
+        codegen.setOpenAPI(openAPI);
+
+        // ChildWithSharedFields is a oneOf wrapper that also declares its own
+        // properties (wrapperOptionalField, wrapperRequiredField). When ParentWithSharedFields
+        // inherits from it via allOf, those wrapper-level properties must still flow
+        // through to allProperties/allRequired — only the variant-specific properties
+        // should be suppressed.
+        Schema parentSchema = openAPI.getComponents().getSchemas().get("ParentWithSharedFields");
+        CodegenModel parentModel = codegen.fromModel("ParentWithSharedFields", parentSchema);
+
+        List<String> allVarNames = parentModel.allVars.stream().map(v -> v.name).collect(Collectors.toList());
+        assertTrue(allVarNames.contains("wrapperOptionalField"), "allVars should contain wrapper-level 'wrapperOptionalField'");
+        assertTrue(allVarNames.contains("wrapperRequiredField"), "allVars should contain wrapper-level 'wrapperRequiredField'");
+        assertTrue(allVarNames.contains("extraField"), "allVars should contain inline allOf 'extraField'");
+        assertFalse(allVarNames.contains("xOnlyField"), "allVars should not contain variant-specific 'xOnlyField'");
+        assertFalse(allVarNames.contains("yOnlyField"), "allVars should not contain variant-specific 'yOnlyField'");
+        assertFalse(allVarNames.contains("zOnlyField"), "allVars should not contain variant-specific 'zOnlyField'");
+
+        List<String> requiredVarNames = parentModel.requiredVars.stream().map(v -> v.name).collect(Collectors.toList());
+        assertTrue(requiredVarNames.contains("wrapperRequiredField"), "requiredVars should include wrapper-level required 'wrapperRequiredField'");
+        assertTrue(requiredVarNames.contains("extraField"), "requiredVars should include inline allOf required 'extraField'");
+    }
+
+    @Test
     public void testAllOfSingleAndDoubleRefWithOwnPropsNoDiscriminator() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
         final DefaultCodegen codegen = new CodegenWithMultipleInheritance();

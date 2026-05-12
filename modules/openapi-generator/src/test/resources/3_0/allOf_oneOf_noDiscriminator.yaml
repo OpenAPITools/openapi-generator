@@ -12,6 +12,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ParentC'
+  /parent-shared:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParentWithSharedFields'
 components:
   schemas:
     ParentC:
@@ -24,6 +33,28 @@ components:
         - $ref: "#/components/schemas/Child"
 
     Child:
+      oneOf:
+        - $ref: "#/components/schemas/ChildX"
+        - $ref: "#/components/schemas/ChildY"
+        - $ref: "#/components/schemas/ChildZ"
+
+    ParentWithSharedFields:
+      allOf:
+        - $ref: "#/components/schemas/ChildWithSharedFields"
+        - type: object
+          required: [extraField]
+          properties:
+            extraField:
+              type: string
+
+    ChildWithSharedFields:
+      type: object
+      required: [wrapperRequiredField]
+      properties:
+        wrapperOptionalField:
+          type: string
+        wrapperRequiredField:
+          type: string
       oneOf:
         - $ref: "#/components/schemas/ChildX"
         - $ref: "#/components/schemas/ChildY"

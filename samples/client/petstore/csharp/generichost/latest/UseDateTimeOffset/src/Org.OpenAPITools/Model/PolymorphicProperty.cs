@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="bool"></param>
-        internal PolymorphicProperty(bool @bool)
+        public PolymorphicProperty(bool @bool)
         {
             Bool = @bool;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="string"></param>
-        internal PolymorphicProperty(string @string)
+        public PolymorphicProperty(string @string)
         {
             String = @string;
             OnCreated();
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="object"></param>
-        internal PolymorphicProperty(Object @object)
+        public PolymorphicProperty(Object @object)
         {
             Object = @object;
             OnCreated();
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
         /// <param name="list"></param>
-        internal PolymorphicProperty(List<string> list)
+        public PolymorphicProperty(List<string> list)
         {
             List = list;
             OnCreated();

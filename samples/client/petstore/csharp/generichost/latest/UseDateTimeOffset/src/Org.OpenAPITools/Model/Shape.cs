@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        internal Shape(Triangle triangle)
+        public Shape(Triangle triangle)
         {
             Triangle = triangle;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        internal Shape(Quadrilateral quadrilateral)
+        public Shape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
             OnCreated();

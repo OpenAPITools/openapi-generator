@@ -2802,23 +2802,31 @@ public class DefaultCodegen implements CodegenConfig {
                 addImport(composed, refSchema, m, modelName);
 
                 if (allDefinitions != null && refSchema != null) {
-                    if (ModelUtils.hasOneOf(refSchema)) {
-                        // Do not flatten oneOf variant properties into this model.
-                        // addProperties() would recurse into each variant and merge all
-                        // their properties, producing an impossible conjunction. The oneOf
-                        // ref is already tracked via m.interfaces.
-                    } else if (allParents.contains(ref) && supportsMultipleInheritance) {
+                    // When the refSchema is a oneOf wrapper, do not flatten the variant
+                    // properties into this model — that would produce an impossible
+                    // conjunction of all variants' properties. The wrapper's own
+                    // properties/required (shared fields declared on the wrapper itself)
+                    // should still be inherited. The oneOf variants are tracked via
+                    // m.interfaces. Pre-seeding visitedSchemas with the variant schemas
+                    // suppresses recursion into them inside addProperties().
+                    Set<Schema> visited = new HashSet<>();
+                    if (ModelUtils.hasOneOf(refSchema) && refSchema.getOneOf() != null) {
+                        for (Object variant : refSchema.getOneOf()) {
+                            visited.add((Schema) variant);
+                        }
+                    }
+                    if (allParents.contains(ref) && supportsMultipleInheritance) {
                         // multiple inheritance
-                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
+                        addProperties(allProperties, allRequired, refSchema, visited);
                     } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
                         // single inheritance
-                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
+                        addProperties(allProperties, allRequired, refSchema, visited);
                     } else {
                         // composition
                         Map<String, Schema> newProperties = new LinkedHashMap<>();
-                        addProperties(newProperties, required, refSchema, new HashSet<>());
+                        addProperties(newProperties, required, refSchema, new HashSet<>(visited));
                         mergeProperties(properties, newProperties);
-                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
+                        addProperties(allProperties, allRequired, refSchema, visited);
                     }
                 }
 

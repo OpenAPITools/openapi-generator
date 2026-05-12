@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="OneOfString" /> class.
         /// </summary>
         /// <param name="string"></param>
-        internal OneOfString(string @string)
+        public OneOfString(string @string)
         {
             String = @string;
             OnCreated();

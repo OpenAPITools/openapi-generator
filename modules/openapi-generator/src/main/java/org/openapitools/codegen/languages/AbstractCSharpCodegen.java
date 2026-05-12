@@ -707,6 +707,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             processed = new HashSet<String>();
         }
         boolean isMutable = model.allVars.stream().anyMatch(v -> !v.isReadOnly);
+        // oneOf/anyOf union wrappers expose a constructor per variant; the variants
+        // are not tracked in allVars, so fall back to the composed schema lists.
+        if (!isMutable && model.getComposedSchemas() != null) {
+            List<CodegenProperty> oneOf = model.getComposedSchemas().getOneOf();
+            List<CodegenProperty> anyOf = model.getComposedSchemas().getAnyOf();
+            isMutable = (oneOf != null && !oneOf.isEmpty()) || (anyOf != null && !anyOf.isEmpty());
+        }
         if (!isMutable && !processed.contains(model.classname) && model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
             processed.add(model.classname);
             isMutable = modelIsMutable(model, processed);
