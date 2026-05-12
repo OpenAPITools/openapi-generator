@@ -153,6 +153,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        } else {
+            // default to appVersion in the spec
+            setPackageName((String) additionalProperties.get("appVersion"));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
