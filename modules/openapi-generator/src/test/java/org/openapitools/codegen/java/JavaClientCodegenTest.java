@@ -4476,4 +4476,18 @@ public class JavaClientCodegenTest {
                         "com.fasterxml.jackson.databind.ObjectMapper",
                         "com.fasterxml.jackson.databind.json.JsonMapper");
     }
+    @Test
+    public void testUseDeductionForOneInterfaces() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml", RESTCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true", USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Animal.java")).fileContains("@JsonSubTypes")
+                .isInterface()
+                .assertTypeAnnotations().containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Dog.class"))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Cat.class"))
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("use", "JsonTypeInfo.Id.DEDUCTION"));
+
+    }
+
+
 }

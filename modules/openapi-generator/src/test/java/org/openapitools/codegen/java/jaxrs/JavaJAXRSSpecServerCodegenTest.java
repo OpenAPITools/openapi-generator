@@ -15,6 +15,7 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -39,6 +40,12 @@ import static org.testng.Assert.assertTrue;
  * @author attrobit
  */
 public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
+
+    // Regex matching @jakarta.annotation.security.RolesAllowed({"**"}).
+    // Built with char concatenation so the embedded double-quote is never inside a string literal,
+    // which prevents formatters from stripping the escape and breaking compilation.
+    private static final String ROLES_ALLOWED_WILDCARD_PATTERN =
+            "@jakarta\\.annotation\\.security\\.RolesAllowed\\(\\{" + '"' + "\\*\\*" + '"' + "\\}\\)";
 
     @BeforeMethod
     public void before() {
@@ -1547,43 +1554,176 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
-    public void useQuarkusSecurityAnnotationsIsRegisteredWithDefaultFalse() {
+    public void useJakartaSecurityIsRegisteredWithDefaultFalse() {
         final JavaJAXRSSpecServerCodegen codegen = new JavaJAXRSSpecServerCodegen();
         Assert.assertTrue(
             codegen.cliOptions().stream()
-                .anyMatch(opt -> USE_QUARKUS_SECURITY_ANNOTATIONS.equals(opt.getOpt()) && "false".equals(opt.getDefault())),
-            "useQuarkusSecurityAnnotations should be a registered CLI option defaulting to false"
+                .anyMatch(opt -> USE_JAKARTA_SECURITY_ANNOTATIONS.equals(opt.getOpt()) && "false".equals(opt.getDefault())),
+            "useJakartaSecurityAnnotations should be a registered CLI option defaulting to false"
         );
     }
 
     @Test
-    public void useQuarkusSecurityAnnotationsDefaultsToFalseForQuarkusLibrary() {
+    public void useJakartaSecurityDefaultsToFalseForQuarkusLibrary() {
         codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
         codegen.processOpts();
 
         Assert.assertFalse(
-            (boolean) codegen.additionalProperties().getOrDefault(USE_QUARKUS_SECURITY_ANNOTATIONS, false)
+            (boolean) codegen.additionalProperties().getOrDefault(USE_JAKARTA_SECURITY_ANNOTATIONS, false)
         );
     }
 
     @Test
-    public void useQuarkusSecurityAnnotationsCanBeEnabledForQuarkusLibrary() {
+    public void useJakartaSecurityCanBeEnabledForQuarkusLibrary() {
         codegen.setLibrary(QUARKUS_LIBRARY);
-        codegen.additionalProperties().put(USE_QUARKUS_SECURITY_ANNOTATIONS, true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+        codegen.additionalProperties().put(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
         codegen.processOpts();
 
         new ConfigAssert(codegen.additionalProperties())
-            .assertValue(USE_QUARKUS_SECURITY_ANNOTATIONS, true);
+            .assertValue(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
     }
 
     @Test
-    public void useQuarkusSecurityAnnotationsNotProcessedForNonQuarkusLibrary() {
+    public void useJakartaSecurityNotProcessedForNonQuarkusLibrary() {
         // flag is only consumed when library=quarkus; for other libraries the block is skipped
-        codegen.additionalProperties().put(USE_QUARKUS_SECURITY_ANNOTATIONS, true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+        codegen.additionalProperties().put(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
         codegen.processOpts();
 
         // convertPropertyToBooleanAndWriteBack was never called, so the value was never
         // written back as a boolean — the key holds the raw Object we put in, not false
-        Assert.assertNotEquals(false, codegen.additionalProperties().get(USE_QUARKUS_SECURITY_ANNOTATIONS));
+        Assert.assertNotEquals(false, codegen.additionalProperties().get(USE_JAKARTA_SECURITY_ANNOTATIONS));
+    }
+
+    /**
+     * Regression for the latent bug where flags resolved before super.processOpts() were
+     * silently dropped when library was supplied via additionalProperties (e.g. Gradle
+     * configOptions) rather than via setLibrary(). Verifies the flag is honoured even
+     * when the library field is not set on the codegen instance directly.
+     */
+    @Test
+    public void useJakartaSecurityIsHonouredWhenLibrarySuppliedViaAdditionalProperties() {
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+        codegen.additionalProperties().put(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
+        codegen.processOpts();
+
+        new ConfigAssert(codegen.additionalProperties())
+            .assertValue(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*useJakartaSecurityAnnotations.*useJakartaEe.*")
+    public void useJakartaSecurityRequiresUseJakartaEe() {
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, false);
+        codegen.additionalProperties().put(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
+        codegen.processOpts();
+    }
+
+    /**
+     * Single parameterised test exercising every spec fixture that drives @RolesAllowed({"**"}) emission.
+     * Each row: (spec path, interfaceOnly, useJakartaSecurityAnnotations, expected occurrences in generated API file).
+     *
+     * Consolidates per-scheme test methods (HttpBasic, HttpBearer, ApiKey, OpenIdConnect, OAuth2, global, mixed-OR, AND-group)
+     * since they only differ by spec path and expected count.
+     */
+    @DataProvider(name = "quarkusJakartaSecurityCases")
+    public Object[][] quarkusJakartaSecurityCases() {
+        return new Object[][] {
+                // single OAuth2 flow, no scopes — flag on → @RolesAllowed({"**"}); flag off → absent
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", true,  false, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", false, true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", false, false, 0},
+                // single OAuth2 flow, non-empty scopes → no @RolesAllowed({"**"}) regardless of flag
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", true,  true,  0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", false, true,  0},
+                // multiple OAuth2 flows, all no scopes — flag on → exactly once (no per-flow duplication)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multi-flow-no-scopes.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multi-flow-no-scopes.yaml", false, true,  1},
+                // OR: one scheme no-scope + one scheme scoped — flag on → one op gets @RolesAllowed({"**"})
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", false, true,  1},
+                // HTTP Basic — always qualifies (no scope concept)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", true,  false, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", false, true,  1},
+                // HTTP Bearer — always qualifies
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-bearer.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-bearer.yaml", false, true,  1},
+                // API Key — always qualifies
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-api-key.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-api-key.yaml", false, true,  1},
+                // OpenID Connect — empty scopes qualifies
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-no-scopes.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-no-scopes.yaml", false, true,  1},
+                // OpenID Connect — explicit scopes does not qualify
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-with-scopes.yaml", true,  true,  0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-with-scopes.yaml", false, true,  0},
+                // global HTTP Basic + Bearer; GET inherits (→ @RolesAllowed({"**"})), POST has security:[] (→ none)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-security-one-op-disabled.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-security-one-op-disabled.yaml", false, true,  1},
+                // global OR: unscoped OAuth2 + scoped OAuth2; both ops inherit → both get @RolesAllowed({"**"})
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-oauth2-or-scoped-and-unscoped.yaml", true,  true,  2},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-oauth2-or-scoped-and-unscoped.yaml", false, true,  2},
+                // cross-type OR: scoped OAuth2 OR API Key — API Key qualifies even though OAuth2 alone would not
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-scoped-or-api-key.yaml", true,  true,  1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-scoped-or-api-key.yaml", false, true,  1},
+                // AND group: oauth2 empty scopes AND openIdConnect admin:create → never emits
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-and-group-mixed-scopes.yaml", true,  true,  0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-and-group-mixed-scopes.yaml", false, true,  0},
+                // OR list with anonymous alternative ({}) — least-restrictive wins, no @RolesAllowed
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-or-with-anonymous.yaml", true,  true,  0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-or-with-anonymous.yaml", false, true,  0},
+        };
+    }
+
+    @Test(dataProvider = "quarkusJakartaSecurityCases")
+    public void quarkusEmitsExpectedRolesAllowedWildcardCount(String specPath, boolean interfaceOnly, boolean useFlag, int expectedCount) throws Exception {
+        final String content = generateQuarkusItemsApi(specPath, interfaceOnly, useFlag, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), expectedCount);
+    }
+
+    /**
+     * Asserts @RolesAllowed coexists with MicroProfile @SecurityRequirement annotations on the same method.
+     * The two come from independent template branches; this guards against template ordering or duplication regressions.
+     */
+    @Test
+    public void quarkusJakartaSecurityCoexistsWithMicroProfileAnnotations() throws Exception {
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-microprofile-coexist.yaml",
+                true, true, true);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), 1,
+                "Expected exactly one @RolesAllowed({\"**\"}) annotation");
+        Assert.assertTrue(content.contains("SecurityRequirement"),
+                "Expected MicroProfile @SecurityRequirement annotation alongside @RolesAllowed");
+    }
+
+    private String generateQuarkusItemsApi(String specPath, boolean interfaceOnly, boolean useJakartaSecurity, boolean useMicroProfile) throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation(specPath, null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(INTERFACE_ONLY, interfaceOnly);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+        codegen.additionalProperties().put(USE_JAKARTA_SECURITY_ANNOTATIONS, useJakartaSecurity);
+        if (useMicroProfile) {
+            codegen.additionalProperties().put(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, true);
+        }
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/ItemsApi.java");
+        return Files.readString(output.toPath().resolve("src/gen/java/org/openapitools/api/ItemsApi.java"));
     }
 }

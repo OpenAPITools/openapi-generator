@@ -132,7 +132,41 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
         {{#queryParams}}
+            {{#isModel}}
+            {{#isDeepObject}}
+            {{#vars}}
+            {{{paramName}}}?.{{{name}}}?.let { localVariableQuery["{{vendorExtensions.x-kotlin-param-base-name}}[{{baseName}}]"] = listOf("$it") }
+            {{/vars}}
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            {{#isExplode}}
+            {{#vars}}
+            {{{paramName}}}?.{{{name}}}?.let { localVariableQuery["{{baseName}}"] = listOf("$it") }
+            {{/vars}}
+            {{/isExplode}}
+            {{^isExplode}}
+            {{{paramName}}}?.let { _model -> listOfNotNull({{#vars}}_model.{{{name}}}?.let { "{{baseName}},$it" }{{^-last}}, {{/-last}}{{/vars}}).takeIf { it.isNotEmpty() }?.let { localVariableQuery["{{baseName}}"] = listOf(it.joinToString(",")) } }
+            {{/isExplode}}
+            {{/isDeepObject}}
+            {{/isModel}}
+            {{^isModel}}
+            {{#isMap}}
+            {{#isDeepObject}}
+            {{{paramName}}}?.forEach { (key, value) -> localVariableQuery["{{baseName}}[$key]"] = listOf("$value") }
+            {{/isDeepObject}}
+            {{^isDeepObject}}
+            {{#isExplode}}
+            {{{paramName}}}?.forEach { (key, value) -> localVariableQuery[key] = listOf("$value") }
+            {{/isExplode}}
+            {{^isExplode}}
+            {{{paramName}}}?.takeIf { it.isNotEmpty() }?.let { localVariableQuery["{{baseName}}"] = listOf(it.entries.joinToString(",") { (k, v) -> "$k,$v" }) }
+            {{/isExplode}}
+            {{/isDeepObject}}
+            {{/isMap}}
+            {{^isMap}}
             {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
+            {{/isMap}}
+            {{/isModel}}
         {{/queryParams}}
 
             val localVariableHeaders = mutableMapOf<String, String>()

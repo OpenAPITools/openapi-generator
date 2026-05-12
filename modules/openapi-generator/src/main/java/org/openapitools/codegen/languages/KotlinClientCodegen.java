@@ -1161,6 +1161,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         adjustEnumRefDefault(parameter);
+        propagateParamBaseNameToVars(parameter);
+    }
+
+    /**
+     * For query parameters with `type: object, properties: ...`, expose the
+     * parameter's OAS baseName on each generated field via the
+     * `x-kotlin-param-base-name` vendor extension. Templates that iterate
+     * `vars` (e.g. jvm-ktor) need the outer baseName to build URL keys like
+     * `paramBaseName[fieldBaseName]` per the OAS deepObject style, and
+     * Mustache provides no access to the outer scope from inside `{{#vars}}`.
+     */
+    private void propagateParamBaseNameToVars(CodegenParameter param) {
+        if (!param.isQueryParam || !param.isModel || param.vars == null) {
+            return;
+        }
+        for (CodegenProperty v : param.vars) {
+            v.vendorExtensions.put("x-kotlin-param-base-name", param.baseName);
+        }
     }
 
     /**
