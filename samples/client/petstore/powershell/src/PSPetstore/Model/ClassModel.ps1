@@ -35,7 +35,7 @@ function Initialize-PSClassModel {
 
 
         $PSO = [PSCustomObject]@{
-            "_class" = ${Class}
+            '_class' = ${Class}
         }
 
 
@@ -73,21 +73,21 @@ function ConvertFrom-PSJsonToClassModel {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSClassModel
-        $AllProperties = ("_class")
+        $AllProperties = ('_class')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "_class"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match '_class'))) { #optional property not found
             $Class = $null
         } else {
-            $Class = $JsonParameters.PSobject.Properties["_class"].value
+            $Class = $JsonParameters.PSobject.Properties['_class'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "_class" = ${Class}
+            '_class' = ${Class}
         }
 
         return $PSO

@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Client,
-} from '../models/index';
 import {
+    type Client,
     ClientFromJSON,
     ClientToJSON,
-} from '../models/index';
+} from '../models/Client';
 
 export interface TestClassnameRequest {
     client: Client;

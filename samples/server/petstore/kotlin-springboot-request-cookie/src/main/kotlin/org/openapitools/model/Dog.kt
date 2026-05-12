@@ -16,7 +16,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 
+ * @param className 
  * @param breed 
+ * @param color 
  */
 data class Dog(
 

@@ -18,6 +18,9 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/kotlin-wiremock/}.
+ */
 public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class KotlinClientCodegenApiTest {
 
@@ -66,6 +67,16 @@ public class KotlinClientCodegenApiTest {
                 {true, "Response<Pet>", ": Response<Unit>"},
                 {false, "Pet", ""},
                 {"false", "Pet", ""}};
+    }
+
+    @DataProvider(name = "librariesWithDateQueryHelper")
+    public static Object[][] librariesWithDateQueryHelper() {
+        return new Object[][]{
+                {ClientLibrary.JVM_OKHTTP4},
+                {ClientLibrary.JVM_SPRING_WEBCLIENT},
+                {ClientLibrary.JVM_SPRING_RESTCLIENT},
+                {ClientLibrary.JVM_VERTX}
+        };
     }
 
     @Test(dataProvider = "useResponseAsReturnType")
@@ -131,6 +142,74 @@ public class KotlinClientCodegenApiTest {
         }
 
         assertFileContains(documentApiFile.toPath(), "disposition: " + expectedEnumName + "? = DispositionDocumentDownload.`inline`");
+    }
+
+    @Test
+    public void testJvmOkHttp4ApiClientUsesExplicitDateTypeArgumentsForQuerySerialization() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        String outputPath = codegen.getOutputDir().replace('\\', '/');
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
+        generator.opts(createClientOptInput(openAPI, codegen)).generate();
+
+        String apiClientPath = outputPath + "/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt";
+        assertFileContains(Paths.get(apiClientPath), "is OffsetDateTime -> parseDateToQueryString<OffsetDateTime>(value)");
+        assertFileContains(Paths.get(apiClientPath), "is OffsetTime -> parseDateToQueryString<OffsetTime>(value)");
+        assertFileContains(Paths.get(apiClientPath), "is LocalDateTime -> parseDateToQueryString<LocalDateTime>(value)");
+        assertFileContains(Paths.get(apiClientPath), "is LocalDate -> parseDateToQueryString<LocalDate>(value)");
+        assertFileContains(Paths.get(apiClientPath), "is LocalTime -> parseDateToQueryString<LocalTime>(value)");
+        assertFileNotContains(Paths.get(apiClientPath), "is OffsetDateTime -> parseDateToQueryString(value)");
+    }
+
+    @Test(dataProvider = "librariesWithDateQueryHelper")
+    public void testGeneratedApisUseExplicitDateTypeArgumentsForQuerySerialization(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/echo_api.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File queryApi = files.stream().filter(file -> file.getName().equals("QueryApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(queryApi.toPath(), "parseDateToQueryString<kotlin.time.Instant>(");
+        assertFileContains(queryApi.toPath(), "parseDateToQueryString<kotlinx.datetime.LocalDate>(");
+        assertFileNotContains(queryApi.toPath(), "parseDateToQueryString(datetimeQuery)");
+        assertFileNotContains(queryApi.toPath(), "parseDateToQueryString(dateQuery)");
+        assertFileNotContains(queryApi.toPath(), "parseDateToQueryString(it)");
+    }
+
+    @Test
+    public void testJvmKtorQueryParamWithTypeObject() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/jvm-ktor-type-object-query.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(defaultApi.toPath(), "mapFormExplode?.forEach { (key, value) -> localVariableQuery[key]");
+        assertFileContains(defaultApi.toPath(), "mapFormNoexplode?.takeIf");
+        assertFileContains(defaultApi.toPath(), "localVariableQuery[\"map_deep[$key]\"]");
+
+        assertFileContains(defaultApi.toPath(), "modelFormExplode?.a?.let { localVariableQuery[\"a\"]");
+        assertFileContains(defaultApi.toPath(), "modelFormNoexplode?.let { _model -> listOfNotNull(_model.a?.let { \"a,$it\" }, _model.b?.let { \"b,$it\" })");
+        assertFileContains(defaultApi.toPath(), "localVariableQuery[\"model_deep[a]\"]");
+
+        assertFileNotContains(defaultApi.toPath(), "mapDeep?.apply {");
     }
 
     private static void assertFileContainsLine(List<String> lines, String line) {

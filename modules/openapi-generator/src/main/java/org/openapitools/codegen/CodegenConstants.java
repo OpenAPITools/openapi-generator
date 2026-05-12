@@ -406,6 +406,9 @@ public class CodegenConstants {
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
+    public static final String USE_VERTX_5 = "useVertx5";
+    public static final String USE_VERTX_5_DESC = "Setting this property to true will generate Vert.x 5 specific callbacks using Callables.";
+
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
             "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
@@ -416,7 +419,7 @@ public class CodegenConstants {
 
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
-            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
+            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. " +
                     "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
 
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
@@ -486,6 +489,13 @@ public class CodegenConstants {
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC =
+            "Annotate discriminator-free oneOf interfaces with Jackson's " +
+                    "@JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype " +
+                    "is resolved from the JSON field set rather than a type-tag property. " +
+                    "Has no effect when a discriminator is present (name-based resolution is used instead). " +
+                    "Requires subtypes to have structurally distinct sets of properties.";
     public static final String X_DISCRIMINATOR_VALUE = "x-discriminator-value";
     public static final String X_ONE_OF_NAME = "x-one-of-name";
     public static final String X_NULLABLE = "x-nullable";

@@ -319,6 +319,15 @@
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
+        {{^useSpringBoot4}}
+        {{#useJspecify}}
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        {{/useJspecify}}
+        {{/useSpringBoot4}}
 
         <!-- test dependencies -->
         <dependency>

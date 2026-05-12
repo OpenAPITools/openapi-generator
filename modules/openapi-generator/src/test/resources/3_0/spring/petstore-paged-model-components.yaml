@@ -1,0 +1,31 @@
+components:
+  schemas:
+    # Pagination metadata schema defined in an external file.
+    # This exercises the case where the $ref in a paged model points to a schema
+    # in a different file — detection must still work via $ref resolution.
+    PageMetadata:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+      required: [size, number, totalElements, totalPages]
+
+    # Domain type also defined externally
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+          format: double

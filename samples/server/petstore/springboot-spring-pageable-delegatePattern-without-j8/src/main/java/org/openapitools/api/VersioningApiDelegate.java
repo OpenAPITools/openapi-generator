@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link VersioningApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public interface VersioningApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

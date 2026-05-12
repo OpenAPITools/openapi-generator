@@ -108,7 +108,7 @@ Configure petstore_auth:
 
 <a id="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
+> kotlin.collections.List&lt;Pet&gt;? findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -141,7 +141,7 @@ try {
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;?**](Pet.md)
 
 ### Authorization
 
@@ -156,7 +156,7 @@ Configure petstore_auth:
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.collections.List&lt;Pet&gt;? findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -189,7 +189,7 @@ try {
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**kotlin.collections.List&lt;Pet&gt;?**](Pet.md)
 
 ### Authorization
 
@@ -204,7 +204,7 @@ Configure petstore_auth:
 
 <a id="getPetById"></a>
 # **getPetById**
-> Pet getPetById(petId)
+> Pet? getPetById(petId)
 
 Find pet by ID
 
@@ -237,7 +237,7 @@ try {
 
 ### Return type
 
-[**Pet**](Pet.md)
+[**Pet?**](Pet.md)
 
 ### Authorization
 
@@ -347,7 +347,7 @@ Configure petstore_auth:
 
 <a id="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse? uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -382,7 +382,7 @@ try {
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+[**ModelApiResponse?**](ModelApiResponse.md)
 
 ### Authorization
 

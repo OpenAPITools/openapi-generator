@@ -44,8 +44,8 @@ function Initialize-PSAppleReq {
 
 
         $PSO = [PSCustomObject]@{
-            "cultivar" = ${Cultivar}
-            "mealy" = ${Mealy}
+            'cultivar' = ${Cultivar}
+            'mealy' = ${Mealy}
         }
 
 
@@ -83,7 +83,7 @@ function ConvertFrom-PSJsonToAppleReq {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSAppleReq
-        $AllProperties = ("cultivar", "mealy")
+        $AllProperties = ('cultivar', 'mealy')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -94,21 +94,21 @@ function ConvertFrom-PSJsonToAppleReq {
             throw "Error! Empty JSON cannot be serialized due to the required property 'cultivar' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "cultivar"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'cultivar'))) {
             throw "Error! JSON cannot be serialized due to the required property 'cultivar' missing."
         } else {
-            $Cultivar = $JsonParameters.PSobject.Properties["cultivar"].value
+            $Cultivar = $JsonParameters.PSobject.Properties['cultivar'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "mealy"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'mealy'))) { #optional property not found
             $Mealy = $null
         } else {
-            $Mealy = $JsonParameters.PSobject.Properties["mealy"].value
+            $Mealy = $JsonParameters.PSobject.Properties['mealy'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "cultivar" = ${Cultivar}
-            "mealy" = ${Mealy}
+            'cultivar' = ${Cultivar}
+            'mealy' = ${Mealy}
         }
 
         return $PSO

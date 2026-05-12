@@ -1,0 +1,20 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-sort-validation
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-sort-validation.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  serviceImplementation: "false"
+  serializableModel: "true"
+  useBeanValidation: "true"
+  interfaceOnly: "false"
+  skipDefaultInterface: "true"
+  useSpringBoot3: "true"
+  generateSortValidation: "true"
+  hideGenerationTimestamp: "true"
+  generatePageableConstraintValidation: "true"
+  useTags: "true"
+  requestMappingMode: api_interface

@@ -41,6 +41,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/clojure/}.
+ */
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ClojureClientCodegen.class);
     private static final String PROJECT_NAME = "projectName";

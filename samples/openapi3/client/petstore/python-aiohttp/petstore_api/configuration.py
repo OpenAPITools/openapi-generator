@@ -10,6 +10,7 @@
 """  # noqa: E501
 
 
+import aiohttp_retry
 import base64
 import copy
 import http.client as httplib
@@ -277,7 +278,7 @@ conf = petstore_api.Configuration(
         server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
         ignore_operation_servers: bool=False,
         ssl_ca_cert: Optional[str]=None,
-        retries: Optional[Union[int, Any]] = None,
+        retries: Optional[Union[int, aiohttp_retry.RetryOptionsBase]] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
         cert_file: Optional[str]=None,
         key_file: Optional[str]=None,

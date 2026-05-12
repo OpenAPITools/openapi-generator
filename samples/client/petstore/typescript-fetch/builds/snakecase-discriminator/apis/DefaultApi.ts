@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  FooGetDefaultResponse,
-} from '../models/index';
 import {
+    type FooGetDefaultResponse,
     FooGetDefaultResponseFromJSON,
     FooGetDefaultResponseToJSON,
-} from '../models/index';
+} from '../models/FooGetDefaultResponse';
 
 /**
  * 

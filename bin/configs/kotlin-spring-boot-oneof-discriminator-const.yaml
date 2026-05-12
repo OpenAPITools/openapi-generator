@@ -1,0 +1,11 @@
+generatorName: kotlin-spring
+outputDir: samples/server/others/kotlin-springboot/oneOf-discriminator-const
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_1/polymorphism-and-discriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  interfaceOnly: "true"
+  useSpringBoot3: "true"

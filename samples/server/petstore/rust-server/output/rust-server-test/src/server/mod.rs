@@ -241,6 +241,86 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
 
             // AllOfGet - GET /allOf
             hyper::Method::GET if path.matched(paths::ID_ALLOF) => {
+                handle_all_of_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // DummyGet - GET /dummy
+            hyper::Method::GET if path.matched(paths::ID_DUMMY) => {
+                handle_dummy_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // DummyPut - PUT /dummy
+            hyper::Method::PUT if path.matched(paths::ID_DUMMY) => {
+                handle_dummy_put(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // FileResponseGet - GET /file_response
+            hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => {
+                handle_file_response_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // GetStructuredYaml - GET /get-structured-yaml
+            hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => {
+                handle_get_structured_yaml(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // HtmlPost - POST /html
+            hyper::Method::POST if path.matched(paths::ID_HTML) => {
+                handle_html_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // PostYaml - POST /post-yaml
+            hyper::Method::POST if path.matched(paths::ID_POST_YAML) => {
+                handle_post_yaml(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // RawJsonGet - GET /raw_json
+            hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => {
+                handle_raw_json_get(api_impl, uri, headers, body, context, validation).await
+            },
+
+            // SoloObjectPost - POST /solo-object
+            hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => {
+                handle_solo_object_post(api_impl, uri, headers, body, context, validation).await
+            },
+
+            _ if path.matched(paths::ID_ALLOF) => method_not_allowed(),
+            _ if path.matched(paths::ID_DUMMY) => method_not_allowed(),
+            _ if path.matched(paths::ID_FILE_RESPONSE) => method_not_allowed(),
+            _ if path.matched(paths::ID_GET_STRUCTURED_YAML) => method_not_allowed(),
+            _ if path.matched(paths::ID_HTML) => method_not_allowed(),
+            _ if path.matched(paths::ID_POST_YAML) => method_not_allowed(),
+            _ if path.matched(paths::ID_RAW_JSON) => method_not_allowed(),
+            _ if path.matched(paths::ID_SOLO_OBJECT) => method_not_allowed(),
+                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                        .body(BoxBody::new(http_body_util::Empty::new()))
+                        .expect("Unable to create Not Found response"))
+            }
+        }
+        Box::pin(run(
+            self.api_impl.clone(),
+            req,
+            self.validation
+        ))
+    }
+}
+
+#[allow(unused_variables)]
+async fn handle_all_of_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.all_of_get(
                                         &context
                                     ).await;
@@ -274,10 +354,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // DummyGet - GET /dummy
-            hyper::Method::GET if path.matched(paths::ID_DUMMY) => {
+#[allow(unused_variables)]
+async fn handle_dummy_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.dummy_get(
                                         &context
                                     ).await;
@@ -304,10 +398,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // DummyPut - PUT /dummy
-            hyper::Method::PUT if path.matched(paths::ID_DUMMY) => {
+#[allow(unused_variables)]
+async fn handle_dummy_put<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -381,10 +489,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // FileResponseGet - GET /file_response
-            hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => {
+#[allow(unused_variables)]
+async fn handle_file_response_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.file_response_get(
                                         &context
                                     ).await;
@@ -418,10 +540,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // GetStructuredYaml - GET /get-structured-yaml
-            hyper::Method::GET if path.matched(paths::ID_GET_STRUCTURED_YAML) => {
+#[allow(unused_variables)]
+async fn handle_get_structured_yaml<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.get_structured_yaml(
                                         &context
                                     ).await;
@@ -454,10 +590,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // HtmlPost - POST /html
-            hyper::Method::POST if path.matched(paths::ID_HTML) => {
+#[allow(unused_variables)]
+async fn handle_html_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -523,10 +673,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // PostYaml - POST /post-yaml
-            hyper::Method::POST if path.matched(paths::ID_POST_YAML) => {
+#[allow(unused_variables)]
+async fn handle_post_yaml<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -586,10 +750,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
+}
 
-            // RawJsonGet - GET /raw_json
-            hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => {
+#[allow(unused_variables)]
+async fn handle_raw_json_get<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                                 let result = api_impl.raw_json_get(
                                         &context
                                     ).await;
@@ -623,10 +801,24 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                         }
 
                                         Ok(response)
-            },
+}
 
-            // SoloObjectPost - POST /solo-object
-            hyper::Method::POST if path.matched(paths::ID_SOLO_OBJECT) => {
+#[allow(unused_variables)]
+async fn handle_solo_object_post<T, C, ReqBody>(
+    mut api_impl: T,
+    uri: hyper::Uri,
+    headers: HeaderMap,
+    body: ReqBody,
+    context: C,
+    validation: bool,
+) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
+where
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + Send + Sync + 'static,
+    ReqBody: Body + Send + 'static,
+    ReqBody::Error: Into<Box<dyn Error + Send + Sync>> + Send,
+    ReqBody::Data: Send,
+{
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -698,27 +890,6 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-            },
-
-            _ if path.matched(paths::ID_ALLOF) => method_not_allowed(),
-            _ if path.matched(paths::ID_DUMMY) => method_not_allowed(),
-            _ if path.matched(paths::ID_FILE_RESPONSE) => method_not_allowed(),
-            _ if path.matched(paths::ID_GET_STRUCTURED_YAML) => method_not_allowed(),
-            _ if path.matched(paths::ID_HTML) => method_not_allowed(),
-            _ if path.matched(paths::ID_POST_YAML) => method_not_allowed(),
-            _ if path.matched(paths::ID_RAW_JSON) => method_not_allowed(),
-            _ if path.matched(paths::ID_SOLO_OBJECT) => method_not_allowed(),
-                _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
-                        .body(BoxBody::new(http_body_util::Empty::new()))
-                        .expect("Unable to create Not Found response"))
-            }
-        }
-        Box::pin(run(
-            self.api_impl.clone(),
-            req,
-            self.validation
-        ))
-    }
 }
 
 /// Request parser for `Api`.

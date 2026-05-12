@@ -156,6 +156,15 @@ pub struct ParamgetGetQueryParams {
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct QueryExampleGetQueryParams {
+    #[serde(rename = "required_no_example")]
+    pub required_no_example: String,
+    #[serde(rename = "required_with_example")]
+    pub required_with_example: i32,
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct RegisterCallbackPostQueryParams {
     #[serde(rename = "url")]
     pub url: String,

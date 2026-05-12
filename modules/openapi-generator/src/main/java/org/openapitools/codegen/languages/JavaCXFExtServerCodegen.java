@@ -51,6 +51,7 @@ import java.util.*;
  * An Apache CXF-based JAX-RS server with extended capabilities.
  *
  * @author Adrian Price, TIBCO Software Inc.
+ * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/cxf-ext/}.
  */
 public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXFExtServerFeatures {
     class CodegenVariable {

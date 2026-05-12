@@ -39,7 +39,7 @@ function Initialize-PSShapeInterface {
 
 
         $PSO = [PSCustomObject]@{
-            "shapeType" = ${ShapeType}
+            'shapeType' = ${ShapeType}
         }
 
 
@@ -77,7 +77,7 @@ function ConvertFrom-PSJsonToShapeInterface {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSShapeInterface
-        $AllProperties = ("shapeType")
+        $AllProperties = ('shapeType')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
@@ -88,14 +88,14 @@ function ConvertFrom-PSJsonToShapeInterface {
             throw "Error! Empty JSON cannot be serialized due to the required property 'shapeType' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "shapeType"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'shapeType'))) {
             throw "Error! JSON cannot be serialized due to the required property 'shapeType' missing."
         } else {
-            $ShapeType = $JsonParameters.PSobject.Properties["shapeType"].value
+            $ShapeType = $JsonParameters.PSobject.Properties['shapeType'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "shapeType" = ${ShapeType}
+            'shapeType' = ${ShapeType}
         }
 
         return $PSO

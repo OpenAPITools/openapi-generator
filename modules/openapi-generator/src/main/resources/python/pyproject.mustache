@@ -110,8 +110,14 @@ mypy = ">= 1.5"
 
 
 [build-system]
+{{#hatchling}}
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+{{/hatchling}}
+{{^hatchling}}
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+{{/hatchling}}
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
