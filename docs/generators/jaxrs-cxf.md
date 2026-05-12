@@ -87,6 +87,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useGenericResponse|Use generic response| |false|
 |useGzipFeature|Use Gzip Feature| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
+|useJackson3|Use Jackson 3 instead of Jackson 2.| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useLoggingFeature|Use Logging Feature| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|
