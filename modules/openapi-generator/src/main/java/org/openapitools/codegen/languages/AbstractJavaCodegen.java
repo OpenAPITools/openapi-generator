@@ -2079,24 +2079,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         // make sure the x-implements is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
-                List<String> xImplements = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
-                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
-            } else {
-                cm.getVendorExtensions().put(X_IMPLEMENTS, new ArrayList<String>());
-            }
+            normalizeVendorExtensionWithStringList(mo.getModel(), X_IMPLEMENTS);
         }
 
         // make sure the x-class-extra-annotation is always a List and always at least empty
         for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            if (cm.getVendorExtensions().containsKey(VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName())) {
-                List<String> xClassExtraAnnotation = getObjectAsStringList(cm.getVendorExtensions().get(VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName()));
-                cm.getVendorExtensions().replace(VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName(), xClassExtraAnnotation);
-            } else {
-                cm.getVendorExtensions().put(VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName(), new ArrayList<String>());
-            }
+            normalizeVendorExtensionWithStringList(mo.getModel(), VendorExtension.X_CLASS_EXTRA_ANNOTATION.getName());
         }
 
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
@@ -2767,6 +2755,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda);
 
+    }
+
+    private void normalizeVendorExtensionWithStringList(CodegenModel cm , String name) {
+        if (cm.getVendorExtensions().containsKey(name)) {
+            List<String> annotations = getObjectAsStringList(cm.getVendorExtensions().get(name));
+            cm.getVendorExtensions().replace(name, annotations);
+        } else {
+            cm.getVendorExtensions().put(name, new ArrayList<String>());
+        }
     }
 
     /**
