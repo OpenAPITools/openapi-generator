@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="iconsSizeParameterAnyOf"></param>
         /// <param name="int"></param>
-        internal IconsSizeParameter(Option<IconsSizeParameterAnyOf?> iconsSizeParameterAnyOf, Option<int?> @int)
+        public IconsSizeParameter(Option<IconsSizeParameterAnyOf?> iconsSizeParameterAnyOf, Option<int?> @int)
         {
             IconsSizeParameterAnyOfOption = iconsSizeParameterAnyOf;
             IntOption = @int;
