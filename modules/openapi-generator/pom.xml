@@ -192,6 +192,35 @@
             </properties>
         </profile>
         <profile>
+            <id>smals</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <configuration>
+                                <includes>
+                                    <include>org.openapitools.codegen.config.**</include>
+                                    <include>org.openapitools.codegen.utils.**</include>
+                                    <include>org.openapitools.codegen.validations.**</include>
+                                    <include>org.openapitools.codegen.yaml.**</include>
+                                    <include>org.openapitools.codegen.java.*</include>
+                                    <include>org.openapitools.codegen.java.jaxrs.**</include>
+                                    <include>org.openapitools.codegen.java.assertions.**</include>
+                                    <include>org.openapitools.codegen.java.spring.**</include>
+                                    <include>org.openapitools.codegen.*</include>
+                                </includes>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
