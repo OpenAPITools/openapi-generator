@@ -40,25 +40,28 @@ import org.slf4j.LoggerFactory;
  * always be reconciled, so this class emits the least restrictive annotation that
  * is still correct for the OR group.
  *
- * <p>A single vendor extension {@code x-jakarta-roles-allowed} carries the value to
- * emit:
+ * <p>Two mutually exclusive vendor extensions carry the emission decision:
  * <ul>
- *   <li>{@code ["**"]} for the any-authenticated-user case, producing
- *       {@code @RolesAllowed({"**"})}.
- *   <li>A sorted, deduplicated list of scope names (e.g. {@code ["admin", "user"]})
- *       when every OR alternative is scoped, producing
+ *   <li>{@code x-jakarta-roles-allowed} = {@code ["**"]} for the any-authenticated-user
+ *       case, producing {@code @RolesAllowed({"**"})}.
+ *   <li>{@code x-jakarta-roles-allowed} = sorted, deduplicated list of scope names
+ *       (e.g. {@code ["admin", "user"]}) when every OR alternative is scoped, producing
  *       {@code @RolesAllowed({"admin","user"})}.
- *   <li>Unset when the operation does not qualify (anonymous OR alternative,
- *       mixed-scope AND group, etc.).
+ *   <li>{@code x-jakarta-permit-all} = {@code true} when the operation is unauthenticated
+ *       (explicit {@code security: []}, an anonymous {@code - {}} OR alternative, or an
+ *       entirely unsecured spec), producing {@code @PermitAll}.
+ *   <li>Neither set when the operation does not qualify (mixed-scope AND group,
+ *       undefined scheme, etc.) — nothing is emitted and a warning is logged.
  * </ul>
  *
- * <p>The wildcard and scoped emissions are mutually exclusive per operation: if any
- * OR alternative qualifies as "any authenticated user", the wildcard wins and the
- * scoped path is skipped.
+ * <p>The three emissions are mutually exclusive per operation: if any OR alternative
+ * qualifies as "any authenticated user", the wildcard wins; otherwise the scoped path
+ * is tried; otherwise {@code @PermitAll} is tried.
  */
 final class JakartaSecurityAnnotationProcessor {
 
     static final String VENDOR_X_JAKARTA_ROLES_ALLOWED = "x-jakarta-roles-allowed";
+    static final String VENDOR_X_JAKARTA_PERMIT_ALL = "x-jakarta-permit-all";
 
     private static final List<String> ANY_AUTHENTICATED_ROLE = Collections.singletonList("**");
 
@@ -66,9 +69,9 @@ final class JakartaSecurityAnnotationProcessor {
 
     /**
      * Inspects {@code rawOp}'s security requirements (falling back to the global
-     * {@code openAPI.security} when the operation does not override) and sets
-     * {@code x-jakarta-roles-allowed} on {@code op} when the operation qualifies
-     * for {@code @RolesAllowed} emission.
+     * {@code openAPI.security} when the operation does not override) and sets either
+     * {@code x-jakarta-roles-allowed} (for {@code @RolesAllowed}) or
+     * {@code x-jakarta-permit-all} (for {@code @PermitAll}) on {@code op}.
      */
     void applyTo(CodegenOperation op, Operation rawOp, OpenAPI openAPI) {
         // Use the raw Operation here rather than op.authMethods: by the time postProcessOperationsWithModels
@@ -88,6 +91,10 @@ final class JakartaSecurityAnnotationProcessor {
         List<String> scopes = collectRolesAllowedScopes(requirements, schemes);
         if (scopes != null && !scopes.isEmpty()) {
             op.vendorExtensions.put(VENDOR_X_JAKARTA_ROLES_ALLOWED, scopes);
+            return;
+        }
+        if (qualifiesForPermitAll(rawOp, openAPI, requirements)) {
+            op.vendorExtensions.put(VENDOR_X_JAKARTA_PERMIT_ALL, Boolean.TRUE);
         }
     }
 
@@ -118,6 +125,55 @@ final class JakartaSecurityAnnotationProcessor {
             }
         }
         return anyQualifies;
+    }
+
+    /**
+     * Returns true when the operation should emit {@code @PermitAll} -- the
+     * "no authentication required" cases that {@code qualifiesForAnyRoles} and
+     * {@code collectRolesAllowedScopes} deliberately reject.
+     *
+     * <p>The decision uses raw op-level and global security fields (not the already
+     * resolved {@code effectiveRequirements}) so it can distinguish explicit op-level
+     * opt-out ({@code security: []}) from global inheritance.
+     *
+     * <ul>
+     *   <li>Op-level {@code security: []} -> always permit-all (overrides any global).
+     *   <li>No op-level security AND global {@code security: []} -> inherits empty.
+     *   <li>No op-level security AND no global security -> the spec declares the
+     *       entire API unauthenticated.
+     *   <li>Op-level OR list contains {@code - {}} -> least-restrictive wins.
+     * </ul>
+     *
+     * <p>This method returns false for mixed-scope AND groups, undefined schemes, and
+     * other ambiguous cases -- those bail with a warning at the {@code @RolesAllowed}
+     * stage and must NOT silently fall through to {@code @PermitAll}.
+     */
+    private boolean qualifiesForPermitAll(Operation rawOp, OpenAPI openAPI, List<SecurityRequirement> effectiveRequirements) {
+        List<SecurityRequirement> opSecurity = rawOp.getSecurity();
+        if (opSecurity != null && opSecurity.isEmpty()) {
+            // Explicit op-level opt-out wins over any global setting.
+            return true;
+        }
+        if (opSecurity == null) {
+            List<SecurityRequirement> globalSecurity = openAPI.getSecurity();
+            if (globalSecurity == null) {
+                // Spec defines no security at all -- every operation is unauthenticated.
+                return true;
+            }
+            if (globalSecurity.isEmpty()) {
+                // Operation inherits the global empty list -- unauthenticated.
+                return true;
+            }
+        }
+        if (effectiveRequirements != null) {
+            for (SecurityRequirement requirement : effectiveRequirements) {
+                if (requirement.isEmpty()) {
+                    // Anonymous OR alternative -- least restrictive wins.
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

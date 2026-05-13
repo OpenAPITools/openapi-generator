@@ -44,6 +44,16 @@ paths:
       responses:
         '200':
           description: OK
+  /anonymous-or-authenticated:
+    get:
+      operationId: getAnonymousOrAuthenticated
+      summary: OR with anonymous alternative — emits @PermitAll (least-restrictive wins)
+      security:
+        - oauth2_scheme: []
+        - {}
+      responses:
+        '200':
+          description: OK
 components:
   securitySchemes:
     oauth2_scheme:
