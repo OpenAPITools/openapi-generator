@@ -4059,6 +4059,11 @@ public class DefaultCodegen implements CodegenConfig {
         property.required = required;
         ModelUtils.syncValidationProperties(p, property);
         property.setFormat(p.getFormat());
+        property.isSetSetterExtensionDeclared =
+                p.getUniqueItems() != null
+                        && p.getUniqueItems()
+                        && p.getExtensions() != null
+                        && p.getExtensions().containsKey(X_SETTER_EXTRA_ANNOTATION);
 
         property.name = toVarName(name);
         property.baseName = name;

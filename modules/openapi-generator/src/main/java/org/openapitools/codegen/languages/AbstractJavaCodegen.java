@@ -77,6 +77,7 @@ import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+import static org.openapitools.codegen.CodegenConstants.X_SETTER_EXTRA_ANNOTATION;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -1981,9 +1982,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("set".equals(property.containerType)) {
             model.imports.add("LinkedHashSet");
             model.imports.add("Arrays");
-            if ((!openApiNullable || !property.isNullable) && jackson) { // cannot be wrapped to nullable
+            if ((!openApiNullable || !property.isNullable) && jackson && !property.isSetSetterExtensionDeclared) { // cannot be wrapped to nullable
                 model.imports.add("JsonDeserialize");
-                property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
+                property.vendorExtensions.put(X_SETTER_EXTRA_ANNOTATION, "@JsonDeserialize(as = LinkedHashSet.class)");
             }
         } else if ("map".equals(property.containerType)) {
             model.imports.add("HashMap");
