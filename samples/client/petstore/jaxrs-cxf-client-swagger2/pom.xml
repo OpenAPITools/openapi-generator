@@ -182,9 +182,6 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>8</java.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-annotations-version>2.2.7</swagger-annotations-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.2</junit-version>
