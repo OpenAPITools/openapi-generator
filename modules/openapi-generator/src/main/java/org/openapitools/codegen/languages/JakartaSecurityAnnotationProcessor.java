@@ -21,9 +21,12 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import org.openapitools.codegen.CodegenOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,10 +41,20 @@ import org.slf4j.LoggerFactory;
  * is still correct for the OR group.
  *
  * <p>A single vendor extension {@code x-jakarta-roles-allowed} carries the value to
- * emit. For the any-authenticated-user case it is set to the singleton list
- * {@code ["**"]}, producing {@code @RolesAllowed({"**"})}. Future PRs will reuse
- * the same extension to emit scoped roles (e.g. {@code ["admin"]}) without needing
- * a second flag or template branch.
+ * emit:
+ * <ul>
+ *   <li>{@code ["**"]} for the any-authenticated-user case, producing
+ *       {@code @RolesAllowed({"**"})}.
+ *   <li>A sorted, deduplicated list of scope names (e.g. {@code ["admin", "user"]})
+ *       when every OR alternative is scoped, producing
+ *       {@code @RolesAllowed({"admin","user"})}.
+ *   <li>Unset when the operation does not qualify (anonymous OR alternative,
+ *       mixed-scope AND group, etc.).
+ * </ul>
+ *
+ * <p>The wildcard and scoped emissions are mutually exclusive per operation: if any
+ * OR alternative qualifies as "any authenticated user", the wildcard wins and the
+ * scoped path is skipped.
  */
 final class JakartaSecurityAnnotationProcessor {
 
@@ -70,6 +83,11 @@ final class JakartaSecurityAnnotationProcessor {
 
         if (qualifiesForAnyRoles(requirements, schemes)) {
             op.vendorExtensions.put(VENDOR_X_JAKARTA_ROLES_ALLOWED, ANY_AUTHENTICATED_ROLE);
+            return; // mutually exclusive -- short-circuit before the scoped path runs
+        }
+        List<String> scopes = collectRolesAllowedScopes(requirements, schemes);
+        if (scopes != null && !scopes.isEmpty()) {
+            op.vendorExtensions.put(VENDOR_X_JAKARTA_ROLES_ALLOWED, scopes);
         }
     }
 
@@ -132,7 +150,7 @@ final class JakartaSecurityAnnotationProcessor {
             case OAUTH2:
             case OPENIDCONNECT:
                 // Empty scope list means the operation requires authentication but no specific role,
-                // so @RolesAllowed({"**"}) is correct. Non-empty scopes belong to a future @RolesAllowed({scope}) PR.
+                // so @RolesAllowed({"**"}) is correct. Non-empty scopes are handled by collectRolesAllowedScopes.
                 return scopes == null || scopes.isEmpty();
             case HTTP:
             case APIKEY:
@@ -144,6 +162,92 @@ final class JakartaSecurityAnnotationProcessor {
                         scheme.getType());
                 return false;
         }
+    }
+
+    /**
+     * Returns the deduplicated, alphabetically sorted union of scope names across every OR
+     * alternative, or {@code null} if the requirement set does not qualify (anonymous OR
+     * alternative, mixed-scope AND group, undefined scheme, or no requirements at all).
+     *
+     * <p>A {@code null} return means the scoped {@code @RolesAllowed} annotation must not
+     * be emitted for this operation.
+     */
+    private List<String> collectRolesAllowedScopes(List<SecurityRequirement> requirements,
+            Map<String, SecurityScheme> schemes) {
+        if (requirements == null || requirements.isEmpty()) {
+            return null;
+        }
+        Set<String> union = new TreeSet<>(); // sorted, deduplicated
+        for (SecurityRequirement requirement : requirements) {
+            if (requirement.isEmpty()) {
+                // Anonymous OR alternative -- defer to @PermitAll (future PR).
+                return null;
+            }
+            List<String> groupScopes = collectAndGroupScopes(requirement, schemes);
+            if (groupScopes == null) {
+                // Unscopable AND group -- bail the entire operation.
+                return null;
+            }
+            union.addAll(groupScopes);
+        }
+        return new ArrayList<>(union);
+    }
+
+    /**
+     * Returns the scope list contributed by a single AND group, or {@code null} if the AND
+     * group cannot be expressed as a single Jakarta {@code @RolesAllowed} annotation.
+     *
+     * <p>At most ONE scheme in the AND group may have non-empty scopes (the "scoped scheme").
+     * If two or more schemes carry competing scope sets, Quarkus annotations cannot express
+     * the AND-of-different-scope-sets relationship -- we log a warning and return {@code null}.
+     *
+     * <p>An empty list (not {@code null}) is returned when the AND group is valid but no
+     * scheme contributes scopes; the caller treats that as "no scopes from this alternative".
+     */
+    private List<String> collectAndGroupScopes(SecurityRequirement requirement,
+            Map<String, SecurityScheme> schemes) {
+        List<String> scopedSchemeScopes = null;
+        int scopedSchemeCount = 0;
+        for (Map.Entry<String, List<String>> entry : requirement.entrySet()) {
+            SecurityScheme scheme = schemes.get(entry.getKey());
+            if (scheme == null) {
+                LOGGER.warn("Security requirement references undefined scheme '{}' -- skipping Jakarta scoped @RolesAllowed for this operation.",
+                        entry.getKey());
+                return null;
+            }
+            if (scheme.getType() == null) {
+                LOGGER.warn("Security scheme '{}' is missing 'type' -- skipping Jakarta scoped @RolesAllowed.",
+                        entry.getKey());
+                return null;
+            }
+            switch (scheme.getType()) {
+                case OAUTH2:
+                case OPENIDCONNECT:
+                    List<String> scopes = entry.getValue();
+                    if (scopes != null && !scopes.isEmpty()) {
+                        scopedSchemeCount++;
+                        if (scopedSchemeCount > 1) {
+                            LOGGER.warn(
+                                    "AND-group contains multiple scoped schemes (e.g. '{}'); Jakarta @RolesAllowed cannot express AND of different scope sets -- skipping scoped @RolesAllowed for this operation.",
+                                    entry.getKey());
+                            return null;
+                        }
+                        scopedSchemeScopes = scopes;
+                    }
+                    // Unscoped OAuth2/OIDC contributes nothing to the scope list.
+                    break;
+                case HTTP:
+                case APIKEY:
+                case MUTUALTLS:
+                    // No scope concept; participates in the AND group but contributes no scopes.
+                    break;
+                default:
+                    LOGGER.warn("Unrecognised security scheme type '{}' -- skipping Jakarta scoped @RolesAllowed.",
+                            scheme.getType());
+                    return null;
+            }
+        }
+        return scopedSchemeScopes != null ? scopedSchemeScopes : Collections.emptyList();
     }
 
     private static Map<String, SecurityScheme> resolveSchemes(OpenAPI openAPI) {
