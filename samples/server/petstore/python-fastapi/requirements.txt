@@ -22,13 +22,13 @@ orjson==3.11.6
 promise==2.3
 pydantic>=2
 python-dotenv==1.2.2
-python-multipart==0.0.26
+python-multipart==0.0.27
 PyYAML>=5.4.1,<6.1.0
 requests==2.32.4
 Rx==1.6.1
 starlette==0.49.1
 typing-extensions==4.13.2
-ujson==4.0.2
+ujson==5.12.0
 urllib3==2.7.0
 uvicorn==0.13.4
 uvloop==0.21.0
