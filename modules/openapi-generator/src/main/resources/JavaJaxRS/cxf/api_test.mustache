@@ -24,7 +24,17 @@ import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 {{/useLoggingFeature}}
 
+{{#useJackson3}}
+import {{jacksonPackage}}.jakarta.rs.json.JacksonJsonProvider;
+{{/useJackson3}}
+{{^useJackson3}}
+{{#useJakartaEe}}
+import {{jacksonPackage}}.jakarta.rs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
+{{/useJackson3}}
 
 import java.util.ArrayList;
 import java.util.HashMap;
