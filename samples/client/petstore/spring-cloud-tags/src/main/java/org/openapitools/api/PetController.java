@@ -7,8 +7,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
-import org.springframework.data.domain.Pageable;
-import org.springdoc.core.annotations.ParameterObject;
 import org.openapitools.model.Pet;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;

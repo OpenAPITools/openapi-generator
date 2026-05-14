@@ -1050,16 +1050,22 @@ public class ModelUtils {
             // inline default value takes precedence
             return defaultValue;
         }
-        return !hasAllOf(schema)
-                ? null
-                : schema.getAllOf().stream()
-                  // recursive search for default
-                  .map(item -> resolveDefault(openAPI, item))
-                  .filter(Objects::nonNull)
-                  // first non-null default in allOf wins.
-                  // This is very arbitrary and might not be correct behavior, since behavior regarding default inheritance/overriding is unspecified
-                  .findFirst()
-                  .orElse(null);
+        if (hasAllOf(schema)) {
+            return getFirstNonNullDefault(openAPI, schema).orElse(null);
+        }
+        return null;
+    }
+
+    /**
+     * Recursively searches {@code allOf} items for the first non-null {@code default} value.
+     * The first non-null default in {@code allOf} wins.
+     * This behavior is arbitrary and may not reflect intentions of the spec creator, as default's inheritance/overriding behavior is undefined.
+     */
+    private static @NonNull Optional<Object> getFirstNonNullDefault(OpenAPI openAPI, Schema<?> schema) {
+        return schema.getAllOf().stream()
+                .map(item -> resolveDefault(openAPI, item))
+                .filter(Objects::nonNull)
+                .findFirst();
     }
 
     public static boolean hasValidation(Schema sc) {

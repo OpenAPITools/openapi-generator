@@ -7,8 +7,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
-import org.springframework.data.domain.Pageable;
-import org.springdoc.core.annotations.ParameterObject;
 import org.openapitools.model.Pet;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -140,6 +138,9 @@ public interface PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @param tags Tags to filter by (required)
+     * @param size2 The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used. (required)
+     * @param page The page to return, starting with page 0. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used. (required)
+     * @param sort The sorting to apply to the Pageable object. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used. (required)
      * @param size A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used. (optional)
      * @return successful operation (status code 200)
      *         or Invalid tag value (status code 400)
@@ -170,6 +171,9 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
+        @NotNull @Min(value = 1) @Parameter(name = "size", description = "The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = true, defaultValue = "20") Integer size2,
+        @NotNull @Min(value = 0) @Parameter(name = "page", description = "The page to return, starting with page 0. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
+        @NotNull @Parameter(name = "sort", description = "The sorting to apply to the Pageable object. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = true, defaultValue = "id,asc") String sort,
         @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) @Nullable String size,
         @ParameterObject final Pageable pageable
     );
@@ -217,6 +221,9 @@ public interface PetApi {
      * GET /pet/all : List all pets
      * Returns all pets with pagination support
      *
+     * @param page The page number to return. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used. (optional, default to 0)
+     * @param size The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used. (optional, default to 20)
+     * @param sort The sort order. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used. (optional)
      * @return successful operation (status code 200)
      *         or Invalid status value (status code 400)
      */
@@ -243,6 +250,9 @@ public interface PetApi {
     )
     @org.springframework.validation.annotation.Validated
     ResponseEntity<List<Pet>> listAllPets(
+        @Parameter(name = "page", description = "The page number to return. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+        @Parameter(name = "size", description = "The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size,
+        @Parameter(name = "sort", description = "The sort order. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) @Nullable String sort,
         @ParameterObject final Pageable pageable
     );
 

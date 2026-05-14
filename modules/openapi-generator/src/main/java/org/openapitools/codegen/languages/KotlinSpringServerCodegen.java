@@ -197,19 +197,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private Map<String, String> sealedInterfaceToOperationId = new HashMap<>();
     private boolean sealedInterfacesFileWritten = false;
 
-    // Map from operationId to allowed sort values for @ValidSort annotation generation
-    private Map<String, List<String>> sortValidationEnums = new HashMap<>();
-
-    // Map from operationId to pageable defaults for @PageableDefault/@SortDefault annotation generation
-    private Map<String, SpringPageableScanUtils.PageableDefaultsData> pageableDefaultsRegistry = new HashMap<>();
-
-    // Map from operationId to pageable constraints for @ValidPageable annotation generation
-    private Map<String, SpringPageableScanUtils.PageableConstraintsData> pageableConstraintsRegistry = new HashMap<>();
-
     // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
     private Map<String, PagedModelScanUtils.DetectedPagedModel> pagedModelRegistry = new HashMap<>();
     // Simple class name of the PagedModel substitute (derived from importMapping; defaults to "PagedModel")
     private String pagedModelClassName = "PagedModel";
+
+    // Holds scan results for Spring Pageable features (populated during preprocessOpenAPI)
+    private final SpringPageableScanUtils pageableUtils = new SpringPageableScanUtils();
 
     public KotlinSpringServerCodegen() {
         super();
@@ -1038,33 +1032,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<io.swagger.v3.oas.models.servers.Server> servers) {
-        // #8315 Spring Data Web default query params recognized by Pageable
-        List<String> defaultPageableQueryParams = Arrays.asList("page", "size", "sort");
+        // Auto-detect pagination parameters and set x-spring-paginated if autoXSpringPaginated is enabled.
+        // Must be done BEFORE super.fromOperation() so that the base codegen populates
+        // codegenOperation.vendorExtensions from the extension we just set on 'operation'.
+        // Only for spring-boot library; respect manual x-spring-paginated: false override.
+        if (SPRING_BOOT.equals(library)) {
+            SpringPageableScanUtils.applyAutoXSpringPaginatedIfNeeded(operation, autoXSpringPaginated);
+        }
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
-
-        // Check if operation has all three pagination query parameters (case-sensitive)
-        boolean hasParamsForPageable = codegenOperation.queryParams.stream()
-                .map(p -> p.baseName)
-                .collect(Collectors.toSet())
-                .containsAll(defaultPageableQueryParams);
-        // Auto-detect pagination parameters and add x-spring-paginated if autoXSpringPaginated is enabled
-        // Only for spring-boot library, respect manual x-spring-paginated: false setting
-        if (SPRING_BOOT.equals(library) && autoXSpringPaginated) {
-            // Check if x-spring-paginated is not explicitly set to false
-            if (operation.getExtensions() == null || !Boolean.FALSE.equals(operation.getExtensions().get("x-spring-paginated"))) {
-
-
-                if (hasParamsForPageable) {
-                    // Automatically add x-spring-paginated to the operation
-                    if (operation.getExtensions() == null) {
-                        operation.setExtensions(new HashMap<>());
-                    }
-                    operation.getExtensions().put("x-spring-paginated", Boolean.TRUE);
-                    codegenOperation.vendorExtensions.put("x-spring-paginated", Boolean.TRUE);
-                }
-            }
-        }
 
         // Only process x-spring-paginated for server-side libraries (spring-boot)
         // Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters for HTTP requests
@@ -1078,75 +1054,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             // add org.springframework.data.domain.Pageable import when needed (server libraries only)
             if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
                 codegenOperation.imports.add("Pageable");
-                if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
-                    codegenOperation.imports.add("PageableAsQueryParam");
-                    // Prepend @PageableAsQueryParam to existing x-operation-extra-annotation if present
-                    // Use getObjectAsStringList to properly handle both list and string formats:
-                    // - YAML list: ['@Ann1', '@Ann2'] -> List of annotations
-                    // - Single string: '@Ann1 @Ann2' -> Single-element list
-                    // - Nothing/null -> Empty list
-                    Object existingAnnotation = codegenOperation.vendorExtensions.get("x-operation-extra-annotation");
-                    List<String> annotations = DefaultCodegen.getObjectAsStringList(existingAnnotation);
-
-                    // Prepend @PageableAsQueryParam to the beginning of the list
-                    List<String> updatedAnnotations = new ArrayList<>();
-                    updatedAnnotations.add("@PageableAsQueryParam");
-                    updatedAnnotations.addAll(annotations);
-
-                    codegenOperation.vendorExtensions.put("x-operation-extra-annotation", updatedAnnotations);
-                }
+                SpringPageableScanUtils.applySpringDocPageableAnnotation(codegenOperation,
+                        SpringPageableScanUtils.AnnotationSyntax.KOTLIN,
+                        DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider()));
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
-                // Build pageable parameter annotations (@ValidPageable, @ValidSort, @PageableDefault, @SortDefault.SortDefaults)
-                List<String> pageableAnnotations = new ArrayList<>();
-
-                if (generatePageableConstraintValidation && useBeanValidation && pageableConstraintsRegistry.containsKey(codegenOperation.operationId)) {
-                    SpringPageableScanUtils.PageableConstraintsData constraints = pageableConstraintsRegistry.get(codegenOperation.operationId);
-                    List<String> attrs = new ArrayList<>();
-                    if (constraints.maxSize >= 0) attrs.add("maxSize = " + constraints.maxSize);
-                    if (constraints.maxPage >= 0) attrs.add("maxPage = " + constraints.maxPage);
-                    if (constraints.minSize >= 0) attrs.add("minSize = " + constraints.minSize);
-                    if (constraints.minPage >= 0) attrs.add("minPage = " + constraints.minPage);
-                    pageableAnnotations.add("@ValidPageable(" + String.join(", ", attrs) + ")");
-                    codegenOperation.imports.add("ValidPageable");
-                }
-
-                if (generateSortValidation && useBeanValidation && sortValidationEnums.containsKey(codegenOperation.operationId)) {
-                    List<String> allowedSortValues = sortValidationEnums.get(codegenOperation.operationId);
-                    String allowedValuesStr = allowedSortValues.stream()
-                            .map(v -> "\"" + v.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
-                            .collect(Collectors.joining(", "));
-                    pageableAnnotations.add("@ValidSort(allowedValues = [" + allowedValuesStr + "])");
-                    codegenOperation.imports.add("ValidSort");
-                }
-
-                // Generate @PageableDefault / @SortDefault.SortDefaults annotations if defaults are present
-                if (pageableDefaultsRegistry.containsKey(codegenOperation.operationId)) {
-                    SpringPageableScanUtils.PageableDefaultsData defaults = pageableDefaultsRegistry.get(codegenOperation.operationId);
-
-                    if (defaults.page != null || defaults.size != null) {
-                        List<String> attrs = new ArrayList<>();
-                        if (defaults.page != null) attrs.add("page = " + defaults.page);
-                        if (defaults.size != null) attrs.add("size = " + defaults.size);
-                        pageableAnnotations.add("@PageableDefault(" + String.join(", ", attrs) + ")");
-                        codegenOperation.imports.add("PageableDefault");
-                    }
-
-                    if (!defaults.sortDefaults.isEmpty()) {
-                        List<String> sortEntries = defaults.sortDefaults.stream()
-                                .map(sf -> "SortDefault(sort = [\"" + sf.field + "\"], direction = Sort.Direction." + sf.direction + ")")
-                                .collect(Collectors.toList());
-                        pageableAnnotations.add("@SortDefault.SortDefaults(" + String.join(", ", sortEntries) + ")");
-                        codegenOperation.imports.add("SortDefault");
-                        codegenOperation.imports.add("Sort");
-                    }
-                }
-
-                if (!pageableAnnotations.isEmpty()) {
-                    codegenOperation.vendorExtensions.put("x-pageable-extra-annotation", pageableAnnotations);
-                }
-                codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
-                codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
+                // Build and attach pageable parameter annotations
+                SpringPageableScanUtils.removePageableQueryParams(codegenOperation);
+                pageableUtils.applyPageableAnnotations(codegenOperation,
+                        generatePageableConstraintValidation, useBeanValidation,
+                        generateSortValidation, SpringPageableScanUtils.AnnotationSyntax.KOTLIN);
             }
         }
 
@@ -1191,27 +1108,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.kt"));
         }
 
-        if (SPRING_BOOT.equals(library) && generateSortValidation && useBeanValidation) {
-            sortValidationEnums = SpringPageableScanUtils.scanSortValidationEnums(openAPI, autoXSpringPaginated);
-            if (!sortValidationEnums.isEmpty()) {
+        if (SPRING_BOOT.equals(library)) {
+            pageableUtils.scanAll(openAPI, autoXSpringPaginated);
+
+            if (generateSortValidation && useBeanValidation && !pageableUtils.sortValidationEnums.isEmpty()) {
                 importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
                 supportingFiles.add(new SupportingFile("validSort.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", File.separator), "ValidSort.kt"));
             }
-        }
 
-        if (SPRING_BOOT.equals(library)) {
-            pageableDefaultsRegistry = SpringPageableScanUtils.scanPageableDefaults(openAPI, autoXSpringPaginated);
-            if (!pageableDefaultsRegistry.isEmpty()) {
+            if (!pageableUtils.pageableDefaultsRegistry.isEmpty()) {
                 importMapping.putIfAbsent("PageableDefault", "org.springframework.data.web.PageableDefault");
                 importMapping.putIfAbsent("SortDefault", "org.springframework.data.web.SortDefault");
                 importMapping.putIfAbsent("Sort", "org.springframework.data.domain.Sort");
             }
-        }
 
-        if (SPRING_BOOT.equals(library) && generatePageableConstraintValidation && useBeanValidation) {
-            pageableConstraintsRegistry = SpringPageableScanUtils.scanPageableConstraints(openAPI, autoXSpringPaginated);
-            if (!pageableConstraintsRegistry.isEmpty()) {
+            if (generatePageableConstraintValidation && useBeanValidation && !pageableUtils.pageableConstraintsRegistry.isEmpty()) {
                 importMapping.putIfAbsent("ValidPageable", configPackage + ".ValidPageable");
                 supportingFiles.add(new SupportingFile("validPageable.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", File.separator), "ValidPageable.kt"));
