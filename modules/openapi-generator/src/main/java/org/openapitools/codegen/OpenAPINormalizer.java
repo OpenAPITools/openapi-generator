@@ -776,11 +776,11 @@ public class OpenAPINormalizer {
             }
 
             if (ModelUtils.hasOneOf(schema)) {
-                return normalizeOneOf(schema, visitedSchemas);
+                schema = normalizeOneOf(schema, visitedSchemas);
             }
 
             if (ModelUtils.hasAnyOf(schema)) {
-                return normalizeAnyOf(schema, visitedSchemas);
+                schema = normalizeAnyOf(schema, visitedSchemas);
             }
 
             if (ModelUtils.hasProperties(schema)) {
