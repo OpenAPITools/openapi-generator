@@ -1,0 +1,106 @@
+openapi: 3.0.1
+info:
+  title: Salvo Auth Test API
+  version: 1.0.0
+  description: Test API for Salvo server with authentication
+paths:
+  /protected:
+    get:
+      operationId: getProtected
+      summary: Get protected resource
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Protected resource
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /admin:
+    post:
+      operationId: adminAction
+      summary: Admin only action
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+      responses:
+        '200':
+          description: Action completed
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /report:
+    get:
+      operationId: getReport
+      summary: Get a report (Basic-auth protected)
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Report payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+        '401':
+          description: Unauthorized
+  /search:
+    get:
+      operationId: searchAny
+      summary: Endpoint that accepts any of the configured auth schemes (OR)
+      security:
+        - ApiKeyAuth: []
+        - BearerAuth: []
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Results
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    BasicAuth:
+      type: http
+      scheme: basic
