@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
-{{#operations}}{{#clientRegistrationId}}
+{{#clientRegistrationId}}
 import org.springframework.security.oauth2.client.annotation.ClientRegistrationId;
-{{/clientRegistrationId}}{{/operations}}
+{{/clientRegistrationId}}
 import org.springframework.web.multipart.MultipartFile;
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid;
