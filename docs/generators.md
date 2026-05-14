@@ -147,6 +147,7 @@ The following generators are available:
 * [ruby-on-rails](generators/ruby-on-rails.md)  
 * [ruby-sinatra](generators/ruby-sinatra.md)  
 * [rust-axum (beta)](generators/rust-axum.md)  
+* [rust-salvo (beta)](generators/rust-salvo.md)  
 * [rust-server](generators/rust-server.md)  
 * [rust-server-deprecated](generators/rust-server-deprecated.md)  
 * [scala-akka-http-server (beta)](generators/scala-akka-http-server.md)  

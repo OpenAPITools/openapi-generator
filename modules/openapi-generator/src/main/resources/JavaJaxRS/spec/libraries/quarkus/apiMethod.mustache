@@ -50,6 +50,9 @@
 {{#vendorExtensions.x-jakarta-roles-allowed.0}}
     @jakarta.annotation.security.RolesAllowed({{openbrace}}{{#vendorExtensions.x-jakarta-roles-allowed}}"{{.}}"{{^-last}},{{/-last}}{{/vendorExtensions.x-jakarta-roles-allowed}}{{closebrace}})
 {{/vendorExtensions.x-jakarta-roles-allowed.0}}
+{{#vendorExtensions.x-jakarta-permit-all}}
+    @jakarta.annotation.security.PermitAll
+{{/vendorExtensions.x-jakarta-permit-all}}
     public {{#supportAsync}}{{#useMutiny}}Uni{{/useMutiny}}{{^useMutiny}}CompletionStage{{/useMutiny}}<{{/supportAsync}}{{#returnJBossResponse}}{{>returnResponseTypeInterface}}{{/returnJBossResponse}}{{^returnJBossResponse}}Response{{/returnJBossResponse}}{{#supportAsync}}>{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
         return {{#supportAsync}}{{#useMutiny}}Uni.createFrom().item({{/useMutiny}}{{^useMutiny}}CompletableFuture.supplyAsync(() -> {{/useMutiny}}{{/supportAsync}}Response.ok().entity("magic!").build(){{#supportAsync}}){{/supportAsync}};
     }

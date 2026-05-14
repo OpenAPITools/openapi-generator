@@ -47,6 +47,19 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     private static final String ROLES_ALLOWED_WILDCARD_PATTERN =
             "@jakarta\\.annotation\\.security\\.RolesAllowed\\(\\{" + '"' + "\\*\\*" + '"' + "\\}\\)";
 
+    // Regex matching @jakarta.annotation.security.RolesAllowed({"scope1","scope2",...}) -- one or more
+    // named scopes. Excludes the {"**"} wildcard form via a negative lookahead on the first quoted value.
+    private static final String ROLES_ALLOWED_SCOPED_PATTERN =
+            "@jakarta\\.annotation\\.security\\.RolesAllowed\\(\\{"
+                    + '"' + "(?!\\*\\*" + '"' + ")[^" + '"' + "]+" + '"'
+                    + "(?:," + '"' + "[^" + '"' + "]+" + '"' + ")*"
+                    + "\\}\\)";
+
+    // Regex matching @jakarta.annotation.security.PermitAll. Negative lookahead guards against
+    // a hypothetical @PermitAllSomething identifier in the generated source.
+    private static final String PERMIT_ALL_PATTERN =
+            "@jakarta\\.annotation\\.security\\.PermitAll(?![A-Za-z0-9_])";
+
     @BeforeMethod
     public void before() {
         codegen = new JavaJAXRSSpecServerCodegen();
@@ -1625,7 +1638,10 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
     /**
      * Single parameterised test exercising every spec fixture that drives @RolesAllowed({"**"}) emission.
-     * Each row: (spec path, interfaceOnly, useJakartaSecurityAnnotations, expected occurrences in generated API file).
+     * Each row: (spec path, interfaceOnly, useJakartaSecurityAnnotations, expected wildcard occurrences, expected @PermitAll occurrences).
+     *
+     * The @PermitAll column proves mutual exclusion: wildcard and @PermitAll never appear on the same method,
+     * and any operation that flips to "no security" must surface as @PermitAll rather than vanishing.
      *
      * Consolidates per-scheme test methods (HttpBasic, HttpBearer, ApiKey, OpenIdConnect, OAuth2, global, mixed-OR, AND-group)
      * since they only differ by spec path and expected count.
@@ -1633,58 +1649,79 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     @DataProvider(name = "quarkusJakartaSecurityCases")
     public Object[][] quarkusJakartaSecurityCases() {
         return new Object[][] {
-                // single OAuth2 flow, no scopes — flag on → @RolesAllowed({"**"}); flag off → absent
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", true,  false, 0},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", false, true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", false, false, 0},
-                // single OAuth2 flow, non-empty scopes → no @RolesAllowed({"**"}) regardless of flag
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", true,  true,  0},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", false, true,  0},
-                // multiple OAuth2 flows, all no scopes — flag on → exactly once (no per-flow duplication)
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multi-flow-no-scopes.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multi-flow-no-scopes.yaml", false, true,  1},
-                // OR: one scheme no-scope + one scheme scoped — flag on → one op gets @RolesAllowed({"**"})
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", false, true,  1},
-                // HTTP Basic — always qualifies (no scope concept)
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", true,  false, 0},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", false, true,  1},
-                // HTTP Bearer — always qualifies
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-bearer.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-bearer.yaml", false, true,  1},
-                // API Key — always qualifies
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-api-key.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-api-key.yaml", false, true,  1},
-                // OpenID Connect — empty scopes qualifies
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-no-scopes.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-no-scopes.yaml", false, true,  1},
-                // OpenID Connect — explicit scopes does not qualify
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-with-scopes.yaml", true,  true,  0},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-with-scopes.yaml", false, true,  0},
-                // global HTTP Basic + Bearer; GET inherits (→ @RolesAllowed({"**"})), POST has security:[] (→ none)
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-security-one-op-disabled.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-security-one-op-disabled.yaml", false, true,  1},
+                // single OAuth2 flow, no scopes — GET → wildcard, POST has no security (Rule D) → @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", true,  false, 0, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", false, true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-no-scopes.yaml", false, false, 0, 0},
+                // single OAuth2 flow, non-empty scopes → no @RolesAllowed({"**"}); both ops have security → no PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", true,  true,  0, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", false, true,  0, 0},
+                // multiple OAuth2 flows, all no scopes — GET → wildcard; POST has no security (Rule D) → @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multi-flow-no-scopes.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multi-flow-no-scopes.yaml", false, true,  1, 1},
+                // OR: one scheme no-scope + one scheme scoped — GET → wildcard, POST → scoped @RolesAllowed (no PermitAll)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", true,  true,  1, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", false, true,  1, 0},
+                // HTTP Basic — GET qualifies (wildcard); POST has no security (Rule D) → @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", true,  false, 0, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-basic.yaml", false, true,  1, 1},
+                // HTTP Bearer — GET wildcard, POST no security (Rule D) → @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-bearer.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-http-bearer.yaml", false, true,  1, 1},
+                // API Key — GET wildcard, POST no security (Rule D) → @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-api-key.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-api-key.yaml", false, true,  1, 1},
+                // OpenID Connect — GET (oidc:[]) wildcard, POST no security (Rule D) → @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-no-scopes.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-no-scopes.yaml", false, true,  1, 1},
+                // OpenID Connect — both ops scoped → no wildcard, no PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-with-scopes.yaml", true,  true,  0, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-with-scopes.yaml", false, true,  0, 0},
+                // global HTTP Basic + Bearer; GET inherits (→ @RolesAllowed({"**"})), POST has security:[] (→ @PermitAll)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-security-one-op-disabled.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-security-one-op-disabled.yaml", false, true,  1, 1},
                 // global OR: unscoped OAuth2 + scoped OAuth2; both ops inherit → both get @RolesAllowed({"**"})
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-oauth2-or-scoped-and-unscoped.yaml", true,  true,  2},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-oauth2-or-scoped-and-unscoped.yaml", false, true,  2},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-oauth2-or-scoped-and-unscoped.yaml", true,  true,  2, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-oauth2-or-scoped-and-unscoped.yaml", false, true,  2, 0},
                 // cross-type OR: scoped OAuth2 OR API Key — API Key qualifies even though OAuth2 alone would not
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-scoped-or-api-key.yaml", true,  true,  1},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-scoped-or-api-key.yaml", false, true,  1},
-                // AND group: oauth2 empty scopes AND openIdConnect admin:create → never emits
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-and-group-mixed-scopes.yaml", true,  true,  0},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-and-group-mixed-scopes.yaml", false, true,  0},
-                // OR list with anonymous alternative ({}) — least-restrictive wins, no @RolesAllowed
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-or-with-anonymous.yaml", true,  true,  0},
-                {"src/test/resources/3_0/jaxrs-spec/quarkus-or-with-anonymous.yaml", false, true,  0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-scoped-or-api-key.yaml", true,  true,  1, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-scoped-or-api-key.yaml", false, true,  1, 0},
+                // AND group: oauth2 empty scopes AND openIdConnect admin:create → never emits (Rule H — no fall-through to @PermitAll)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-and-group-mixed-scopes.yaml", true,  true,  0, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-and-group-mixed-scopes.yaml", false, true,  0, 0},
+                // OR list with anonymous alternative ({}) — least-restrictive wins, emits @PermitAll (Rule F)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-or-with-anonymous.yaml", true,  true,  0, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-or-with-anonymous.yaml", false, true,  0, 1},
+                // Rule A: op-level security:[] with no global -- emits @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-op-empty-security.yaml", true,  true,  0, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-op-empty-security.yaml", true,  false, 0, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-op-empty-security.yaml", false, true,  0, 1},
+                // Rule B: op-level security:[] AND global security:[] -- emits @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-op-empty-global-empty.yaml", true,  true,  0, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-op-empty-global-empty.yaml", false, true,  0, 1},
+                // Rule C: op-level security:[] overrides non-empty global -- GET inherits wildcard, POST gets @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-op-empty-global-non-empty.yaml", true,  true,  1, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-op-empty-global-non-empty.yaml", false, true,  1, 1},
+                // Rule D: spec has no security defined anywhere -- emits @PermitAll
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-no-security-defined.yaml", true,  true,  0, 1},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-no-security-defined.yaml", true,  false, 0, 0},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-no-security-defined.yaml", false, true,  0, 1},
+                // Rule E: global security:[] inherited by op without local security -- emits @PermitAll (two ops)
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-empty-security.yaml", true,  true,  0, 2},
+                {"src/test/resources/3_0/jaxrs-spec/quarkus-global-empty-security.yaml", false, true,  0, 2},
         };
     }
 
     @Test(dataProvider = "quarkusJakartaSecurityCases")
-    public void quarkusEmitsExpectedRolesAllowedWildcardCount(String specPath, boolean interfaceOnly, boolean useFlag, int expectedCount) throws Exception {
+    public void quarkusEmitsExpectedRolesAllowedWildcardCount(String specPath, boolean interfaceOnly, boolean useFlag,
+            int expectedWildcardCount, int expectedPermitAllCount) throws Exception {
         final String content = generateQuarkusItemsApi(specPath, interfaceOnly, useFlag, false);
-        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), expectedCount);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), expectedWildcardCount,
+                "wildcard @RolesAllowed count mismatch for " + specPath);
+        Assert.assertEquals(TestUtils.countOccurrences(content, PERMIT_ALL_PATTERN), expectedPermitAllCount,
+                "@PermitAll count mismatch for " + specPath);
     }
 
     /**
@@ -1700,6 +1737,267 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 "Expected exactly one @RolesAllowed({\"**\"}) annotation");
         Assert.assertTrue(content.contains("SecurityRequirement"),
                 "Expected MicroProfile @SecurityRequirement annotation alongside @RolesAllowed");
+    }
+
+    @DataProvider(name = "quarkusJakartaScopedRolesCases")
+    public Object[][] quarkusJakartaScopedRolesCases() {
+        return new Object[][] {
+            // {specPath, interfaceOnly, expectedScopedAnnotationCount, expectedWildcardCount, expectedPermitAllCount}
+            // OAuth2 scoped -- reuse PR-1 fixtures; must now emit scoped, not wildcard.
+            // Both interfaceOnly modes exercised to guard against regressions in apiInterface.mustache vs apiMethod.mustache.
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", true, 2, 0, 0},
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-with-scopes.yaml", false, 2, 0, 0},
+            // Single scope, both interface and implementation modes
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-single-scope.yaml", true, 2, 0, 0},
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-single-scope.yaml", false, 2, 0, 0},
+            // Multiple scopes and OR-union
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multiple-scopes.yaml", true, 1, 0, 0},
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multiple-scopes.yaml", false, 1, 0, 0},
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-different-scopes.yaml", true, 1, 0, 0},
+            // OpenID Connect scoped -- reuse PR-1 fixture
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-openidconnect-with-scopes.yaml", true, 2, 0, 0},
+            // Global security inheritance and override paths
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-global-with-scopes.yaml", true, 2, 0, 0},
+            // POST disables with security:[] -- now emits @PermitAll alongside GET's scoped @RolesAllowed
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-global-scopes-op-override.yaml", true, 1, 0, 1},
+            // AND groups
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-and-with-apikey-and-scoped-oauth2.yaml", true, 1, 0, 0},
+            // Rule H: mixed-scope AND group bails -- must NOT fall through to @PermitAll
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-and-multi-scoped-warns.yaml", true, 0, 0, 0},
+            // GET: unscoped OR scoped -> wildcard wins. POST: scoped-only -> scoped emitted. One of each.
+            // Exercised in both modes since this is the canonical "mutual exclusion at file level" fixture.
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", true, 1, 1, 0},
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-empty-and-scoped.yaml", false, 1, 1, 0},
+            // Anonymous OR alternative alongside scoped -- emits @PermitAll (Rule F)
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-or-empty-anonymous-with-scopes.yaml", true, 0, 0, 1},
+            {"src/test/resources/3_0/jaxrs-spec/quarkus-or-empty-anonymous-with-scopes.yaml", false, 0, 0, 1},
+        };
+    }
+
+    @Test(dataProvider = "quarkusJakartaScopedRolesCases")
+    public void quarkusEmitsExpectedScopedRolesAllowedCount(String specPath, boolean interfaceOnly,
+            int expectedScopedCount, int expectedWildcardCount, int expectedPermitAllCount) throws Exception {
+        final String content = generateQuarkusItemsApi(specPath, interfaceOnly, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN),
+                expectedScopedCount,
+                "scoped @RolesAllowed count mismatch for " + specPath);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN),
+                expectedWildcardCount,
+                "wildcard @RolesAllowed count mismatch for " + specPath);
+        Assert.assertEquals(TestUtils.countOccurrences(content, PERMIT_ALL_PATTERN),
+                expectedPermitAllCount,
+                "@PermitAll count mismatch for " + specPath);
+    }
+
+    @Test
+    public void quarkusEmitsAlphabeticallySortedDeduplicatedScopes() throws Exception {
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-multiple-scopes.yaml",
+                true, true, false);
+        assertContainsRolesAllowed(content, "read:items", "write:items");
+    }
+
+    @Test
+    public void quarkusOrAlternativesProduceUnionedScopes() throws Exception {
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-or-different-scopes.yaml",
+                true, true, false);
+        assertContainsRolesAllowed(content, "admin", "user");
+    }
+
+    @Test
+    public void quarkusGlobalScopesAreInheritedByOperationsWithoutOverride() throws Exception {
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-global-with-scopes.yaml",
+                true, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN), 2);
+        assertContainsRolesAllowed(content, "admin");
+    }
+
+    @Test
+    public void quarkusOperationOverrideShadowsGlobalScopedSecurity() throws Exception {
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-global-scopes-op-override.yaml",
+                true, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN), 1,
+                "Expected exactly one scoped @RolesAllowed (GET with user scope)");
+        assertContainsRolesAllowed(content, "user");
+        Assert.assertFalse(
+                content.contains("RolesAllowed({" + '"' + "admin" + '"'),
+                "@RolesAllowed scope 'admin' must be shadowed by the per-operation override");
+    }
+
+    @Test
+    public void quarkusGlobalEmptySecurityListEmitsPermitAll() throws Exception {
+        // A top-level empty `security: []` block means "no security requirements at all" -- both
+        // operations inherit the empty list and receive @PermitAll (Rule E).
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-global-empty-security.yaml",
+                true, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), 0,
+                "Expected no wildcard @RolesAllowed when global security is empty");
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN), 0,
+                "Expected no scoped @RolesAllowed when global security is empty");
+        Assert.assertEquals(TestUtils.countOccurrences(content, PERMIT_ALL_PATTERN), 2,
+                "Expected @PermitAll on both inheriting operations when global security is empty");
+    }
+
+    @Test
+    public void quarkusOrAnonymousAlternativeEmitsPermitAll() throws Exception {
+        // Rule F: OR list contains `- {}` (anonymous) alongside an authenticated scheme.
+        // Least-restrictive wins -- emit @PermitAll, never @RolesAllowed.
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-or-with-anonymous.yaml",
+                true, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, PERMIT_ALL_PATTERN), 1,
+                "Expected exactly one @PermitAll for OR with anonymous alternative");
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), 0,
+                "Anonymous OR must not emit @RolesAllowed({\"**\"})");
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN), 0,
+                "Anonymous OR must not emit scoped @RolesAllowed");
+    }
+
+    @Test
+    public void quarkusMixedAndGroupDoesNotFallThroughToPermitAll() throws Exception {
+        // Rule H: a mixed-scope AND group bails with a warning. The processor must NOT
+        // silently emit @PermitAll as a fallback -- absence of authentication metadata is
+        // semantically different from "unauthenticated allowed".
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-and-multi-scoped-warns.yaml",
+                true, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, PERMIT_ALL_PATTERN), 0,
+                "Mixed-scope AND group must not fall through to @PermitAll");
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), 0);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN), 0);
+    }
+
+    @Test
+    public void quarkusNoSecurityDefinedAnywhereEmitsPermitAll() throws Exception {
+        // Rule D: spec declares no security at all -- emit @PermitAll on every operation.
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-no-security-defined.yaml",
+                true, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, PERMIT_ALL_PATTERN), 1,
+                "Expected @PermitAll when no security is defined anywhere in the spec");
+    }
+
+    @Test
+    public void quarkusPermitAllCoexistsWithMicroProfileAnnotations() throws Exception {
+        // @PermitAll and MicroProfile OpenAPI annotations come from independent template branches;
+        // they must both render on the same method without ordering or duplication regressions.
+        // (security:[] means no @SecurityRequirement, so assert against @Operation which is always emitted.)
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-permit-all-microprofile-coexist.yaml",
+                true, true, true);
+        Assert.assertEquals(TestUtils.countOccurrences(content, PERMIT_ALL_PATTERN), 1,
+                "Expected exactly one @PermitAll annotation");
+        Assert.assertTrue(content.contains("org.eclipse.microprofile.openapi.annotations.Operation"),
+                "Expected MicroProfile @Operation annotation alongside @PermitAll");
+    }
+
+    @Test
+    public void quarkusScopedJakartaCoexistsWithMicroProfileAnnotations() throws Exception {
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-microprofile-coexist-scoped.yaml",
+                true, true, true);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN), 1,
+                "Expected exactly one scoped @RolesAllowed annotation");
+        Assert.assertTrue(content.contains("SecurityRequirement"),
+                "Expected MicroProfile @SecurityRequirement annotation alongside scoped @RolesAllowed");
+    }
+
+    @Test
+    public void quarkusNeverEmitsBothWildcardAndScopedRolesAllowedOnSameOperation() throws Exception {
+        // oauth2-scoped-or-api-key: GET has scoped OAuth2 OR unscoped API key -- wildcard wins, 0 scoped.
+        // POST has scoped OAuth2 only -- scoped emitted, 0 wildcard. Verifies they never appear together.
+        final String content = generateQuarkusItemsApi(
+                "src/test/resources/3_0/jaxrs-spec/quarkus-oauth2-scoped-or-api-key.yaml",
+                true, true, false);
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN), 1,
+                "Expected wildcard @RolesAllowed on GET (API key in OR lifts it)");
+        Assert.assertEquals(TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN), 1,
+                "Expected scoped @RolesAllowed on POST (scoped OAuth2 only)");
+        // The two annotations must be on different methods -- total 2 annotations, none doubled
+        Assert.assertEquals(
+                TestUtils.countOccurrences(content, ROLES_ALLOWED_WILDCARD_PATTERN)
+                        + TestUtils.countOccurrences(content, ROLES_ALLOWED_SCOPED_PATTERN),
+                2,
+                "Each method must have at most one @RolesAllowed annotation");
+    }
+
+    @Test
+    public void quarkusMixedSecuritySampleEmitsAllExpectedAnnotations() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/jaxrs-spec/quarkus-mixed-security.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+        codegen.additionalProperties().put(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen)).generate();
+        validateJavaSourceFiles(files);
+
+        // /public -- security: [] -- emits @PermitAll, no @RolesAllowed
+        String publicApi = readGeneratedApi(output, "PublicApi.java");
+        Assert.assertEquals(TestUtils.countOccurrences(publicApi, ROLES_ALLOWED_WILDCARD_PATTERN), 0,
+                "PublicApi should not have @RolesAllowed -- security: [] disables it");
+        Assert.assertEquals(TestUtils.countOccurrences(publicApi, ROLES_ALLOWED_SCOPED_PATTERN), 0,
+                "PublicApi should not have scoped @RolesAllowed");
+        Assert.assertEquals(TestUtils.countOccurrences(publicApi, PERMIT_ALL_PATTERN), 1,
+                "PublicApi should have @PermitAll -- security: [] declares the operation unauthenticated");
+
+        // /authenticated -- oauth2: [] -- wildcard @RolesAllowed({"**"})
+        String authenticatedApi = readGeneratedApi(output, "AuthenticatedApi.java");
+        Assert.assertEquals(TestUtils.countOccurrences(authenticatedApi, ROLES_ALLOWED_WILDCARD_PATTERN), 1,
+                "AuthenticatedApi should have exactly one wildcard @RolesAllowed");
+        Assert.assertEquals(TestUtils.countOccurrences(authenticatedApi, PERMIT_ALL_PATTERN), 0,
+                "AuthenticatedApi must not have @PermitAll");
+
+        // /admin -- oauth2: [admin] -- @RolesAllowed({"admin"})
+        String adminApi = readGeneratedApi(output, "AdminApi.java");
+        Assert.assertEquals(TestUtils.countOccurrences(adminApi, ROLES_ALLOWED_SCOPED_PATTERN), 1);
+        Assert.assertEquals(TestUtils.countOccurrences(adminApi, PERMIT_ALL_PATTERN), 0,
+                "AdminApi must not have @PermitAll");
+        assertContainsRolesAllowed(adminApi, "admin");
+
+        // /admin-or-user -- oauth2: [admin] OR oauth2: [user] -- @RolesAllowed({"admin","user"})
+        String adminOrUserApi = readGeneratedApi(output, "AdminOrUserApi.java");
+        Assert.assertEquals(TestUtils.countOccurrences(adminOrUserApi, ROLES_ALLOWED_SCOPED_PATTERN), 1);
+        Assert.assertEquals(TestUtils.countOccurrences(adminOrUserApi, PERMIT_ALL_PATTERN), 0,
+                "AdminOrUserApi must not have @PermitAll");
+        assertContainsRolesAllowed(adminOrUserApi, "admin", "user");
+
+        // /anonymous-or-authenticated -- oauth2: [] OR {} -- emits @PermitAll (Rule F)
+        String anonymousOrAuthenticatedApi = readGeneratedApi(output, "AnonymousOrAuthenticatedApi.java");
+        Assert.assertEquals(TestUtils.countOccurrences(anonymousOrAuthenticatedApi, PERMIT_ALL_PATTERN), 1,
+                "AnonymousOrAuthenticatedApi should have @PermitAll -- anonymous OR alternative wins");
+        Assert.assertEquals(TestUtils.countOccurrences(anonymousOrAuthenticatedApi, ROLES_ALLOWED_WILDCARD_PATTERN), 0,
+                "AnonymousOrAuthenticatedApi must not have wildcard @RolesAllowed");
+        Assert.assertEquals(TestUtils.countOccurrences(anonymousOrAuthenticatedApi, ROLES_ALLOWED_SCOPED_PATTERN), 0,
+                "AnonymousOrAuthenticatedApi must not have scoped @RolesAllowed");
+    }
+
+    private static String readGeneratedApi(File outputDir, String apiFileName) throws Exception {
+        return Files.readString(outputDir.toPath().resolve("src/gen/java/org/openapitools/api/" + apiFileName));
+    }
+
+    private static void assertContainsRolesAllowed(String content, String... expectedScopes) {
+        StringBuilder expected = new StringBuilder("@jakarta.annotation.security.RolesAllowed({");
+        for (int i = 0; i < expectedScopes.length; i++) {
+            if (i > 0) expected.append(",");
+            expected.append('"').append(expectedScopes[i]).append('"');
+        }
+        expected.append("})");
+        Assert.assertTrue(
+                content.contains(expected.toString()),
+                "Expected to find: " + expected + "\nin generated content");
     }
 
     private String generateQuarkusItemsApi(String specPath, boolean interfaceOnly, boolean useJakartaSecurity, boolean useMicroProfile) throws Exception {
