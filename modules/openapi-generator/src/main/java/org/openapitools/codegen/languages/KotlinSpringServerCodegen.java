@@ -22,9 +22,6 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -181,6 +178,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
+    @Setter private boolean useEnumValueInterface = false;
+    private String valuedEnumClassName = "ValuedEnum";
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
 
@@ -308,6 +307,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -753,6 +753,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setSubstituteGenericPagedModel(convertPropertyToBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL));
         }
         writePropertyBack(SUBSTITUTE_GENERIC_PAGED_MODEL, substituteGenericPagedModel);
+        if (additionalProperties.containsKey(CodegenConstants.USE_ENUM_VALUE_INTERFACE)) {
+            this.setUseEnumValueInterface(convertPropertyToBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE));
+        }
+        writePropertyBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, useEnumValueInterface);
         if (isUseSpringBoot3() && isUseSpringBoot4()) {
             throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
         }
@@ -1154,6 +1158,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        if (useEnumValueInterface) {
+            valuedEnumClassName = EnumValueInterfaceUtils.setupInPreprocessOpenAPI(
+                    importMapping, additionalProperties, supportingFiles,
+                    sourceFolder, configPackage,
+                    "enumValueInterface.mustache", "ValuedEnum.kt");
+        }
+
         if (!additionalProperties.containsKey(TITLE)) {
             // The purpose of the title is for:
             // - README documentation
@@ -1455,6 +1466,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                 sealedInterfacesFileWritten = true;
             }
+        }
+
+        if (useEnumValueInterface) {
+            EnumValueInterfaceUtils.injectInPostProcessModelsEnum(
+                    objs, valuedEnumClassName, importMapping.get("ValuedEnum"),
+                    VendorExtension.X_KOTLIN_IMPLEMENTS.getName());
         }
 
         return objs;

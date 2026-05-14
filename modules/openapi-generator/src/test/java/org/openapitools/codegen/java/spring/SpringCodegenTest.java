@@ -67,9 +67,7 @@ import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BO
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class SpringCodegenTest {
 
@@ -7836,5 +7834,76 @@ public class SpringCodegenTest {
             Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false"));
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
             .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
+    }
+
+    // useEnumValueInterface tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void useEnumValueInterface_isDisabledByDefault() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT, new HashMap<>());
+
+        assertThat(files).doesNotContainKey("ValuedEnum.java");
+        JavaFileAssert.assertThat(files.get("OrderStatus.java"))
+                .fileDoesNotContain("implements ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_generatesInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        assertThat(files).containsKey("ValuedEnum.java");
+        JavaFileAssert.assertThat(files.get("ValuedEnum.java"))
+                .isInterface()
+                .fileContains("interface ValuedEnum<T>");
+    }
+
+    @Test
+    public void useEnumValueInterface_topLevelEnumImplementsInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        JavaFileAssert.assertThat(files.get("OrderStatus.java"))
+                .fileContains("implements ValuedEnum<String>")
+                .hasImports("org.openapitools.configuration.ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_inlineEnumImplementsInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        JavaFileAssert.assertThat(files.get("Order.java"))
+                .fileContains("implements ValuedEnum<String>")
+                .hasImports("org.openapitools.configuration.ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_noFileGeneratedWithCustomImportMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"),
+                configurator -> configurator
+                        .addImportMapping("ValuedEnum", "com.example.custom.ValuedEnum"));
+
+        assertThat(files).doesNotContainKey("ValuedEnum.java");
+    }
+
+    @Test
+    public void useEnumValueInterface_customImportMappingUsedInGeneratedCode() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"),
+                configurator -> configurator
+                        .addImportMapping("ValuedEnum", "com.example.custom.ValuedEnum"));
+
+        JavaFileAssert.assertThat(files.get("OrderStatus.java"))
+                .fileContains("implements ValuedEnum<String>")
+                .hasImports("com.example.custom.ValuedEnum");
     }
 }

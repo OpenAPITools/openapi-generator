@@ -62,6 +62,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 |useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
+|useEnumValueInterface|Generate a ValuedEnum&lt;T&gt; interface in the config package and make all generated enums implement it, providing a common typed way to access the underlying enum value. Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface instead of generating one.| |false|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useFlowForArrayReturnType|Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.| |true|
 |useJackson3|Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled. Incompatible with `openApiNullable`.| |false|

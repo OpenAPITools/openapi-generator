@@ -111,6 +111,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
+|useEnumValueInterface|Generate a ValuedEnum&lt;T&gt; interface in the config package and make all generated enums implement it, providing a common typed way to access the underlying enum value. Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface instead of generating one.| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useHttpServiceProxyFactoryInterfacesConfigurator|Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.| |false|

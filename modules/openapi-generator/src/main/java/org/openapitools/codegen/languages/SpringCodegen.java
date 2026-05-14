@@ -196,6 +196,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean generateSortValidation = false;
     @Setter protected boolean generatePageableConstraintValidation = false;
     @Setter protected boolean substituteGenericPagedModel = false;
+    @Setter protected boolean useEnumValueInterface = false;
+    private String valuedEnumClassName = "ValuedEnum";
 
     // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
     private Map<String, PagedModelScanUtils.DetectedPagedModel> pagedModelRegistry = new HashMap<>();
@@ -378,6 +380,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
                 + "schema are suppressed from code generation.",
                 substituteGenericPagedModel));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE,
+                CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC,
+                useEnumValueInterface));
 
     }
 
@@ -588,6 +593,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
 
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
 
         if (SPRING_BOOT.equals(library)) {
             convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
@@ -884,6 +890,13 @@ public class SpringCodegen extends AbstractJavaCodegen
                 LOGGER.info("substituteGenericPagedModel: detected {} paged-model schema(s): {}",
                         pagedModelRegistry.size(), pagedModelRegistry.keySet());
             }
+        }
+
+        if (useEnumValueInterface) {
+            valuedEnumClassName = EnumValueInterfaceUtils.setupInPreprocessOpenAPI(
+                    importMapping, additionalProperties, supportingFiles,
+                    sourceFolder, configPackage,
+                    "enumValueInterface.mustache", "ValuedEnum.java");
         }
 
         /*
@@ -1442,7 +1455,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             for (CodegenProperty var : cm.vars) {
                 addNullableImports = isAddNullableImports(cm, addNullableImports, var);
             }
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            if (cm.isEnum && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 final Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
@@ -1453,6 +1466,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                 imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
                 addImports(imports, cm, imports2Classnames);
             }
+        }
+
+        if (useEnumValueInterface) {
+            EnumValueInterfaceUtils.injectInPostProcessModelsEnum(
+                    objs, valuedEnumClassName, importMapping.get("ValuedEnum"),
+                    CodegenConstants.X_IMPLEMENTS);
         }
 
         return objs;

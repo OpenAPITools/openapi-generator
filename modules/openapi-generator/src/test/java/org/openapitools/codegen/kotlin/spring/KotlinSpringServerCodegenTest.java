@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.CodegenConstants.USE_ENUM_VALUE_INTERFACE;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.*;
@@ -6230,5 +6231,77 @@ public class KotlinSpringServerCodegenTest {
                 "): ResponseEntity<CreateUserResponse>",
                 "fun getUser(",
                 "): ResponseEntity<GetUserResponse>");
+    }
+
+    // useEnumValueInterface tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void useEnumValueInterface_isDisabledByDefault() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", new HashMap<>());
+
+        assertThat(files).doesNotContainKey("ValuedEnum.kt");
+        assertFileNotContains(files.get("OrderStatus.kt").toPath(), ": ValuedEnum<");
+    }
+
+    @Test
+    public void useEnumValueInterface_generatesInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml",
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        assertThat(files).containsKey("ValuedEnum.kt");
+        assertFileContains(files.get("ValuedEnum.kt").toPath(), "interface ValuedEnum<T>");
+    }
+
+    @Test
+    public void useEnumValueInterface_topLevelEnumImplementsInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml",
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        assertFileContains(files.get("OrderStatus.kt").toPath(),
+                ": ValuedEnum<kotlin.String>",
+                "override val value",
+                "import org.openapitools.configuration.ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_inlineEnumImplementsInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml",
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        assertFileContains(files.get("Order.kt").toPath(),
+                ": ValuedEnum<kotlin.String>",
+                "override val value",
+                "import org.openapitools.configuration.ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_noFileGeneratedWithCustomImportMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml",
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"),
+                new HashMap<>(),
+                configurator -> configurator
+                        .addImportMapping("ValuedEnum", "com.example.custom.ValuedEnum"));
+
+        assertThat(files).doesNotContainKey("ValuedEnum.kt");
+    }
+
+    @Test
+    public void useEnumValueInterface_customImportMappingUsedInGeneratedCode() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml",
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"),
+                new HashMap<>(),
+                configurator -> configurator
+                        .addImportMapping("ValuedEnum", "com.example.custom.ValuedEnum"));
+
+        assertFileContains(files.get("OrderStatus.kt").toPath(),
+                ": ValuedEnum<kotlin.String>",
+                "import com.example.custom.ValuedEnum");
     }
 }
