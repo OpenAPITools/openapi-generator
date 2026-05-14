@@ -159,7 +159,7 @@ public class OpenAPINormalizer {
     // when set to true, sort model properties by name to ensure deterministic output
     final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
 
-    final String USE_UNWRAPPED_FOR_INLINE_ONEOF = "USE_UNWRAPPED_FOR_INLINE_ONEOF";
+    final String USE_UNWRAPPED_FOR_COMPOSITE_ONEOF = "USE_UNWRAPPED_FOR_COMPOSITE_ONEOF";
     // ============= end of rules =============
 
     /**
@@ -220,7 +220,7 @@ public class OpenAPINormalizer {
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
-        ruleNames.add(USE_UNWRAPPED_FOR_INLINE_ONEOF);
+        ruleNames.add(USE_UNWRAPPED_FOR_COMPOSITE_ONEOF);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -1092,7 +1092,7 @@ public class OpenAPINormalizer {
     }
 
     protected Schema processUnwrappedOneOf(Schema schema) {
-        if (!getRule(USE_UNWRAPPED_FOR_INLINE_ONEOF)) {
+        if (!getRule(USE_UNWRAPPED_FOR_COMPOSITE_ONEOF)) {
             return schema;
         }
         if (!(ModelUtils.hasOneOf(schema) && (ModelUtils.hasProperties(schema) || ModelUtils.hasAllOf(schema)))) {

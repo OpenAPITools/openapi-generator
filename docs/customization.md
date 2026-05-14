@@ -681,11 +681,11 @@ index 6f27abd..146c61c 100644
            type: string
 ```
 
-- `USE_UNWRAPPED_FOR_INLINE_ONEOF` set to true to unwrap inline oneOf combined with allOf/properties and without discriminator (aka mixed oneOf). Set the vendorExtension X_ONE_OF_UNWRAPPED to be used by generators. For example the java generator annotates the new oneOf property with the jackson `@JsonUnwrapped` annotation 
+- `USE_UNWRAPPED_FOR_COMPOSITE_ONEOF` set to true to unwrap oneOf combined with allOf/properties and without discriminator (aka "composite" oneOf). Set the vendorExtension X_ONE_OF_UNWRAPPED to be used by generators. For example the java generator annotates the new oneOf property with the jackson `@JsonUnwrapped` annotation 
 
 Example:
 ```
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/oneOf_unwrap_mixed.yaml -o /tmp/java/ --openapi-normalizer X_ONE_OF_UNWRAPPED=true
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/oneOf_unwrap_mixed.yaml -o /tmp/java/ --openapi-normalizer USE_UNWRAPPED_FOR_COMPOSITE_ONEOF=true
 ```
 
 Here is what the change in the spec looks like:
@@ -698,28 +698,16 @@ index 6f27abd..146c61c 100644
    schemas:
      Account:
 -     oneOf:
--       - properties:
--           bankNumber:
--             type: string
--           bic:
--             type: string
--       - properties:
--           iban:
--             type: string
+-       - $ref: '#/components/schemas/LegacyBankNumber'
+-       - ref: '#/components/schemas/WireTransferInfo'
       properties:
         bank:
           $ref: '#/components/schemas/Bank'
 +       oneOf:
 +         X_ONE_OF_UNWRAPPED: true
 +         oneOf:
-+         - properties:
-+             bankNumber:
-+               type: string
-+             bic:
-+               type: string
-+         - properties:
-+             iban:
-+               type: string
++         - ref: '#/components/schemas/LegacyBankNumber'
++         - ref: '#/components/schemas/WireTransferInfo'
 ```
 
 - `FILTER`

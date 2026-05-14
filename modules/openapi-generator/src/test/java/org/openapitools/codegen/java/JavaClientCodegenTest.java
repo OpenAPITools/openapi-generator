@@ -4457,7 +4457,7 @@ public class JavaClientCodegenTest {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_unwrap_mixed.yaml", RESTCLIENT,
                 Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true,
                         USE_SPRING_BOOT4, false),
-                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_INLINE_ONEOF", "true")));
+                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_COMPOSITE_ONEOF", "true")));
 
         JavaFileAssert.assertThat(files.get("Account.java"))
                 .assertProperty("oneOf")

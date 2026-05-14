@@ -7733,7 +7733,7 @@ public class SpringCodegenTest {
                         USE_DEDUCTION_FOR_ONE_OF_INTERFACES, true,
                         USE_SPRING_BOOT4, true,
                         USE_JACKSON_3, true),
-                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_INLINE_ONEOF", "true")));
+                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_COMPOSITE_ONEOF", "true")));
 
         JavaFileAssert.assertThat(files.get("Account.java"))
                 .assertProperty("oneOf")
@@ -7743,7 +7743,8 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("AccountOneOf.java"))
                 .isInterface()
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
-                .fileContains("static interface AccountOneOfMixin", "@JsonCreator")
+                .fileContains("static interface AccountOneOfMixin", "@JsonCreator",
+                    "@JsonSubTypes.Type(value = LegacyBankNumber.class)", "@JsonSubTypes.Type(value = WireTransferInfo.class)")
                 .hasImports("tools.jackson.databind.JsonNode");
         JavaFileAssert.assertThat(files.get("JacksonMixinConfig.java"))
                 .fileContains(".addMixIn(AccountOneOf.class, AccountOneOf.AccountOneOfMixin.class)",
@@ -7762,7 +7763,7 @@ public class SpringCodegenTest {
                         USE_DEDUCTION_FOR_ONE_OF_INTERFACES, true,
                         USE_SPRING_BOOT3, true)
                 ,
-                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_INLINE_ONEOF", "true")));
+                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_COMPOSITE_ONEOF", "true")));
 
         JavaFileAssert.assertThat(files.get("Account.java"))
                 .assertProperty("oneOf")
@@ -7790,14 +7791,18 @@ public class SpringCodegenTest {
                         USE_DEDUCTION_FOR_ONE_OF_INTERFACES, false,
                         USE_SPRING_BOOT4, true,
                         USE_JACKSON_3, true),
-                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_INLINE_ONEOF", "true")));
+                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_COMPOSITE_ONEOF", "true")));
         JavaFileAssert.assertThat(files.get("Account.java"))
                 .assertProperty("oneOf")
                 .doesImportAnnotation("JsonUnwrapped")
                 .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
         JavaFileAssert.assertThat(files.get("AccountOneOf.java"))
                 .isNormalClass()
+                .assertProperty("bankNumber").toType()
+                .assertProperty("iban").toType()
+                .assertProperty("bic").toType()
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
                 .fileDoesNotContain("Mixin", "@JsonCreator");
+
     }
 }
