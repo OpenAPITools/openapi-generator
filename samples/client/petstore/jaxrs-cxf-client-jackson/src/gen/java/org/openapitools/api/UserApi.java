@@ -5,7 +5,7 @@ import org.openapitools.model.User;
 
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.*;
+import jakarta.ws.rs.*;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.annotations.Api;

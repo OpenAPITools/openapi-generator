@@ -1,0 +1,12 @@
+.dockerignore
+README.md
+pom.xml
+src/gen/java/org/openapitools/api/AdminApi.java
+src/gen/java/org/openapitools/api/AdminOrUserApi.java
+src/gen/java/org/openapitools/api/AnonymousOrAuthenticatedApi.java
+src/gen/java/org/openapitools/api/AuthenticatedApi.java
+src/gen/java/org/openapitools/api/PublicApi.java
+src/main/docker/Dockerfile.jvm
+src/main/docker/Dockerfile.native
+src/main/resources/META-INF/openapi.yaml
+src/main/resources/application.properties

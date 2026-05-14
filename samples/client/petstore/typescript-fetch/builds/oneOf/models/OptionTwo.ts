@@ -42,6 +42,8 @@ export type OptionTwoDiscriminatorFieldEnum = typeof OptionTwoDiscriminatorField
  */
 export function instanceOfOptionTwo(value: object): value is OptionTwo {
     if (!('discriminatorField' in value) || value['discriminatorField'] === undefined) return false;
+    if (value['discriminatorField'] !== 'optionTwo') return false;
+    
     return true;
 }
 
