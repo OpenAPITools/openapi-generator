@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -58,9 +59,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String USE_JACKSON_3 = "useJackson3";
-    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
-    public static final String JACKSON3_PACKAGE = "tools.jackson";
-    public static final String JACKSON_PACKAGE = "jacksonPackage";
     public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String SCHEMA_IMPLEMENTS_FIELDS = "schemaImplementsFields";
     public static final String X_KOTLIN_IMPLEMENTS_SKIP = "xKotlinImplementsSkip";

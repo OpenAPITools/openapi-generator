@@ -2866,7 +2866,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (!isUseJackson3()) {
             obj.getImports().add(Map.of("import", "com.fasterxml.jackson.core.JsonProcessingException"));
         }
-        obj.getImports().add(Map.of("import", importMapping.get("JsonNode")));
+        obj.getImports().add(Map.of("import", (isUseJackson3()? JACKSON3_PACKAGE:JACKSON2_PACKAGE) + ".databind.JsonNode"));
         obj.getImports().add(Map.of("import", configPackage + ".JacksonMixinConfig"));
 
     }

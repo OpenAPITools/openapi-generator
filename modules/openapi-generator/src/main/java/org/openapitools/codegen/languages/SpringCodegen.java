@@ -54,8 +54,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -114,9 +113,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String SPRING_API_VERSION = "springApiVersion";
     public static final String USE_JACKSON_3 = "useJackson3";
-    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
-    public static final String JACKSON3_PACKAGE = "tools.jackson";
-    public static final String JACKSON_PACKAGE = "jacksonPackage";
     public static final String ADDITIONAL_NOT_NULL_ANNOTATIONS = "additionalNotNullAnnotations";
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
     public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
@@ -607,7 +603,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
         String jacksonPackage = (String)additionalProperties.get("jacksonPackage");
-        importMapping.put("JsonNode", jacksonPackage + ".databind.JsonNode");
         importMapping.put("JsonMapper", jacksonPackage + ".databind.json.JsonMapper");
 
         if (isUseSpringBoot3() || isUseSpringBoot4()) {

@@ -501,5 +501,9 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
 
     public static final String X_ONE_OF_JSON_CREATOR = "x-oneof-jsonCreator";
-    public static final String X_ONE_OF_UNWRAPPED =  "x-oneOfunwrapper";
+    public static final String X_ONE_OF_UNWRAPPED =  "x-oneOfunwrapped";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
+
 }

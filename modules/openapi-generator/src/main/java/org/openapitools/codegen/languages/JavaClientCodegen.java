@@ -127,10 +127,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
     public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
-    private static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
-    private static final String JACKSON3_PACKAGE = "tools.jackson";
-    private static final String JACKSON_PACKAGE = "jacksonPackage";
-
     public static final String GENERATE_CLIENT_AS_BEAN = "generateClientAsBean";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
@@ -1322,13 +1318,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     protected void applyJackson2Package() {
         writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
-        importMapping.put("JsonNode", JACKSON2_PACKAGE + ".databind.JsonNode");
         importMapping.put("JsonMapper", JACKSON2_PACKAGE + ".databind.json.JsonMapper");
     }
 
     protected void applyJackson3Package() {
         writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
-        importMapping.put("JsonNode", JACKSON3_PACKAGE + ".databind.JsonNode");
         importMapping.put("JsonMapper", JACKSON3_PACKAGE + ".databind.json.JsonMapper");
     }
 
