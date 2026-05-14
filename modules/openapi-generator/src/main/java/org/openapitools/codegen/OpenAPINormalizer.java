@@ -1081,7 +1081,7 @@ public class OpenAPINormalizer {
                 schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
             }
             schema = processReplaceOneOfByMapping(schema);
-            schema = processUnwrappedOneOf(schema);
+            schema = processUnwrapCompositeOneOf(schema);
 
         } else {
             // normalize it as it's no longer an oneOf
@@ -1091,7 +1091,7 @@ public class OpenAPINormalizer {
         return schema;
     }
 
-    protected Schema processUnwrappedOneOf(Schema schema) {
+    protected Schema processUnwrapCompositeOneOf(Schema schema) {
         if (!getRule(USE_UNWRAPPED_FOR_COMPOSITE_ONEOF)) {
             return schema;
         }
