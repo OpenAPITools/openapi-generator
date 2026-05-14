@@ -285,7 +285,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.", this.useSealedOneOfInterfaces));
         cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks. Only supported for " + JSPECIFY_SUPPORTED_LIBRARIES, useJspecify));
-        cliOptions.add(CliOption.newBoolean(USE_WRAPPER_FOR_MIXED_ONE_OF, "whether to use jackson @JsonUnwrapped and a Wrapper interface for inline oneOf combined with allOf/properties and without discriminator"));
         cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
@@ -1402,21 +1401,5 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         //  nullable_var_annotations.mustache generates nullable annotations as @{{javaxPackage}}.annotation.Nullable
         // override the default pattern for the "find and replace"
         jSpecifyNullableLambda.setNullableAnnotation("@" + additionalProperties.get(JAVAX_PACKAGE) + ".annotation.Nullable");
-    }
-
-    @Override
-    protected void addOneOfMixinSupport(ModelsMap obj, CodegenModel cm) {
-        super.addOneOfMixinSupport(obj, cm);
-
-        vendorExtensions.put("x-jackson-mixins-mapper", useJackson3? "JsonMapper": "ObjectMapper");
-        obj.getImports().add(Map.of("import", invokerPackage + ".JacksonMixinConfig"));
-        if (!useJackson3) {
-            obj.getImports().add(Map.of("import", "com.fasterxml.jackson.core.JsonProcessingException"));
-        }
-        if (supportingFiles.stream().noneMatch(sf -> "JacksonMixinConfig.java".equals(sf.getDestinationFilename()))) {
-            supportingFiles.add(new SupportingFile("jacksonMixinConfig.mustache",
-                    (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
-                    "JacksonMixinConfig.java"));
-        }
     }
 }

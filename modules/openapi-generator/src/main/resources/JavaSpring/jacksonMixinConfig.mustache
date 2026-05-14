@@ -1,21 +1,22 @@
 package {{configPackage}};
+{{#vendorExtensions.x-jacksonMixinConfig}}
 
 {{^useJackson3}}
 import {{jacksonPackage}}.databind.ObjectMapper;
 {{/useJackson3}}
 import {{jacksonPackage}}.databind.json.JsonMapper;
-{{#vendorExtensions.x-jackson-mixins}}
+{{#mixins}}
 import {{modelPackage}}.{{.}};
-{{/vendorExtensions.x-jackson-mixins}}
+{{/mixins}}
 
 public class JacksonMixinConfig {
 
-    private static volatile {{vendorExtensions.x-jackson-mixins-mapper}} INSTANCE;
+    private static volatile {{mapper}} INSTANCE;
 
     /**
-      Get the {{vendorExtensions.x-jackson-mixins-mapper}} used by the @JsonCreator in @JsonUnWrapped interfaces.
+      Get the {{vmapper}} used by the @JsonCreator in @JsonUnWrapped interfaces.
     */
-    public static {{vendorExtensions.x-jackson-mixins-mapper}} getMapper() {
+    public static {{mapper}} getMapper() {
       if (INSTANCE == null) {
         setBuilder({{^useJackson3}}JsonMapper.builder().findAndAddModules(){{/useJackson3}}{{#useJackson3}}JsonMapper.shared().rebuild(){{/useJackson3}});
       }
@@ -25,9 +26,9 @@ public class JacksonMixinConfig {
     /**
       Initialize the mapper used by the @JsonCreator.
       <p>
-      Do not pass the global {{vendorExtensions.x-jackson-mixins-mapper}} as @JsonUnWrapped does not support deserializer.
+      Do not pass the global {{mapper}} as @JsonUnwrapped does not support deserializer.
     */
-    public static void set{{vendorExtensions.x-jackson-mixins-mapper}}({{vendorExtensions.x-jackson-mixins-mapper}} mapper) {
+    public static void set{{mapper}}({{mapper}} mapper) {
       INSTANCE = mapper;
     }
 
@@ -37,8 +38,9 @@ public class JacksonMixinConfig {
       Configure the Mixins
     */
     public static void setBuilder(JsonMapper.Builder jsonMapperBuilder) {
-        INSTANCE = jsonMapperBuilder{{#vendorExtensions.x-jackson-mixins}}
-          .addMixIn({{.}}.class, {{.}}.{{.}}Mixin.class){{/vendorExtensions.x-jackson-mixins}}
+        INSTANCE = jsonMapperBuilder{{#mixins}}
+          .addMixIn({{.}}.class, {{.}}.{{.}}Mixin.class){{/mixins}}
           .build();
     }
 }
+{{/vendorExtensions.x-jacksonMixinConfig}}

@@ -344,7 +344,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             .defaultValue("false")
         );
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
-        cliOptions.add(CliOption.newBoolean(USE_WRAPPER_FOR_MIXED_ONE_OF, "whether to use jackson @JsonUnwrapped and a Wrapper interface for inline oneOf combined with allOf/properties and without discriminator"));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -1557,22 +1556,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     private void addSpringNullableImport(Set<String> imports) {
         if (isSpringCodegen()) {
             imports.add("Nullable");
-        }
-    }
-
-    @Override
-    protected void addOneOfMixinSupport(ModelsMap obj, CodegenModel cm) {
-        super.addOneOfMixinSupport(obj, cm);
-
-        vendorExtensions.put("x-jackson-mixins-mapper", useJackson3? "JsonMapper": "ObjectMapper");
-        obj.getImports().add(Map.of("import", configPackage + ".JacksonMixinConfig"));
-        if (!useJackson3) {
-            obj.getImports().add(Map.of("import", "com.fasterxml.jackson.core.JsonProcessingException"));
-        }
-        if (supportingFiles.stream().noneMatch(sf -> "JacksonMixinConfig.java".equals(sf.getDestinationFilename()))) {
-            supportingFiles.add(new SupportingFile("jacksonMixinConfig.mustache",
-                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                    "JacksonMixinConfig.java"));
         }
     }
 }

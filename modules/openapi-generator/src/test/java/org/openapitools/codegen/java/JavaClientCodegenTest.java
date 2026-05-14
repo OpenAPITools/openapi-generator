@@ -4456,23 +4456,23 @@ public class JavaClientCodegenTest {
     void unwrapped_oneOf_with_inheritance_sb3() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_unwrap_mixed.yaml", RESTCLIENT,
                 Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true,
-                        USE_WRAPPER_FOR_MIXED_ONE_OF, true,
-                        USE_SPRING_BOOT4, false));
+                        USE_SPRING_BOOT4, false),
+                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_INLINE_ONEOF", "true")));
 
         JavaFileAssert.assertThat(files.get("Account.java"))
                 .assertProperty("oneOf")
                 .doesImportAnnotation("JsonUnwrapped")
                 .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
 
-        JavaFileAssert.assertThat(files.get("AccountOneOfWrapper.java"))
+        JavaFileAssert.assertThat(files.get("AccountOneOf.java"))
                 .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
-                .fileContains("static interface AccountOneOfWrapperMixin", "@JsonCreator")
+                .fileContains("static interface AccountOneOfMixin", "@JsonCreator")
                 .hasImports("com.fasterxml.jackson.databind.JsonNode");
         JavaFileAssert.assertThat(files.get("JacksonMixinConfig.java"))
-                .fileContains(".addMixIn(AccountOneOfWrapper.class, AccountOneOfWrapper.AccountOneOfWrapperMixin.class)",
-                        ".addMixIn(BankOneOfWrapper.class, BankOneOfWrapper.BankOneOfWrapperMixin.class)")
-                .hasImports("org.openapitools.client.model.AccountOneOfWrapper",
-                        "org.openapitools.client.model.BankOneOfWrapper",
+                .fileContains(".addMixIn(AccountOneOf.class, AccountOneOf.AccountOneOfMixin.class)",
+                        ".addMixIn(BankAllOfOneOf.class, BankAllOfOneOf.BankAllOfOneOfMixin.class)")
+                .hasImports("org.openapitools.client.model.AccountOneOf",
+                        "org.openapitools.client.model.BankAllOfOneOf",
                         "com.fasterxml.jackson.databind.ObjectMapper",
                         "com.fasterxml.jackson.databind.json.JsonMapper");
     }

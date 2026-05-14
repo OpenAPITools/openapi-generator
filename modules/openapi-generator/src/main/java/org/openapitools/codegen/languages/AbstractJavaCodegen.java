@@ -72,8 +72,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.VendorExtension.X_FIELD_EXTRA_ANNOTATION;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -112,7 +112,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
-    public static final String USE_WRAPPER_FOR_MIXED_ONE_OF = "useWrapperForMixedOneOf";
     public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
@@ -609,7 +608,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(IMPLICIT_HEADERS_REGEX, this::setImplicitHeadersRegex);
         convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
-        convertPropertyToBooleanAndWriteBack(USE_WRAPPER_FOR_MIXED_ONE_OF, this::setUseWrapperForMixedOneOf);
         convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
         convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJspecify);
         convertPropertyToBooleanAndWriteBack(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
@@ -2015,9 +2013,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
         }
-        if (property.getVendorExtensions().containsKey("x-unwrappedOneOf")) {
+        if (property.getVendorExtensions().containsKey(X_ONE_OF_UNWRAPPED)) {
             model.imports.add("JsonUnwrapped");
-            property.getVendorExtensions().put("x-field-extra-annotation", "@JsonUnwrapped");
+            property.getVendorExtensions().put(X_FIELD_EXTRA_ANNOTATION.getName(), "@JsonUnwrapped");
         }
     }
 
@@ -2674,7 +2672,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_ACCEPTS);
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
-        extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(X_FIELD_EXTRA_ANNOTATION);
         return extensions;
     }
 
@@ -2821,43 +2819,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    protected void preprocessMixedOneOf(Schema s, String schemaName) {
-
-        // skip handling of oneOf + properties + discriminator
-        // TOOD: improve the logic to accept discriminator mappings NOT matching the oneOf elements.
-        boolean hasDiscriminator = s.getDiscriminator() != null;
-        if (useWrapperForMixedOneOf && !hasDiscriminator) {
-            Schema newOneOfSchema = new ComposedSchema();
-            newOneOfSchema.oneOf(s.getOneOf());
-            newOneOfSchema.addExtension("x-unwrappedOneOf", true);
-            String nOneOf = toModelName(schemaName + "OneOf");
-            String newSchemaName = nOneOf+ "_wrapper";
-            openAPI.getComponents().getSchemas().put(newSchemaName, newOneOfSchema);
-            Schema newSchemaRef = new Schema().$ref("#/components/schemas/" + newSchemaName);
-            s.oneOf(null);
-            // TODO: configuration of the property name
-            String propertyName = "oneOf";
-            if (ModelUtils.hasProperties(s)) {
-                s.getProperties().put(propertyName, newSchemaRef);
-            } else if (ModelUtils.hasAllOf(s)) {
-                Schema schema = new Schema();
-                schema.setProperties(Map.of(propertyName, newSchemaRef));
-                s.getAllOf().add(schema);
-            }
-        } else {
-            super.preprocessMixedOneOf(s, schemaName);
-        }
-    }
-
-    @Override
     public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
         objs = super.updateAllModels(objs);
         if (jackson && useOneOfInterfaces) {
-            // handling of USE_WRAPPER_FOR_MIXED_ONE_OF with inheritance
+            // handling of X_ONE_OF_UNWRAPPED with inheritance
             for (ModelsMap obj : objs.values()) {
                 for (ModelMap mo : obj.getModels()) {
                     CodegenModel cm = mo.getModel();
-                    if (cm.getVendorExtensions().containsKey("x-unwrappedOneOf") && cm.getInterfaceModels() != null) {
+                    if (cm.getVendorExtensions().containsKey(X_ONE_OF_UNWRAPPED) && cm.getInterfaceModels() != null) {
                         addOneOfMixinSupport(obj, cm);
                     }
                 }
@@ -2867,13 +2836,51 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * add JsonCreator and mixin interface to the oneOf interface.
+     * Add JsonCreator and mixin interface to the oneOf interface.
+     * <p>
+     * Add the necessary imports.
+     * <p>
+     * Construct a vendorExtension X_ONE_OF_JSON_CREATOR with a map containing:
+     * <ol>
+     *     <li>>mapper: JsonMapper or ObjectMapper
+     *     <li>mixins: a list with the class name of the oneOf classes
+     * </ol>
      */
     protected void addOneOfMixinSupport(ModelsMap obj, CodegenModel cm) {
-        ((List)vendorExtensions.computeIfAbsent("x-jackson-mixins", s -> new ArrayList<>()))
-                .add(cm.classname);
+        String configPackage = getConfigPackage();
+        Map<String, Object> config;
+        if (supportingFiles.stream().noneMatch(sf -> "JacksonMixinConfig.java".equals(sf.getDestinationFilename()))) {
+            supportingFiles.add(new SupportingFile("jacksonMixinConfig.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                    "JacksonMixinConfig.java"));
+            config = Map.of(
+                    "mapper", isUseJackson3() ? "JsonMapper" : "ObjectMapper",
+                    "mixins", new ArrayList<>());
+            vendorExtensions.put("x-jacksonMixinConfig", config);
+        } else {
+            config =  ( Map<String, Object>)vendorExtensions.get("x-jacksonMixinConfig");
+        }
+        cm.vendorExtensions.put(X_ONE_OF_JSON_CREATOR, config);
+        ((List)config.get("mixins")).add(cm.classname);
 
-        cm.getVendorExtensions().put("x-oneof-jsonCreator", true);
+        if (!isUseJackson3()) {
+            obj.getImports().add(Map.of("import", "com.fasterxml.jackson.core.JsonProcessingException"));
+        }
         obj.getImports().add(Map.of("import", importMapping.get("JsonNode")));
+        obj.getImports().add(Map.of("import", configPackage + ".JacksonMixinConfig"));
+
+    }
+
+    /*
+    * return the config package.
+    *
+    * by default use invokerPackage
+     */
+    protected String getConfigPackage() {
+        return invokerPackage;
+    }
+
+    protected boolean isUseJackson3() {
+        return false;
     }
 }
