@@ -1510,7 +1510,7 @@ public class OpenAPINormalizer {
         originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
         if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
             //set x-enum-descriptions only if there's at least one non-empty description
-            originalSchema.addExtension("x-enum-descriptions", new ArrayList<>(enumValues.values()));
+            originalSchema.addExtension(X_ENUM_DESCRIPTIONS, new ArrayList<>(enumValues.values()));
         }
 
         LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
