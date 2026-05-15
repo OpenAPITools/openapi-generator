@@ -26,6 +26,8 @@ from petstore_api.exceptions import ApiException, ApiValueError
 RESTResponseType = aiohttp.ClientResponse
 
 ALLOW_RETRY_METHODS = frozenset({'DELETE', 'GET', 'HEAD', 'OPTIONS', 'PUT', 'TRACE'})
+SUPPORTED_SOCKS_PROXIES = frozenset({'socks4', 'socks4a', 'socks5', 'socks5h'})
+
 
 class RESTResponse(io.IOBase):
 
@@ -74,8 +76,12 @@ class RESTClientObject:
             self.ssl_context.check_hostname = False
             self.ssl_context.verify_mode = ssl.CERT_NONE
 
-        self.proxy = configuration.proxy
+        proxy = configuration.proxy
+        proxy_scheme = (proxy or "").partition("://")[0].lower()
+
+        self.proxy = proxy
         self.proxy_headers = configuration.proxy_headers
+        self.is_socks_proxy = proxy_scheme in SUPPORTED_SOCKS_PROXIES
 
         retries = configuration.retries
         if retries is None:
@@ -155,9 +161,9 @@ class RESTClientObject:
             "headers": headers
         }
 
-        if self.proxy:
+        if self.proxy and not self.is_socks_proxy:
             args["proxy"] = self.proxy
-        if self.proxy_headers:
+        if self.proxy_headers and not self.is_socks_proxy:
             args["proxy_headers"] = self.proxy_headers
 
         # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
@@ -207,10 +213,25 @@ class RESTClientObject:
 
         pool_manager: Union[aiohttp.ClientSession, aiohttp_retry.RetryClient]
 
-        # https pool manager
+        # https pool manager - created lazily inside async context to avoid
+        # event loop issues with aiohttp 3.10+
         if self.pool_manager is None:
+            if self.is_socks_proxy:
+                # SOCKS proxies require ProxyConnector - aiohttp TCPConnector
+                # does not support SOCKS schemes
+                from aiohttp_socks import ProxyConnector
+                connector = ProxyConnector.from_url(
+                    self.proxy,
+                    limit=self.maxsize,
+                    ssl=self.ssl_context,
+                )
+            else:
+                connector = aiohttp.TCPConnector(
+                    limit=self.maxsize,
+                    ssl=self.ssl_context,
+                )
             self.pool_manager = aiohttp.ClientSession(
-                connector=aiohttp.TCPConnector(limit=self.maxsize, ssl=self.ssl_context),
+                connector=connector,
                 trust_env=True,
             )
         pool_manager = self.pool_manager

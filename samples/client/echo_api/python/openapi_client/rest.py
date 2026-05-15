@@ -22,18 +22,8 @@ import urllib3
 
 from openapi_client.exceptions import ApiException, ApiValueError
 
-SUPPORTED_SOCKS_PROXIES = {"socks5", "socks5h", "socks4", "socks4a"}
+SUPPORTED_SOCKS_PROXIES = frozenset({"socks5", "socks5h", "socks4", "socks4a"})
 RESTResponseType = urllib3.HTTPResponse
-
-
-def is_socks_proxy_url(url):
-    if url is None:
-        return False
-    split_section = url.split("://")
-    if len(split_section) < 2:
-        return False
-    else:
-        return split_section[0].lower() in SUPPORTED_SOCKS_PROXIES
 
 
 class RESTResponse(io.IOBase):
@@ -95,7 +85,6 @@ class RESTClientObject:
         if configuration.tls_server_name:
             pool_args['server_hostname'] = configuration.tls_server_name
 
-
         if configuration.socket_options is not None:
             pool_args['socket_options'] = configuration.socket_options
 
@@ -106,7 +95,8 @@ class RESTClientObject:
         self.pool_manager: urllib3.PoolManager
 
         if configuration.proxy:
-            if is_socks_proxy_url(configuration.proxy):
+            proxy_scheme = configuration.proxy.partition("://")[0].lower()
+            if proxy_scheme in SUPPORTED_SOCKS_PROXIES:
                 from urllib3.contrib.socks import SOCKSProxyManager
                 pool_args["proxy_url"] = configuration.proxy
                 pool_args["headers"] = configuration.proxy_headers
