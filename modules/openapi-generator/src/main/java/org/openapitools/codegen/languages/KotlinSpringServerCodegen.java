@@ -1046,6 +1046,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
+        // For client libraries (spring-cloud, spring-declarative-http-interface) x-spring-paginated is not supported:
+        // they need explicit query parameters for HTTP calls, not a Pageable object.
+        // Strip the extension so the template does not render Pageable, and log it.
+        if (!SPRING_BOOT.equals(library) && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
+            LOGGER.debug("x-spring-paginated on operation '{}' is ignored for library '{}'; "
+                    + "Pageable is only supported for spring-boot. "
+                    + "Individual page/size/sort query parameters will be used instead.",
+                    codegenOperation.operationId, library);
+        }
+
         // Only process x-spring-paginated for server-side libraries (spring-boot)
         // Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters for HTTP requests
         if (SPRING_BOOT.equals(library)) {

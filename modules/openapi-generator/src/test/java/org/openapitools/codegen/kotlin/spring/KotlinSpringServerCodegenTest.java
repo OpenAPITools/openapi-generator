@@ -4900,6 +4900,40 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void explicitXSpringPaginatedIgnoredForSpringCloud() throws Exception {
+        // When x-spring-paginated: true is set explicitly in the spec but the library is spring-cloud,
+        // the extension must be stripped so the template does not emit "pageable: Pageable".
+        // Individual page/size/sort @RequestParam args from the spec should remain.
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml",
+            additionalProperties,
+            new HashMap<>(),
+            configurator -> configurator.setLibrary("spring-cloud")
+        );
+
+        File petApi = files.get("PetApi.kt");
+        Assert.assertNotNull(petApi, "PetApi.kt should be generated for spring-cloud library");
+
+        // No Pageable type or its import must appear for spring-cloud
+        assertFileNotContains(petApi.toPath(),
+            "import org.springframework.data.domain.Pageable",
+            "pageable: Pageable");
+
+        // findPetsByStatus must exist without a Pageable parameter
+        assertFileContains(petApi.toPath(), "fun findPetsByStatus(");
+
+        // findPetsByTags must retain all individual query params defined alongside x-spring-paginated
+        assertFileContains(petApi.toPath(), "@RequestParam(value = \"page\"");
+        assertFileContains(petApi.toPath(), "@RequestParam(value = \"sort\"");
+    }
+
+    @Test
     public void autoXSpringPaginatedDisabledByDefault() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");

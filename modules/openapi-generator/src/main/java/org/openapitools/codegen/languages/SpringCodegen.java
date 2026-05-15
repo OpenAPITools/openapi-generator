@@ -1244,9 +1244,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
                 .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
+        // For client libraries (spring-cloud, spring-http-interface) x-spring-paginated is not supported:
+        // they need explicit query parameters for HTTP calls, not a Pageable object.
+        // Strip the extension so the template does not render @ParameterObject Pageable, and log it.
+        if (!SPRING_BOOT.equals(library) && codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
+            LOGGER.debug("x-spring-paginated on operation '{}' is ignored for library '{}'; "
+                    + "Pageable is only supported for spring-boot. "
+                    + "Individual page/size/sort query parameters will be used instead.",
+                    codegenOperation.operationId, library);
+        }
         // add org.springframework.data.domain.Pageable import when needed
-        // Only for spring-boot: client libraries (spring-cloud, spring-declarative-http-interface)
-        // need actual query parameters for HTTP calls, so x-spring-paginated is ignored for them.
         if (SPRING_BOOT.equals(library) && codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
             SpringPageableScanUtils.applySpringDocPageableAnnotation(codegenOperation,
