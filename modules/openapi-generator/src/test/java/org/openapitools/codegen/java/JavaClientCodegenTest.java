@@ -403,7 +403,7 @@ public class JavaClientCodegenTest {
     public void updateCodegenPropertyEnumWithCustomNames() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
-        array.getItems().setVendorExtensions(Map.of("x-enum-varnames", Collections.singletonList("ONE")));
+        array.getItems().setVendorExtensions(Map.of(X_ENUM_VARNAMES, Collections.singletonList("ONE")));
 
         codegen.updateCodegenPropertyEnum(array);
 

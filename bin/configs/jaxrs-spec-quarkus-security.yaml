@@ -1,0 +1,11 @@
+generatorName: jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec/quarkus-security
+library: quarkus
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jaxrs-spec/quarkus-mixed-security.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
+additionalProperties:
+  artifactId: jaxrs-spec-quarkus-security
+  hideGenerationTimestamp: "true"
+  useJakartaEe: "true"
+  useJakartaSecurityAnnotations: "true"
+  interfaceOnly: "true"

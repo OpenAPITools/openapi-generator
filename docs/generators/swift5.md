@@ -18,6 +18,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|additionalModelEnumAttributes|Additional Swift attributes prepended to generated model enum declarations (e.g. @CasePathable, @dynamicMemberLookup, custom @attached macros). List separated by semicolon (;) or new line (Linux or Windows).| |null|
+|additionalModelImports|Additional Swift modules to import in every generated model file. List separated by semicolon (;) or new line (Linux or Windows).| |null|
+|additionalModelObjectAttributes|Additional Swift attributes prepended to generated model struct/class declarations (e.g. @MainActor, custom @attached macros). List separated by semicolon (;) or new line (Linux or Windows).| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiNamePrefix|Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet =&gt; Pet.| |null|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|

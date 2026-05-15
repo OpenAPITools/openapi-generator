@@ -181,6 +181,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
+    @Getter @Setter
+    protected boolean useDeductionForOneOfInterfaces = false;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -311,6 +313,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 + "schema are suppressed from code generation.",
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -571,6 +574,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else {
             additionalProperties.put(COMPANION_OBJECT, companionObject);
         }
+
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
