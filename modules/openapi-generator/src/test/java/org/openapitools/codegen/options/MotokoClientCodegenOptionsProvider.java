@@ -19,6 +19,7 @@ public class MotokoClientCodegenOptionsProvider implements OptionsProvider {
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
     public static final String USE_DFX_VALUE = "false";
     public static final String USE_ICP_VALUE = "false";
+    public static final String DIAGNOSTICS_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -40,6 +41,7 @@ public class MotokoClientCodegenOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .put(MotokoClientCodegen.USE_DFX, USE_DFX_VALUE)
                 .put(MotokoClientCodegen.USE_ICP, USE_ICP_VALUE)
+                .put(MotokoClientCodegen.DIAGNOSTICS, DIAGNOSTICS_VALUE)
                 .build();
     }
 
