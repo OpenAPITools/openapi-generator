@@ -58,6 +58,7 @@ jobs:
           - samples/server/petstore/kotlin-server-modelMutable
           - samples/server/petstore/kotlin-misk
           - samples/server/petstore/kotlin-spring-declarative-interface
+          - samples/server/petstore/kotlin-spring-declarative-interface-bean-validation
           - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines
           - samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped
           - samples/server/petstore/kotlin-spring-declarative-interface-wrapped

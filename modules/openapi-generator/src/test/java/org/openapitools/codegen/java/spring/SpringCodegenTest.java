@@ -6638,4 +6638,127 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"))
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
     }
+
+    @Test
+    public void testSpringHttpInterfaceUseBeanValidationRespected() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+                .assertTypeAnnotations().containsWithName("Validated");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceUseBeanValidationFalseHasNoValidationAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .hasNoImports("jakarta.validation.Valid")
+                .hasNoImports("jakarta.validation.constraints")
+                .assertTypeAnnotations().doesNotContainWithName("Validated");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceUseBeanValidationDefaultsToFalse() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        // useBeanValidation not set — should default to false
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .hasNoImports("jakarta.validation.Valid")
+                .hasNoImports("jakarta.validation.constraints")
+                .assertTypeAnnotations().doesNotContainWithName("Validated");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceConstraintAnnotationsOnParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // getOrderById has minimum:1 and maximum:5 on orderId path param
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .assertMethod("getOrderById")
+                .assertParameter("orderId")
+                .assertParameterAnnotations()
+                .containsWithName("Min")
+                .containsWithName("Max");
+    }
 }
