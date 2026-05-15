@@ -50,7 +50,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def update_pet(
-    pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")] = Body(None, description="Pet object that needs to be added to the store"),
+    pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")] = Body(..., description="Pet object that needs to be added to the store"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
@@ -72,7 +72,7 @@ async def update_pet(
     response_model_by_alias=True,
 )
 async def add_pet(
-    pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")] = Body(None, description="Pet object that needs to be added to the store"),
+    pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")] = Body(..., description="Pet object that needs to be added to the store"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),
@@ -94,7 +94,7 @@ async def add_pet(
     response_model_by_alias=True,
 )
 async def find_pets_by_status(
-    status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")] = Query(None, description="Status values that need to be considered for filter", alias="status"),
+    status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")] = Query(..., description="Status values that need to be considered for filter", alias="status"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
@@ -116,7 +116,7 @@ async def find_pets_by_status(
     response_model_by_alias=True,
 )
 async def find_pets_by_tags(
-    tags: Annotated[List[StrictStr], Field(description="Tags to filter by")] = Query(None, description="Tags to filter by", alias="tags"),
+    tags: Annotated[List[StrictStr], Field(description="Tags to filter by")] = Query(..., description="Tags to filter by", alias="tags"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
