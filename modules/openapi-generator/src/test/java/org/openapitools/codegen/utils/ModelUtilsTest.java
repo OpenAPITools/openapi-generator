@@ -1273,4 +1273,75 @@ public class ModelUtilsTest {
 
         assertEquals(ModelUtils.resolveDefault(openAPI, top), 99);
     }
+
+    @Test
+    public void resolveDefault_allOf_lastDefaultWins() {
+        // allOf: [Base1(default="base_1"), Base2(default="base_2")]
+        // Base2 is last → wins
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("base_1");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("base_2");
+        openAPI.getComponents().addSchemas("Base2", base2);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new Schema<>().$ref("#/components/schemas/Base2")
+        ));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), "base_2");
+    }
+
+    @Test
+    public void resolveDefault_allOf_lastNonNullDefaultWins() {
+        // allOf: [Base1(default="base_1"), NoDefault] — trailing null item does not clear candidate
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("base_1");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new StringSchema() // no default
+        ));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), "base_1");
+    }
+
+    @Test
+    public void resolveDefault_fullChain_lastWriterWins() {
+        // Mirrors the documented resolution example:
+        //   Base1: default="base_1"
+        //   Base2: default="base_2"
+        //   Intermediate: allOf: [Base1, Base2]  → resolves to "base_2" (Base2 is last)
+        //   Final: allOf: [Intermediate, {default:"final"}]  → resolves to "final" (inline patch is last)
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("base_1");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("base_2");
+        openAPI.getComponents().addSchemas("Base2", base2);
+
+        Schema<?> intermediate = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new Schema<>().$ref("#/components/schemas/Base2")
+        ));
+        openAPI.getComponents().addSchemas("Intermediate", intermediate);
+
+        Schema<?> inlinePatch = new StringSchema();
+        inlinePatch.setDefault("final");
+        Schema<?> finalSchema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Intermediate"),
+                inlinePatch
+        ));
+
+        // Intermediate alone resolves to "base_2"
+        assertEquals(ModelUtils.resolveDefault(openAPI, new Schema<>().$ref("#/components/schemas/Intermediate")), "base_2");
+        // Full chain resolves to "final"
+        assertEquals(ModelUtils.resolveDefault(openAPI, finalSchema), "final");
+    }
 }

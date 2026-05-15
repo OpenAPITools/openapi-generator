@@ -1021,21 +1021,34 @@ public class ModelUtils {
     }
 
     /**
-     * Returns the effective {@code default} for the given schema, resolving through a top-level
-     * {@code $ref} and recursively walking any {@code allOf} items.
-     * The inline schema's default takes precedence (explicit per-endpoint override);
-     * falls back to the first non-null default found via depth-first search of {@code allOf} items.
-     * Circular {@code allOf} references are detected and skipped.
+     * Returns the effective {@code default} for the given schema using
+     * <em>last-writer-wins</em> semantics across the flattened {@code allOf} chain.
      *
-     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
-     * @param schema  the schema to inspect
-     * @return the effective default value, or {@code null} if none is defined
-     */
-    /**
-     * Returns the effective {@code default} for the given schema, resolving through a top-level
-     * {@code $ref} and recursively walking any {@code allOf} items.
-     * The inline schema's default takes precedence (explicit per-endpoint override);
-     * falls back to the first non-null default found via depth-first search of {@code allOf} items.
+     * <h3>Resolution algorithm</h3>
+     * <ol>
+     *   <li>Resolve any top-level {@code $ref} to obtain the concrete schema.</li>
+     *   <li>If the schema has a direct {@code default} (i.e. the {@code default:} key at
+     *       the same level as {@code allOf:}), return it immediately — no traversal needed.</li>
+     *   <li>Otherwise walk the {@code allOf} array <strong>top-to-bottom</strong>.  Each
+     *       item is itself fully resolved (recursing into nested {@code allOf} chains), and
+     *       its result — if non-null — overwrites the current candidate (last-writer-wins).</li>
+     * </ol>
+     *
+     * <h3>Example</h3>
+     * <pre>{@code
+     * # Base1: default = "base_1"   → Step 1: candidate = "base_1"
+     * # Base2: default = "base_2"   → Step 2: candidate = "base_2"  (overwrites Step 1)
+     * #
+     * # Intermediate:
+     * #   allOf: [$ref Base1, $ref Base2]
+     * #   → resolves to "base_2"  (Base2 is last, wins over Base1)
+     * #
+     * # Final:
+     * #   allOf:
+     * #     - $ref: Intermediate    → Step 3a: candidate = "base_2"
+     * #     - default: "final"      → Step 3b: candidate = "final"  (overwrites Step 3a)
+     * #   → resolves to "final"
+     * }</pre>
      *
      * @param openAPI the OpenAPI document used to resolve {@code $ref}s
      * @param schema  the schema to inspect
@@ -1045,27 +1058,34 @@ public class ModelUtils {
         schema = getReferencedSchema(openAPI, schema);
         if (schema == null) return null;
 
-        Object defaultValue = schema.getDefault();
-        if (defaultValue != null) {
-            // inline default value takes precedence
-            return defaultValue;
+        // Direct default short-circuits — no allOf traversal needed.
+        Object directDefault = schema.getDefault();
+        if (directDefault != null) {
+            return directDefault;
         }
+
+        // Walk allOf top-to-bottom; each non-null result overwrites the previous candidate.
         if (hasAllOf(schema)) {
-            return getFirstNonNullDefault(openAPI, schema).orElse(null);
+            return getLastNonNullDefault(openAPI, schema);
         }
         return null;
     }
 
     /**
-     * Recursively searches {@code allOf} items for the first non-null {@code default} value.
-     * The first non-null default in {@code allOf} wins.
-     * This behavior is arbitrary and may not reflect intentions of the spec creator, as default's inheritance/overriding behavior is undefined.
+     * Walks {@code allOf} items top-to-bottom and returns the <em>last</em> non-null
+     * {@code default} value found (last-writer-wins).  Each item is fully resolved
+     * (including its own nested {@code allOf}) before the candidate is updated, so
+     * arbitrarily deep chains are flattened correctly.
      */
-    private static @NonNull Optional<Object> getFirstNonNullDefault(OpenAPI openAPI, Schema<?> schema) {
-        return schema.getAllOf().stream()
-                .map(item -> resolveDefault(openAPI, item))
-                .filter(Objects::nonNull)
-                .findFirst();
+    private static Object getLastNonNullDefault(OpenAPI openAPI, Schema<?> schema) {
+        Object last = null;
+        for (Schema<?> item : schema.getAllOf()) {
+            Object resolved = resolveDefault(openAPI, item);
+            if (resolved != null) {
+                last = resolved;
+            }
+        }
+        return last;
     }
 
     public static boolean hasValidation(Schema sc) {
