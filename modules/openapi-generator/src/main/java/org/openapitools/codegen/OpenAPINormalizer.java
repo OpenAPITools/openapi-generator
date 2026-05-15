@@ -1105,7 +1105,7 @@ public class OpenAPINormalizer {
         boolean hasDiscriminator = schema.getDiscriminator() != null;
         if (hasDiscriminator) {
             List<Schema> oneOfs = schema.getOneOf();
-            if (oneOfs.stream().allMatch(oneOf -> oneOf.get$ref() != null)) {
+            if (oneOfs.stream().allMatch(oneOf -> oneOf != null && oneOf.get$ref() != null)) {
                 // skip normalization if discriminator but not maping
                 if (discriminator.getMapping() == null && discriminator.getPropertyName() != null) {
                     return schema;
