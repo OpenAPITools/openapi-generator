@@ -1053,6 +1053,10 @@ public class ModelUtils {
      * @param openAPI the OpenAPI document used to resolve {@code $ref}s
      * @param schema  the schema to inspect
      * @return the effective default value, or {@code null} if none is defined
+     * @implNote The result depends on the {@code allOf} array ordering <em>as it exists when
+     *     this method is called</em> — i.e., after the OpenAPI normalizer has run.
+     *     Normalizer mutations (e.g. {@code ensureInheritanceForDiscriminatorMapping} prepending
+     *     a parent {@code $ref}) are therefore visible here and are accounted for by design.
      */
     public static Object resolveDefault(OpenAPI openAPI, Schema<?> schema) {
         schema = getReferencedSchema(openAPI, schema);
