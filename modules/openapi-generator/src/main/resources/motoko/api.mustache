@@ -5,11 +5,14 @@
 
 import Text "mo:core/Text";
 import Int "mo:core/Int";
+import Nat "mo:core/Nat";
+import Iter "mo:core/Iter";
 import Blob "mo:core/Blob";
 import Array "mo:core/Array";
+import List "mo:core/List";
 import Error "mo:core/Error";
 import Base64 "mo:core/Base64";
-import { JSON } "mo:serde";
+import { JSON; Candid } "mo:serde-core";
 {{#useImportedInterface}}
 // FIXME: destructuring on `actor` types is not implemented yet for shared functions
 //        type error [M0114], object pattern cannot consume actor type
@@ -79,8 +82,8 @@ module {
     public func {{operationId}}(config : Config{{#allParams}}, {{paramName}} : {{#isNullable}}?{{/isNullable}}{{dataType}}{{/allParams}}) : async* {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}(){{/returnType}} {
         let {baseUrl; cycles} = config;
         let baseUrl__ = baseUrl # "{{path}}"{{#pathParams}}
-            |> Text.replace(_, #text "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", {{#vendorExtensions.x-is-oneof-type}}{{{dataType}}}.toText({{paramName}}){{/vendorExtensions.x-is-oneof-type}}{{^vendorExtensions.x-is-oneof-type}}{{#isEnum}}{{{dataType}}}.toJSON({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toJSON({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toJSON({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}{{#isInteger}}Int.toText({{paramName}}){{/isInteger}}{{^isInteger}}debug_show({{paramName}}){{/isInteger}}{{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}}{{/vendorExtensions.x-is-oneof-type}}){{/pathParams}}{{#queryParams}}{{#-first}}
-            # "?"{{/-first}}{{^-first}} # "&"{{/-first}} # "{{baseName}}=" # {{#vendorExtensions.x-is-oneof-type}}{{{dataType}}}.toText({{paramName}}){{/vendorExtensions.x-is-oneof-type}}{{^vendorExtensions.x-is-oneof-type}}{{#isEnum}}{{{dataType}}}.toJSON({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toJSON({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toJSON({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}{{#isInteger}}Int.toText({{paramName}}){{/isInteger}}{{^isInteger}}debug_show({{paramName}}){{/isInteger}}{{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}}{{/vendorExtensions.x-is-oneof-type}}{{/queryParams}};
+            |> Text.replace(_, #text "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", {{#vendorExtensions.x-is-oneof-type}}{{{dataType}}}.toText({{paramName}}){{/vendorExtensions.x-is-oneof-type}}{{^vendorExtensions.x-is-oneof-type}}{{#isEnum}}{{{dataType}}}.toText({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toText({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toText({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}{{#isInteger}}Int.toText({{paramName}}){{/isInteger}}{{^isInteger}}debug_show({{paramName}}){{/isInteger}}{{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}}{{/vendorExtensions.x-is-oneof-type}}){{/pathParams}}{{#queryParams}}{{#-first}}
+            # "?"{{/-first}}{{^-first}} # "&"{{/-first}} # "{{baseName}}=" # {{#vendorExtensions.x-is-oneof-type}}{{{dataType}}}.toText({{paramName}}){{/vendorExtensions.x-is-oneof-type}}{{^vendorExtensions.x-is-oneof-type}}{{#isEnum}}{{{dataType}}}.toText({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toText({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toText({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}{{#isInteger}}Int.toText({{paramName}}){{/isInteger}}{{^isInteger}}debug_show({{paramName}}){{/isInteger}}{{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}}{{/vendorExtensions.x-is-oneof-type}}{{/queryParams}};
 
         // Add API key as query parameter if using apiKey auth
         let url = switch (config.auth) {
@@ -95,7 +98,7 @@ module {
 
         let baseHeaders = [
             { name = "Content-Type"; value = "application/json; charset=utf-8" }{{#headerParams}},
-            { name = "{{baseName}}"; value = {{#isEnum}}{{{dataType}}}.toJSON({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toJSON({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toJSON({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}debug_show({{paramName}}){{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}} }{{/headerParams}}
+            { name = "{{baseName}}"; value = {{#isEnum}}{{{dataType}}}.toText({{paramName}}){{/isEnum}}{{#isEnumRef}}{{{dataType}}}.toText({{paramName}}){{/isEnumRef}}{{^isEnum}}{{^isEnumRef}}{{#isModel}}{{{dataType}}}.toText({{paramName}}){{/isModel}}{{^isModel}}{{#isString}}{{paramName}}{{/isString}}{{^isString}}debug_show({{paramName}}){{/isString}}{{/isModel}}{{/isEnumRef}}{{/isEnum}} }{{/headerParams}}
         ];
 
         // Build authentication headers based on auth type
@@ -132,9 +135,9 @@ module {
             {{#isPut}}is_replicated = ?false; // PUT requires non-replicated mode on IC
             {{/isPut}}{{#isDelete}}is_replicated = ?false; // DELETE requires non-replicated mode on IC
             {{/isDelete}}body = {{#bodyParam}}do ? {
-                let jsonValue = {{#vendorExtensions.x-body-is-array}}{{#vendorExtensions.x-body-array-element-is-primitive}}{{paramName}}{{/vendorExtensions.x-body-array-element-is-primitive}}{{^vendorExtensions.x-body-array-element-is-primitive}}Array.map<{{{vendorExtensions.x-body-base-type}}}, {{{vendorExtensions.x-body-base-type}}}.JSON>({{paramName}}, {{{vendorExtensions.x-body-base-type}}}.toJSON){{/vendorExtensions.x-body-array-element-is-primitive}}{{/vendorExtensions.x-body-is-array}}{{^vendorExtensions.x-body-is-array}}{{#vendorExtensions.x-body-is-primitive}}{{paramName}}{{/vendorExtensions.x-body-is-primitive}}{{^vendorExtensions.x-body-is-primitive}}{{dataType}}.toJSON({{paramName}}){{/vendorExtensions.x-body-is-primitive}}{{/vendorExtensions.x-body-is-array}};
-                let candidBlob = to_candid(jsonValue);
-                let #ok(jsonText) = JSON.toText(candidBlob, [], null) else throw Error.reject("Failed to serialize to JSON");
+                let candidValue : Candid.Candid = {{#vendorExtensions.x-body-is-array}}{{#vendorExtensions.x-body-array-element-is-primitive}}#Array(Array.map<{{{vendorExtensions.x-body-base-type}}}, Candid.Candid>({{paramName}}, func(s : Text) : Candid.Candid = #Text(s))){{/vendorExtensions.x-body-array-element-is-primitive}}{{^vendorExtensions.x-body-array-element-is-primitive}}#Array(Array.map<{{{vendorExtensions.x-body-base-type}}}, Candid.Candid>({{paramName}}, {{{vendorExtensions.x-body-base-type}}}.toCandidValue)){{/vendorExtensions.x-body-array-element-is-primitive}}{{/vendorExtensions.x-body-is-array}}{{^vendorExtensions.x-body-is-array}}{{#vendorExtensions.x-body-is-primitive}}#Text({{paramName}}){{/vendorExtensions.x-body-is-primitive}}{{^vendorExtensions.x-body-is-primitive}}{{dataType}}.toCandidValue({{paramName}}){{/vendorExtensions.x-body-is-primitive}}{{/vendorExtensions.x-body-is-array}};
+                let #ok(jsonText) = JSON.fromCandid(candidValue)
+                    else throw Error.reject("Failed to serialize body to JSON");
                 Text.encodeUtf8(jsonText)
             }{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         };
@@ -148,60 +151,51 @@ module {
             // Success response (2xx): parse as expected return type
             (switch (Text.decodeUtf8(response.body)) {
                 case (?text) text;
-                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to decode response body as UTF-8");
+                case null throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Failed to decode response body as UTF-8");
             }) |>
-            (switch (JSON.fromText(_, null)) {
-                case (#ok(blob)) blob;
-                case (#err(msg)) throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to parse JSON: " # msg);
+            (switch (JSON.toCandid(_)) {
+                case (#ok(c__)) c__;
+                case (#err(msg)) throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Failed to parse JSON: " # msg);
             }) |>
             {{#vendorExtensions.x-return-is-array}}
-            {{#vendorExtensions.x-return-array-element-is-primitive}}
-            from_candid(_) : ?[{{{vendorExtensions.x-return-base-type}}}] |>
             (switch (_) {
-                case (?result) result;
-                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
-            })
-            {{/vendorExtensions.x-return-array-element-is-primitive}}
-            {{^vendorExtensions.x-return-array-element-is-primitive}}
-            from_candid(_) : ?[{{{vendorExtensions.x-return-base-type}}}.JSON] |>
-            (switch (_) {
-                case (?jsonArray) {
-                    let converted = Array.filterMap<{{{vendorExtensions.x-return-base-type}}}.JSON, {{{vendorExtensions.x-return-base-type}}}>(jsonArray, {{{vendorExtensions.x-return-base-type}}}.fromJSON);
-                    if (converted.size() != jsonArray.size()) {
-                        throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to convert some array elements to {{{vendorExtensions.x-return-base-type}}}");
+                case (#Array(xs__)) {
+                    let buf__ = List.empty<{{{vendorExtensions.x-return-base-type}}}>();
+                    for (c__ in xs__.values()) {
+                        {{#vendorExtensions.x-return-array-element-is-primitive}}let #Text(s__) = c__ else throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Expected array of strings");
+                        List.add(buf__, s__);{{/vendorExtensions.x-return-array-element-is-primitive}}{{^vendorExtensions.x-return-array-element-is-primitive}}let ?v__ = {{{vendorExtensions.x-return-base-type}}}.fromCandidValue(c__) else throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Failed to convert array element to {{{vendorExtensions.x-return-base-type}}}");
+                        List.add(buf__, v__);{{/vendorExtensions.x-return-array-element-is-primitive}}
                     };
-                    converted
+                    List.toArray(buf__);
                 };
-                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+                case _ throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Expected JSON array");
             })
-            {{/vendorExtensions.x-return-array-element-is-primitive}}
             {{/vendorExtensions.x-return-is-array}}
             {{^vendorExtensions.x-return-is-array}}
             {{#vendorExtensions.x-return-is-primitive}}
-            from_candid(_) : ?{{{returnType}}} |>
             (switch (_) {
-                case (?result) result;
-                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+                {{#vendorExtensions.x-return-is-text}}case (#Text(s__)) s__;{{/vendorExtensions.x-return-is-text}}{{#vendorExtensions.x-return-is-blob}}case (#Blob(b__)) b__;{{/vendorExtensions.x-return-is-blob}}{{^vendorExtensions.x-return-is-text}}{{^vendorExtensions.x-return-is-blob}}case (#Int(i__)) i__;{{/vendorExtensions.x-return-is-blob}}{{/vendorExtensions.x-return-is-text}}
+                case _ throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Unexpected primitive shape");
             })
             {{/vendorExtensions.x-return-is-primitive}}
             {{^vendorExtensions.x-return-is-primitive}}
             {{#vendorExtensions.x-return-is-map}}
-            from_candid(_) : ?[(Text, {{{vendorExtensions.x-return-map-value-type}}})] |>
             (switch (_) {
-                case (?pairs) fromIter<Text, {{{vendorExtensions.x-return-map-value-type}}}>(pairs.values(), Text.compare);
-                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+                case (#Record(pairs__)) {
+                    let buf__ = List.empty<(Text, {{{vendorExtensions.x-return-map-value-type}}})>();
+                    for ((k__, c__) in pairs__.values()) {
+                        let ?v__ = (switch (c__) { case (#Text(s)) ?s; case _ null }) else throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": map value not Text");
+                        List.add(buf__, (k__, v__));
+                    };
+                    fromIter<Text, {{{vendorExtensions.x-return-map-value-type}}}>(List.toArray(buf__).values(), Text.compare)
+                };
+                case _ throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Expected JSON object for Map");
             })
             {{/vendorExtensions.x-return-is-map}}
             {{^vendorExtensions.x-return-is-map}}
-            from_candid(_) : ?{{{returnType}}}.JSON |>
-            (switch (_) {
-                case (?jsonValue) {
-                    switch ({{{returnType}}}.fromJSON(jsonValue)) {
-                        case (?value) value;
-                        case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to convert response to {{{returnType}}}");
-                    }
-                };
-                case null throw Error.reject("HTTP " # Int.toText(response.status) # ": Failed to deserialize response");
+            (switch ({{{returnType}}}.fromCandidValue(_)) {
+                case (?value) value;
+                case null throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Failed to convert response to {{{returnType}}}");
             })
             {{/vendorExtensions.x-return-is-map}}
             {{/vendorExtensions.x-return-is-primitive}}
@@ -219,16 +213,10 @@ module {
             // Try parsing {{code}} response as {{{dataType}}}
             if (response.status == {{code}}) {
                 let errorDetail = if (responseText != "") {
-                    switch (JSON.fromText(responseText, null)) {
-                        case (#ok(blob)) {
-                            let parsedJson : ?{{{dataType}}}.JSON = from_candid(blob);
-                            switch (parsedJson) {
-                                case (?jsonValue) {
-                                    switch ({{{dataType}}}.fromJSON(jsonValue)) {
-                                        case (?err) " - " # debug_show(err);
-                                        case null " - " # responseText;
-                                    }
-                                };
+                    switch (JSON.toCandid(responseText)) {
+                        case (#ok(c__)) {
+                            switch ({{{dataType}}}.fromCandidValue(c__)) {
+                                case (?err) " - " # debug_show(err);
                                 case null " - " # responseText;
                             };
                         };
@@ -248,7 +236,7 @@ module {
             {{/responses}}
 
             // Fallback for status codes not defined in OpenAPI spec
-            throw Error.reject("HTTP " # Int.toText(response.status) # ": Unexpected error" #
+            throw Error.reject("HTTP " # Int.toText(response.status){{#diagnostics}} # " body[" # Nat.toText(response.body.size()) # "B]=" # (switch (Text.decodeUtf8(response.body)) { case (?t) (if (t.size() > 100) Text.fromIter(Iter.take<Char>(t.chars(), 100)) # "..." else t); case null "(undecodable)" }){{/diagnostics}} # ": Unexpected error" #
                 (if (responseText != "") { " - " # responseText } else { "" }));
         }
         {{/returnType}}

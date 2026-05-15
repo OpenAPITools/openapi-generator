@@ -1,36 +1,40 @@
+import { Candid } "mo:serde-core";
+import Array "mo:core/Array";
+import List "mo:core/List";
+import Float "mo:core/Float";
+import Runtime "mo:core/Runtime";
 
 // FindPetsByStatusStatusParameterInner.mo
 /// Enum values: #available, #pending, #sold
 
 module {
-    // User-facing type: type-safe variants for application code
     public type FindPetsByStatusStatusParameterInner = {
         #available;
         #pending;
         #sold;
     };
 
-    // JSON sub-module: everything needed for JSON serialization
     public module JSON {
-        // JSON-facing Motoko type: mirrors JSON structure
-        // Named "JSON" to avoid shadowing the outer FindPetsByStatusStatusParameterInner type
-        public type JSON = Text;
+        public func toCandidValue(value : FindPetsByStatusStatusParameterInner) : Candid.Candid =
+            switch (value) {
+                case (#available) #Text("available");
+                case (#pending) #Text("pending");
+                case (#sold) #Text("sold");
+            };
 
-        // Convert User-facing type to JSON-facing Motoko type
-        public func toJSON(value : FindPetsByStatusStatusParameterInner) : JSON =
+        public func fromCandidValue(candid : Candid.Candid) : ?FindPetsByStatusStatusParameterInner =
+            switch (candid) {
+                case (#Text("available")) ?#available;
+                case (#Text("pending")) ?#pending;
+                case (#Text("sold")) ?#sold;
+                case _ null;
+            };
+
+        public func toText(value : FindPetsByStatusStatusParameterInner) : Text =
             switch (value) {
                 case (#available) "available";
                 case (#pending) "pending";
                 case (#sold) "sold";
             };
-
-        // Convert JSON-facing Motoko type to User-facing type
-        public func fromJSON(json : JSON) : ?FindPetsByStatusStatusParameterInner =
-            switch (json) {
-                case "available" ?#available;
-                case "pending" ?#pending;
-                case "sold" ?#sold;
-                case _ null;
-            };
-    }
-}
+    };
+};

@@ -5,12 +5,19 @@
 {{/description}}
 {{/model}}
 {{#imports}}
-{{#isMap}}import { type Map } "mo:core/pure/Map";
+{{#isMap}}import { type Map; entries; fromIter } "mo:core/pure/Map";
+import Text "mo:core/Text";
 {{/isMap}}{{^isMappedType}}
 import { type {{import}}; JSON = {{import}} } "./{{import}}";
 {{/isMappedType}}
 {{/imports}}
-{{#model}}{{#vendorExtensions.x-has-unsigned-fields}}
+{{#model}}
+import { Candid } "mo:serde-core";
+import Array "mo:core/Array";
+import List "mo:core/List";
+import Float "mo:core/Float";
+import Runtime "mo:core/Runtime";
+{{#vendorExtensions.x-has-unsigned-fields}}
 import Int "mo:core/Int";
 {{/vendorExtensions.x-has-unsigned-fields}}
 
@@ -19,7 +26,6 @@ import Int "mo:core/Int";
 /// Enum values: {{#allowableValues}}{{#enumVars}}#{{name}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
 
 module {
-    // User-facing type: type-safe variants for application code
     public type {{classname}} = {
 {{#allowableValues}}
 {{#enumVars}}
@@ -31,179 +37,280 @@ module {
 {{/allowableValues}}
     };
 
-    // JSON sub-module: everything needed for JSON serialization
     public module JSON {
-        // JSON-facing Motoko type: mirrors JSON structure
-        // Named "JSON" to avoid shadowing the outer {{classname}} type
-        public type JSON = {{dataType}};
-
-        // Convert User-facing type to JSON-facing Motoko type
-        public func toJSON(value : {{classname}}) : JSON =
+        public func toCandidValue(value : {{classname}}) : Candid.Candid =
             switch (value) {
 {{#allowableValues}}
 {{#enumVars}}
-                case (#{{name}}) {{#isString}}"{{value}}"{{/isString}}{{^isString}}{{value}}{{/isString}};
+                case (#{{name}}) {{#isString}}#Text("{{value}}"){{/isString}}{{^isString}}#Int({{value}}){{/isString}};
 {{/enumVars}}
 {{/allowableValues}}
             };
 
-        // Convert JSON-facing Motoko type to User-facing type
-        public func fromJSON(json : JSON) : ?{{classname}} =
-            switch (json) {
+        public func fromCandidValue(candid : Candid.Candid) : ?{{classname}} =
+            switch (candid) {
 {{#allowableValues}}
 {{#enumVars}}
-                case {{#isString}}"{{value}}"{{/isString}}{{^isString}}({{value}}){{/isString}} ?#{{name}};
+                case ({{#isString}}#Text("{{value}}"){{/isString}}{{^isString}}#Int({{value}}){{/isString}}) ?#{{name}};
 {{/enumVars}}
 {{/allowableValues}}
                 case _ null;
             };
-    }
-}
+
+        public func toText(value : {{classname}}) : Text =
+            switch (value) {
+{{#allowableValues}}
+{{#enumVars}}
+                case (#{{name}}) {{#isString}}"{{value}}"{{/isString}}{{^isString}}debug_show({{value}}){{/isString}};
+{{/enumVars}}
+{{/allowableValues}}
+            };
+    };
+};
 {{/isEnum}}
 {{^isEnum}}
-{{#vendorExtensions.x-is-oneof}}
+{{#vendorExtensions.x-is-string-flatten}}
 // {{classname}}.mo
-import Runtime "mo:core/Runtime";
+// anyOf / oneOf where every branch produces a JSON string on the wire — flattened to `Text`.
 
 module {
-    // User-facing type: discriminated union (oneOf)
+    public type {{classname}} = Text;
+
+    public module JSON {
+        public func toCandidValue(value : {{classname}}) : Candid.Candid = #Text(value);
+        public func fromCandidValue(candid : Candid.Candid) : ?{{classname}} =
+            switch (candid) {
+                case (#Text(s)) ?s;
+                case _ null;
+            };
+        public func toText(value : {{classname}}) : Text = value;
+    };
+};
+{{/vendorExtensions.x-is-string-flatten}}
+{{^vendorExtensions.x-is-string-flatten}}
+{{#vendorExtensions.x-is-string-or-array-flatten}}
+// {{classname}}.mo
+// oneOf<Text, [{{vendorExtensions.x-string-or-array-element-type}}]> on the wire — emit as
+// `#string : Text` or `#array : [...]` user-side, projected to JSON string-or-array directly.
+
+module {
+    public type {{classname}} = {
+        #string : Text;
+        #array : [{{vendorExtensions.x-string-or-array-element-type}}];
+    };
+
+    public module JSON {
+        public func toCandidValue(value : {{classname}}) : Candid.Candid =
+            switch (value) {
+                case (#string(s)) #Text(s);
+                case (#array(xs)) #Array(Array.map<{{vendorExtensions.x-string-or-array-element-type}}, Candid.Candid>(
+                    xs,
+                    {{#vendorExtensions.x-string-or-array-element-is-model}}{{vendorExtensions.x-string-or-array-element-type}}.toCandidValue{{/vendorExtensions.x-string-or-array-element-is-model}}{{^vendorExtensions.x-string-or-array-element-is-model}}func(s : {{vendorExtensions.x-string-or-array-element-type}}) : Candid.Candid = #Text(s){{/vendorExtensions.x-string-or-array-element-is-model}}
+                ));
+            };
+
+        public func fromCandidValue(candid : Candid.Candid) : ?{{classname}} =
+            switch (candid) {
+                case (#Text(s)) ?#string(s);
+                case (#Array(xs)) {
+                    let buf = List.empty<{{vendorExtensions.x-string-or-array-element-type}}>();
+                    for (c in xs.values()) {
+                        let ?p = {{#vendorExtensions.x-string-or-array-element-is-model}}{{vendorExtensions.x-string-or-array-element-type}}.fromCandidValue(c){{/vendorExtensions.x-string-or-array-element-is-model}}{{^vendorExtensions.x-string-or-array-element-is-model}}(switch c { case (#Text(s)) ?s; case _ null }){{/vendorExtensions.x-string-or-array-element-is-model}} else return null;
+                        List.add(buf, p);
+                    };
+                    ?#array(List.toArray(buf));
+                };
+                case _ null;
+            };
+    };
+};
+{{/vendorExtensions.x-is-string-or-array-flatten}}
+{{^vendorExtensions.x-is-string-or-array-flatten}}
+{{#vendorExtensions.x-is-discriminator-oneof}}
+// {{classname}}.mo
+// Discriminator-oneOf — wire is a flat object whose `{{vendorExtensions.x-discriminator-property}}`
+// field selects the schema. Branches' `toCandidValue` already include that field, so dispatch
+// is just a forward call (no re-wrapping).
+
+module {
     public type {{classname}} = {
 {{#vendorExtensions.oneOfVariants}}
-        {{#hasType}}#{{name}} : {{dataType}}{{/hasType}}{{^hasType}}#{{name}}{{/hasType}};
+        #{{name}}{{#hasType}} : {{dataType}}{{/hasType}};
 {{/vendorExtensions.oneOfVariants}}
     };
 
-    // JSON sub-module: everything needed for JSON serialization
     public module JSON {
-        // Convert oneOf variant to Text for URL parameters
+        public func toCandidValue(value : {{classname}}) : Candid.Candid =
+            switch (value) {
+{{#vendorExtensions.oneOfVariants}}
+                case ({{#hasType}}#{{name}}(v){{/hasType}}{{^hasType}}#{{name}}{{/hasType}}) {{#hasType}}{{dataType}}.toCandidValue(v){{/hasType}}{{^hasType}}#Text("{{enumValue}}"){{/hasType}};
+{{/vendorExtensions.oneOfVariants}}
+            };
+
         public func toText(value : {{classname}}) : Text =
             switch (value) {
 {{#vendorExtensions.oneOfVariants}}
-                case ({{#hasType}}#{{name}}(v){{/hasType}}{{^hasType}}#{{name}}{{/hasType}}) {{#hasType}}{{#isNumericType}}Int.toText(v){{/isNumericType}}{{#isEnumType}}{{dataType}}.toJSON(v){{/isEnumType}}{{#isObjectType}}Runtime.unreachable(){{/isObjectType}}{{/hasType}}{{^hasType}}"{{enumValue}}"{{/hasType}};
+                case ({{#hasType}}#{{name}}(_){{/hasType}}{{^hasType}}#{{name}}{{/hasType}}) "{{discriminatorValue}}";
 {{/vendorExtensions.oneOfVariants}}
             };
 
-        // JSON-facing Motoko type: mirrors JSON structure
-        // Named "JSON" to avoid shadowing the outer {{classname}} type
-        public type JSON = {
+        public func fromCandidValue(candid : Candid.Candid) : ?{{classname}} =
+            switch (candid) {
+                case (#Record(fields)) {
+                    let ?discPair = Array.find<(Text, Candid.Candid)>(fields, func((k, _) : (Text, Candid.Candid)) : Bool = k == "{{vendorExtensions.x-discriminator-property}}") else return null;
+                    switch (discPair.1) {
+                        case (#Text(disc)) {
+                            switch (disc) {
 {{#vendorExtensions.oneOfVariants}}
-            {{#hasType}}#{{name}} : {{jsonType}}{{/hasType}}{{^hasType}}#{{name}}{{/hasType}};
+{{#discriminatorValue}}
+                                case ("{{discriminatorValue}}") {
+                                    let ?inner = {{dataType}}.fromCandidValue(candid) else return null;
+                                    ?#{{name}}(inner);
+                                };
+{{/discriminatorValue}}
 {{/vendorExtensions.oneOfVariants}}
-        };
-
-        // Convert User-facing type to JSON-facing Motoko type
-        public func toJSON(value : {{classname}}) : JSON =
-            switch (value) {
-{{#vendorExtensions.oneOfVariants}}
-                case ({{#hasType}}#{{name}}(v){{/hasType}}{{^hasType}}#{{name}}{{/hasType}}) {{#hasType}}#{{name}}{{#needsConversion}}(v){{/needsConversion}}{{^needsConversion}}(v){{/needsConversion}}{{/hasType}}{{^hasType}}#{{name}}{{/hasType}};
-{{/vendorExtensions.oneOfVariants}}
+                                case _ null;
+                            };
+                        };
+                        case _ null;
+                    };
+                };
+                case _ null;
             };
+    };
+};
+{{/vendorExtensions.x-is-discriminator-oneof}}
+{{^vendorExtensions.x-is-discriminator-oneof}}
+{{#vendorExtensions.x-is-oneof}}
+// {{classname}}.mo
+// Generic oneOf (no discriminator, no flatten) — wire form is `{"#tag": ...}`.
 
-        // Convert JSON-facing Motoko type to User-facing type
-        public func fromJSON(json : JSON) : ?{{classname}} =
-            switch (json) {
+module {
+    public type {{classname}} = {
 {{#vendorExtensions.oneOfVariants}}
-                case ({{#hasType}}#{{name}}(v){{/hasType}}{{^hasType}}#{{name}}{{/hasType}}) {{#hasType}}{{#isUnsigned}}if (v < 0) null else ?#{{name}}(Int.abs(v)){{/isUnsigned}}{{^isUnsigned}}?#{{name}}(v){{/isUnsigned}}{{/hasType}}{{^hasType}}?#{{name}}{{/hasType}};
+        #{{name}}{{#hasType}} : {{dataType}}{{/hasType}};
 {{/vendorExtensions.oneOfVariants}}
-            };
-    }
-}
+    };
+
+    public module JSON {
+        // Generic oneOf is rare on the surfaces we care about (chat / tweet
+        // bodies use discriminator-oneOf or string-flatten). The branches here
+        // can mix primitives, parametrised types, and arrays — none of which
+        // dispatch cleanly via `{{dataType}}.toCandidValue(v)` (Text isn't a
+        // module; `Map<K,V>` and `[[Int]]` aren't dottable identifiers). To
+        // keep the file type-checking (so `mops publish` can extract docs),
+        // stub all three converters with `Runtime.unreachable()`. Real
+        // implementations are a follow-up — primitive dispatch + recursive
+        // partial reuse for arrays/maps inside oneOf branches.
+        public func toText(_value : {{classname}}) : Text = Runtime.unreachable();
+
+        public func toCandidValue(_value : {{classname}}) : Candid.Candid = Runtime.unreachable();
+
+        public func fromCandidValue(_candid : Candid.Candid) : ?{{classname}} = Runtime.unreachable();
+    };
+};
 {{/vendorExtensions.x-is-oneof}}
 {{^vendorExtensions.x-is-oneof}}
 // {{classname}}.mo
 
 module {
-    // User-facing type: what application code uses
-    public type {{classname}} = {
+    /// The required-fields slice of {{classname}} — what `init` consumes.
+    /// Exposed so callers can write `let req : Required = {...}` if they want
+    /// to manipulate the required-only payload independently of the full record.
+    public type Required = {
 {{#vars}}
+{{#required}}
         {{#description}}
         /// {{{description}}}
         {{/description}}
-        {{name}} : {{^required}}?{{/required}}{{{dataType}}};
+        {{name}} : {{{dataType}}};
+{{/required}}
 {{/vars}}
     };
 
-    // JSON sub-module: everything needed for JSON serialization
-    public module JSON {
-        // JSON-facing Motoko type: mirrors JSON structure
-        // Named "JSON" to avoid shadowing the outer {{classname}} type
-        public type JSON = {
+    // Optional-fields slice. Private — not part of the consumer surface;
+    // it's an internal scaffold so we can express {{classname}} as an
+    // `and`-intersection and keep `init` from listing every optional explicitly.
+    type Optional = {
 {{#vars}}
-            {{name}} : {{^required}}?{{/required}}{{#isEnumRef}}{{{datatypeWithEnum}}}.JSON{{/isEnumRef}}{{^isEnumRef}}{{#vendorExtensions.xNeedsJsonConversion}}{{{dataType}}}.JSON{{/vendorExtensions.xNeedsJsonConversion}}{{^vendorExtensions.xNeedsJsonConversion}}{{#vendorExtensions.x-is-unsigned}}Int{{/vendorExtensions.x-is-unsigned}}{{^vendorExtensions.x-is-unsigned}}{{{dataType}}}{{/vendorExtensions.x-is-unsigned}}{{/vendorExtensions.xNeedsJsonConversion}}{{/isEnumRef}};
+{{^required}}
+        {{name}} : ?{{{dataType}}};
+{{/required}}
 {{/vars}}
+    };
+
+    public type {{classname}} = Required and Optional;
+
+    public module JSON {
+        // `init` constructs a {{classname}} from just its required fields,
+        // defaulting all optional fields to `null`. Pair with record-update
+        // syntax to layer in selected optionals:
+        //   let req = { {{classname}}.init { …required fields… } with someOpt = ?… };
+        // Implementation uses Candid round-trip — Candid record subtyping fills
+        // absent optional fields with null. Costs a few cycles per call (init is
+        // not on a hot path) but keeps generated code compact regardless of how
+        // many optional fields the model has.
+        public func init(required : Required) : {{classname}} {
+            let ?res = from_candid(to_candid(required)) : ?{{classname}} else Runtime.unreachable();
+            res
         };
 
-        // Convert User-facing type to JSON-facing Motoko type
-        public func toJSON(value : {{classname}}) : JSON = {{#vendorExtensions.xNoEnumFields}}value{{/vendorExtensions.xNoEnumFields}}{{^vendorExtensions.xNoEnumFields}}{{#vendorExtensions.xHasPartialTransform}}{ value with
+        public func toCandidValue(value : {{classname}}) : Candid.Candid {
+            let buf = List.empty<(Text, Candid.Candid)>();
 {{#vars}}
-{{#isEnumRef}}
-            {{name}} = {{#required}}{{{datatypeWithEnum}}}.toJSON(value.{{name}}){{/required}}{{^required}}do ? { {{{datatypeWithEnum}}}.toJSON(value.{{name}}!) }{{/required}};
-{{/isEnumRef}}
-{{^isEnumRef}}
-{{#vendorExtensions.xNeedsJsonConversion}}
-            {{name}} = {{#required}}{{{dataType}}}.toJSON(value.{{name}}){{/required}}{{^required}}do ? { {{{dataType}}}.toJSON(value.{{name}}!) }{{/required}};
-{{/vendorExtensions.xNeedsJsonConversion}}
-{{/isEnumRef}}
+{{#required}}
+            List.add(buf, ("{{baseName}}", {{>candid_field_to_required}}));
+{{/required}}
+{{^required}}
+            switch (value.{{name}}) {
+                case (?v__) List.add(buf, ("{{baseName}}", {{>candid_field_to_optional_unwrapped}}));
+                case null ();
+            };
+{{/required}}
 {{/vars}}
-        }{{/vendorExtensions.xHasPartialTransform}}{{^vendorExtensions.xHasPartialTransform}}{
-{{#vars}}
-            {{name}} = {{#required}}{{#isEnumRef}}{{{datatypeWithEnum}}}.toJSON(value.{{name}}){{/isEnumRef}}{{^isEnumRef}}{{#vendorExtensions.xNeedsJsonConversion}}{{{dataType}}}.toJSON(value.{{name}}){{/vendorExtensions.xNeedsJsonConversion}}{{^vendorExtensions.xNeedsJsonConversion}}value.{{name}}{{/vendorExtensions.xNeedsJsonConversion}}{{/isEnumRef}}{{/required}}{{^required}}{{#isEnumRef}}do ? { {{{datatypeWithEnum}}}.toJSON(value.{{name}}!) }{{/isEnumRef}}{{^isEnumRef}}{{#vendorExtensions.xNeedsJsonConversion}}do ? { {{{dataType}}}.toJSON(value.{{name}}!) }{{/vendorExtensions.xNeedsJsonConversion}}{{^vendorExtensions.xNeedsJsonConversion}}value.{{name}}{{/vendorExtensions.xNeedsJsonConversion}}{{/isEnumRef}}{{/required}};
-{{/vars}}
-        }{{/vendorExtensions.xHasPartialTransform}}{{/vendorExtensions.xNoEnumFields}};
+            #Record(List.toArray(buf));
+        };
 
-        // Convert JSON-facing Motoko type to User-facing type
-        public func fromJSON(json : JSON) : ?{{classname}} {{#vendorExtensions.xNoEnumFields}}= ?json{{/vendorExtensions.xNoEnumFields}}{{^vendorExtensions.xNoEnumFields}}{{#vendorExtensions.xHasPartialTransform}}{
+        public func fromCandidValue(candid : Candid.Candid) : ?{{classname}} =
+            switch (candid) {
+                case (#Record(fields)) {
 {{#vars}}
 {{#required}}
-{{#isEnumRef}}
-            let ?{{name}} = {{{datatypeWithEnum}}}.fromJSON(json.{{name}}) else return null;
-{{/isEnumRef}}
-{{^isEnumRef}}
-{{#vendorExtensions.xNeedsJsonConversion}}
-            let ?{{name}} = {{{dataType}}}.fromJSON(json.{{name}}) else return null;
-{{/vendorExtensions.xNeedsJsonConversion}}
-{{/isEnumRef}}
+                    let ?{{name}}_field = Array.find<(Text, Candid.Candid)>(fields, func((k, _) : (Text, Candid.Candid)) : Bool = k == "{{baseName}}") else return null;
+                    let ?{{name}} = ({{>candid_field_from_required}}) else return null;
+{{/required}}
+{{^required}}
+                    let {{name}} : {{^required}}?{{/required}}{{{dataType}}} = switch (Array.find<(Text, Candid.Candid)>(fields, func((k, _) : (Text, Candid.Candid)) : Bool = k == "{{baseName}}")) {
+                        case (?{{name}}_field) ({{>candid_field_from_optional}});
+                        case null null;
+                    };
 {{/required}}
 {{/vars}}
-            ?{ json with
+                    ?{
 {{#vars}}
-{{#isEnumRef}}
-                {{name}}{{#required}}{{/required}}{{^required}} = do ? { {{{datatypeWithEnum}}}.fromJSON(json.{{name}}!)! }{{/required}};
-{{/isEnumRef}}
-{{^isEnumRef}}
-{{#vendorExtensions.xNeedsJsonConversion}}
-                {{name}}{{#required}}{{/required}}{{^required}} = do ? { {{{dataType}}}.fromJSON(json.{{name}}!)! }{{/required}};
-{{/vendorExtensions.xNeedsJsonConversion}}
-{{^vendorExtensions.xNeedsJsonConversion}}
-{{#vendorExtensions.x-is-unsigned}}
-                {{name}}{{#required}} = if (json.{{name}} < 0) return null else Int.abs(json.{{name}}){{/required}}{{^required}} = switch (json.{{name}}) { case (?v) if (v < 0) null else ?Int.abs(v); case null null }{{/required}};
-{{/vendorExtensions.x-is-unsigned}}
-{{/vendorExtensions.xNeedsJsonConversion}}
-{{/isEnumRef}}
+                        {{name}};
 {{/vars}}
-            }
-        }{{/vendorExtensions.xHasPartialTransform}}{{^vendorExtensions.xHasPartialTransform}}{
-{{#vars}}
-{{#required}}
-{{#isEnumRef}}
-            let ?{{name}} = {{{datatypeWithEnum}}}.fromJSON(json.{{name}}) else return null;
-{{/isEnumRef}}
-{{^isEnumRef}}
-{{#vendorExtensions.xNeedsJsonConversion}}
-            let ?{{name}} = {{{dataType}}}.fromJSON(json.{{name}}) else return null;
-{{/vendorExtensions.xNeedsJsonConversion}}
-{{/isEnumRef}}
-{{/required}}
-{{/vars}}
-            ?{
-{{#vars}}
-                {{name}}{{#required}}{{^isEnumRef}}{{^vendorExtensions.xNeedsJsonConversion}}{{#vendorExtensions.x-is-unsigned}} = if (json.{{name}} < 0) return null else Int.abs(json.{{name}}){{/vendorExtensions.x-is-unsigned}}{{^vendorExtensions.x-is-unsigned}} = json.{{name}}{{/vendorExtensions.x-is-unsigned}}{{/vendorExtensions.xNeedsJsonConversion}}{{/isEnumRef}}{{/required}}{{^required}} = {{#isEnumRef}}do ? { {{{datatypeWithEnum}}}.fromJSON(json.{{name}}!)! }{{/isEnumRef}}{{^isEnumRef}}{{#vendorExtensions.xNeedsJsonConversion}}do ? { {{{dataType}}}.fromJSON(json.{{name}}!)! }{{/vendorExtensions.xNeedsJsonConversion}}{{^vendorExtensions.xNeedsJsonConversion}}{{#vendorExtensions.x-is-unsigned}}do ? { let v = json.{{name}}!; if (v < 0) return null else Int.abs(v) }{{/vendorExtensions.x-is-unsigned}}{{^vendorExtensions.x-is-unsigned}}json.{{name}}{{/vendorExtensions.x-is-unsigned}}{{/vendorExtensions.xNeedsJsonConversion}}{{/isEnumRef}}{{/required}};
-{{/vars}}
-            }
-        }{{/vendorExtensions.xHasPartialTransform}}{{/vendorExtensions.xNoEnumFields}};
-    }
-}
+                    };
+                };
+                case _ null;
+            };
+    };
+
+    /// Re-export of `JSON.init` at the outer module level. Three import shapes
+    /// all reach the same function:
+    ///
+    ///   - `import T "...";                                     T.init {…}`     // whole-module
+    ///   - `import { type T; JSON = T } "...";                  T.init {…}`     // JSON-alias
+    ///   - `import { type T; JSON = T; init = myInit } "...";   myInit {…}`     // explicit rename
+    ///
+    /// The third form is handy when several models would all be reachable
+    /// as `T.init` and you want each bound to a distinct local name.
+    public let init = JSON.init;
+};
 {{/vendorExtensions.x-is-oneof}}
+{{/vendorExtensions.x-is-discriminator-oneof}}
+{{/vendorExtensions.x-is-string-or-array-flatten}}
+{{/vendorExtensions.x-is-string-flatten}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

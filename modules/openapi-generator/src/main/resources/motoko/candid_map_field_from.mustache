@@ -1,0 +1,11 @@
+switch ({{name}}_field.1) {
+                        case (#Record(pairs__)) {
+                            let buf__ = List.empty<(Text, {{items.dataType}})>();
+                            for ((k__, c__) in pairs__.values()) {
+                                {{#items}}{{#isString}}let #Text(v__) = c__ else return null;{{/isString}}{{^isString}}{{#isBoolean}}let #Bool(v__) = c__ else return null;{{/isBoolean}}{{^isBoolean}}{{#isFloat}}let ?v__ = (switch (c__) { case (#Float(g)) ?g; case (#Int(j)) ?Float.fromInt(j); case (#Nat(k)) ?Float.fromInt(k); case _ null }) else return null;{{/isFloat}}{{^isFloat}}{{#isDouble}}let ?v__ = (switch (c__) { case (#Float(g)) ?g; case (#Int(j)) ?Float.fromInt(j); case (#Nat(k)) ?Float.fromInt(k); case _ null }) else return null;{{/isDouble}}{{^isDouble}}{{#isNumber}}let #Float(v__) = c__ else return null;{{/isNumber}}{{^isNumber}}{{#isInteger}}let ?v__ = (switch (c__) { case (#Int(j)) ?j; case (#Nat(k)) ?k; case _ null }) else return null;{{/isInteger}}{{^isInteger}}{{#isLong}}let ?v__ = (switch (c__) { case (#Int(j)) ?j; case (#Nat(k)) ?k; case _ null }) else return null;{{/isLong}}{{^isLong}}let ?v__ = {{{dataType}}}.fromCandidValue(c__) else return null;{{/isLong}}{{/isInteger}}{{/isNumber}}{{/isDouble}}{{/isFloat}}{{/isBoolean}}{{/isString}}{{/items}}
+                                List.add(buf__, (k__, v__));
+                            };
+                            ?fromIter<Text, {{items.dataType}}>(List.toArray(buf__).values(), Text.compare);
+                        };
+                        case _ null;
+                    }

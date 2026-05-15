@@ -33,10 +33,12 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String PROJECT_NAME = "projectName";
     public static final String USE_DFX = "useDfx";
     public static final String USE_ICP = "useIcp";
+    public static final String DIAGNOSTICS = "diagnostics";
 
     protected String projectName = "OpenAPI";
     protected boolean useDfx = false;
     protected boolean useIcp = false;
+    protected boolean diagnostics = false;
 
     @Override
     public CodegenType getTag() {
@@ -149,6 +151,7 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(CliOption.newString(PROJECT_NAME, "Project name for generated code"));
         cliOptions.add(CliOption.newBoolean(USE_DFX, "Use ic:aaaaa-aa imports (dfx toolchain). Mutually exclusive with useIcp.", useDfx));
         cliOptions.add(CliOption.newBoolean(USE_ICP, "Use ic:aaaaa-aa imports and generate icp.yaml (icp-cli toolchain; replaces dfx). Mutually exclusive with useDfx.", useIcp));
+        cliOptions.add(CliOption.newBoolean(DIAGNOSTICS, "Emit `Runtime.trap` with diagnostic messages at code paths the generator detected as likely-incorrect (e.g. oneOf collapsed to empty record). Use during development to surface generator gaps clearly instead of producing silently-bad JSON.", diagnostics));
 
         // Enable inline enum resolution to create model files for inline enum parameters
         // This ensures type-safe enum variants instead of raw Text types
@@ -180,6 +183,11 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // useImportedInterface: true when either useDfx or useIcp — both use moc with ic:aaaaa-aa imports
         additionalProperties.put("useImportedInterface", useDfx || useIcp);
+
+        if (additionalProperties.containsKey(DIAGNOSTICS)) {
+            setDiagnostics(convertPropertyToBooleanAndWriteBack(DIAGNOSTICS));
+        }
+        additionalProperties.put(DIAGNOSTICS, diagnostics);
     }
 
     @Override
@@ -212,8 +220,11 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toVarName(String name) {
-        // Sanitize name but keep it as snake_case (convert hyphens to underscores)
-        name = name.replace("-", "_");
+        // Sanitize: replace any non-identifier char (`-`, `/`, `.`, brackets,
+        // colons, …) with `_`. Catches OpenAI's slash-separated moderation
+        // category names (`hate/threatening` → `hate_threatening`) and any
+        // other punctuation a spec author might sneak into a property name.
+        name = name.replaceAll("[^A-Za-z0-9_]", "_");
 
         // Handle reserved words by appending underscore
         if (isReservedWord(name)) {
@@ -242,6 +253,14 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public boolean getUseDfx() {
         return useDfx;
+    }
+
+    public void setDiagnostics(boolean diagnostics) {
+        this.diagnostics = diagnostics;
+    }
+
+    public boolean getDiagnostics() {
+        return diagnostics;
     }
 
     public void setUseIcp(boolean useIcp) {
@@ -503,6 +522,30 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
             if (!oneOfList.isEmpty()) {
                 model.vendorExtensions.put("x-is-oneof", true);
 
+                // OpenAPI discriminator: when present, the wire JSON is a flat object
+                // with a top-level discriminator field (e.g. "role": "user") instead of
+                // a tagged variant wrap. Extract the (ref → mapping-key) reverse map so
+                // each branch can be named by its discriminator value.
+                Map<String, String> refToDiscriminatorKey = null;
+                String discriminatorPropertyName = null;
+                CodegenDiscriminator disc = model.getDiscriminator();
+                if (disc != null && disc.getPropertyName() != null && disc.getMappedModels() != null
+                        && !disc.getMappedModels().isEmpty()) {
+                    discriminatorPropertyName = disc.getPropertyName();
+                    refToDiscriminatorKey = new HashMap<>();
+                    for (CodegenDiscriminator.MappedModel mm : disc.getMappedModels()) {
+                        if (mm.getModelName() != null && mm.getMappingName() != null) {
+                            refToDiscriminatorKey.put(mm.getModelName(), mm.getMappingName());
+                        }
+                    }
+                    if (!refToDiscriminatorKey.isEmpty()) {
+                        model.vendorExtensions.put("x-is-discriminator-oneof", true);
+                        model.vendorExtensions.put("x-discriminator-property", discriminatorPropertyName);
+                    } else {
+                        refToDiscriminatorKey = null;
+                    }
+                }
+
                 // Build variant cases for oneOf options
                 List<Map<String, Object>> oneOfVariants = new ArrayList<>();
                 boolean hasUnsignedVariants = false;
@@ -543,8 +586,35 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
                     Map<String, Object> variant = new HashMap<>();
 
                     // Determine variant name and type
-                    String variantName = getOneOfVariantName(oneOfProp);
+                    String rawName = getOneOfVariantName(oneOfProp, refToDiscriminatorKey);
+                    // Ensure the result is a valid Motoko identifier. `getOneOfVariantName` can
+                    // return strings carrying `[` / `]` / `<` / `>` (e.g. nested-array oneOf
+                    // branches like `[[Int]]` whose `baseName` retains the brackets) — `toVarName`
+                    // only prefixes a `_` and leaves the brackets in, producing tags like
+                    // `#_[Int]` that fail to parse.
+                    //
+                    // If the raw name carries any bracket-like character, fall back to the
+                    // positional name `one_of_<i>` (matching how unnamed primitive branches get
+                    // `one_of_0` / `one_of_1` / … from the OpenAPI core). Otherwise sanitize
+                    // any non-identifier chars to `_` as a safety net.
+                    String variantName;
+                    if (rawName.matches(".*[\\[\\]<>(),].*")) {
+                        variantName = "one_of_" + i;
+                    } else {
+                        variantName = rawName.replaceAll("[^A-Za-z0-9_]", "_");
+                        if (variantName.isEmpty() || !variantName.matches("^[A-Za-z_].*")
+                                || variantName.matches("^_+$")) {
+                            variantName = "one_of_" + i;
+                        }
+                    }
                     String variantType = oneOfProp.dataType;
+                    // For discriminator-oneOf, surface the wire literal too (Mustache uses it).
+                    if (refToDiscriminatorKey != null && oneOfProp.complexType != null) {
+                        String discriminatorValue = refToDiscriminatorKey.get(oneOfProp.complexType);
+                        if (discriminatorValue != null) {
+                            variant.put("discriminatorValue", discriminatorValue);
+                        }
+                    }
                     String jsonType = variantType;  // JSON-facing type (may differ for Nat->Int)
 
                     // For integer types with minimum >= 0, convert to Nat in user-facing type
@@ -615,6 +685,60 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
      * For simple types, use the type name. For enum strings, use the enum value.
      */
     private String getOneOfVariantName(CodegenProperty prop) {
+        return getOneOfVariantName(prop, null);
+    }
+
+    /**
+     * Backfill primitive type flags (isString / isInteger / etc.) on a CodegenProperty
+     * when openapi-generator left them unset. Triggered for Map / Array `items` when
+     * the value type is a Motoko primitive (Text, Int, Nat, Float, Bool) — in those
+     * cases the Mustache partials default to a non-existent `Text.toCandidValue(...)`
+     * call. Inspect `dataType` and set the flags directly.
+     */
+    private void backfillPrimitiveFlags(CodegenProperty p) {
+        if (p == null || p.dataType == null) return;
+        if (p.complexType != null) return;  // model / enum reference — leave alone
+        switch (p.dataType) {
+            case "Text":
+                p.isString = true; break;
+            case "Int": case "Int32": case "Int64":
+                p.isInteger = true; break;
+            case "Nat": case "Nat32": case "Nat64":
+                p.isInteger = true;
+                p.vendorExtensions.put("x-is-unsigned", true);
+                break;
+            case "Float":
+                p.isFloat = true; break;
+            case "Bool":
+                p.isBoolean = true; break;
+            case "Blob":
+                p.vendorExtensions.put("x-is-blob", true); break;
+        }
+        // Recurse into nested items (arrays of arrays, etc.)
+        if (p.items != null) backfillPrimitiveFlags(p.items);
+    }
+
+    /**
+     * Pick a Motoko variant tag for one branch of a oneOf.
+     *
+     * When the parent oneOf carries an OpenAPI {@code discriminator.mapping}, prefer the
+     * mapping key (e.g. {@code "user"}) — it is both the wire-format literal AND a clean
+     * Motoko identifier, replacing the schema-name fallback (e.g.
+     * {@code "ChatCompletionRequestUserMessage"}).
+     *
+     * @param prop the oneOf branch
+     * @param refToDiscriminatorKey ref-name → discriminator value (null when no discriminator)
+     */
+    private String getOneOfVariantName(CodegenProperty prop, Map<String, String> refToDiscriminatorKey) {
+        // Discriminator-aware: if the parent has a mapping for this branch's referenced
+        // schema, the wire literal is *the* right Motoko variant tag.
+        if (refToDiscriminatorKey != null && prop.complexType != null) {
+            String discriminatorValue = refToDiscriminatorKey.get(prop.complexType);
+            if (discriminatorValue != null) {
+                return toVarName(discriminatorValue.replaceAll("[^A-Za-z0-9_]", "_"));
+            }
+        }
+
         // For enum types, use the first enum value or a sanitized name
         if (Boolean.TRUE.equals(prop.isEnum) && prop.allowableValues != null) {
             @SuppressWarnings("unchecked")
@@ -888,6 +1012,268 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
 
+        // STRING-FLATTEN PASS: when an anyOf / oneOf has only string-producing branches
+        // (a primitive `type: string` arm and / or a $ref to a string-valued enum), the
+        // wire JSON is just a plain string. Emit `type X = Text` directly (with identity
+        // toJSON / fromJSON) instead of a tagged variant, otherwise `to_candid` would
+        // wrap it as `{"<tag>": "<value>"}` and the upstream API would reject. Catches
+        // the OpenAI ModelIdsShared (`anyOf<string, ModelIdsSharedAnyOf>`) bug.
+        Set<String> stringEnumClasses = new HashSet<>();
+        for (CodegenModel m : allModels) {
+            if (Boolean.TRUE.equals(m.isEnum) && "Text".equals(m.dataType)) {
+                stringEnumClasses.add(m.classname);
+            }
+        }
+        for (CodegenModel m : allModels) {
+            if (m.getComposedSchemas() == null) continue;
+            List<CodegenProperty> composedList = null;
+            if (m.getComposedSchemas().getOneOf() != null && !m.getComposedSchemas().getOneOf().isEmpty()) {
+                composedList = m.getComposedSchemas().getOneOf();
+            } else if (m.getComposedSchemas().getAnyOf() != null && !m.getComposedSchemas().getAnyOf().isEmpty()) {
+                composedList = m.getComposedSchemas().getAnyOf();
+            }
+            if (composedList == null) continue;
+            boolean allStringLike = true;
+            for (CodegenProperty p : composedList) {
+                if ("Text".equals(p.dataType)) continue;                              // primitive string
+                if (p.complexType != null && stringEnumClasses.contains(p.complexType)) continue;  // $ref to string enum
+                allStringLike = false;
+                break;
+            }
+            if (allStringLike) {
+                m.vendorExtensions.put("x-is-string-flatten", true);
+            }
+        }
+
+        // STRING-OR-ARRAY-FLATTEN PASS: a oneOf with exactly two branches, one a string
+        // (primitive `Text` or string-flatten enum) and one an `[X]`, has the wire form
+        // "either a JSON string or a JSON array" — never a tagged variant. Mark so
+        // model.mustache emits a discriminated `{ #string : Text; #parts : [X] }` type
+        // whose `toCandidValue` projects to `#Text` or `#Array` directly. Catches the
+        // OpenAI `ChatCompletionRequestUserMessageContent` family.
+        for (CodegenModel m : allModels) {
+            if (m.getComposedSchemas() == null) continue;
+            if (Boolean.TRUE.equals(m.vendorExtensions.get("x-is-string-flatten"))) continue;
+            if (Boolean.TRUE.equals(m.vendorExtensions.get("x-is-discriminator-oneof"))) continue;
+            List<CodegenProperty> composedList = null;
+            if (m.getComposedSchemas().getOneOf() != null && !m.getComposedSchemas().getOneOf().isEmpty()) {
+                composedList = m.getComposedSchemas().getOneOf();
+            } else if (m.getComposedSchemas().getAnyOf() != null && !m.getComposedSchemas().getAnyOf().isEmpty()) {
+                composedList = m.getComposedSchemas().getAnyOf();
+            }
+            if (composedList == null || composedList.size() != 2) continue;
+            CodegenProperty stringBranch = null;
+            CodegenProperty arrayBranch = null;
+            for (CodegenProperty p : composedList) {
+                boolean isStringLike = "Text".equals(p.dataType)
+                        || (p.complexType != null && stringEnumClasses.contains(p.complexType));
+                if (isStringLike) {
+                    stringBranch = p;
+                } else if (Boolean.TRUE.equals(p.isArray)) {
+                    arrayBranch = p;
+                }
+            }
+            if (stringBranch != null && arrayBranch != null) {
+                m.vendorExtensions.put("x-is-string-or-array-flatten", true);
+                String elementType = arrayBranch.items != null ? arrayBranch.items.dataType : "Text";
+                m.vendorExtensions.put("x-string-or-array-element-type", elementType);
+                // Whether the element type is a Motoko model with its own JSON sub-module
+                // (records / oneOfs we generate) vs a plain primitive `Text`. Mustache uses
+                // this to decide whether to recurse via `<T>.JSON.toCandidValue` or pass
+                // through directly.
+                boolean elementIsModel = arrayBranch.items != null && arrayBranch.items.complexType != null;
+                m.vendorExtensions.put("x-string-or-array-element-is-model", elementIsModel);
+            }
+        }
+
+        // INFERRED-DISCRIMINATOR PASS: when a oneOf has no explicit `discriminator` keyword
+        // (OpenAI's `ChatCompletionRequestMessage` is the canonical example) but every branch
+        // is a record with a single-valued enum property by the same name (`role`), the wire
+        // form is a flat object with that property as discriminator. Cross-reference branches
+        // here (postProcessAllModels has the global view) and retrofit `x-is-discriminator-oneof`
+        // + per-variant `discriminatorValue` + variant rename to the discriminator value.
+        Map<String, CodegenModel> byClassname = new HashMap<>();
+        for (CodegenModel m : allModels) byClassname.put(m.classname, m);
+        for (CodegenModel m : allModels) {
+            if (!Boolean.TRUE.equals(m.vendorExtensions.get("x-is-oneof"))) continue;
+            if (Boolean.TRUE.equals(m.vendorExtensions.get("x-is-discriminator-oneof"))) continue;
+            if (Boolean.TRUE.equals(m.vendorExtensions.get("x-is-string-flatten"))) continue;
+            if (Boolean.TRUE.equals(m.vendorExtensions.get("x-is-string-or-array-flatten"))) continue;
+            if (m.getComposedSchemas() == null || m.getComposedSchemas().getOneOf() == null) continue;
+
+            List<CodegenProperty> oneOfList = m.getComposedSchemas().getOneOf();
+            if (oneOfList.isEmpty()) continue;
+
+            // For each branch, resolve it to a CodegenModel (records only) and find every
+            // single-valued enum property. Intersect across branches by property name.
+            // Each value across branches must also be unique (else it's not a discriminator).
+            Map<String, Map<String, String>> propertyToBranchValue = null;  // propName -> (branchClassname -> enumValue)
+            boolean inferable = true;
+            for (CodegenProperty branch : oneOfList) {
+                if (branch.complexType == null) { inferable = false; break; }
+                CodegenModel branchModel = byClassname.get(branch.complexType);
+                if (branchModel == null || branchModel.vars == null || branchModel.vars.isEmpty()) {
+                    inferable = false; break;
+                }
+                Map<String, String> singleEnumProps = new HashMap<>();
+                for (CodegenProperty p : branchModel.vars) {
+                    Map<String, Object> source = null;
+                    if (Boolean.TRUE.equals(p.isEnum) && p.allowableValues != null) {
+                        source = p.allowableValues;
+                    } else if (p.isEnumRef && p.complexType != null) {
+                        // Inline enum was promoted to its own model — fetch the values from
+                        // the referenced enum model.
+                        CodegenModel enumModel = byClassname.get(p.complexType);
+                        if (enumModel != null && Boolean.TRUE.equals(enumModel.isEnum)
+                                && enumModel.allowableValues != null) {
+                            source = enumModel.allowableValues;
+                        }
+                    }
+                    if (source != null) {
+                        @SuppressWarnings("unchecked")
+                        List<Object> values = (List<Object>) source.get("values");
+                        if (values != null && values.size() == 1 && values.get(0) instanceof String) {
+                            singleEnumProps.put(p.baseName, (String) values.get(0));
+                        }
+                    }
+                }
+                if (singleEnumProps.isEmpty()) { inferable = false; break; }
+                if (propertyToBranchValue == null) {
+                    propertyToBranchValue = new HashMap<>();
+                    for (Map.Entry<String, String> e : singleEnumProps.entrySet()) {
+                        Map<String, String> sub = new HashMap<>();
+                        sub.put(branch.complexType, e.getValue());
+                        propertyToBranchValue.put(e.getKey(), sub);
+                    }
+                } else {
+                    // Intersect: drop property names not in this branch
+                    Iterator<Map.Entry<String, Map<String, String>>> it = propertyToBranchValue.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry<String, Map<String, String>> e = it.next();
+                        if (!singleEnumProps.containsKey(e.getKey())) {
+                            it.remove();
+                        } else {
+                            e.getValue().put(branch.complexType, singleEnumProps.get(e.getKey()));
+                        }
+                    }
+                    if (propertyToBranchValue.isEmpty()) { inferable = false; break; }
+                }
+            }
+            if (!inferable || propertyToBranchValue == null || propertyToBranchValue.isEmpty()) continue;
+
+            // Pick a discriminator property: prefer "role" / "type" / "kind" by convention; else
+            // any with all-distinct values. If multiple candidates exist with all-distinct values,
+            // prefer "role" → "type" → "kind" → (any other in alphabetical order) to be deterministic.
+            String pickedProp = null;
+            String[] preferredOrder = { "role", "type", "kind" };
+            for (String pref : preferredOrder) {
+                if (propertyToBranchValue.containsKey(pref)) {
+                    Map<String, String> vals = propertyToBranchValue.get(pref);
+                    if (new HashSet<>(vals.values()).size() == vals.size()) {
+                        pickedProp = pref; break;
+                    }
+                }
+            }
+            if (pickedProp == null) {
+                List<String> sorted = new ArrayList<>(propertyToBranchValue.keySet());
+                Collections.sort(sorted);
+                for (String cand : sorted) {
+                    Map<String, String> vals = propertyToBranchValue.get(cand);
+                    if (new HashSet<>(vals.values()).size() == vals.size()) {
+                        pickedProp = cand; break;
+                    }
+                }
+            }
+            if (pickedProp == null) continue;
+
+            Map<String, String> refToDiscriminatorKey = propertyToBranchValue.get(pickedProp);
+            m.vendorExtensions.put("x-is-discriminator-oneof", true);
+            m.vendorExtensions.put("x-discriminator-property", pickedProp);
+
+            // Retrofit oneOfVariants: rename each variant tag to the discriminator value, and
+            // attach the discriminatorValue for the Mustache.
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> existingVariants =
+                    (List<Map<String, Object>>) m.vendorExtensions.get("oneOfVariants");
+            if (existingVariants != null) {
+                for (Map<String, Object> variant : existingVariants) {
+                    Object dataTypeObj = variant.get("dataType");
+                    if (dataTypeObj instanceof String) {
+                        String discriminatorValue = refToDiscriminatorKey.get((String) dataTypeObj);
+                        if (discriminatorValue != null) {
+                            variant.put("name", toVarName(discriminatorValue.replaceAll("[^A-Za-z0-9_]", "_")));
+                            variant.put("discriminatorValue", discriminatorValue);
+                        }
+                    }
+                }
+            }
+        }
+
+        // ANY-PASSTHROUGH PASS: openapi-generator emits `Any` for properties typed
+        // `type: object` with no `properties:` block (Twitter's `Geo.properties` etc.).
+        // The user-facing type stays `Candid.Candid` (serde-core's ADT) and to/from-side
+        // use identity passthrough — the generic JSON value flows through unchanged.
+        for (CodegenModel m : allModels) {
+            if (m.vars == null) continue;
+            for (CodegenProperty p : m.vars) {
+                if ("Any".equals(p.dataType)) {
+                    p.dataType = "Candid.Candid";
+                    p.datatypeWithEnum = "Candid.Candid";
+                    p.vendorExtensions.put("x-is-any-passthrough", true);
+                    // Force the model to import Candid (already imported via the
+                    // `import { Candid } "mo:serde-core";` line; nothing extra needed).
+                }
+                if (p.items != null && "Any".equals(p.items.dataType)) {
+                    p.items.dataType = "Candid.Candid";
+                    p.items.datatypeWithEnum = "Candid.Candid";
+                    p.items.vendorExtensions.put("x-is-any-passthrough", true);
+                }
+            }
+        }
+
+        // NULLABLE-DEMOTES-TO-OPTIONAL PASS: OpenAPI's `nullable: true` permits the wire
+        // value to be JSON `null`. The Motoko user-facing type must therefore allow `null`
+        // — which means *optional* (`?T`). Demote `required + nullable` to non-required
+        // so the downstream Mustache emission picks the optional path uniformly. The
+        // OpenAI chat response carries `logprobs: null` for choices without logprobs;
+        // without this, `CreateChatCompletionResponseChoicesInner.fromCandidValue` fails
+        // to decode the response and the entire chat round-trip dies.
+        for (CodegenModel m : allModels) {
+            if (m.vars == null) continue;
+            for (CodegenProperty p : m.vars) {
+                if (p.required && p.isNullable) {
+                    p.required = false;
+                }
+            }
+        }
+
+        // PRIMITIVE-FLAGS-ON-ITEMS PASS: openapi-generator sometimes leaves the `isString` /
+        // `isInteger` / etc. flags unset on the `items` of a Map (or Array) when the value
+        // type is a Motoko primitive (`Text`, `Int`, …). Without these flags the Mustache
+        // partials default to the model-call branch (`Text.toCandidValue(v)` — which
+        // doesn't exist for Motoko primitives). Backfill the flags by inspecting `dataType`.
+        for (CodegenModel m : allModels) {
+            if (m.vars == null) continue;
+            for (CodegenProperty p : m.vars) {
+                backfillPrimitiveFlags(p);
+                if (p.items != null) {
+                    // Reconcile inconsistency: the existing fromProperty override converts
+                    // Int-with-minimum>=0 to Nat at the items level, but the outer array
+                    // `dataType` is constructed before items conversion and keeps "[Int]".
+                    // If outer is signed but items were promoted to Nat, roll items back
+                    // to Int so the type-checker sees a consistent `[Int]`.
+                    if ("Nat".equals(p.items.dataType) && p.dataType != null
+                            && (p.dataType.contains("[Int]") || p.dataType.contains("[Int32]")
+                                || p.dataType.contains("[Int64]"))) {
+                        p.items.dataType = "Int";
+                        p.items.datatypeWithEnum = "Int";
+                        p.items.vendorExtensions.remove("x-is-unsigned");
+                    }
+                    backfillPrimitiveFlags(p.items);
+                }
+            }
+        }
+
         // THIRD PASS: Detect transitive enum references (models containing fields that reference models with enums)
         // Iterate until we reach a fixed point (no new models marked as having enum fields)
         boolean changed = true;
@@ -1136,6 +1522,8 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (op.returnType != null && op.returnContainer == null) {
                     boolean isPrimitive = isPrimitiveOrMappedType(op.returnType);
                     op.vendorExtensions.put("x-return-is-primitive", isPrimitive);
+                    op.vendorExtensions.put("x-return-is-blob", "Blob".equals(op.returnType));
+                    op.vendorExtensions.put("x-return-is-text", "Text".equals(op.returnType));
                 }
 
                 // Mark operations with map return types for special handling in template
@@ -1168,6 +1556,24 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
                         // Handle primitive body parameters
                         boolean isPrimitive = isPrimitiveOrMappedType(bodyParam.dataType);
                         bodyParam.vendorExtensions.put("x-body-is-primitive", isPrimitive);
+                    }
+
+                    // Collect field names for serde JSON.toText renaming keys.
+                    // Without these, serde outputs Candid field hashes as JSON keys.
+                    if (bodyParam.dataType != null && !isPrimitiveOrMappedType(bodyParam.dataType)
+                            && !bodyParam.isArray && allModels != null) {
+                        for (ModelMap modelMap : allModels) {
+                            CodegenModel model = modelMap.getModel();
+                            if (model != null && model.classname.equals(bodyParam.dataType) && model.vars != null) {
+                                StringBuilder sb = new StringBuilder();
+                                for (int i = 0; i < model.vars.size(); i++) {
+                                    if (i > 0) sb.append(", ");
+                                    sb.append("\"").append(model.vars.get(i).baseName).append("\"");
+                                }
+                                bodyParam.vendorExtensions.put("x-body-field-keys", sb.toString());
+                                break;
+                            }
+                        }
                     }
                 }
 

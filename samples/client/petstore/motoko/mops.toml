@@ -2,7 +2,7 @@
 moc = "1.4.1"
 
 [package]
-name = "petstore-client-nodfx"
+name = "petstore-client"
 version = "1.0.0"
 description = "Generated Motoko client for OpenAPI Petstore"
 license = "Apache-2.0"
@@ -10,9 +10,9 @@ files = ["src/Config.mo", "src/Apis/**/*.mo", "src/Models/**/*.mo"]
 
 [dependencies]
 core = "2.4.0"
-serde = "3.5.0"
+serde-core = "0.1.4" # ggreif/serde fork: skip_null_fields (NatLabs/serde#44) + Map<K,V> cycle fix + decodeOne/fromCandidWith re-exports + \u-escape & surrogate-pair JSON parser (aviate-labs/json.mo#8) + RFC 8259 §7 string escaping in JSON.fromCandid (root: aviate-labs/json.mo#9)
 "cbor@4.1.0" = "4.1.0"
-"itertools@0.2.2" = "0.2.2" # because for serde
-base = "0.16.0" # because serde uses json.mo submodule
+"itertools@0.2.2" = "0.2.2" # because for serde-core
+base = "0.16.0" # because serde-core uses json.mo submodule
 xtended-numbers = "2.3.0"
 "sha2@0.1.6" = "0.1.6"
