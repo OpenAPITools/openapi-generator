@@ -164,7 +164,7 @@ module {
                 case (#Record(pairs__)) {
                     let buf__ = List.empty<(Text, Int)>();
                     for ((k__, c__) in pairs__.values()) {
-                        let ?v__ = (switch (c__) { case (#Text(s)) ?s; case _ null }) else throw Error.reject("HTTP " # Int.toText(response.status) # ": map value not Text");
+                        let ?v__ = (switch (c__) { case (#Int(j)) ?j; case (#Nat(k)) ?k; case _ null }) else throw Error.reject("HTTP " # Int.toText(response.status) # ": map value shape mismatch for Int");
                         List.add(buf__, (k__, v__));
                     };
                     fromIter<Text, Int>(List.toArray(buf__).values(), Text.compare)

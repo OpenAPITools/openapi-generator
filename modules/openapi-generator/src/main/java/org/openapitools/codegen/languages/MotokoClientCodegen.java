@@ -1531,6 +1531,20 @@ public class MotokoClientCodegen extends DefaultCodegen implements CodegenConfig
                     op.vendorExtensions.put("x-return-is-map", true);
                     if (op.returnBaseType != null) {
                         op.vendorExtensions.put("x-return-map-value-type", op.returnBaseType);
+                        // Per-type flags for the map value, so api.mustache can pick the right
+                        // JSON-decode pattern (mirrors what candid_map_field_from.mustache does
+                        // for model-property-level maps via items.isString/isInteger/...).
+                        // Without these flags the template falls back to its primitive default
+                        // (`#Text` matching), which silently mishandles int/float/bool/blob
+                        // value types.
+                        String mapValueType = op.returnBaseType;
+                        op.vendorExtensions.put("x-return-map-value-is-text", "Text".equals(mapValueType));
+                        op.vendorExtensions.put("x-return-map-value-is-int", "Int".equals(mapValueType));
+                        op.vendorExtensions.put("x-return-map-value-is-nat", "Nat".equals(mapValueType));
+                        op.vendorExtensions.put("x-return-map-value-is-float", "Float".equals(mapValueType));
+                        op.vendorExtensions.put("x-return-map-value-is-bool", "Bool".equals(mapValueType));
+                        op.vendorExtensions.put("x-return-map-value-is-blob", "Blob".equals(mapValueType));
+                        op.vendorExtensions.put("x-return-map-value-is-model", !isPrimitiveOrMappedType(mapValueType));
                     }
                     needsMapImport = true;
                 }
