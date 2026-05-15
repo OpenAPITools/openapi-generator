@@ -7031,6 +7031,13 @@ public class DefaultCodegen implements CodegenConfig {
                 : name;
     }
 
+    /**
+     * Update enum vars with extensions.
+     *
+     * @param enumVars list of enum vars
+     * @param vendorExtensions vendor extensions
+     * @param dataType data type
+     */
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
             updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, "name", dataType);
@@ -7038,10 +7045,28 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * Update enum vars with extensions.
+     *
+     * @param enumVars list of enum vars
+     * @param vendorExtensions vendor extensions
+     * @param extensionKey extension key
+     * @param key key
+     * @param dataType data type
+     */
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
         updateEnumVarsWithExtensions(enumVars, vendorExtensions, extensionKey, key, dataType, (a, b) -> a);
     }
 
+    /**
+     * Update enum vars with extensions.
+     *
+     * @param enumVars list of enum vars
+     * @param vendorExtensions vendor extensions
+     * @param extensionKey extension key
+     * @param dataType data type
+     * @param enumDataTypeMapping functions that accepts 2 arguments
+     */
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars,
                                                 Map<String, Object> vendorExtensions,
                                                 String extensionKey,
