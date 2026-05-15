@@ -5,26 +5,25 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * AdditionalPropertiesClassDto
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
   private Map<String, String> mapProperty = new HashMap<>();
@@ -49,7 +48,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapProperty
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_property")
   public Map<String, String> getMapProperty() {
     return mapProperty;
@@ -78,7 +77,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapOfMapProperty
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_of_map_property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_map_property")
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;

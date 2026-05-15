@@ -21,7 +21,7 @@ import javax.validation.Valid;
 */
 @Path("/pet")
 @Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class PetApi {
 
     @POST
@@ -66,10 +66,11 @@ public class PetApi {
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class)
     })
-    public Response findPetsByStatus(@QueryParam("status") @NotNull  @ApiParam("Status values that need to be considered for filter")  List<String> status) {
+    public Response findPetsByStatus(@Deprecated @QueryParam("status") @NotNull  @ApiParam("Status values that need to be considered for filter")  List<String> status) {
         return Response.ok().entity("magic!").build();
     }
 
+    @Deprecated
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
@@ -147,7 +148,7 @@ public class PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
     })
-    public Response uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream) {
+    public Response uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata,@FormParam(value = "file") InputStream _fileInputStream) {
         return Response.ok().entity("magic!").build();
     }
 }

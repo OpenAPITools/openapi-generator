@@ -15,7 +15,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Tag")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Tag  implements Serializable {
   private Long id;
   private String name;
@@ -139,4 +139,3 @@ public class Tag  implements Serializable {
     }
   }
 }
-

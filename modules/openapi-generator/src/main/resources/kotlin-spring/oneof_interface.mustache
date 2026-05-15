@@ -1,0 +1,24 @@
+/**
+ * {{{description}}}
+ */
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{/discriminator}}
+{{^discriminator}}{{#useDeductionForOneOfInterfaces}}{{#jackson}}
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+@JsonSubTypes(
+  {{#interfaceModels}}
+    JsonSubTypes.Type(value = {{classname}}::class){{^-last}},{{/-last}}
+  {{/interfaceModels}}
+)
+{{/jackson}}{{/useDeductionForOneOfInterfaces}}{{/discriminator}}{{#additionalModelTypeAnnotations}}
+{{{.}}}
+{{/additionalModelTypeAnnotations}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+sealed interface {{classname}}{{#vendorExtensions.x-kotlin-implements}}{{#-first}} : {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}} {
+{{#discriminator}}
+    val {{propertyName}}: {{{propertyType}}}
+{{/discriminator}}
+}

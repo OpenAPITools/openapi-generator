@@ -17,7 +17,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("Tag")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Tag  implements Serializable {
   private Long id;
   private String name;
@@ -141,4 +141,3 @@ public class Tag  implements Serializable {
     }
   }
 }
-

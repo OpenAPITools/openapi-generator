@@ -33,6 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/typescript-redux-query/}.
+ */
 public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_REPOSITORY = "npmRepository";

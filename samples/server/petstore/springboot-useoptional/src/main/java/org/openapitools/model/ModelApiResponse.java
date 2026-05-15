@@ -5,24 +5,23 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ModelApiResponse
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private Optional<Integer> code = Optional.empty();
@@ -41,7 +40,7 @@ public class ModelApiResponse {
    * @return code
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
   public Optional<Integer> getCode() {
     return code;
@@ -62,7 +61,7 @@ public class ModelApiResponse {
    * @return type
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
   public Optional<String> getType() {
     return type;
@@ -83,7 +82,7 @@ public class ModelApiResponse {
    * @return message
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
   public Optional<String> getMessage() {
     return message;

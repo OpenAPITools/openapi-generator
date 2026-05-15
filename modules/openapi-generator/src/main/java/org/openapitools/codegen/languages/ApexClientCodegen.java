@@ -37,6 +37,9 @@ import java.util.Locale;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/apex/}.
+ */
 public class ApexClientCodegen extends AbstractApexCodegen {
 
     private static final String CLASS_PREFIX = "classPrefix";

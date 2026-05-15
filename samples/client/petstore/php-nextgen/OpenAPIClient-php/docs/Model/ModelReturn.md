@@ -1,4 +1,4 @@
-# # ModelReturn
+# ModelReturn
 
 ## Properties
 

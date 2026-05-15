@@ -57,12 +57,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
         </dependency>
+        {{^useJspecify}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+        {{/useJspecify}}
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>

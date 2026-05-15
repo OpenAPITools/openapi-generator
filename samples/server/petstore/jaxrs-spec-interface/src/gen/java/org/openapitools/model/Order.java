@@ -15,10 +15,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
-
-
+/**
+ * An order for a pets from the pet store
+ **/
+@ApiModel(description = "An order for a pets from the pet store")
 @JsonTypeName("Order")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Order  implements Serializable {
   private Long id;
   private Long petId;
@@ -240,4 +242,3 @@ public class Order  implements Serializable {
 
 
 }
-

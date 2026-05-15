@@ -1370,7 +1370,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/health"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/health");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/health");
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -1597,12 +1597,14 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/outer/boolean"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/outer/boolean");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/outer/boolean");
 
                     if (body.IsSet)
-                        httpRequestMessageLocalVar.Content = (body.Value as object) is System.IO.Stream stream
-                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
+                    {
+                      httpRequestMessageLocalVar.Content = (body.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
+                    }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -1851,12 +1853,14 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/outer/composite"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/outer/composite");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/outer/composite");
 
                     if (outerComposite.IsSet)
-                        httpRequestMessageLocalVar.Content = (outerComposite.Value as object) is System.IO.Stream stream
-                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(outerComposite.Value, _jsonSerializerOptions));
+                    {
+                      httpRequestMessageLocalVar.Content = (outerComposite.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(outerComposite.Value, _jsonSerializerOptions));
+                    }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -2092,12 +2096,14 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/outer/number"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/outer/number");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/outer/number");
 
                     if (body.IsSet)
-                        httpRequestMessageLocalVar.Content = (body.Value as object) is System.IO.Stream stream
-                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
+                    {
+                      httpRequestMessageLocalVar.Content = (body.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
+                    }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -2352,7 +2358,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/outer/string"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/outer/string");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/outer/string");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -2361,9 +2367,11 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (body.IsSet)
-                        httpRequestMessageLocalVar.Content = (body.Value as object) is System.IO.Stream stream
-                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
+                    {
+                      httpRequestMessageLocalVar.Content = (body.Value as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
+                    }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -2589,7 +2597,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/array-of-enums"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/array-of-enums");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/array-of-enums");
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -2806,7 +2814,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/mixed/anyOf"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/mixed/anyOf");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/mixed/anyOf");
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -3023,7 +3031,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/mixed/oneOf"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/mixed/oneOf");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/mixed/oneOf");
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -3263,10 +3271,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/additionalProperties-reference"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/additionalProperties-reference");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/additionalProperties-reference");
 
-                    httpRequestMessageLocalVar.Content = (requestBody as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -3476,10 +3484,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/body-with-file-schema"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/body-with-file-schema");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/body-with-file-schema");
 
-                    httpRequestMessageLocalVar.Content = (fileSchemaTestClass as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (fileSchemaTestClass as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -3699,7 +3707,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/body-with-query-params"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/body-with-query-params");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/body-with-query-params");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -3707,8 +3715,8 @@ namespace Org.OpenAPITools.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (user as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -3918,10 +3926,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake");
 
-                    httpRequestMessageLocalVar.Content = (modelClient as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (modelClient as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -4269,7 +4277,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake");
 
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
@@ -4595,7 +4603,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -4613,12 +4621,6 @@ namespace Org.OpenAPITools.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    if (enumHeaderString.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("enum_header_string", ClientUtils.ParameterToString(enumHeaderString.Value));
-
-                    if (enumHeaderStringArray.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("enum_header_string_array", ClientUtils.ParameterToString(enumHeaderStringArray.Value));
-
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
                     if (enumFormString.IsSet)
@@ -4629,6 +4631,32 @@ namespace Org.OpenAPITools.Api
 
                     if (formParameterLocalVars.Count > 0)
                         httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
+
+                    if (enumHeaderString.IsSet)
+                    {
+                      // Set client side default value of Header Param "enum_header_string".                    
+                      if (ClientUtils.IsContentHeader("enum_header_string"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("enum_header_string", ClientUtils.ParameterToString(enumHeaderString.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("enum_header_string", ClientUtils.ParameterToString(enumHeaderString.Value));
+                      }
+                    }
+
+                    if (enumHeaderStringArray.IsSet)
+                    {
+                      // Set client side default value of Header Param "enum_header_string_array".                    
+                      if (ClientUtils.IsContentHeader("enum_header_string_array"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("enum_header_string_array", ClientUtils.ParameterToString(enumHeaderStringArray.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("enum_header_string_array", ClientUtils.ParameterToString(enumHeaderStringArray.Value));
+                      }
+                    }
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -4855,7 +4883,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -4870,10 +4898,28 @@ namespace Org.OpenAPITools.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    httpRequestMessageLocalVar.Headers.Add("required_boolean_group", ClientUtils.ParameterToString(requiredBooleanGroup));
+                    // Set client side default value of Header Param "required_boolean_group".                    
+                    if (ClientUtils.IsContentHeader("required_boolean_group"))
+                    {
+                        httpRequestMessageLocalVar.Content?.Headers.Add("required_boolean_group", ClientUtils.ParameterToString(requiredBooleanGroup));
+                    }
+                    else
+                    {
+                        httpRequestMessageLocalVar.Headers.Add("required_boolean_group", ClientUtils.ParameterToString(requiredBooleanGroup));
+                    }
 
                     if (booleanGroup.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
+                    {
+                      // Set client side default value of Header Param "boolean_group".                    
+                      if (ClientUtils.IsContentHeader("boolean_group"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -5083,10 +5129,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/inline-additionalProperties"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/inline-additionalProperties");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/inline-additionalProperties");
 
-                    httpRequestMessageLocalVar.Content = (requestBody as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -5296,10 +5342,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/inline-freeform-additionalProperties"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/inline-freeform-additionalProperties");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/inline-freeform-additionalProperties");
 
-                    httpRequestMessageLocalVar.Content = (testInlineFreeformAdditionalPropertiesRequest as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (testInlineFreeformAdditionalPropertiesRequest as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(testInlineFreeformAdditionalPropertiesRequest, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -5519,7 +5565,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/jsonFormData"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/jsonFormData");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/jsonFormData");
 
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
@@ -5804,7 +5850,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/test-query-parameters"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/test-query-parameters");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/test-query-parameters");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -6021,10 +6067,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/fake/stringMap-reference"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/stringMap-reference");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/fake/stringMap-reference");
 
-                    httpRequestMessageLocalVar.Content = (requestBody as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;

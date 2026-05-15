@@ -18,7 +18,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("OuterComposite")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
   private BigDecimal myNumber;
   private String myString;
@@ -170,4 +170,3 @@ public class OuterComposite  implements Serializable {
     }
   }
 }
-

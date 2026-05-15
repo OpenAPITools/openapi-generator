@@ -18,6 +18,8 @@
 package org.openapitools.codegen.yaml;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -27,6 +29,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -148,5 +151,38 @@ public class YamlGeneratorTest {
 
         Assert.assertEquals(actual.getComponents().getSchemas().get("myresponse").getExample(),
                 expected.getComponents().getSchemas().get("myresponse").getExample());
+    }
+
+    @Test
+    public void testIssue19929() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(OpenAPIYamlGenerator.OUTPUT_NAME, "issue_19929.yaml");
+
+        File output = Files.createTempDirectory("issue_19929").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("openapi-yaml")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_19929.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Path generated = Path.of(output.getAbsolutePath(), "issue_19929.yaml");
+        String generatedYaml = new String(Files.readAllBytes(generated), StandardCharsets.UTF_8);
+
+        Assert.assertFalse(generatedYaml.contains("!!binary"),
+                "openapi-yaml output must not emit !!binary for format: byte examples. Output was:\n" + generatedYaml);
+        Assert.assertTrue(generatedYaml.contains("aGVsbG8K"),
+                "openapi-yaml output should preserve the original base64 example. Output was:\n" + generatedYaml);
+
+        OpenAPI roundTripped = TestUtils.parseSpec(generated.toString());
+        Parameter coordinates = roundTripped.getPaths().get("/operationsTest/").getGet().getParameters().get(0);
+        Schema<?> dataSchema = (Schema<?>) coordinates.getContent().get("application/json").getSchema().getProperties().get("data");
+        byte[] exampleBytes = (byte[]) dataSchema.getExample();
+        Assert.assertEquals(new String(exampleBytes, StandardCharsets.UTF_8), "aGVsbG8K");
     }
 }

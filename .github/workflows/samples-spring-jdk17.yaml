@@ -8,11 +8,14 @@ on:
       - samples/client/petstore/spring-http-interface-springboot-4/**
       - samples/openapi3/server/petstore/springboot-3/**
       - samples/openapi3/server/petstore/springboot-4/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
       - samples/server/petstore/springboot-lombok-tostring/**
       - samples/server/petstore/springboot-file-delegate-optional/**
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
+      - samples/server/petstore/springboot-sort-validation/**
+      - samples/server/petstore/springboot-paged-model/**
       - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
   pull_request:
@@ -22,11 +25,14 @@ on:
       - samples/client/petstore/spring-http-interface-springboot-4/**
       - samples/openapi3/server/petstore/springboot-3/**
       - samples/openapi3/server/petstore/springboot-4/**
+      - samples/openapi3/server/petstore/springboot-4-jspecify/**
       - samples/server/petstore/springboot-api-response-examples/**
       - samples/server/petstore/springboot-lombok-data/**
       - samples/server/petstore/springboot-lombok-tostring/**
       - samples/server/petstore/springboot-file-delegate-optional/**
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
+      - samples/server/petstore/springboot-sort-validation/**
+      - samples/server/petstore/springboot-paged-model/**
       - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
 jobs:
@@ -44,11 +50,14 @@ jobs:
           # servers
           - samples/openapi3/server/petstore/springboot-3
           - samples/openapi3/server/petstore/springboot-4
+          - samples/openapi3/server/petstore/springboot-4-jspecify
           - samples/server/petstore/springboot-api-response-examples
           - samples/server/petstore/springboot-lombok-data
           - samples/server/petstore/springboot-lombok-tostring
           - samples/server/petstore/springboot-file-delegate-optional
           - samples/server/petstore/springboot-petstore-with-api-response-examples
+          - samples/server/petstore/springboot-sort-validation
+          - samples/server/petstore/springboot-paged-model
           - samples/openapi3/server/petstore/spring-boot-oneof-sealed
           - samples/openapi3/server/petstore/spring-boot-oneof-interface
     steps:

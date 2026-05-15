@@ -40,6 +40,40 @@ public class JSONTest {
     }
 
     @Test
+    public void testAnyOfWithNullableRequiredFields() {
+        Gson gson = json.getGson();
+
+        // Test: anyOf response with nullable required fields set to null should deserialize
+        // This reproduces the bug where Record<string, { before: string | null, after: string | null }>
+        // fails anyOf matching when field values are null.
+        String jsonStr = "{\"status\":\"success\",\"positions\":{\"comment1\":{\"before\":null,\"after\":\"3\"},\"comment2\":{\"before\":\"1\",\"after\":null}}}";
+        NullableFieldsMapResponse response = gson.fromJson(jsonStr, NullableFieldsMapResponse.class);
+        assertNotNull(response);
+        NullableFieldsMapSuccess success = response.getNullableFieldsMapSuccess();
+        assertNotNull(success);
+        assertEquals("success", success.getStatus());
+        assertNotNull(success.getPositions());
+        assertNull(success.getPositions().get("comment1").getBefore());
+        assertEquals("3", success.getPositions().get("comment1").getAfter());
+        assertEquals("1", success.getPositions().get("comment2").getBefore());
+        assertNull(success.getPositions().get("comment2").getAfter());
+    }
+
+    @Test
+    public void testAnyOfWithNullableRequiredFieldsBothNull() {
+        Gson gson = json.getGson();
+
+        // Both nullable fields are null
+        String jsonStr = "{\"status\":\"success\",\"positions\":{\"comment1\":{\"before\":null,\"after\":null}}}";
+        NullableFieldsMapResponse response = gson.fromJson(jsonStr, NullableFieldsMapResponse.class);
+        assertNotNull(response);
+        NullableFieldsMapSuccess success = response.getNullableFieldsMapSuccess();
+        assertNotNull(success);
+        assertNull(success.getPositions().get("comment1").getBefore());
+        assertNull(success.getPositions().get("comment1").getAfter());
+    }
+
+    @Test
     public void testOneOfFreeFormObject() {
         final Map<String, Object> map = new LinkedHashMap<>();
         map.put("someString", "abc");

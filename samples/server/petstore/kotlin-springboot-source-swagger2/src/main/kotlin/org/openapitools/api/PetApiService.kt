@@ -18,11 +18,10 @@ interface PetApiService {
      * DELETE /pet/{petId} : Deletes a pet
      *
      * @param petId Pet id to delete (required)
-     * @param apiKey  (optional)
      * @return Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): Unit
+    fun deletePet(petId: kotlin.Long): Unit
 
     /**
      * GET /pet/findByStatus : Finds Pets by status

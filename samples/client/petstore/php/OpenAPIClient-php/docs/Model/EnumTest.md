@@ -1,4 +1,4 @@
-# # EnumTest
+# EnumTest
 
 ## Properties
 

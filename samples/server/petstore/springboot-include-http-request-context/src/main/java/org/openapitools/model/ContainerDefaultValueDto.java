@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,19 +13,20 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * ContainerDefaultValueDto
  */
 
 @JsonTypeName("ContainerDefaultValue")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
@@ -68,7 +67,7 @@ public class ContainerDefaultValueDto {
    * @return nullableArray
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "nullable_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
@@ -96,7 +95,7 @@ public class ContainerDefaultValueDto {
    * @return nullableRequiredArray
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -125,7 +124,7 @@ public class ContainerDefaultValueDto {
    * @return requiredArray
    */
   @NotNull 
-  @ApiModelProperty(required = true, value = "")
+  @Schema(name = "required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;
@@ -154,7 +153,7 @@ public class ContainerDefaultValueDto {
    * @return nullableArrayWithDefault
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "nullable_array_with_default", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;

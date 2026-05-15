@@ -17,7 +17,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("Client")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Client  implements Serializable {
   private String client;
 
@@ -113,4 +113,3 @@ public class Client  implements Serializable {
     }
   }
 }
-

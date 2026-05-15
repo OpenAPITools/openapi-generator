@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 
-@JsonTypeName("Cat")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@JsonTypeName("CAT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "Cat", propOrder =
     { "declawed"
     })
@@ -136,4 +136,3 @@ public class Cat extends Animal implements Serializable {
     }
   }
 }
-

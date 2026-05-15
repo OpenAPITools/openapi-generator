@@ -12,18 +12,17 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  DefaultMetaOnlyResponse,
-  User,
-} from '../models/index';
 import {
+    type DefaultMetaOnlyResponse,
     DefaultMetaOnlyResponseFromJSON,
     DefaultMetaOnlyResponseToJSON,
+} from '../models/DefaultMetaOnlyResponse';
+import {
+    type User,
     UserFromJSON,
     UserToJSON,
-} from '../models/index';
+} from '../models/User';
 
 export interface CreateUserRequest {
     body: User;
@@ -217,7 +216,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -263,7 +262,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,
@@ -416,7 +415,7 @@ export class UserApi extends runtime.BaseAPI {
 
 
         let urlPath = `/user/{username}`;
-        urlPath = urlPath.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username'])));
+        urlPath = urlPath.replace('{username}', encodeURIComponent(String(requestParameters['username'])));
 
         return {
             path: urlPath,

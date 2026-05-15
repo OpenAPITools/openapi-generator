@@ -20,7 +20,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="")
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
   private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
@@ -132,4 +132,3 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
     }
   }
 }
-

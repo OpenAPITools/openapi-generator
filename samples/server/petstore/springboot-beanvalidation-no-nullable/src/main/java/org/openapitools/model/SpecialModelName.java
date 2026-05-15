@@ -5,23 +5,22 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * SpecialModelName
  */
 
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class SpecialModelName {
 
   private @Nullable Long $specialPropertyName;
@@ -36,7 +35,7 @@ public class SpecialModelName {
    * @return $specialPropertyName
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "$special[property.name]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("$special[property.name]")
   public @Nullable Long get$SpecialPropertyName() {
     return $specialPropertyName;

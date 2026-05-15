@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import org.springframework.http.HttpStatus;
@@ -13,18 +12,18 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public interface UserApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -125,7 +124,7 @@ public interface UserApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
+                String exampleString = "{ \"id\" : 0, \"username\" : \"username\", \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"email\" : \"email\", \"password\" : \"password\", \"phone\" : \"phone\", \"userStatus\" : 6 }";
                 result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }

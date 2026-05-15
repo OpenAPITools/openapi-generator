@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Tests for RustServerCodegen.
@@ -55,6 +56,35 @@ public class RustServerCodegenTest {
 
         // Verify integer with int64 format and minimum >= 0 becomes u64
         TestUtils.assertFileContains(libPath, "positive_int64: u64");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    /**
+     * Test that two operations whose operationIds normalize to the same snake_case string
+     * (e.g., "fooBar" and "foo_bar" both become "foo_bar") receive distinct x-operation-id
+     * values. All operations are emitted as handle_<x-operation-id>() free functions in a
+     * single mod.rs, so duplicates would cause a Rust compile error.
+     */
+    @Test
+    public void testDuplicateOperationIdDeduplication() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/duplicate-operation-id.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path serverModPath = Path.of(target.toString(), "/src/server/mod.rs");
+        TestUtils.assertFileExists(serverModPath);
+
+        // Both operations produce snake_case "foo_bar". The second should be renamed to
+        // "foo_bar_0" so there are two distinct handle_*() functions, not a duplicate.
+        TestUtils.assertFileContains(serverModPath, "handle_foo_bar(");
+        TestUtils.assertFileContains(serverModPath, "handle_foo_bar_0(");
 
         // Clean up
         target.toFile().deleteOnExit();

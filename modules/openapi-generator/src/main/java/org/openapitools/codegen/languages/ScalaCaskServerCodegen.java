@@ -38,6 +38,9 @@ import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-cask/}.
+ */
 public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 

@@ -12,18 +12,17 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  ModelApiResponse,
-  Pet,
-} from '../models/index';
 import {
+    type ModelApiResponse,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
+} from '../models/ModelApiResponse';
+import {
+    type Pet,
     PetFromJSON,
     PetToJSON,
-} from '../models/index';
+} from '../models/Pet';
 
 export interface AddPetRequest {
     pet: Pet;
@@ -147,7 +146,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -310,7 +309,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -438,7 +437,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,
@@ -514,7 +513,7 @@ export class PetApi extends runtime.BaseAPI {
 
 
         let urlPath = `/pet/{petId}/uploadImage`;
-        urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
+        urlPath = urlPath.replace('{petId}', encodeURIComponent(String(requestParameters['petId'])));
 
         return {
             path: urlPath,

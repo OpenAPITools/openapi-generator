@@ -24,7 +24,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="")
 @JsonTypeName("Animal")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Animal  implements Serializable {
   private String className;
   private String color = "red";
@@ -155,4 +155,3 @@ public class Animal  implements Serializable {
     }
   }
 }
-

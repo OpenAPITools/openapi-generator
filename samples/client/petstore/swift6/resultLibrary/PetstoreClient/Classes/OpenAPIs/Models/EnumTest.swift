@@ -67,3 +67,14 @@ internal struct EnumTest: Sendable, Codable {
     }
 }
 
+
+extension EnumTest: UnknownCaseCheckable {
+    internal var containsUnknownDefaultOpenApiCase: Bool {
+        if enumString == .unknownDefaultOpenApi { return true }
+        if enumStringRequired == .unknownDefaultOpenApi { return true }
+        if enumInteger == .unknownDefaultOpenApi { return true }
+        if enumNumber == .unknownDefaultOpenApi { return true }
+        if outerEnum == .unknownDefaultOpenApi { return true }
+        return false
+    }
+}

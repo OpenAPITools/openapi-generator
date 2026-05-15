@@ -158,7 +158,7 @@ import {{packageName}}.infrastructure.*
 
         {{#hasQueryParams}}
         {{#queryParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { request.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString(it){{/isDateTime}}{{#isDate}}parseDateToQueryString(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { request.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>(it){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
         {{/queryParams}}
         {{/hasQueryParams}}
 

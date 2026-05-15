@@ -1,0 +1,24 @@
+openapi: 3.0.1
+info:
+  title: Quarkus permit-all coexists with MicroProfile SecurityRequirement annotations
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: Op-level security:[] -- emits @PermitAll alongside MicroProfile annotations
+      security: []
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            admin: Admin access

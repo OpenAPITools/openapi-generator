@@ -42,6 +42,9 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/crystal/}.
+ */
 public class CrystalClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CrystalClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";

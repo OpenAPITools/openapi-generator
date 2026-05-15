@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -31,6 +33,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-finch/}.
+ */
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
     protected String invokerPackage = "org.openapitools.client";
@@ -42,6 +47,10 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     public ScalaFinchServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -156,6 +165,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
         supportingFiles.add(new SupportingFile("project/build.properties", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
         supportingFiles.add(new SupportingFile("endpoint.mustache", sourceFolder, "endpoint.scala"));
@@ -208,12 +218,12 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getName() {
-        return "scala-finch";
+        return "scala-finch-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Scala server application with Finch.";
+        return "Generates a Scala server application with Finch. IMPORTANT: this generator has been deprecated.";
     }
 
     @Override

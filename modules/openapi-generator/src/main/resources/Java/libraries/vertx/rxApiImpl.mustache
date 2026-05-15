@@ -6,7 +6,17 @@ import {{invokerPackage}}.ApiClient;
 
 import java.util.*;
 
+{{#useRxJava3}}
+import io.reactivex.rxjava3.core.Single;
+import io.vertx.rxjava3.SingleHelper;
+{{/useRxJava3}}
+{{#useRxJava2}}
+import io.reactivex.Single;
+import io.vertx.reactivex.SingleHelper;
+{{/useRxJava2}}
+{{^useRxJava2}}{{^useRxJava3}}
 import rx.Single;
+{{/useRxJava3}}{{/useRxJava2}}
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -60,9 +70,18 @@ public class {{classname}} {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<{{{returnType}}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    {{#useRxJava2}}
+        return SingleHelper.toSingle(fut ->
+            delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}fut));
+    {{/useRxJava2}}
+    {{#useRxJava3}}
+        return SingleHelper.toSingle(fut -> delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}fut));
+    {{/useRxJava3}}
+    {{^useRxJava2}}{{^useRxJava3}}
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}fut)
         ));
+    {{/useRxJava3}}{{/useRxJava2}}
     }
 
     /**
@@ -75,9 +94,19 @@ public class {{classname}} {
     * @return Asynchronous result handler (RxJava Single)
     */
     public Single<{{{returnType}}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo) {
+    {{#useRxJava2}}
+            return SingleHelper.toSingle(fut ->
+            delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, fut));
+    {{/useRxJava2}}
+    {{#useRxJava3}}
+            return SingleHelper.toSingle(fut ->
+            delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, fut));
+    {{/useRxJava3}}
+    {{^useRxJava2}}{{^useRxJava3}}
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, fut)
         ));
+    {{/useRxJava3}}{{/useRxJava2}}
     }
     {{/operation}}
 

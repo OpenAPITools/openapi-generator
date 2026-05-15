@@ -16,7 +16,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("AllOfWithSingleRef")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AllOfWithSingleRef  implements Serializable {
   private String username;
   private SingleRefType singleRefType;
@@ -140,4 +140,3 @@ public class AllOfWithSingleRef  implements Serializable {
     }
   }
 }
-

@@ -17,7 +17,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Model for testing model name same as property name")
 @JsonTypeName("Name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Name  implements Serializable {
   private Integer name;
   private Integer snakeCase;
@@ -204,4 +204,3 @@ public class Name  implements Serializable {
     }
   }
 }
-

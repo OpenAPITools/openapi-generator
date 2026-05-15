@@ -50,7 +50,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FakeRefParameterPetIdParameter.class.getName());
 
@@ -201,6 +201,7 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
      * @return The actual instance of `String`
      * @throws ClassCastException if the instance is not `String`
      */
+    @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
     }
@@ -212,6 +213,7 @@ public class FakeRefParameterPetIdParameter extends AbstractOpenApiSchema {
      * @return The actual instance of `Integer`
      * @throws ClassCastException if the instance is not `Integer`
      */
+    @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }

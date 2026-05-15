@@ -3,6 +3,8 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
 import io.swagger.annotations.ApiResponse
@@ -65,16 +67,18 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
         value = [ApiResponse(code = 400, message = "Invalid pet value")])
+    @ApiImplicitParams(value = [
+        ApiImplicitParam(name = "api_key", value = "",  dataType = "kotlin.String", paramType = "header")
+    ])
     @RequestMapping(
         method = [RequestMethod.DELETE],
         // "/pet/{petId}"
         value = [PATH_DELETE_PET]
     )
     fun deletePet(
-        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long
     ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
+        return ResponseEntity(service.deletePet(petId), HttpStatus.valueOf(400))
     }
 
 

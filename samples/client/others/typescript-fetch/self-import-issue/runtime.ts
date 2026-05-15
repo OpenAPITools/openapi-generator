@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 export const BASE_PATH = "http://localhost".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
@@ -91,7 +90,7 @@ export const DefaultConfig = new Configuration();
  */
 export class BaseAPI {
 
-    private static readonly jsonRegex = new RegExp('^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$', 'i');
+    private static readonly jsonRegex = /^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$/i;
     private middleware: Middleware[];
 
     constructor(protected configuration = DefaultConfig) {

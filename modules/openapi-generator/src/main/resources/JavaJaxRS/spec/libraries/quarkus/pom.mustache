@@ -51,7 +51,7 @@
     <smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>
 {{/useMutiny}}
 {{#openApiNullable}}
-    <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
+    <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
 {{/openApiNullable}}
   </properties>
   <dependencyManagement>
@@ -84,6 +84,12 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
+{{#hasResponseStatusAnnotations}}
+    <dependency>
+      <groupId>io.quarkus.resteasy.reactive</groupId>
+      <artifactId>resteasy-reactive</artifactId>
+    </dependency>
+{{/hasResponseStatusAnnotations}}
 {{#useJakartaEe}}
 {{#returnJBossResponse}}
     <dependency>

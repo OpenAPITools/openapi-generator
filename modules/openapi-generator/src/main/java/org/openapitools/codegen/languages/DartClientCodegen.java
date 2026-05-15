@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/dart2/}.
+ */
 public class DartClientCodegen extends AbstractDartCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);

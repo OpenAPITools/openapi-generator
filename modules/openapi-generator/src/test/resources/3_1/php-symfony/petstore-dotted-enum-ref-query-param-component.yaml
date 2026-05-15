@@ -1,0 +1,30 @@
+openapi: 3.1.0
+info:
+  title: php-symfony petstore dotted enum ref via components.parameters
+  version: '1.0'
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      parameters:
+        - $ref: '#/components/parameters/Pet.HTTP.ListPetsRequest.status'
+      responses:
+        '200':
+          description: OK
+components:
+  parameters:
+    Pet.HTTP.ListPetsRequest.status:
+      name: status
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/Pet.Model.PetStatus'
+        default: available
+      explode: false
+  schemas:
+    Pet.Model.PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+        - sold

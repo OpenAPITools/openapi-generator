@@ -45,8 +45,8 @@ function Initialize-PSZebra {
 
 
         $PSO = [PSCustomObject]@{
-            "type" = ${Type}
-            "className" = ${ClassName}
+            'type' = ${Type}
+            'className' = ${ClassName}
         }
 
 
@@ -85,7 +85,7 @@ function ConvertFrom-PSJsonToZebra {
         $PSZebraAdditionalProperties = @{}
 
         # check if Json contains properties not defined in PSZebra
-        $AllProperties = ("type", "className")
+        $AllProperties = ('type', 'className')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
@@ -97,22 +97,22 @@ function ConvertFrom-PSJsonToZebra {
             throw "Error! Empty JSON cannot be serialized due to the required property 'className' missing."
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "className"))) {
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'className'))) {
             throw "Error! JSON cannot be serialized due to the required property 'className' missing."
         } else {
-            $ClassName = $JsonParameters.PSobject.Properties["className"].value
+            $ClassName = $JsonParameters.PSobject.Properties['className'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "type"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'type'))) { #optional property not found
             $Type = $null
         } else {
-            $Type = $JsonParameters.PSobject.Properties["type"].value
+            $Type = $JsonParameters.PSobject.Properties['type'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "type" = ${Type}
-            "className" = ${ClassName}
-            "AdditionalProperties" = $PSZebraAdditionalProperties
+            'type' = ${Type}
+            'className' = ${ClassName}
+            'AdditionalProperties' = $PSZebraAdditionalProperties
         }
 
         return $PSO

@@ -38,6 +38,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-sttp4/}.
+ */
 public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
             "sttp client", "4.0.0-M1");

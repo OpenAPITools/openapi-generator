@@ -20,7 +20,7 @@ namespace Org.OpenAPITools.Client
     public abstract class TokenBase
     {
         private DateTime _nextAvailable = DateTime.UtcNow;
-        private object _nextAvailableLock = new object();
+        private readonly object _nextAvailableLock = new object();
         private readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
         internal TimeSpan? Timeout { get; set; }
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Returns true while the token is rate limited.
         /// </summary>
-        public bool IsRateLimited => _nextAvailable > DateTime.UtcNow;
+        public bool IsRateLimited { get { lock (_nextAvailableLock) return _nextAvailable > DateTime.UtcNow; } }
 
         /// <summary>
         /// Triggered when the server returns status code TooManyRequests
@@ -78,8 +78,8 @@ namespace Org.OpenAPITools.Client
 
         private void OnTimer(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            if (TokenBecameAvailable != null && !IsRateLimited)
-                TokenBecameAvailable.Invoke(this);
+            if (!IsRateLimited)
+                TokenBecameAvailable?.Invoke(this);
         }
     }
 }

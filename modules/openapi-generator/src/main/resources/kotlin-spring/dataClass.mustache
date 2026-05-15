@@ -1,8 +1,11 @@
 /**
  * {{{description}}}
-{{#vars}}
+{{#requiredVars}}
  * @param {{name}} {{{description}}}
-{{/vars}}
+{{/requiredVars}}
+{{#optionalVars}}
+ * @param {{name}} {{{description}}}
+{{/optionalVars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
 {{#additionalModelTypeAnnotations}}
@@ -54,7 +57,7 @@
             @JsonCreator
             fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
                 return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{classname}}'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{nameInPascalCase}}'")
             }
         }
     }

@@ -530,7 +530,7 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 - `MAP_ITEM_SUFFIX` set the map item suffix
 - `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schemas by default)
-- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref. This must be activated to allow the renaming of inline enum definitions using `inlineSchemaMappings`.
+- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref. This must be activated to allow the renaming of inline enum definitions using `inlineSchemaNameMappings`.
 
 ## OpenAPI Normalizer
 
@@ -649,6 +649,36 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true
+```
+
+- `REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING`: when set to true, oneOf is removed and is converted into mappings in a discriminator mapping.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/oneOf_issue_23527.yaml -o /tmp/java/ --openapi-normalizer REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING=true
+```
+
+Here is what the change in the spec looks like:
+
+```diff
+diff --git a/api/openapi.yaml b/api/openapi.yaml
+index 6f27abd..146c61c 100644
+--- a/api/openapi.yaml
++++ b/api/openapi.yaml
+@@ -9,10 +9,10 @@ components:
+   schemas:
+     GeoJsonObject:
+       discriminator:
++        mapping:
++          MultiPolygon: "#/components/schemas/Multi-Polygon"
++          Polygon: "#/components/schemas/Polygon"
+         propertyName: type
+-      oneOf:
+-      - $ref: "#/components/schemas/Polygon"
+-      - $ref: "#/components/schemas/Multi-Polygon"
+       properties:
+         type:
+           type: string
 ```
 
 - `FILTER`

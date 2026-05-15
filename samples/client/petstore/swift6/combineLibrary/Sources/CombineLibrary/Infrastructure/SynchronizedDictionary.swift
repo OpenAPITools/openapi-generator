@@ -6,21 +6,12 @@
 
 import Foundation
 
-internal class SynchronizedDictionary<K: Hashable, V> : @unchecked Sendable {
+internal final class SynchronizedDictionary<K: Hashable, V>: @unchecked Sendable {
 
-    private var dictionary = [K: V]()
-    private let lock = NSRecursiveLock()
+    private let _state = OpenAPIMutex<[K: V]>([:])
 
     internal subscript(key: K) -> V? {
-        get {
-            lock.withLock {
-                self.dictionary[key]
-            }
-        }
-        set {
-            lock.withLock {
-                self.dictionary[key] = newValue
-            }
-        }
+        get { _state.value[key] }
+        set { _state.withValue { $0[key] = newValue } }
     }
 }

@@ -123,7 +123,7 @@ ext {
     {{/useJackson3}}
     jackson_annotations_version = "2.21"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.9"
+    jackson_databind_nullable_version = "0.2.10"
     {{/openApiNullable}}
     {{#useSpringBoot4}}
     spring_web_version = "7.0.5"
@@ -153,7 +153,9 @@ dependencies {
     {{#swagger2AnnotationLibrary}}
     implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
     {{/swagger2AnnotationLibrary}}
+    {{^useJspecify}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
+    {{/useJspecify}}
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"
     implementation "{{jacksonPackage}}.core:jackson-core:$jackson_version"
@@ -171,6 +173,9 @@ dependencies {
     {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/useJackson3}}
+    {{#useJspecify}}
+    implementation "org.jspecify:jspecify:1.0.0"
+    {{/useJspecify}}
     {{#joda}}
     implementation "{{jacksonPackage}}.datatype:jackson-datatype-joda:$jackson_version"
     implementation "joda-time:joda-time:$jodatime_version"

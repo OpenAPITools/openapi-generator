@@ -4,24 +4,23 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class OuterComposite {
 
   private Optional<BigDecimal> myNumber = Optional.empty();
@@ -40,7 +39,7 @@ public class OuterComposite {
    * @return myNumber
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_number")
   public Optional<BigDecimal> getMyNumber() {
     return myNumber;
@@ -61,7 +60,7 @@ public class OuterComposite {
    * @return myString
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_string")
   public Optional<String> getMyString() {
     return myString;
@@ -82,7 +81,7 @@ public class OuterComposite {
    * @return myBoolean
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "my_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_boolean")
   public Optional<Boolean> getMyBoolean() {
     return myBoolean;

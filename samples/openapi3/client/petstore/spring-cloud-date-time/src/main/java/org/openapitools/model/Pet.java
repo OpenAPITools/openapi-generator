@@ -6,24 +6,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet {
 
   private String atType = "Pet";
@@ -39,6 +41,10 @@ public class Pet {
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
+
+  private LocalTime feedingTime = LocalTime.parse("10:15:30");
+
+  private LocalDateTime adoptionDate = LocalDateTime.parse("2007-12-03T10:15:30");
 
   public Pet() {
     super();
@@ -177,6 +183,48 @@ public class Pet {
     this.dateOfBirth = dateOfBirth;
   }
 
+  public Pet feedingTime(LocalTime feedingTime) {
+    this.feedingTime = feedingTime;
+    return this;
+  }
+
+  /**
+   * Get feedingTime
+   * @return feedingTime
+   */
+  @Valid 
+  @Schema(name = "feedingTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("feedingTime")
+  public LocalTime getFeedingTime() {
+    return feedingTime;
+  }
+
+  @JsonProperty("feedingTime")
+  public void setFeedingTime(LocalTime feedingTime) {
+    this.feedingTime = feedingTime;
+  }
+
+  public Pet adoptionDate(LocalDateTime adoptionDate) {
+    this.adoptionDate = adoptionDate;
+    return this;
+  }
+
+  /**
+   * Get adoptionDate
+   * @return adoptionDate
+   */
+  @Valid 
+  @Schema(name = "adoptionDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("adoptionDate")
+  public LocalDateTime getAdoptionDate() {
+    return adoptionDate;
+  }
+
+  @JsonProperty("adoptionDate")
+  public void setAdoptionDate(LocalDateTime adoptionDate) {
+    this.adoptionDate = adoptionDate;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -191,12 +239,14 @@ public class Pet {
         Objects.equals(this.happy, pet.happy) &&
         Objects.equals(this.price, pet.price) &&
         Objects.equals(this.lastFeed, pet.lastFeed) &&
-        Objects.equals(this.dateOfBirth, pet.dateOfBirth);
+        Objects.equals(this.dateOfBirth, pet.dateOfBirth) &&
+        Objects.equals(this.feedingTime, pet.feedingTime) &&
+        Objects.equals(this.adoptionDate, pet.adoptionDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(atType, age, happy, price, lastFeed, dateOfBirth);
+    return Objects.hash(atType, age, happy, price, lastFeed, dateOfBirth, feedingTime, adoptionDate);
   }
 
   @Override
@@ -209,6 +259,8 @@ public class Pet {
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    lastFeed: ").append(toIndentedString(lastFeed)).append("\n");
     sb.append("    dateOfBirth: ").append(toIndentedString(dateOfBirth)).append("\n");
+    sb.append("    feedingTime: ").append(toIndentedString(feedingTime)).append("\n");
+    sb.append("    adoptionDate: ").append(toIndentedString(adoptionDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }

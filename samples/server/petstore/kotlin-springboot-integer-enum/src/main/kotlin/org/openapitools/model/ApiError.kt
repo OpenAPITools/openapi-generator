@@ -42,7 +42,7 @@ data class ApiError(
             @JsonCreator
             fun forValue(value: kotlin.Int): ErrorCode {
                 return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'ApiError'")
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'ErrorCode'")
             }
         }
     }

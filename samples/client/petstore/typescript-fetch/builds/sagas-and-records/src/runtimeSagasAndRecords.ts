@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import {fromJS as originalFromJS, isIndexed, List, Map as ImmMap, RecordOf} from 'immutable';
-import {normalize, NormalizedSchema, schema, Schema} from "normalizr";
-import {ActionDefinition, createAction} from "redux-ts-simple";
+import { fromJS as originalFromJS, isIndexed, List, Map as ImmMap, RecordOf } from 'immutable';
+import { normalize, NormalizedSchema, schema, Schema } from "normalizr";
+import { ActionDefinition, createAction } from "redux-ts-simple";
 
 export const knownRecordFactories = new Map<string, any>();
 export const knownIndexedSetByKey: (string | number)[] = [];

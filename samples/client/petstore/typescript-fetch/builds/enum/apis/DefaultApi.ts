@@ -12,24 +12,27 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  EnumPatternObject,
-  FakeEnumRequestGetInline200Response,
-  NumberEnum,
-  StringEnum,
-} from '../models/index';
 import {
+    type EnumPatternObject,
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
+} from '../models/EnumPatternObject';
+import {
+    type FakeEnumRequestGetInline200Response,
     FakeEnumRequestGetInline200ResponseFromJSON,
     FakeEnumRequestGetInline200ResponseToJSON,
+} from '../models/FakeEnumRequestGetInline200Response';
+import {
+    type NumberEnum,
     NumberEnumFromJSON,
     NumberEnumToJSON,
+} from '../models/NumberEnum';
+import {
+    type StringEnum,
     StringEnumFromJSON,
     StringEnumToJSON,
-} from '../models/index';
+} from '../models/StringEnum';
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;

@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -92,9 +92,10 @@ public class StoreApi {
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
     return apiClient.invokeAPI("StoreApi.deleteOrder", localVarPath, "DELETE", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, null, false);
+                               null, null, false, localVarErrorTypes);
   }
   /**
    * Returns pet inventories by status
@@ -128,10 +129,12 @@ public class StoreApi {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
     String[] localVarAuthNames = new String[] {"api_key"};
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Map<String, Integer>>() {});
     GenericType<Map<String, Integer>> localVarReturnType = new GenericType<Map<String, Integer>>() {};
     return apiClient.invokeAPI("StoreApi.getInventory", "/store/inventory", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+                               localVarAuthNames, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Find purchase order by ID
@@ -179,10 +182,12 @@ public class StoreApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Order>() {});
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
     return apiClient.invokeAPI("StoreApi.getOrderById", localVarPath, "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
   /**
    * Place an order for a pet
@@ -224,9 +229,11 @@ public class StoreApi {
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    final Map<String, GenericType> localVarErrorTypes = new HashMap<String, GenericType>();
+    localVarErrorTypes.put("200", new GenericType<Order>() {});
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
     return apiClient.invokeAPI("StoreApi.placeOrder", "/store/order", "POST", new ArrayList<>(), order,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
-                               null, localVarReturnType, false);
+                               null, localVarReturnType, false, localVarErrorTypes);
   }
 }

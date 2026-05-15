@@ -8,7 +8,7 @@ additionalProperties:
   annotationLibrary: swagger2
   useSwaggerUI: "false"
   serializableModel: "true"
-  beanValidations: "true"
+  useBeanValidation: "true"
   interfaceOnly: true
   reactive: true
   useResponseEntity: false

@@ -445,6 +445,66 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
     }
 
+    @Test(description = "Verify instanceOf checks discriminator value for single-value enums")
+    public void testInstanceOfChecksDiscriminatorValue() throws IOException {
+        File output = generate(Collections.emptyMap(), "src/test/resources/3_0/typescript-fetch/oneOf.yaml");
+
+        // OptionOne should check discriminator value
+        Path optionOne = Paths.get(output + "/models/OptionOne.ts");
+        TestUtils.assertFileExists(optionOne);
+        TestUtils.assertFileContains(optionOne, "value['discriminatorField'] !== 'optionOne'");
+
+        // OptionTwo should check discriminator value
+        Path optionTwo = Paths.get(output + "/models/OptionTwo.ts");
+        TestUtils.assertFileExists(optionTwo);
+        TestUtils.assertFileContains(optionTwo, "value['discriminatorField'] !== 'optionTwo'");
+
+        // TestA should NOT have a value check (foo is a plain string, not a single-value enum)
+        Path testA = Paths.get(output + "/models/TestA.ts");
+        TestUtils.assertFileExists(testA);
+        TestUtils.assertFileNotContains(testA, "value['foo'] !==");
+
+        // SnakeOptionOne: discriminator_field (snake_case baseName) vs discriminatorField (camelCase name)
+        // instanceOf should check both casings for field presence and discriminator value
+        Path snakeOptionOne = Paths.get(output + "/models/SnakeOptionOne.ts");
+        TestUtils.assertFileExists(snakeOptionOne);
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminatorField' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "'discriminator_field' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "value['discriminatorField'] !== 'snakeOptionOne'");
+        TestUtils.assertFileContains(snakeOptionOne, "value['discriminator_field'] !== 'snakeOptionOne'");
+        // Also verify the non-enum required field checks both casings
+        TestUtils.assertFileContains(snakeOptionOne, "'someProperty' in value");
+        TestUtils.assertFileContains(snakeOptionOne, "'some_property' in value");
+
+        // DashedOptionOne: discriminator-field (dashed baseName) vs discriminatorField (camelCase name)
+        Path dashedOptionOne = Paths.get(output + "/models/DashedOptionOne.ts");
+        TestUtils.assertFileExists(dashedOptionOne);
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminatorField' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "'discriminator-field' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "value['discriminatorField'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "value['discriminator-field'] !== 'dashedOptionOne'");
+        TestUtils.assertFileContains(dashedOptionOne, "'someProperty' in value");
+        TestUtils.assertFileContains(dashedOptionOne, "'some-property' in value");
+
+        // Numeric singleton enum: value check must NOT quote the literal
+        Path numericModel = Paths.get(output + "/models/NumericSingletonEnumModel.ts");
+        TestUtils.assertFileExists(numericModel);
+        TestUtils.assertFileContains(numericModel, "value['kind'] !== 42");
+        TestUtils.assertFileNotContains(numericModel, "value['kind'] !== '42'");
+
+        // ToJSONTyped of discriminated oneOf must emit the wire-format discriminator key
+        // (propertyBaseName), not the camelCase TS property name
+        Path dashedDiscriminatorResponse = Paths.get(output + "/models/TestDashedDiscriminatorResponse.ts");
+        TestUtils.assertFileExists(dashedDiscriminatorResponse);
+        TestUtils.assertFileContains(dashedDiscriminatorResponse, "{ 'discriminator-field': 'dashedOptionOne' }");
+        TestUtils.assertFileContains(dashedDiscriminatorResponse, "{ 'discriminator-field': 'dashedOptionTwo' }");
+
+        Path snakeDiscriminatorResponse = Paths.get(output + "/models/TestSnakeCaseDiscriminatorResponse.ts");
+        TestUtils.assertFileExists(snakeDiscriminatorResponse);
+        TestUtils.assertFileContains(snakeDiscriminatorResponse, "{ 'discriminator_field': 'snakeOptionOne' }");
+        TestUtils.assertFileContains(snakeDiscriminatorResponse, "{ 'discriminator_field': 'snakeOptionTwo' }");
+    }
+
     @Test(description = "Verify validationAttributes works with withoutRuntimeChecks=true")
     public void testValidationAttributesWithWithoutRuntimeChecks() throws IOException {
         Map<String, Object> properties = new HashMap<>();
@@ -457,6 +517,19 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(modelsIndex);
         TestUtils.assertFileContains(modelsIndex, "PetPropertyValidationAttributesMap");
         TestUtils.assertFileContains(modelsIndex, "[property: string]:");
+    }
+
+    @Test(description = "Verify pattern is not HTML-escaped in validationAttributes")
+    public void testValidationAttributesPatternIsNotHtmlEscaped() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, true);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/validation-attributes.yaml");
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileNotContains(modelsIndex, "pattern: '/^[a-z&amp;]+$/'");
+        TestUtils.assertFileContains(modelsIndex, "pattern: '/^[a-z&]+$/'");
     }
 
     @Test(description = "Verify withRequestOptsInInterface=true (default) includes RequestOpts in interface")
@@ -506,6 +579,43 @@ public class TypeScriptFetchClientCodegenTest {
         // Class should still contain RequestOpts methods
         String classSection = content.substring(classStart);
         assertThat(classSection).contains("async addPetRequestOpts(");
+    }
+
+    /**
+     * When a oneOf variant uses allOf to reference another oneOf (nested discriminated unions),
+     * the child model must be generated as a type alias with intersection rather than an
+     * interface with extends, because TypeScript does not allow interfaces to extend union types.
+     */
+    @Test(description = "Verify nested oneOf generates type alias instead of interface extends")
+    public void testNestedOneOfGeneratesTypeAliasForOneOfParent() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/nested-oneOf.yaml"
+        );
+
+        // OuterComposed's parent is Inner (a oneOf union type), so it must use
+        // "type OuterComposed = Inner & { ... }" instead of "interface OuterComposed extends Inner"
+        Path outerComposed = Paths.get(output + "/models/OuterComposed.ts");
+        TestUtils.assertFileExists(outerComposed);
+        TestUtils.assertFileContains(outerComposed, "export type OuterComposed = Inner & {");
+        TestUtils.assertFileNotContains(outerComposed, "export interface OuterComposed extends Inner");
+
+        // Inner should still be a proper oneOf union type with discriminator dispatch
+        Path inner = Paths.get(output + "/models/Inner.ts");
+        TestUtils.assertFileExists(inner);
+        TestUtils.assertFileContains(inner, "export type Inner = { innerDiscriminator: 'a' } & InnerA | { innerDiscriminator: 'b' } & InnerB");
+        TestUtils.assertFileContains(inner, "switch (json['innerDiscriminator'])");
+
+        // Outer should dispatch on outerDiscriminator, including the composed variant
+        Path outer = Paths.get(output + "/models/Outer.ts");
+        TestUtils.assertFileExists(outer);
+        TestUtils.assertFileContains(outer, "switch (json['outerDiscriminator'])");
+        TestUtils.assertFileContains(outer, "case 'composed':");
+
+        // Regular models (not extending a oneOf parent) should still use interface
+        Path outerPlain = Paths.get(output + "/models/OuterPlain.ts");
+        TestUtils.assertFileExists(outerPlain);
+        TestUtils.assertFileContains(outerPlain, "export interface OuterPlain {");
     }
 
     private static File generate(

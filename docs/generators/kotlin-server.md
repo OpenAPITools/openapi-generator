@@ -22,7 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |kotlin-server|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original' but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)| |original|
 |featureAutoHead|Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.| |true|
 |featureCORS|Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.| |false|
 |featureCompression|Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.| |true|
@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |featureResources|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
 |fixJacksonJsonTypeInfoInheritance|When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
+|implicitHeaders|Skip header parameters in the generated API methods.| |false|
 |interfaceOnly|Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.| |false|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**ktor2**</dt><dd>ktor (2.x) framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd><dt>**javalin5**</dt><dd>Javalin 5</dd><dt>**javalin6**</dt><dd>Javalin 6</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
@@ -47,6 +48,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useCoroutines|Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useMutiny|Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.| |false|
+|useTags|use tags for creating interface and controller classnames.| |true|
 
 ## IMPORT MAPPING
 

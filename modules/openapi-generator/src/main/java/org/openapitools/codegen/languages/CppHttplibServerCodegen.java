@@ -75,6 +75,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
  * - Automatic include generation for dependencies
  *
  * @author OpenAPI Generator Contributors
+  * <p>Mustache templates are located in {@code src/main/resources/cpp-httplib-server/}.
  */
 public class CppHttplibServerCodegen extends AbstractCppCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CppHttplibServerCodegen.class);
@@ -980,7 +981,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 // Set title for nested inline schemas
                 if (propSchema.getTitle() == null && propSchema.get$ref() == null) {
                     // For nested objects, create a meaningful name
-                    if ("object".equals(propSchema.getType()) || (propSchema.getType() == null && propSchema.getProperties() != null)) {
+                    if (isNestedObject(propSchema)) {
                         String title = toPascalCase(parentName + "_" + propertyName);
                         propSchema.setTitle(title);
 
@@ -995,7 +996,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         if (schema.getItems() != null) {
             Schema itemSchema = schema.getItems();
             if (itemSchema.getTitle() == null && itemSchema.get$ref() == null) {
-                if ("object".equals(itemSchema.getType()) || (itemSchema.getType() == null && itemSchema.getProperties() != null)) {
+                if (isNestedObject(itemSchema)) {
                     String title = toPascalCase(parentName + "_item");
                     itemSchema.setTitle(title);
                     processNestedSchemas(itemSchema, title, depth + 1);
@@ -1007,7 +1008,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         if (schema.getAdditionalProperties() instanceof Schema) {
             Schema additionalSchema = (Schema) schema.getAdditionalProperties();
             if (additionalSchema.getTitle() == null && additionalSchema.get$ref() == null) {
-                if ("object".equals(additionalSchema.getType()) || (additionalSchema.getType() == null && additionalSchema.getProperties() != null)) {
+                if (isNestedObject(additionalSchema)) {
                     String title = toPascalCase(parentName + "_additional");
                     additionalSchema.setTitle(title);
                     processNestedSchemas(additionalSchema, title, depth + 1);
@@ -1499,7 +1500,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public String getTypeDeclaration(Schema p) {
-        if (p.getOneOf() != null && !p.getOneOf().isEmpty()) {
+        if (ModelUtils.hasOneOf(p)) {
             // For oneOf, map to std::variant of possible types
             StringBuilder variant = new StringBuilder("std::variant<");
             List<Schema> schemas = p.getOneOf();
@@ -1509,7 +1510,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             }
             variant.append(">");
             return variant.toString();
-        } else if (p.getAnyOf() != null && !p.getAnyOf().isEmpty()) {
+        } else if (ModelUtils.hasAnyOf(p)) {
             // For anyOf, also use std::variant to handle multiple possible types
             StringBuilder variant = new StringBuilder("std::variant<");
             List<Schema> schemas = p.getAnyOf();
@@ -1557,7 +1558,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             model.name = toModelName(modelName);
             model.classname = model.name;
 
-            if (schema.getAllOf() != null && !schema.getAllOf().isEmpty() && this.openAPI != null) {
+            if (ModelUtils.hasAllOf(schema) && this.openAPI != null) {
                 int refCount = 0;
                 String parentRef = null;
                 Set<String> parentPropertyNames = new HashSet<>();
@@ -1619,7 +1620,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             }
 
             // Handle oneOf/anyOf schemas - generate std::variant type alias instead of class
-            if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            if (ModelUtils.hasOneOf(schema)) {
                 model.vendorExtensions.put("isOneOfSchema", true);
                 model.vendorExtensions.put("hasVariant", true);
                 List<String> variantTypes = new ArrayList<>();
@@ -1647,7 +1648,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                         model.vendorExtensions.put("discriminatorMapping", mappingList);
                     }
                 }
-            } else if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            } else if (ModelUtils.hasAnyOf(schema)) {
                 model.vendorExtensions.put("isAnyOfSchema", true);
                 model.vendorExtensions.put("hasVariant", true);
                 List<String> variantTypes = new ArrayList<>();
@@ -2569,5 +2570,9 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             supportingFiles.add(new SupportingFile("AuthenticationManager.mustache", "api", "AuthenticationManager.h"));
         }
         return super.postProcessSupportingFileData(objs);
+    }
+
+    private static boolean isNestedObject(Schema<?> schema) {
+        return ModelUtils.isObjectTypeOAS30(schema) || (schema.getType() == null && schema.getProperties() != null);
     }
 }

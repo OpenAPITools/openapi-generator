@@ -39,6 +39,9 @@ import java.util.function.Consumer;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/xojo-client/}.
+ */
 public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CODEGEN_MODULE_NAME = "xojo-client";
     public static final String LIBRARY_HTTPSOCKET = "httpsocket";

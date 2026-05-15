@@ -19,7 +19,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("FileSchemaTestClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   private ModelFile _file;
   private @Valid List<@Valid ModelFile> files = new ArrayList<>();
@@ -159,4 +159,3 @@ public class FileSchemaTestClass  implements Serializable {
     }
   }
 }
-

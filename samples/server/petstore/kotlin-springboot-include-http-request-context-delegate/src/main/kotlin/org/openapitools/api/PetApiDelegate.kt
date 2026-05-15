@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -15,7 +16,7 @@ import java.util.Optional
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.23.0-SNAPSHOT")
 interface PetApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()

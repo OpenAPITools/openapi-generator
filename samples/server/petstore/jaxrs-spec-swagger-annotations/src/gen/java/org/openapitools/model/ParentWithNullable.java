@@ -25,7 +25,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("ParentWithNullable")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ParentWithNullable  implements Serializable {
   public enum TypeEnum {
 
@@ -196,4 +196,3 @@ public class ParentWithNullable  implements Serializable {
     }
   }
 }
-

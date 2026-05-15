@@ -62,16 +62,18 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             ApiResponse(responseCode = "400", description = "Invalid pet value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
+    @Parameters(value = [
+        Parameter(name = "api_key", description = "", `in` = ParameterIn.HEADER)
+    ])
     @RequestMapping(
         method = [RequestMethod.DELETE],
         // "/pet/{petId}"
         value = [PATH_DELETE_PET]
     )
     fun deletePet(
-        @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+        @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long
     ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
+        return ResponseEntity(service.deletePet(petId), HttpStatus.valueOf(400))
     }
 
     @Operation(

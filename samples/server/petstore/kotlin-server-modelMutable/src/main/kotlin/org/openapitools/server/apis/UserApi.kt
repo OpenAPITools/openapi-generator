@@ -28,8 +28,6 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.User
 
 fun Route.UserApi() {
-    val empty = mutableMapOf<String, Any?>()
-
     post<Paths.createUser> {
         call.respond(HttpStatusCode.NotImplemented)
         
@@ -53,14 +51,14 @@ fun Route.UserApi() {
     get<Paths.getUserByName> {
         val exampleContentType = "application/json"
         val exampleContentString = """{
+          "id" : 0,
+          "username" : "username",
           "firstName" : "firstName",
           "lastName" : "lastName",
-          "password" : "password",
-          "userStatus" : 6,
-          "phone" : "phone",
-          "id" : 0,
           "email" : "email",
-          "username" : "username"
+          "password" : "password",
+          "phone" : "phone",
+          "userStatus" : 6
         }"""
         
         when (exampleContentType) {

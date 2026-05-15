@@ -5,8 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,19 +15,20 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * AdditionalPropertiesClassDto
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
   private Map<String, String> mapString = new HashMap<>();
@@ -72,7 +71,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapString
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_string")
   public Map<String, String> getMapString() {
     return mapString;
@@ -101,7 +100,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapNumber
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -130,7 +129,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapInteger
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -159,7 +158,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapBoolean
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -188,7 +187,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapArrayInteger
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_array_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -217,7 +216,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapArrayAnytype
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_array_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -246,7 +245,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapMapString
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_map_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -275,7 +274,7 @@ public class AdditionalPropertiesClassDto {
    * @return mapMapAnytype
    */
   @Valid 
-  @ApiModelProperty(value = "")
+  @Schema(name = "map_map_anytype", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -296,7 +295,7 @@ public class AdditionalPropertiesClassDto {
    * @return anytype1
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "anytype_1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_1")
   public @Nullable Object getAnytype1() {
     return anytype1;
@@ -317,7 +316,7 @@ public class AdditionalPropertiesClassDto {
    * @return anytype2
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "anytype_2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_2")
   public JsonNullable<Object> getAnytype2() {
     return anytype2;
@@ -337,7 +336,7 @@ public class AdditionalPropertiesClassDto {
    * @return anytype3
    */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "anytype_3", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("anytype_3")
   public @Nullable Object getAnytype3() {
     return anytype3;

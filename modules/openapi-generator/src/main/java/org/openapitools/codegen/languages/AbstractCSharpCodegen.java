@@ -464,6 +464,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        // OAS 3.1: the 'null' type replaces the nullable flag. Convert null-typed properties
+        // to a nullable Object so that C# code generation remains consistent.
+        if ("null".equals(property.openApiType)) {
+            property.dataType = typeMapping.get("object");
+            property.datatypeWithEnum = property.dataType;
+            property.baseType = typeMapping.get("object");
+            property.isNullable = true;
+        }
+
         if (property.isInnerEnum && property.items != null) {
             // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
             property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);

@@ -21,7 +21,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 @JsonTypeName("XmlItem")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   private String attributeString;
   private BigDecimal attributeNumber;
@@ -1045,4 +1045,3 @@ public class XmlItem  implements Serializable {
     }
   }
 }
-

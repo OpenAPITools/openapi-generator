@@ -17,8 +17,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
-@JsonTypeName("Dog")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@JsonTypeName("DOG")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Dog extends Animal implements Serializable {
   private String breed;
 
@@ -122,4 +122,3 @@ public class Dog extends Animal implements Serializable {
     }
   }
 }
-

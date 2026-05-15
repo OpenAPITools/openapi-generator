@@ -28,7 +28,7 @@ public interface {{classname}} {
     {{/isDeprecated}}
     default Future<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){
         Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}> promise = Promise.promise();
-        {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}promise);
+        {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}promise::handle);
         return promise.future();
     }
 
@@ -44,7 +44,7 @@ public interface {{classname}} {
     {{/isDeprecated}}
     default Future<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo){
         Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}> promise = Promise.promise();
-        {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, promise);
+        {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, promise::handle);
         return promise.future();
     }
 

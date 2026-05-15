@@ -35,6 +35,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/php-flight/}.
+ */
 public class PhpFlightServerCodegen extends AbstractPhpCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(PhpFlightServerCodegen.class);

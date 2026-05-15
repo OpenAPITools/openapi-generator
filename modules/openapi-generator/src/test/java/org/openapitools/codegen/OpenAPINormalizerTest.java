@@ -26,7 +26,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -1500,6 +1499,49 @@ public class OpenAPINormalizerTest {
             schema.setRequired(null);
             return super.normalizeSchema(schema, visitedSchemas);
         }
+    }
+
+    @Test
+    public void testREPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23527.yaml");
+
+        Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema geoJsonObject = openAPI.getComponents().getSchemas().get("GeoJsonObject");
+        Map<String, String> mapping = geoJsonObject.getDiscriminator().getMapping();
+        assertEquals(mapping, Map.of("MultiPolygon", "#/components/schemas/Multi-Polygon", "Polygon", "#/components/schemas/Polygon" ));
+    }
+
+    @Test
+    public void issue_14769() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_14769.yaml");
+        Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+//        ModelUtils.dumpAsYaml(openAPI);
+        Schema vehicle = openAPI.getComponents().getSchemas().get("Vehicle");
+        Map<String, String> mapping = vehicle.getDiscriminator().getMapping();
+        assertEquals(mapping, Map.of("car", "#/components/schemas/Car", "plane", "#/components/schemas/Plane" ));
+        Schema car = openAPI.getComponents().getSchemas().get("Car");
+        assertNull(car.getProperties());
+        assertEquals(car.getAllOf().size(), 2);
+        assertEquals(((Schema)car.getAllOf().get(0)).get$ref(), "#/components/schemas/Vehicle");
+        assertEquals(((Schema)car.getAllOf().get(1)).getProperties().size(), 1);
+        assertEquals(((Schema)car.getAllOf().get(1)).getProperties().keySet(), Set.of("has_4_wheel_drive"));
+    }
+
+    @Test
+    public void oneOf_issue_23276() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23276.yaml");
+        Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+//         ModelUtils.dumpAsYaml(openAPI);
+        Schema payload = (Schema)openAPI.getComponents().getSchemas().get("DeviceLifecycleEvent").getProperties().get("payload");
+        // inline oneOf are not converted
+        assertNotNull(payload.getOneOf());
     }
 
 }
