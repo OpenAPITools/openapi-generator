@@ -434,6 +434,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       }
       {{/isString}}
       {{#isModel}}
+      {{^isEnum}}
       {{#required}}
       {{#isNullable}}
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
@@ -450,6 +451,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
       }
       {{/required}}
+      {{/isEnum}}
       {{/isModel}}
       {{#isEnum}}
       {{#required}}

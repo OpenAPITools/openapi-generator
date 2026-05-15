@@ -181,6 +181,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
+    @Getter @Setter
+    protected boolean useDeductionForOneOfInterfaces = false;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -308,9 +310,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
                 + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
-                + "schema are suppressed from code generation. Only applies when library=spring-boot or spring-declarative-http-interface.",
+                + "schema are suppressed from code generation.",
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -572,6 +575,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             additionalProperties.put(COMPANION_OBJECT, companionObject);
         }
 
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         // Set basePackage from invokerPackage
@@ -750,7 +755,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
         }
         writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, generatePageableConstraintValidation);
-        if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL) && (library.equals(SPRING_BOOT) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
+        if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL)) {
             this.setSubstituteGenericPagedModel(convertPropertyToBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL));
         }
         writePropertyBack(SUBSTITUTE_GENERIC_PAGED_MODEL, substituteGenericPagedModel);
@@ -1207,7 +1212,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
-        if ((SPRING_BOOT.equals(library) || SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) && substituteGenericPagedModel) {
+        if (substituteGenericPagedModel) {
             pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
             if (!pagedModelRegistry.isEmpty()) {
                 boolean customMapping = importMapping.containsKey("PagedModel");

@@ -5833,6 +5833,73 @@ public class KotlinSpringServerCodegenTest {
         return props;
     }
 
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel — spring-cloud
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_replacesReturnTypeInOperation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        assertThat(content).contains("PagedModel<User>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        assertThat(files).containsKey("PagedModel.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .setLibrary(SPRING_CLOUD_LIBRARY)
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_respectsCustomImportMappingClassName() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .setLibrary(SPRING_CLOUD_LIBRARY)
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        assertThat(content).contains("MyPagedModel<User>");
+        assertThat(content).contains("import com.example.custom.MyPagedModel");
+    }
+
+    /** Common properties for substituteGenericPagedModel tests using spring-cloud. */
+    private Map<String, Object> springCloudKotlinPagedModelProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_TAGS, "true");
+        props.put(SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
+        return props;
+    }
+
     @Test(description = "oneOf with discriminator generates thin sealed interface with Jackson annotations")
     public void testOneOfWithDiscriminatorGeneratesThinInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -5980,6 +6047,40 @@ public class KotlinSpringServerCodegenTest {
                 "data class Truck",
                 ") : Vehicle {",
                 "override val vehicleType: VehicleType = VehicleType.TRUCK"
+        );
+    }
+
+    @Test(description = "oneOf without discriminator with useDeductionForOneOfInterfaces generates @JsonTypeInfo(DEDUCTION) annotation")
+    public void testOneOfDeductionWithoutDiscriminatorGeneratesDeductionAnnotation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal has oneOf [Dog, Cat] with NO discriminator → deduction should be applied
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "sealed interface Animal",
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)",
+                "@JsonSubTypes(",
+                "JsonSubTypes.Type(value = Dog::class)",
+                "JsonSubTypes.Type(value = Cat::class)"
+        );
+
+        // Fruit has oneOf [Apple, Banana] WITH a discriminator → must NOT use deduction
+        assertFileNotContains(Paths.get(outputPath + "/Fruit.kt"),
+                "JsonTypeInfo.Id.DEDUCTION"
+        );
+        assertFileContains(Paths.get(outputPath + "/Fruit.kt"),
+                "sealed interface Fruit",
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME"
         );
     }
 

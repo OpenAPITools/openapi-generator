@@ -41,11 +41,11 @@ interface StoreApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"petId\" : 6,  \"quantity\" : 1,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"status\" : \"placed\",  \"complete\" : false}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>")
                     break
                 }
             }
@@ -62,11 +62,11 @@ interface StoreApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"petId\" : 6,  \"quantity\" : 1,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"status\" : \"placed\",  \"complete\" : false}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>")
                     break
                 }
             }

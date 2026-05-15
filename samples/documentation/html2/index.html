@@ -1161,19 +1161,19 @@ ul.nav-tabs {
  -H "Content-Type: application/json,application/xml" \
  "http://petstore.swagger.io/v2/pet" \
  -d '{
-  &quot;photoUrls&quot; : [ &quot;photoUrls&quot;, &quot;photoUrls&quot; ],
-  &quot;name&quot; : &quot;doggie&quot;,
   &quot;id&quot; : 0,
   &quot;category&quot; : {
-    &quot;name&quot; : &quot;name&quot;,
-    &quot;id&quot; : 6
+    &quot;id&quot; : 6,
+    &quot;name&quot; : &quot;name&quot;
   },
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;photoUrls&quot;, &quot;photoUrls&quot; ],
   &quot;tags&quot; : [ {
-    &quot;name&quot; : &quot;name&quot;,
-    &quot;id&quot; : 1
+    &quot;id&quot; : 1,
+    &quot;name&quot; : &quot;name&quot;
   }, {
-    &quot;name&quot; : &quot;name&quot;,
-    &quot;id&quot; : 1
+    &quot;id&quot; : 1,
+    &quot;name&quot; : &quot;name&quot;
   } ],
   &quot;status&quot; : &quot;available&quot;
 }' \
@@ -3613,19 +3613,19 @@ ID of pet to return
  -H "Content-Type: application/json,application/xml" \
  "http://petstore.swagger.io/v2/pet" \
  -d '{
-  &quot;photoUrls&quot; : [ &quot;photoUrls&quot;, &quot;photoUrls&quot; ],
-  &quot;name&quot; : &quot;doggie&quot;,
   &quot;id&quot; : 0,
   &quot;category&quot; : {
-    &quot;name&quot; : &quot;name&quot;,
-    &quot;id&quot; : 6
+    &quot;id&quot; : 6,
+    &quot;name&quot; : &quot;name&quot;
   },
+  &quot;name&quot; : &quot;doggie&quot;,
+  &quot;photoUrls&quot; : [ &quot;photoUrls&quot;, &quot;photoUrls&quot; ],
   &quot;tags&quot; : [ {
-    &quot;name&quot; : &quot;name&quot;,
-    &quot;id&quot; : 1
+    &quot;id&quot; : 1,
+    &quot;name&quot; : &quot;name&quot;
   }, {
-    &quot;name&quot; : &quot;name&quot;,
-    &quot;id&quot; : 1
+    &quot;id&quot; : 1,
+    &quot;name&quot; : &quot;name&quot;
   } ],
   &quot;status&quot; : &quot;available&quot;
 }' \
@@ -6506,12 +6506,12 @@ ID of pet that needs to be fetched
  -H "Content-Type: application/json" \
  "http://petstore.swagger.io/v2/store/order" \
  -d '{
+  &quot;id&quot; : 0,
   &quot;petId&quot; : 6,
   &quot;quantity&quot; : 1,
-  &quot;id&quot; : 0,
   &quot;shipDate&quot; : &quot;2000-01-23T04:56:07.000+00:00&quot;,
-  &quot;complete&quot; : false,
-  &quot;status&quot; : &quot;placed&quot;
+  &quot;status&quot; : &quot;placed&quot;,
+  &quot;complete&quot; : false
 }'
 </code></pre>
                           </div>
@@ -6975,14 +6975,14 @@ $(document).ready(function() {
  -H "Content-Type: application/json" \
  "http://petstore.swagger.io/v2/user" \
  -d '{
+  &quot;id&quot; : 0,
+  &quot;username&quot; : &quot;username&quot;,
   &quot;firstName&quot; : &quot;firstName&quot;,
   &quot;lastName&quot; : &quot;lastName&quot;,
-  &quot;password&quot; : &quot;password&quot;,
-  &quot;userStatus&quot; : 6,
-  &quot;phone&quot; : &quot;phone&quot;,
-  &quot;id&quot; : 0,
   &quot;email&quot; : &quot;email&quot;,
-  &quot;username&quot; : &quot;username&quot;
+  &quot;password&quot; : &quot;password&quot;,
+  &quot;phone&quot; : &quot;phone&quot;,
+  &quot;userStatus&quot; : 6
 }'
 </code></pre>
                           </div>
@@ -7392,14 +7392,14 @@ $(document).ready(function() {
  -H "Content-Type: application/json" \
  "http://petstore.swagger.io/v2/user/createWithArray" \
  -d '{
+  &quot;id&quot; : 0,
+  &quot;username&quot; : &quot;username&quot;,
   &quot;firstName&quot; : &quot;firstName&quot;,
   &quot;lastName&quot; : &quot;lastName&quot;,
-  &quot;password&quot; : &quot;password&quot;,
-  &quot;userStatus&quot; : 6,
-  &quot;phone&quot; : &quot;phone&quot;,
-  &quot;id&quot; : 0,
   &quot;email&quot; : &quot;email&quot;,
-  &quot;username&quot; : &quot;username&quot;
+  &quot;password&quot; : &quot;password&quot;,
+  &quot;phone&quot; : &quot;phone&quot;,
+  &quot;userStatus&quot; : 6
 }'
 </code></pre>
                           </div>
@@ -7812,14 +7812,14 @@ $(document).ready(function() {
  -H "Content-Type: application/json" \
  "http://petstore.swagger.io/v2/user/createWithList" \
  -d '{
+  &quot;id&quot; : 0,
+  &quot;username&quot; : &quot;username&quot;,
   &quot;firstName&quot; : &quot;firstName&quot;,
   &quot;lastName&quot; : &quot;lastName&quot;,
-  &quot;password&quot; : &quot;password&quot;,
-  &quot;userStatus&quot; : 6,
-  &quot;phone&quot; : &quot;phone&quot;,
-  &quot;id&quot; : 0,
   &quot;email&quot; : &quot;email&quot;,
-  &quot;username&quot; : &quot;username&quot;
+  &quot;password&quot; : &quot;password&quot;,
+  &quot;phone&quot; : &quot;phone&quot;,
+  &quot;userStatus&quot; : 6
 }'
 </code></pre>
                           </div>
@@ -10063,14 +10063,14 @@ pub fn main() {
  -H "Content-Type: application/json" \
  "http://petstore.swagger.io/v2/user/{username}" \
  -d '{
+  &quot;id&quot; : 0,
+  &quot;username&quot; : &quot;username&quot;,
   &quot;firstName&quot; : &quot;firstName&quot;,
   &quot;lastName&quot; : &quot;lastName&quot;,
-  &quot;password&quot; : &quot;password&quot;,
-  &quot;userStatus&quot; : 6,
-  &quot;phone&quot; : &quot;phone&quot;,
-  &quot;id&quot; : 0,
   &quot;email&quot; : &quot;email&quot;,
-  &quot;username&quot; : &quot;username&quot;
+  &quot;password&quot; : &quot;password&quot;,
+  &quot;phone&quot; : &quot;phone&quot;,
+  &quot;userStatus&quot; : 6
 }'
 </code></pre>
                           </div>

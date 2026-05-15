@@ -156,6 +156,7 @@ Class | Method | HTTP request | Description
  - [PSPetstore\Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [PSPetstore\Model.OuterEnumInteger](docs/OuterEnumInteger.md)
  - [PSPetstore\Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [PSPetstore\Model.OuterEnumStringStartingWithNumber](docs/OuterEnumStringStartingWithNumber.md)
  - [PSPetstore\Model.ParentPet](docs/ParentPet.md)
  - [PSPetstore\Model.Pet](docs/Pet.md)
  - [PSPetstore\Model.PetWithRequiredTags](docs/PetWithRequiredTags.md)

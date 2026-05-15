@@ -85,14 +85,11 @@ public class DefaultApiExample {
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
         DefaultApi apiInstance = new DefaultApi(defaultClient);
-        java.time.Instant dtParam = new java.time.Instant(); // java.time.Instant | 
-        java.time.Instant dtQuery = new java.time.Instant(); // java.time.Instant | 
-        java.time.Instant dtCookie = new java.time.Instant(); // java.time.Instant | 
+        String id = "id_example"; // String | 
         try {
-            Foo result = apiInstance.fooDtParamGet(dtParam, dtQuery, dtCookie);
-            System.out.println(result);
+            apiInstance.fileIdGet(id);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#fooDtParamGet");
+            System.err.println("Exception when calling DefaultApi#fileIdGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -109,6 +106,8 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**fileIdGet**](docs/DefaultApi.md#fileIdGet) | **GET** /file/{id} | 
+*DefaultApi* | [**fileIdGetWithHttpInfo**](docs/DefaultApi.md#fileIdGetWithHttpInfo) | **GET** /file/{id} | 
 *DefaultApi* | [**fooDtParamGet**](docs/DefaultApi.md#fooDtParamGet) | **GET** /foo/{dtParam} | 
 *DefaultApi* | [**fooDtParamGetWithHttpInfo**](docs/DefaultApi.md#fooDtParamGetWithHttpInfo) | **GET** /foo/{dtParam} | 
 *DefaultApi* | [**uploadPost**](docs/DefaultApi.md#uploadPost) | **POST** /upload | 

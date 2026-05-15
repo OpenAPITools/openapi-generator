@@ -190,7 +190,7 @@ public interface UserApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
+                    String exampleString = "{ \"id\" : 0, \"username\" : \"username\", \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"email\" : \"email\", \"password\" : \"password\", \"phone\" : \"phone\", \"userStatus\" : 6 }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

@@ -61,11 +61,11 @@ interface UserApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"password\" : \"password\",\n  \"userStatus\" : 6,\n  \"phone\" : \"phone\",\n  \"id\" : 0,\n  \"email\" : \"email\",\n  \"username\" : \"username\"\n}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"username\" : \"username\",  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"email\" : \"email\",  \"password\" : \"password\",  \"phone\" : \"phone\",  \"userStatus\" : 6}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<User>\n  <id>123456789</id>\n  <username>aeiou</username>\n  <firstName>aeiou</firstName>\n  <lastName>aeiou</lastName>\n  <email>aeiou</email>\n  <password>aeiou</password>\n  <phone>aeiou</phone>\n  <userStatus>123</userStatus>\n</User>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<User>  <id>123456789</id>  <username>aeiou</username>  <firstName>aeiou</firstName>  <lastName>aeiou</lastName>  <email>aeiou</email>  <password>aeiou</password>  <phone>aeiou</phone>  <userStatus>123</userStatus></User>")
                     break
                 }
             }

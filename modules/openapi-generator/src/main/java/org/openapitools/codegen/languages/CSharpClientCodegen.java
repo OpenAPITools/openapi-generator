@@ -122,6 +122,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsFileParameters = Boolean.TRUE;
     protected boolean supportsDateOnly = Boolean.FALSE;
     protected boolean useIntForTimeout = Boolean.FALSE;
+    protected boolean throwOnAnyError = Boolean.FALSE;
 
     @Setter protected boolean validatable = Boolean.TRUE;
     @Setter protected boolean equatable = Boolean.FALSE;
@@ -132,6 +133,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
     private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
     private static final String USE_INT_FOR_TIMEOUT = "useIntForTimeout";
+    private static final String THROW_ON_ANY_ERROR = "throwOnAnyError";
 
     enum SortingMethod {
         DEFAULT,
@@ -248,6 +250,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CSharpClientCodegen.USE_INT_FOR_TIMEOUT,
                 "Use int for Timeout (fall back to v7.9.0 templates). This option (for restsharp only) will be deprecated so please migrated to TimeSpan instead.",
                 String.valueOf(this.useIntForTimeout));
+
+        addSwitch(CSharpClientCodegen.THROW_ON_ANY_ERROR,
+                "Configure RestSharp to rethrow deserialization and transport errors instead of swallowing them into RestResponse.ErrorException (which the default ToApiResponse<T> discards as null Data). Recommended for production use to surface bugs that would otherwise be invisible. (restsharp only)",
+                this.throwOnAnyError);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -871,6 +877,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
         syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
         syncBooleanProperty(additionalProperties, "useIntForTimeout", this::setUseIntForTimeout, this.useIntForTimeout);
+        syncBooleanProperty(additionalProperties, "throwOnAnyError", this::setThrowOnAnyError, this.throwOnAnyError);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -1242,6 +1249,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setUseIntForTimeout(Boolean useIntForTimeout) {
         this.useIntForTimeout = useIntForTimeout;
+    }
+
+    public void setThrowOnAnyError(Boolean throwOnAnyError) {
+        this.throwOnAnyError = throwOnAnyError;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {

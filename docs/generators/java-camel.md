@@ -104,12 +104,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |springApiVersion|Value for 'version' attribute in @RequestMapping (for Spring 7 and above).| |null|
-|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt;. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata schema are suppressed from code generation. Only applies when library=spring-boot or spring-http-interface.| |false|
+|substituteGenericPagedModel|Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' pagination-metadata property) and replace their generated references with PagedModel&lt;T&gt;. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata schema are suppressed from code generation.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
-|useDeductionForOneOfInterfaces|whether to use deduction for generated oneOf interfaces| |false|
+|useDeductionForOneOfInterfaces|Annotate discriminator-free oneOf interfaces with Jackson's @JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype is resolved from the JSON field set rather than a type-tag property. Has no effect when a discriminator is present (name-based resolution is used instead). Requires subtypes to have structurally distinct sets of properties.| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|

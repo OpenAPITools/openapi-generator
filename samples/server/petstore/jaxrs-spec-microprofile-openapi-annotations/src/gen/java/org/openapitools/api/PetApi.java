@@ -9,8 +9,6 @@ import javax.ws.rs.core.Response;
 
 
 
-
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -72,6 +70,7 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @DELETE
     @Path("/{petId}")
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
@@ -87,6 +86,7 @@ public class PetApi {
     public Response deletePet(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Pet id to delete") Long petId) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/findByStatus")
@@ -110,6 +110,7 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @Deprecated
     @GET
     @Path("/findByTags")
@@ -132,6 +133,7 @@ public class PetApi {
     public Response findPetsByTags(@QueryParam("tags") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Tags to filter by")  List<String> tags) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/{petId}")
@@ -158,6 +160,7 @@ public class PetApi {
     public Response getPetById(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to return") Long petId) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @PUT
     @Consumes({ "application/json", "application/xml" })
@@ -189,6 +192,7 @@ public class PetApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -205,6 +209,7 @@ public class PetApi {
     public Response updatePetWithForm(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet that needs to be updated") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status) {
         return Response.ok().entity("magic!").build();
     }
+
 
     @POST
     @Path("/{petId}/uploadImage")
@@ -223,4 +228,5 @@ public class PetApi {
     public Response uploadFile(@PathParam("petId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata,@FormParam(value = "file") InputStream _fileInputStream) {
         return Response.ok().entity("magic!").build();
     }
+
 }

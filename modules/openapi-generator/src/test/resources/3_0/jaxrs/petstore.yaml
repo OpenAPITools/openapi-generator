@@ -771,12 +771,12 @@ components:
           type: string
       oneOf:
         - $ref: '#/components/schemas/CatRequest'
-        - $ref: '#/components/schemas/DogRequest'
+        - $ref: '#/components/schemas/Dog_Request'
       discriminator:
         propertyName: petType
         mapping:
           CAT: '#/components/schemas/CatRequest'
-          DOG: '#/components/schemas/DogRequest'
+          DOG: '#/components/schemas/Dog_Request'
     CatRequest:
       allOf:
         - $ref: '#/components/schemas/PetRequest'
@@ -784,7 +784,7 @@ components:
           properties:
             indoor:
               type: boolean
-    DogRequest:
+    Dog_Request:
       allOf:
         - $ref: '#/components/schemas/PetRequest'
         - type: object

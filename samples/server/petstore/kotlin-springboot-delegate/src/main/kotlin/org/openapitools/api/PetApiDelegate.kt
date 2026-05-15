@@ -26,11 +26,11 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <Category>    <id>123456789</id>    <name>aeiou</name>  </Category>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>    <Tag>      <id>123456789</id>      <name>aeiou</name>    </Tag>  </tags>  <status>aeiou</status></Pet>")
                     break
                 }
             }
@@ -57,11 +57,11 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "[ {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n} ]")
+                    ApiUtil.setExampleResponse(request, "application/json", "[ {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}, {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"} ]")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <Category>    <id>123456789</id>    <name>aeiou</name>  </Category>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>    <Tag>      <id>123456789</id>      <name>aeiou</name>    </Tag>  </tags>  <status>aeiou</status></Pet>")
                     break
                 }
             }
@@ -78,11 +78,11 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "[ {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n} ]")
+                    ApiUtil.setExampleResponse(request, "application/json", "[ {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}, {  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"} ]")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <Category>    <id>123456789</id>    <name>aeiou</name>  </Category>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>    <Tag>      <id>123456789</id>      <name>aeiou</name>    </Tag>  </tags>  <status>aeiou</status></Pet>")
                     break
                 }
             }
@@ -99,11 +99,11 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <Category>    <id>123456789</id>    <name>aeiou</name>  </Category>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>    <Tag>      <id>123456789</id>      <name>aeiou</name>    </Tag>  </tags>  <status>aeiou</status></Pet>")
                     break
                 }
             }
@@ -120,11 +120,11 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"id\" : 0,  \"category\" : {    \"id\" : 6,    \"name\" : \"name\"  },  \"name\" : \"doggie\",  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"tags\" : [ {    \"id\" : 1,    \"name\" : \"name\"  }, {    \"id\" : 1,    \"name\" : \"name\"  } ],  \"status\" : \"available\"}")
                     break
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>\n  <id>123456789</id>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n  </tags>\n  <status>aeiou</status>\n</Pet>")
+                    ApiUtil.setExampleResponse(request, "application/xml", "<Pet>  <id>123456789</id>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>  </tags>  <status>aeiou</status></Pet>")
                     break
                 }
             }
@@ -154,7 +154,7 @@ interface PetApiDelegate {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{\n  \"code\" : 0,\n  \"type\" : \"type\",\n  \"message\" : \"message\"\n}")
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}")
                     break
                 }
             }

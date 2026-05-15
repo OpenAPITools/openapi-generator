@@ -5,10 +5,12 @@ on:
     paths:
       - "samples/server/petstore/rust-server/**"
       - "samples/server/petstore/rust-axum/**"
+      - "samples/server/petstore/rust-salvo/**"
   pull_request:
     paths:
       - "samples/server/petstore/rust-server/**"
       - "samples/server/petstore/rust-axum/**"
+      - "samples/server/petstore/rust-salvo/**"
 
 jobs:
   build:
@@ -22,6 +24,7 @@ jobs:
           - samples/server/petstore/rust-server/
           - samples/server/petstore/rust-server-deprecated/
           - samples/server/petstore/rust-axum/
+          - samples/server/petstore/rust-salvo/
     steps:
       - uses: actions/checkout@v5
       - uses: actions-rs/toolchain@v1

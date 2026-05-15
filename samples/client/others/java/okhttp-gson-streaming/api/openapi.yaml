@@ -61,10 +61,10 @@ components:
   schemas:
     SomeObj:
       example:
-        name: name
-        active: true
         $_type: SomeObjIdentifier
         id: 0
+        name: name
+        active: true
         type: type
       properties:
         $_type:

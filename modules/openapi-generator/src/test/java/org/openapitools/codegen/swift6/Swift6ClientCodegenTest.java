@@ -365,6 +365,38 @@ public class Swift6ClientCodegenTest {
         }
     }
 
+    @Test(description = "test oneOf with enumUnknownDefaultCase generates UnknownCaseCheckable guard", enabled = true)
+    public void oneOfEnumUnknownDefaultCaseGuardTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift6")
+                    .setInputSpec("src/test/resources/3_0/oneOf.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .addAdditionalProperty("enumUnknownDefaultCase", true);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            String oneOfContent = Files.readString(files.stream()
+                    .filter(f -> f.getName().equals("Fruit.swift")).findFirst().get().toPath());
+            Assert.assertTrue(oneOfContent.contains("as? UnknownCaseCheckable)?.containsUnknownDefaultOpenApiCase != true"),
+                    "oneOf decoder should guard against unknown default enum cases");
+
+            String modelsContent = Files.readString(files.stream()
+                    .filter(f -> f.getName().equals("Models.swift")).findFirst().get().toPath());
+            Assert.assertTrue(modelsContent.contains("protocol UnknownCaseCheckable"));
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
     @Test(description = "test oneOf with discriminator generates discriminator-first decoding", enabled = true)
     public void oneOfDiscriminatorFirstDecodingTest() throws IOException {
         Path target = Files.createTempDirectory("test");
