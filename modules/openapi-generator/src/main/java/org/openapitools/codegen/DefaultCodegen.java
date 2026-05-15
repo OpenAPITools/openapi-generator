@@ -82,6 +82,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -7032,19 +7033,28 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name", dataType);
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription", dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, "name", dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, "enumDescription", dataType);
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
+        updateEnumVarsWithExtensions(enumVars, vendorExtensions, extensionKey, key, dataType, (a, b) -> a);
+    }
+
+    protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars,
+                                                Map<String, Object> vendorExtensions,
+                                                String extensionKey,
+                                                String key,
+                                                String dataType,
+                                                BiFunction<String, String, String> enumDataTypeMapping) {
         if (vendorExtensions.containsKey(extensionKey)) {
             Object extensionValue = vendorExtensions.get(extensionKey);
             if (extensionValue instanceof List) {
                 List<String> values = (List<String>) extensionValue;
                 int size = Math.min(enumVars.size(), values.size());
                 for (int i = 0; i < size; i++) {
-                    enumVars.get(i).put(key, values.get(i));
+                    enumVars.get(i).put(key, enumDataTypeMapping.apply(values.get(i), dataType));
                 }
             } else if (extensionValue instanceof Map) {
                 Map<String, String> valueMap = (Map<String, String>) extensionValue;
@@ -7052,7 +7062,7 @@ public class DefaultCodegen implements CodegenConfig {
                     String enumValue = (String) enumVar.get("value");
                     for (Map.Entry<String, String> entry : valueMap.entrySet()) {
                         if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
-                            enumVar.put(key, entry.getValue());
+                            enumVar.put(key, enumDataTypeMapping.apply(entry.getValue(), dataType));
                             break;
                         }
                     }
