@@ -1091,6 +1091,9 @@ public class OpenAPINormalizer {
         return schema;
     }
 
+    /*
+    * handling of USE_UNWRAPPED_FOR_COMPOSITE_ONEOF rule.
+     */
     protected Schema processUnwrapCompositeOneOf(Schema schema) {
         if (!getRule(USE_UNWRAPPED_FOR_COMPOSITE_ONEOF)) {
             return schema;
