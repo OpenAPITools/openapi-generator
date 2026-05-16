@@ -355,4 +355,59 @@ public class Swift5ClientCodegenTest {
         }
     }
 
+    @Test
+    public void testAdditionalModelObjectAttributesParsing() {
+        Swift5ClientCodegen codegen = new Swift5ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift5ClientCodegen.ADDITIONAL_MODEL_OBJECT_ATTRIBUTES,
+                "@MainActor;@dynamicMemberLookup\n@MyCustomMacro");
+        codegen.processOpts();
+        List<String> attributes = codegen.getAdditionalModelObjectAttributes();
+        Assert.assertEquals(attributes.size(), 3);
+        Assert.assertEquals(attributes.get(0), "@MainActor");
+        Assert.assertEquals(attributes.get(1), "@dynamicMemberLookup");
+        Assert.assertEquals(attributes.get(2), "@MyCustomMacro");
+    }
+
+    @Test
+    public void testAdditionalModelEnumAttributesParsing() {
+        Swift5ClientCodegen codegen = new Swift5ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift5ClientCodegen.ADDITIONAL_MODEL_ENUM_ATTRIBUTES,
+                "@CasePathable;@dynamicMemberLookup\n@MyCustomMacro");
+        codegen.processOpts();
+        List<String> attributes = codegen.getAdditionalModelEnumAttributes();
+        Assert.assertEquals(attributes.size(), 3);
+        Assert.assertEquals(attributes.get(0), "@CasePathable");
+        Assert.assertEquals(attributes.get(1), "@dynamicMemberLookup");
+        Assert.assertEquals(attributes.get(2), "@MyCustomMacro");
+    }
+
+    @Test
+    public void testAdditionalModelOptionsFilterBlankTokens() {
+        Swift5ClientCodegen codegen = new Swift5ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift5ClientCodegen.ADDITIONAL_MODEL_OBJECT_ATTRIBUTES,
+                " ;@MainActor;;\n\n  @Sendable ;");
+        codegen.processOpts();
+        List<String> attributes = codegen.getAdditionalModelObjectAttributes();
+        Assert.assertEquals(attributes.size(), 2);
+        Assert.assertEquals(attributes.get(0), "@MainActor");
+        Assert.assertEquals(attributes.get(1), "@Sendable");
+    }
+
+    @Test
+    public void testAdditionalModelImportsParsing() {
+        Swift5ClientCodegen codegen = new Swift5ClientCodegen();
+        codegen.additionalProperties().put(
+                Swift5ClientCodegen.ADDITIONAL_MODEL_IMPORTS,
+                "FooKit;BarKit\nBazKit");
+        codegen.processOpts();
+        List<String> imports = codegen.getAdditionalModelImports();
+        Assert.assertEquals(imports.size(), 3);
+        Assert.assertEquals(imports.get(0), "FooKit");
+        Assert.assertEquals(imports.get(1), "BarKit");
+        Assert.assertEquals(imports.get(2), "BazKit");
+    }
+
 }

@@ -42,6 +42,7 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -84,6 +85,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String VALIDATABLE = "validatable";
     public static final String API_STATIC_METHOD = "apiStaticMethod";
     public static final String COMBINE_DEFERRED = "combineDeferred";
+    public static final String ADDITIONAL_MODEL_OBJECT_ATTRIBUTES = "additionalModelObjectAttributes";
+    public static final String ADDITIONAL_MODEL_ENUM_ATTRIBUTES = "additionalModelEnumAttributes";
+    public static final String ADDITIONAL_MODEL_IMPORTS = "additionalModelImports";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String LIBRARY_VAPOR = "vapor";
@@ -133,6 +137,12 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean apiStaticMethod = true;
     @Setter
     protected boolean combineDeferred = true;
+    @Getter @Setter
+    protected List<String> additionalModelObjectAttributes = new LinkedList<>();
+    @Getter @Setter
+    protected List<String> additionalModelEnumAttributes = new LinkedList<>();
+    @Getter @Setter
+    protected List<String> additionalModelImports = new LinkedList<>();
     @Setter
     protected String[] responseAs = {RESPONSE_LIBRARY_ASYNC_AWAIT};
     protected String sourceFolder = swiftPackagePath;
@@ -364,6 +374,18 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(COMBINE_DEFERRED,
                 "Make combine usages deferred (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
+
+        cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_OBJECT_ATTRIBUTES,
+                "Additional Swift attributes prepended to generated model struct/class declarations "
+                        + "(e.g. @MainActor, custom @attached macros). "
+                        + "List separated by semicolon (;) or new line (Linux or Windows)."));
+        cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_ENUM_ATTRIBUTES,
+                "Additional Swift attributes prepended to generated model enum declarations "
+                        + "(e.g. @CasePathable, @dynamicMemberLookup, custom @attached macros). "
+                        + "List separated by semicolon (;) or new line (Linux or Windows)."));
+        cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_IMPORTS,
+                "Additional Swift modules to import in every generated model file. "
+                        + "List separated by semicolon (;) or new line (Linux or Windows)."));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
@@ -720,6 +742,48 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 break;
         }
 
+        if (additionalProperties.containsKey(ADDITIONAL_MODEL_OBJECT_ATTRIBUTES)) {
+            String value = additionalProperties.get(ADDITIONAL_MODEL_OBJECT_ATTRIBUTES).toString();
+            setAdditionalModelObjectAttributes(splitAdditionalModelOption(value));
+        }
+        if (additionalProperties.containsKey(ADDITIONAL_MODEL_ENUM_ATTRIBUTES)) {
+            String value = additionalProperties.get(ADDITIONAL_MODEL_ENUM_ATTRIBUTES).toString();
+            setAdditionalModelEnumAttributes(splitAdditionalModelOption(value));
+        }
+        if (additionalProperties.containsKey(ADDITIONAL_MODEL_IMPORTS)) {
+            String value = additionalProperties.get(ADDITIONAL_MODEL_IMPORTS).toString();
+            setAdditionalModelImports(splitAdditionalModelOption(value));
+        }
+    }
+
+    private static List<String> splitAdditionalModelOption(String value) {
+        return Arrays.stream(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(value.trim()))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (additionalModelObjectAttributes.isEmpty()
+                && additionalModelEnumAttributes.isEmpty()
+                && additionalModelImports.isEmpty()) {
+            return objs;
+        }
+        for (String modelName : objs.keySet()) {
+            Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
+            if (!additionalModelObjectAttributes.isEmpty()) {
+                models.put(ADDITIONAL_MODEL_OBJECT_ATTRIBUTES, additionalModelObjectAttributes);
+            }
+            if (!additionalModelEnumAttributes.isEmpty()) {
+                models.put(ADDITIONAL_MODEL_ENUM_ATTRIBUTES, additionalModelEnumAttributes);
+            }
+            if (!additionalModelImports.isEmpty()) {
+                models.put(ADDITIONAL_MODEL_IMPORTS, additionalModelImports);
+            }
+        }
+        return objs;
     }
 
     @Override
