@@ -202,7 +202,7 @@ public class FormatTestDto {
    * Get string
    * @return string
    */
-  @Pattern(regexp = "/[a-z]/i") 
+  @Pattern(regexp = "[a-zA-Z]") 
   @JsonProperty("string")
   public @Nullable String getString() {
     return string;
