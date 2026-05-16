@@ -21,9 +21,9 @@ import urllib3
 
 from petstore_api.exceptions import ApiException, ApiValueError
 
-SUPPORTED_SOCKS_PROXIES = frozenset({"socks5", "socks5h", "socks4", "socks4a"})
 RESTResponseType = urllib3.HTTPResponse
 
+SUPPORTED_SOCKS_PROXIES = frozenset({"socks5", "socks5h", "socks4", "socks4a"})
 
 class RESTResponse(io.IOBase):
 

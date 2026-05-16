@@ -213,8 +213,7 @@ class RESTClientObject:
 
         pool_manager: Union[aiohttp.ClientSession, aiohttp_retry.RetryClient]
 
-        # https pool manager - created lazily inside async context to avoid
-        # event loop issues with aiohttp 3.10+
+        # https pool manager
         if self.pool_manager is None:
             if self.is_socks_proxy:
                 # SOCKS proxies require ProxyConnector - aiohttp TCPConnector
