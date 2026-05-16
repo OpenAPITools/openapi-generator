@@ -36,7 +36,6 @@ public class XmlItemDto {
 
   private @Nullable Boolean attributeBoolean;
 
-  @Valid
   private List<Integer> wrappedArray = new ArrayList<>();
 
   private @Nullable String nameString;
@@ -47,10 +46,8 @@ public class XmlItemDto {
 
   private @Nullable Boolean nameBoolean;
 
-  @Valid
   private List<Integer> nameArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixString;
@@ -61,10 +58,8 @@ public class XmlItemDto {
 
   private @Nullable Boolean prefixBoolean;
 
-  @Valid
   private List<Integer> prefixArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private @Nullable String namespaceString;
@@ -75,10 +70,8 @@ public class XmlItemDto {
 
   private @Nullable Boolean namespaceBoolean;
 
-  @Valid
   private List<Integer> namespaceArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixNsString;
@@ -89,10 +82,8 @@ public class XmlItemDto {
 
   private @Nullable Boolean prefixNsBoolean;
 
-  @Valid
   private List<Integer> prefixNsArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItemDto attributeString(@Nullable String attributeString) {

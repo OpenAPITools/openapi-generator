@@ -42,7 +42,7 @@ public class FormatTest {
 
   private Optional<@DecimalMin(value = "67.8") @DecimalMax(value = "123.4") Double> _double = Optional.empty();
 
-  private Optional<@Pattern(regexp = "/[a-z]/i") String> string = Optional.empty();
+  private Optional<@Pattern(regexp = "[a-zA-Z]") String> string = Optional.empty();
 
   private byte[] _byte;
 
@@ -222,7 +222,7 @@ public class FormatTest {
   
   @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
-  public Optional<@Pattern(regexp = "/[a-z]/i") String> getString() {
+  public Optional<@Pattern(regexp = "[a-zA-Z]") String> getString() {
     return string;
   }
 

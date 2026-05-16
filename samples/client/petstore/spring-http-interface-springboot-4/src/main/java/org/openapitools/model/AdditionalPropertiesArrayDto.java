@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.List;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;

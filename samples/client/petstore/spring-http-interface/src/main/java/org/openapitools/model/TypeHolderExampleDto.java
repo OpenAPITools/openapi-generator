@@ -36,7 +36,6 @@ public class TypeHolderExampleDto {
 
   private Boolean boolItem;
 
-  
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExampleDto() {
