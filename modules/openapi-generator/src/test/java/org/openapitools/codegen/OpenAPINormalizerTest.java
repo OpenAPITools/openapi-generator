@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
 import static org.testng.Assert.*;
 
 public class OpenAPINormalizerTest {
@@ -226,7 +227,7 @@ public class OpenAPINormalizerTest {
         assertNull(anyOfParam.getSchema().getAnyOf());
         assertEquals(anyOfParam.getSchema().getType(), "string");
         assertEquals(anyOfParam.getSchema().getEnum(), Arrays.asList("anyof 1", "anyof 2"));
-        assertEquals(anyOfParam.getSchema().getExtensions().get("x-enum-descriptions"), Arrays.asList("title 1", "title 2"));
+        assertEquals(anyOfParam.getSchema().getExtensions().get(X_ENUM_DESCRIPTIONS), Arrays.asList("title 1", "title 2"));
 
         Schema combinedRefsEnum = openAPI.getComponents().getSchemas().get("combinedRefsEnum");
 

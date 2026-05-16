@@ -22,6 +22,8 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.openapitools.codegen.options.Swift5OptionsProvider;
 
+import java.util.Collections;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -51,5 +53,8 @@ public class Swift5OptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setGenerateModelAdditionalProperties(Boolean.parseBoolean(Swift5OptionsProvider.GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE));
         verify(clientCodegen).setHashableModels(Boolean.parseBoolean(Swift5OptionsProvider.HASHABLE_MODELS_VALUE));
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(Swift5OptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setAdditionalModelObjectAttributes(Collections.singletonList(Swift5OptionsProvider.ADDITIONAL_MODEL_OBJECT_ATTRIBUTES_VALUE));
+        verify(clientCodegen).setAdditionalModelEnumAttributes(Collections.singletonList(Swift5OptionsProvider.ADDITIONAL_MODEL_ENUM_ATTRIBUTES_VALUE));
+        verify(clientCodegen).setAdditionalModelImports(Collections.singletonList(Swift5OptionsProvider.ADDITIONAL_MODEL_IMPORTS_VALUE));
     }
 }
