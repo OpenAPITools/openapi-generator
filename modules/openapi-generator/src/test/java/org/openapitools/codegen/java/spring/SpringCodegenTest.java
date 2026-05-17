@@ -6694,6 +6694,7 @@ public class SpringCodegenTest {
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
     }
 
+
     @Test
     public void testSpringHttpInterfaceUseBeanValidationRespected() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
