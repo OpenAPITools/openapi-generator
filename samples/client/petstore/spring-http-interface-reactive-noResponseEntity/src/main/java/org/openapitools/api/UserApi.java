@@ -11,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import org.springframework.validation.annotation.Validated;
 
 import org.springframework.http.codec.multipart.Part;
 import reactor.core.publisher.Flux;
@@ -25,7 +22,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
-@Validated
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public interface UserApi {
 
@@ -44,7 +41,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<Void> createUser(
-         @Valid @RequestBody Mono<User> user
+         @RequestBody Mono<User> user
     );
 
 
@@ -63,7 +60,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<Void> createUsersWithArrayInput(
-         @Valid @RequestBody Flux<User> user
+         @RequestBody Flux<User> user
     );
 
 
@@ -82,7 +79,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<Void> createUsersWithListInput(
-         @Valid @RequestBody Flux<User> user
+         @RequestBody Flux<User> user
     );
 
 
@@ -141,8 +138,8 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<String> loginUser(
-        @NotNull  @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull  @Valid @RequestParam(value = "password", required = true) String password
+         @RequestParam(value = "username", required = true) String username,
+         @RequestParam(value = "password", required = true) String password
     );
 
 
@@ -181,7 +178,7 @@ public interface UserApi {
     )
     Mono<Void> updateUser(
          @PathVariable("username") String username,
-         @Valid @RequestBody Mono<User> user
+         @RequestBody Mono<User> user
     );
 
 }

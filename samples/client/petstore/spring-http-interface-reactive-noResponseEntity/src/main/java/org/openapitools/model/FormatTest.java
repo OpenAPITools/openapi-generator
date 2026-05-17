@@ -14,9 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -85,7 +83,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
    */
-  @Min(value = 10) @Max(value = 100) 
+  
   @JsonProperty("integer")
   public @Nullable Integer getInteger() {
     return integer;
@@ -107,7 +105,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
    */
-  @Min(value = 20) @Max(value = 200) 
+  
   @JsonProperty("int32")
   public @Nullable Integer getInt32() {
     return int32;
@@ -149,7 +147,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
    */
-  @NotNull @Valid @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") 
+  @NotNull
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
@@ -171,7 +169,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
    */
-  @DecimalMin(value = "54.3") @DecimalMax(value = "987.6") 
+  
   @JsonProperty("float")
   public @Nullable Float getFloat() {
     return _float;
@@ -193,7 +191,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
    */
-  @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") 
+  
   @JsonProperty("double")
   public @Nullable Double getDouble() {
     return _double;
@@ -213,7 +211,7 @@ public class FormatTest {
    * Get string
    * @return string
    */
-  @Pattern(regexp = "[a-zA-Z]") 
+  
   @JsonProperty("string")
   public @Nullable String getString() {
     return string;
@@ -233,7 +231,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
@@ -253,7 +251,7 @@ public class FormatTest {
    * Get binary
    * @return binary
    */
-  @Valid 
+  
   @JsonProperty("binary")
   public @Nullable org.springframework.core.io.Resource getBinary() {
     return binary;
@@ -273,7 +271,7 @@ public class FormatTest {
    * Get date
    * @return date
    */
-  @NotNull @Valid 
+  @NotNull
   @JsonProperty("date")
   public LocalDate getDate() {
     return date;
@@ -293,7 +291,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
    */
-  @Valid 
+  
   @JsonProperty("dateTime")
   public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
@@ -313,7 +311,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
    */
-  @Valid 
+  
   @JsonProperty("uuid")
   public @Nullable UUID getUuid() {
     return uuid;
@@ -333,7 +331,7 @@ public class FormatTest {
    * Get password
    * @return password
    */
-  @NotNull @Size(min = 10, max = 64) 
+  @NotNull
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -353,7 +351,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
    */
-  @Valid 
+  
   @JsonProperty("BigDecimal")
   public @Nullable BigDecimal getBigDecimal() {
     return bigDecimal;

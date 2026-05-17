@@ -11,9 +11,7 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -63,7 +61,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
@@ -83,7 +81,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull @Valid 
+  @NotNull
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -103,7 +101,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("float_item")
   public Float getFloatItem() {
     return floatItem;
@@ -123,7 +121,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
@@ -143,7 +141,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
@@ -171,7 +169,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull 
+  @NotNull
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;

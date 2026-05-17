@@ -14,9 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import org.springframework.validation.annotation.Validated;
 
 import org.springframework.http.codec.multipart.Part;
 import reactor.core.publisher.Flux;
@@ -28,7 +25,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
-@Validated
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public interface PetApi {
 
@@ -48,7 +45,7 @@ public interface PetApi {
         contentType = "application/json"
     )
     Mono<Void> addPet(
-         @Valid @RequestBody Mono<Pet> pet
+         @RequestBody Mono<Pet> pet
     );
 
 
@@ -88,7 +85,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     Flux<Pet> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) List<String> status
+         @RequestParam(value = "status", required = true) List<String> status
     );
 
 
@@ -109,7 +106,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     Flux<Pet> findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+         @RequestParam(value = "tags", required = true) Set<String> tags
     );
 
 
@@ -168,7 +165,7 @@ public interface PetApi {
         contentType = "application/json"
     )
     Mono<Void> updatePet(
-         @Valid @RequestBody Mono<Pet> pet
+         @RequestBody Mono<Pet> pet
     );
 
 
@@ -190,8 +187,8 @@ public interface PetApi {
     )
     Mono<Void> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "name", required = false) String name,
-         @Valid @RequestPart(value = "status", required = false) String status
+         @RequestPart(value = "name", required = false) String name,
+         @RequestPart(value = "status", required = false) String status
     );
 
 
@@ -213,7 +210,7 @@ public interface PetApi {
     )
     Mono<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
-         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+         @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) Part file
     );
 
@@ -237,7 +234,7 @@ public interface PetApi {
     Mono<ModelApiResponse> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
          @RequestPart(value = "requiredFile", required = true) Part requiredFile,
-         @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
+         @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }

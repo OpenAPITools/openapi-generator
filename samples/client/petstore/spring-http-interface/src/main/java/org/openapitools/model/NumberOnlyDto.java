@@ -9,9 +9,7 @@ import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -36,7 +34,7 @@ public class NumberOnlyDto {
    * Get justNumber
    * @return justNumber
    */
-  @Valid 
+  
   @JsonProperty("JustNumber")
   public @Nullable BigDecimal getJustNumber() {
     return justNumber;

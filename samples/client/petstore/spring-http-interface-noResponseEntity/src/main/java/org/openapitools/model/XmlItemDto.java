@@ -12,9 +12,7 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import jakarta.validation.constraints.NotNull;
 
 
 import java.util.*;
@@ -115,7 +113,7 @@ public class XmlItemDto {
    * Get attributeNumber
    * @return attributeNumber
    */
-  @Valid 
+  
   @JsonProperty("attribute_number")
   public @Nullable BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -223,7 +221,7 @@ public class XmlItemDto {
    * Get nameNumber
    * @return nameNumber
    */
-  @Valid 
+  
   @JsonProperty("name_number")
   public @Nullable BigDecimal getNameNumber() {
     return nameNumber;
@@ -359,7 +357,7 @@ public class XmlItemDto {
    * Get prefixNumber
    * @return prefixNumber
    */
-  @Valid 
+  
   @JsonProperty("prefix_number")
   public @Nullable BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -495,7 +493,7 @@ public class XmlItemDto {
    * Get namespaceNumber
    * @return namespaceNumber
    */
-  @Valid 
+  
   @JsonProperty("namespace_number")
   public @Nullable BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -631,7 +629,7 @@ public class XmlItemDto {
    * Get prefixNsNumber
    * @return prefixNsNumber
    */
-  @Valid 
+  
   @JsonProperty("prefix_ns_number")
   public @Nullable BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
