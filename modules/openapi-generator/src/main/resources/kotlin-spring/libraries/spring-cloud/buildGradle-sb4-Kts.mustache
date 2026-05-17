@@ -71,6 +71,8 @@ dependencies {
 
 {{#useBeanValidation}}
     implementation("jakarta.validation:jakarta.validation-api"){{/useBeanValidation}}
+{{#openApiNullable}}
+    implementation("org.openapitools:jackson-databind-nullable:0.2.10"){{/openApiNullable}}
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
 
 }

@@ -200,6 +200,13 @@
             <artifactId>validation-api</artifactId>
         </dependency>
         {{/useBeanValidation}}
+        {{#openApiNullable}}
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.8</version>
+        </dependency>
+        {{/openApiNullable}}
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>

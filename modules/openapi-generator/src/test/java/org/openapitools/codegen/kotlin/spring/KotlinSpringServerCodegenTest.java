@@ -5246,28 +5246,16 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void shouldRefuseOpenApiNullableWithJackson3() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
-        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
-        codegen.additionalProperties().put("openApiNullable", "true");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(input);
-
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(generator::generate);
+    public void shouldAllowOpenApiNullableWithJackson3() throws IOException {
+        // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3,
+        // so openApiNullable + useJackson3 should no longer throw.
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        props.put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
+        Assert.assertTrue(files.containsKey("TestModel.kt"), "TestModel.kt should be generated");
     }
 
     @Test
@@ -6117,5 +6105,161 @@ public class KotlinSpringServerCodegenTest {
                 "): ResponseEntity<CreateUserResponse>",
                 "fun getUser(",
                 "): ResponseEntity<GetUserResponse>");
+    }
+
+    // ========== REQUIRED + NULLABLE 4-STATE TESTS ==========
+
+    /**
+     * Scenario 1: required=true, nullable=false
+     * Expected: non-nullable type, no default value, @JsonProperty(required=true).
+     */
+    @Test(description = "Scenario 1 – required+non-nullable: strict non-nullable property with no default")
+    public void requiredNullable_scenario1_requiredNonNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must be non-nullable type (no '?'), must have @JsonProperty(required=true), must have no default
+        assertFileContains(modelFile,
+                "@get:JsonProperty(\"requiredNonNullable\", required = true) val requiredNonNullable: kotlin.String");
+        // Must NOT have a nullable marker or default value
+        assertFileNotContains(modelFile, "val requiredNonNullable: kotlin.String?");
+        assertFileNotContains(modelFile, "val requiredNonNullable: kotlin.String = ");
+    }
+
+    /**
+     * Scenario 2: required=true, nullable=true
+     * Expected: nullable type, no default value, @JsonProperty(required=true).
+     */
+    @Test(description = "Scenario 2 – required+nullable: nullable type enforced by Jackson required=true")
+    public void requiredNullable_scenario2_requiredNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must be nullable type with @JsonProperty(required=true), no default value
+        assertFileContains(modelFile,
+                "@get:JsonProperty(\"requiredNullable\", required = true) val requiredNullable: kotlin.String?");
+        // Must NOT have a default value
+        assertFileNotContains(modelFile, "val requiredNullable: kotlin.String? = ");
+    }
+
+    /**
+     * Scenario 3: required=false, nullable=false
+     * Expected: nullable type with null default, AND @field:JsonSetter(nulls=Nulls.FAIL) to block explicit nulls.
+     */
+    @Test(description = "Scenario 3 – optional+non-nullable: null default with JsonSetter FAIL to block explicit nulls")
+    public void requiredNullable_scenario3_optionalNonNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must have @field:JsonSetter(nulls = Nulls.FAIL) annotation
+        assertFileContains(modelFile, "@field:JsonSetter(nulls = Nulls.FAIL)");
+        // Must have JsonSetter and Nulls imports
+        assertFileContains(modelFile,
+                "import com.fasterxml.jackson.annotation.JsonSetter",
+                "import com.fasterxml.jackson.annotation.Nulls");
+        // Must be nullable type with null default
+        assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
+        // Must NOT be JsonNullable
+        assertFileNotContains(modelFile, "JsonNullable<kotlin.String>");
+    }
+
+    /**
+     * Scenario 4 (openApiNullable=false, default): required=false, nullable=true
+     * Without openApiNullable, falls back to nullable type with null default (same as before this feature).
+     */
+    @Test(description = "Scenario 4 – optional+nullable without openApiNullable: nullable type with null default (legacy fallback)")
+    public void requiredNullable_scenario4_optionalNullable_withoutOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Without openApiNullable, should still be Type? = null (legacy behavior preserved)
+        assertFileContains(modelFile, "val optionalNullable: kotlin.String? = null");
+        // Must NOT have JsonNullable wrapping
+        assertFileNotContains(modelFile, "JsonNullable<kotlin.String>");
+        // Must NOT have @field:JsonSetter on nullable optional (only non-nullable gets it)
+        // (check that the line itself does not have JsonSetter)
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 100), idx);
+        Assert.assertFalse(context.contains("@field:JsonSetter"),
+                "optionalNullable should not have @field:JsonSetter when nullable=true");
+    }
+
+    /**
+     * Scenario 4 (openApiNullable=true): required=false, nullable=true
+     * Expected: JsonNullable&lt;T&gt; wrapper with JsonNullable.undefined() default.
+     */
+    @Test(description = "Scenario 4 – optional+nullable with openApiNullable=true: JsonNullable 3-state wrapper")
+    public void requiredNullable_scenario4_optionalNullable_withOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must use JsonNullable<T> wrapper
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        // Must default to JsonNullable.undefined()
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        // Must have JsonNullable import
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+        // Must NOT be a plain nullable type
+        assertFileNotContains(modelFile, "val optionalNullable: kotlin.String? = null");
+    }
+
+    /**
+     * Scenario 3 with Jackson 3 (Spring Boot 4): optional + non-nullable.
+     * @JsonSetter / Nulls imports should come from tools.jackson.annotation.
+     */
+    @Test(description = "Scenario 3 with Jackson 3: tools.jackson.annotation.JsonSetter + Nulls imports")
+    public void requiredNullable_scenario3_optionalNonNullable_withJackson3() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Annotation must still be rendered
+        assertFileContains(modelFile, "@field:JsonSetter(nulls = Nulls.FAIL)");
+        // Imports must come from tools.jackson (Jackson 3 package)
+        assertFileContains(modelFile,
+                "import tools.jackson.annotation.JsonSetter",
+                "import tools.jackson.annotation.Nulls");
+        // Must be nullable type with null default
+        assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
+    }
+
+    /**
+     * Scenario 4 with Jackson 3 (Spring Boot 4) + openApiNullable=true.
+     * JsonNullable is in org.openapitools.jackson.nullable regardless of Jackson version
+     * (jackson-databind-nullable >= 0.2.10 supports both).
+     */
+    @Test(description = "Scenario 4 with Jackson 3 + openApiNullable: JsonNullable works with tools.jackson")
+    public void requiredNullable_scenario4_optionalNullable_withOpenApiNullable_jackson3() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must use JsonNullable<T> wrapper
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        // Must default to JsonNullable.undefined()
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        // org.openapitools.jackson.nullable package is the same for Jackson 2 and 3
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+        // Must NOT be a plain nullable type
+        assertFileNotContains(modelFile, "val optionalNullable: kotlin.String? = null");
     }
 }

@@ -732,8 +732,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(library)
                 .addAdditionalProperty(USE_JACKSON_3, true)
                 .addAdditionalProperty(USE_SPRING_BOOT4, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, true)
-                .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
                 .setOutputDir(outputDir);
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
@@ -3001,7 +3000,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(library)
                 .addAdditionalProperty(USE_JACKSON_3, true)
                 .addAdditionalProperty(USE_SPRING_BOOT4, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
                 .setOutputDir(outputDir);
 
@@ -3027,7 +3026,7 @@ public class JavaClientCodegenTest {
     void gsonCodeDoesNotContainJacksonReferences(Library library) {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .addAdditionalProperty(SERIALIZATION_LIBRARY, Serializer.GSON)
-                .addAdditionalProperty(OPENAPI_NULLABLE, "false")
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, "false")
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library.getValue())
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
@@ -3079,7 +3078,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON)
                 .addAdditionalProperty(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
                 .addGlobalProperty(CodegenConstants.MODELS, "FormatTest")
                 .addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
                 .addGlobalProperty(CodegenConstants.MODEL_TESTS, "false")

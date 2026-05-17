@@ -1738,7 +1738,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
         codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
-        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -1770,7 +1770,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
         codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
-        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -1803,7 +1803,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
         codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
-        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -6714,7 +6714,7 @@ public class SpringCodegenTest {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         CONTAINER_DEFAULT_TO_NULL, true,
-                        OPENAPI_NULLABLE, false,
+                        SpringCodegen.OPENAPI_NULLABLE, false,
                         USE_BEANVALIDATION, true,
                         INTERFACE_ONLY, false,
                         springVersionProperty, springBootVersion > 2
