@@ -6217,9 +6217,10 @@ public class KotlinSpringServerCodegenTest {
 
     /**
      * Scenario 3 with Jackson 3 (Spring Boot 4): optional + non-nullable.
-     * @JsonSetter / Nulls imports should come from tools.jackson.annotation.
+     * @JsonSetter / Nulls imports should come from com.fasterxml.jackson.annotation
+     * (Jackson 3.x intentionally kept jackson-annotations at 2.x, same package).
      */
-    @Test(description = "Scenario 3 with Jackson 3: tools.jackson.annotation.JsonSetter + Nulls imports")
+    @Test(description = "Scenario 3 with Jackson 3: com.fasterxml.jackson.annotation.JsonSetter + Nulls imports")
     public void requiredNullable_scenario3_optionalNonNullable_withJackson3() throws IOException {
         Map<String, Object> props = new HashMap<>();
         props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
@@ -6230,10 +6231,10 @@ public class KotlinSpringServerCodegenTest {
         Path modelFile = files.get("TestModel.kt").toPath();
         // Annotation must still be rendered
         assertFileContains(modelFile, "@field:JsonSetter(nulls = Nulls.FAIL)");
-        // Imports must come from tools.jackson (Jackson 3 package)
+        // Imports must come from com.fasterxml.jackson.annotation (Jackson 3.x keeps annotations at 2.x)
         assertFileContains(modelFile,
-                "import tools.jackson.annotation.JsonSetter",
-                "import tools.jackson.annotation.Nulls");
+                "import com.fasterxml.jackson.annotation.JsonSetter",
+                "import com.fasterxml.jackson.annotation.Nulls");
         // Must be nullable type with null default
         assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
     }

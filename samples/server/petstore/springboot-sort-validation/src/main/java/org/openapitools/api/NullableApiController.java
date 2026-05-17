@@ -2,44 +2,103 @@ package org.openapitools.api;
 
 import org.openapitools.model.NullableModel;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import jakarta.annotation.Generated;
-
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
-@Controller
+/**
+ * Sample implementation of {@link NullableApi} demonstrating that the generated
+ * nullable annotations work correctly at runtime.
+ *
+ * Each method receives a deserialized {@link NullableModel} and asserts the expected
+ * state of its fields. When Jackson correctly applies {@code @JsonSetter(nulls = Nulls.FAIL)}
+ * and {@code JsonNullable<T>}, the assertions pass and HTTP 200 is returned. If the
+ * deserialized state is wrong, the assertion throws {@link IllegalStateException} and
+ * the request fails with HTTP 500, causing any calling test to fail with a clear message.
+ */
+@RestController
 public class NullableApiController implements NullableApi {
 
-    private final NativeWebRequest request;
-
-    @Autowired
-    public NullableApiController(NativeWebRequest request) {
-        this.request = request;
-    }
-
+    /**
+     * POST with only required fields — asserts optional fields are absent/undefined.
+     *
+     * The JSON body contains only the two required fields; both optional fields are absent.
+     * Expected state:
+     * <ul>
+     *   <li>{@code optionalNonNullable} → {@code null} (absent key → default null)</li>
+     *   <li>{@code optionalNullable} → {@code JsonNullable.undefined()} (absent key → undefined)</li>
+     * </ul>
+     */
     @Override
-    public Optional<NativeWebRequest> getRequest() {
-        return Optional.ofNullable(request);
+    public ResponseEntity<Void> checkRequiredOnly(@Valid NullableModel nullableModel) {
+        if (nullableModel.getOptionalNonNullable() != null) {
+            throw new IllegalStateException(
+                    "optionalNonNullable: expected null (absent from JSON), got "
+                            + nullableModel.getOptionalNonNullable());
+        }
+        if (nullableModel.getOptionalNullable().isPresent()) {
+            throw new IllegalStateException(
+                    "optionalNullable: expected JsonNullable.undefined() (absent from JSON), got "
+                            + nullableModel.getOptionalNullable());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * POST with optionalNullable set to null — asserts JsonNullable is present-with-null.
+     *
+     * The JSON body contains the required fields plus {@code "optionalNullable": null}.
+     * Expected state:
+     * <ul>
+     *   <li>{@code optionalNullable} → {@code JsonNullable.of(null)}
+     *       (key present with null value → isPresent = true, get() = null)</li>
+     * </ul>
+     */
+    @Override
+    public ResponseEntity<Void> checkOptionalNullableNull(@Valid NullableModel nullableModel) {
+        if (!nullableModel.getOptionalNullable().isPresent()) {
+            throw new IllegalStateException(
+                    "optionalNullable: expected JsonNullable present (explicit null in JSON), got "
+                            + nullableModel.getOptionalNullable());
+        }
+        if (nullableModel.getOptionalNullable().get() != null) {
+            throw new IllegalStateException(
+                    "optionalNullable: expected null inner value, got "
+                            + nullableModel.getOptionalNullable().get());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * POST with all 4 fields present — asserts each field has the expected value.
+     *
+     * The JSON body contains all four fields with non-null string values.
+     * Expected state:
+     * <ul>
+     *   <li>{@code optionalNonNullable} → {@code "opt-non-null"}</li>
+     *   <li>{@code optionalNullable} → {@code JsonNullable.of("opt-nullable")} (isPresent, non-null value)</li>
+     * </ul>
+     */
+    @Override
+    public ResponseEntity<Void> checkAllPresent(@Valid NullableModel nullableModel) {
+        if (!"opt-non-null".equals(nullableModel.getOptionalNonNullable())) {
+            throw new IllegalStateException(
+                    "optionalNonNullable: expected 'opt-non-null', got "
+                            + nullableModel.getOptionalNonNullable());
+        }
+        if (!nullableModel.getOptionalNullable().isPresent()) {
+            throw new IllegalStateException(
+                    "optionalNullable: expected JsonNullable present, got "
+                            + nullableModel.getOptionalNullable());
+        }
+        if (!"opt-nullable".equals(nullableModel.getOptionalNullable().get())) {
+            throw new IllegalStateException(
+                    "optionalNullable: expected 'opt-nullable', got "
+                            + nullableModel.getOptionalNullable().get());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
+

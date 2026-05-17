@@ -553,8 +553,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (isUseJackson3()) {
             // Override databind imports for Jackson 3
             importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
-            importMapping.put("JsonSetter", "tools.jackson.annotation.JsonSetter");
-            importMapping.put("Nulls", "tools.jackson.annotation.Nulls");
+            importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
+            importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
             // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3;
             // the JsonNullable class lives in the same package regardless of Jackson version.
             importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
