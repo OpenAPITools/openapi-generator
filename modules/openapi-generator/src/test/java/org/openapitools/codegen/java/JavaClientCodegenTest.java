@@ -733,6 +733,7 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty(USE_JACKSON_3, true)
                 .addAdditionalProperty(USE_SPRING_BOOT4, true)
                 .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
                 .setOutputDir(outputDir);
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
