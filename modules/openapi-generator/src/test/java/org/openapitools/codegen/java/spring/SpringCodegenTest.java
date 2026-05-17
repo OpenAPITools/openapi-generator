@@ -7725,4 +7725,19 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
             .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
     }
+
+    @Test
+    void schemaMappingWithNullableAllOfRendersNullableJavaProperty() throws IOException {
+        // When a schema is substituted via schemaMapping and a property wraps it with
+        // "nullable: true + allOf: [$ref]", the Java Spring generator must render the
+        // property with the mapped FQN inside JsonNullable<T>.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/schema-mapping-nullable-allof.yaml",
+                SPRING_BOOT,
+                new HashMap<>(),
+                configurator -> configurator.addSchemaMapping("ExternalModel", "com.example.ExternalModel"));
+
+        JavaFileAssert.assertThat(files.get("MyObject.java"))
+                .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
+    }
 }
