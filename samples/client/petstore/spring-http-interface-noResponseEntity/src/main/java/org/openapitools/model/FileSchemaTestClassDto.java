@@ -12,7 +12,9 @@ import org.openapitools.model.FileDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -28,8 +30,7 @@ public class FileSchemaTestClassDto {
 
   private @Nullable FileDto file;
 
-  
-  private List<FileDto> files = new ArrayList<>();
+  private List<@Valid FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(@Nullable FileDto file) {
     this.file = file;
@@ -40,7 +41,7 @@ public class FileSchemaTestClassDto {
    * Get file
    * @return file
    */
-  
+  @Valid 
   @JsonProperty("file")
   public @Nullable FileDto getFile() {
     return file;
@@ -51,7 +52,7 @@ public class FileSchemaTestClassDto {
     this.file = file;
   }
 
-  public FileSchemaTestClassDto files(List<FileDto> files) {
+  public FileSchemaTestClassDto files(List<@Valid FileDto> files) {
     this.files = files;
     return this;
   }
@@ -68,14 +69,14 @@ public class FileSchemaTestClassDto {
    * Get files
    * @return files
    */
-  
+  @Valid 
   @JsonProperty("files")
-  public List<FileDto> getFiles() {
+  public List<@Valid FileDto> getFiles() {
     return files;
   }
 
   @JsonProperty("files")
-  public void setFiles(List<FileDto> files) {
+  public void setFiles(List<@Valid FileDto> files) {
     this.files = files;
   }
 

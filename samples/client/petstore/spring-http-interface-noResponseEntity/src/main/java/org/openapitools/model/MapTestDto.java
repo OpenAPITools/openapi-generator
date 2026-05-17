@@ -11,7 +11,9 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -25,7 +27,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MapTestDto {
 
-  
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -63,13 +64,10 @@ public class MapTestDto {
     }
   }
 
-  
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTestDto mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -89,7 +87,7 @@ public class MapTestDto {
    * Get mapMapOfString
    * @return mapMapOfString
    */
-  
+  @Valid 
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;

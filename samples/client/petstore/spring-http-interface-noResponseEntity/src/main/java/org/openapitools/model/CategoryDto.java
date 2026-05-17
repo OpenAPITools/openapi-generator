@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -59,7 +61,7 @@ public class CategoryDto {
    * Get name
    * @return name
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("name")
   public String getName() {
     return name;
