@@ -550,19 +550,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        if (isUseJackson3()) {
-            // Override databind imports for Jackson 3
-            importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
-            importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
-            importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
-            // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3;
-            // the JsonNullable class lives in the same package regardless of Jackson version.
-            importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
-        } else {
-            importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
-            importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
-            importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
-        }
+        // Jackson 3.x intentionally kept jackson-annotations at 2.x (com.fasterxml.jackson.annotation).
+        // Only jackson-databind moved to tools.jackson.databind in Jackson 3.x.
+        importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
+        importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
+        // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3.
+        importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+        // JsonDeserialize lives in jackson-databind which moved packages in Jackson 3.x.
+        importMapping.put("JsonDeserialize", (isUseJackson3() ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         // Spring-specific import mappings for x-spring-paginated support
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
