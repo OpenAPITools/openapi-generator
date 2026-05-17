@@ -6262,4 +6262,71 @@ public class KotlinSpringServerCodegenTest {
         // Must NOT be a plain nullable type
         assertFileNotContains(modelFile, "val optionalNullable: kotlin.String? = null");
     }
+
+    /**
+     * Scenario 4 with modelNameSuffix: the generated file is renamed (e.g. TestModelDto.kt)
+     * but JsonNullable wrapping must still be applied to the optional+nullable property.
+     */
+    @Test(description = "Scenario 4 – openApiNullable=true + modelNameSuffix: JsonNullable present in renamed model file")
+    public void requiredNullable_scenario4_withModelNameSuffix() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                props,
+                new HashMap<>(),
+                configurator -> configurator.setModelNameSuffix("Dto"));
+
+        // File must be renamed
+        Assert.assertNotNull(files.get("TestModelDto.kt"), "Expected TestModelDto.kt to be generated");
+        Assert.assertNull(files.get("TestModel.kt"), "TestModel.kt must not exist when suffix=Dto");
+
+        Path modelFile = files.get("TestModelDto.kt").toPath();
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+    }
+
+    /**
+     * Scenario 4 with modelNamePrefix: the generated file is renamed (e.g. ApiTestModel.kt)
+     * but JsonNullable wrapping must still be applied.
+     */
+    @Test(description = "Scenario 4 – openApiNullable=true + modelNamePrefix: JsonNullable present in renamed model file")
+    public void requiredNullable_scenario4_withModelNamePrefix() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                props,
+                new HashMap<>(),
+                configurator -> configurator.setModelNamePrefix("Api"));
+
+        Assert.assertNotNull(files.get("ApiTestModel.kt"), "Expected ApiTestModel.kt to be generated");
+        Assert.assertNull(files.get("TestModel.kt"), "TestModel.kt must not exist when prefix=Api");
+
+        Path modelFile = files.get("ApiTestModel.kt").toPath();
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+    }
+
+    /**
+     * Scenario 4 with schemaMapping: when the type of an optional+nullable property is a $ref
+     * that is schema-mapped to an external class, JsonNullable must wrap the mapped type.
+     */
+    @Test(description = "Scenario 4 – openApiNullable=true + schemaMapping: JsonNullable wraps the mapped external type")
+    public void requiredNullable_scenario4_withSchemaMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-ref-type.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"),
+                new HashMap<>(),
+                configurator -> configurator.setSchemaMappings(
+                        Map.of("RefType", "com.example.ExternalType")));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // The optional nullable ref property must be wrapped with the mapped external type
+        assertFileContains(modelFile, "JsonNullable<com.example.ExternalType>");
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+    }
 }

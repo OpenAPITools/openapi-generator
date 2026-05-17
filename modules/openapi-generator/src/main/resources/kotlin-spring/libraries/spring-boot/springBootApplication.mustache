@@ -11,12 +11,15 @@ import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
 @ComponentScan(basePackages = ["{{basePackage}}", "{{apiPackage}}", "{{modelPackage}}"])
-class Application {
 {{#openApiNullable}}
+class Application {
     @Bean(name = ["{{basePackage}}.Application.jsonNullableModule"])
     fun jsonNullableModule(): Module = JsonNullableModule()
-{{/openApiNullable}}
 }
+{{/openApiNullable}}
+{{^openApiNullable}}
+class Application
+{{/openApiNullable}}
 
 fun main(args: Array<String>) {
     runApplication<Application>(*args)
