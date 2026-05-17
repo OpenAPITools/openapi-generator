@@ -128,12 +128,12 @@ object {{classname}} {
 {{#discriminator}}
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
 {{#mappedModels}}
-    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyBaseName}}" -> "{{mappingName}}".asJson) +: _)
 {{/mappedModels}}
   }
 
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
-    cursor.downField("{{propertyName}}").as[String].flatMap {
+    cursor.downField("{{propertyBaseName}}").as[String].flatMap {
     {{#mappedModels}}
       case "{{mappingName}}" => cursor.as[{{model.classname}}]
     {{/mappedModels}}
