@@ -6,7 +6,8 @@ import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
 @ComponentScan(basePackages = ["org.openapitools", "org.openapitools.api", "org.openapitools.model"])
-class Application
+class Application {
+}
 
 fun main(args: Array<String>) {
     runApplication<Application>(*args)

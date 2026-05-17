@@ -1519,11 +1519,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
                 if (openApiNullable && !var.required && var.isNullable) {
                     var.vendorExtensions.put("x-is-jackson-optional-nullable", true);
-                    if (importMapping.containsKey("JsonNullable")) {
-                        Map<String, String> item = new HashMap<>();
-                        item.put("import", importMapping.get("JsonNullable"));
-                        imports.add(item);
-                    }
                 }
             }
         }
