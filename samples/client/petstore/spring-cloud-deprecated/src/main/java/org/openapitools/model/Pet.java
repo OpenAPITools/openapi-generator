@@ -36,10 +36,8 @@ public class Pet {
   private JsonNullable<String> name = JsonNullable.<String>undefined();
 
   @Deprecated
-  @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**

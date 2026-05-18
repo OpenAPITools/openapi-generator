@@ -27,7 +27,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MapTestDto {
 
-  @Valid
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -65,13 +64,10 @@ public class MapTestDto {
     }
   }
 
-  @Valid
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @Valid
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTestDto mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

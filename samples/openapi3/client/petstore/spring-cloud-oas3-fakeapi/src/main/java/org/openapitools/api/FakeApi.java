@@ -320,7 +320,7 @@ public interface FakeApi {
         @Parameter(name = "int32", description = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
         @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
         @Parameter(name = "float", description = "None") @DecimalMax(value = "987.6") @Valid @RequestParam(value = "float", required = false) Float _float,
-        @Parameter(name = "string", description = "None") @Pattern(regexp = "/[a-z]/i") @Valid @RequestParam(value = "string", required = false) String string,
+        @Parameter(name = "string", description = "None") @Pattern(regexp = "[a-zA-Z]") @Valid @RequestParam(value = "string", required = false) String string,
         @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
         @Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
