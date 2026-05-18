@@ -320,7 +320,7 @@ class {{{classname}}} {
               {{#vendorExtensions.x-is-optional}}
         {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(json[r'{{{baseName}}}'] is Iterable
             ? (json[r'{{{baseName}}}'] as Iterable).cast<{{{items.datatype}}}>().{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}}
-            : {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}const []{{/defaultValue}}) : const Optional.absent(),
+            : {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}) : const Optional.absent(),
               {{/vendorExtensions.x-is-optional}}
               {{^vendorExtensions.x-is-optional}}
         {{{name}}}: json[r'{{{baseName}}}'] is Iterable
