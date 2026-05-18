@@ -159,6 +159,7 @@ public class OpenAPINormalizer {
     // when set to true, sort model properties by name to ensure deterministic output
     final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
 
+    final String USE_UNWRAPPED_FOR_COMPOSITE_ONEOF = "USE_UNWRAPPED_FOR_COMPOSITE_ONEOF";
     // ============= end of rules =============
 
     /**
@@ -219,6 +220,7 @@ public class OpenAPINormalizer {
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
+        ruleNames.add(USE_UNWRAPPED_FOR_COMPOSITE_ONEOF);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -770,15 +772,15 @@ public class OpenAPINormalizer {
             }
 
             if (ModelUtils.hasAllOf(schema)) {
-                return normalizeAllOf(schema, visitedSchemas);
+                schema = normalizeAllOf(schema, visitedSchemas);
             }
 
             if (ModelUtils.hasOneOf(schema)) {
-                return normalizeOneOf(schema, visitedSchemas);
+                schema = normalizeOneOf(schema, visitedSchemas);
             }
 
             if (ModelUtils.hasAnyOf(schema)) {
-                return normalizeAnyOf(schema, visitedSchemas);
+                schema = normalizeAnyOf(schema, visitedSchemas);
             }
 
             if (ModelUtils.hasProperties(schema)) {
@@ -1079,12 +1081,72 @@ public class OpenAPINormalizer {
                 schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
             }
             schema = processReplaceOneOfByMapping(schema);
+            schema = processUnwrapCompositeOneOf(schema);
+
         } else {
             // normalize it as it's no longer an oneOf
             schema = normalizeSchema(schema, visitedSchemas);
         }
 
         return schema;
+    }
+
+    /*
+    * handling of USE_UNWRAPPED_FOR_COMPOSITE_ONEOF rule.
+     */
+    protected Schema processUnwrapCompositeOneOf(Schema schema) {
+        if (!getRule(USE_UNWRAPPED_FOR_COMPOSITE_ONEOF)) {
+            return schema;
+        }
+        if (skipUnwrapOneOf(schema)) {
+            return schema;
+        }
+
+        Schema newOneOfSchema = new ComposedSchema();
+        newOneOfSchema.oneOf(new ArrayList<>(schema.getOneOf()));
+        newOneOfSchema.addExtension(X_ONE_OF_UNWRAPPED, true);
+        schema.oneOf(null);
+        // TODO: configuration of the property name
+        String propertyName = "oneOf";
+        if (ModelUtils.hasProperties(schema)) {
+            schema.getProperties().put(propertyName, newOneOfSchema);
+        } else if (ModelUtils.hasAllOf(schema)) {
+            Schema allOfSchema = new Schema();
+            allOfSchema.addProperty(propertyName, newOneOfSchema);
+            schema.getAllOf().add(allOfSchema);
+        }
+
+        return schema;
+    }
+
+    /**
+     * Check if unwrapping oneOf is not relevant.
+     *
+     * @return true if unwrapping of OneOf must be skipped
+     */
+    protected boolean skipUnwrapOneOf(Schema schema) {
+        if (!(ModelUtils.hasOneOf(schema) && (ModelUtils.hasProperties(schema) || ModelUtils.hasAllOf(schema)))) {
+            return true;
+        }
+
+        // skip handling of oneOf + properties + discriminator
+        // accept discriminator mappings NOT matching the oneOf elements.
+        Discriminator discriminator = schema.getDiscriminator();
+        boolean hasDiscriminator = schema.getDiscriminator() != null;
+        if (hasDiscriminator) {
+            List<Schema> oneOfs = schema.getOneOf();
+            if (oneOfs.stream().allMatch(oneOf -> oneOf != null && oneOf.get$ref() != null)) {
+                // skip normalization if discriminator but not maping
+                if (discriminator.getMapping() == null && discriminator.getPropertyName() != null) {
+                    return true;
+                }
+                // if same size for mapping and oneOf, assume that we skip this normalization
+                if (discriminator.getMapping() != null && discriminator.getMapping().size() == schema.getOneOf().size()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     protected Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {

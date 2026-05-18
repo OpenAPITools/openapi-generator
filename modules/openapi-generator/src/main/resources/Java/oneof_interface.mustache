@@ -6,4 +6,21 @@ public {{>sealed}}interface {{classname}} {{#vendorExtensions.x-implements}}{{#-
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
+    {{#vendorExtensions.x-oneof-jsonCreator}}
+
+    @JsonCreator
+    static {{classname}} valueOf(JsonNode node) {{^useJackson3}}throws JsonProcessingException {{/useJackson3}}{
+    return JacksonMixinConfig.getMapper().treeToValue(node, {{classname}}.class);
+    }
+
+    @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+    @JsonSubTypes({
+    {{#interfaceModels}}
+        @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
+    {{/interfaceModels}}
+    })
+    static interface {{classname}}Mixin {
+
+    }
+    {{/vendorExtensions.x-oneof-jsonCreator}}
 }

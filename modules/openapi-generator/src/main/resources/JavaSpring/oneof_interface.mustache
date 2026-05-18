@@ -6,14 +6,14 @@
 {{#discriminator}}
 {{>typeInfoAnnotation}}
 
-{{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}
+{{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}{{^vendorExtensions.x-oneof-jsonCreator}}
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 @JsonSubTypes({
     {{#interfaceModels}}
     @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
     {{/interfaceModels}}
 })
-{{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-class-extra-annotation}}{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-oneof-jsonCreator}}{{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-class-extra-annotation}}{{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 {{/discriminator}}
 {{>generatedAnnotation}}
@@ -22,4 +22,21 @@ public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-f
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
+    {{#vendorExtensions.x-oneof-jsonCreator}}
+
+    @JsonCreator
+    static {{classname}} valueOf(JsonNode node) {{^useJackson3}}throws JsonProcessingException {{/useJackson3}}{
+        return JacksonMixinConfig.getMapper().treeToValue(node, {{classname}}.class);
+    }
+
+    @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+    @JsonSubTypes({
+    {{#interfaceModels}}
+        @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
+    {{/interfaceModels}}
+    })
+    static interface {{classname}}Mixin {
+
+    }
+    {{/vendorExtensions.x-oneof-jsonCreator}}
 }

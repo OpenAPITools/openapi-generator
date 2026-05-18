@@ -30,10 +30,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
@@ -75,8 +72,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static org.openapitools.codegen.CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES;
-import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.VendorExtension.X_FIELD_EXTRA_ANNOTATION;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -228,6 +225,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected JSpecifyNullableLambda jSpecifyNullableLambda;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+    @Getter @Setter
+    protected boolean useWrapperForMixedOneOf;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -646,6 +645,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
         importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
+        importMapping.put("JsonUnwrapped", "com.fasterxml.jackson.annotation.JsonUnwrapped");
         if (openApiNullable) {
             importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
         }
@@ -2013,6 +2013,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
         }
+        if (property.getVendorExtensions().containsKey(X_ONE_OF_UNWRAPPED)) {
+            model.imports.add("JsonUnwrapped");
+            property.getVendorExtensions().put(X_FIELD_EXTRA_ANNOTATION.getName(), "@JsonUnwrapped");
+        }
     }
 
     @Override
@@ -2668,7 +2672,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         extensions.add(VendorExtension.X_ACCEPTS);
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_CLASS_EXTRA_ANNOTATION);
-        extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(X_FIELD_EXTRA_ANNOTATION);
         return extensions;
     }
 
@@ -2812,5 +2816,71 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .filter(CodegenParameter::notRequiredOrIsNullable)
                 .findAny()
                 .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+    }
+
+    @Override
+    public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
+        objs = super.updateAllModels(objs);
+        if (jackson && useOneOfInterfaces) {
+            // handling of X_ONE_OF_UNWRAPPED with inheritance
+            for (ModelsMap obj : objs.values()) {
+                for (ModelMap mo : obj.getModels()) {
+                    CodegenModel cm = mo.getModel();
+                    if (cm.getVendorExtensions().containsKey(X_ONE_OF_UNWRAPPED) && cm.getInterfaceModels() != null) {
+                        addOneOfMixinSupport(obj, cm);
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    /**
+     * Add JsonCreator and mixin interface to the oneOf interface.
+     * <p>
+     * Add the necessary imports.
+     * <p>
+     * Construct a vendorExtension X_ONE_OF_JSON_CREATOR with a map containing:
+     * <ol>
+     *     <li>>mapper: JsonMapper or ObjectMapper
+     *     <li>mixins: a list with the class name of the oneOf classes
+     * </ol>
+     */
+    protected void addOneOfMixinSupport(ModelsMap obj, CodegenModel cm) {
+        String configPackage = getConfigPackage();
+        Map<String, Object> config;
+        if (supportingFiles.stream().noneMatch(sf -> "JacksonMixinConfig.java".equals(sf.getDestinationFilename()))) {
+            supportingFiles.add(new SupportingFile("jacksonMixinConfig.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                    "JacksonMixinConfig.java"));
+            config = Map.of(
+                    "mapper", isUseJackson3() ? "JsonMapper" : "ObjectMapper",
+                    "mixins", new ArrayList<>());
+            vendorExtensions.put("x-jacksonMixinConfig", config);
+        } else {
+            config =  ( Map<String, Object>)vendorExtensions.get("x-jacksonMixinConfig");
+        }
+        cm.vendorExtensions.put(X_ONE_OF_JSON_CREATOR, config);
+        ((List)config.get("mixins")).add(cm.classname);
+
+        if (!isUseJackson3()) {
+            obj.getImports().add(Map.of("import", "com.fasterxml.jackson.core.JsonProcessingException"));
+        }
+        obj.getImports().add(Map.of("import", (isUseJackson3()? JACKSON3_PACKAGE:JACKSON2_PACKAGE) + ".databind.JsonNode"));
+        obj.getImports().add(Map.of("import", configPackage + ".JacksonMixinConfig"));
+
+    }
+
+    /*
+    * return the config package.
+    *
+    * by default use invokerPackage
+     */
+    protected String getConfigPackage() {
+        return invokerPackage;
+    }
+
+    protected boolean isUseJackson3() {
+        return false;
     }
 }

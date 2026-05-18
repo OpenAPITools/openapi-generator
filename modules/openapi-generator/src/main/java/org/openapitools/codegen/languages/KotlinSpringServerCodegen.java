@@ -51,6 +51,8 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.CodegenConstants.JACKSON2_PACKAGE;
+import static org.openapitools.codegen.CodegenConstants.JACKSON3_PACKAGE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 

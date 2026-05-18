@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  version: "1.0.0"
+  title: test inline enum
+paths:
+  /test:
+    post:
+      requestBody:
+        description: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      responses:
+        200:
+          description: ok
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        owner:
+          type: string
+        bank:
+          $ref: '#/components/schemas/Bank'
+      oneOf:
+        - $ref: '#/components/schemas/LegacyBankNumber'
+        - $ref: '#/components/schemas/WireTransferInfo'
+    LegacyBankNumber:
+      properties:
+        bankNumber:
+          type: string
+    WireTransferInfo:
+      properties:
+        iban:
+          type: string
+        bic:
+          type: string
+    Bank:
+      allOf:
+        - properties:
+            name:
+              type: string
+      oneOf:
+        - properties:
+            countryAlpha2:
+              type: string
+        - properties:
+            countryAlpha3:
+              type: string
+    Other:
+      properties:
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+      oneOf:
+        - $ref: '#/components/schemas/OtherA'
+        - $ref: '#/components/schemas/OtherB'
+    OtherA:
+      properties:
+        a:
+          type: string
+    OtherB:
+      properties:
+        b:
+          type: string

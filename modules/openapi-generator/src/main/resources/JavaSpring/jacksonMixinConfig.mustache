@@ -1,0 +1,46 @@
+package {{configPackage}};
+{{#vendorExtensions.x-jacksonMixinConfig}}
+
+{{^useJackson3}}
+import {{jacksonPackage}}.databind.ObjectMapper;
+{{/useJackson3}}
+import {{jacksonPackage}}.databind.json.JsonMapper;
+{{#mixins}}
+import {{modelPackage}}.{{.}};
+{{/mixins}}
+
+public class JacksonMixinConfig {
+
+    private static volatile {{mapper}} INSTANCE;
+
+    /**
+      Get the {{vmapper}} used by the @JsonCreator in @JsonUnWrapped interfaces.
+    */
+    public static {{mapper}} getMapper() {
+      if (INSTANCE == null) {
+        setBuilder({{^useJackson3}}JsonMapper.builder().findAndAddModules(){{/useJackson3}}{{#useJackson3}}JsonMapper.shared().rebuild(){{/useJackson3}});
+      }
+      return INSTANCE;
+    }
+
+    /**
+      Initialize the mapper used by the @JsonCreator.
+      <p>
+      Do not pass the global {{mapper}} as @JsonUnwrapped does not support deserializer.
+    */
+    public static void set{{mapper}}({{mapper}} mapper) {
+      INSTANCE = mapper;
+    }
+
+    /**
+      Initialize the mapper used by the @JsonCreator.
+      <p>
+      Configure the Mixins
+    */
+    public static void setBuilder(JsonMapper.Builder jsonMapperBuilder) {
+        INSTANCE = jsonMapperBuilder{{#mixins}}
+          .addMixIn({{.}}.class, {{.}}.{{.}}Mixin.class){{/mixins}}
+          .build();
+    }
+}
+{{/vendorExtensions.x-jacksonMixinConfig}}

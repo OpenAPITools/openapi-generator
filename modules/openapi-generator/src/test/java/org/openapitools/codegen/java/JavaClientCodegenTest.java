@@ -4453,6 +4453,30 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    void unwrapped_oneOf_with_inheritance_sb3() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/oneOf_unwrap_mixed.yaml", RESTCLIENT,
+                Map.of(AbstractJavaCodegen.USE_ONE_OF_INTERFACES, true,
+                        USE_SPRING_BOOT4, false),
+                configurator -> configurator.setOpenapiNormalizer(Map.of("USE_UNWRAPPED_FOR_COMPOSITE_ONEOF", "true")));
+
+        JavaFileAssert.assertThat(files.get("Account.java"))
+                .assertProperty("oneOf")
+                .doesImportAnnotation("JsonUnwrapped")
+                .assertPropertyAnnotations().containsWithName("JsonUnwrapped");
+
+        JavaFileAssert.assertThat(files.get("AccountOneOf.java"))
+                .assertTypeAnnotations().doesNotContainWithName("JsonSubTypes").toType()
+                .fileContains("static interface AccountOneOfMixin", "@JsonCreator")
+                .hasImports("com.fasterxml.jackson.databind.JsonNode");
+        JavaFileAssert.assertThat(files.get("JacksonMixinConfig.java"))
+                .fileContains(".addMixIn(AccountOneOf.class, AccountOneOf.AccountOneOfMixin.class)",
+                        ".addMixIn(BankAllOfOneOf.class, BankAllOfOneOf.BankAllOfOneOfMixin.class)")
+                .hasImports("org.openapitools.client.model.AccountOneOf",
+                        "org.openapitools.client.model.BankAllOfOneOf",
+                        "com.fasterxml.jackson.databind.ObjectMapper",
+                        "com.fasterxml.jackson.databind.json.JsonMapper");
+    }
+    @Test
     public void testUseDeductionForOneInterfaces() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml", RESTCLIENT,
                 Map.of(USE_ONE_OF_INTERFACES, "true", USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"));

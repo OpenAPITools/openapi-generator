@@ -504,4 +504,11 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
     public static final String X_ENUM_VARNAMES = "x-enum-varnames";
     public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+
+    public static final String X_ONE_OF_JSON_CREATOR = "x-oneof-jsonCreator";
+    public static final String X_ONE_OF_UNWRAPPED =  "x-oneOfunwrapped";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
+
 }

@@ -681,6 +681,35 @@ index 6f27abd..146c61c 100644
            type: string
 ```
 
+- `USE_UNWRAPPED_FOR_COMPOSITE_ONEOF` set to true to unwrap oneOf combined with allOf/properties and without discriminator (aka "composite" oneOf). Set the vendorExtension X_ONE_OF_UNWRAPPED to be used by generators. For example the java generator annotates the new oneOf property with the jackson `@JsonUnwrapped` annotation 
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/oneOf_unwrap_mixed.yaml -o /tmp/java/ --openapi-normalizer USE_UNWRAPPED_FOR_COMPOSITE_ONEOF=true
+```
+
+Here is what the change in the spec looks like:
+```diff
+diff --git a/api/openapi.yaml b/api/openapi.yaml
+index 6f27abd..146c61c 100644
+--- a/api/openapi.yaml
++++ b/api/openapi.yaml
+@@ -9,10 +9,10 @@ components:
+   schemas:
+     Account:
+-     oneOf:
+-       - $ref: '#/components/schemas/LegacyBankNumber'
+-       - ref: '#/components/schemas/WireTransferInfo'
+      properties:
+        bank:
+          $ref: '#/components/schemas/Bank'
++       oneOf:
++         X_ONE_OF_UNWRAPPED: true
++         oneOf:
++         - ref: '#/components/schemas/LegacyBankNumber'
++         - ref: '#/components/schemas/WireTransferInfo'
+```
+
 - `FILTER`
 
 The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
