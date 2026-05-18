@@ -630,8 +630,86 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+  # ---- openApiNullable / 4-state required×nullable test cases ----
+
+  /nullable/check-required-only:
+    post:
+      tags:
+        - nullable
+      summary: POST with only required fields — impl asserts optional fields are absent/undefined
+      operationId: checkRequiredOnly
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NullableModel'
+      responses:
+        '200':
+          description: OK — assertions in impl passed
+        '400':
+          description: Bad request
+
+  /nullable/check-optional-nullable-null:
+    post:
+      tags:
+        - nullable
+      summary: POST with optionalNullable set to null — impl asserts JsonNullable is present-with-null
+      operationId: checkOptionalNullableNull
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NullableModel'
+      responses:
+        '200':
+          description: OK — assertions in impl passed
+        '400':
+          description: Bad request
+
+  /nullable/check-all-present:
+    post:
+      tags:
+        - nullable
+      summary: POST with all 4 fields present — impl asserts each field has the expected value
+      operationId: checkAllPresent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NullableModel'
+      responses:
+        '200':
+          description: OK — assertions in impl passed
+        '400':
+          description: Bad request
+
 components:
   schemas:
+    NullableModel:
+      type: object
+      required:
+        - requiredNonNullable
+        - requiredNullable
+      properties:
+        # Scenario 1: required=true, nullable=false => strict, non-nullable
+        requiredNonNullable:
+          type: string
+          nullable: false
+        # Scenario 2: required=true, nullable=true => required but explicit null allowed
+        requiredNullable:
+          type: string
+          nullable: true
+        # Scenario 3: required=false, nullable=false => @JsonSetter(nulls=FAIL) blocks explicit null
+        optionalNonNullable:
+          type: string
+          nullable: false
+        # Scenario 4: required=false, nullable=true => JsonNullable<String> (absent/null/value)
+        optionalNullable:
+          type: string
+          nullable: true
     PetSort:
       type: string
       enum:

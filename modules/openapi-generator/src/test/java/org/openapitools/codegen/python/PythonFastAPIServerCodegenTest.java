@@ -105,4 +105,35 @@ public class PythonFastAPIServerCodegenTest {
 
         Assert.assertEquals(codegen.exposeToPythonExample(cp), "\"doggie\"");
     }
+
+    @Test(description = "binary multipart form fields are typed as FastAPI UploadFile")
+    public void testBinaryMultipartFieldUsesUploadFile() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_20115.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/default_api.py");
+        final Path baseApi = Paths.get(outputPath + "src/openapi_server/apis/default_api_base.py");
+
+        assertFileExists(api);
+        assertFileExists(baseApi);
+
+        // Required binary form field becomes `UploadFile = File(...)`
+        assertFileContains(api, "csv_file: UploadFile = File(..., description=\"The CSV file to upload\")");
+        // Optional binary form field becomes `Optional[UploadFile] = File(None, ...)`
+        assertFileContains(api, "image: Optional[UploadFile] = File(None, description=\"Optional image upload\")");
+
+        // Sibling non-binary form fields still use Form()
+        assertFileContains(api, "collection_name: Annotated[StrictStr, Field(description=\"Name of the collection\")] = Form(None, description=\"Name of the collection\")");
+
+        // The legacy client-side bytes union must not appear for the server signature
+        assertFileNotContains(api, "Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]");
+        assertFileNotContains(baseApi, "Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]");
+
+        // FastAPI File/UploadFile imports are emitted
+        assertFileContains(api, "from fastapi import File, UploadFile");
+        assertFileContains(baseApi, "from fastapi import File, UploadFile");
+
+        // Abstract base class uses UploadFile directly (no Annotated wrapper)
+        assertFileContains(baseApi, "csv_file: UploadFile,");
+        assertFileContains(baseApi, "image: Optional[UploadFile],");
+    }
 }

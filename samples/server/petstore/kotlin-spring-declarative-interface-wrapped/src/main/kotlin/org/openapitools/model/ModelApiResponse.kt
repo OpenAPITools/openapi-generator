@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -22,12 +24,15 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class ModelApiResponse(
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("code") val code: kotlin.Int? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("message") val message: kotlin.String? = null
 ) : java.io.Serializable {
 

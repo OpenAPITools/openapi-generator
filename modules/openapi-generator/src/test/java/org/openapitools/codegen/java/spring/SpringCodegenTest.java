@@ -1736,7 +1736,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
         codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
-        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -1768,7 +1768,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
         codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
-        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -1801,7 +1801,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
         codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
-        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -6692,6 +6692,130 @@ public class SpringCodegenTest {
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
     }
 
+
+    @Test
+    public void testSpringHttpInterfaceUseBeanValidationRespected() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+                .assertTypeAnnotations().containsWithName("Validated");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceUseBeanValidationFalseHasNoValidationAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .hasNoImports("jakarta.validation.Valid")
+                .hasNoImports("jakarta.validation.constraints")
+                .assertTypeAnnotations().doesNotContainWithName("Validated");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceUseBeanValidationDefaultsToFalse() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        // useBeanValidation not set — should default to false
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .hasNoImports("jakarta.validation.Valid")
+                .hasNoImports("jakarta.validation.constraints")
+                .assertTypeAnnotations().doesNotContainWithName("Validated");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceConstraintAnnotationsOnParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+
+        generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // getOrderById has minimum:1 and maximum:5 on orderId path param
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/StoreApi.java"))
+                .assertMethod("getOrderById")
+                .assertParameter("orderId")
+                .assertParameterAnnotations()
+                .containsWithName("Min")
+                .containsWithName("Max");
+    }
+
     @DataProvider(name = "jspecifyLibraries")
     public Object[][] jspecifyLibraries() {
         return new Object[][]{
@@ -6712,7 +6836,7 @@ public class SpringCodegenTest {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         CONTAINER_DEFAULT_TO_NULL, true,
-                        OPENAPI_NULLABLE, false,
+                        SpringCodegen.OPENAPI_NULLABLE, false,
                         USE_BEANVALIDATION, true,
                         INTERFACE_ONLY, false,
                         springVersionProperty, springBootVersion > 2
