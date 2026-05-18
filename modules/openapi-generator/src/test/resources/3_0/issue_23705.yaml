@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: issue 23705 x-items-extra-annotation
+  version: 1.0.0
+components:
+  schemas:
+    Stubb:
+      type: object
+      properties:
+        name:
+          type: string
+    SampleModel:
+      type: object
+      properties:
+        listSample:
+          type: array
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
+          items:
+            $ref: '#/components/schemas/Stubb'
+        setSample:
+          type: array
+          uniqueItems: true
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
+          items:
+            $ref: '#/components/schemas/Stubb'
+        regularList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stubb'
+        nullableListSample:
+          type: array
+          nullable: true
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
+          items:
+            $ref: '#/components/schemas/Stubb'
+        mapSample:
+          type: object
+          x-items-extra-annotation: '@jakarta.validation.constraints.NotNull'
+          additionalProperties:
+            $ref: '#/components/schemas/Stubb'
