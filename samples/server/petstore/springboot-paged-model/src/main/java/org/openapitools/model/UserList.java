@@ -28,7 +28,6 @@ public class UserList implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @Valid
   private List<@Valid User> content = new ArrayList<>();
 
   private @Nullable String description;

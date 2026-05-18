@@ -1592,7 +1592,7 @@ components:
           minimum: 67.8
           type: number
         string:
-          pattern: "/[a-z]/i"
+          pattern: "[a-zA-Z]"
           type: string
         byte:
           format: byte
@@ -2360,7 +2360,7 @@ components:
           type: number
         string:
           description: None
-          pattern: "/[a-z]/i"
+          pattern: "[a-zA-Z]"
           type: string
         pattern_without_delimiter:
           description: None

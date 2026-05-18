@@ -229,6 +229,9 @@ public class CodegenConstants {
     public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
     public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.";
 
+    public static final String OPENAPI_NULLABLE = "openApiNullable";
+    public static final String OPENAPI_NULLABLE_DESC = "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable properties.";
+
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
