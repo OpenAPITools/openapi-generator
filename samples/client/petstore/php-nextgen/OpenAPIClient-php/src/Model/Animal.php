@@ -214,8 +214,6 @@ class Animal implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const CLASS_NAME_CAT = 'CAT';
-    public const CLASS_NAME_DOG = 'DOG';
 
     /**
      * Associative array for storing property values
