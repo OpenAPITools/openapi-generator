@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.13</version>
+        <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
@@ -91,6 +91,13 @@
             <version>0.2.10</version>
         </dependency>
         {{/openApiNullable}}
+        {{#clientRegistrationId}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <version>4.0.6</version>
+        </dependency>
+        {{/clientRegistrationId}}
         {{#useJspecify}}
         <dependency>
             <groupId>org.jspecify</groupId>
