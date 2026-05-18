@@ -248,6 +248,50 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testDiscriminatorConstantsPreservedForNonEnumDiscriminatorModels() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        Assert.assertNotNull(files.get("Animal.php"));
+        Assert.assertNotNull(files.get("DiscriminatorBase.php"));
+
+        List<String> animalModelContent = Files
+                .readAllLines(files.get("Animal.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+        Assert.assertListContains(animalModelContent,
+                a -> a.equals("public const CLASS_NAME_DOG = 'DOG';"),
+                "Expected Animal to preserve discriminator constant CLASS_NAME_DOG");
+        Assert.assertListContains(animalModelContent,
+                a -> a.equals("public const CLASS_NAME_CAT = 'CAT';"),
+                "Expected Animal to preserve discriminator constant CLASS_NAME_CAT");
+
+        List<String> discriminatorBaseModelContent = Files
+                .readAllLines(files.get("DiscriminatorBase.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+        Assert.assertListContains(discriminatorBaseModelContent,
+                a -> a.equals("public const TYPE_DISCRIMINATOR_CHILD = 'DiscriminatorChild';"),
+                "Expected DiscriminatorBase to preserve inferred discriminator constants");
+    }
+
+    @Test
     public void testDifferentResponseSchemasWithEmpty() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

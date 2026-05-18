@@ -171,13 +171,13 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         return self::$openAPIModelName;
     }
 
+{{#discriminator}}
+{{#discriminator.mappedModels}}
+    public const {{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}} = '{{mappingName}}';
+{{/discriminator.mappedModels}}
+{{/discriminator}}
     {{#vars}}
     {{#isEnum}}
-    {{#isDiscriminator}}
-    {{#discriminator.mappedModels}}
-    public const {{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}} = '{{mappingName}}';
-    {{/discriminator.mappedModels}}
-    {{/isDiscriminator}}
     {{^isDiscriminator}}
     {{#allowableValues}}
     {{#enumVars}}

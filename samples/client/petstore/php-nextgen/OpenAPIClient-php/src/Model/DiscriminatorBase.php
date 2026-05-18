@@ -208,6 +208,7 @@ class DiscriminatorBase implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
+    public const TYPE_DISCRIMINATOR_CHILD = 'DiscriminatorChild';
 
     /**
      * Associative array for storing property values
