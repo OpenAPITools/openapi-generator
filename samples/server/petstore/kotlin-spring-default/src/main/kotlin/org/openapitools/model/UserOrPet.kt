@@ -3,7 +3,9 @@ package org.openapitools.model
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Category
 import org.openapitools.model.Pet
 import org.openapitools.model.Tag

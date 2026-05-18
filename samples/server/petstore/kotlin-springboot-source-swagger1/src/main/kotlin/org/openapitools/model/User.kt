@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -27,27 +29,35 @@ import io.swagger.annotations.ApiModelProperty
 data class User(
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("username") val username: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("email") val email: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("password") val password: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("phone") val phone: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "User Status")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
 ) : java.io.Serializable {
 

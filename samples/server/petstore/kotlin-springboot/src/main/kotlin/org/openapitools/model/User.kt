@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -25,20 +27,28 @@ import javax.validation.Valid
  */
 data class User(
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("username") val username: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("email") val email: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("password") val password: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("phone") val phone: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
 ) : java.io.Serializable {
 

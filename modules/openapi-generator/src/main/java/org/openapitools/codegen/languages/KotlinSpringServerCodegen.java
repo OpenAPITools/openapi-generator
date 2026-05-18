@@ -181,6 +181,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
+    @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
 
@@ -290,7 +291,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.", useSpringBoot4);
-        addSwitch(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled. Incompatible with `openApiNullable`.", useJackson3);
+        addSwitch(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled.", useJackson3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
         addSwitch(USE_RESPONSE_ENTITY,
@@ -314,6 +315,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        addSwitch(CodegenConstants.OPENAPI_NULLABLE,
+                "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable "
+                + "properties (required: false, nullable: true). When enabled, such properties use "
+                + "JsonNullable<T> = JsonNullable.undefined() so callers can distinguish between a missing key "
+                + "and an explicitly provided null. Requires jackson-databind-nullable >= 0.2.10 when used with useJackson3.",
+                openApiNullable);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -543,10 +550,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        if (isUseJackson3()) {
-            // Override databind imports for Jackson 3
-            importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
-        }
+        // Jackson 3.x intentionally kept jackson-annotations at 2.x (com.fasterxml.jackson.annotation).
+        // Only jackson-databind moved to tools.jackson.databind in Jackson 3.x.
+        importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
+        importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
+        // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3.
+        importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+        // JsonDeserialize lives in jackson-databind which moved packages in Jackson 3.x.
+        importMapping.put("JsonDeserialize", (isUseJackson3() ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         // Spring-specific import mappings for x-spring-paginated support
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
@@ -767,10 +778,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
         }
 
-        if (isUseJackson3() && additionalProperties.containsKey("openApiNullable")
-                && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
-            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        if (additionalProperties.containsKey(CodegenConstants.OPENAPI_NULLABLE)) {
+            this.setOpenApiNullable(convertPropertyToBoolean(CodegenConstants.OPENAPI_NULLABLE));
         }
+        writePropertyBack(CodegenConstants.OPENAPI_NULLABLE, openApiNullable);
 
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
@@ -1317,6 +1328,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.example = null;
         }
 
+        // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL).
+        // Missing keys still succeed (default = null is used), but explicit {"field": null} fails deserialization.
+        if (!Boolean.TRUE.equals(property.required) && !Boolean.TRUE.equals(property.isNullable)) {
+            property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+            model.imports.add("JsonSetter");
+            model.imports.add("Nulls");
+        }
+
+        // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
+        // so callers can distinguish between a missing key and an explicitly provided null.
+        if (openApiNullable && !Boolean.TRUE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+            property.vendorExtensions.put("x-is-jackson-optional-nullable", true);
+            model.imports.add("JsonNullable");
+        }
+
         //Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
@@ -1471,6 +1497,23 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         //Add imports for Jackson
         List<Map<String, String>> imports = objs.getImports();
+
+        // Set 4-state nullable/required vendor extensions on optionalVars instances.
+        // optionalVars are cloned independently from vars by removeAllDuplicatedProperty(),
+        // so they require a separate pass here — postProcessModelProperty only covers vars.
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.optionalVars) {
+                // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL)
+                if (!var.required && !var.isNullable) {
+                    var.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+                }
+                // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
+                if (openApiNullable && !var.required && var.isNullable) {
+                    var.vendorExtensions.put("x-is-jackson-optional-nullable", true);
+                }
+            }
+        }
 
         objs.getModels().stream()
                 .map(ModelMap::getModel)

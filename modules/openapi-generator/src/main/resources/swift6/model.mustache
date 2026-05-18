@@ -7,6 +7,9 @@
 
 import Foundation{{#useVapor}}
 import Vapor{{/useVapor}}
+{{#additionalModelImports}}
+import {{{.}}}
+{{/additionalModelImports}}
 {{#swiftUseApiNamespace}}
 
 @available(*, deprecated, renamed: "{{projectName}}API.{{classname}}")
