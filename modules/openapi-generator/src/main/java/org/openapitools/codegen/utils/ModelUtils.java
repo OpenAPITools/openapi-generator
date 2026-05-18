@@ -852,6 +852,240 @@ public class ModelUtils {
                 );
     }
 
+    /**
+     * A single {@code default} value candidate collected during the post-order DFS traversal
+     * of a composed schema tree.
+     *
+     * <p>Instances are produced by
+     * {@link ModelUtils#collectDefaultCandidates(OpenAPI, Schema, int, int[], List)} and
+     * consumed by {@link ModelUtils#selectDefault(List, DefaultResolutionStrategy)}.</p>
+     */
+    public static final class DefaultCandidate {
+
+        /** The raw default value found on this schema node (never {@code null}). */
+        public final Object value;
+
+        /**
+         * Nesting depth: {@code 0} for the root schema passed to {@code resolveDefault},
+         * {@code 1} for its direct {@code allOf} items, {@code 2} for their {@code allOf}
+         * items, and so on.
+         */
+        public final int depth;
+
+        /**
+         * Monotonically increasing post-order DFS index.  Because the traversal appends a
+         * schema's own {@code default:} <em>after</em> recursing into its children, the root
+         * schema's direct {@code default:} (depth&nbsp;0) always receives the highest
+         * {@code visitOrder} among all candidates, making it the natural winner for
+         * {@link DefaultResolutionStrategy#LAST_WINS}.
+         */
+        public final int visitOrder;
+
+        DefaultCandidate(Object value, int depth, int visitOrder) {
+            this.value = value;
+            this.depth = depth;
+            this.visitOrder = visitOrder;
+        }
+    }
+
+    /**
+     * Returns the effective {@code default} for the given schema using
+     * {@link DefaultResolutionStrategy#LAST_WINS} semantics (current default behaviour,
+     * preserved for backward compatibility).
+     *
+     * <p>Equivalent to {@code resolveDefault(openAPI, schema, DefaultResolutionStrategy.LAST_WINS)}.
+     * See {@link #resolveDefault(OpenAPI, Schema, DefaultResolutionStrategy)} for the full
+     * algorithm description and available strategies.</p>
+     *
+     * <h3>Example (LAST_WINS)</h3>
+     * <pre>{@code
+     * # Base1: default = "base_1"
+     * # Base2: default = "base_2"
+     * #
+     * # Intermediate:
+     * #   allOf: [$ref Base1, $ref Base2]
+     * #   → resolves to "base_2"  (Base2 is last in post-order, wins)
+     * #
+     * # Final:
+     * #   allOf:
+     * #     - $ref: Intermediate    → candidate = "base_2"
+     * #     - default: "final"      → candidate = "final"  (root wins in post-order)
+     * #   → resolves to "final"
+     * }</pre>
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective default value, or {@code null} if none is defined
+     */
+    public static Object resolveDefault(OpenAPI openAPI, Schema<?> schema) {
+        return resolveDefault(openAPI, schema, DefaultResolutionStrategy.LAST_WINS);
+    }
+
+    /**
+     * Returns the effective {@code default} for the given schema using the specified
+     * {@link DefaultResolutionStrategy}.
+     *
+     * <h3>Collection phase</h3>
+     * <p>A single <em>post-order DFS</em> traversal (children before parent) builds a
+     * {@link List}&lt;{@link DefaultCandidate}&gt; that captures every {@code default:}
+     * value reachable through {@code $ref} expansion and recursive {@code allOf} flattening.
+     * Each candidate records its nesting {@code depth} (0 = root) and a monotonically
+     * increasing {@code visitOrder} index.  The root schema's direct {@code default:} is
+     * always appended last, giving it the highest {@code visitOrder}.</p>
+     *
+     * <h3>Selection phase</h3>
+     * <table border="1">
+     *   <caption>Strategy selection rules</caption>
+     *   <tr><th>Strategy</th><th>Selection rule</th></tr>
+     *   <tr><td>{@link DefaultResolutionStrategy#LAST_WINS}</td>
+     *       <td>{@code max(visitOrder)} — root direct default wins if present</td></tr>
+     *   <tr><td>{@link DefaultResolutionStrategy#NEAREST_WINS}</td>
+     *       <td>{@code min(depth), then min(visitOrder)} — shallowest, then leftmost</td></tr>
+     *   <tr><td>{@link DefaultResolutionStrategy#ROOT_WINS}</td>
+     *       <td>filter to {@code depth == 0}, return first (or {@code null})</td></tr>
+     *   <tr><td>{@link DefaultResolutionStrategy#STRICT}</td>
+     *       <td>if distinct values &gt; 1 → log {@code WARN} + return {@code null}</td></tr>
+     * </table>
+     *
+     * @param openAPI  the OpenAPI document used to resolve {@code $ref}s
+     * @param schema   the schema to inspect
+     * @param strategy the resolution strategy to apply
+     * @return the effective default value, or {@code null} if none is defined or the strategy
+     *         determines the result is ambiguous
+     */
+    public static Object resolveDefault(OpenAPI openAPI, Schema<?> schema,
+                                        DefaultResolutionStrategy strategy) {
+        if (schema == null) return null;
+        List<DefaultCandidate> candidates = new ArrayList<>();
+        collectDefaultCandidates(openAPI, schema, 0, new int[]{0}, candidates);
+        return selectDefault(candidates, strategy);
+    }
+
+    /**
+     * Post-order DFS traversal that collects all {@code default:} values found in the
+     * fully-resolved schema tree into {@code out}.  Children (allOf items) are visited
+     * before the parent schema's own direct default, so the root schema's default always
+     * receives the highest {@code visitOrder}.
+     */
+    private static void collectDefaultCandidates(OpenAPI openAPI, Schema<?> schema,
+                                                 int depth, int[] counter,
+                                                 List<DefaultCandidate> out) {
+        schema = getReferencedSchema(openAPI, schema);
+        if (schema == null) return;
+
+        // Post-order: recurse into allOf children first.
+        if (hasAllOf(schema)) {
+            for (Schema<?> item : schema.getAllOf()) {
+                collectDefaultCandidates(openAPI, item, depth + 1, counter, out);
+            }
+        }
+
+        // Then record this schema's own direct default (if any).
+        Object def = schema.getDefault();
+        if (def != null) {
+            out.add(new DefaultCandidate(def, depth, counter[0]++));
+        }
+    }
+
+    /**
+     * Selects a single default value from a list of {@link DefaultCandidate}s according to
+     * the given {@link DefaultResolutionStrategy}.
+     *
+     * @param candidates the candidates produced by {@link #collectDefaultCandidates}
+     * @param strategy   the strategy to apply
+     * @return the selected default value, or {@code null} if the list is empty or the
+     *         strategy determines the result is ambiguous
+     */
+    private static Object selectDefault(List<DefaultCandidate> candidates,
+                                        DefaultResolutionStrategy strategy) {
+        if (candidates.isEmpty()) return null;
+
+        switch (strategy) {
+
+            case LAST_WINS:
+                // max(visitOrder) — root's direct default has the highest visitOrder
+                return candidates.stream()
+                        .max(Comparator.comparingInt(c -> c.visitOrder))
+                        .map(c -> c.value)
+                        .orElse(null);
+
+            case NEAREST_WINS: {
+                // min(depth), break ties by min(visitOrder)
+                Comparator<DefaultCandidate> cmp =
+                        Comparator.comparingInt((DefaultCandidate c) -> c.depth)
+                                  .thenComparingInt(c -> c.visitOrder);
+                Object result = candidates.stream().min(cmp).map(c -> c.value).orElse(null);
+                long distinctCount = candidates.stream().map(c -> c.value).distinct().count();
+                if (distinctCount > 1) {
+                    LOGGER.warn("Conflicting default values detected across composed allOf schemas. "
+                            + "OpenAPI does not define precedence. Applying NEAREST_WINS heuristic: "
+                            + "using '{}'. Consider consolidating to a single source of truth.",
+                            result);
+                }
+                return result;
+            }
+
+            case ROOT_WINS: {
+                // Only depth-0 candidates count (root schema's direct default).
+                Optional<DefaultCandidate> rootCandidate = candidates.stream()
+                        .filter(c -> c.depth == 0)
+                        .findFirst();
+                if (!rootCandidate.isPresent()) {
+                    boolean hasNested = candidates.stream().anyMatch(c -> c.depth > 0);
+                    if (hasNested) {
+                        LOGGER.debug("ROOT_WINS strategy: ignoring {} allOf-branch default(s) "
+                                + "because the root schema has no direct default.", candidates.size());
+                    }
+                    return null;
+                }
+                long ignoredCount = candidates.stream().filter(c -> c.depth > 0).count();
+                if (ignoredCount > 0) {
+                    LOGGER.debug("ROOT_WINS strategy: ignoring {} allOf-branch default(s) "
+                            + "in favour of root default '{}'.", ignoredCount, rootCandidate.get().value);
+                }
+                return rootCandidate.get().value;
+            }
+
+            case STRICT: {
+                long distinctCount = candidates.stream().map(c -> c.value).distinct().count();
+                if (distinctCount > 1) {
+                    List<Object> distinctValues = candidates.stream()
+                            .map(c -> c.value)
+                            .distinct()
+                            .collect(Collectors.toList());
+                    LOGGER.warn("Conflicting default values {} detected in composed allOf schemas. "
+                            + "OpenAPI does not define precedence for defaults in allOf. "
+                            + "Returning null. Consider consolidating to a single source of truth.",
+                            distinctValues);
+                    return null;
+                }
+                // 0 or 1 distinct value — safe to return
+                return candidates.get(0).value;
+            }
+
+            default:
+                throw new IllegalArgumentException("Unknown DefaultResolutionStrategy: " + strategy);
+        }
+    }
+
+    /**
+     * Public accessor to the default-candidate collection phase, intended for use by linting
+     * tools (e.g. {@code OpenApiSchemaValidations}).
+     *
+     * <p>Returns all {@link DefaultCandidate}s reachable from the given schema by post-order
+     * DFS, including {@code $ref} expansion and recursive {@code allOf} flattening.</p>
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the root schema to inspect
+     * @return mutable list of candidates in post-order DFS visit order (never {@code null})
+     */
+    public static List<DefaultCandidate> collectDefaultCandidatesForLinting(
+            OpenAPI openAPI, Schema<?> schema) {
+        List<DefaultCandidate> out = new ArrayList<>();
+        collectDefaultCandidates(openAPI, schema, 0, new int[]{0}, out);
+        return out;
+    }
+
     public static boolean hasValidation(Schema sc) {
         return (
                 sc.getMaxItems() != null ||

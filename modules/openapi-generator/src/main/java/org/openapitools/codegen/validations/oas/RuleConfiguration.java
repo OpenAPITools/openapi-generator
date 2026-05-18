@@ -128,6 +128,50 @@ public class RuleConfiguration {
 
     /**
      * -- GETTER --
+     * Gets whether the recommendation check for conflicting {@code default} values in {@code allOf}
+     * composed schemas is enabled.
+     * <p>
+     * OpenAPI does not define precedence for {@code default} values in {@code allOf}.
+     * When two or more distinct defaults exist across composed branches, the effective value
+     * is tool-dependent and therefore unreliable.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for conflicting defaults in {@code allOf} schemas.
+     * @param enableAllOfConflictingDefaultsRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableAllOfConflictingDefaultsRecommendation = defaultedBoolean(propertyPrefix + ".allof-conflicting-defaults", true);
+
+    /**
+     * -- GETTER --
+     * Gets whether the recommendation check for shadowed {@code default} values is enabled.
+     * <p>
+     * A root-level {@code default:} alongside {@code allOf} shadows any defaults defined
+     * inside the {@code allOf} branches, which may be unintentional.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for shadowed defaults in {@code allOf} schemas.
+     * @param enableAllOfShadowedDefaultsRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableAllOfShadowedDefaultsRecommendation = defaultedBoolean(propertyPrefix + ".allof-shadowed-defaults", true);
+
+    /**
+     * -- GETTER --
+     * Gets whether the recommendation check for redundant {@code default} values is enabled.
+     * <p>
+     * Identical defaults appearing in multiple {@code allOf} branches add noise without adding
+     * clarity and may indicate copy-paste maintenance issues.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for redundant defaults in {@code allOf} schemas.
+     * @param enableAllOfRedundantDefaultsRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableAllOfRedundantDefaultsRecommendation = defaultedBoolean(propertyPrefix + ".allof-redundant-defaults", true);
+
+    /**
+     * -- GETTER --
      * Gets whether we will raise awareness a GET or HEAD operation is defined with body.
      *
      * @return <code>true</code> if enabled, <code>false</code> if disabled
