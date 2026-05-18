@@ -193,7 +193,7 @@ public class PhpNextgenClientCodegenTest {
         output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/bugs/issue_php_nextgen_oneOf_discriminator_enum.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/bugs/issue_23813.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
 
