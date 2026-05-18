@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -21,9 +23,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class PetWithSpecialProps(
 
     @Schema(example = "null", description = "Property with \$-prefix in name; default has \$dollar and backslash \\")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("\$id") val dollarId: kotlin.String? = "hello \$world",
 
     @Schema(example = "null", description = "Property with \$ mid-name; description has backslash \\ and quote \"")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("name\$Suffix") val nameDollarSuffix: kotlin.String? = null
 ) {
 
