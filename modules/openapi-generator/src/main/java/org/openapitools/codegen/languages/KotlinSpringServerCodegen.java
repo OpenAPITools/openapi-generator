@@ -1067,29 +1067,28 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     codegenOperation.operationId, library);
         }
 
-        // Only process x-spring-paginated for server-side libraries (spring-boot)
-        // Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters for HTTP requests
-        if (SPRING_BOOT.equals(library)) {
+        if (SPRING_BOOT.equals(library)
+                && Boolean.TRUE.equals(SpringPageableScanUtils.getXSpringPaginated(operation))) {
             // add Pageable import only if x-spring-paginated explicitly used AND it's a server library
             // this allows to use a custom Pageable schema without importing Spring Pageable.
-            if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
-                importMapping.putIfAbsent("Pageable", "org.springframework.data.domain.Pageable");
-            }
+            importMapping.putIfAbsent("Pageable", "org.springframework.data.domain.Pageable");
 
             // add org.springframework.data.domain.Pageable import when needed (server libraries only)
-            if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
-                codegenOperation.imports.add("Pageable");
-                SpringPageableScanUtils.applySpringDocPageableAnnotation(codegenOperation,
-                        SpringPageableScanUtils.AnnotationSyntax.KOTLIN,
-                        DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider()));
+            codegenOperation.imports.add("Pageable");
+            SpringPageableScanUtils.applySpringDocPageableAnnotation(
+                    codegenOperation,
+                    SpringPageableScanUtils.AnnotationSyntax.KOTLIN,
+                    DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider()));
 
-                // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
-                // Build and attach pageable parameter annotations
-                SpringPageableScanUtils.removePageableQueryParams(codegenOperation);
-                pageableUtils.applyPageableAnnotations(codegenOperation,
-                        generatePageableConstraintValidation, useBeanValidation,
-                        generateSortValidation, SpringPageableScanUtils.AnnotationSyntax.KOTLIN);
-            }
+            // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
+            // Build and attach pageable parameter annotations
+            SpringPageableScanUtils.removePageableQueryParams(codegenOperation);
+            pageableUtils.applyPageableAnnotations(
+                    codegenOperation,
+                    generatePageableConstraintValidation,
+                    useBeanValidation,
+                    generateSortValidation,
+                    SpringPageableScanUtils.AnnotationSyntax.KOTLIN);
         }
 
         // If substituteGenericPagedModel is enabled, replace paged-model return types
@@ -1269,7 +1268,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL).
         // Missing keys still succeed (default = null is used), but explicit {"field": null} fails deserialization.
-        if (!Boolean.TRUE.equals(property.required) && !Boolean.TRUE.equals(property.isNullable)) {
+        if (!property.required && !property.isNullable) {
             property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
             model.imports.add("JsonSetter");
             model.imports.add("Nulls");
@@ -1277,15 +1276,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
         // so callers can distinguish between a missing key and an explicitly provided null.
-        if (openApiNullable && !Boolean.TRUE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+        if (openApiNullable && !property.required && property.isNullable) {
             property.vendorExtensions.put("x-is-jackson-optional-nullable", true);
             model.imports.add("JsonNullable");
         }
 
         //Add imports for Jackson
-        if (!Boolean.TRUE.equals(model.isEnum)) {
+        if (!model.isEnum) {
             model.imports.add("JsonProperty");
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            if (model.hasEnums) {
                 model.imports.add("JsonValue");
                 model.imports.add("JsonCreator");
             }
@@ -1458,7 +1457,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         objs.getModels().stream()
                 .map(ModelMap::getModel)
-                .filter(cm -> Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null)
+                .filter(cm -> cm.isEnum && cm.allowableValues != null)
                 .forEach(cm -> {
                     cm.imports.add(importMapping.get("JsonValue"));
                     cm.imports.add(importMapping.get("JsonCreator"));

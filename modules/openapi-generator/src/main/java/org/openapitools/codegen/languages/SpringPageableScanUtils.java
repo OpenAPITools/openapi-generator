@@ -180,22 +180,36 @@ public class SpringPageableScanUtils {
      * pagination query parameters (page, size, sort).
      */
     public static boolean willBePageable(Operation operation, boolean autoXSpringPaginated) {
-        if (operation.getExtensions() != null) {
-            Object paginated = operation.getExtensions().get("x-spring-paginated");
-            if (Boolean.FALSE.equals(paginated)) {
-                return false;
-            }
-            if (Boolean.TRUE.equals(paginated)) {
-                return true;
-            }
+        Boolean xSpringPaginated = getXSpringPaginated(operation);
+        if (xSpringPaginated != null) {
+            return xSpringPaginated;
         }
-        if (autoXSpringPaginated && operation.getParameters() != null) {
-            Set<String> paramNames = operation.getParameters().stream()
-                    .map(Parameter::getName)
-                    .collect(Collectors.toSet());
-            return paramNames.containsAll(DEFAULT_PAGEABLE_QUERY_PARAMS);
+        if (!autoXSpringPaginated || operation.getParameters() == null) {
+            return false;
         }
-        return false;
+        Set<String> paramNames = operation.getParameters().stream()
+                .map(Parameter::getName)
+                .collect(Collectors.toSet());
+        return paramNames.containsAll(DEFAULT_PAGEABLE_QUERY_PARAMS);
+    }
+
+    /**
+     * Returns the resolved `x-spring-paginated` flag.
+     *
+     * @return `Boolean.TRUE`/`Boolean.FALSE` when explicitly set, otherwise `null`
+     */
+    public static Boolean getXSpringPaginated(Operation operation) {
+        if (operation.getExtensions() == null) {
+            return null;
+        }
+        Object xSpringPaginated = operation.getExtensions().get("x-spring-paginated");
+        if (Boolean.FALSE.equals(xSpringPaginated)) {
+            return false;
+        }
+        if (Boolean.TRUE.equals(xSpringPaginated)) {
+            return true;
+        }
+        return null;
     }
 
     /**
@@ -218,32 +232,28 @@ public class SpringPageableScanUtils {
      *   <li>Otherwise → return {@code false}.</li>
      * </ol>
      *
-     * @param operation             the raw OpenAPI {@link Operation} to inspect (and possibly mutate)
-     * @param autoXSpringPaginated  whether auto-detection is enabled for this generator
+     * @param operation            the raw OpenAPI {@link Operation} to inspect (and possibly mutate)
+     * @param autoXSpringPaginated whether auto-detection is enabled for this generator
      * @return {@code true} if the operation is (or was just marked as) paginated
      */
     public static boolean applyAutoXSpringPaginatedIfNeeded(
             Operation operation, boolean autoXSpringPaginated) {
-        if (operation.getExtensions() != null) {
-            Object paginated = operation.getExtensions().get("x-spring-paginated");
-            if (Boolean.FALSE.equals(paginated)) {
-                return false;
-            }
-            if (Boolean.TRUE.equals(paginated)) {
-                return true;
-            }
+        Boolean xSpringPaginated = getXSpringPaginated(operation);
+        if (xSpringPaginated != null) {
+            return xSpringPaginated;
         }
-        if (autoXSpringPaginated && operation.getParameters() != null) {
-            Set<String> paramNames = operation.getParameters().stream()
-                    .map(Parameter::getName)
-                    .collect(Collectors.toSet());
-            if (paramNames.containsAll(DEFAULT_PAGEABLE_QUERY_PARAMS)) {
-                if (operation.getExtensions() == null) {
-                    operation.setExtensions(new HashMap<>());
-                }
-                operation.getExtensions().put("x-spring-paginated", Boolean.TRUE);
-                return true;
+        if (!autoXSpringPaginated || operation.getParameters() == null) {
+            return false;
+        }
+        Set<String> paramNames = operation.getParameters().stream()
+                .map(Parameter::getName)
+                .collect(Collectors.toSet());
+        if (paramNames.containsAll(DEFAULT_PAGEABLE_QUERY_PARAMS)) {
+            if (operation.getExtensions() == null) {
+                operation.setExtensions(new HashMap<>());
             }
+            operation.getExtensions().put("x-spring-paginated", Boolean.TRUE);
+            return true;
         }
         return false;
     }
