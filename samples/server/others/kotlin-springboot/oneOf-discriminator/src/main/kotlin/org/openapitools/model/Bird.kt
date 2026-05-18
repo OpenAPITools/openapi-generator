@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -28,8 +30,10 @@ data class Bird(
 
     @get:JsonProperty("another_discriminator", required = true) override val anotherDiscriminator: kotlin.String = "ANOTHER_BIRD",
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("propertyA") val propertyA: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("sameNameProperty") val sameNameProperty: kotlin.Int? = null
 ) : Animal, AnotherAnimal {
 
