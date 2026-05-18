@@ -40,6 +40,7 @@ dependencies {
     implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("jakarta.validation:jakarta.validation-api")
+
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.0")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

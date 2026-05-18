@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Foo
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -22,6 +24,7 @@ data class FooGetDefaultResponse(
 
     @field:Valid
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("string") val string: Foo? = null
 ) {
 

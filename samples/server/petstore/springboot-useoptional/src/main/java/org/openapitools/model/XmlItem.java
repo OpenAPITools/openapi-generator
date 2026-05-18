@@ -34,7 +34,6 @@ public class XmlItem {
 
   private Optional<Boolean> attributeBoolean = Optional.empty();
 
-  @Valid
   private List<Integer> wrappedArray = new ArrayList<>();
 
   private Optional<String> nameString = Optional.empty();
@@ -45,10 +44,8 @@ public class XmlItem {
 
   private Optional<Boolean> nameBoolean = Optional.empty();
 
-  @Valid
   private List<Integer> nameArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private Optional<String> prefixString = Optional.empty();
@@ -59,10 +56,8 @@ public class XmlItem {
 
   private Optional<Boolean> prefixBoolean = Optional.empty();
 
-  @Valid
   private List<Integer> prefixArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private Optional<String> namespaceString = Optional.empty();
@@ -73,10 +68,8 @@ public class XmlItem {
 
   private Optional<Boolean> namespaceBoolean = Optional.empty();
 
-  @Valid
   private List<Integer> namespaceArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private Optional<String> prefixNsString = Optional.empty();
@@ -87,10 +80,8 @@ public class XmlItem {
 
   private Optional<Boolean> prefixNsBoolean = Optional.empty();
 
-  @Valid
   private List<Integer> prefixNsArray = new ArrayList<>();
 
-  @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
