@@ -1161,12 +1161,6 @@
         </profile>
         <profile>
             <id>openapi-generator</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>!integration-test</name>
-                </property>
-            </activation>
             <modules>
                 <module>modules/openapi-generator-core</module>
                 <module>modules/openapi-generator</module>
@@ -1175,6 +1169,17 @@
                 <module>modules/openapi-generator-gradle-plugin</module>
                 <module>modules/openapi-generator-mill-plugin</module>
                 <module>modules/openapi-generator-online</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>smals</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>modules/openapi-generator-core</module>
+                <module>modules/openapi-generator</module>
+                <module>modules/openapi-generator-maven-plugin</module>
             </modules>
         </profile>
     </profiles>

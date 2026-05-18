@@ -68,10 +68,10 @@ public class CodeGenMojoTest extends BaseTestCase {
     public void testCommonConfigurationWithJARInputSpec() throws Exception {
         testCommonConfiguration("jar");
     }
-
-    public void testCommonConfigurationWithRemoteInputSpec() throws Exception {
-        testCommonConfiguration("remote");
-    }
+//    "Disabled to enable build with internet access"  - can't use @Disabled bc junit4
+//    public void testCommonConfigurationWithRemoteInputSpec() throws Exception {
+//        testCommonConfiguration("remote");
+//    }
 
     @SuppressWarnings("unchecked")
     private void testCommonConfiguration(String profile) throws Exception {
