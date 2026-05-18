@@ -1250,14 +1250,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // TODO: Handle tags
     }
 
-    /**
-     * Returns true if the given operation will have a Pageable parameter injected.
-     * Delegates to {@link SpringPageableScanUtils#willBePageable}.
-     */
-    private boolean willBePageable(Operation operation) {
-        return SpringPageableScanUtils.willBePageable(operation, autoXSpringPaginated);
-    }
-
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
