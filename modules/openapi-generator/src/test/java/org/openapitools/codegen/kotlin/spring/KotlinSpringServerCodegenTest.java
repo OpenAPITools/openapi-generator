@@ -6107,6 +6107,23 @@ public class KotlinSpringServerCodegenTest {
                 "): ResponseEntity<GetUserResponse>");
     }
 
+    @Test
+    public void schemaMappingWithNullableAllOfRendersNullableKotlinProperty() throws IOException {
+        // When a schema is substituted via schemaMapping and a property wraps it with
+        // "nullable: true + allOf: [$ref]", the Kotlin Spring generator must render the
+        // property as MappedType? (nullable with the FQN from the mapping).
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/schema-mapping-nullable-allof.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addSchemaMapping("ExternalModel", "com.example.ExternalModel"));
+
+        File myObjectFile = files.get("MyObject.kt");
+        assertThat(myObjectFile).isNotNull();
+        String content = Files.readString(myObjectFile.toPath());
+        assertThat(content).contains("com.example.ExternalModel?");
+    }
+
     // ========== REQUIRED + NULLABLE 4-STATE TESTS ==========
 
     /**

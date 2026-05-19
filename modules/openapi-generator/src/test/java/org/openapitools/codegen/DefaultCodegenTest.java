@@ -2437,6 +2437,32 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void schemaMappingWithNullableAllOfProperty() {
+        // When a property schema uses "nullable: true + allOf: [$ref]", DefaultCodegen must
+        // recognise the property as nullable and resolve its type to the referenced schema name.
+        // Language-specific codegens (Kotlin, Spring) then apply schemaMapping to produce the
+        // final mapped FQN — that is tested in the language-specific test suites.
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.schemaMapping.put("ExternalModel", "foo.bar.ExternalModel");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/schema-mapping-nullable-allof.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel myObject = codegen.fromModel("MyObject", openAPI.getComponents().getSchemas().get("MyObject"));
+
+        CodegenProperty optionalRef = myObject.vars.stream()
+                .filter(v -> "optionalRef".equals(v.name))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("optionalRef property not found in MyObject"));
+
+        assertTrue(optionalRef.isNullable,
+                "optionalRef must be nullable because the schema uses nullable:true");
+        assertEquals("ExternalModel", optionalRef.dataType,
+                "dataType must resolve to the referenced schema name");
+    }
+
+    @Test
     public void operationIdNameMapping() {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.operationIdNameMapping.put("edge case !@# 123", "fix_edge_case");
