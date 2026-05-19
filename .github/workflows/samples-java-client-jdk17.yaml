@@ -17,6 +17,7 @@ on:
       - samples/client/others/java/restclient-enum-in-multipart/**
       - samples/client/others/java/restclient-sealedInterface/**
       - samples/client/others/java/restclient-useAbstractionForFiles/**
+      - samples/client/petstore/java/jersey3-oneOf/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
@@ -33,6 +34,7 @@ on:
       - samples/client/others/java/restclient-enum-in-multipart/**
       - samples/client/others/java/restclient-sealedInterface/**
       - samples/client/others/java/restclient-useAbstractionForFiles/**
+      - samples/client/petstore/java/jersey3-oneOf/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -64,6 +66,7 @@ jobs:
           - samples/client/others/java/restclient-enum-in-multipart
           - samples/client/others/java/restclient-sealedInterface
           - samples/client/others/java/restclient-useAbstractionForFiles
+          - samples/client/petstore/java/jersey3-oneOf
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
