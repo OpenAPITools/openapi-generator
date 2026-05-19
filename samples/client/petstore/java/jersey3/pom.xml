@@ -307,6 +307,7 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        <!-- Note: for useJackson3, jackson-datatype-jsr310 is included in jackson-databind -->
         <dependency>
             <groupId>org.tomitribe</groupId>
             <artifactId>tomitribe-http-signatures</artifactId>
