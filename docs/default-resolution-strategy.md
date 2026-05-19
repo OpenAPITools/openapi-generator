@@ -160,6 +160,98 @@ define.
 | Variant | Selected candidate | Result | Log emitted |
 |---|---|---|---|
 | A (Root has `default: "root"`) | `{value="root", depth=0}` | **`"root"`** | `DEBUG`: 2 branch defaults ignored |
+
+---
+
+## How defaults are surfaced at codegen time
+
+The OpenAPI Normalizer wires `DefaultResolutionStrategy` into two complementary mechanisms.
+Both operate on the spec model **before** any generator runs, so every generator benefits —
+including the ~60 generators that override `toDefaultValue(Schema)` and do not call `super`.
+
+### Always-on: `$ref` default propagation
+
+When a property is a plain `$ref` (e.g. `$ref: '#/components/schemas/Status'`) and the
+referenced schema defines a `default:`, the Normalizer automatically copies that default onto
+the outer property schema. No configuration is required.
+
+Under the hood:
+
+1. The Normalizer reads `resolved.getDefault()` from the target schema.
+2. It copies the value to `property.setDefault(...)` on the `$ref`-holding wrapper.
+3. The existing `normalizeReferenceSchema` step detects the `$ref`-with-sibling-fields pattern
+   and rewrites it as `{ allOf: [{$ref: ...}], default: "..." }`, making the default visible
+   as `schema.getDefault()` on the outer schema.
+
+**Example:**
+
+```yaml
+# Before normalization
+components:
+  schemas:
+    Status:
+      type: string
+      default: "active"
+    Item:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'   # no explicit default
+
+# After normalization (effective view — stored in the spec model)
+    Item:
+      type: object
+      properties:
+        status:
+          allOf:
+            - $ref: '#/components/schemas/Status'
+          default: "active"   # ← propagated from Status
+```
+
+### Opt-in: `RESOLVE_SCHEMA_DEFAULTS` normalizer rule
+
+For `allOf`-composed schemas, default resolution is **opt-in** because it requires choosing a
+strategy. Activate it via:
+
+```properties
+# In your generator config (generatorName, additionalProperties, etc.)
+openapiNormalizer=RESOLVE_SCHEMA_DEFAULTS=LAST_WINS
+```
+
+Valid strategy values (case-insensitive): `LAST_WINS`, `NEAREST_WINS`, `ROOT_WINS`, `STRICT`.
+
+When enabled, the Normalizer runs `ModelUtils.resolveDefault(openAPI, schema, strategy)` on
+every component schema and every property schema that has `getDefault() == null` after normal
+normalization. If a non-null result is returned, it is written back via `schema.setDefault(result)`.
+
+**Example:**
+
+```yaml
+# YAML spec
+components:
+  schemas:
+    BaseStatus:
+      type: string
+      enum: [active, inactive]
+      default: "active"
+    OrderStatus:
+      allOf:
+        - $ref: '#/components/schemas/BaseStatus'
+      # no direct default
+
+# With RESOLVE_SCHEMA_DEFAULTS=LAST_WINS:
+# OrderStatus.getDefault() → "active"   (resolved from the allOf branch)
+```
+
+| Rule value | Behaviour |
+|---|---|
+| `LAST_WINS` | Post-order DFS winner — root's own `default:` wins if present, otherwise the deepest/last branch wins |
+| `NEAREST_WINS` | Shallowest `default:` wins; warns on conflicting values |
+| `ROOT_WINS` | Only the root schema's direct `default:` is used; nested branch defaults are ignored |
+| `STRICT` | Returns `null` and logs `WARN` when more than one distinct default value exists |
+
+See the strategy sections above for a full description and worked examples.
+
 | B (no root default) | _(none at depth 0)_ | **`null`** | `DEBUG`: 2 branch defaults ignored |
 
 ---

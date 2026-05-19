@@ -1545,4 +1545,60 @@ public class OpenAPINormalizerTest {
         assertNotNull(payload.getOneOf());
     }
 
+    @Test
+    public void testRefDefaultPropagation() {
+        // Change 1 (always-on): a property referencing a $ref whose target has a default should
+        // receive that default value on the outer schema after normalization.
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/normalizer_ref_default_propagation.yaml");
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, Map.of());
+        normalizer.normalize();
+
+        Schema itemSchema = openAPI.getComponents().getSchemas().get("Item");
+        assertNotNull(itemSchema);
+
+        // The `status` property is a pure $ref to Status which has default "active".
+        // After normalization it must expose that default (via allOf wrapping or inline).
+        Schema statusProp = (Schema) itemSchema.getProperties().get("status");
+        assertNotNull(statusProp, "status property must exist");
+        assertEquals(statusProp.getDefault(), "active",
+                "default should be propagated from $ref target to the outer property schema");
+    }
+
+    @Test
+    public void testResolveSchemaDefaultsRule_lastWins() {
+        // Change 2 (opt-in): with RESOLVE_SCHEMA_DEFAULTS=LAST_WINS a component schema that
+        // composes via allOf and has no direct default should receive the resolved default.
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/normalizer_resolve_schema_defaults.yaml");
+        Map<String, String> inputRules = Map.of("RESOLVE_SCHEMA_DEFAULTS", "LAST_WINS");
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, inputRules);
+        normalizer.normalize();
+
+        // ChildNoDefault has no direct default — the LAST_WINS strategy should resolve
+        // the default from the allOf $ref target (BaseStatus has default "active").
+        Schema childNoDefault = openAPI.getComponents().getSchemas().get("ChildNoDefault");
+        assertNotNull(childNoDefault);
+        assertNotNull(childNoDefault.getAllOf(), "ChildNoDefault should still have allOf after normalization");
+        assertEquals(childNoDefault.getDefault(), "active",
+                "RESOLVE_SCHEMA_DEFAULTS should propagate default from allOf base to child with no own default");
+
+        // ChildWithOwnDefault already has default "inactive" — it must NOT be overwritten.
+        Schema childWithOwnDefault = openAPI.getComponents().getSchemas().get("ChildWithOwnDefault");
+        assertNotNull(childWithOwnDefault);
+        assertEquals(childWithOwnDefault.getDefault(), "inactive",
+                "RESOLVE_SCHEMA_DEFAULTS must not overwrite an existing direct default");
+    }
+
+    @Test
+    public void testResolveSchemaDefaultsRule_disabled() {
+        // Without the rule, allOf schemas must NOT have defaults injected automatically.
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/normalizer_resolve_schema_defaults.yaml");
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, Map.of());
+        normalizer.normalize();
+
+        Schema childNoDefault = openAPI.getComponents().getSchemas().get("ChildNoDefault");
+        assertNotNull(childNoDefault);
+        assertNull(childNoDefault.getDefault(),
+                "Without RESOLVE_SCHEMA_DEFAULTS rule, no default should be injected");
+    }
+
 }

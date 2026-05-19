@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.DefaultResolutionStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,6 +160,13 @@ public class OpenAPINormalizer {
     // when set to true, sort model properties by name to ensure deterministic output
     final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
 
+    // when set to a strategy name (LAST_WINS, NEAREST_WINS, ROOT_WINS, STRICT), resolve
+    // `default` values in allOf-composed schemas and write the result back to the schema.
+    // This makes the resolved default available to all generators via schema.getDefault().
+    // Example: RESOLVE_SCHEMA_DEFAULTS=LAST_WINS
+    final String RESOLVE_SCHEMA_DEFAULTS = "RESOLVE_SCHEMA_DEFAULTS";
+    DefaultResolutionStrategy resolveSchemaDefaultsStrategy;
+
     // ============= end of rules =============
 
     /**
@@ -219,6 +227,7 @@ public class OpenAPINormalizer {
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
+        ruleNames.add(RESOLVE_SCHEMA_DEFAULTS);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -328,6 +337,16 @@ public class OpenAPINormalizer {
         bearerAuthSecuritySchemeName = inputRules.get(SET_BEARER_AUTH_FOR_NAME);
         if (bearerAuthSecuritySchemeName != null) {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
+        }
+
+        String resolveSchemaDefaultsValue = inputRules.get(RESOLVE_SCHEMA_DEFAULTS);
+        if (resolveSchemaDefaultsValue != null) {
+            try {
+                resolveSchemaDefaultsStrategy = DefaultResolutionStrategy.valueOf(resolveSchemaDefaultsValue.trim().toUpperCase(java.util.Locale.ROOT));
+                rules.put(RESOLVE_SCHEMA_DEFAULTS, true);
+            } catch (IllegalArgumentException e) {
+                LOGGER.error("RESOLVE_SCHEMA_DEFAULTS rule must be one of LAST_WINS, NEAREST_WINS, ROOT_WINS, STRICT. Got: {}", resolveSchemaDefaultsValue);
+            }
         }
     }
 
@@ -643,7 +662,17 @@ public class OpenAPINormalizer {
                 fixSelfReferenceSchema(schemaName, schema);
 
                 // normalize the schemas
-                schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
+                Schema normalizedSchema = normalizeSchema(schema, new HashSet<>());
+                schemas.put(schemaName, normalizedSchema);
+
+                // if RESOLVE_SCHEMA_DEFAULTS is enabled, compute and write back the effective
+                // default for allOf-composed component schemas that have no direct default.
+                if (getRule(RESOLVE_SCHEMA_DEFAULTS) && normalizedSchema.getDefault() == null) {
+                    Object resolved = ModelUtils.resolveDefault(openAPI, normalizedSchema, resolveSchemaDefaultsStrategy);
+                    if (resolved != null) {
+                        normalizedSchema.setDefault(resolved);
+                    }
+                }
 
                 if (getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
                     ensureInheritanceForDiscriminatorMappings(schema, schemaName);
@@ -930,7 +959,24 @@ public class OpenAPINormalizer {
                     property.getExtensions().remove(X_INTERNAL);
                 }
             }
+            // Propagate `default` from a pure $ref target before normalizeSchema runs.
+            // normalizeReferenceSchema will then promote it via allOf wrapping, making the
+            // default visible to all generators as schema.getDefault() on the outer schema.
+            if (property.get$ref() != null && property.getDefault() == null) {
+                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, property);
+                if (resolved != null && resolved.getDefault() != null) {
+                    property.setDefault(resolved.getDefault());
+                }
+            }
             Schema newProperty = normalizeSchema(property, new HashSet<>());
+            // if RESOLVE_SCHEMA_DEFAULTS is enabled, write back the effective default for
+            // allOf-composed property schemas that still have no direct default after normalization.
+            if (getRule(RESOLVE_SCHEMA_DEFAULTS) && newProperty.getDefault() == null) {
+                Object resolved = ModelUtils.resolveDefault(openAPI, newProperty, resolveSchemaDefaultsStrategy);
+                if (resolved != null) {
+                    newProperty.setDefault(resolved);
+                }
+            }
             propertiesEntry.setValue(newProperty);
         }
     }

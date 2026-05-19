@@ -1,0 +1,18 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Test RESOLVE_SCHEMA_DEFAULTS normalizer rule"
+paths: {}
+components:
+  schemas:
+    BaseStatus:
+      type: string
+      enum: [active, inactive]
+      default: "active"
+    ChildNoDefault:
+      allOf:
+        - $ref: '#/components/schemas/BaseStatus'
+    ChildWithOwnDefault:
+      allOf:
+        - $ref: '#/components/schemas/BaseStatus'
+      default: "inactive"

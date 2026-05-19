@@ -1,0 +1,18 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Test $ref default propagation"
+paths: {}
+components:
+  schemas:
+    Status:
+      type: string
+      default: "active"
+    Item:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        explicitDefault:
+          $ref: '#/components/schemas/Status'
+          # would be invalid in strict OAS3, but we test that an explicit default is NOT overwritten
