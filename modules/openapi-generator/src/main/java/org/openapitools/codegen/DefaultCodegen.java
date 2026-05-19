@@ -4316,11 +4316,11 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the default value
         // Fully resolve $ref chain before asking generators for the default value.
-        // ModelUtils.getReferencedSchema is single-level, so loop until stable.
+        // ModelUtils.getReferencedSchema returns the input unchanged when a ref cannot be
+        // resolved, so "referenced == pForDefault" is the natural termination condition.
+        // Circular $ref chains are invalid OpenAPI and do not need a separate guard.
         Schema pForDefault = p;
-        Schema prevSchema = null;
-        while (pForDefault != null && pForDefault.get$ref() != null && pForDefault != prevSchema) {
-            prevSchema = pForDefault;
+        while (pForDefault != null && pForDefault.get$ref() != null) {
             Schema referenced = ModelUtils.getReferencedSchema(openAPI, pForDefault);
             if (referenced == null || referenced == pForDefault) break;
             pForDefault = referenced;
