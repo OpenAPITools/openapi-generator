@@ -175,6 +175,20 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toDefaultValue(Schema p) {
+        // toDefaultValue(Schema) may be called directly (e.g. from fromOperation) with a $ref
+        // schema that has not been pre-resolved. Follow the ref so callers outside fromProperty
+        // can still obtain the default from the referenced schema.
+        String ref = ModelUtils.getSimpleRef(p.get$ref());
+        if (ref != null) {
+            Schema referencedSchema = ModelUtils.getSchemas(this.openAPI).get(ref);
+            if (referencedSchema != null) {
+                String defaultValue = toDefaultValue(referencedSchema);
+                if (defaultValue != null) {
+                    return defaultValue;
+                }
+                // No default was found for the $ref, so see if one has been defined locally.
+            }
+        }
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (!Boolean.valueOf(p.getDefault().toString()))
