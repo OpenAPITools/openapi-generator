@@ -1198,7 +1198,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isBooleanSchema(schema)) {
             if (schema.getDefault() != null) {
                 return schema.getDefault().toString();

@@ -1375,7 +1375,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (defaultToEmptyContainer) {
                 // if default to empty container option is set, respect the default values provided in the spec

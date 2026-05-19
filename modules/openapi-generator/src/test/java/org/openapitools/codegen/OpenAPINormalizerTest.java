@@ -1546,9 +1546,10 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testRefDefaultPropagation() {
-        // Change 1 (always-on): a property referencing a $ref whose target has a default should
-        // receive that default value on the outer schema after normalization.
+    public void testRefDefaultNotPropagatedByNormalizer() {
+        // Change 1 (normalizer $ref default copy) was removed.
+        // Pure $ref properties must NOT have their defaults injected by the normalizer — the
+        // default is resolved later by DefaultCodegen.fromProperty at codegen time.
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/normalizer_ref_default_propagation.yaml");
         OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, Map.of());
         normalizer.normalize();
@@ -1557,11 +1558,13 @@ public class OpenAPINormalizerTest {
         assertNotNull(itemSchema);
 
         // The `status` property is a pure $ref to Status which has default "active".
-        // After normalization it must expose that default (via allOf wrapping or inline).
+        // After normalization the property must remain a pure $ref — no allOf wrapping and
+        // no default set on the outer schema (that is handled by DefaultCodegen.fromProperty).
         Schema statusProp = (Schema) itemSchema.getProperties().get("status");
         assertNotNull(statusProp, "status property must exist");
-        assertEquals(statusProp.getDefault(), "active",
-                "default should be propagated from $ref target to the outer property schema");
+        assertNotNull(statusProp.get$ref(), "status property must remain a pure $ref after normalization");
+        assertNull(statusProp.getDefault(),
+                "normalizer must NOT inject default onto a pure $ref property");
     }
 
     @Test

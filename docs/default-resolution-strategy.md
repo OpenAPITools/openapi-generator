@@ -165,28 +165,34 @@ define.
 
 ## How defaults are surfaced at codegen time
 
-The OpenAPI Normalizer wires `DefaultResolutionStrategy` into two complementary mechanisms.
-Both operate on the spec model **before** any generator runs, so every generator benefits —
-including the ~60 generators that override `toDefaultValue(Schema)` and do not call `super`.
+Two complementary mechanisms wire `DefaultResolutionStrategy` into the code-generation pipeline.
+Both benefit all ~60+ generators without any generator-specific code.
 
-### Always-on: `$ref` default propagation
+### Always-on: `$ref` default propagation (codegen layer)
 
 When a property is a plain `$ref` (e.g. `$ref: '#/components/schemas/Status'`) and the
-referenced schema defines a `default:`, the Normalizer automatically copies that default onto
-the outer property schema. No configuration is required.
+referenced schema defines a `default:`, the default is **automatically propagated at codegen
+time** — no configuration is required.
 
-Under the hood:
+Under the hood, `DefaultCodegen.fromProperty` resolves the `$ref` chain before calling
+`toDefaultValue`, so generators always receive a fully-typed concrete schema:
 
-1. The Normalizer reads `resolved.getDefault()` from the target schema.
-2. It copies the value to `property.setDefault(...)` on the `$ref`-holding wrapper.
-3. The existing `normalizeReferenceSchema` step detects the `$ref`-with-sibling-fields pattern
-   and rewrites it as `{ allOf: [{$ref: ...}], default: "..." }`, making the default visible
-   as `schema.getDefault()` on the outer schema.
+```
+fromProperty("status", {$ref: '#/components/schemas/Status'})
+  ↓ loop: getReferencedSchema until no more $ref
+  → {type: string, default: "active"}
+  ↓ toDefaultValue(property, resolvedSchema)
+  → "active"
+```
+
+The loop handles arbitrarily deep chains (`A → $ref: B → $ref: C → {type: string, default: x}`).
+The spec model is **not mutated** — the `$ref` property schema remains unchanged in memory.
+Because the fix is in the base class (`DefaultCodegen`), all generators that override only
+`toDefaultValue(Schema)` inherit the behaviour automatically.
 
 **Example:**
 
 ```yaml
-# Before normalization
 components:
   schemas:
     Status:
@@ -197,16 +203,10 @@ components:
       properties:
         status:
           $ref: '#/components/schemas/Status'   # no explicit default
-
-# After normalization (effective view — stored in the spec model)
-    Item:
-      type: object
-      properties:
-        status:
-          allOf:
-            - $ref: '#/components/schemas/Status'
-          default: "active"   # ← propagated from Status
 ```
+
+After `fromProperty("status", ...)` the generated `CodegenProperty.defaultValue` will be
+`"active"` in every generator.
 
 ### Opt-in: `RESOLVE_SCHEMA_DEFAULTS` normalizer rule
 
@@ -221,8 +221,11 @@ openapiNormalizer=RESOLVE_SCHEMA_DEFAULTS=LAST_WINS
 Valid strategy values (case-insensitive): `LAST_WINS`, `NEAREST_WINS`, `ROOT_WINS`, `STRICT`.
 
 When enabled, the Normalizer runs `ModelUtils.resolveDefault(openAPI, schema, strategy)` on
-every component schema and every property schema that has `getDefault() == null` after normal
-normalization. If a non-null result is returned, it is written back via `schema.setDefault(result)`.
+every component schema and every **non-`$ref`** property schema that has `getDefault() == null`
+after normal normalization. Pure `$ref` property schemas are skipped — their defaults are
+resolved by `DefaultCodegen.fromProperty` at codegen time to avoid creating invalid OAS 3.0
+`$ref`-with-sibling-`default` constructs.
+If a non-null result is returned, it is written back via `schema.setDefault(result)`.
 
 **Example:**
 

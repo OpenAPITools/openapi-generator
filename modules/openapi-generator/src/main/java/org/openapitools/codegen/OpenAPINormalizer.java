@@ -959,19 +959,13 @@ public class OpenAPINormalizer {
                     property.getExtensions().remove(X_INTERNAL);
                 }
             }
-            // Propagate `default` from a pure $ref target before normalizeSchema runs.
-            // normalizeReferenceSchema will then promote it via allOf wrapping, making the
-            // default visible to all generators as schema.getDefault() on the outer schema.
-            if (property.get$ref() != null && property.getDefault() == null) {
-                Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, property);
-                if (resolved != null && resolved.getDefault() != null) {
-                    property.setDefault(resolved.getDefault());
-                }
-            }
             Schema newProperty = normalizeSchema(property, new HashSet<>());
             // if RESOLVE_SCHEMA_DEFAULTS is enabled, write back the effective default for
             // allOf-composed property schemas that still have no direct default after normalization.
-            if (getRule(RESOLVE_SCHEMA_DEFAULTS) && newProperty.getDefault() == null) {
+            // Skip pure $ref schemas — their defaults are resolved by DefaultCodegen.fromProperty
+            // at codegen time, avoiding invalid OAS 3.0 $ref-with-sibling-default constructs.
+            if (getRule(RESOLVE_SCHEMA_DEFAULTS) && newProperty.getDefault() == null
+                    && newProperty.get$ref() == null) {
                 Object resolved = ModelUtils.resolveDefault(openAPI, newProperty, resolveSchemaDefaultsStrategy);
                 if (resolved != null) {
                     newProperty.setDefault(resolved);

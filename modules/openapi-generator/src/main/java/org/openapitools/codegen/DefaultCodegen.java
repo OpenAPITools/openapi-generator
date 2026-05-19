@@ -4315,7 +4315,17 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // set the default value
-        property.defaultValue = toDefaultValue(property, p);
+        // Fully resolve $ref chain before asking generators for the default value.
+        // ModelUtils.getReferencedSchema is single-level, so loop until stable.
+        Schema pForDefault = p;
+        Schema prevSchema = null;
+        while (pForDefault != null && pForDefault.get$ref() != null && pForDefault != prevSchema) {
+            prevSchema = pForDefault;
+            Schema referenced = ModelUtils.getReferencedSchema(openAPI, pForDefault);
+            if (referenced == null || referenced == pForDefault) break;
+            pForDefault = referenced;
+        }
+        property.defaultValue = toDefaultValue(property, pForDefault);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
 
         LOGGER.debug("debugging from property return: {}", property);
