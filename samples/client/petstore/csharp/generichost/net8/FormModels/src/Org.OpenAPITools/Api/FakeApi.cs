@@ -364,7 +364,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormString"> (optional)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional)</param>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
@@ -382,7 +382,7 @@ namespace Org.OpenAPITools.Api
         /// To test enum parameters
         /// </remarks>
         /// <param name="enumFormString"> (optional)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional)</param>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
@@ -4549,7 +4549,7 @@ namespace Org.OpenAPITools.Api
         /// To test enum parameters To test enum parameters
         /// </summary>
         /// <param name="enumFormString"> (optional)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional)</param>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
@@ -4575,7 +4575,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormString"> (optional)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional)</param>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>

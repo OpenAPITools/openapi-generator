@@ -335,8 +335,8 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
         $this->setIfExists('enum_number', $data ?? [], null);
         $this->setIfExists('outer_enum', $data ?? [], null);
         $this->setIfExists('outer_enum_integer', $data ?? [], null);
-        $this->setIfExists('outer_enum_default_value', $data ?? [], null);
-        $this->setIfExists('outer_enum_integer_default_value', $data ?? [], null);
+        $this->setIfExists('outer_enum_default_value', $data ?? [], OuterEnumDefaultValue::PLACED);
+        $this->setIfExists('outer_enum_integer_default_value', $data ?? [], 0);
     }
 
     /**

@@ -495,7 +495,7 @@ To test enum parameters
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **enumFormString** | **TestEnumParametersRequestEnumFormString** |  | [optional]  |
-| **enumFormStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Form parameter enum test (string array) | [optional]  |
+| **enumFormStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Form parameter enum test (string array) | [optional] [default to $] |
 | **enumHeaderString** | **TestEnumParametersEnumHeaderStringParameter** | Header parameter enum test (string) | [optional]  |
 | **enumHeaderStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Header parameter enum test (string array) | [optional]  |
 | **enumQueryDouble** | **TestEnumParametersEnumQueryDoubleParameter** | Query parameter enum test (double) | [optional]  |

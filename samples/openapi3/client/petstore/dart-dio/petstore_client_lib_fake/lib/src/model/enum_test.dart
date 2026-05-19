@@ -63,7 +63,9 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
   factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(EnumTestBuilder b) => b;
+  static void _defaults(EnumTestBuilder b) => b
+      ..outerEnumDefaultValue = 'placed'
+      ..outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.number0;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<EnumTest> get serializer => _$EnumTestSerializer();

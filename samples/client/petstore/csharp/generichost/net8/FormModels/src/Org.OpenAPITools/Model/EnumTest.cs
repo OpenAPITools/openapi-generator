@@ -38,9 +38,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="enumNumber">enumNumber</param>
         /// <param name="enumString">enumString</param>
         /// <param name="outerEnum">outerEnum</param>
-        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue</param>
+        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue (default to OuterEnumDefaultValue.Placed)</param>
         /// <param name="outerEnumInteger">outerEnumInteger</param>
-        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
+        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue (default to OuterEnumIntegerDefaultValue.NUMBER_0)</param>
         [JsonConstructor]
         public EnumTest(EnumTestEnumString enumStringRequired, Option<EnumTestEnumInteger?> enumInteger = default, Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default, Option<TestEnumParametersEnumQueryDoubleParameter?> enumNumber = default, Option<EnumTestEnumString?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
         {

@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**report_format** | [**DataOutputFormat**](DataOutputFormat.md) |  | [optional] 
+**report_format** | [**DataOutputFormat**](DataOutputFormat.md) |  | [optional] [default to 'JSON']
 
 ## Example
 

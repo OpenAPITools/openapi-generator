@@ -36,9 +36,9 @@ class EnumTest {
 
      this.outerEnumInteger,
 
-     this.outerEnumDefaultValue,
+     this.outerEnumDefaultValue = 'placed',
 
-     this.outerEnumIntegerDefaultValue,
+     this.outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.number0,
   });
 
   @JsonKey(
@@ -120,7 +120,7 @@ class EnumTest {
 
 
   @JsonKey(
-    
+    defaultValue: 'placed',
     name: r'outerEnumDefaultValue',
     required: false,
     includeIfNull: false,
@@ -133,7 +133,7 @@ class EnumTest {
 
 
   @JsonKey(
-    
+    defaultValue: OuterEnumIntegerDefaultValue.number0,
     name: r'outerEnumIntegerDefaultValue',
     required: false,
     includeIfNull: false,

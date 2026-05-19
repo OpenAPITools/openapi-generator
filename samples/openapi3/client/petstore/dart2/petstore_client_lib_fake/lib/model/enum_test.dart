@@ -19,8 +19,8 @@ class EnumTest {
     this.enumNumber,
     this.outerEnum,
     this.outerEnumInteger,
-    this.outerEnumDefaultValue,
-    this.outerEnumIntegerDefaultValue,
+    this.outerEnumDefaultValue = 'placed',
+    this.outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.number0,
   });
 
   EnumTestEnumStringEnum? enumString;
@@ -41,21 +41,9 @@ class EnumTest {
   ///
   OuterEnumInteger? outerEnumInteger;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  OuterEnumDefaultValue? outerEnumDefaultValue;
+  OuterEnumDefaultValue outerEnumDefaultValue;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue;
+  OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
@@ -77,8 +65,8 @@ class EnumTest {
     (enumNumber == null ? 0 : enumNumber!.hashCode) +
     (outerEnum == null ? 0 : outerEnum!.hashCode) +
     (outerEnumInteger == null ? 0 : outerEnumInteger!.hashCode) +
-    (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue!.hashCode) +
-    (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue!.hashCode);
+    (outerEnumDefaultValue.hashCode) +
+    (outerEnumIntegerDefaultValue.hashCode);
 
   @override
   String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';
@@ -111,16 +99,8 @@ class EnumTest {
     } else {
       json[r'outerEnumInteger'] = null;
     }
-    if (this.outerEnumDefaultValue != null) {
       json[r'outerEnumDefaultValue'] = this.outerEnumDefaultValue;
-    } else {
-      json[r'outerEnumDefaultValue'] = null;
-    }
-    if (this.outerEnumIntegerDefaultValue != null) {
       json[r'outerEnumIntegerDefaultValue'] = this.outerEnumIntegerDefaultValue;
-    } else {
-      json[r'outerEnumIntegerDefaultValue'] = null;
-    }
     return json;
   }
 
@@ -147,8 +127,8 @@ class EnumTest {
         enumNumber: EnumTestEnumNumberEnum.fromJson(json[r'enum_number']),
         outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
         outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
-        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']),
-        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
+        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']) ?? 'placed',
+        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']) ?? OuterEnumIntegerDefaultValue.number0,
       );
     }
     return null;

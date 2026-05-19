@@ -115,10 +115,10 @@ protected:
     std::string m_Enum_string_required = "";
     int32_t m_Enum_integer = 0;
     double m_Enum_number = 0.0;
-    OuterEnum m_OuterEnum = OuterEnum{};
-    OuterEnumInteger m_OuterEnumInteger = OuterEnumInteger{};
-    OuterEnumDefaultValue m_OuterEnumDefaultValue = OuterEnumDefaultValue{};
-    OuterEnumIntegerDefaultValue m_OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue{};
+    OuterEnum m_OuterEnum = "";
+    OuterEnumInteger m_OuterEnumInteger = 0;
+    OuterEnumDefaultValue m_OuterEnumDefaultValue = "placed";
+    OuterEnumIntegerDefaultValue m_OuterEnumIntegerDefaultValue = 0;
 };
 
 std::vector<Enum_Test> createEnum_TestVectorFromJsonString(const std::string& json);
