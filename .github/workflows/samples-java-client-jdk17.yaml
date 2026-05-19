@@ -108,4 +108,4 @@ jobs:
 
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: /bin/sh gradlew build -x test
+        run: /bin/sh gradlew build -x test --no-daemon
