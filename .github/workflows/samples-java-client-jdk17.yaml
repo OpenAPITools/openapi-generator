@@ -18,6 +18,7 @@ on:
       - samples/client/others/java/restclient-sealedInterface/**
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/petstore/java/jersey3-jackson3/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
@@ -35,6 +36,7 @@ on:
       - samples/client/others/java/restclient-sealedInterface/**
       - samples/client/others/java/restclient-useAbstractionForFiles/**
       - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/petstore/java/jersey3-jackson3/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -67,6 +69,7 @@ jobs:
           - samples/client/others/java/restclient-sealedInterface
           - samples/client/others/java/restclient-useAbstractionForFiles
           - samples/client/petstore/java/jersey3-oneOf
+          - samples/client/petstore/java/jersey3-jackson3
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
