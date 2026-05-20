@@ -90,16 +90,6 @@ public class PetApiController implements PetApi {
         return ResponseEntity.ok(Collections.emptyList());
     }
 
-    @Override
-    public ResponseEntity<List<Pet>> findPetsWithMinSizeConstraintFromAllOfRef(Pageable pageable) {
-        return ResponseEntity.ok(Collections.emptyList());
-    }
-
-    @Override
-    public ResponseEntity<List<Pet>> findPetsWithSizeConstraintFromAllOfRef(Pageable pageable) {
-        return ResponseEntity.ok(Collections.emptyList());
-    }
-
     // ── @PageableDefault ─────────────────────────────────────────────────────
     // @PageableDefault(page = 0, size = 25)
 
@@ -112,17 +102,6 @@ public class PetApiController implements PetApi {
         if (pageable.getPageSize() != 25) {
             throw new IllegalStateException(
                     "@PageableDefault size: expected 25, got " + pageable.getPageSize());
-        }
-        return ResponseEntity.ok(Collections.emptyList());
-    }
-
-    // @PageableDefault(size = 7)
-
-    @Override
-    public ResponseEntity<List<Pet>> findPetsWithDefaultFromAllOfRef(Pageable pageable) {
-        if (pageable.getPageSize() != 7) {
-            throw new IllegalStateException(
-                    "@PageableDefault size: expected 7, got " + pageable.getPageSize());
         }
         return ResponseEntity.ok(Collections.emptyList());
     }

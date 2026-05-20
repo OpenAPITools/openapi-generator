@@ -110,7 +110,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_DEFAULT_FROM_ALL_OF_REF],
         produces = ["application/json"]
     )
-    fun findPetsWithDefaultFromAllOfRef(@PageableDefault(size = 7) pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithDefaultFromAllOfRef(pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

@@ -132,7 +132,7 @@ public interface PetApi {
         produces = { "application/json" }
     )
     ResponseEntity<List<Pet>> findPetsWithDefaultFromAllOfRef(
-        @PageableDefault(size = 7)  final Pageable pageable
+         final Pageable pageable
     );
 
 

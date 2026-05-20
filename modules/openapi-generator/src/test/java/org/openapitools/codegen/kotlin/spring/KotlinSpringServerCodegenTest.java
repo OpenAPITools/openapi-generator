@@ -4312,20 +4312,6 @@ public class KotlinSpringServerCodegenTest {
                 "@ValidPageable(minSize = 5) should be resolved from allOf $ref schema");
     }
 
-    @Test
-    public void scanPageableDefaultsResolvesDefaultFromAllOfRef() throws Exception {
-        Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(USE_TAGS, "true");
-        additionalProperties.put(INTERFACE_ONLY, "true");
-        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-
-        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
-
-        File petApi = files.get("PetApi.kt");
-        // findPetsWithDefaultFromAllOfRef: default: 7 is on the referenced schema only
-        assertFileContains(petApi.toPath(), "@PageableDefault(size = 7)");
-    }
-
     // ========== AUTO X-SPRING-PAGINATED TESTS ==========
 
     @Test

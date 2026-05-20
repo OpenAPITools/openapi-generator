@@ -535,10 +535,13 @@ public class SpringPageableScanUtils {
                     if (schema == null) {
                         continue;
                     }
-                    Object defaultValue = ModelUtils.resolveDefault(openAPI, schema);
-                    if (defaultValue == null) {
+                    if (schema.get$ref() != null) {
+                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+                    }
+                    if (schema == null || schema.getDefault() == null) {
                         continue;
                     }
+                    Object defaultValue = schema.getDefault();
                     switch (param.getName()) {
                         case PAGE:
                             if (defaultValue instanceof Number) {

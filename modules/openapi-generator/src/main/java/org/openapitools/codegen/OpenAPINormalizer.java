@@ -1932,14 +1932,8 @@ public class OpenAPINormalizer {
                 // already done, so no need to add
                 return;
             }
-            // Prepend at position 0 so the parent ref is the FIRST item in the child's allOf.
-            // resolveDefault() uses last-writer-wins semantics, so anything the child already
-            // expressed in its allOf (including its own defaults) must come after the base in
-            // order to win. Appending at the end would make the parent the last — and therefore
-            // the winning — default, which is wrong: the normalizer is injecting structural
-            // inheritance here, not overriding child-specified defaults.
             Schema refToParent = new Schema<>().$ref(reference);
-            allOf.add(0, refToParent);
+            allOf.add(refToParent);
         } else {
             allOf = new ArrayList<>();
             child.setAllOf(allOf);

@@ -7366,25 +7366,6 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("ValidPageable", Map.of("minSize", "5"));
     }
 
-    @Test
-    public void scanPageableDefaultsResolvesDefaultFromAllOfRef() throws IOException {
-        Map<String, Object> props = new HashMap<>();
-        props.put(SpringCodegen.INTERFACE_ONLY, "true");
-        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
-        props.put(SpringCodegen.USE_TAGS, "true");
-        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
-
-        Map<String, File> files = generateFromContract(
-                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
-
-        // findPetsWithDefaultFromAllOfRef: default: 7 is on the referenced schema only
-        JavaFileAssert.assertThat(files.get("PetApi.java"))
-                .assertMethod("findPetsWithDefaultFromAllOfRef")
-                .assertParameter("pageable")
-                .assertParameterAnnotations()
-                .containsWithNameAndAttributes("PageableDefault", Map.of("size", "7"));
-    }
-
     // -------------------------------------------------------------------------
     // @PageableDefault / @SortDefault tests
     // -------------------------------------------------------------------------
