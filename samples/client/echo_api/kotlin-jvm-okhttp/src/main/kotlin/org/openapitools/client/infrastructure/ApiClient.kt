@@ -119,6 +119,9 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
 
+    val userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
+    val accessTokenProvider: () -> String? = { accessToken }
+
     /**
      * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
      *
@@ -357,15 +360,16 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            username?.let { username ->
-                password?.let { password ->
-                    requestConfig.headers[AUTHORIZATION] = okhttp3.Credentials.basic(username, password)
+            val (user, passw) = userCredentialsProvider()
+            user?.let { user ->
+                passw?.let { passw ->
+                    requestConfig.headers[AUTHORIZATION] = okhttp3.Credentials.basic(user, passw)
                 }
             }
         }
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken"
+            accessTokenProvider()?.let { token ->
+                requestConfig.headers[AUTHORIZATION] = "Bearer $token"
             }
         }
     }

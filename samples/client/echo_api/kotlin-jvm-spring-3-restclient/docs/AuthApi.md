@@ -45,9 +45,15 @@ This endpoint does not need any parameter.
 ### Authorization
 
 
-Configure http_auth:
-    ApiClient.username = ""
-    ApiClient.password = ""
+Configure http_auth statically:
+```kotlin
+ApiClient.username = ""
+ApiClient.password = ""
+```
+Configure http_auth dynamically:
+```kotlin
+AuthApi().userCredentialProvider = { "user" to "pass" }
+```
 
 ### HTTP request headers
 
@@ -91,8 +97,14 @@ This endpoint does not need any parameter.
 ### Authorization
 
 
-Configure http_bearer_auth:
-    ApiClient.accessToken = ""
+Configure http_bearer_auth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure http_bearer_auth dynamically:
+```kotlin
+AuthApi().accessTokenProvider = { "" }
+```
 
 ### HTTP request headers
 

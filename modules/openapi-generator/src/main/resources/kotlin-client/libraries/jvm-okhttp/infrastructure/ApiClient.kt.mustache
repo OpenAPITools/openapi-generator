@@ -148,6 +148,9 @@ import com.squareup.moshi.adapter
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
 
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val accessTokenProvider: () -> String? = { accessToken }
+
     /**
      * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").
      *
@@ -460,25 +463,26 @@ import com.squareup.moshi.adapter
         {{#isBasic}}
         {{#isBasicBasic}}
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            username?.let { username ->
-                password?.let { password ->
-                    requestConfig.headers[AUTHORIZATION] = okhttp3.Credentials.basic(username, password)
+            val (user, passw) = userCredentialsProvider()
+            user?.let { user ->
+                passw?.let { passw ->
+                    requestConfig.headers[AUTHORIZATION] = okhttp3.Credentials.basic(user, passw)
                 }
             }
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken"
+            accessTokenProvider()?.let { token ->
+                requestConfig.headers[AUTHORIZATION] = "Bearer $token"
             }
         }
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken "
+            accessTokenProvider()?.let { token ->
+                requestConfig.headers[AUTHORIZATION] = "Bearer $token "
             }
         }
         {{/isOAuth}}
