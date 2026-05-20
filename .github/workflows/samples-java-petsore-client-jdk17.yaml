@@ -1,0 +1,47 @@
+# run java client tests with petstore server
+name: Samples Java Petsore Client JDK17
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/java/jersey3/**
+  pull_request:
+    paths:
+      - samples/client/petstore/java/jersey3/**
+jobs:
+  build:
+    name: Build Java Client JDK17
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/java/jersey3
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    steps:
+      - uses: actions/checkout@v5
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: 17
+      - name: Cache maven dependencies
+        uses: actions/cache@v5
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.m2
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Build with Maven
+        working-directory: ${{ matrix.sample }}
+        run: mvn clean package --no-transfer-progress
