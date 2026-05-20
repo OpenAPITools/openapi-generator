@@ -4,7 +4,7 @@ import { Map, Record, RecordOf } from 'immutable';
 {{#model}}
 {{#isEntity}}
 import {
-    {{classname}}RecordEntity,
+    {{className}}RecordEntity,
 } from "./models/{{classFileName}}Record{{importFileExtension}}"
 {{/isEntity}}
 {{/model}}
@@ -15,7 +15,7 @@ export const ApiEntitiesRecordProps = {
 {{#models}}
 {{#model}}
 {{#isEntity}}
-    {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: ({{classname}}RecordEntity(), Map<string, {{classname}}RecordEntity>()),
+    {{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}: ({{className}}RecordEntity(), Map<string, {{className}}RecordEntity>()),
 {{/isEntity}}
 {{/model}}
 {{/models}}

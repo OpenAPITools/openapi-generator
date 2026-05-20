@@ -1,6 +1,6 @@
 import {
   Configuration,
-  {{classname}},
+  {{className}},
 } from '{{npmName}}';
 import type { {{operationIdCamelCase}}Request } from '{{npmName}}';
 
@@ -21,7 +21,7 @@ async function example() {
     headers: { "YOUR HEADER NAME": "YOUR SIGNATURE" },{{/isHttpSignature}}{{/authMethods}}
   });
   {{/hasAuthMethods}}
-  const api = new {{classname}}({{#hasAuthMethods}}config{{/hasAuthMethods}});
+  const api = new {{className}}({{#hasAuthMethods}}config{{/hasAuthMethods}});
 
   {{#hasParams}}
   const body = {

@@ -22,11 +22,11 @@ import {
 {{>modelOneOfInterfaces}}
 
 
-export function {{classname}}FromJSON(json: any): {{classname}} {
-    return {{classname}}FromJSONTyped(json, false);
+export function {{className}}FromJSON(json: any): {{className}} {
+    return {{className}}FromJSONTyped(json, false);
 }
 
-export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
+export function {{className}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{className}} {
     if (json == null) {
         return json;
     }
@@ -147,11 +147,11 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 {{/discriminator}}
 }
 
-export function {{classname}}ToJSON(json: any): any {
-    return {{classname}}ToJSONTyped(json, false);
+export function {{className}}ToJSON(json: any): any {
+    return {{className}}ToJSONTyped(json, false);
 }
 
-export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator: boolean = false): any {
+export function {{className}}ToJSONTyped(value?: {{className}} | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -2,13 +2,13 @@
  * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
  * @export
 {{^parentIsOneOf}}
- * @interface {{classname}}
+ * @interface {{className}}
  */
-export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+export interface {{className}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{/parentIsOneOf}}
 {{#parentIsOneOf}}
  */
-export type {{classname}} = {{{parent}}} & {
+export type {{className}} = {{{parent}}} & {
 {{/parentIsOneOf}}
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
@@ -17,7 +17,7 @@ export type {{classname}} = {{{parent}}} & {
     /**
      * {{#lambda.indented_star_4}}{{{unescapedDescription}}}{{/lambda.indented_star_4}}
      * @type {{=<% %>=}}{<%&datatypeWithEnum%>}<%={{ }}=%>
-     * @memberof {{classname}}
+     * @memberof {{className}}
     {{#deprecated}}
      * @deprecated
     {{/deprecated}}
@@ -33,7 +33,7 @@ export type {{classname}} = {{{parent}}} & {
 * @export
 * @enum {string}
 */
-export enum {{classname}}{{enumName}} {
+export enum {{className}}{{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
@@ -44,13 +44,13 @@ export enum {{classname}}{{enumName}} {
 /**
  * @export
  */
-export const {{classname}}{{enumName}} = {
+export const {{className}}{{enumName}} = {
 {{#allowableValues}}
     {{#enumVars}}
     {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
 {{/allowableValues}}
 } as const;
-export type {{classname}}{{enumName}} = typeof {{classname}}{{enumName}}[keyof typeof {{classname}}{{enumName}}];
+export type {{className}}{{enumName}} = typeof {{className}}{{enumName}}[keyof typeof {{className}}{{enumName}}];
 {{/stringEnums}}
 {{/isEnum}}{{/vars}}{{/hasEnums}}{{>validationAttributes}}

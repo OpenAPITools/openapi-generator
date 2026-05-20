@@ -1,6 +1,6 @@
 {{#validationAttributes}}
 
-export const {{classname}}PropertyValidationAttributesMap: {
+export const {{className}}PropertyValidationAttributesMap: {
     [property: string]: {
         maxLength?: number,
         minLength?: number,
@@ -53,7 +53,7 @@ export const {{classname}}PropertyValidationAttributesMap: {
 }
 {{#isAdditionalPropertiesTrue}}
 
-export const {{classname}}AdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
+export const {{className}}AdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
     {{#maxProperties}}
     maxProperties: {{maxProperties}},
     {{/maxProperties}}

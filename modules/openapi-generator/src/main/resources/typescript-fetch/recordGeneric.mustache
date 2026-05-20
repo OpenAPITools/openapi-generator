@@ -5,10 +5,10 @@ import { Schema, schema, NormalizedSchema } from "normalizr";
 import { select, call } from "redux-saga/effects";
 
 import {
-    {{classname}},
+    {{className}},
 {{#vars}}
 {{#isEnum}}
-    {{classname}}{{enumName}},
+    {{className}}{{enumName}},
 {{/isEnum}}
 {{/vars}}
 } from './{{classFileName}}{{importFileExtension}}';
@@ -26,8 +26,8 @@ import {
 } from './{{{.}}}Record{{importFileExtension}}';
 {{/modelImports}}
 
-export const {{classname}}RecordProps = {
-    recType: "{{classname}}ApiRecord" as "{{classname}}ApiRecord",
+export const {{className}}RecordProps = {
+    recType: "{{className}}ApiRecord" as "{{className}}ApiRecord",
 {{#vars}}
     {{#isArray}}
     {{#items.isModel}}
@@ -58,16 +58,16 @@ export const {{classname}}RecordProps = {
 {{/vars}}
 };
 
-export type {{classname}}RecordPropsType = typeof {{classname}}RecordProps;
-export const {{classname}}Record = Record({{classname}}RecordProps, {{classname}}RecordProps.recType);
-export type {{classname}}Record = RecordOf<{{classname}}RecordPropsType>;
+export type {{className}}RecordPropsType = typeof {{className}}RecordProps;
+export const {{className}}Record = Record({{className}}RecordProps, {{className}}RecordProps.recType);
+export type {{className}}Record = RecordOf<{{className}}RecordPropsType>;
 
-knownRecordFactories.set({{classname}}RecordProps.recType, {{classname}}Record);
+knownRecordFactories.set({{className}}RecordProps.recType, {{className}}Record);
 
 {{#isEntity}}
-export const {{classname}}RecordEntityProps = {
-    ...{{classname}}RecordProps,
-    recType: "{{classname}}ApiRecordEntity" as "{{classname}}ApiRecordEntity",
+export const {{className}}RecordEntityProps = {
+    ...{{className}}RecordProps,
+    recType: "{{className}}ApiRecordEntity" as "{{className}}ApiRecordEntity",
 {{#vars}}
     {{#isEntity}}
     {{^keepAsJSObject}}
@@ -84,16 +84,16 @@ export const {{classname}}RecordEntityProps = {
 {{/vars}}
 };
 
-export type {{classname}}RecordEntityPropsType = typeof {{classname}}RecordEntityProps;
-export const {{classname}}RecordEntity = Record({{classname}}RecordEntityProps, {{classname}}RecordEntityProps.recType);
-export type {{classname}}RecordEntity = RecordOf<{{classname}}RecordEntityPropsType>;
+export type {{className}}RecordEntityPropsType = typeof {{className}}RecordEntityProps;
+export const {{className}}RecordEntity = Record({{className}}RecordEntityProps, {{className}}RecordEntityProps.recType);
+export type {{className}}RecordEntity = RecordOf<{{className}}RecordEntityPropsType>;
 
-knownRecordFactories.set({{classname}}RecordEntityProps.recType, {{classname}}RecordEntity);
+knownRecordFactories.set({{className}}RecordEntityProps.recType, {{className}}RecordEntity);
 {{/isEntity}}
 
-class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname}}Record> {
-    public normalize(apiObject: {{classname}}, asEntity?: boolean): {{classname}} {
-        (apiObject as any).recType = {{#isEntity}}asEntity ? {{classname}}RecordEntityProps.recType : {{/isEntity}}{{classname}}RecordProps.recType;
+class {{className}}RecordUtils extends ApiRecordUtils<{{className}}, {{className}}Record> {
+    public normalize(apiObject: {{className}}, asEntity?: boolean): {{className}} {
+        (apiObject as any).recType = {{#isEntity}}asEntity ? {{className}}RecordEntityProps.recType : {{/isEntity}}{{className}}RecordProps.recType;
 {{#vars}}
         {{#isUniqueId}}
         {{#isArray}}
@@ -124,7 +124,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 {{#isEntity}}
 
     public getSchema(): Schema {
-        return new schema.Entity("{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}", {
+        return new schema.Entity("{{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}", {
 {{#vars}}
             {{#isEntity}}
             {{^keepAsJSObject}}
@@ -145,7 +145,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
     public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
         // @ts-ignore
-        const entity = yield select(apiEntity{{classname}}Selector, {id: entityId});
+        const entity = yield select(apiEntity{{className}}Selector, {id: entityId});
         if (!entity) {return undefined; }
 
         const {
@@ -186,7 +186,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 {{/vars}}
         }
 
-        return {{classname}}Record({
+        return {{className}}Record({
             ...unchangedProperties,
             ...entityProperties
         });
@@ -194,7 +194,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 
     public *toInlinedArray(entityIds: List<string> | null) {
         if (!entityIds) {return null; }
-        let entities = List<{{classname}}Record>();
+        let entities = List<{{className}}Record>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
             // @ts-ignore
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
@@ -206,7 +206,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
     }
 {{/isEntity}}
 
-    public toApi(record: {{classname}}Record): {{classname}} {
+    public toApi(record: {{className}}Record): {{className}} {
         const apiObject = super.toApi(record);
 {{#vars}}
         {{#isUniqueId}}
@@ -238,7 +238,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 {{#returnPassthrough}}
 {{#vars.1}}
 
-    public fromApiPassthrough(apiObject: {{classname}}): {{{dataTypeAlternate}}} {
+    public fromApiPassthrough(apiObject: {{className}}): {{{dataTypeAlternate}}} {
     {{#isModel}}
         if (!apiObject.{{{returnPassthrough}}}) {return {{{defaultValue}}}; }
         const normalizedApiObject = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{{returnPassthrough}}});
@@ -261,7 +261,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
     {{/isModel}}
     }
 
-    public fromApiPassthroughAsEntities(apiObject: {{classname}}): NormalizedRecordEntities {
+    public fromApiPassthroughAsEntities(apiObject: {{className}}): NormalizedRecordEntities {
     {{#isEntity}}
         if (!apiObject.{{{returnPassthrough}}}) {return {entities: {}, result: List<string>()}; }
         return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.{{{returnPassthrough}}}]), true);
@@ -287,9 +287,9 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 {{/returnPassthrough}}
 }
 
-export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils = new {{classname}}RecordUtils();
+export const {{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}RecordUtils = new {{className}}RecordUtils();
 
 {{#isEntity}}
-export const apiEntities{{classname}}Selector = (state: any) => getApiEntitiesState(state).{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} as Map<string, {{classname}}RecordEntity>;
-export const apiEntity{{classname}}Selector = (state: any, {id}: {id?: string | null}) => id ? apiEntities{{classname}}Selector(state).get(id) : undefined;
+export const apiEntities{{className}}Selector = (state: any) => getApiEntitiesState(state).{{#lambda.camelcase}}{{className}}{{/lambda.camelcase}} as Map<string, {{className}}RecordEntity>;
+export const apiEntity{{className}}Selector = (state: any, {id}: {id?: string | null}) => id ? apiEntities{{className}}Selector(state).get(id) : undefined;
 {{/isEntity}}
