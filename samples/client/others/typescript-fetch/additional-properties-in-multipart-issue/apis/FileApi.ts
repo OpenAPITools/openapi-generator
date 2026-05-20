@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  StructuredType,
-} from '../models/index';
 import {
+    type StructuredType,
     StructuredTypeFromJSON,
     StructuredTypeToJSON,
-} from '../models/index';
+} from '../models/StructuredType';
 
 export interface CreateFileRequest {
     documentBytes: Blob;
@@ -35,8 +32,9 @@ export interface CreateFileRequest {
 export class FileApi extends runtime.BaseAPI {
 
     /**
+     * Creates request options for createFile without sending the request
      */
-    async createFileRaw(requestParameters: CreateFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createFileRequestOpts(requestParameters: CreateFileRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['documentBytes'] == null) {
             throw new runtime.RequiredError(
                 'documentBytes',
@@ -97,13 +95,20 @@ export class FileApi extends runtime.BaseAPI {
 
         let urlPath = `/api/v1/file`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async createFileRaw(requestParameters: CreateFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.createFileRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
