@@ -10,10 +10,10 @@ import { Action } from "redux-ts-simple";
 
 {{#imports}}
 import {
-    {{className}},
+    {{classname}},
 } from '../models/{{classFileName}}{{importFileExtension}}';
 import {
-    {{className}}Record,
+    {{classname}}Record,
     {{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}RecordUtils,
 } from '../models/{{classFileName}}Record{{importFileExtension}}';
 {{/imports}}
@@ -37,9 +37,9 @@ import {
 {{/operations}}
 {{/hasEnums}}
 
-const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}"});
+const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}"});
 
-export const {{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}SagaMap = new Map<string, () => Generator<any, any, any>>([
+export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap = new Map<string, () => Generator<any, any, any>>([
 {{#operations}}
     {{#operation}}
         ["{{nickname}}", {{nickname}}Saga],
@@ -48,8 +48,8 @@ export const {{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}SagaMap = ne
     ]
 );
 
-export function *{{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}AllSagas() {
-    yield all([...{{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}SagaMap.values()].map(actionSaga => fork(actionSaga)));
+export function *{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}AllSagas() {
+    yield all([...{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap.values()].map(actionSaga => fork(actionSaga)));
 }
 
 {{#operations}}
@@ -107,7 +107,7 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 
         yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
 
-        const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{className}}{{/lambda.camelcase}}['{{nickname}}'],
+        const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}['{{nickname}}'],
 {{#allParams.0}}
 {{#allParams}}
 {{#isUniqueId}}

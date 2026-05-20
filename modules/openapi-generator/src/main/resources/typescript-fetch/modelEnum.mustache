@@ -1,9 +1,9 @@
 {{>modelEnumInterfaces}}
 
-export function instanceOf{{className}}(value: any): boolean {
-    for (const key in {{className}}) {
-        if (Object.prototype.hasOwnProperty.call({{className}}, key)) {
-            if ({{className}}[key as keyof typeof {{className}}] === value) {
+export function instanceOf{{classname}}(value: any): boolean {
+    for (const key in {{classname}}) {
+        if (Object.prototype.hasOwnProperty.call({{classname}}, key)) {
+            if ({{classname}}[key as keyof typeof {{classname}}] === value) {
                 return true;
             }
         }
@@ -11,18 +11,18 @@ export function instanceOf{{className}}(value: any): boolean {
     return false;
 }
 
-export function {{className}}FromJSON(json: any): {{className}} {
-    return {{className}}FromJSONTyped(json, false);
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return {{classname}}FromJSONTyped(json, false);
 }
 
-export function {{className}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{className}} {
-    return json as {{className}};
+export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
+    return json as {{classname}};
 }
 
-export function {{className}}ToJSON(value?: {{className}} | null): any {
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return value as any;
 }
 
-export function {{className}}ToJSONTyped(value: any, ignoreDiscriminator: boolean): {{className}} {
-    return value as {{className}};
+export function {{classname}}ToJSONTyped(value: any, ignoreDiscriminator: boolean): {{classname}} {
+    return value as {{classname}};
 }

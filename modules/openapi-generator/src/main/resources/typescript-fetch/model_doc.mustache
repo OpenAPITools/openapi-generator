@@ -1,5 +1,5 @@
 {{#models}}{{#model}}
-# {{className}}
+# {{classname}}
 
 {{#description}}{{&description}}
 {{/description}}
@@ -15,14 +15,14 @@ Name | Type
 ## Example
 
 ```typescript
-import type { {{className}} } from '{{npmName}}'
+import type { {{classname}} } from '{{npmName}}'
 
 // TODO: Update the object below with actual values
 const example = {
 {{#vars}}
   "{{name}}": {{{example}}},
 {{/vars}}
-} satisfies {{className}}
+} satisfies {{classname}}
 
 console.log(example)
 
@@ -31,7 +31,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as {{className}}
+const exampleParsed = JSON.parse(exampleJSON) as {{classname}}
 console.log(exampleParsed)
 ```
 {{/withoutRuntimeChecks}}
