@@ -1605,7 +1605,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     responses.forEach(resp -> {
 
                         if ("0".equals(resp.code)) {
-                            resp.code = resp.isDefault ? "default" : "200";
+                            resp.code = "200";
                         }
 
                         // This is necessary in case 'modelMutable' is enabled,

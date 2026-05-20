@@ -74,8 +74,7 @@ public class SpringHttpStatusLambdaTest extends LambdaTest {
                 {"UNSUPPORTED_MEDIA_TYPE", "415"},
                 {"UPGRADE_REQUIRED", "426"},
                 {"URI_TOO_LONG", "414"},
-                {"VARIANT_ALSO_NEGOTIATES", "506"},
-                {"OK", "default"}
+                {"VARIANT_ALSO_NEGOTIATES", "506"}
         };
     }
 

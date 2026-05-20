@@ -212,10 +212,6 @@ public class SpringHttpStatusLambda implements Mustache.Lambda {
             case "506":
                 writer.write(HTTP_STATUS_PREFIX + "VARIANT_ALSO_NEGOTIATES");
                 break;
-            case "default":
-                // OpenAPI 'default' response — no specific status code; fall back to 200 OK
-                writer.write(HTTP_STATUS_PREFIX + "OK");
-                break;
             default:
                 throw new IllegalArgumentException("The given HTTP status code: " + httpCode
                         + " is not supported by the 'org.springframework.http.HttpStatus' enum.");

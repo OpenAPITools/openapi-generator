@@ -3021,6 +3021,41 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    /**
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/17445.
+     * OpenAPI 'default' responses must emit responseCode = "default" in @ApiResponse (swagger2),
+     * not "0" (internal pre-processed value) or "200" (incorrect mapping from parent codegen).
+     * Also verifies that useResponseEntity=false does not crash when the first response is 'default'.
+     */
+    @Test
+    public void defaultResponseCodeRenderedAsDefault() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        Path userApi = root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt");
+        // operations whose only OpenAPI response is 'default:' must use responseCode = "default"
+        assertFileContains(userApi,
+                "ApiResponse(responseCode = \"default\", description = \"successful operation\")"
+        );
+        // explicit HTTP 200 responses must still use the concrete status code
+        assertFileContains(userApi,
+                "ApiResponse(responseCode = \"200\", description = \"successful operation\", content"
+        );
+        // the raw internal representation ("0") must never appear in generated output
+        assertFileNotContains(userApi,
+                "responseCode = \"0\""
+        );
+    }
+
     @Test
     public void reactiveWithoutFlow() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
