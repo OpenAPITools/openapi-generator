@@ -19,7 +19,12 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+{{^useJackson3}}
 import org.glassfish.jersey.jackson.JacksonFeature;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.jakarta.rs.json.JacksonJsonProvider;
+{{/useJackson3}}
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.MultiPart;
@@ -1436,7 +1441,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     ClientConfig clientConfig = new ClientConfig();
     clientConfig.register(MultiPartFeature.class);
     clientConfig.register(json);
+    {{^useJackson3}}
     clientConfig.register(JacksonFeature.class);
+    {{/useJackson3}}
+    {{#useJackson3}}
+    clientConfig.register(new JacksonJsonProvider((tools.jackson.databind.json.JsonMapper) json.getMapper()));
+    {{/useJackson3}}
     clientConfig.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
     // turn off compliance validation to be able to send payloads with DELETE calls
     clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
