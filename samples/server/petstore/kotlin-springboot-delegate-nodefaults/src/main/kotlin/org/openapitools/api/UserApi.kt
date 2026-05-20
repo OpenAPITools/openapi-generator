@@ -46,7 +46,7 @@ interface UserApi {
         operationId = "createUser",
         description = """This can only be done by the logged in user.""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation")
+            ApiResponse(responseCode = "default", description = "successful operation")
         ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
@@ -68,7 +68,7 @@ interface UserApi {
         operationId = "createUsersWithArrayInput",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation")
+            ApiResponse(responseCode = "default", description = "successful operation")
         ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
@@ -90,7 +90,7 @@ interface UserApi {
         operationId = "createUsersWithListInput",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation")
+            ApiResponse(responseCode = "default", description = "successful operation")
         ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
@@ -180,7 +180,7 @@ interface UserApi {
         operationId = "logoutUser",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation")
+            ApiResponse(responseCode = "default", description = "successful operation")
         ],
         security = [ SecurityRequirement(name = "api_key") ]
     )
