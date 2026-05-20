@@ -169,4 +169,18 @@ public class DartClientCodegenTest {
         TestUtils.assertFileNotContains(modelFile.toPath(),
                 "json[r'nickname'] != null");
     }
+
+    @Test(description = "Nullable nested arrays of complex types should preserve null entries")
+    public void testNullableNestedComplexArraysPreserveNullEntries() throws Exception {
+        List<File> files = generateDartNativeFromSpec(
+                "src/test/resources/3_0/dart/dart-native-deserialization-bugs.yaml");
+
+        File modelFile = files.stream()
+                .filter(f -> f.getName().equals("complex_nested_array_nullable_model.dart"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("complex_nested_array_nullable_model.dart not found in generated files"));
+
+        TestUtils.assertFileContains(modelFile.toPath(),
+                "e == null ? null : NullableRequiredModel.listFromJson(e)");
+    }
 }
