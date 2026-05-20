@@ -60,7 +60,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Setter protected String artifactVersion = "1.0.0";
     @Setter protected String groupId = "org.openapitools";
     @Setter protected String packageName = "org.openapitools";
-    @Setter protected String apiSuffix = "Api";
 
     @Setter protected String sourceFolder = "src/main/kotlin";
     @Setter protected String testFolder = "src/test/kotlin";
@@ -253,7 +252,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.clear();
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
         addOption(CodegenConstants.PACKAGE_NAME, "Generated artifact package name.", packageName);
-        addOption(CodegenConstants.API_SUFFIX, CodegenConstants.API_SUFFIX_DESC, apiSuffix);
         addOption(CodegenConstants.GROUP_ID, "Generated artifact package's organization (i.e. maven groupId).", groupId);
         addOption(CodegenConstants.ARTIFACT_ID, "Generated artifact id (name of jar).", artifactId);
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion);
@@ -458,10 +456,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.API_SUFFIX)) {
-            this.setApiSuffix((String) additionalProperties.get(CodegenConstants.API_SUFFIX));
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
             this.setArtifactId((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
         } else {
@@ -615,7 +609,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return (this.apiSuffix.isEmpty() ? camelize(name) : camelize(name) + this.apiSuffix);
+        return this.apiNamePrefix + camelize(name) + this.apiNameSuffix;
     }
 
     /**
