@@ -405,6 +405,10 @@ apply plugin: 'org.openapi.generator'
 |false
 |To write all log messages (not just errors) to STDOUT
 
+|quiet
+|Boolean / Provider<Boolean>
+|false
+|Whether generation should run in quiet mode.
 |enablePostProcessFile
 |Boolean / Provider<Boolean>
 |false

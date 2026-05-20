@@ -95,6 +95,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                         "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
                     verbose.set(generate.verbose)
+                    quiet.set(generate.quiet)
                     validateSpec.set(generate.validateSpec)
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
