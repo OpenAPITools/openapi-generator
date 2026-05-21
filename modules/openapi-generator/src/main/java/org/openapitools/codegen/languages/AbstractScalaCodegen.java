@@ -551,6 +551,21 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         return escapeReservedWord(identifier);
     }
+    protected String formatEnumIdentifier(String name) {
+        if (specialCharReplacements.containsKey(name)) {
+            name = specialCharReplacements.get(name);
+        }
+
+        String sanitized = sanitizeName(name);
+
+        // Preserve already-valid Scala identifiers
+        if (sanitized.matches("[A-Za-z_][A-Za-z0-9_]*")
+                && !isReservedWord(sanitized)) {
+            return sanitized;
+        }
+
+        return escapeReservedWord(sanitized);
+    }
 
     protected String stripPackageName(String input) {
         if (!stripPackageName || StringUtils.isEmpty(input) || input.lastIndexOf(".") < 0)

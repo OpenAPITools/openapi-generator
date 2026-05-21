@@ -628,7 +628,7 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
     private class EnumEntryLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
-            return formatIdentifier(fragment, true);
+            return formatEnumIdentifier(fragment);
         }
     }
 
