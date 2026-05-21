@@ -50,10 +50,6 @@ Configure http_auth statically:
 ApiClient.username = ""
 ApiClient.password = ""
 ```
-Configure http_auth dynamically:
-```kotlin
-AuthApi().userCredentialProvider = { "user" to "pass" }
-```
 
 ### HTTP request headers
 
@@ -100,10 +96,6 @@ This endpoint does not need any parameter.
 Configure http_bearer_auth statically:
 ```kotlin
 ApiClient.accessToken = ""
-```
-Configure http_bearer_auth dynamically:
-```kotlin
-AuthApi().accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers

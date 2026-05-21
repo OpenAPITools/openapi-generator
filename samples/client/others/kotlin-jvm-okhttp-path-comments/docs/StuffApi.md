@@ -50,7 +50,7 @@ ApiClient.accessToken = ""
 ```
 Configure bearerAuth dynamically:
 ```kotlin
-StuffApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers

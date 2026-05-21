@@ -148,8 +148,8 @@ import com.squareup.moshi.adapter
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
 
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val accessTokenProvider: () -> String? = { accessToken }
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var accessTokenProvider: () -> String? = { accessToken }
 
     /**
      * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").

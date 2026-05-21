@@ -73,20 +73,24 @@ Configure {{name}} statically:
 ApiClient.username = ""
 ApiClient.password = ""
 ```
+{{#jvm-okhttp}}
 Configure {{name}} dynamically:
 ```kotlin
-{{{classname}}}().userCredentialProvider = { "user" to "pass" }
+apiInstance.userCredentialProvider = { "user" to "pass" }
 ```
+{{/jvm-okhttp}}
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 Configure {{name}} statically:
 ```kotlin
 ApiClient.accessToken = ""
 ```
+{{#jvm-okhttp}}
 Configure {{name}} dynamically:
 ```kotlin
-{{{classname}}}().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
+{{/jvm-okhttp}}
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
@@ -94,10 +98,12 @@ Configure {{name}} statically:
 ```kotlin
 ApiClient.accessToken = ""
 ```
+{{#jvm-okhttp}}
 Configure {{name}} dynamically:
 ```kotlin
-{{{classname}}}().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
+{{/jvm-okhttp}}
 {{/isOAuth}}
 {{/authMethods}}
 

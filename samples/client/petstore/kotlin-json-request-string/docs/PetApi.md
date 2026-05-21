@@ -57,7 +57,7 @@ ApiClient.accessToken = ""
 ```
 Configure petstore_auth dynamically:
 ```kotlin
-PetApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers
@@ -110,7 +110,7 @@ ApiClient.accessToken = ""
 ```
 Configure petstore_auth dynamically:
 ```kotlin
-PetApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers
@@ -164,7 +164,7 @@ ApiClient.accessToken = ""
 ```
 Configure petstore_auth dynamically:
 ```kotlin
-PetApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers
@@ -216,7 +216,7 @@ ApiClient.accessToken = ""
 ```
 Configure petstore_auth dynamically:
 ```kotlin
-PetApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers
@@ -316,7 +316,7 @@ ApiClient.accessToken = ""
 ```
 Configure petstore_auth dynamically:
 ```kotlin
-PetApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers
@@ -371,7 +371,7 @@ ApiClient.accessToken = ""
 ```
 Configure petstore_auth dynamically:
 ```kotlin
-PetApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers
@@ -427,7 +427,7 @@ ApiClient.accessToken = ""
 ```
 Configure petstore_auth dynamically:
 ```kotlin
-PetApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers

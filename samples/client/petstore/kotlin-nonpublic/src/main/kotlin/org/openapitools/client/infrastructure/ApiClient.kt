@@ -119,8 +119,8 @@ internal open class ApiClient(val baseUrl: String, val client: Call.Factory = de
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
     }
 
-    val userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
-    val accessTokenProvider: () -> String? = { accessToken }
+    var userCredentialsProvider: () -> Pair<String?, String?> = { username to password }
+    var accessTokenProvider: () -> String? = { accessToken }
 
     /**
      * Guess Content-Type header from the given byteArray (defaults to "application/octet-stream").

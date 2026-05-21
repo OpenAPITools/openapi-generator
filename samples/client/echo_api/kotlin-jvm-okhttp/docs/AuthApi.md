@@ -52,7 +52,7 @@ ApiClient.password = ""
 ```
 Configure http_auth dynamically:
 ```kotlin
-AuthApi().userCredentialProvider = { "user" to "pass" }
+apiInstance.userCredentialProvider = { "user" to "pass" }
 ```
 
 ### HTTP request headers
@@ -103,7 +103,7 @@ ApiClient.accessToken = ""
 ```
 Configure http_bearer_auth dynamically:
 ```kotlin
-AuthApi().accessTokenProvider = { "" }
+apiInstance.accessTokenProvider = { "" }
 ```
 
 ### HTTP request headers
