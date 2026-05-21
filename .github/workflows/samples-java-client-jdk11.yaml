@@ -23,6 +23,9 @@ on:
       - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
+      - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/resttemplate-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
@@ -45,6 +48,9 @@ on:
       - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
+      - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/resttemplate-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -112,6 +118,9 @@ jobs:
           - samples/client/others/java/okhttp-gson-streaming/
           - samples/client/petstore/java/resteasy/
           - samples/client/petstore/java/apache-httpclient/
+          - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue/
+          - samples/client/others/java/resttemplate-additonal-properties-in-multipart-request-issue/
+          - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue/
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
