@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: t
+  version: 1.0.0
+paths:
+  /upload:
+    post:
+      operationId: upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadBody'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    UploadBody:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+      required:
+        - file

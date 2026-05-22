@@ -751,6 +751,21 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testIsBinarySchemaOAS30FormatBinary() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/binary-schema.yaml");
+        Schema fileProp = (Schema) ModelUtils.getSchema(openAPI, "UploadBody").getProperties().get("file");
+        assertTrue(ModelUtils.isBinarySchema(fileProp));
+    }
+
+    @Test
+    public void testIsBinarySchemaOAS31ContentMediaType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/binary-schema.yaml");
+        Map<String, Schema> props = ModelUtils.getSchema(openAPI, "UploadBody").getProperties();
+        assertTrue(ModelUtils.isBinarySchema(props.get("file")));
+        assertFalse(ModelUtils.isBinarySchema(props.get("image")));
+    }
+
+    @Test
     public void getParentNameMultipleInterfacesTest() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
         Map<String, Schema> allSchemas = openAPI.getComponents().getSchemas();

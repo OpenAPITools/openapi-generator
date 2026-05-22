@@ -743,9 +743,10 @@ public class ModelUtils {
 
     public static boolean isBinarySchema(Schema schema) {
         return (schema instanceof BinarySchema) ||
-                // format: binary
+                // format: binary, or contentMediaType: application/octet-stream (OAS 3.1)
                 (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
-                        && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat()));
+                        && (SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat())
+                                || "application/octet-stream".equals(schema.getContentMediaType())));
     }
 
     public static boolean isFileSchema(Schema schema) {
