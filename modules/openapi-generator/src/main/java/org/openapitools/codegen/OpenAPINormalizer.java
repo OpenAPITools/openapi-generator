@@ -1620,9 +1620,14 @@ public class OpenAPINormalizer {
 
             Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
 
-            // Check if this sub-schema has an enum (with one or more values)
-            if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
+            // Check if this sub-schema has an enum or const value (OpenAPI 3.1 uses const for single-value enums)
+            List<Object> subSchemaEnumValues = subSchema.getEnum();
+            if ((subSchemaEnumValues == null || subSchemaEnumValues.isEmpty()) && subSchema.getConst() == null) {
                 return schema;
+            }
+            // If const is present but enum is not, treat const as a single enum value
+            if ((subSchemaEnumValues == null || subSchemaEnumValues.isEmpty()) && subSchema.getConst() != null) {
+                subSchemaEnumValues = Arrays.asList(subSchema.getConst());
             }
 
             // Ensure all sub-schemas have the same type (if type is specified)
@@ -1639,7 +1644,7 @@ public class OpenAPINormalizer {
                 }
             }
             // Add all enum values from this sub-schema to our collection
-            if(subSchema.getEnum().size() == 1) {
+            if(subSchemaEnumValues.size() == 1) {
                 String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
                 if(subSchema.getDescription() != null) {
                     if(!description.isEmpty()) {
@@ -1647,9 +1652,9 @@ public class OpenAPINormalizer {
                     }
                     description += subSchema.getDescription();
                 }
-                enumValues.put(subSchema.getEnum().get(0), description);
+                enumValues.put(subSchemaEnumValues.get(0), description);
             } else {
-                for(Object e: subSchema.getEnum()) {
+                for(Object e: subSchemaEnumValues) {
                     enumValues.put(e, "");
                 }
             }
