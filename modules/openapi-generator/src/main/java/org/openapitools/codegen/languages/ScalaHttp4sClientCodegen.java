@@ -624,11 +624,24 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
         }
     }
 
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        String sanitized = sanitizeName(value);
+
+        // Preserve SCREAMING_SNAKE_CASE values
+        if (sanitized.matches("^[A-Z][A-Z0-9_]*$")
+                && !isReservedWord(sanitized)) {
+            return sanitized;
+        }
+
+        return super.formatIdentifier(sanitized, true);
+
+    }
 
     private class EnumEntryLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
-            return formatEnumIdentifier(fragment);
+            return toEnumVarName(fragment, "string");
         }
     }
 

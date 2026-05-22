@@ -145,6 +145,42 @@ public class ScalaHttp4sClientCodegenTest {
     }
 
     @Test
+    public void preserveScreamingSnakeCaseEnumNames() {
+        ScalaHttp4sClientCodegen codegen = new ScalaHttp4sClientCodegen();
+
+        assertEquals(
+                codegen.toEnumVarName("ACTIVE_STATUS", "string"),
+                "ACTIVE_STATUS"
+        );
+
+        assertEquals(
+                codegen.toEnumVarName("INACTIVE_STATUS", "string"),
+                "INACTIVE_STATUS"
+        );
+
+        assertEquals(
+                codegen.toEnumVarName("USER_123_STATUS", "string"),
+                "USER_123_STATUS"
+        );
+    }
+
+    @Test
+    public void formatRegularEnumNames() {
+        ScalaHttp4sClientCodegen codegen = new ScalaHttp4sClientCodegen();
+
+        assertEquals(
+                codegen.toEnumVarName("available", "string"),
+                "Available"
+        );
+
+        assertEquals(
+                codegen.toEnumVarName("pending_status", "string"),
+                "PendingStatus"
+        );
+
+    }
+
+    @Test
     public void encodePath() {
         ScalaHttp4sClientCodegen codegen = new ScalaHttp4sClientCodegen();
         assertEquals(codegen.encodePath("{user_name}"), "${userName}");
