@@ -597,6 +597,38 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testNormalize31BinaryContentMediaType() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/binary-schema.yaml");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        openAPINormalizer.normalize();
+
+        Map<String, Schema> properties = ModelUtils.getSchema(openAPI, "UploadBody").getProperties();
+
+        Schema file = properties.get("file");
+        assertEquals(file.getType(), "string");
+        assertEquals(file.getFormat(), "binary");
+
+        Schema nullableFile = properties.get("nullableFile");
+        assertEquals(nullableFile.getType(), "string");
+        assertEquals(nullableFile.getFormat(), "binary");
+        assertTrue(nullableFile.getNullable());
+
+        Schema inferredFile = properties.get("inferredFile");
+        assertEquals(ModelUtils.getType(inferredFile), "string");
+        assertEquals(inferredFile.getType(), "string");
+        assertEquals(inferredFile.getFormat(), "binary");
+
+        Schema encodedFile = properties.get("encodedFile");
+        assertEquals(encodedFile.getType(), "string");
+        assertNull(encodedFile.getFormat());
+
+        Schema image = properties.get("image");
+        assertEquals(image.getType(), "string");
+        assertNull(image.getFormat());
+    }
+
+    @Test
     public void testNormalize31Parameters() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/common-parameters.yaml");
 

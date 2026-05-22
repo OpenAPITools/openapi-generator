@@ -52,6 +52,7 @@ public class OpenAPINormalizer {
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
+    protected static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
 
     Set<String> ruleNames = new TreeSet<>();
     Set<String> rulesDefaultToTrue = new TreeSet<>();
@@ -918,6 +919,10 @@ public class OpenAPINormalizer {
         if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
+
+        // Normalize contentMediaType-only schemas before type-less JsonSchema instances
+        // are treated as empty/null schemas.
+        normalizeBinaryContentSchema31(schema);
 
         if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
             return schema;
@@ -2308,6 +2313,68 @@ public class OpenAPINormalizer {
         }
 
         return schema;
+    }
+
+    /**
+     * Normalizes OAS 3.1 binary content media schemas to the OAS 3.0 binary schema shape.
+     *
+     * @param schema Schema to normalize
+     */
+    protected void normalizeBinaryContentSchema31(Schema<?> schema) {
+        if (!getRule(NORMALIZE_31SPEC)) {
+            return;
+        }
+        if (schema == null || schema.get$ref() != null) {
+            return;
+        }
+        if (StringUtils.isNotBlank(schema.getFormat()) || StringUtils.isNotBlank(schema.getContentEncoding())) {
+            return;
+        }
+        if (!isContentMediaType(schema.getContentMediaType(), APPLICATION_OCTET_STREAM)) {
+            return;
+        }
+        if (!isStringTypeOrTypeAbsent(schema)) {
+            return;
+        }
+
+        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            schema.setType("string");
+        } else {
+            ModelUtils.setType(schema, "string");
+        }
+        schema.setFormat("binary");
+    }
+
+    /**
+     * Checks whether the schema has no type or only string/null types.
+     *
+     * @param schema Schema to check
+     * @return true if the schema can be treated as a string schema
+     */
+    protected boolean isStringTypeOrTypeAbsent(Schema<?> schema) {
+        boolean hasType = StringUtils.isNotBlank(schema.getType());
+        boolean hasTypes = schema.getTypes() != null && !schema.getTypes().isEmpty();
+        if (!hasType && !hasTypes) {
+            return true;
+        }
+        if (hasType) {
+            return "string".equals(schema.getType());
+        }
+        return schema.getTypes().stream()
+                .map(String::valueOf)
+                .allMatch(type -> "string".equals(type) || "null".equals(type));
+    }
+
+    /**
+     * Compares media types without parameters and case sensitivity.
+     *
+     * @param actualContentMediaType   Actual media type
+     * @param expectedContentMediaType Expected media type
+     * @return true if the media types match
+     */
+    protected boolean isContentMediaType(String actualContentMediaType, String expectedContentMediaType) {
+        String normalizedContentMediaType = StringUtils.substringBefore(actualContentMediaType, ";");
+        return StringUtils.equalsIgnoreCase(StringUtils.trim(normalizedContentMediaType), expectedContentMediaType);
     }
 
     private void normalizeExclusiveMinMax31(Schema<?> schema) {
