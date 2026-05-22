@@ -42,12 +42,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
             {{#dataType}}
             var response = await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
             var model = response.{{vendorExtensions.x-http-status}}();
-            {{#isModel}}
-            Assert.IsType<{{packageName}}.{{modelPackage}}.{{{.}}}>(model);
-            {{/isModel}}
-            {{^isModel}}
-            Assert.IsType<{{{.}}}>(model);
-            {{/isModel}}
+            Assert.IsType<{{#isModel}}{{packageName}}.{{modelPackage}}.{{/isModel}}{{{.}}}>(model);
             {{/dataType}}
             {{^dataType}}
             await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
