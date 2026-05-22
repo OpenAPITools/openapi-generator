@@ -19,19 +19,23 @@ package org.openapitools.codegen.php;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import org.junit.jupiter.api.Assertions;
 import org.mockito.Answers;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
+import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_VARNAMES;
 
 public class AbstractPhpCodegenTest {
 
@@ -180,5 +184,44 @@ public class AbstractPhpCodegenTest {
         Assert.assertEquals(codegen.toEnumValue("\"", "string"), "'\"'");
         Assert.assertEquals(codegen.toEnumValue("1.0", "float"), "1.0");
         Assert.assertEquals(codegen.toEnumValue("1", "int"), "1");
+    }
+
+    @Test
+    void postProcessModelsEnumWithMapExtension() {
+        ModelsMap objs = codegenModelWithXEnumVarNameAsMap();
+        CodegenModel cm = objs.getModels().get(0).getModel();
+
+        codegen.postProcessModelsEnum(objs);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assertions.assertNotNull(enumVars);
+        Assertions.assertNotNull(enumVars.get(0));
+        assertEquals("DOGVAR", enumVars.get(0).getOrDefault("name", ""));
+        assertEquals("'dog'", enumVars.get(0).getOrDefault("value", ""));
+        assertEquals("This is a dog", enumVars.get(0).getOrDefault("enumDescription", ""));
+        Assertions.assertNotNull(enumVars.get(1));
+        assertEquals("CATVAR", enumVars.get(1).getOrDefault("name", ""));
+        assertEquals("'cat'", enumVars.get(1).getOrDefault("value", ""));
+    }
+
+    private ModelsMap codegenModelWithXEnumVarNameAsMap() {
+        final CodegenModel cm = new CodegenModel();
+        cm.isEnum = true;
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", Arrays.asList("dog", "cat"));
+        cm.setAllowableValues(allowableValues);
+        cm.dataType = "String";
+        Map<String, String> aliases = new LinkedHashMap<>();
+        aliases.put("dog", "_DOGVAR");
+        aliases.put("cat", "_CATVAR");
+        Map<String, String> descriptions = new LinkedHashMap<>();
+        descriptions.put("dog", "This is a dog");
+        descriptions.put("cat", "This is a cat");
+        Map<String, Object> extensions = new HashMap<>();
+        extensions.put(X_ENUM_VARNAMES, aliases);
+        extensions.put(X_ENUM_DESCRIPTIONS, descriptions);
+        cm.setVendorExtensions(extensions);
+        cm.setVars(Collections.emptyList());
+        return TestUtils.createCodegenModelWrapper(cm);
     }
 }

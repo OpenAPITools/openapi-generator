@@ -42,6 +42,8 @@ export type OptionOneDiscriminatorFieldEnum = typeof OptionOneDiscriminatorField
  */
 export function instanceOfOptionOne(value: object): value is OptionOne {
     if (!('discriminatorField' in value) || value['discriminatorField'] === undefined) return false;
+    if (value['discriminatorField'] !== 'optionOne') return false;
+    
     return true;
 }
 

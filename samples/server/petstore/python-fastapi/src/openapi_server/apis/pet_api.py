@@ -28,6 +28,7 @@ from typing import Any, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
+from fastapi import File, UploadFile
 from openapi_server.security_api import get_token_petstore_auth, get_token_api_key
 
 router = APIRouter()
@@ -207,7 +208,7 @@ async def delete_pet(
 async def upload_file(
     petId: Annotated[StrictInt, Field(description="ID of pet to update")] = Path(..., description="ID of pet to update"),
     additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = Form(None, description="Additional data to pass to server"),
-    file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = Form(None, description="file to upload"),
+    file: Optional[UploadFile] = File(None, description="file to upload"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),

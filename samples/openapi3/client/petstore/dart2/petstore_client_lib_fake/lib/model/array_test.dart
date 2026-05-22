@@ -68,12 +68,12 @@ class ArrayTest {
             : const [],
         arrayArrayOfInteger: json[r'array_array_of_integer'] is List
           ? (json[r'array_array_of_integer'] as List).map((e) =>
-              e == null ? const  <int>[] : (e as List).cast<int>()
+              e == null ? const <int>[] : (e as List).map((value) => value as int).toList(growable: false)
             ).toList()
           :  const [],
         arrayArrayOfModel: json[r'array_array_of_model'] is List
           ? (json[r'array_array_of_model'] as List).map((e) =>
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
+              e == null ? const <ReadOnlyFirst>[] : ReadOnlyFirst.listFromJson(e)
             ).toList()
           :  const [],
       );

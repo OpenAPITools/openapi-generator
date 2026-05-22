@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -31,9 +33,11 @@ data class Apa(
     @get:JsonProperty("cepa", required = true) val cepa: java.math.BigDecimal = java.math.BigDecimal("6.28318"),
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("depa") val depa: java.math.BigDecimal? = java.math.BigDecimal("71"),
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("epa") val epa: java.math.BigDecimal? = java.math.BigDecimal("-71"),
 
     @Schema(example = "null", description = "")
