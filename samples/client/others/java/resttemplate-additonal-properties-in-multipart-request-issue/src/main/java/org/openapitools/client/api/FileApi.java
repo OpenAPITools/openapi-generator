@@ -13,8 +13,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -27,7 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FileApi extends BaseApi {
 
     public FileApi() {
@@ -48,7 +46,7 @@ public class FileApi extends BaseApi {
      * @param structured  (optional)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createFile(File documentBytes, String documentType, Map<String, String> properties, StructuredType structured) throws RestClientException {
+    public void createFile(@javax.annotation.Nonnull File documentBytes, @javax.annotation.Nonnull String documentType, @javax.annotation.Nonnull Map<String, String> properties, @javax.annotation.Nullable StructuredType structured) throws RestClientException {
         createFileWithHttpInfo(documentBytes, documentType, properties, structured);
     }
 
@@ -63,8 +61,7 @@ public class FileApi extends BaseApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createFileWithHttpInfo(File documentBytes, String documentType, Map<String, String> properties, StructuredType structured) throws RestClientException {
-        Object localVarPostBody = null;
+    public ResponseEntity<Void> createFileWithHttpInfo(@javax.annotation.Nonnull File documentBytes, @javax.annotation.Nonnull String documentType, @javax.annotation.Nonnull Map<String, String> properties, @javax.annotation.Nullable StructuredType structured) throws RestClientException {
         
         // verify the required parameter 'documentBytes' is set
         if (documentBytes == null) {
@@ -82,19 +79,17 @@ public class FileApi extends BaseApi {
         }
         
 
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
-        if (documentBytes != null)
-            localVarFormParams.add("documentBytes", new FileSystemResource(documentBytes));
-        if (documentType != null)
-            localVarFormParams.add("documentType", documentType);
-        if (structured != null)
+        localVarFormParams.add("documentBytes", new FileSystemResource(documentBytes));
+        localVarFormParams.add("documentType", documentType);
+        if (structured != null) {
             localVarFormParams.add("structured", structured);
-        if (properties != null)
-            localVarFormParams.add("properties", properties);
+        }
+        localVarFormParams.add("properties", properties);
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -106,19 +101,18 @@ public class FileApi extends BaseApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/api/v1/file", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/api/v1/file", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, null, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
     @Override
     public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
         String localVarPath = url.replace(apiClient.getBasePath(), "");
-        Object localVarPostBody = request;
 
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final Map<String, Object> uriVariables = new HashMap<>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -129,6 +123,6 @@ public class FileApi extends BaseApi {
 
         String[] localVarAuthNames = new String[] {  };
 
-        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, request, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

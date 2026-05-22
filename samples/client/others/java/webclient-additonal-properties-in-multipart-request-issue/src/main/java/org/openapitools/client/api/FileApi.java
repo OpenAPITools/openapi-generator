@@ -27,7 +27,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FileApi {
     private ApiClient apiClient;
 
@@ -58,7 +58,6 @@ public class FileApi {
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
     private ResponseSpec createFileRequestCreation(@javax.annotation.Nonnull File documentBytes, @javax.annotation.Nonnull String documentType, @javax.annotation.Nonnull Map<String, String> properties, @javax.annotation.Nullable StructuredType structured) throws WebClientResponseException {
-        Object postBody = null;
         // verify the required parameter 'documentBytes' is set
         if (documentBytes == null) {
             throw new WebClientResponseException("Missing the required parameter 'documentBytes' when calling createFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
@@ -72,21 +71,19 @@ public class FileApi {
             throw new WebClientResponseException("Missing the required parameter 'properties' when calling createFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (documentBytes != null)
-            formParams.add("documentBytes", new FileSystemResource(documentBytes));
-        if (documentType != null)
-            formParams.add("documentType", documentType);
-        if (structured != null)
+        formParams.add("documentBytes", new FileSystemResource(documentBytes));
+        formParams.add("documentType", documentType);
+        if (structured != null) {
             formParams.add("structured", structured);
-        if (properties != null)
-            formParams.add("properties", properties);
+        }
+        formParams.add("properties", properties);
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -98,7 +95,7 @@ public class FileApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/api/v1/file", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/api/v1/file", HttpMethod.POST, pathParams, localVarQueryParams, null, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

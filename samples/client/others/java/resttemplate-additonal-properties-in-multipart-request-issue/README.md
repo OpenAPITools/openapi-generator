@@ -4,7 +4,7 @@ Minimal
 
 - API version: 0.5.1-SNAPSHOT.0
 
-- Generator version: 7.19.0-SNAPSHOT
+- Generator version: 7.23.0-SNAPSHOT
 
 Api to reproduce bug
 
