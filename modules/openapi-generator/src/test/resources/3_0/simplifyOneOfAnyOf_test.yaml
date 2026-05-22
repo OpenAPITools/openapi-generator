@@ -45,6 +45,13 @@ components:
       oneOf:
         - type: string
         - type: 'null'
+    AllOfTest:
+      description: to test allOf
+      allOf:
+        - type: string
+        - type: 'null'
+        - type: null
+        - $ref: null
     OneOfNullableTest:
       description: to test oneOf nullable
       oneOf:
@@ -54,6 +61,13 @@ components:
     SingleAnyOfTest:
       description: to test anyOf (enum string only)
       anyOf:
+        - type: string
+          enum:
+            - A
+            - B
+    SingleAllOfTest:
+      description: to test allOf (enum string only)
+      allOf:
         - type: string
           enum:
             - A

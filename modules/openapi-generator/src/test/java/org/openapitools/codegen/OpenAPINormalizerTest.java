@@ -262,7 +262,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOf() {
-        // to test the rule SIMPLIFY_ONEOF_ANYOF
+        // to test the rule SIMPLIFY_ONEOF_ANYOF_ALLOF
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
@@ -303,7 +303,7 @@ public class OpenAPINormalizerTest {
         assertEquals(schema19.getAnyOf().size(), 1);
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put("SIMPLIFY_ONEOF_ANYOF_ALLOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -354,6 +354,33 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyAllOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AllOfTest");
+        assertEquals(schema.getAllOf().size(), 4);
+        assertNull(schema.getNullable());
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("SingleAllOfTest");
+        assertEquals(schema3.getAllOf().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ONEOF_ANYOF_ALLOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("AllOfTest");
+        assertNull(schema2.getAllOf());
+        assertTrue(schema2 instanceof StringSchema);
+        assertTrue(schema2.getNullable());
+
+        Schema schema4 = openAPI.getComponents().getSchemas().get("SingleAllOfTest");
+        assertEquals(schema4.getAllOf(), null);
+        assertEquals(schema4.getType(), "string");
+        assertEquals(schema4.getEnum().size(), 2);
+    }
+
+    @Test
     public void testOpenAPINormalizerSimplifyOneOfWithSingleRef() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
 
@@ -361,7 +388,7 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).getOneOf().size(), 1);
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put("SIMPLIFY_ONEOF_ANYOF_ALLOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -494,7 +521,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerConvertEnumNullToNullable() {
-        // to test the rule SIMPLIFY_ONEOF_ANYOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
+        // to test the rule SIMPLIFY_ONEOF_ANYOF_ALLOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
@@ -502,7 +529,7 @@ public class OpenAPINormalizerTest {
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put("SIMPLIFY_ONEOF_ANYOF_ALLOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -513,7 +540,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerDefaultRules() {
-        // to test the rule SIMPLIFY_ONEOF_ANYOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
+        // to test the rule SIMPLIFY_ONEOF_ANYOF_ALLOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
@@ -521,8 +548,8 @@ public class OpenAPINormalizerTest {
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
-        // SIMPLIFY_ONEOF_ANYOF is switched on by default as part of v7.0.0 release
-        //options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        // SIMPLIFY_ONEOF_ANYOF_ALLOF is switched on by default as part of v7.0.0 release
+        //options.put("SIMPLIFY_ONEOF_ANYOF_ALLOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -533,7 +560,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerDisableAll() {
-        // to test the rule SIMPLIFY_ONEOF_ANYOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
+        // to test the rule SIMPLIFY_ONEOF_ANYOF_ALLOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
         // before test
@@ -1321,7 +1348,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOf31SpecForIssue18184() {
-        // to test the rule SIMPLIFY_ONEOF_ANYOF in 3.1 spec
+        // to test the rule SIMPLIFY_ONEOF_ANYOF_ALLOF in 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18184.yaml");
         // test spec contains anyOf with a ref to enum and another scheme type is null
 
@@ -1449,7 +1476,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOf31Spec() {
-        // to test the rule SIMPLIFY_ONEOF_ANYOF with 3.1 spec
+        // to test the rule SIMPLIFY_ONEOF_ANYOF_ALLOF with 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyOneOfAnyOf_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
@@ -1498,7 +1525,7 @@ public class OpenAPINormalizerTest {
 
         // start the normalization
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put("SIMPLIFY_ONEOF_ANYOF_ALLOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -1573,7 +1600,7 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).getOneOf().size(), 1);
 
         Map<String, String> options = new HashMap<>();
-        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        options.put("SIMPLIFY_ONEOF_ANYOF_ALLOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
