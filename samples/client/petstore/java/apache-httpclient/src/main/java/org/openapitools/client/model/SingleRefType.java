@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets SingleRefType
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum SingleRefType {
   
   ADMIN("admin"),
