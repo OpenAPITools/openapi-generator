@@ -48,6 +48,7 @@ public class EnumArrays {
    */
   @XmlType(name="JustSymbolEnum")
   @XmlEnum(String.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum JustSymbolEnum {
     @XmlEnumValue(">=")
     GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")),
@@ -92,6 +93,7 @@ public class EnumArrays {
    */
   @XmlType(name="ArrayEnumEnum")
   @XmlEnum(String.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum ArrayEnumEnum {
     @XmlEnumValue("fish")
     FISH(String.valueOf("fish")),
