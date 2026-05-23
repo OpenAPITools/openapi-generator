@@ -54,6 +54,7 @@ public class MapTest {
    */
   @XmlType(name="InnerEnum")
   @XmlEnum(String.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum InnerEnum {
     @XmlEnumValue("UPPER")
     UPPER(String.valueOf("UPPER")),

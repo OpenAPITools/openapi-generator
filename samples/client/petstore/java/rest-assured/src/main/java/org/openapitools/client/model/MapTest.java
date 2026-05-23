@@ -41,6 +41,7 @@ public class MapTest {
    * Gets or Sets inner
    */
   @JsonAdapter(InnerEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum InnerEnum {
     UPPER(String.valueOf("UPPER")),
     
