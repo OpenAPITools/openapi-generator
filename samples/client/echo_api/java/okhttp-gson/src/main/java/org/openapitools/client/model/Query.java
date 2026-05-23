@@ -61,6 +61,7 @@ public class Query {
    * Gets or Sets outcomes
    */
   @JsonAdapter(OutcomesEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum OutcomesEnum {
     SUCCESS("SUCCESS"),
     

@@ -27,6 +27,7 @@ import com.google.gson.stream.JsonWriter;
  * Gets or Sets CodesEnum
  */
 @JsonAdapter(CodesEnum.Adapter.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum CodesEnum {
   
   CODE_1("Code 1"),

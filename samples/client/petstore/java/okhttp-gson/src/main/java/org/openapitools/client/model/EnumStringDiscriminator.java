@@ -54,6 +54,7 @@ public class EnumStringDiscriminator {
    * enum string type
    */
   @JsonAdapter(EnumStrTypeEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStrTypeEnum {
     A("type_a"),
     

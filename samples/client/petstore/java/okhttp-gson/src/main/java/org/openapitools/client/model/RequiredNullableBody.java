@@ -127,6 +127,7 @@ public class RequiredNullableBody {
    * Gets or Sets customEnum
    */
   @JsonAdapter(CustomEnumEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum CustomEnumEnum {
     CUSTOM("custom");
 

@@ -28,6 +28,7 @@ import com.google.gson.stream.JsonWriter;
  */
 @Deprecated
 @JsonAdapter(OuterEnumInteger.Adapter.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum OuterEnumInteger {
   
   NUMBER_0(0),

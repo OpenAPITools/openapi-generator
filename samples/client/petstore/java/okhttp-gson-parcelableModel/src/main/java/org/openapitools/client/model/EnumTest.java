@@ -57,6 +57,7 @@ public class EnumTest implements Parcelable {
    * Gets or Sets enumString
    */
   @JsonAdapter(EnumStringEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringEnum {
     UPPER("UPPER"),
     
@@ -116,6 +117,7 @@ public class EnumTest implements Parcelable {
    * Gets or Sets enumStringRequired
    */
   @JsonAdapter(EnumStringRequiredEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringRequiredEnum {
     UPPER("UPPER"),
     
@@ -175,6 +177,7 @@ public class EnumTest implements Parcelable {
    * Gets or Sets enumInteger
    */
   @JsonAdapter(EnumIntegerEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
@@ -232,6 +235,7 @@ public class EnumTest implements Parcelable {
    * Gets or Sets enumNumber
    */
   @JsonAdapter(EnumNumberEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumNumberEnum {
     NUMBER_1_DOT_1(1.1),
     
