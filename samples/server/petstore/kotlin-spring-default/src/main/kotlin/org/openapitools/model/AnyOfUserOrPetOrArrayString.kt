@@ -3,7 +3,9 @@ package org.openapitools.model
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Category
 import org.openapitools.model.Pet
 import org.openapitools.model.Tag
@@ -47,36 +49,46 @@ data class AnyOfUserOrPetOrArrayString(
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("email") val email: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("password") val password: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("phone") val phone: kotlin.String? = null,
 
     @Schema(example = "null", description = "User Status")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("category") val category: Category? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("status") val status: AnyOfUserOrPetOrArrayString.Status? = null
 ) {
 

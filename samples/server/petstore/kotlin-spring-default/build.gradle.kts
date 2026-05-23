@@ -43,6 +43,7 @@ dependencies {
     implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("javax.validation:validation-api")
+
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {

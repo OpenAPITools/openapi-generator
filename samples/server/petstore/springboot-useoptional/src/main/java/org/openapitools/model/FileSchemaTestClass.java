@@ -28,7 +28,6 @@ public class FileSchemaTestClass {
 
   private Optional<File> file = Optional.empty();
 
-  @Valid
   private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {

@@ -209,7 +209,7 @@ public class FormatTest {
    * Get string
    * @return string
    */
-  @Pattern(regexp = "/[a-z]/i") 
+  @Pattern(regexp = "[a-zA-Z]") 
   @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
   public @Nullable String getString() {

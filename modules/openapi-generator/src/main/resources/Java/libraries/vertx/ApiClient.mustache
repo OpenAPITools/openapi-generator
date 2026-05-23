@@ -34,6 +34,9 @@ import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
+{{#useVertx5}}
+import io.vertx.core.http.PoolOptions;
+{{/useVertx5}}
 
 {{#jsr310}}
 import java.time.OffsetDateTime;
@@ -56,6 +59,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     protected final Vertx vertx;
     protected final JsonObject config;
     protected final String identifier;
+{{#useVertx5}}
+    protected final JsonObject poolConfig;
+{{/useVertx5}}
 
     protected MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
     protected MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
@@ -66,9 +72,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     protected String downloadsDir = "";
     protected int timeout = -1;
 
+{{#useVertx5}}
     public ApiClient(Vertx vertx, JsonObject config) {
+        this(vertx, config, new JsonObject());
+    }
+
+{{/useVertx5}}
+    public ApiClient(Vertx vertx, JsonObject config{{#useVertx5}}, JsonObject poolConfig{{/useVertx5}}) {
         Objects.requireNonNull(vertx, "Vertx must not be null");
         Objects.requireNonNull(config, "Config must not be null");
+        {{#useVertx5}}
+        Objects.requireNonNull(poolConfig, "PoolConfig must not be null");
+        {{/useVertx5}}
 
         this.vertx = vertx;
 
@@ -109,6 +124,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this.config = config;
         this.identifier = UUID.randomUUID().toString();
         this.timeout = config.getInteger("timeout", -1);
+        {{#useVertx5}}
+        this.poolConfig = poolConfig;
+        {{/useVertx5}}
     }
 
     public Vertx getVertx() {
@@ -128,7 +146,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         String webClientIdentifier = "web-client-" + identifier;
         WebClient webClient = this.vertx.getOrCreateContext().get(webClientIdentifier);
         if (webClient == null) {
-            webClient = buildWebClient(vertx, config);
+            webClient = buildWebClient(vertx, config{{#useVertx5}}, poolConfig{{/useVertx5}});
             this.vertx.getOrCreateContext().put(webClientIdentifier, webClient);
         }
         return webClient;
@@ -707,13 +725,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param vertx Vertx
      * @return WebClient
      */
-    protected WebClient buildWebClient(Vertx vertx, JsonObject config) {
+    protected WebClient buildWebClient(Vertx vertx, JsonObject config{{#useVertx5}}, JsonObject poolConfig{{/useVertx5}}) {
 
         if (!config.containsKey("userAgent")) {
             config.put("userAgent", "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
         }
 
-        return WebClient.create(vertx, new WebClientOptions(config));
+        return WebClient.create(vertx, new WebClientOptions(config){{#useVertx5}}, new PoolOptions(poolConfig){{/useVertx5}});
     }
 
 

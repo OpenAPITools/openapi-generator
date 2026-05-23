@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -36,7 +38,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
    */
-  
+  @Valid 
   @JsonProperty("my_number")
   public @Nullable BigDecimal getMyNumber() {
     return myNumber;

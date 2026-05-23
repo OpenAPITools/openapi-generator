@@ -11,7 +11,9 @@ import java.util.List;
 import org.openapitools.model.ReadOnlyFirstDto;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -25,14 +27,11 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ArrayTestDto {
 
-  
   private List<String> arrayOfString = new ArrayList<>();
 
-  
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
-  
-  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -79,7 +78,7 @@ public class ArrayTestDto {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
    */
-  
+  @Valid 
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -90,12 +89,12 @@ public class ArrayTestDto {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTestDto arrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
+  public ArrayTestDto arrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTestDto addArrayArrayOfModelItem(List<ReadOnlyFirstDto> arrayArrayOfModelItem) {
+  public ArrayTestDto addArrayArrayOfModelItem(List<@Valid ReadOnlyFirstDto> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -107,14 +106,14 @@ public class ArrayTestDto {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
    */
-  
+  @Valid 
   @JsonProperty("array_array_of_model")
-  public List<List<ReadOnlyFirstDto>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
   @JsonProperty("array_array_of_model")
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

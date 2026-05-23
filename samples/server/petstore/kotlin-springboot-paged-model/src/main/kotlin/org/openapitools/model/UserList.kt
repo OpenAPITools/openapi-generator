@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.User
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -21,8 +23,10 @@ import jakarta.validation.Valid
 data class UserList(
 
     @field:Valid
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("content") val content: kotlin.collections.List<User>? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("description") val description: kotlin.String? = null
 ) : java.io.Serializable {
 

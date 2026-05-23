@@ -108,10 +108,10 @@ import kotlinx.serialization.encoding.Encoder
          */
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun encode(data: kotlin.Any?): kotlin.String? = if (data is {{classname}}) "$data" else null
 
+{{^jackson}}
         /**
          * Returns a valid [{{classname}}] for [data], null otherwise.
          */
-{{^jackson}}
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
           val normalizedData = "$it".lowercase()
           entries.firstOrNull { value ->
@@ -120,6 +120,12 @@ import kotlinx.serialization.encoding.Encoder
         }
 {{/jackson}}
 {{#jackson}}
+        /**
+         * Returns a valid [{{classname}}] for [data].{{^isNullable}}{{^enumUnknownDefaultCase}}
+         *
+         * Throws [IllegalArgumentException] when [data] is null or does not match a known value.
+         * For lenient lookup that returns null on unknown values, see [decodeOrNull].{{/enumUnknownDefaultCase}}{{/isNullable}}
+         */
         @JvmStatic
         @JsonCreator
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}{{#isNullable}}?{{/isNullable}} {
@@ -137,6 +143,20 @@ import kotlinx.serialization.encoding.Encoder
           }{{#isNullable}}{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}
             ?: {{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}
             ?: throw IllegalArgumentException("Unknown {{classname}} value: $data"){{/enumUnknownDefaultCase}}{{/isNullable}}
+        }
+
+        /**
+         * Returns a valid [{{classname}}] for [data], or null when [data] is null or does not match a known value.
+         *
+         * Lenient counterpart to [decode], intended for direct calls from Kotlin code.
+         * Jackson deserialization uses [decode], which is strict.
+         */
+        @JvmStatic
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decodeOrNull(data: kotlin.Any?): {{classname}}? = data?.let {
+          val normalizedData = "$it".lowercase()
+          entries.firstOrNull { value ->
+            it == value || normalizedData == "$value".lowercase()
+          }
         }
 {{/jackson}}
     }
