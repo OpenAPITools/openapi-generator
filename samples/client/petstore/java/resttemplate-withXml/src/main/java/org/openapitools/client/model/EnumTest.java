@@ -60,6 +60,7 @@ public class EnumTest {
    */
   @XmlType(name="EnumStringEnum")
   @XmlEnum(String.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringEnum {
     @XmlEnumValue("UPPER")
     UPPER(String.valueOf("UPPER")),
@@ -107,6 +108,7 @@ public class EnumTest {
    */
   @XmlType(name="EnumStringRequiredEnum")
   @XmlEnum(String.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringRequiredEnum {
     @XmlEnumValue("UPPER")
     UPPER(String.valueOf("UPPER")),
@@ -154,6 +156,7 @@ public class EnumTest {
    */
   @XmlType(name="EnumIntegerEnum")
   @XmlEnum(Integer.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumIntegerEnum {
     @XmlEnumValue("1")
     NUMBER_1(Integer.valueOf(1)),
@@ -198,6 +201,7 @@ public class EnumTest {
    */
   @XmlType(name="EnumNumberEnum")
   @XmlEnum(Double.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumNumberEnum {
     @XmlEnumValue("1.1")
     NUMBER_1_DOT_1(Double.valueOf(1.1)),
