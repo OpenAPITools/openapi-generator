@@ -106,6 +106,21 @@ public class PythonFastAPIServerCodegenTest {
         Assert.assertEquals(codegen.exposeToPythonExample(cp), "\"doggie\"");
     }
 
+    @Test(description = "schema with additionalProperties:true inherits BaseModel, not object (issue #20153)")
+    public void testAdditionalPropertiesTrueUsesBaseModel() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_20153.yaml");
+        final Path model = Paths.get(outputPath + "src/openapi_server/models/http_request.py");
+
+        assertFileExists(model);
+        // Must use BaseModel as the base class, not Python's built-in object type
+        assertFileContains(model, "class HttpRequest(BaseModel):");
+        // Must carry the additional_properties field for the additionalProperties:true schema
+        assertFileContains(model, "additional_properties: Dict[str, Any] = {}");
+        // Must NOT generate a bad import that tries to import object as a module
+        assertFileNotContains(model, "from openapi_server.models.object import object");
+    }
+
     @Test(description = "binary multipart form fields are typed as FastAPI UploadFile")
     public void testBinaryMultipartFieldUsesUploadFile() throws IOException {
         final DefaultCodegen codegen = new PythonFastAPIServerCodegen();

@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.Setter;
 import org.apache.commons.lang3.Strings;
@@ -25,7 +24,6 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -455,15 +453,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public String generatorLanguageVersion() {
         return "3.10+";
-    }
-
-    @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
-
-        if (additionalProperties != null) {
-            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
-        }
     }
 
     @Override
