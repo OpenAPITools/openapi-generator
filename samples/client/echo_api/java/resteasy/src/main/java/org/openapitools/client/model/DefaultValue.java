@@ -53,6 +53,7 @@ public class DefaultValue {
   /**
    * Gets or Sets arrayStringEnumDefault
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum ArrayStringEnumDefaultEnum {
     SUCCESS(String.valueOf("success")),
     
