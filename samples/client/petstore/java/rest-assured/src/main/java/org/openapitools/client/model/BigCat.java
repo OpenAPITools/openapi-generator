@@ -35,6 +35,7 @@ public class BigCat extends Cat {
    * Gets or Sets kind
    */
   @JsonAdapter(KindEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum KindEnum {
     LIONS(String.valueOf("lions")),
     
