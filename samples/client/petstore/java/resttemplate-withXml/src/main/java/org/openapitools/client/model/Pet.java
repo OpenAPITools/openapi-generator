@@ -84,6 +84,7 @@ public class Pet {
    */
   @XmlType(name="StatusEnum")
   @XmlEnum(String.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
     @XmlEnumValue("available")
     AVAILABLE(String.valueOf("available")),
