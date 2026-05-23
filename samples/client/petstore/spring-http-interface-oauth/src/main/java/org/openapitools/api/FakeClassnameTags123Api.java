@@ -18,6 +18,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 @ClientRegistrationId("petstore-oauth")
 public interface FakeClassnameTags123Api {
