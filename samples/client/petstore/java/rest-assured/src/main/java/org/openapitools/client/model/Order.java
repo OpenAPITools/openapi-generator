@@ -55,6 +55,7 @@ public class Order {
    * Order Status
    */
   @JsonAdapter(StatusEnum.Adapter.class)
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
     PLACED(String.valueOf("placed")),
     
