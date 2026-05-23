@@ -47,6 +47,7 @@ public class Zebra {
   /**
    * Gets or Sets type
    */
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum TypeEnum {
     PLAINS(String.valueOf("plains")),
     
