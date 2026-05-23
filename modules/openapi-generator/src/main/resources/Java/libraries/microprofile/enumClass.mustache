@@ -8,7 +8,8 @@
   @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
   {{/jsonb}}
 {{/withXml}}
-  {{>additionalEnumTypeAnnotations}}public enum {{datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+  {{>additionalEnumTypeAnnotations}}{{>generatedAnnotation}}
+  public enum {{datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
 
     {{#allowableValues}}
     {{#withXml}}
