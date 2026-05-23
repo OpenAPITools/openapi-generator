@@ -16,6 +16,9 @@ generatorName: spring
 library: spring-http-interface
 additionalProperties:
   clientRegistrationId: "petstore-oauth"
+  useSpringBoot4: "true"
+  useJackson3: true
+  openApiNullable: false
 ```
 
 Or via command line:
@@ -24,7 +27,7 @@ Or via command line:
 openapi-generator-cli generate \
   -g spring \
   --library spring-http-interface \
-  --additional-properties clientRegistrationId=petstore-oauth \
+  --additional-properties clientRegistrationId=petstore-oauth,useSpringBoot4=true,useJackson3=true,openApiNullable=false \
   -i petstore.yaml \
   -o ./output
 ```
@@ -52,8 +55,8 @@ This annotation is part of Spring Security's OAuth2 integration for HTTP Service
 
 ### Requirements
 
-- Spring Boot 3.5+
-- Spring Security 6.5+
+- Spring Boot 4.x
+- Spring Security 7.x
 
 ### Application Properties
 

@@ -5,13 +5,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,18 +23,18 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
-  private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
+  private @Nullable Map<String, String> languageValues;
 
-  public NullableMapPropertyDto languageValues(Map<String, String> languageValues) {
-    this.languageValues = JsonNullable.of(languageValues);
+  public NullableMapPropertyDto languageValues(@Nullable Map<String, String> languageValues) {
+    this.languageValues = languageValues;
     return this;
   }
 
   public NullableMapPropertyDto putLanguageValuesItem(String key, String languageValuesItem) {
-    if (this.languageValues == null || !this.languageValues.isPresent()) {
-      this.languageValues = JsonNullable.of(new HashMap<>());
+    if (this.languageValues == null) {
+      this.languageValues = new HashMap<>();
     }
-    this.languageValues.get().put(key, languageValuesItem);
+    this.languageValues.put(key, languageValuesItem);
     return this;
   }
 
@@ -48,11 +44,12 @@ public class NullableMapPropertyDto {
    */
   
   @JsonProperty("languageValues")
-  public JsonNullable<Map<String, String>> getLanguageValues() {
+  public @Nullable Map<String, String> getLanguageValues() {
     return languageValues;
   }
 
-  public void setLanguageValues(JsonNullable<Map<String, String>> languageValues) {
+  @JsonProperty("languageValues")
+  public void setLanguageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
   }
 
@@ -65,23 +62,12 @@ public class NullableMapPropertyDto {
       return false;
     }
     NullableMapPropertyDto nullableMapProperty = (NullableMapPropertyDto) o;
-    return equalsNullable(this.languageValues, nullableMapProperty.languageValues);
-  }
-
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+    return Objects.equals(this.languageValues, nullableMapProperty.languageValues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hashCodeNullable(languageValues));
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(languageValues);
   }
 
   @Override

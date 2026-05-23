@@ -8,10 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,28 +24,28 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
-  private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
+  private @Nullable List<String> nullableArray;
 
-  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
+  private List<String> nullableRequiredArray;
 
   private List<String> requiredArray = new ArrayList<>();
 
-  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
+  private @Nullable List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
 
   public ContainerDefaultValueDto() {
     super();
   }
 
-  public ContainerDefaultValueDto nullableArray(List<String> nullableArray) {
-    this.nullableArray = JsonNullable.of(nullableArray);
+  public ContainerDefaultValueDto nullableArray(@Nullable List<String> nullableArray) {
+    this.nullableArray = nullableArray;
     return this;
   }
 
   public ContainerDefaultValueDto addNullableArrayItem(String nullableArrayItem) {
-    if (this.nullableArray == null || !this.nullableArray.isPresent()) {
-      this.nullableArray = JsonNullable.of(new ArrayList<>());
+    if (this.nullableArray == null) {
+      this.nullableArray = new ArrayList<>();
     }
-    this.nullableArray.get().add(nullableArrayItem);
+    this.nullableArray.add(nullableArrayItem);
     return this;
   }
 
@@ -58,24 +55,25 @@ public class ContainerDefaultValueDto {
    */
   
   @JsonProperty("nullable_array")
-  public JsonNullable<List<String>> getNullableArray() {
+  public @Nullable List<String> getNullableArray() {
     return nullableArray;
   }
 
-  public void setNullableArray(JsonNullable<List<String>> nullableArray) {
+  @JsonProperty("nullable_array")
+  public void setNullableArray(@Nullable List<String> nullableArray) {
     this.nullableArray = nullableArray;
   }
 
   public ContainerDefaultValueDto nullableRequiredArray(List<String> nullableRequiredArray) {
-    this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+    this.nullableRequiredArray = nullableRequiredArray;
     return this;
   }
 
   public ContainerDefaultValueDto addNullableRequiredArrayItem(String nullableRequiredArrayItem) {
-    if (this.nullableRequiredArray == null || !this.nullableRequiredArray.isPresent()) {
-      this.nullableRequiredArray = JsonNullable.of(new ArrayList<>());
+    if (this.nullableRequiredArray == null) {
+      this.nullableRequiredArray = new ArrayList<>();
     }
-    this.nullableRequiredArray.get().add(nullableRequiredArrayItem);
+    this.nullableRequiredArray.add(nullableRequiredArrayItem);
     return this;
   }
 
@@ -85,12 +83,12 @@ public class ContainerDefaultValueDto {
    */
   @NotNull
   @JsonProperty("nullable_required_array")
-  public JsonNullable<List<String>> getNullableRequiredArray() {
+  public List<String> getNullableRequiredArray() {
     return nullableRequiredArray;
   }
 
   @JsonProperty("nullable_required_array")
-  public void setNullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
+  public void setNullableRequiredArray(List<String> nullableRequiredArray) {
     this.nullableRequiredArray = nullableRequiredArray;
   }
 
@@ -122,16 +120,16 @@ public class ContainerDefaultValueDto {
     this.requiredArray = requiredArray;
   }
 
-  public ContainerDefaultValueDto nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
-    this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
+  public ContainerDefaultValueDto nullableArrayWithDefault(@Nullable List<String> nullableArrayWithDefault) {
+    this.nullableArrayWithDefault = nullableArrayWithDefault;
     return this;
   }
 
   public ContainerDefaultValueDto addNullableArrayWithDefaultItem(String nullableArrayWithDefaultItem) {
-    if (this.nullableArrayWithDefault == null || !this.nullableArrayWithDefault.isPresent()) {
-      this.nullableArrayWithDefault = JsonNullable.of(new ArrayList<>(Arrays.asList("foo", "bar")));
+    if (this.nullableArrayWithDefault == null) {
+      this.nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
     }
-    this.nullableArrayWithDefault.get().add(nullableArrayWithDefaultItem);
+    this.nullableArrayWithDefault.add(nullableArrayWithDefaultItem);
     return this;
   }
 
@@ -141,11 +139,12 @@ public class ContainerDefaultValueDto {
    */
   
   @JsonProperty("nullable_array_with_default")
-  public JsonNullable<List<String>> getNullableArrayWithDefault() {
+  public @Nullable List<String> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
   }
 
-  public void setNullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
+  @JsonProperty("nullable_array_with_default")
+  public void setNullableArrayWithDefault(@Nullable List<String> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
   }
 
@@ -158,26 +157,15 @@ public class ContainerDefaultValueDto {
       return false;
     }
     ContainerDefaultValueDto containerDefaultValue = (ContainerDefaultValueDto) o;
-    return equalsNullable(this.nullableArray, containerDefaultValue.nullableArray) &&
+    return Objects.equals(this.nullableArray, containerDefaultValue.nullableArray) &&
         Objects.equals(this.nullableRequiredArray, containerDefaultValue.nullableRequiredArray) &&
         Objects.equals(this.requiredArray, containerDefaultValue.requiredArray) &&
-        equalsNullable(this.nullableArrayWithDefault, containerDefaultValue.nullableArrayWithDefault);
-  }
-
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+        Objects.equals(this.nullableArrayWithDefault, containerDefaultValue.nullableArrayWithDefault);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hashCodeNullable(nullableArray), nullableRequiredArray, requiredArray, hashCodeNullable(nullableArrayWithDefault));
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(nullableArray, nullableRequiredArray, requiredArray, nullableArrayWithDefault);
   }
 
   @Override

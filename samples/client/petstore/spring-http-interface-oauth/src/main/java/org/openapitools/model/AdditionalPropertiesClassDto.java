@@ -6,14 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 
@@ -47,7 +43,7 @@ public class AdditionalPropertiesClassDto {
 
   private @Nullable Object anytype1;
 
-  private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
+  private @Nullable Object anytype2 = null;
 
   private @Nullable Object anytype3;
 
@@ -295,8 +291,8 @@ public class AdditionalPropertiesClassDto {
     this.anytype1 = anytype1;
   }
 
-  public AdditionalPropertiesClassDto anytype2(Object anytype2) {
-    this.anytype2 = JsonNullable.of(anytype2);
+  public AdditionalPropertiesClassDto anytype2(@Nullable Object anytype2) {
+    this.anytype2 = anytype2;
     return this;
   }
 
@@ -306,11 +302,12 @@ public class AdditionalPropertiesClassDto {
    */
   
   @JsonProperty("anytype_2")
-  public JsonNullable<Object> getAnytype2() {
+  public @Nullable Object getAnytype2() {
     return anytype2;
   }
 
-  public void setAnytype2(JsonNullable<Object> anytype2) {
+  @JsonProperty("anytype_2")
+  public void setAnytype2(@Nullable Object anytype2) {
     this.anytype2 = anytype2;
   }
 
@@ -352,24 +349,13 @@ public class AdditionalPropertiesClassDto {
         Objects.equals(this.mapMapString, additionalPropertiesClass.mapMapString) &&
         Objects.equals(this.mapMapAnytype, additionalPropertiesClass.mapMapAnytype) &&
         Objects.equals(this.anytype1, additionalPropertiesClass.anytype1) &&
-        equalsNullable(this.anytype2, additionalPropertiesClass.anytype2) &&
+        Objects.equals(this.anytype2, additionalPropertiesClass.anytype2) &&
         Objects.equals(this.anytype3, additionalPropertiesClass.anytype3);
-  }
-
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, hashCodeNullable(anytype2), anytype3);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
 
   @Override

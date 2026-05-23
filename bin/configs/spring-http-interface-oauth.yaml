@@ -10,6 +10,6 @@ additionalProperties:
   modelNameSuffix: 'Dto'
   generatedConstructorWithRequiredArgs: "false"
   clientRegistrationId: "petstore-oauth"
-  parentGroupId: "org.springframework.boot"
-  parentArtifactId: "spring-boot-starter-parent"
-  parentVersion: "3.5.0"
+  useSpringBoot4: "true"
+  useJackson3: true
+  openApiNullable: false

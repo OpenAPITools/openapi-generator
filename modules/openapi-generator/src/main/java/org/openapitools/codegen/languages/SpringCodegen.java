@@ -347,7 +347,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             .defaultValue("false")
         );
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
-        cliOptions.add(CliOption.newString(CLIENT_REGISTRATION_ID, "Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation)."));
+        cliOptions.add(CliOption.newString(CLIENT_REGISTRATION_ID, "Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation). Requires library=spring-http-interface and useSpringBoot4=true (Spring Security 7)."));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -581,6 +581,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (isUseSpringBoot4()) {
             setUseSpringBoot3(false);
+        }
+        if (isNotEmpty(clientRegistrationId)) {
+            if (!SPRING_HTTP_INTERFACE.equals(library)) {
+                throw new IllegalArgumentException(CLIENT_REGISTRATION_ID + " is only supported with the " + SPRING_HTTP_INTERFACE + " library");
+            }
+            if (!isUseSpringBoot4()) {
+                throw new IllegalArgumentException(CLIENT_REGISTRATION_ID + " requires " + USE_SPRING_BOOT4 + "=true because @ClientRegistrationId is provided by Spring Security 7");
+            }
         }
 
         if (isUseSpringBoot3() || isUseSpringBoot4()) {

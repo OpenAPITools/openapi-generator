@@ -9,11 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 
@@ -72,7 +68,7 @@ public class ParentWithNullableDto {
 
   private @Nullable TypeEnum type;
 
-  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
+  private @Nullable String nullableProperty = null;
 
   public ParentWithNullableDto type(@Nullable TypeEnum type) {
     this.type = type;
@@ -94,8 +90,8 @@ public class ParentWithNullableDto {
     this.type = type;
   }
 
-  public ParentWithNullableDto nullableProperty(String nullableProperty) {
-    this.nullableProperty = JsonNullable.of(nullableProperty);
+  public ParentWithNullableDto nullableProperty(@Nullable String nullableProperty) {
+    this.nullableProperty = nullableProperty;
     return this;
   }
 
@@ -105,11 +101,12 @@ public class ParentWithNullableDto {
    */
   
   @JsonProperty("nullableProperty")
-  public JsonNullable<String> getNullableProperty() {
+  public @Nullable String getNullableProperty() {
     return nullableProperty;
   }
 
-  public void setNullableProperty(JsonNullable<String> nullableProperty) {
+  @JsonProperty("nullableProperty")
+  public void setNullableProperty(@Nullable String nullableProperty) {
     this.nullableProperty = nullableProperty;
   }
 
@@ -123,23 +120,12 @@ public class ParentWithNullableDto {
     }
     ParentWithNullableDto parentWithNullable = (ParentWithNullableDto) o;
     return Objects.equals(this.type, parentWithNullable.type) &&
-        equalsNullable(this.nullableProperty, parentWithNullable.nullableProperty);
-  }
-
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+        Objects.equals(this.nullableProperty, parentWithNullable.nullableProperty);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, hashCodeNullable(nullableProperty));
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(type, nullableProperty);
   }
 
   @Override
