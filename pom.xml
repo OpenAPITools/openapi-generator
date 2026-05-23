@@ -1160,6 +1160,18 @@
             </modules>
         </profile>
         <profile>
+            <id>ktor-delegate-pattern</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/kotlin-server/ktor-delegate-pattern</module>
+            </modules>
+        </profile>
+        <profile>
             <id>openapi-generator</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
