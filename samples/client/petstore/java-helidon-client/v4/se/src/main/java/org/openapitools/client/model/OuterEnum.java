@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets OuterEnum
  */
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum OuterEnum {
   
   PLACED("placed"),

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets OuterEnumIntegerDefaultValue
  */
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum OuterEnumIntegerDefaultValue {
   
   NUMBER_0(0),

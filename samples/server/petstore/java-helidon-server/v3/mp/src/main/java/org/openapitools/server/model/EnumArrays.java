@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class EnumArrays  {
   
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum JustSymbolEnum {
 
     GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
@@ -77,6 +78,7 @@ public enum JustSymbolEnum {
 
   private JustSymbolEnum justSymbol;
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));

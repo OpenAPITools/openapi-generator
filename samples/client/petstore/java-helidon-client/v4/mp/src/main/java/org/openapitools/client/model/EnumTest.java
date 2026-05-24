@@ -30,6 +30,7 @@ import java.util.NoSuchElementException;
 
 public class EnumTest  {
   
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumStringEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
@@ -53,6 +54,7 @@ public enum EnumStringEnum {
 
   private EnumStringEnum enumString;
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumStringRequiredEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
@@ -76,6 +78,7 @@ public enum EnumStringRequiredEnum {
 
   private EnumStringRequiredEnum enumStringRequired;
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumIntegerEnum {
 
     NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
@@ -99,6 +102,7 @@ public enum EnumIntegerEnum {
 
   private EnumIntegerEnum enumInteger;
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumNumberEnum {
 
     NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));

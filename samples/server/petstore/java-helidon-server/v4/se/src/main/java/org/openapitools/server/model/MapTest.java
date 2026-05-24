@@ -16,6 +16,7 @@ public class MapTest   {
     /**
     * Gets or Sets inner
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum InnerEnum {
         UPPER("UPPER"),
         LOWER("lower");

@@ -26,6 +26,7 @@ public class Pet   {
     /**
     * pet status in the store
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum StatusEnum {
         AVAILABLE("available"),
         PENDING("pending"),

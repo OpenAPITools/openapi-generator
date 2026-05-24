@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ParentWithNullable  {
   
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum TypeEnum {
 
     CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));

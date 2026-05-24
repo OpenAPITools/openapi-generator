@@ -19,6 +19,7 @@ public class EnumTest   {
     /**
     * Gets or Sets enumString
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum EnumStringEnum {
         UPPER("UPPER"),
         LOWER("lower"),
@@ -58,6 +59,7 @@ public class EnumTest   {
     /**
     * Gets or Sets enumStringRequired
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum EnumStringRequiredEnum {
         UPPER("UPPER"),
         LOWER("lower"),
@@ -97,6 +99,7 @@ public class EnumTest   {
     /**
     * Gets or Sets enumInteger
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum EnumIntegerEnum {
         NUMBER_1(1),
         NUMBER_MINUS_1(-1);
@@ -135,6 +138,7 @@ public class EnumTest   {
     /**
     * Gets or Sets enumNumber
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum EnumNumberEnum {
         NUMBER_1_DOT_1(1.1),
         NUMBER_MINUS_1_DOT_2(-1.2);

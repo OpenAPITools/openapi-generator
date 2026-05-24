@@ -16,6 +16,7 @@ public class EnumArrays   {
     /**
     * Gets or Sets justSymbol
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum JustSymbolEnum {
         GREATER_THAN_OR_EQUAL_TO(">="),
         DOLLAR("$");
@@ -54,6 +55,7 @@ public class EnumArrays   {
     /**
     * Gets or Sets arrayEnum
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum ArrayEnumEnum {
         FISH("fish"),
         CRAB("crab");

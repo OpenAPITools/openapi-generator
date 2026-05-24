@@ -18,6 +18,7 @@ public class Order   {
     /**
     * Order Status
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum StatusEnum {
         PLACED("placed"),
         APPROVED("approved"),

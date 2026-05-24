@@ -29,6 +29,7 @@ public class MapTest  {
   
   private Map<String, Map<String, String>> mapMapOfString = null;
 
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));

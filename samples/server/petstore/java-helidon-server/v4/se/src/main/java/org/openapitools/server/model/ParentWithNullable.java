@@ -17,6 +17,7 @@ public class ParentWithNullable   {
     /**
     * Gets or Sets type
     */
+    @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: stable")
     public enum TypeEnum {
         CHILD_WITH_NULLABLE("ChildWithNullable");
 
