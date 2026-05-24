@@ -36,7 +36,7 @@ public class EnumArrays  {
   
   @JsonbTypeSerializer(JustSymbolEnum.Serializer.class)
   @JsonbTypeDeserializer(JustSymbolEnum.Deserializer.class)
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:20:05.979566500Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:29:52.429425400Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum JustSymbolEnum {
 
     GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
@@ -82,7 +82,7 @@ public class EnumArrays  {
 
   @JsonbTypeSerializer(ArrayEnumEnum.Serializer.class)
   @JsonbTypeDeserializer(ArrayEnumEnum.Deserializer.class)
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:20:05.979566500Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:29:52.429425400Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
