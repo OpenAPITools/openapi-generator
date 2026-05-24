@@ -40,7 +40,7 @@ public class EnumTest  {
   
   @JsonbTypeSerializer(EnumStringEnum.Serializer.class)
   @JsonbTypeDeserializer(EnumStringEnum.Deserializer.class)
-  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:29:52.199498100Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
@@ -86,7 +86,7 @@ public class EnumTest  {
 
   @JsonbTypeSerializer(EnumStringRequiredEnum.Serializer.class)
   @JsonbTypeDeserializer(EnumStringRequiredEnum.Deserializer.class)
-  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:29:52.199498100Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringRequiredEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
@@ -132,7 +132,7 @@ public class EnumTest  {
 
   @JsonbTypeSerializer(EnumIntegerEnum.Serializer.class)
   @JsonbTypeDeserializer(EnumIntegerEnum.Deserializer.class)
-  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:29:52.199498100Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumIntegerEnum {
 
     NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
@@ -178,7 +178,7 @@ public class EnumTest  {
 
   @JsonbTypeSerializer(EnumNumberEnum.Serializer.class)
   @JsonbTypeDeserializer(EnumNumberEnum.Deserializer.class)
-  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:29:52.199498100Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumNumberEnum {
 
     NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
