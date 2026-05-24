@@ -8,13 +8,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import org.openapitools.model.CategoryDto;
 import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
-import tools.jackson.databind.annotation.JsonDeserialize;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,7 +20,7 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * PetDto
+ * A pet for sale in the pet store
  */
 
 @JsonTypeName("Pet")
@@ -36,7 +33,7 @@ public class PetDto {
 
   private String name;
 
-  private Set<String> photoUrls = new LinkedHashSet<>();
+  private List<String> photoUrls = new ArrayList<>();
 
   private List<TagDto> tags = new ArrayList<>();
 
@@ -144,14 +141,14 @@ public class PetDto {
     this.name = name;
   }
 
-  public PetDto photoUrls(Set<String> photoUrls) {
+  public PetDto photoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
   public PetDto addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
-      this.photoUrls = new LinkedHashSet<>();
+      this.photoUrls = new ArrayList<>();
     }
     this.photoUrls.add(photoUrlsItem);
     return this;
@@ -163,13 +160,12 @@ public class PetDto {
    */
   @NotNull
   @JsonProperty("photoUrls")
-  public Set<String> getPhotoUrls() {
+  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  @JsonDeserialize(as = LinkedHashSet.class)
   @JsonProperty("photoUrls")
-  public void setPhotoUrls(Set<String> photoUrls) {
+  public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
