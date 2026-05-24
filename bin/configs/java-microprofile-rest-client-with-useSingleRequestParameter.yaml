@@ -8,3 +8,4 @@ additionalProperties:
   configKey: petstore
   useSingleRequestParameter: true
   microprofileRestClientVersion:  "3.0"
+  hideGenerationTimestamp: true

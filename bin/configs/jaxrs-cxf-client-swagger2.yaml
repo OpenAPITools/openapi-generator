@@ -6,3 +6,4 @@ additionalProperties:
   artifactId: jaxrs-cxf-petstore-swagger2
   documentationProvider: swagger2
   annotationLibrary: swagger2
+  hideGenerationTimestamp: true

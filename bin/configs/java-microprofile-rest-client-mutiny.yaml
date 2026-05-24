@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: microprofile-rest-client-mutiny
   configKeyFromClassName: true
   microprofileMutiny: true
+  hideGenerationTimestamp: true

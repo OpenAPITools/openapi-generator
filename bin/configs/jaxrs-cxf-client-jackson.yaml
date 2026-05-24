@@ -7,3 +7,4 @@ additionalProperties:
   jackson: "true"
   useJackson3: "true"
   useJakartaEe: "true"
+  hideGenerationTimestamp: true
