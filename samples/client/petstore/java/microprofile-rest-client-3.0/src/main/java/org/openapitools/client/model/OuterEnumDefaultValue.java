@@ -37,7 +37,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
  */
 @JsonbTypeSerializer(OuterEnumDefaultValue.Serializer.class)
 @JsonbTypeDeserializer(OuterEnumDefaultValue.Deserializer.class)
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:23:27.103439200Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:36:11.937121300Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum OuterEnumDefaultValue {
   
   PLACED("placed"),
