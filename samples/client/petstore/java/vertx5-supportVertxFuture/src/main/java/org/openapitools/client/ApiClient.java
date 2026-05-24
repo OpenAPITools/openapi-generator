@@ -41,6 +41,7 @@ import io.vertx.ext.web.client.HttpRequest;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
+import io.vertx.core.http.PoolOptions;
 
 import java.time.OffsetDateTime;
 import java.text.DateFormat;
@@ -60,6 +61,7 @@ public class ApiClient extends JavaTimeFormatter {
     protected final Vertx vertx;
     protected final JsonObject config;
     protected final String identifier;
+    protected final JsonObject poolConfig;
 
     protected MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
     protected MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
@@ -71,8 +73,13 @@ public class ApiClient extends JavaTimeFormatter {
     protected int timeout = -1;
 
     public ApiClient(Vertx vertx, JsonObject config) {
+        this(vertx, config, new JsonObject());
+    }
+
+    public ApiClient(Vertx vertx, JsonObject config, JsonObject poolConfig) {
         Objects.requireNonNull(vertx, "Vertx must not be null");
         Objects.requireNonNull(config, "Config must not be null");
+        Objects.requireNonNull(poolConfig, "PoolConfig must not be null");
 
         this.vertx = vertx;
 
@@ -112,6 +119,7 @@ public class ApiClient extends JavaTimeFormatter {
         this.config = config;
         this.identifier = UUID.randomUUID().toString();
         this.timeout = config.getInteger("timeout", -1);
+        this.poolConfig = poolConfig;
     }
 
     public Vertx getVertx() {
@@ -131,7 +139,7 @@ public class ApiClient extends JavaTimeFormatter {
         String webClientIdentifier = "web-client-" + identifier;
         WebClient webClient = this.vertx.getOrCreateContext().get(webClientIdentifier);
         if (webClient == null) {
-            webClient = buildWebClient(vertx, config);
+            webClient = buildWebClient(vertx, config, poolConfig);
             this.vertx.getOrCreateContext().put(webClientIdentifier, webClient);
         }
         return webClient;
@@ -650,13 +658,13 @@ public class ApiClient extends JavaTimeFormatter {
      * @param vertx Vertx
      * @return WebClient
      */
-    protected WebClient buildWebClient(Vertx vertx, JsonObject config) {
+    protected WebClient buildWebClient(Vertx vertx, JsonObject config, JsonObject poolConfig) {
 
         if (!config.containsKey("userAgent")) {
             config.put("userAgent", "OpenAPI-Generator/1.0.0/java");
         }
 
-        return WebClient.create(vertx, new WebClientOptions(config));
+        return WebClient.create(vertx, new WebClientOptions(config), new PoolOptions(poolConfig));
     }
 
 

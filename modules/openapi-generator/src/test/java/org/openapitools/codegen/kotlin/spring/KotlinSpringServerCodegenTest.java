@@ -6107,6 +6107,22 @@ public class KotlinSpringServerCodegenTest {
                 "): ResponseEntity<GetUserResponse>");
     }
 
+    @Test
+    public void schemaMappingWithNullableAllOfRendersNullableKotlinProperty() throws IOException {
+        // When a schema is substituted via schemaMapping and a property wraps it with
+        // "nullable: true + allOf: [$ref]", the Kotlin Spring generator must render the
+        // property as MappedType? (nullable with the FQN from the mapping).
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/schema-mapping-nullable-allof.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addSchemaMapping("ExternalModel", "com.example.ExternalModel"));
+
+        File myObjectFile = files.get("MyObject.kt");
+        assertThat(myObjectFile).isNotNull();
+        String content = Files.readString(myObjectFile.toPath());
+        assertThat(content).contains("com.example.ExternalModel?");
+    }
 
 
     // ── Issue 20502: string-escaping fixes ─────────────────────────────────────────────────────────
@@ -6502,5 +6518,112 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(modelFile, "JsonNullable<com.example.ExternalType>");
         assertFileContains(modelFile, "= JsonNullable.undefined()");
         assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+    }
+
+    @Test
+    public void suspendFunctionsInterfaceOnly() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById("),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
+                                "suspend fun logoutUser()"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
+                                "suspend fun getInventory()")
+                )
+        );
+    }
+
+    @Test
+    public void suspendFunctionsWithDelegatePattern() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById("),
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApiDelegate.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById(")
+                )
+        );
+    }
+
+    @Test
+    public void suspendFunctionsDefaultsToFalse() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "fun deletePet(",
+                                "fun getPetById(")
+                )
+        );
+        // Verify no suspend keyword appears
+        Path petApiPath = root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt");
+        String content = new String(Files.readAllBytes(petApiPath), java.nio.charset.StandardCharsets.UTF_8);
+        Assert.assertFalse(content.contains("suspend fun"),
+            "suspend should not be present when suspendFunctions is not enabled");
+    }
+
+    @Test
+    public void suspendFunctionsWithServiceInterface() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
+                KotlinSpringServerCodegen.SERVICE_INTERFACE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApiService.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById(")
+                )
+        );
     }
 }

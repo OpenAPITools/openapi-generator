@@ -112,6 +112,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
+    public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -181,6 +182,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
     @Setter private boolean companionObject = false;
+    @Setter private boolean suspendFunctions = false;
     @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
@@ -314,6 +316,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 + "schema are suppressed from code generation.",
                 substituteGenericPagedModel);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
+        addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
                 "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable "
@@ -716,6 +719,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
         writePropertyBack(USE_FLOW_FOR_ARRAY_RETURN_TYPE, useFlowForArrayReturnType);
+
+        if (additionalProperties.containsKey(SUSPEND_FUNCTIONS)) {
+            this.setSuspendFunctions(convertPropertyToBoolean(SUSPEND_FUNCTIONS));
+        }
+        writePropertyBack(SUSPEND_FUNCTIONS, suspendFunctions);
 
         if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
             this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
