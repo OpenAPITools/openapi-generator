@@ -12,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 {{#additionalEnumTypeAnnotations}}
 {{{.}}}
 {{/additionalEnumTypeAnnotations}}{{#useBeanValidation}}@Introspected
-{{/useBeanValidation}}public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+{{/useBeanValidation}}{{>generatedAnnotation}}
+public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
     {{#allowableValues}}
         {{#enumVars}}
             {{#enumDescription}}
