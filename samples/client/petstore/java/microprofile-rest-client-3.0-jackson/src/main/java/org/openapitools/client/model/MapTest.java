@@ -41,6 +41,7 @@ public class MapTest  {
   
   protected Map<String, Map<String, String>> mapMapOfString = null;
 
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));

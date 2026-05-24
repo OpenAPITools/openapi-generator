@@ -34,6 +34,7 @@ import javax.json.bind.annotation.JsonbCreator;
  */
 @JsonbTypeSerializer(SingleRefType.Serializer.class)
 @JsonbTypeDeserializer(SingleRefType.Deserializer.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T23:56:23.541811200Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum SingleRefType {
   
   ADMIN("admin"),

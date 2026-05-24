@@ -63,6 +63,7 @@ public class Pet  {
   
   protected List<Tag> tags = null;
 
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMicroprofileServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
