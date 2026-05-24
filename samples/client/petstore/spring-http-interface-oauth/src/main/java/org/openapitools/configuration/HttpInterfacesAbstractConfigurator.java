@@ -5,12 +5,7 @@
 */
 package org.openapitools.configuration;
 
-import org.openapitools.api.AnotherFakeApi;
-import org.openapitools.api.FakeApi;
-import org.openapitools.api.FakeClassnameTags123Api;
 import org.openapitools.api.PetApi;
-import org.openapitools.api.StoreApi;
-import org.openapitools.api.UserApi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestClient;
@@ -25,40 +20,10 @@ public abstract class HttpInterfacesAbstractConfigurator {
         this.client = client;
     }
 
-    @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.anotherFake")
-    AnotherFakeApi anotherFakeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
-        return factory.createClient(AnotherFakeApi.class);
-    }
-
-    @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.fake")
-    FakeApi fakeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
-        return factory.createClient(FakeApi.class);
-    }
-
-    @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.fakeClassnameTags123")
-    FakeClassnameTags123Api fakeClassnameTags123HttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
-        return factory.createClient(FakeClassnameTags123Api.class);
-    }
-
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.pet")
     PetApi petHttpProxy() {
         HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
         return factory.createClient(PetApi.class);
-    }
-
-    @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.store")
-    StoreApi storeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
-        return factory.createClient(StoreApi.class);
-    }
-
-    @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.user")
-    UserApi userHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
-        return factory.createClient(UserApi.class);
     }
 
 

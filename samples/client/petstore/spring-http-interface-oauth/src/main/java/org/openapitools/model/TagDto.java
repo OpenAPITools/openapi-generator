@@ -14,7 +14,7 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * TagDto
+ * A tag for a pet
  */
 
 @JsonTypeName("Tag")

@@ -14,7 +14,7 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * CategoryDto
+ * A category for a pet
  */
 
 @JsonTypeName("Category")
@@ -23,11 +23,7 @@ public class CategoryDto {
 
   private @Nullable Long id;
 
-  private String name = "default-name";
-
-  public CategoryDto() {
-    super();
-  }
+  private @Nullable String name;
 
   public CategoryDto id(@Nullable Long id) {
     this.id = id;
@@ -49,7 +45,7 @@ public class CategoryDto {
     this.id = id;
   }
 
-  public CategoryDto name(String name) {
+  public CategoryDto name(@Nullable String name) {
     this.name = name;
     return this;
   }
@@ -58,14 +54,14 @@ public class CategoryDto {
    * Get name
    * @return name
    */
-  @NotNull
+  
   @JsonProperty("name")
-  public String getName() {
+  public @Nullable String getName() {
     return name;
   }
 
   @JsonProperty("name")
-  public void setName(String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
   }
 
