@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * Gets or Sets EnumClass
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumClass {
   
   _ABC("_abc"),

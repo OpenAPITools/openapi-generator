@@ -16,6 +16,7 @@ public class BigCat extends Cat  {
   /**
    * Gets or Sets kind
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum KindEnum {
     LIONS("lions"),
     
