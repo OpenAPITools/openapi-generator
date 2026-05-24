@@ -2,7 +2,8 @@
   @JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
   @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
 {{/jsonb}}
-{{>additionalEnumTypeAnnotations}}public enum {{datatypeWithEnum}} {
+{{>additionalEnumTypeAnnotations}}{{>generatedAnnotation}}
+public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
     {{#enumVars}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}

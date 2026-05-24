@@ -1,4 +1,5 @@
-{{>additionalEnumTypeAnnotations}}public enum {{datatypeWithEnum}} {
+{{>additionalEnumTypeAnnotations}}{{>generatedAnnotation}}
+public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
     {{#enumVars}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
