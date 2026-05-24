@@ -49,7 +49,7 @@ public class Order  {
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
-  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T23:56:23.370865500Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:09:05.517087300Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
 
     PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));

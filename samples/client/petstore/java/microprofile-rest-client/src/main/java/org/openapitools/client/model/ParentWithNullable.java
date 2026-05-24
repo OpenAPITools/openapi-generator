@@ -33,7 +33,7 @@ public class ParentWithNullable  {
   
   @JsonbTypeSerializer(TypeEnum.Serializer.class)
   @JsonbTypeDeserializer(TypeEnum.Deserializer.class)
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-23T23:56:23.541811200Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:09:06.071909400Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum TypeEnum {
 
     CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
