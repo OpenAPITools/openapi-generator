@@ -7,13 +7,16 @@ on:
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
       - samples/client/others/kotlin-integer-enum/**
       - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
+      - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization*/**
+      - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization*/**
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
       - samples/client/others/kotlin-integer-enum/**
-      - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization/**
       - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return/**
+      - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization*/**
+      - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization*/**
 
 jobs:
   build:
@@ -78,6 +81,8 @@ jobs:
           - samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
           - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization
           - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization
+          - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-nonPublicApi
+          - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-explicitApi
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
