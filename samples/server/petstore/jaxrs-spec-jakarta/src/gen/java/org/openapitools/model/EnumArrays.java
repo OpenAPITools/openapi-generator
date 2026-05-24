@@ -22,7 +22,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("EnumArrays")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class EnumArrays  implements Serializable {
-  public enum JustSymbolEnum {
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum JustSymbolEnum {
 
     GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 
@@ -70,7 +71,8 @@ public class EnumArrays  implements Serializable {
 }
 
   private JustSymbolEnum justSymbol;
-  public enum ArrayEnumEnum {
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 

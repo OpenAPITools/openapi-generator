@@ -20,7 +20,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MapTest  implements Serializable {
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
-  public enum InnerEnum {
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 

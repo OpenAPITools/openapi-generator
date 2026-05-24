@@ -45,6 +45,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumString
    */
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringEnum {
     UPPER("UPPER"),
     
@@ -86,6 +87,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumStringRequired
    */
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringRequiredEnum {
     UPPER("UPPER"),
     
@@ -127,6 +129,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumInteger
    */
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
@@ -166,6 +169,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumNumber
    */
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumNumberEnum {
     NUMBER_1_DOT_1(1.1),
     

@@ -37,6 +37,7 @@ public class MapTest  implements Serializable {
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
   @XmlType(name="InnerEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum InnerEnum {
 
     @XmlEnumValue("UPPER")UPPER(String.valueOf("UPPER")), @XmlEnumValue("lower")LOWER(String.valueOf("lower"));

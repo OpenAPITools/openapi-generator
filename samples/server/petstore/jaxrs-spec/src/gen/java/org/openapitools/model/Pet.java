@@ -32,7 +32,8 @@ public class Pet  implements Serializable {
   private String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
   private @Valid List<@Valid Tag> tags = new ArrayList<>();
-  public enum StatusEnum {
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 

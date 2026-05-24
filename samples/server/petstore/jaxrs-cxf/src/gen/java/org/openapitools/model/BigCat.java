@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BigCat extends Cat {
   
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCXFServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum KindEnum {
 
 LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));

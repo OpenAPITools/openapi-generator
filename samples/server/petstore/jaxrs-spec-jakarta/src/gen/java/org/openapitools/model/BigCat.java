@@ -20,7 +20,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("BigCat")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class BigCat extends Cat implements Serializable {
-  public enum KindEnum {
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum KindEnum {
 
     LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));
 

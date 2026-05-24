@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 public class EnumArrays  implements Serializable {
   @XmlType(name="JustSymbolEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum JustSymbolEnum {
 
     @XmlEnumValue(">=")GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), @XmlEnumValue("$")DOLLAR(String.valueOf("$"));
@@ -87,6 +88,7 @@ public enum JustSymbolEnum {
   private JustSymbolEnum justSymbol;
   @XmlType(name="ArrayEnumEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum ArrayEnumEnum {
 
     @XmlEnumValue("fish")FISH(String.valueOf("fish")), @XmlEnumValue("crab")CRAB(String.valueOf("crab"));

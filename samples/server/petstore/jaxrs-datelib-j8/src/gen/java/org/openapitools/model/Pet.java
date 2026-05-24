@@ -68,6 +68,7 @@ public class Pet  implements Serializable {
   /**
    * pet status in the store
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
     AVAILABLE("available"),
     

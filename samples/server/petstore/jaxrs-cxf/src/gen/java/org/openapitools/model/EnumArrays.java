@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EnumArrays  {
   
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCXFServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum JustSymbolEnum {
 
 GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
@@ -51,6 +52,7 @@ GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
 
   private JustSymbolEnum justSymbol;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCXFServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum ArrayEnumEnum {
 
 FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));

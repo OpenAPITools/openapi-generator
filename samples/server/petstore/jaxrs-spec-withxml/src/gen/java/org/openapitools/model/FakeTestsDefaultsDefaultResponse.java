@@ -39,6 +39,7 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   private IntegerEnum integerEnum = IntegerEnum.NUMBER_1;
   @XmlType(name="StringEnumInlineEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum StringEnumInlineEnum {
 
     @XmlEnumValue("foo")FOO(String.valueOf("foo")), @XmlEnumValue("bar")BAR(String.valueOf("bar")), @XmlEnumValue("baz")BAZ(String.valueOf("baz"));
@@ -89,6 +90,7 @@ public enum StringEnumInlineEnum {
   private StringEnumInlineEnum stringEnumInline = StringEnumInlineEnum.FOO;
   @XmlType(name="IntegerEnumInlineEnum")
 @XmlEnum(Integer.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum IntegerEnumInlineEnum {
 
     @XmlEnumValue("1")NUMBER_1(Integer.valueOf(1)), @XmlEnumValue("2")NUMBER_2(Integer.valueOf(2)), @XmlEnumValue("3")NUMBER_3(Integer.valueOf(3));

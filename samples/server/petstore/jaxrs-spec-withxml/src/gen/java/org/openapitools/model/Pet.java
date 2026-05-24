@@ -47,6 +47,7 @@ public class Pet  implements Serializable {
   private @Valid List<@Valid Tag> tags = new ArrayList<>();
   @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum StatusEnum {
 
     @XmlEnumValue("available")AVAILABLE(String.valueOf("available")), @XmlEnumValue("pending")PENDING(String.valueOf("pending")), @XmlEnumValue("sold")SOLD(String.valueOf("sold"));

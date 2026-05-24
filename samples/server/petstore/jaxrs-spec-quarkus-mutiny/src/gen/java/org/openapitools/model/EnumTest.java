@@ -23,7 +23,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("Enum_Test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class EnumTest  implements Serializable {
-  public enum EnumStringEnum {
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum EnumStringEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
@@ -71,7 +72,8 @@ public class EnumTest  implements Serializable {
 }
 
   private EnumStringEnum enumString;
-  public enum EnumStringRequiredEnum {
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum EnumStringRequiredEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
@@ -119,7 +121,8 @@ public class EnumTest  implements Serializable {
 }
 
   private EnumStringRequiredEnum enumStringRequired;
-  public enum EnumIntegerEnum {
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum EnumIntegerEnum {
 
     NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
 
@@ -167,7 +170,8 @@ public class EnumTest  implements Serializable {
 }
 
   private EnumIntegerEnum enumInteger;
-  public enum EnumNumberEnum {
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum EnumNumberEnum {
 
     NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 

@@ -27,6 +27,7 @@ public class Order   {
   private java.util.Date shipDate;
 
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum StatusEnum {
 
     @JsonProperty("placed") PLACED(String.valueOf("placed")), @JsonProperty("approved") APPROVED(String.valueOf("approved")), @JsonProperty("delivered") DELIVERED(String.valueOf("delivered"));

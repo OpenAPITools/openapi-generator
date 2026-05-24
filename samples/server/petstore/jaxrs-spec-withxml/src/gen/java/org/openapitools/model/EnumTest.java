@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 public class EnumTest  implements Serializable {
   @XmlType(name="EnumStringEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumStringEnum {
 
     @XmlEnumValue("UPPER")UPPER(String.valueOf("UPPER")), @XmlEnumValue("lower")LOWER(String.valueOf("lower")), @XmlEnumValue("")EMPTY(String.valueOf(""));
@@ -90,6 +91,7 @@ public enum EnumStringEnum {
   private EnumStringEnum enumString;
   @XmlType(name="EnumStringRequiredEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumStringRequiredEnum {
 
     @XmlEnumValue("UPPER")UPPER(String.valueOf("UPPER")), @XmlEnumValue("lower")LOWER(String.valueOf("lower")), @XmlEnumValue("")EMPTY(String.valueOf(""));
@@ -140,6 +142,7 @@ public enum EnumStringRequiredEnum {
   private EnumStringRequiredEnum enumStringRequired;
   @XmlType(name="EnumIntegerEnum")
 @XmlEnum(Integer.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumIntegerEnum {
 
     @XmlEnumValue("1")NUMBER_1(Integer.valueOf(1)), @XmlEnumValue("-1")NUMBER_MINUS_1(Integer.valueOf(-1));
@@ -190,6 +193,7 @@ public enum EnumIntegerEnum {
   private EnumIntegerEnum enumInteger;
   @XmlType(name="EnumNumberEnum")
 @XmlEnum(Double.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum EnumNumberEnum {
 
     @XmlEnumValue("1.1")NUMBER_1_DOT_1(Double.valueOf(1.1)), @XmlEnumValue("-1.2")NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));

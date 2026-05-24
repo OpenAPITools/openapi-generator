@@ -28,6 +28,7 @@ public class Pet   {
   /**
    * pet status in the store
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
     AVAILABLE("available"),
 

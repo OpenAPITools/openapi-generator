@@ -44,6 +44,7 @@ public class Pet  {
 
   private List<@Valid Tag> tags = new ArrayList<>();
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCXFServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum StatusEnum {
 
 AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));

@@ -43,6 +43,7 @@ public class MapTest   {
   /**
    * Gets or Sets inner
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum InnerEnum {
     UPPER("UPPER"),
     

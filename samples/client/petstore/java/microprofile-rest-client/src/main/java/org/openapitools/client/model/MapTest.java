@@ -38,7 +38,7 @@ public class MapTest  {
 
   @JsonbTypeSerializer(InnerEnum.Serializer.class)
   @JsonbTypeDeserializer(InnerEnum.Deserializer.class)
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:16:06.677798900Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:23:27.256391Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));

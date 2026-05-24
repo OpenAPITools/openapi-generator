@@ -39,6 +39,7 @@ public class EnumArrays  implements Serializable {
   /**
    * Gets or Sets justSymbol
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum JustSymbolEnum {
     GREATER_THAN_OR_EQUAL_TO(">="),
     
@@ -78,6 +79,7 @@ public class EnumArrays  implements Serializable {
   /**
    * Gets or Sets arrayEnum
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum ArrayEnumEnum {
     FISH("fish"),
     

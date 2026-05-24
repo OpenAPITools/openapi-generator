@@ -36,6 +36,7 @@ public class BigCat extends Cat implements Serializable {
   /**
    * Gets or Sets kind
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum KindEnum {
     LIONS("lions"),
     

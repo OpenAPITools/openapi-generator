@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 public class ParentWithNullable  implements Serializable {
   @XmlType(name="TypeEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum TypeEnum {
 
     @XmlEnumValue("ChildWithNullable")CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));

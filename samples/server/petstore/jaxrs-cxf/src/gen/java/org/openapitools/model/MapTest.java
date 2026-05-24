@@ -20,6 +20,7 @@ public class MapTest  {
 
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCXFServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum InnerEnum {
 
 UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));

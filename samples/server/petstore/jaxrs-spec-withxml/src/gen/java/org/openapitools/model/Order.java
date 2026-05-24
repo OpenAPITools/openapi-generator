@@ -39,6 +39,7 @@ public class Order  implements Serializable {
   private Date shipDate;
   @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum StatusEnum {
 
     @XmlEnumValue("placed")PLACED(String.valueOf("placed")), @XmlEnumValue("approved")APPROVED(String.valueOf("approved")), @XmlEnumValue("delivered")DELIVERED(String.valueOf("delivered"));

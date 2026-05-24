@@ -24,7 +24,8 @@ public class Order  implements Serializable {
   private Long petId;
   private Integer quantity;
   private Date shipDate;
-  public enum StatusEnum {
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum StatusEnum {
 
     PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 

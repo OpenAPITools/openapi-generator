@@ -23,7 +23,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   private StringEnum stringEnum = StringEnum.FOO;
   private IntegerEnum integerEnum = IntegerEnum.NUMBER_1;
-  public enum StringEnumInlineEnum {
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum StringEnumInlineEnum {
 
     FOO(String.valueOf("foo")), BAR(String.valueOf("bar")), BAZ(String.valueOf("baz"));
 
@@ -71,7 +72,8 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
 }
 
   private StringEnumInlineEnum stringEnumInline = StringEnumInlineEnum.FOO;
-  public enum IntegerEnumInlineEnum {
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+public enum IntegerEnumInlineEnum {
 
     NUMBER_1(Integer.valueOf(1)), NUMBER_2(Integer.valueOf(2)), NUMBER_3(Integer.valueOf(3));
 
