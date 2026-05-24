@@ -37,7 +37,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
  */
 @JsonbTypeSerializer(OuterEnumIntegerDefaultValue.Serializer.class)
 @JsonbTypeDeserializer(OuterEnumIntegerDefaultValue.Deserializer.class)
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:39:52.758413600Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:11:57.056057700Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum OuterEnumIntegerDefaultValue {
   
   NUMBER_0(0),

@@ -34,7 +34,7 @@ import javax.json.bind.annotation.JsonbCreator;
  */
 @JsonbTypeSerializer(OuterEnum.Serializer.class)
 @JsonbTypeDeserializer(OuterEnum.Deserializer.class)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:39:52.757414800Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T01:11:57.060056500Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum OuterEnum {
   
   PLACED("placed"),
