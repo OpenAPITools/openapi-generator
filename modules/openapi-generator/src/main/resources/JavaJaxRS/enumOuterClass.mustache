@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
  */
-{{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+{{>additionalEnumTypeAnnotations}}{{>generatedAnnotation}}
+public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#gson}}
   {{#allowableValues}}{{#enumVars}}
     {{#enumDescription}}

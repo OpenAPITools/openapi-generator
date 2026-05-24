@@ -1,4 +1,5 @@
-{{>additionalEnumTypeAnnotations}}public enum {{classname}} {
+{{>additionalEnumTypeAnnotations}}{{>generatedAnnotation}}
+public enum {{classname}} {
   {{#allowableValues}}
   {{#enumVars}}
   {{{name}}}{{^-last}},{{/-last}}{{#-last}};{{/-last}}
