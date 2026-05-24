@@ -6585,6 +6585,83 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testClientRegistrationIdAnnotation() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-http-interface");
+        codegen.setUseSpringBoot4(true);
+        codegen.setClientRegistrationId("my-oauth-client");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        // Check that the @ClientRegistrationId annotation is generated at class level
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .hasImports("org.springframework.security.oauth2.client.annotation.ClientRegistrationId")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("ClientRegistrationId", ImmutableMap.of("value", "\"my-oauth-client\""));
+    }
+
+    @Test
+    public void testClientRegistrationIdAnnotationNotPresentWhenNotConfigured() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-http-interface");
+        codegen.setUseSpringBoot4(true);
+        // clientRegistrationId not set
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        // Check that the @ClientRegistrationId annotation is NOT generated
+        assertFileNotContains(files.get("PetApi.java").toPath(), "@ClientRegistrationId", "ClientRegistrationId");
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdWithoutSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("spring-http-interface");
+        codegen.setClientRegistrationId("my-oauth-client");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        Generator generator = new DefaultGenerator()
+                .opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate)
+                .withMessageContaining(SpringCodegen.USE_SPRING_BOOT4);
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdOutsideSpringHttpInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseSpringBoot4(true);
+        codegen.setClientRegistrationId("my-oauth-client");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        Generator generator = new DefaultGenerator()
+                .opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate)
+                .withMessageContaining("spring-http-interface");
+    }
+
+    @Test
     public void shouldRefuseJackson3WithoutSpringboot4() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
