@@ -38,6 +38,7 @@ public class OrderDto {
   /**
    * Order Status
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
     PLACED("placed"),
     

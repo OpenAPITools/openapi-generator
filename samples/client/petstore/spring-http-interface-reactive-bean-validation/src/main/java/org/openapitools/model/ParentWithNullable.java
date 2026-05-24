@@ -40,6 +40,7 @@ public class ParentWithNullable {
   /**
    * Gets or Sets type
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum TypeEnum {
     CHILD_WITH_NULLABLE("ChildWithNullable");
 

@@ -32,7 +32,7 @@ public class Order  {
 
   private Date shipDate;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCXFClientCodegen", date = "2026-05-24T00:36:19.335353500Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaCXFClientCodegen", date = "2026-05-24T00:40:00.102499300Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum StatusEnum {
 
 PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));

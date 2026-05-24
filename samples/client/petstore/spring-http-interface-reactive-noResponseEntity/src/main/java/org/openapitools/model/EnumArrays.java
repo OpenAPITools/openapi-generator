@@ -27,6 +27,7 @@ public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum JustSymbolEnum {
     GREATER_THAN_OR_EQUAL_TO(">="),
     
@@ -64,6 +65,7 @@ public class EnumArrays {
   /**
    * Gets or Sets arrayEnum
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum ArrayEnumEnum {
     FISH("fish"),
     

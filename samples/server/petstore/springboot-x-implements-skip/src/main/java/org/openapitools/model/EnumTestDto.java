@@ -35,6 +35,7 @@ public class EnumTestDto {
   /**
    * Gets or Sets enumString
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringEnum {
     UPPER("UPPER"),
     
@@ -74,6 +75,7 @@ public class EnumTestDto {
   /**
    * Gets or Sets enumStringRequired
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumStringRequiredEnum {
     UPPER("UPPER"),
     
@@ -113,6 +115,7 @@ public class EnumTestDto {
   /**
    * Gets or Sets enumInteger
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
@@ -150,6 +153,7 @@ public class EnumTestDto {
   /**
    * Gets or Sets enumNumber
    */
+  @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum EnumNumberEnum {
     NUMBER_1_DOT_1(1.1),
     
