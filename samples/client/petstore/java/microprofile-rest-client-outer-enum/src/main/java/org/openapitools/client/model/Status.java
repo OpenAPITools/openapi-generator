@@ -34,7 +34,7 @@ import javax.json.bind.annotation.JsonbCreator;
  */
 @JsonbTypeSerializer(Status.Serializer.class)
 @JsonbTypeDeserializer(Status.Deserializer.class)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:11:39.073399300Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:16:06.524823500Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum Status {
   
   AVAILABLE("available"),
