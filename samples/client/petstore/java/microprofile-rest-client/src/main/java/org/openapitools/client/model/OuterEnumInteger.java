@@ -34,7 +34,7 @@ import javax.json.bind.annotation.JsonbCreator;
  */
 @JsonbTypeSerializer(OuterEnumInteger.Serializer.class)
 @JsonbTypeDeserializer(OuterEnumInteger.Deserializer.class)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:09:06.071909400Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-05-24T00:11:39.092395500Z[UTC]", comments = "Generator version: 7.23.0-SNAPSHOT")
 public enum OuterEnumInteger {
   
   NUMBER_0(0),
