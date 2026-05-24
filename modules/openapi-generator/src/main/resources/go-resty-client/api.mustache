@@ -198,10 +198,15 @@ func (a *API) {{nickname}}(ctx context.Context, {{#hasParams}}params *{{operatio
 		opt(opts)
 	}
 
-    req := a.client.
-		SetTimeout(opts.Timeout).
-		R().
-		SetContext(ctx).
+    reqCtx := ctx
+	if opts.Timeout > 0 {
+		var cancel context.CancelFunc
+		reqCtx, cancel = context.WithTimeout(ctx, opts.Timeout)
+		defer cancel()
+	}
+
+	req := a.client.R().
+		SetContext(reqCtx).
 		SetHeaderMultiValues(opts.Headers)
 {{#hasPathParams}}
 
