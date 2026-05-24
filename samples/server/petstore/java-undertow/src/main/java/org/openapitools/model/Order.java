@@ -34,6 +34,7 @@ public class Order   {
   private Date shipDate;
 
 
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
   public enum StatusEnum {
     PLACED("placed"),
     APPROVED("approved"),
