@@ -1536,9 +1536,10 @@ public class OpenAPINormalizerTest {
         assertEquals(schema14.getType(), null);
 
         Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
-        assertEquals(schema16.getOneOf().size(),3);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getConst(), 1);
-        assertEquals(((Schema) schema16.getOneOf().get(0)).getDeprecated(), true);
+        // After normalization, oneOf with const values should be simplified to enum
+        assertEquals(schema16.getOneOf(), null);
+        assertEquals(schema16.getEnum().size(), 3);
+        assertEquals(schema16.getEnum().get(0), 1);
 
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
