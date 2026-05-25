@@ -520,4 +520,26 @@ public class DartDioModelTest {
 
         Assert.assertEquals(codegen.getTypeDeclaration(schema), "BuiltList<BuiltList<String?>>");
     }
+
+    @Test(description = "OAS 3.1 nullable inline object properties keep nullable field type")
+    public void nullableInlineObjectPropertyWithTypeArray() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/dart-dio/issue_23866.yaml");
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+
+        final Schema model = openAPI.getComponents().getSchemas().get("EnvelopeNullableLoginResponse");
+        final CodegenModel cm = codegen.fromModel("EnvelopeNullableLoginResponse", model);
+
+        final CodegenProperty data = cm.vars.stream()
+                .filter(property -> "data".equals(property.baseName))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("data property not found"));
+
+        Assert.assertEquals(data.dataType, "EnvelopeNullableLoginResponseData");
+        Assert.assertEquals(data.datatypeWithEnum, "EnvelopeNullableLoginResponseData");
+        Assert.assertTrue(data.required);
+        Assert.assertTrue(data.isNullable);
+    }
 }

@@ -2463,6 +2463,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void nullableTypeArrayProperty() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/dart-dio/issue_23866.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel model = codegen.fromModel(
+                "EnvelopeNullableLoginResponse",
+                openAPI.getComponents().getSchemas().get("EnvelopeNullableLoginResponse"));
+
+        CodegenProperty data = model.vars.stream()
+                .filter(v -> "data".equals(v.name))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("data property not found"));
+
+        assertTrue(data.isNullable,
+                "data must be nullable because its OAS 3.1 type array includes null");
+    }
+
+    @Test
     public void operationIdNameMapping() {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.operationIdNameMapping.put("edge case !@# 123", "fix_edge_case");

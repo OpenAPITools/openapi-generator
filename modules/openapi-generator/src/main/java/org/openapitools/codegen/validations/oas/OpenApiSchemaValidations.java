@@ -1,6 +1,7 @@
 package org.openapitools.codegen.validations.oas;
 
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.openapitools.codegen.validation.GenericValidator;
@@ -120,7 +121,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         if (schemaWrapper.getOpenAPI() != null) {
             SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
             if (version.atLeast("3.1")) {
-                if (ModelUtils.isNullable(schema)) {
+                if (usesNullableAttribute(schema)) {
                     result = new ValidationRule.Fail();
                     result.setDetails(String.format(Locale.ROOT,
                             "OAS document is version '%s'. Schema '%s' uses 'nullable' attribute, which has been deprecated in OAS 3.1.",
@@ -130,6 +131,18 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             }
         }
         return result;
+    }
+
+    private static boolean usesNullableAttribute(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+        if (Boolean.TRUE.equals(schema.getNullable())) {
+            return true;
+        }
+        return schema.getExtensions() != null
+                && schema.getExtensions().get(CodegenConstants.X_NULLABLE) != null
+                && Boolean.parseBoolean(schema.getExtensions().get(CodegenConstants.X_NULLABLE).toString());
     }
 
     private static String nameOf(Schema schema) {

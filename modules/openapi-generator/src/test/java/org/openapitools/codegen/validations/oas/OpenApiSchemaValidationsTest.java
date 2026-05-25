@@ -1,5 +1,6 @@
 package org.openapitools.codegen.validations.oas;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.validation.Invalid;
 import org.openapitools.codegen.validation.ValidationResult;
@@ -8,6 +9,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +67,26 @@ public class OpenApiSchemaValidationsTest {
 
         Assert.assertNotNull(warnings);
         Assert.assertEquals(warnings.size(), 0, "Expected rule to be disabled.");
+    }
+
+    @Test(description = "OAS 3.1 type-array null is not the deprecated nullable attribute")
+    public void testNullableAttributeRecommendationIgnoresTypeArrayNull() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        OpenAPI openAPI = new OpenAPI().openapi("3.1.0");
+        Schema schema = new Schema();
+        schema.setTypes(new LinkedHashSet<>(Arrays.asList("object", "null")));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(openAPI, schema));
+        Assert.assertNotNull(result.getWarnings());
+
+        List<Invalid> warnings = result.getWarnings().stream()
+                .filter(invalid -> "Schema uses the 'nullable' attribute.".equals(invalid.getRule().getDescription()))
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(warnings.size(), 0, "Expected type-array null not to trigger nullable attribute recommendation.");
     }
 
     @DataProvider(name = "apacheNginxRecommendationExpectations")

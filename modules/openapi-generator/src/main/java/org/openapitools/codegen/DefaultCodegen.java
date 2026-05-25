@@ -2891,7 +2891,7 @@ public class DefaultCodegen implements CodegenConfig {
             addAdditionPropertiesToCodeGenModel(m, schema);
         }
 
-        if (Boolean.TRUE.equals(schema.getNullable())) {
+        if (ModelUtils.isNullable(schema)) {
             m.isNullable = Boolean.TRUE;
         }
 
@@ -3132,7 +3132,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (!ModelUtils.isArraySchema(schema)) {
             m.dataType = getSchemaType(schema);
         }
-        if (!ModelUtils.isAnyType(schema) && Boolean.TRUE.equals(schema.getNullable())) {
+        if (!ModelUtils.isAnyType(schema) && ModelUtils.isNullable(schema)) {
             m.isNullable = Boolean.TRUE;
         }
 
@@ -4108,9 +4108,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getWriteOnly() != null) {
             property.isWriteOnly = p.getWriteOnly();
         }
-        if (p.getNullable() != null) {
-            property.isNullable = p.getNullable();
-        }
+        property.isNullable = ModelUtils.isNullable(p);
 
         if (p.getExtensions() != null && !p.getExtensions().isEmpty()) {
             property.getVendorExtensions().putAll(p.getExtensions());
@@ -4160,11 +4158,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // set isNullable using nullable or x-nullable in the schema
-        if (referencedSchema.getNullable() != null) {
-            property.isNullable = referencedSchema.getNullable();
-        } else if (referencedSchema.getExtensions() != null &&
-                referencedSchema.getExtensions().containsKey(X_NULLABLE)) {
-            property.isNullable = (Boolean) referencedSchema.getExtensions().get(X_NULLABLE);
+        if (referencedSchema != p) {
+            property.isNullable = property.isNullable || ModelUtils.isNullable(referencedSchema);
         }
 
         final XML referencedSchemaXml = referencedSchema.getXml();
@@ -4263,10 +4258,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (original != null) {
             p = original;
             // evaluate common attributes if defined in the top level
-            if (p.getNullable() != null) {
-                property.isNullable = p.getNullable();
-            } else if (p.getExtensions() != null && p.getExtensions().containsKey(X_NULLABLE)) {
-                property.isNullable = (Boolean) p.getExtensions().get(X_NULLABLE);
+            if (hasNullableMarker(p)) {
+                property.isNullable = ModelUtils.isNullable(p);
             }
 
             if (p.getReadOnly() != null) {
@@ -4321,6 +4314,13 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
+    }
+
+    private static boolean hasNullableMarker(Schema schema) {
+        return schema != null && (schema.getNullable() != null ||
+                schema.getTypes() != null && schema.getTypes().contains("null") ||
+                schema.getExtensions() != null && schema.getExtensions().containsKey(X_NULLABLE) ||
+                ModelUtils.isNullableComposedSchema(schema));
     }
 
     /**
@@ -5463,9 +5463,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.setTypeProperties(parameterSchema, openAPI);
         codegenParameter.setComposedSchemas(getComposedSchemas(parameterSchema));
 
-        if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
-            codegenParameter.isNullable = true;
-        }
+        codegenParameter.isNullable = ModelUtils.isNullable(parameterSchema);
 
         if (parameter.getStyle() != null) {
             codegenParameter.style = parameter.getStyle().toString();
@@ -8221,10 +8219,8 @@ public class DefaultCodegen implements CodegenConfig {
         // restore original schema with description, extensions etc
         if (original != null) {
             // evaluate common attributes such as description if defined in the top level
-            if (original.getNullable() != null) {
-                codegenParameter.isNullable = original.getNullable();
-            } else if (original.getExtensions() != null && original.getExtensions().containsKey(X_NULLABLE)) {
-                codegenParameter.isNullable = (Boolean) original.getExtensions().get(X_NULLABLE);
+            if (hasNullableMarker(original)) {
+                codegenParameter.isNullable = ModelUtils.isNullable(original);
             }
 
             if (original.getExtensions() != null) {

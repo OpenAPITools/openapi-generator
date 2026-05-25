@@ -1,0 +1,38 @@
+openapi: 3.1.0
+info:
+  title: Repro
+  version: "1.0"
+paths:
+  /login:
+    post:
+      operationId: login
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnvelopeNullableLoginResponse"
+components:
+  schemas:
+    EnvelopeNullableLoginResponse:
+      type: object
+      required:
+        - code
+        - data
+        - message
+      properties:
+        code:
+          type: integer
+        data:
+          type:
+            - object
+            - "null"
+          description: Business data; null on failure
+          required:
+            - token
+          properties:
+            token:
+              type: string
+        message:
+          type: string

@@ -1767,9 +1767,10 @@ public class ModelUtils {
      * Return true if the 'nullable' attribute is set to true in the schema, i.e. if the value
      * of the property can be the null value.
      * <p>
-     * In addition, if the OAS document is 3.1 or above, isNullable returns true if the input
-     * schema is a 'oneOf' composed document with at most two children, and one of the children
-     * is the 'null' type.
+     * In addition, isNullable returns true if the input schema uses JSON Schema nullability
+     * forms adopted by OAS 3.1: a 'oneOf' composed document with at most two children where
+     * one child is the 'null' type, or a type-array form where one of the types is 'null'.
+     * This method checks schema shape only and does not validate the OpenAPI document version.
      * <p>
      * The caller is responsible for resolving schema references before invoking isNullable.
      * If the input schema is a $ref and the referenced schema has 'nullable: true', this method
@@ -1793,6 +1794,9 @@ public class ModelUtils {
 
         if (schema.getExtensions() != null && schema.getExtensions().get(X_NULLABLE) != null) {
             return Boolean.parseBoolean(schema.getExtensions().get(X_NULLABLE).toString());
+        }
+        if (schema.getTypes() != null && schema.getTypes().contains("null")) {
+            return true;
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (isComposedSchema(schema)) {
