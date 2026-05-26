@@ -8,6 +8,8 @@ servers:
 tags:
 - description: Everything about your Pets
   name: pet
+- description: Order filtering endpoints
+  name: orders
 paths:
   /pet/findByStatusWithSort:
     get:
@@ -757,6 +759,116 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+  /orders:
+    get:
+      operationId: listOrders
+      parameters:
+      - description: Filter by order status (valid Kotlin identifier)
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: "#/components/schemas/OrderStatus"
+        style: deepObject
+      - description: "Filter by order status (non-Kotlin-identifier wire name, hyphenated)"
+        explode: true
+        in: query
+        name: order-status
+        required: false
+        schema:
+          $ref: "#/components/schemas/OrderStatus"
+        style: deepObject
+      - description: "Filter by item status (non-Kotlin-identifier wire name, hyphenated)"
+        explode: true
+        in: query
+        name: item-status
+        required: false
+        schema:
+          $ref: "#/components/schemas/OrderStatus"
+        style: deepObject
+      responses:
+        "200":
+          description: OK
+      summary: List orders filtered by status — tests @ModelAttribute binding for
+        model query params
+      tags:
+      - orders
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: orders
+  /orders/filter-only:
+    get:
+      operationId: listOrdersFilterOnly
+      parameters:
+      - description: "Filter by order status (valid Kotlin identifier, isolated test)"
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: "#/components/schemas/OrderStatus"
+        style: deepObject
+      responses:
+        "200":
+          description: OK — impl assertion passed
+      summary: List orders with only the filter param — impl asserts filter is bound
+        correctly
+      tags:
+      - orders
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: orders
+  /orders/order-status-only:
+    get:
+      operationId: listOrdersOrderStatusOnly
+      parameters:
+      - description: "Filter by order status (non-Kotlin-identifier wire name, isolated\
+          \ test)"
+        explode: true
+        in: query
+        name: order-status
+        required: false
+        schema:
+          $ref: "#/components/schemas/OrderStatus"
+        style: deepObject
+      responses:
+        "200":
+          description: OK — impl assertion passed
+      summary: List orders with only the order-status param — impl asserts order-status
+        is bound correctly
+      tags:
+      - orders
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: orders
+  /orders/item-status-only:
+    get:
+      operationId: listOrdersItemStatusOnly
+      parameters:
+      - description: "Filter by item status (non-Kotlin-identifier wire name, isolated\
+          \ test)"
+        explode: true
+        in: query
+        name: item-status
+        required: false
+        schema:
+          $ref: "#/components/schemas/OrderStatus"
+        style: deepObject
+      responses:
+        "200":
+          description: OK — impl assertion passed
+      summary: List orders with only the item-status param — impl asserts item-status
+        is bound correctly
+      tags:
+      - orders
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: orders
   /nullable/check-required-only:
     post:
       operationId: checkRequiredOnly
@@ -881,6 +993,14 @@ components:
       - "createdAt,asc"
       - "createdAt,desc"
       type: string
+    OrderStatus:
+      properties:
+        statuses:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+      type: object
     Pet:
       example:
         id: 0
