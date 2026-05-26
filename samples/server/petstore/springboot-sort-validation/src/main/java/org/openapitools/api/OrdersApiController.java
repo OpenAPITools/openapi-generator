@@ -43,4 +43,27 @@ public class OrdersApiController implements OrdersApi {
         return Optional.ofNullable(request);
     }
 
+    @Override
+    public ResponseEntity<Void> listOrders(
+            @Valid @Nullable OrderStatus filter,
+            @Valid @Nullable OrderStatus orderStatus,
+            @Valid @Nullable OrderStatus itemStatus) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> listOrdersFilterOnly(@Valid @Nullable OrderStatus filter) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> listOrdersOrderStatusOnly(@Valid @Nullable OrderStatus orderStatus) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> listOrdersItemStatusOnly(@Valid @Nullable OrderStatus itemStatus) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
