@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Model Query Param Test
+  version: 0.1.0
+paths:
+  /orders:
+    get:
+      operationId: listOrders
+      parameters:
+        - name: order-status
+          in: query
+          description: Filter by order status (deepObject; wire name is not a valid Kotlin identifier)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+        - name: item-status
+          in: query
+          description: Filter by item status (same schema, different non-Kotlin-identifier wire name)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    OrderStatus:
+      type: object
+      properties:
+        state:
+          type: string

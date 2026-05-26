@@ -6431,6 +6431,47 @@ public class KotlinSpringServerCodegenTest {
             "suspend should not be present when suspendFunctions is not enabled");
     }
 
+    // ========== MODEL QUERY PARAM @ModelAttribute TESTS ==========
+
+    @Test
+    public void modelQueryParamGetsModelAttributeAnnotation() throws Exception {
+        // Complex query params ($ref to a schema, isModel=true) must get @ModelAttribute("baseName") so that
+        // Spring binds nested fields (e.g. options[name]=...) and the wire name is explicitly declared.
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/deepobject.yaml", additionalProperties);
+
+        File defaultApi = files.get("TestApi.kt");
+        // 'options' is a deepObject-style complex query param ($ref: Pet)
+        assertFileContains(defaultApi.toPath(), "@ModelAttribute(\"options\")");
+        // 'inputOptions' is a deepObject-style complex query param ($ref: Options)
+        assertFileContains(defaultApi.toPath(), "@ModelAttribute(\"inputOptions\")");
+        // @RequestParam must NOT be used for model params
+        assertFileNotContains(defaultApi.toPath(), "@RequestParam(value = \"options\"");
+        assertFileNotContains(defaultApi.toPath(), "@RequestParam(value = \"inputOptions\"");
+    }
+
+    @Test
+    public void modelQueryParamWithNonKotlinIdentifierNameGetsExplicitModelAttribute() throws Exception {
+        // A query param named 'order-status' cannot be a Kotlin identifier; paramName is sanitized to
+        // 'orderStatus'. Spring needs @ModelAttribute("order-status") with the exact wire name so that
+        // query strings like ?order-status[state]=pending bind to the parameter correctly.
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/model-query-param.yaml", additionalProperties);
+
+        File ordersApi = files.get("OrdersApi.kt");
+        assertFileContains(ordersApi.toPath(), "@ModelAttribute(\"order-status\")");
+        assertFileContains(ordersApi.toPath(), "@ModelAttribute(\"item-status\")");
+        assertFileNotContains(ordersApi.toPath(), "@RequestParam(value = \"order-status\"");
+        assertFileNotContains(ordersApi.toPath(), "@RequestParam(value = \"item-status\"");
+    }
+
     @Test
     public void suspendFunctionsWithServiceInterface() throws Exception {
         Path root = generateApiSources(Map.of(
