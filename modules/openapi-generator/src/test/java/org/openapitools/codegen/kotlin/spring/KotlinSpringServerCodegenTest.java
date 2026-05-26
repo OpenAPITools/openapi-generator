@@ -6436,7 +6436,7 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void modelQueryParamsGetModelAttributeAnnotation() throws Exception {
         // Complex query params (isModel=true) must get @ModelAttribute("baseName") so that:
-        // - Spring binds nested fields (e.g. filter[state]=...) correctly
+        // - Spring binds nested fields (e.g. filter[statuses]=...) correctly
         // - The exact wire name is preserved when paramName is sanitized
         //   (e.g. 'order-status' → paramName 'orderStatus'; the annotation keeps the wire name)
         Map<String, Object> additionalProperties = new HashMap<>();

@@ -576,6 +576,60 @@ paths:
         '200':
           description: OK
 
+  /orders/filter-only:
+    get:
+      tags:
+        - orders
+      summary: List orders with only the filter param — impl asserts filter is bound correctly
+      operationId: listOrdersFilterOnly
+      parameters:
+        - name: filter
+          in: query
+          description: Filter by order status (valid Kotlin identifier, isolated test)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: OK — impl assertion passed
+
+  /orders/order-status-only:
+    get:
+      tags:
+        - orders
+      summary: List orders with only the order-status param — impl asserts order-status is bound correctly
+      operationId: listOrdersOrderStatusOnly
+      parameters:
+        - name: order-status
+          in: query
+          description: Filter by order status (non-Kotlin-identifier wire name, isolated test)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: OK — impl assertion passed
+
+  /orders/item-status-only:
+    get:
+      tags:
+        - orders
+      summary: List orders with only the item-status param — impl asserts item-status is bound correctly
+      operationId: listOrdersItemStatusOnly
+      parameters:
+        - name: item-status
+          in: query
+          description: Filter by item status (non-Kotlin-identifier wire name, isolated test)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: OK — impl assertion passed
+
   # ---- openApiNullable / 4-state required×nullable test cases ----
 
   /nullable/check-required-only:
@@ -666,8 +720,11 @@ components:
     OrderStatus:
       type: object
       properties:
-        state:
-          type: string
+        statuses:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
     Pet:
       type: object
       required:
