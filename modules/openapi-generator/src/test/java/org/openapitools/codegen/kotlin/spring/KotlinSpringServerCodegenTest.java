@@ -6460,6 +6460,28 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void contentJsonQueryParamGetsRequestParamNotModelAttribute() throws Exception {
+        // A query param declared with `content: application/json` (queryIsJsonMimeType=true) carries a
+        // single JSON-encoded string on the wire (e.g. ?filter={"ids":[1,2]}).
+        // @ModelAttribute is for form-field/deepObject binding and would break JSON params even when a
+        // custom Converter<String,T> is registered — Spring would try to bind filter.ids=... style fields
+        // rather than deserializing the whole string.
+        // The correct annotation is @RequestParam, which delivers the raw string to the converter.
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/query-param-json.yaml", additionalProperties);
+
+        File searchApi = files.get("SearchApi.kt");
+        // @RequestParam must be used so the raw JSON string is passed to a Converter<String,Filter>
+        assertFileContains(searchApi.toPath(), "@RequestParam(value = \"filter\"");
+        // @ModelAttribute must NOT be used — it would attempt deepObject field binding, not JSON parsing
+        assertFileNotContains(searchApi.toPath(), "@ModelAttribute(\"filter\")");
+    }
+
+    @Test
     public void suspendFunctionsWithServiceInterface() throws Exception {
         Path root = generateApiSources(Map.of(
                 KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
