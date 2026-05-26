@@ -31,18 +31,6 @@ import jakarta.annotation.Generated;
 @Controller
 public class OrdersApiController implements OrdersApi {
 
-    private final NativeWebRequest request;
-
-    @Autowired
-    public OrdersApiController(NativeWebRequest request) {
-        this.request = request;
-    }
-
-    @Override
-    public Optional<NativeWebRequest> getRequest() {
-        return Optional.ofNullable(request);
-    }
-
     @Override
     public ResponseEntity<Void> listOrders(
             @Valid @Nullable OrderStatus filter,
