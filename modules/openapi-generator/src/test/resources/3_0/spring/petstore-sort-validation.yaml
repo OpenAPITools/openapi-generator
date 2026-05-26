@@ -8,6 +8,8 @@ servers:
 tags:
   - name: pet
     description: Everything about your Pets
+  - name: orders
+    description: Order filtering endpoints
 paths:
   /pet/findByStatusWithSort:
     get:
@@ -540,6 +542,40 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+  # ---- deepObject model query param test cases ----
+
+  /orders:
+    get:
+      tags:
+        - orders
+      summary: List orders filtered by status — tests @ModelAttribute binding for model query params
+      operationId: listOrders
+      parameters:
+        - name: filter
+          in: query
+          description: Filter by order status (valid Kotlin identifier)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+        - name: order-status
+          in: query
+          description: Filter by order status (non-Kotlin-identifier wire name, hyphenated)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+        - name: item-status
+          in: query
+          description: Filter by item status (non-Kotlin-identifier wire name, hyphenated)
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: OK
+
   # ---- openApiNullable / 4-state required×nullable test cases ----
 
   /nullable/check-required-only:
@@ -627,6 +663,11 @@ components:
         - "id,desc"
         - "createdAt,asc"
         - "createdAt,desc"
+    OrderStatus:
+      type: object
+      properties:
+        state:
+          type: string
     Pet:
       type: object
       required:
