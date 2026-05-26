@@ -104,7 +104,7 @@ sealed class {{classname}}
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-){{#parent}} : {{{.}}}({{#vendorExtensions.x-parent-ctor-args}}{{{.}}}{{/vendorExtensions.x-parent-ctor-args}}){{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}{{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}{{/parent}}
+){{#parent}} : {{{.}}}{{#vendorExtensions.x-parent-ctor-args}}({{{.}}}){{/vendorExtensions.x-parent-ctor-args}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}{{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}{{/parent}}
 {{#vendorExtensions.x-has-data-class-body}}
 {
 {{/vendorExtensions.x-has-data-class-body}}

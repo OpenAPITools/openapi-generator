@@ -16,6 +16,7 @@ package org.openapitools.server.models
  * A pet dog
  * @param packSize the size of the pack the dog is from
  * @param petType 
+ * @param name 
  */
 data class Dog(
     /* the size of the pack the dog is from */
