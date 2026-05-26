@@ -52,12 +52,12 @@ class OrdersApiImpl : OrdersApi {
     /**
      * Only `filter` present — verifies that `filter.statuses` binds to the `filter` param.
      *
-     * The `filter` wire name is a valid Kotlin identifier, so Spring could in
-     * principle bind it by parameter name alone; this endpoint confirms it works.
+     * Two values (`active`, `pending`) are sent to confirm that multi-value `Set<String>`
+     * binding works as well as single-value routing.
      */
     override fun listOrdersFilterOnly(filter: OrderStatus?): ResponseEntity<Unit> {
-        check(filter?.statuses?.contains("sent-via-filter") == true) {
-            "filter.statuses: expected to contain 'sent-via-filter', got '${filter?.statuses}'"
+        check(filter?.statuses?.containsAll(setOf("active", "pending")) == true) {
+            "filter.statuses: expected to contain both 'active' and 'pending', got '${filter?.statuses}'"
         }
         return ResponseEntity(HttpStatus.OK)
     }

@@ -11,9 +11,10 @@ import org.springframework.test.web.servlet.get
  * Verifies the runtime behaviour of the `@ModelAttribute("baseName")` annotations
  * generated onto [OrdersApi]:
  *
- * - **Valid Kotlin identifier** (`filter`) — `filter.state=X` is bound to the
- *   `filter` parameter, not to any other parameter of the same type.
- * - **Hyphenated wire name** (`order-status`) — `order-status.state=X` is bound
+ * - **Valid Kotlin identifier** (`filter`) — `filter.statuses=X` is bound to the
+ *   `filter` parameter, not to any other parameter of the same type. Two values
+ *   are sent to also exercise multi-value `Set<String>` binding.
+ * - **Hyphenated wire name** (`order-status`) — `order-status.statuses=X` is bound
  *   to the `orderStatus` parameter via the explicit `@ModelAttribute("order-status")`
  *   annotation.  Without it the wire name cannot be matched to any Kotlin identifier
  *   and the parameter would remain `null`.
@@ -35,33 +36,33 @@ class OrdersApiValidationTest {
     lateinit var mockMvc: MockMvc
 
     // ── filter (valid Kotlin identifier) ─────────────────────────────────────
-    // Endpoint: GET /orders/filter-only — impl asserts filter.state == "sent-via-filter"
+    // Endpoint: GET /orders/filter-only — impl asserts filter.statuses contains both "active" and "pending"
 
     @Test
     fun `filter deepObject param binds correctly to filter parameter`() {
-        mockMvc.get("${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS_FILTER_ONLY}") {
-            param("filter.statuses", "sent-via-filter")
-        }.andExpect { status { isOk() } }
+        mockMvc.get(
+            "${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS_FILTER_ONLY}?filter.statuses=active&filter.statuses=pending"
+        ).andExpect { status { isOk() } }
     }
 
     // ── order-status (non-Kotlin-identifier, hyphenated) ──────────────────────
-    // Endpoint: GET /orders/order-status-only — impl asserts orderStatus.state == "sent-via-order-status"
+    // Endpoint: GET /orders/order-status-only — impl asserts orderStatus.statuses contains "sent-via-order-status"
 
     @Test
     fun `order-status deepObject param binds correctly to orderStatus parameter`() {
-        mockMvc.get("${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS_ORDER_STATUS_ONLY}") {
-            param("order-status.statuses", "sent-via-order-status")
-        }.andExpect { status { isOk() } }
+        mockMvc.get(
+            "${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS_ORDER_STATUS_ONLY}?order-status.statuses=sent-via-order-status"
+        ).andExpect { status { isOk() } }
     }
 
     // ── item-status (non-Kotlin-identifier, hyphenated) ───────────────────────
-    // Endpoint: GET /orders/item-status-only — impl asserts itemStatus.state == "sent-via-item-status"
+    // Endpoint: GET /orders/item-status-only — impl asserts itemStatus.statuses contains "sent-via-item-status"
 
     @Test
     fun `item-status deepObject param binds correctly to itemStatus parameter`() {
-        mockMvc.get("${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS_ITEM_STATUS_ONLY}") {
-            param("item-status.statuses", "sent-via-item-status")
-        }.andExpect { status { isOk() } }
+        mockMvc.get(
+            "${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS_ITEM_STATUS_ONLY}?item-status.statuses=sent-via-item-status"
+        ).andExpect { status { isOk() } }
     }
 
     // ── all three simultaneously ──────────────────────────────────────────────
@@ -71,10 +72,10 @@ class OrdersApiValidationTest {
 
     @Test
     fun `all three deepObject params bind to their respective parameters`() {
-        mockMvc.get("${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS}") {
-            param("filter.statuses", "sent-via-filter")
-            param("order-status.statuses", "sent-via-order-status")
-            param("item-status.statuses", "sent-via-item-status")
-        }.andExpect { status { isOk() } }
+        mockMvc.get(
+            "${OrdersApi.BASE_PATH}${OrdersApi.PATH_LIST_ORDERS}?filter.statuses=sent-via-filter" +
+                "&order-status.statuses=sent-via-order-status" +
+                "&item-status.statuses=sent-via-item-status"
+        ).andExpect { status { isOk() } }
     }
 }
