@@ -86,7 +86,8 @@ class {{classname}} {
       {{#queryParams}}
       {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
       {{/queryParams}}
-    };{{/hasQueryParams}}{{#hasBodyOrFormParams}}
+    };
+    removeNullQueryParameters(_queryParameters);{{/hasQueryParams}}{{#hasBodyOrFormParams}}
 
     dynamic _bodyData;
 
