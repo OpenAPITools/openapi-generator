@@ -22,5 +22,7 @@ import org.openapitools.server.models.Dog
     com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = Cat::class, name = "cat"),
     com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = Dog::class, name = "dog")
 )
-sealed class Pet
+sealed interface Pet {
+    val petType: kotlin.String
+}
 
