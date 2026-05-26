@@ -4318,8 +4318,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     private static boolean hasNullableMarker(Schema schema) {
         return schema != null && (schema.getNullable() != null ||
-                schema.getTypes() != null && schema.getTypes().contains("null") ||
-                schema.getExtensions() != null && schema.getExtensions().containsKey(X_NULLABLE) ||
+                ModelUtils.hasType(schema, "null") ||
+                ModelUtils.hasExtension(schema, X_NULLABLE) ||
                 ModelUtils.isNullableComposedSchema(schema));
     }
 

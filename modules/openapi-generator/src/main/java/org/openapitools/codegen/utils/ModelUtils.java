@@ -418,6 +418,14 @@ public class ModelUtils {
         return schema.getEnum() != null && !schema.getEnum().isEmpty();
     }
 
+    public static boolean hasType(Schema<?> schema, String type) {
+        return schema != null && schema.getTypes() != null && schema.getTypes().contains(type);
+    }
+
+    public static boolean hasExtension(Schema<?> schema, String extensionName) {
+        return schema != null && schema.getExtensions() != null && schema.getExtensions().containsKey(extensionName);
+    }
+
     /**
      * Return true if the specified schema is type object
      * Only considers OAS 3.0 {@code type} and not OAS 3.1 {@code types}
@@ -1792,10 +1800,13 @@ public class ModelUtils {
             return true;
         }
 
-        if (schema.getExtensions() != null && schema.getExtensions().get(X_NULLABLE) != null) {
-            return Boolean.parseBoolean(schema.getExtensions().get(X_NULLABLE).toString());
+        if (hasExtension(schema, X_NULLABLE)) {
+            Object nullable = schema.getExtensions().get(X_NULLABLE);
+            if (nullable != null) {
+                return Boolean.parseBoolean(nullable.toString());
+            }
         }
-        if (schema.getTypes() != null && schema.getTypes().contains("null")) {
+        if (hasType(schema, "null")) {
             return true;
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.

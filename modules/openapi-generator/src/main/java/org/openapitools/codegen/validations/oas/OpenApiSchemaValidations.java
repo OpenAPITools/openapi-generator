@@ -140,9 +140,11 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         if (Boolean.TRUE.equals(schema.getNullable())) {
             return true;
         }
-        return schema.getExtensions() != null
-                && schema.getExtensions().get(CodegenConstants.X_NULLABLE) != null
-                && Boolean.parseBoolean(schema.getExtensions().get(CodegenConstants.X_NULLABLE).toString());
+        if (ModelUtils.hasExtension(schema, CodegenConstants.X_NULLABLE)) {
+            Object nullable = schema.getExtensions().get(CodegenConstants.X_NULLABLE);
+            return nullable != null && Boolean.parseBoolean(nullable.toString());
+        }
+        return false;
     }
 
     private static String nameOf(Schema schema) {

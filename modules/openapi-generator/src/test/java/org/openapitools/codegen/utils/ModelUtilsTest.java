@@ -625,6 +625,28 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void hasTypeChecksSchemaTypes() {
+        Schema<?> schema = new Schema<>();
+        schema.setTypes(new LinkedHashSet<>(Arrays.asList("object", "null")));
+
+        assertTrue(ModelUtils.hasType(schema, "null"));
+        assertFalse(ModelUtils.hasType(schema, "string"));
+        assertFalse(ModelUtils.hasType(new Schema<>(), "null"));
+        assertFalse(ModelUtils.hasType(null, "null"));
+    }
+
+    @Test
+    public void hasExtensionChecksSchemaExtensions() {
+        Schema<?> schema = new Schema<>();
+        schema.addExtension("x-nullable", Boolean.TRUE);
+
+        assertTrue(ModelUtils.hasExtension(schema, "x-nullable"));
+        assertFalse(ModelUtils.hasExtension(schema, "x-other"));
+        assertFalse(ModelUtils.hasExtension(new Schema<>(), "x-nullable"));
+        assertFalse(ModelUtils.hasExtension(null, "x-nullable"));
+    }
+
+    @Test
     public void isNullTypeSchemaTest() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/null_schema_test.yaml");
         Map<String, String> options = new HashMap<>();
