@@ -1620,15 +1620,15 @@ public class OpenAPINormalizer {
 
             Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
 
-            // Check if this sub-schema has an enum or const value (OpenAPI 3.1 uses const for single-value enums)
-            List<Object> subSchemaEnumValues = subSchema.getEnum();
-            if ((subSchemaEnumValues == null || subSchemaEnumValues.isEmpty()) && subSchema.getConst() == null) {
+            // Check if this sub-schema has an enum or const value (OAS 3.1 uses const for single-value enums)
+            boolean definesEnum = ModelUtils.hasEnum(subSchema);
+            if (!definesEnum && subSchema.getConst() == null) {
                 return schema;
             }
             // If const is present but enum is not, treat const as a single enum value
-            if ((subSchemaEnumValues == null || subSchemaEnumValues.isEmpty()) && subSchema.getConst() != null) {
-                subSchemaEnumValues = Arrays.asList(subSchema.getConst());
-            }
+            List<Object> subSchemaEnumValues = definesEnum
+                    ? subSchema.getEnum()
+                    : Arrays.asList(subSchema.getConst());
 
             // Ensure all sub-schemas have the same type (if type is specified)
             if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
