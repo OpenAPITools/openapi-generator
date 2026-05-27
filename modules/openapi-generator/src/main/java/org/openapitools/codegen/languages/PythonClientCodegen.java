@@ -149,7 +149,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(SET_ENSURE_ASCII_TO_FALSE, "When set to true, add `ensure_ascii=False` in json.dumps when creating the HTTP request body.")
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
-        cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
+        cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictFloat, float or Decimal.")
                 .defaultValue("Union[StrictFloat, StrictInt]"));
         cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
                 .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
