@@ -418,10 +418,24 @@ public class ModelUtils {
         return schema.getEnum() != null && !schema.getEnum().isEmpty();
     }
 
+    /**
+     * Return true if the schema's OAS 3.1 type array contains the specified type.
+     *
+     * @param schema the OAS schema
+     * @param type   the type to look for
+     * @return true if the schema's type array contains the specified type
+     */
     public static boolean hasType(Schema<?> schema, String type) {
         return schema != null && schema.getTypes() != null && schema.getTypes().contains(type);
     }
 
+    /**
+     * Return true if the schema contains the specified vendor extension.
+     *
+     * @param schema        the OAS schema
+     * @param extensionName the vendor extension name
+     * @return true if the schema contains the specified vendor extension
+     */
     public static boolean hasExtension(Schema<?> schema, String extensionName) {
         return schema != null && schema.getExtensions() != null && schema.getExtensions().containsKey(extensionName);
     }
