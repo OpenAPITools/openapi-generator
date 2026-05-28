@@ -63,6 +63,7 @@ jobs:
             .mypy_cache/
 
       - name: Install via pip
+        working-directory: ${{ matrix.sample }}
         run: pip install -r requirements.txt
 
       - name: Install poetry
