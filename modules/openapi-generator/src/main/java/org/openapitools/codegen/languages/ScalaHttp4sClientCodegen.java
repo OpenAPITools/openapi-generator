@@ -406,7 +406,7 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
                             childModel.getVendorExtensions().put("x-oneOfParent", cModel.classname);
                             // Store parent's discriminator info for use in template
                             if (cModel.discriminator != null) {
-                                childModel.getVendorExtensions().put("x-parentDiscriminatorName", cModel.discriminator.getPropertyName());
+                                childModel.getVendorExtensions().put("x-parentDiscriminatorBaseName", cModel.discriminator.getPropertyBaseName());
                             }
                             oneOfMembers.add(childModel);
 
@@ -461,7 +461,7 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
                         for (CodegenModel member : oneOfMembers) {
                             member.getVendorExtensions().remove("x-isOneOfMember");
                             member.getVendorExtensions().remove("x-oneOfParent");
-                            member.getVendorExtensions().remove("x-parentDiscriminatorName");
+                            member.getVendorExtensions().remove("x-parentDiscriminatorBaseName");
                         }
 
                         if (oneOfMembers.isEmpty()) {
