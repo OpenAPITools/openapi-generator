@@ -7725,4 +7725,23 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
             .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
     }
+
+    @Test
+    public void getParentFromFirstRefInAllOfTest() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/firstRefAsParent.yaml", SPRING_HTTP_INTERFACE,
+                Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, true, INTERFACE_ONLY, true),
+                codegen -> codegen.addOpenapiNormalizer("REF_AS_PARENT_IN_ALLOF", "true"));
+
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .extendsClass("Pet")
+                .assertProperty("breed")
+                .withType("String")
+                .assertPropertyAnnotations().containsWithName("Nullable");
+
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .extendsClass("Pet")
+                .assertProperty("breed")
+                .withType("BreedEnum")
+                .assertPropertyAnnotations().containsWithName("Nullable");
+    }
 }

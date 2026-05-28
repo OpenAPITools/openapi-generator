@@ -1636,10 +1636,8 @@ public class ModelUtils {
                     }
                 }
             }
-            if (parentNameCandidates.size() > 1) {
-                // unclear which one should be the parent
-                return null;
-            } else if (parentNameCandidates.size() == 1) {
+            if (!parentNameCandidates.isEmpty()) {
+                // use first ref as parent
                 return parentNameCandidates.get(0);
             }
             if (refedWithoutDiscriminator.size() == 1 && nullSchemaChildrenCount == 1) {

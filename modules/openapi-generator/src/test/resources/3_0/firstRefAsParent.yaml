@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: fruity
+  version: 0.0.1
+
+paths:
+  /pets:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Updated
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petType:
+          type: string
+
+    Dog:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [ dingo, husky, retriever, shepherd ]
+    Cat:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - $ref: "#/components/schemas/CatType"
+        - properties:
+            meow:
+              type: boolean
+
+    CatType:
+      type: object
+      properties:
+        breed:
+          type: string
