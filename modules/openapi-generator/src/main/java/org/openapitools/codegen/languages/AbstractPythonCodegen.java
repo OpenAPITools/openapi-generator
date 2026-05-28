@@ -635,16 +635,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         if (parameter.getExample() != null) {
             codegenParameter.example = parameter.getExample().toString();
-            codegenParameter.vendorExtensions.put("x-py-example", toPythonLiteral(parameter.getExample()));
+            codegenParameter.vendorExtensions.put(X_PY_EXAMPLE, toPythonLiteral(parameter.getExample()));
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
             if (example.getValue() != null) {
                 codegenParameter.example = example.getValue().toString();
-                codegenParameter.vendorExtensions.put("x-py-example", toPythonLiteral(example.getValue()));
+                codegenParameter.vendorExtensions.put(X_PY_EXAMPLE, toPythonLiteral(example.getValue()));
             }
         } else if (schema != null && schema.getExample() != null) {
             codegenParameter.example = schema.getExample().toString();
-            codegenParameter.vendorExtensions.put("x-py-example", toPythonLiteral(schema.getExample()));
+            codegenParameter.vendorExtensions.put(X_PY_EXAMPLE, toPythonLiteral(schema.getExample()));
         }
 
         setParameterExampleValue(codegenParameter);
@@ -1040,13 +1040,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
 
                 String typing = pydantic.generatePythonType(cp);
-                cp.vendorExtensions.put("x-py-typing", typing);
+                cp.vendorExtensions.put(X_PY_TYPING, typing);
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
+                    cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
+                    cp.vendorExtensions.put(X_PY_NAME, String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
 
@@ -1061,13 +1061,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
-                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
+                        model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
                             enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                         }
                     } else {
-                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
+                        model.vendorExtensions.putIfAbsent(X_PY_ENUM_TYPE, "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
                         if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
                             enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
@@ -1077,7 +1077,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             // set the extensions if the key is absent
-            model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
+            model.getVendorExtensions().putIfAbsent(X_PY_READONLY, readOnlyFields);
 
             // remove the items of postponedModelImports in modelImports to avoid circular imports error
             if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()) {
@@ -1096,12 +1096,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
 
                 if (!modelsToImport.isEmpty()) {
-                    model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
+                    model.getVendorExtensions().putIfAbsent(X_PY_MODEL_IMPORTS, modelsToImport);
                 }
             }
 
             if (!moduleImports.isEmpty()) {
-                model.getVendorExtensions().putIfAbsent("x-py-other-imports", moduleImports.exports());
+                model.getVendorExtensions().putIfAbsent(X_PY_OTHER_IMPORTS, moduleImports.exports());
             }
 
 
@@ -1115,7 +1115,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
                 }
 
-                model.getVendorExtensions().putIfAbsent("x-py-postponed-model-imports", modelsToImport);
+                model.getVendorExtensions().putIfAbsent(X_PY_POSTPONED_MODEL_IMPORTS, modelsToImport);
             }
         }
 
@@ -1326,7 +1326,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         null
                 );
                 String typing = pydantic.generatePythonType(cp);
-                cp.vendorExtensions.put("x-py-typing", typing);
+                cp.vendorExtensions.put(X_PY_TYPING, typing);
             }
 
             // update typing import for operation return type
@@ -1367,7 +1367,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 for (String exampleImport : exampleImports) {
                     imports.add("from " + packageName + ".models." + underscore(exampleImport) + " import " + exampleImport);
                 }
-                operation.vendorExtensions.put("x-py-example-import", imports);
+                operation.vendorExtensions.put(X_PY_EXAMPLE_IMPORT, imports);
             }
 
             if (!postponedExampleImports.isEmpty()) {
@@ -1376,7 +1376,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     imports.add("from " + packageName + ".models." + underscore(exampleImport) + " import "
                             + exampleImport);
                 }
-                operation.vendorExtensions.put("x-py-example-import", imports);
+                operation.vendorExtensions.put(X_PY_EXAMPLE_IMPORT, imports);
             }
 
             // Remove constant params from allParams list and add to constantParams
@@ -1462,7 +1462,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             vendorExtensions.put(X_REGEX, regex.replace("\"", "\\\""));
-            vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
+            vendorExtensions.put(X_PATTERN, pattern.replace("\"", "\\\""));
             vendorExtensions.put(X_MODIFIERS, modifiers);
         }
     }
