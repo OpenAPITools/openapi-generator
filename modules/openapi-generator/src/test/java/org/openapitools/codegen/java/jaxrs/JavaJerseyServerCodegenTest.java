@@ -29,6 +29,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.collectToCaseInsensitiveOrderedCaseSensitiveKeyMap;
 
 public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
@@ -232,7 +233,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
                 .assertMethod("headersTest")

@@ -58,7 +58,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1270,7 +1269,7 @@ public class JavaClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("StoreApi.java"))
                 .assertMethod("getInventory")
@@ -1684,7 +1683,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Foo.java"))
                 .assertConstructor("String", "Integer")
@@ -1718,7 +1717,7 @@ public class JavaClientCodegenTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Pet.java"))
                 .assertConstructor("String")
@@ -1741,7 +1740,7 @@ public class JavaClientCodegenTest {
                 .setInputSpec("src/test/resources/bugs/java-codegen-empty-array-as-default-value/issue_wrong-default.yaml");
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
                 .assertProperty("stringDefault")
@@ -1765,7 +1764,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
                 .printFileContent()
@@ -1832,7 +1831,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                 .assertMethod("operationWithHttpInfo")
@@ -2149,7 +2148,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString());
         consumer.accept(configurator);
         return new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(JavaClientCodegenTest::getUniqueName, Function.identity()));
+                .stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap(JavaClientCodegenTest::getUniqueName));
     }
 
     private static String getUniqueName(File file) {
@@ -2313,7 +2312,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("AbstractOpenApiSchema.java"))
                 .assertTypeAnnotations()
@@ -2484,7 +2483,7 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(USE_ENUM_CASE_INSENSITIVE, "true");
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("EnumTest.java"))
                 .assertMethod("fromValue")
@@ -2500,7 +2499,7 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(USE_ENUM_CASE_INSENSITIVE, "false");
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("EnumTest.java"))
                 .assertMethod("fromValue")
@@ -2515,7 +2514,7 @@ public class JavaClientCodegenTest {
         codegen.setOutputDir(newTempFolder().toString());
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("EmployeeWithMapOfEnum.java"))
                 .assertProperty("projectRole")
@@ -2557,7 +2556,7 @@ public class JavaClientCodegenTest {
         codegen.setAutosetConstants(true);
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File apiFile = files.get("HelloExampleApi.java");
         Assertions.assertNotNull(apiFile);
@@ -2575,7 +2574,7 @@ public class JavaClientCodegenTest {
         codegen.setAutosetConstants(true);
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         assertNull(files.get("AllOfDatetime.java"));
     }
@@ -2591,7 +2590,7 @@ public class JavaClientCodegenTest {
         codegen.openapiGeneratorIgnoreList().add("pom.xml");
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         // make sure README.md and pom.xml are not generated
         assertNull(files.get("README.md"));
@@ -2607,7 +2606,7 @@ public class JavaClientCodegenTest {
         codegen.setOutputDir(output.toString());
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         Map<String, String> expectedContents = Map.of(
                 "Cat", "this.petType = PetTypeEnum.CATTY",
@@ -2692,7 +2691,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         // enum
         File modelFile = files.get("Metadata.java");
@@ -2885,7 +2884,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
                 .printFileContent()
@@ -3400,7 +3399,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         final Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
                 .printFileContent();
@@ -3761,7 +3760,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File apiFile = files.get("DefaultApi.java");
         assertNotNull(apiFile);
@@ -3793,7 +3792,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
@@ -3822,7 +3821,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
@@ -3857,7 +3856,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File apiFile = files.get("DefaultApi.java");
         assertNotNull(apiFile);
@@ -3878,7 +3877,7 @@ public class JavaClientCodegenTest {
         codegen.setOutputDir(output.toString());
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
     }
@@ -3902,7 +3901,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File oneOfFile = files.get("ResultObjectOneOf.java");
         assertNotNull(oneOfFile);
@@ -3939,7 +3938,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File oneOfFile = files.get("ResultObjectOneOf.java");
         assertNotNull(oneOfFile);
@@ -3976,7 +3975,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File oneOfFile = files.get("ResultObjectOneOf.java");
         assertNotNull(oneOfFile);

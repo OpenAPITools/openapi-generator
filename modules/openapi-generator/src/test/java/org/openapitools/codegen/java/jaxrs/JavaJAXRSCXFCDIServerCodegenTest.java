@@ -15,8 +15,8 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.TestUtils.collectToCaseInsensitiveOrderedCaseSensitiveKeyMap;
 
 public class JavaJAXRSCXFCDIServerCodegenTest extends JavaJaxrsBaseTest {
 
@@ -42,7 +42,7 @@ public class JavaJAXRSCXFCDIServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
                 .assertMethod("headersTest")
