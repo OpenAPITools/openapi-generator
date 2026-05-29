@@ -42,8 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
-import static org.openapitools.codegen.CodegenConstants.X_REGEX;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 
@@ -1064,13 +1063,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     if ((Boolean) enumVars.get("isString")) {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames
-                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                        if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
                             enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                         }
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
-                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                        if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
                             enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
                         }
                     }
@@ -1423,6 +1422,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
+
+        if (property.isArray) {
+            postProcessPattern(property.items.pattern, property.items.vendorExtensions);
+        }
     }
 
     /*

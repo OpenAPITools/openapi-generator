@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: Required and Nullable 4-State Test
+  version: 1.0.0
+paths:
+  /test:
+    post:
+      operationId: testPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestModel'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    TestModel:
+      type: object
+      required:
+        - requiredNonNullable
+        - requiredNullable
+      properties:
+        # Scenario 1: required=true, nullable=false => strict, non-nullable, no default
+        requiredNonNullable:
+          type: string
+          nullable: false
+        # Scenario 2: required=true, nullable=true => required but explicit null allowed
+        requiredNullable:
+          type: string
+          nullable: true
+        # Scenario 3: required=false, nullable=false => optional but must block explicit null
+        optionalNonNullable:
+          type: string
+          nullable: false
+        # Scenario 4: required=false, nullable=true => 3-state (JsonNullable)
+        optionalNullable:
+          type: string
+          nullable: true

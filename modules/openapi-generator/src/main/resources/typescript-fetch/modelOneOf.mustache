@@ -61,7 +61,6 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
             }
     {{#-last}}
         }
-        return json;
     }
     {{/-last}}
     {{/oneOfArrays}}
@@ -105,6 +104,15 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/isString}}
     {{/items}}
     {{/isArray}}
+    {{/oneOfPrimitives}}
+    {{#oneOfArrays}}
+    {{#-last}}
+    if (Array.isArray(json)) {
+        return json;
+    }
+    {{/-last}}
+    {{/oneOfArrays}}
+    {{#oneOfPrimitives}}
     {{^isArray}}
     {{#isDateType}}
     if (!(isNaN(new Date(json).getTime()))) {
@@ -178,7 +186,6 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
             }
     {{#-last}}
         }
-        return value;
     }
     {{/-last}}
     {{/oneOfArrays}}
@@ -187,7 +194,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{#items}}
     {{#isDateType}}
     if (Array.isArray(value)) {
-        if (value.every(item => item instanceof Date) {
+        if (value.every(item => item instanceof Date)) {
             return value.map(value => value.toISOString().substring(0,10));
         }
     }
@@ -222,6 +229,15 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{/isString}}
     {{/items}}
     {{/isArray}}
+    {{/oneOfPrimitives}}
+    {{#oneOfArrays}}
+    {{#-last}}
+    if (Array.isArray(value)) {
+        return value;
+    }
+    {{/-last}}
+    {{/oneOfArrays}}
+    {{#oneOfPrimitives}}
     {{^isArray}}
     {{#isDateType}}
     if (value instanceof Date) {

@@ -685,6 +685,57 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(parentModelKt, "val id: ObjectWithComplexAnyOfId?");
     }
 
+    @Test(description = "generate oneOf/anyOf wrappers with explicit API mode using kotlinx_serialization")
+    public void oneOfAnyOfKotlinxSerializationExplicitApi() throws IOException {
+        File output = generateKotlinxOneOfAnyOf(new HashMap<>() {{ put(KotlinClientCodegen.EXPLICIT_API, true); }});
+        // value class nested inside sealed interface: public is valid, internal is not
+        TestUtils.assertFileContains(modelPath(output, "ObjectWithComplexOneOfId"),
+                "public value class StringValue(public val value: kotlin.String) : ObjectWithComplexOneOfId");
+        TestUtils.assertFileContains(modelPath(output, "ObjectWithComplexAnyOfId"),
+                "public value class StringValue(public val value: kotlin.String) : ObjectWithComplexAnyOfId");
+    }
+
+    @Test(description = "generate oneOf/anyOf wrappers with non-public API mode using kotlinx_serialization")
+    public void oneOfAnyOfKotlinxSerializationNonPublicApi() throws IOException {
+        File output = generateKotlinxOneOfAnyOf(new HashMap<>() {{ put(CodegenConstants.NON_PUBLIC_API, true); }});
+        // Kotlin doesn't allow internal subclasses of internal interfaces, make sure subclasses are generated correctly
+        TestUtils.assertFileContains(modelPath(output, "ObjectWithComplexOneOfId"),
+                "internal sealed interface ObjectWithComplexOneOfId");
+        TestUtils.assertFileNotContains(modelPath(output, "ObjectWithComplexOneOfId"),
+                "internal value class StringValue");
+        TestUtils.assertFileContains(modelPath(output, "ObjectWithComplexOneOfId"),
+                "value class StringValue(internal val value: kotlin.String) : ObjectWithComplexOneOfId");
+        TestUtils.assertFileContains(modelPath(output, "ObjectWithComplexAnyOfId"),
+                "internal sealed interface ObjectWithComplexAnyOfId");
+        TestUtils.assertFileNotContains(modelPath(output, "ObjectWithComplexAnyOfId"),
+                "internal value class StringValue");
+        TestUtils.assertFileContains(modelPath(output, "ObjectWithComplexAnyOfId"),
+                "value class StringValue(internal val value: kotlin.String) : ObjectWithComplexAnyOfId");
+    }
+
+    private File generateKotlinxOneOfAnyOf(Map<String, Object> extraProps) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        Map<String, Object> props = new HashMap<>();
+        props.put(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization");
+        props.put(GENERATE_ONEOF_ANYOF_WRAPPERS, true);
+        props.putAll(extraProps);
+        new DefaultGenerator()
+                .opts(new CodegenConfigurator()
+                        .setGeneratorName("kotlin")
+                        .setLibrary("jvm-retrofit2")
+                        .setAdditionalProperties(props)
+                        .setInputSpec("src/test/resources/3_0/issue_19942.json")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                        .toClientOptInput())
+                .generate();
+        return output;
+    }
+
+    private static Path modelPath(File output, String modelName) {
+        return Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/" + modelName + ".kt");
+    }
+
     @Test(description = "generate polymorphic jackson model")
     public void polymorphicJacksonSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
@@ -817,6 +868,39 @@ public class KotlinClientCodegenModelTest {
 
       // Verify that the decode function throws IllegalArgumentException for unknown values
       TestUtils.assertFileContains(enumKt, "throw IllegalArgumentException(\"Unknown ExampleNumericEnum value: $data\")");
+  }
+
+  @Test
+  public void testJacksonEnumsExposeDecodeOrNullHelper() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName("kotlin")
+              .setLibrary("jvm-retrofit2")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                put(CodegenConstants.MODEL_PACKAGE, "model");
+              }})
+              .setInputSpec("src/test/resources/3_0/kotlin/issue22534-kotlin-numeric-enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path enumKt = Paths.get(output + "/src/main/kotlin/model/ExampleNumericEnum.kt");
+
+      // decodeOrNull should always be generated alongside decode in the Jackson branch
+      // and must return null for unknown values without throwing.
+      TestUtils.assertFileContains(enumKt, "fun decodeOrNull(data: kotlin.Any?): ExampleNumericEnum?");
+      // decodeOrNull should not be annotated with @JsonCreator — only decode is the Jackson entry point.
+      // Verify by checking @JsonCreator appears exactly once in the file.
+      String content = new String(java.nio.file.Files.readAllBytes(enumKt), java.nio.charset.StandardCharsets.UTF_8);
+      int jsonCreatorCount = content.split("@JsonCreator", -1).length - 1;
+      Assert.assertEquals(jsonCreatorCount, 1,
+              "Expected exactly one @JsonCreator annotation in the generated enum, found " + jsonCreatorCount);
   }
 
   @Test

@@ -403,7 +403,7 @@ public class JavaClientCodegenTest {
     public void updateCodegenPropertyEnumWithCustomNames() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
-        array.getItems().setVendorExtensions(Map.of("x-enum-varnames", Collections.singletonList("ONE")));
+        array.getItems().setVendorExtensions(Map.of(X_ENUM_VARNAMES, Collections.singletonList("ONE")));
 
         codegen.updateCodegenPropertyEnum(array);
 
@@ -732,7 +732,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(library)
                 .addAdditionalProperty(USE_JACKSON_3, true)
                 .addAdditionalProperty(USE_SPRING_BOOT4, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
                 .setOutputDir(outputDir);
 
@@ -3001,7 +3001,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(library)
                 .addAdditionalProperty(USE_JACKSON_3, true)
                 .addAdditionalProperty(USE_SPRING_BOOT4, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
                 .setOutputDir(outputDir);
 
@@ -3027,7 +3027,7 @@ public class JavaClientCodegenTest {
     void gsonCodeDoesNotContainJacksonReferences(Library library) {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .addAdditionalProperty(SERIALIZATION_LIBRARY, Serializer.GSON)
-                .addAdditionalProperty(OPENAPI_NULLABLE, "false")
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, "false")
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library.getValue())
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
@@ -3079,7 +3079,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON)
                 .addAdditionalProperty(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
                 .addGlobalProperty(CodegenConstants.MODELS, "FormatTest")
                 .addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
                 .addGlobalProperty(CodegenConstants.MODEL_TESTS, "false")
@@ -3450,6 +3450,77 @@ public class JavaClientCodegenTest {
                 output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "import com.fasterxml.jackson.dataformat.xml.XmlMapper;",
                 "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
+    @Test(description = "Regression test for issue #23860: with useJackson3=true the generated"
+            + " restclient ApiClient must build XmlMapper via the immutable Builder API,"
+            + " because XmlMapper.configure(...) and registerModule(...) were removed in Jackson 3.")
+    public void testRestClientWithXMLAndJackson3_issue_23860() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true,
+                        JavaClientCodegen.USE_JACKSON_3, true,
+                        JavaClientCodegen.USE_SPRING_BOOT4, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import tools.jackson.dataformat.xml.XmlMapper;",
+                "import tools.jackson.dataformat.xml.XmlWriteFeature;",
+                "XmlMapper xmlMapper = XmlMapper.builder()",
+                ".enable(XmlWriteFeature.WRITE_XML_DECLARATION)",
+                ".build();"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "xmlMapper.configure(",
+                "xmlMapper.registerModule(",
+                "import tools.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
+    @Test(description = "Regression test for issue #23860: with useJackson3=true and"
+            + " openApiNullable=true, the JsonNullableJackson3Module must be wired via the"
+            + " XmlMapper.Builder#addModule API.")
+    public void testRestClientWithXMLAndJackson3AndOpenApiNullable_issue_23860() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true,
+                        JavaClientCodegen.USE_JACKSON_3, true,
+                        JavaClientCodegen.USE_SPRING_BOOT4, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import org.openapitools.jackson.nullable.JsonNullableJackson3Module;",
+                "XmlMapper xmlMapper = XmlMapper.builder()",
+                ".addModule(new JsonNullableJackson3Module())",
+                ".build();"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "xmlMapper.registerModule("
         );
     }
 

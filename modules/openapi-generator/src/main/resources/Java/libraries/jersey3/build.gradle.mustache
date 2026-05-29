@@ -78,8 +78,8 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     publishing {
         publications {
@@ -99,15 +99,21 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.6.5"
+    {{^useJackson3}}
     jackson_version = "2.21.1"
     jackson_annotations_version = "2.21"
     jackson_databind_version = "2.21.1"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    jackson3_version = "3.1.0"
+    jackson_annotations_version = "2.21"
+    {{/useJackson3}}
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.10"
     {{/openApiNullable}}
-    jakarta_annotation_version = "2.1.0"
+    jakarta_annotation_version = "3.0.0"
     {{#useBeanValidation}}
-    bean_validation_version = "3.0.2"
+    bean_validation_version = "3.1.1"
     {{/useBeanValidation}}
     jersey_version = "3.0.4"
     junit_version = "5.8.2"
@@ -128,18 +134,35 @@ dependencies {
     implementation "org.glassfish.jersey.core:jersey-client:$jersey_version"
     implementation "org.glassfish.jersey.inject:jersey-hk2:$jersey_version"
     implementation "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
+    {{^useJackson3}}
     implementation "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
+    {{/useJackson3}}
     implementation "org.glassfish.jersey.connectors:jersey-apache-connector:$jersey_version"
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    implementation "tools.jackson.core:jackson-core:$jackson3_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
+    implementation "tools.jackson.core:jackson-databind:$jackson3_version"
+    implementation "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$jackson3_version"
+    {{/useJackson3}}
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
     {{#joda}}
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    implementation "tools.jackson.datatype:jackson-datatype-joda:$jackson3_version"
+    {{/useJackson3}}
     {{/joda}}
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/useJackson3}}
     {{#hasOAuthMethods}}
     implementation "com.github.scribejava:scribejava-apis:$scribejava_apis_version"
     {{/hasOAuthMethods}}

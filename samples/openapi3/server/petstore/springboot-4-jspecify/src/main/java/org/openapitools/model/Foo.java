@@ -39,10 +39,8 @@ public class Foo {
 
   private org.springframework.core.io.@Nullable Resource binary;
 
-  @Valid
   private List<OffsetDateTime> listOfDt = new ArrayList<>();
 
-  @Valid
   private List<OffsetDateTime> listMinIntems = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

@@ -71,4 +71,22 @@ public class PythonFastapiCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/src/openapi_server/apis/default_api.py"),
                 "r\"^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$\"");
     }
+
+    @Test
+    public void testRegexPatternCheckedForArrayItems() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-fastapi")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setInputSpec("src/test/resources/3_1/issue_23102.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/openapi_server/models/test_object.py"),
+                "raise ValueError(r\"must validate the regular expression /^[A-Z0-9_\\- ]+$/\")");
+    }
 }

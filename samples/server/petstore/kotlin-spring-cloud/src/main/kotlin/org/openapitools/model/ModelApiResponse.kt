@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -20,10 +22,13 @@ import javax.validation.Valid
  */
 data class ModelApiResponse(
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("code") val code: kotlin.Int? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("message") val message: kotlin.String? = null
 ) : java.io.Serializable {
 
