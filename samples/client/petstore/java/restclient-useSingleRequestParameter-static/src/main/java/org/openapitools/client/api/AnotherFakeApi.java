@@ -48,14 +48,14 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      * <p><b>200</b> - successful operation
-     * @param client client model
+     * @param __client client model
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec call123testSpecialTagsRequestCreation(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
-        Object postBody = client;
+    private ResponseSpec call123testSpecialTagsRequestCreation(@jakarta.annotation.Nonnull Client __client) throws RestClientResponseException {
+        Object postBody = __client;
         // verify the required parameter 'client' is set
-        if (client == null) {
+        if (__client == null) {
             throw new RestClientResponseException("Missing the required parameter 'client' when calling call123testSpecialTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables

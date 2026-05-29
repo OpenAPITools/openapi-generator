@@ -49,14 +49,14 @@ public class PetApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>405</b> - Invalid input
-     * @param pet Pet object that needs to be added to the store
+     * @param __pet Pet object that needs to be added to the store
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec addPetRequestCreation(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec addPetRequestCreation(@jakarta.annotation.Nonnull Pet __pet) throws RestClientResponseException {
+        Object postBody = __pet;
         // verify the required parameter 'pet' is set
-        if (pet == null) {
+        if (__pet == null) {
             throw new RestClientResponseException("Missing the required parameter 'pet' when calling addPet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables

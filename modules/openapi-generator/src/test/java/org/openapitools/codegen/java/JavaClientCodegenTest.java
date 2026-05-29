@@ -2734,7 +2734,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/DepartmentApi.java"), "if (filter != null) {");
+        assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/DepartmentApi.java"), "if (__filter != null) {");
     }
 
     @Test
@@ -2816,15 +2816,15 @@ public class JavaClientCodegenTest {
                 // multiple files
                 "multipartArray(@jakarta.annotation.Nullable List<File> files)",
                 "formParams.addAll(\"files\","
-                        + " files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+                        + " __files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 // mixed
                 "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, @jakarta.annotation.Nonnull File _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
-                "formParams.add(\"file\", new FileSystemResource(_file));",
+                "formParams.add(\"file\", new FileSystemResource(___file));",
 
                 // single file
                 "multipartSingle(@jakarta.annotation.Nullable File _file)",
-                "formParams.add(\"file\", new FileSystemResource(_file));"
+                "formParams.add(\"file\", new FileSystemResource(___file));"
         );
     }
 
@@ -2846,15 +2846,15 @@ public class JavaClientCodegenTest {
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
                 "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
-                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+                "formParams.addAll(\"files\", __files.stream().collect(Collectors.toList()));",
 
                 // mixed
                 "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.Resource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
-                "formParams.add(\"file\", _file);",
+                "formParams.add(\"file\", ___file);",
 
                 // single file
                 "multipartSingle(org.springframework.core.io.Resource _file)",
-                "formParams.add(\"file\", _file);"
+                "formParams.add(\"file\", ___file);"
         );
     }
 
@@ -4244,16 +4244,19 @@ public class JavaClientCodegenTest {
                 .setLibrary(library)
                 .setInputSpec("src/test/resources/3_0/echo_api.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
+        final String prefix = library == RESTCLIENT
+                 ? "__"
+                : "";
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
-                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
+                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", " + prefix + "jsonSerializedObjectRefStringQuery));"
         );
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
                 "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
-                        ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
+                        ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", " + prefix + "jsonSerializedObjectArrayRefStringQuery));"
         );
     }
 

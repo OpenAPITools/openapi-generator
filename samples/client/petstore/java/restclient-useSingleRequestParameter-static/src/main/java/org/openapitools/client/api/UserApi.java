@@ -49,13 +49,13 @@ public class UserApi {
      * Create user
      * This can only be done by the logged in user.
      * <p><b>0</b> - successful operation
-     * @param user Created user object
+     * @param __user Created user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUserRequestCreation(@jakarta.annotation.Nonnull User user) throws RestClientResponseException {
-        Object postBody = user;
+    private ResponseSpec createUserRequestCreation(@jakarta.annotation.Nonnull User __user) throws RestClientResponseException {
+        Object postBody = __user;
         // verify the required parameter 'user' is set
-        if (user == null) {
+        if (__user == null) {
             throw new RestClientResponseException("Missing the required parameter 'user' when calling createUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -119,13 +119,13 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param user List of user object
+     * @param __user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithArrayInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
-        Object postBody = user;
+    private ResponseSpec createUsersWithArrayInputRequestCreation(@jakarta.annotation.Nonnull List<User> __user) throws RestClientResponseException {
+        Object postBody = __user;
         // verify the required parameter 'user' is set
-        if (user == null) {
+        if (__user == null) {
             throw new RestClientResponseException("Missing the required parameter 'user' when calling createUsersWithArrayInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -189,13 +189,13 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param user List of user object
+     * @param __user List of user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithListInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws RestClientResponseException {
-        Object postBody = user;
+    private ResponseSpec createUsersWithListInputRequestCreation(@jakarta.annotation.Nonnull List<User> __user) throws RestClientResponseException {
+        Object postBody = __user;
         // verify the required parameter 'user' is set
-        if (user == null) {
+        if (__user == null) {
             throw new RestClientResponseException("Missing the required parameter 'user' when calling createUsersWithListInput", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -260,19 +260,19 @@ public class UserApi {
      * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
-     * @param username The name that needs to be deleted
+     * @param __username The name that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteUserRequestCreation(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
+    private ResponseSpec deleteUserRequestCreation(@jakarta.annotation.Nonnull String __username) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
-        if (username == null) {
+        if (__username == null) {
             throw new RestClientResponseException("Missing the required parameter 'username' when calling deleteUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("username", username);
+        pathParams.put("username", __username);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -335,20 +335,20 @@ public class UserApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
-     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @param __username The name that needs to be fetched. Use user1 for testing.
      * @return User
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getUserByNameRequestCreation(@jakarta.annotation.Nonnull String username) throws RestClientResponseException {
+    private ResponseSpec getUserByNameRequestCreation(@jakarta.annotation.Nonnull String __username) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
-        if (username == null) {
+        if (__username == null) {
             throw new RestClientResponseException("Missing the required parameter 'username' when calling getUserByName", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("username", username);
+        pathParams.put("username", __username);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -502,19 +502,19 @@ public class UserApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
-     * @param username The user name for login
-     * @param password The password for login in clear text
+     * @param __username The user name for login
+     * @param __password The password for login in clear text
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec loginUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws RestClientResponseException {
+    private ResponseSpec loginUserRequestCreation(@jakarta.annotation.Nonnull String __username, @jakarta.annotation.Nonnull String __password) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
-        if (username == null) {
+        if (__username == null) {
             throw new RestClientResponseException("Missing the required parameter 'username' when calling loginUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'password' is set
-        if (password == null) {
+        if (__password == null) {
             throw new RestClientResponseException("Missing the required parameter 'password' when calling loginUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -525,8 +525,8 @@ public class UserApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", __username));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", __password));
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -733,24 +733,24 @@ public class UserApi {
      * This can only be done by the logged in user.
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
-     * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param __username name that need to be deleted
+     * @param __user Updated user object
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updateUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws RestClientResponseException {
-        Object postBody = user;
+    private ResponseSpec updateUserRequestCreation(@jakarta.annotation.Nonnull String __username, @jakarta.annotation.Nonnull User __user) throws RestClientResponseException {
+        Object postBody = __user;
         // verify the required parameter 'username' is set
-        if (username == null) {
+        if (__username == null) {
             throw new RestClientResponseException("Missing the required parameter 'username' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'user' is set
-        if (user == null) {
+        if (__user == null) {
             throw new RestClientResponseException("Missing the required parameter 'user' when calling updateUser", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("username", username);
+        pathParams.put("username", __username);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();

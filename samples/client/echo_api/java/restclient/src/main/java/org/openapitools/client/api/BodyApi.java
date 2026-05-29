@@ -116,12 +116,12 @@ public class BodyApi {
      * Test body parameter(s)
      * Test body parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param body The body parameter
+     * @param __body The body parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyApplicationOctetstreamBinaryRequestCreation(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec testBodyApplicationOctetstreamBinaryRequestCreation(@jakarta.annotation.Nullable File __body) throws RestClientResponseException {
+        Object postBody = __body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -187,14 +187,14 @@ public class BodyApi {
      * Test array of binary in multipart mime
      * Test array of binary in multipart mime
      * <p><b>200</b> - Successful operation
-     * @param files The files parameter
+     * @param __files The files parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyMultipartFormdataArrayOfBinaryRequestCreation(@jakarta.annotation.Nonnull List<File> files) throws RestClientResponseException {
+    private ResponseSpec testBodyMultipartFormdataArrayOfBinaryRequestCreation(@jakarta.annotation.Nonnull List<File> __files) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'files' is set
-        if (files == null) {
+        if (__files == null) {
             throw new RestClientResponseException("Missing the required parameter 'files' when calling testBodyMultipartFormdataArrayOfBinary", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -205,8 +205,8 @@ public class BodyApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (files != null)
-            formParams.addAll("files", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));
+        if (__files != null)
+            formParams.addAll("files", __files.stream().map(FileSystemResource::new).collect(Collectors.toList()));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -265,11 +265,11 @@ public class BodyApi {
      * Test single binary in multipart mime
      * Test single binary in multipart mime
      * <p><b>200</b> - Successful operation
-     * @param myFile The myFile parameter
+     * @param __myFile The myFile parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyMultipartFormdataSingleBinaryRequestCreation(@jakarta.annotation.Nullable File myFile) throws RestClientResponseException {
+    private ResponseSpec testBodyMultipartFormdataSingleBinaryRequestCreation(@jakarta.annotation.Nullable File __myFile) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -279,8 +279,8 @@ public class BodyApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (myFile != null)
-            formParams.add("my-file", new FileSystemResource(myFile));
+        if (__myFile != null)
+            formParams.add("my-file", new FileSystemResource(__myFile));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -339,12 +339,12 @@ public class BodyApi {
      * Test body parameter(s)
      * Test body parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param pet Pet object that needs to be added to the store
+     * @param __pet Pet object that needs to be added to the store
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyAllOfPetRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec testEchoBodyAllOfPetRequestCreation(@jakarta.annotation.Nullable Pet __pet) throws RestClientResponseException {
+        Object postBody = __pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -410,12 +410,12 @@ public class BodyApi {
      * Test free form object
      * Test free form object
      * <p><b>200</b> - Successful operation
-     * @param body Free form object
+     * @param __body Free form object
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyFreeFormObjectResponseStringRequestCreation(@jakarta.annotation.Nullable Object body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec testEchoBodyFreeFormObjectResponseStringRequestCreation(@jakarta.annotation.Nullable Object __body) throws RestClientResponseException {
+        Object postBody = __body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -481,12 +481,12 @@ public class BodyApi {
      * Test body parameter(s)
      * Test body parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param pet Pet object that needs to be added to the store
+     * @param __pet Pet object that needs to be added to the store
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyPetRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec testEchoBodyPetRequestCreation(@jakarta.annotation.Nullable Pet __pet) throws RestClientResponseException {
+        Object postBody = __pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -552,12 +552,12 @@ public class BodyApi {
      * Test empty response body
      * Test empty response body
      * <p><b>200</b> - Successful operation
-     * @param pet Pet object that needs to be added to the store
+     * @param __pet Pet object that needs to be added to the store
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyPetResponseStringRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec testEchoBodyPetResponseStringRequestCreation(@jakarta.annotation.Nullable Pet __pet) throws RestClientResponseException {
+        Object postBody = __pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -623,12 +623,12 @@ public class BodyApi {
      * Test string enum response body
      * Test string enum response body
      * <p><b>200</b> - Successful operation
-     * @param body String enum
+     * @param __body String enum
      * @return StringEnumRef
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyStringEnumRequestCreation(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec testEchoBodyStringEnumRequestCreation(@jakarta.annotation.Nullable String __body) throws RestClientResponseException {
+        Object postBody = __body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -694,12 +694,12 @@ public class BodyApi {
      * Test empty json (request body)
      * Test empty json (request body)
      * <p><b>200</b> - Successful operation
-     * @param tag Tag object
+     * @param __tag Tag object
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyTagResponseStringRequestCreation(@jakarta.annotation.Nullable Tag tag) throws RestClientResponseException {
-        Object postBody = tag;
+    private ResponseSpec testEchoBodyTagResponseStringRequestCreation(@jakarta.annotation.Nullable Tag __tag) throws RestClientResponseException {
+        Object postBody = __tag;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 

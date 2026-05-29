@@ -49,14 +49,14 @@ public class BarApi {
      * Create a Bar
      * 
      * <p><b>200</b> - Bar created
-     * @param barCreate The barCreate parameter
+     * @param __barCreate The barCreate parameter
      * @return Bar
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createBarRequestCreation(@jakarta.annotation.Nonnull BarCreate barCreate) throws RestClientResponseException {
-        Object postBody = barCreate;
+    private ResponseSpec createBarRequestCreation(@jakarta.annotation.Nonnull BarCreate __barCreate) throws RestClientResponseException {
+        Object postBody = __barCreate;
         // verify the required parameter 'barCreate' is set
-        if (barCreate == null) {
+        if (__barCreate == null) {
             throw new RestClientResponseException("Missing the required parameter 'barCreate' when calling createBar", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables

@@ -52,13 +52,13 @@ public class PetApi {
      * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
-     * @param pet Pet object that needs to be added to the store
+     * @param __pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec addPetRequestCreation(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec addPetRequestCreation(@jakarta.annotation.Nonnull Pet __pet) throws RestClientResponseException {
+        Object postBody = __pet;
         // verify the required parameter 'pet' is set
-        if (pet == null) {
+        if (__pet == null) {
             throw new RestClientResponseException("Missing the required parameter 'pet' when calling addPet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -209,28 +209,28 @@ public class PetApi {
      * 
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
-     * @param petId Pet id to delete
-     * @param apiKey The apiKey parameter
+     * @param __petId Pet id to delete
+     * @param __apiKey The apiKey parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deletePetRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {
+    private ResponseSpec deletePetRequestCreation(@jakarta.annotation.Nonnull Long __petId, @jakarta.annotation.Nullable String __apiKey) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
-        if (petId == null) {
+        if (__petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling deletePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("petId", petId);
+        pathParams.put("petId", __petId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (apiKey != null)
-        headerParams.add("api_key", apiClient.parameterToString(apiKey));
+        if (__apiKey != null)
+        headerParams.add("api_key", apiClient.parameterToString(__apiKey));
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };
@@ -289,14 +289,14 @@ public class PetApi {
      * Multiple status values can be provided with comma separated strings
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid status value
-     * @param status Status values that need to be considered for filter
+     * @param __status Status values that need to be considered for filter
      * @return List&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec findPetsByStatusRequestCreation(@jakarta.annotation.Nonnull List<String> status) throws RestClientResponseException {
+    private ResponseSpec findPetsByStatusRequestCreation(@jakarta.annotation.Nonnull List<String> __status) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'status' is set
-        if (status == null) {
+        if (__status == null) {
             throw new RestClientResponseException("Missing the required parameter 'status' when calling findPetsByStatus", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -307,7 +307,7 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", __status));
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -368,16 +368,16 @@ public class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid tag value
-     * @param tags Tags to filter by
+     * @param __tags Tags to filter by
      * @return Set&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      * @deprecated
      */
     @Deprecated
-    private ResponseSpec findPetsByTagsRequestCreation(@jakarta.annotation.Nonnull Set<String> tags) throws RestClientResponseException {
+    private ResponseSpec findPetsByTagsRequestCreation(@jakarta.annotation.Nonnull Set<String> __tags) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'tags' is set
-        if (tags == null) {
+        if (__tags == null) {
             throw new RestClientResponseException("Missing the required parameter 'tags' when calling findPetsByTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -388,7 +388,7 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", __tags));
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
@@ -450,20 +450,20 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
-     * @param petId ID of pet to return
+     * @param __petId ID of pet to return
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getPetByIdRequestCreation(@jakarta.annotation.Nonnull Long petId) throws RestClientResponseException {
+    private ResponseSpec getPetByIdRequestCreation(@jakarta.annotation.Nonnull Long __petId) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
-        if (petId == null) {
+        if (__petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling getPetById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("petId", petId);
+        pathParams.put("petId", __petId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -534,13 +534,13 @@ public class PetApi {
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param pet Pet object that needs to be added to the store
+     * @param __pet Pet object that needs to be added to the store
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updatePetRequestCreation(@jakarta.annotation.Nonnull Pet pet) throws RestClientResponseException {
-        Object postBody = pet;
+    private ResponseSpec updatePetRequestCreation(@jakarta.annotation.Nonnull Pet __pet) throws RestClientResponseException {
+        Object postBody = __pet;
         // verify the required parameter 'pet' is set
-        if (pet == null) {
+        if (__pet == null) {
             throw new RestClientResponseException("Missing the required parameter 'pet' when calling updatePet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -708,31 +708,31 @@ public class PetApi {
      * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
-     * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
+     * @param __petId ID of pet that needs to be updated
+     * @param __name Updated name of the pet
+     * @param __status Updated status of the pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updatePetWithFormRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) throws RestClientResponseException {
+    private ResponseSpec updatePetWithFormRequestCreation(@jakarta.annotation.Nonnull Long __petId, @jakarta.annotation.Nullable String __name, @jakarta.annotation.Nullable String __status) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
-        if (petId == null) {
+        if (__petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling updatePetWithForm", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("petId", petId);
+        pathParams.put("petId", __petId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (name != null)
-            formParams.add("name", name);
-        if (status != null)
-            formParams.add("status", status);
+        if (__name != null)
+            formParams.add("name", __name);
+        if (__status != null)
+            formParams.add("status", __status);
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -889,32 +889,32 @@ public class PetApi {
      * uploads an image
      * 
      * <p><b>200</b> - successful operation
-     * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param _file file to upload
+     * @param __petId ID of pet to update
+     * @param __additionalMetadata Additional data to pass to server
+     * @param ___file file to upload
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable File _file) throws RestClientResponseException {
+    private ResponseSpec uploadFileRequestCreation(@jakarta.annotation.Nonnull Long __petId, @jakarta.annotation.Nullable String __additionalMetadata, @jakarta.annotation.Nullable File ___file) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
-        if (petId == null) {
+        if (__petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling uploadFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("petId", petId);
+        pathParams.put("petId", __petId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (additionalMetadata != null)
-            formParams.add("additionalMetadata", additionalMetadata);
-        if (_file != null)
-            formParams.add("file", new FileSystemResource(_file));
+        if (__additionalMetadata != null)
+            formParams.add("additionalMetadata", __additionalMetadata);
+        if (___file != null)
+            formParams.add("file", new FileSystemResource(___file));
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -1072,36 +1072,36 @@ public class PetApi {
      * uploads an image (required)
      * 
      * <p><b>200</b> - successful operation
-     * @param petId ID of pet to update
-     * @param requiredFile file to upload
-     * @param additionalMetadata Additional data to pass to server
+     * @param __petId ID of pet to update
+     * @param __requiredFile file to upload
+     * @param __additionalMetadata Additional data to pass to server
      * @return ModelApiResponse
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileWithRequiredFileRequestCreation(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nonnull File requiredFile, @jakarta.annotation.Nullable String additionalMetadata) throws RestClientResponseException {
+    private ResponseSpec uploadFileWithRequiredFileRequestCreation(@jakarta.annotation.Nonnull Long __petId, @jakarta.annotation.Nonnull File __requiredFile, @jakarta.annotation.Nullable String __additionalMetadata) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
-        if (petId == null) {
+        if (__petId == null) {
             throw new RestClientResponseException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'requiredFile' is set
-        if (requiredFile == null) {
+        if (__requiredFile == null) {
             throw new RestClientResponseException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("petId", petId);
+        pathParams.put("petId", __petId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (additionalMetadata != null)
-            formParams.add("additionalMetadata", additionalMetadata);
-        if (requiredFile != null)
-            formParams.add("requiredFile", new FileSystemResource(requiredFile));
+        if (__additionalMetadata != null)
+            formParams.add("additionalMetadata", __additionalMetadata);
+        if (__requiredFile != null)
+            formParams.add("requiredFile", new FileSystemResource(__requiredFile));
 
         final String[] localVarAccepts = { 
             "application/json"

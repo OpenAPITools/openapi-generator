@@ -54,12 +54,12 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param enumNonrefStringQuery The enumNonrefStringQuery parameter
-     * @param enumRefStringQuery The enumRefStringQuery parameter
+     * @param __enumNonrefStringQuery The enumNonrefStringQuery parameter
+     * @param __enumRefStringQuery The enumRefStringQuery parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEnumRefStringRequestCreation(@jakarta.annotation.Nullable String enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientResponseException {
+    private ResponseSpec testEnumRefStringRequestCreation(@jakarta.annotation.Nullable String __enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef __enumRefStringQuery) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -69,8 +69,8 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", __enumNonrefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", __enumRefStringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -130,13 +130,13 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param datetimeQuery The datetimeQuery parameter
-     * @param dateQuery The dateQuery parameter
-     * @param stringQuery The stringQuery parameter
+     * @param __datetimeQuery The datetimeQuery parameter
+     * @param __dateQuery The dateQuery parameter
+     * @param __stringQuery The stringQuery parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryDatetimeDateStringRequestCreation(@jakarta.annotation.Nullable Instant datetimeQuery, @jakarta.annotation.Nullable LocalDate dateQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
+    private ResponseSpec testQueryDatetimeDateStringRequestCreation(@jakarta.annotation.Nullable Instant __datetimeQuery, @jakarta.annotation.Nullable LocalDate __dateQuery, @jakarta.annotation.Nullable String __stringQuery) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -146,9 +146,9 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", __datetimeQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", __dateQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", __stringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -211,13 +211,13 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param integerQuery The integerQuery parameter
-     * @param booleanQuery The booleanQuery parameter
-     * @param stringQuery The stringQuery parameter
+     * @param __integerQuery The integerQuery parameter
+     * @param __booleanQuery The booleanQuery parameter
+     * @param __stringQuery The stringQuery parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer integerQuery, @jakarta.annotation.Nullable Boolean booleanQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
+    private ResponseSpec testQueryIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer __integerQuery, @jakarta.annotation.Nullable Boolean __booleanQuery, @jakarta.annotation.Nullable String __stringQuery) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -227,9 +227,9 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", __integerQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", __booleanQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", __stringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -292,11 +292,11 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param queryObject The queryObject parameter
+     * @param __queryObject The queryObject parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet __queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -306,13 +306,13 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (queryObject != null) {
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        if (__queryObject != null) {
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", __queryObject.getId()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", __queryObject.getName()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", __queryObject.getCategory()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", __queryObject.getPhotoUrls()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", __queryObject.getTags()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", __queryObject.getStatus()));
         }
 
         final String[] localVarAccepts = { 
@@ -370,11 +370,11 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param queryObject The queryObject parameter
+     * @param __queryObject The queryObject parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter __queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -384,7 +384,7 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", __queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -441,11 +441,11 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param queryObject The queryObject parameter
+     * @param __queryObject The queryObject parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(@jakarta.annotation.Nullable List<Integer> queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(@jakarta.annotation.Nullable List<Integer> __queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -455,7 +455,7 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", __queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -512,11 +512,11 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param queryObject The queryObject parameter
+     * @param __queryObject The queryObject parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeFalseArrayStringRequestCreation(@jakarta.annotation.Nullable List<String> queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeFalseArrayStringRequestCreation(@jakarta.annotation.Nullable List<String> __queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -526,7 +526,7 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", __queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -583,11 +583,11 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param queryObject The queryObject parameter
+     * @param __queryObject The queryObject parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeTrueArrayStringRequestCreation(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeTrueArrayStringRequestCreation(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter __queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -597,8 +597,8 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (queryObject != null) {
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
+        if (__queryObject != null) {
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", __queryObject.getValues()));
         }
 
         final String[] localVarAccepts = { 
@@ -656,11 +656,11 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param queryObject The queryObject parameter
+     * @param __queryObject The queryObject parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet __queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -670,13 +670,13 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (queryObject != null) {
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        if (__queryObject != null) {
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", __queryObject.getId()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", __queryObject.getName()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", __queryObject.getCategory()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", __queryObject.getPhotoUrls()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", __queryObject.getTags()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", __queryObject.getStatus()));
         }
 
         final String[] localVarAccepts = { 
@@ -734,11 +734,11 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param queryObject The queryObject parameter
+     * @param __queryObject The queryObject parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable DataQuery __queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -748,7 +748,7 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", __queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -805,12 +805,12 @@ public class QueryApi {
      * Test query parameter(s)
      * Test query parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
-     * @param jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
+     * @param __jsonSerializedObjectRefStringQuery The jsonSerializedObjectRefStringQuery parameter
+     * @param __jsonSerializedObjectArrayRefStringQuery The jsonSerializedObjectArrayRefStringQuery parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleJsonSerializationObjectRequestCreation(@jakarta.annotation.Nullable Pet jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleJsonSerializationObjectRequestCreation(@jakarta.annotation.Nullable Pet __jsonSerializedObjectRefStringQuery, @jakarta.annotation.Nullable List<Pet> __jsonSerializedObjectArrayRefStringQuery) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -820,8 +820,8 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
-        queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, "json_serialized_object_ref_string_query", __jsonSerializedObjectRefStringQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", __jsonSerializedObjectArrayRefStringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"

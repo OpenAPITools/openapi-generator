@@ -48,38 +48,38 @@ public class PathApi {
      * Test path parameter(s)
      * Test path parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param pathString The pathString parameter
-     * @param pathInteger The pathInteger parameter
-     * @param enumNonrefStringPath The enumNonrefStringPath parameter
-     * @param enumRefStringPath The enumRefStringPath parameter
+     * @param __pathString The pathString parameter
+     * @param __pathInteger The pathInteger parameter
+     * @param __enumNonrefStringPath The enumNonrefStringPath parameter
+     * @param __enumRefStringPath The enumRefStringPath parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(@jakarta.annotation.Nonnull String pathString, @jakarta.annotation.Nonnull Integer pathInteger, @jakarta.annotation.Nonnull String enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef enumRefStringPath) throws RestClientResponseException {
+    private ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(@jakarta.annotation.Nonnull String __pathString, @jakarta.annotation.Nonnull Integer __pathInteger, @jakarta.annotation.Nonnull String __enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef __enumRefStringPath) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'pathString' is set
-        if (pathString == null) {
+        if (__pathString == null) {
             throw new RestClientResponseException("Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'pathInteger' is set
-        if (pathInteger == null) {
+        if (__pathInteger == null) {
             throw new RestClientResponseException("Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'enumNonrefStringPath' is set
-        if (enumNonrefStringPath == null) {
+        if (__enumNonrefStringPath == null) {
             throw new RestClientResponseException("Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'enumRefStringPath' is set
-        if (enumRefStringPath == null) {
+        if (__enumRefStringPath == null) {
             throw new RestClientResponseException("Missing the required parameter 'enumRefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("path_string", pathString);
-        pathParams.put("path_integer", pathInteger);
-        pathParams.put("enum_nonref_string_path", enumNonrefStringPath);
-        pathParams.put("enum_ref_string_path", enumRefStringPath);
+        pathParams.put("path_string", __pathString);
+        pathParams.put("path_integer", __pathInteger);
+        pathParams.put("enum_nonref_string_path", __enumNonrefStringPath);
+        pathParams.put("enum_ref_string_path", __enumRefStringPath);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();

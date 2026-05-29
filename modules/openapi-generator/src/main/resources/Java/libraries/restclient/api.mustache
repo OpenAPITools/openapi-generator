@@ -69,7 +69,7 @@ public class {{classname}} {
      * {{summary}}
      * {{notes}}
 {{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
-{{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
+{{/responses}}{{#allParams}}     * @param __{{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
 {{/allParams}}{{#returnType}}     * @return {{.}}
 {{/returnType}}     * @throws RestClientResponseException if an error occurs while attempting to invoke the API
 {{#externalDocs}}
@@ -83,12 +83,12 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    private ResponseSpec {{operationId}}RequestCreation({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullableArgument}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullableArgument}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
-        Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    private ResponseSpec {{operationId}}RequestCreation({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{>nullableArgument}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{>nullableArgument}}{{/isFile}} __{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
+        Object postBody = {{#bodyParam}}__{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
-        if ({{paramName}} == null) {
+        if (__{{paramName}} == null) {
             throw new RestClientResponseException("Missing the required parameter '{{paramName}}' when calling {{operationId}}", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         {{/required}}
@@ -98,7 +98,7 @@ public class {{classname}} {
         {{#hasPathParams}}
 
         {{#pathParams}}
-        pathParams.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), {{/collectionFormat}}{{{paramName}}}{{#collectionFormat}}){{/collectionFormat}});
+        pathParams.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), {{/collectionFormat}}__{{{paramName}}}{{#collectionFormat}}){{/collectionFormat}});
         {{/pathParams}}
         {{/hasPathParams}}
 
@@ -110,23 +110,23 @@ public class {{classname}} {
 
             {{#queryParams}}
             {{#queryIsJsonMimeType}}
-        queryParams.putAll(apiClient.parameterToMultiValueMapJson({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        queryParams.putAll(apiClient.parameterToMultiValueMapJson({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", __{{paramName}}));
             {{/queryIsJsonMimeType}}
             {{^queryIsJsonMimeType}}
             {{#isExplode}}
                 {{#hasVars}}
-        if ({{paramName}} != null) {
+        if (__{{paramName}} != null) {
                     {{#vars}}
-            queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}.{{getter}}()));
+            queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", __{{paramName}}.{{getter}}()));
                     {{/vars}}
         }
                 {{/hasVars}}
                 {{^hasVars}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", __{{paramName}}));
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", __{{paramName}}));
             {{/isExplode}}
             {{/queryIsJsonMimeType}}
             {{/queryParams}}
@@ -134,22 +134,22 @@ public class {{classname}} {
         {{#hasHeaderParams}}
 
         {{#headerParams}}
-        if ({{paramName}} != null)
-        headerParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^-last}}
+        if (__{{paramName}} != null)
+        headerParams.add("{{baseName}}", apiClient.parameterToString(__{{paramName}}));{{^-last}}
         {{/-last}}
         {{/headerParams}}
         {{/hasHeaderParams}}
         {{#hasCookieParams}}
 
         {{#cookieParams}}
-        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", __{{paramName}}));
         {{/cookieParams}}
         {{/hasCookieParams}}
         {{#hasFormParams}}
 
         {{#formParams}}
-        if ({{paramName}} != null)
-            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}{{#useAbstractionForFiles}}{{paramName}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}new FileSystemResource({{paramName}}){{/useAbstractionForFiles}}{{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream(){{^useAbstractionForFiles}}.map(FileSystemResource::new){{/useAbstractionForFiles}}.collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});
+        if (__{{paramName}} != null)
+            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}{{#useAbstractionForFiles}}__{{paramName}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}new FileSystemResource(__{{paramName}}){{/useAbstractionForFiles}}{{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}__{{paramName}}.stream(){{^useAbstractionForFiles}}.map(FileSystemResource::new){{/useAbstractionForFiles}}.collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}__{{paramName}}{{/isFile}});
         {{/formParams}}
         {{/hasFormParams}}
 

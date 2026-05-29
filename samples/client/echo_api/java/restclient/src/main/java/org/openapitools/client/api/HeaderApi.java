@@ -48,15 +48,15 @@ public class HeaderApi {
      * Test header parameter(s)
      * Test header parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param integerHeader The integerHeader parameter
-     * @param booleanHeader The booleanHeader parameter
-     * @param stringHeader The stringHeader parameter
-     * @param enumNonrefStringHeader The enumNonrefStringHeader parameter
-     * @param enumRefStringHeader The enumRefStringHeader parameter
+     * @param __integerHeader The integerHeader parameter
+     * @param __booleanHeader The booleanHeader parameter
+     * @param __stringHeader The stringHeader parameter
+     * @param __enumNonrefStringHeader The enumNonrefStringHeader parameter
+     * @param __enumRefStringHeader The enumRefStringHeader parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testHeaderIntegerBooleanStringEnumsRequestCreation(@jakarta.annotation.Nullable Integer integerHeader, @jakarta.annotation.Nullable Boolean booleanHeader, @jakarta.annotation.Nullable String stringHeader, @jakarta.annotation.Nullable String enumNonrefStringHeader, @jakarta.annotation.Nullable StringEnumRef enumRefStringHeader) throws RestClientResponseException {
+    private ResponseSpec testHeaderIntegerBooleanStringEnumsRequestCreation(@jakarta.annotation.Nullable Integer __integerHeader, @jakarta.annotation.Nullable Boolean __booleanHeader, @jakarta.annotation.Nullable String __stringHeader, @jakarta.annotation.Nullable String __enumNonrefStringHeader, @jakarta.annotation.Nullable StringEnumRef __enumRefStringHeader) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -66,16 +66,16 @@ public class HeaderApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (integerHeader != null)
-        headerParams.add("integer_header", apiClient.parameterToString(integerHeader));
-        if (booleanHeader != null)
-        headerParams.add("boolean_header", apiClient.parameterToString(booleanHeader));
-        if (stringHeader != null)
-        headerParams.add("string_header", apiClient.parameterToString(stringHeader));
-        if (enumNonrefStringHeader != null)
-        headerParams.add("enum_nonref_string_header", apiClient.parameterToString(enumNonrefStringHeader));
-        if (enumRefStringHeader != null)
-        headerParams.add("enum_ref_string_header", apiClient.parameterToString(enumRefStringHeader));
+        if (__integerHeader != null)
+        headerParams.add("integer_header", apiClient.parameterToString(__integerHeader));
+        if (__booleanHeader != null)
+        headerParams.add("boolean_header", apiClient.parameterToString(__booleanHeader));
+        if (__stringHeader != null)
+        headerParams.add("string_header", apiClient.parameterToString(__stringHeader));
+        if (__enumNonrefStringHeader != null)
+        headerParams.add("enum_nonref_string_header", apiClient.parameterToString(__enumNonrefStringHeader));
+        if (__enumRefStringHeader != null)
+        headerParams.add("enum_ref_string_header", apiClient.parameterToString(__enumRefStringHeader));
         final String[] localVarAccepts = { 
             "text/plain"
         };

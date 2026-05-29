@@ -51,29 +51,29 @@ public class BasApi {
      * Creates a new message
      * Creates a new message
      * <p><b>201</b> - The message was created.
-     * @param fileContent The message payload
-     * @param idempotencyKey The idempotencyKey parameter
-     * @param dataDirection The dataDirection parameter
-     * @param dataChannel The dataChannel parameter
+     * @param __fileContent The message payload
+     * @param __idempotencyKey The idempotencyKey parameter
+     * @param __dataDirection The dataDirection parameter
+     * @param __dataChannel The dataChannel parameter
      * @return InlineObject
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createMessageRequestCreation(@jakarta.annotation.Nonnull File fileContent, @jakarta.annotation.Nonnull String idempotencyKey, @jakarta.annotation.Nonnull DataDirection dataDirection, @jakarta.annotation.Nonnull DataChannel dataChannel) throws RestClientResponseException {
+    private ResponseSpec createMessageRequestCreation(@jakarta.annotation.Nonnull File __fileContent, @jakarta.annotation.Nonnull String __idempotencyKey, @jakarta.annotation.Nonnull DataDirection __dataDirection, @jakarta.annotation.Nonnull DataChannel __dataChannel) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'fileContent' is set
-        if (fileContent == null) {
+        if (__fileContent == null) {
             throw new RestClientResponseException("Missing the required parameter 'fileContent' when calling createMessage", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'idempotencyKey' is set
-        if (idempotencyKey == null) {
+        if (__idempotencyKey == null) {
             throw new RestClientResponseException("Missing the required parameter 'idempotencyKey' when calling createMessage", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'dataDirection' is set
-        if (dataDirection == null) {
+        if (__dataDirection == null) {
             throw new RestClientResponseException("Missing the required parameter 'dataDirection' when calling createMessage", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'dataChannel' is set
-        if (dataChannel == null) {
+        if (__dataChannel == null) {
             throw new RestClientResponseException("Missing the required parameter 'dataChannel' when calling createMessage", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -84,14 +84,14 @@ public class BasApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (fileContent != null)
-            formParams.add("fileContent", new FileSystemResource(fileContent));
-        if (idempotencyKey != null)
-            formParams.add("idempotencyKey", idempotencyKey);
-        if (dataDirection != null)
-            formParams.add("dataDirection", dataDirection);
-        if (dataChannel != null)
-            formParams.add("dataChannel", dataChannel);
+        if (__fileContent != null)
+            formParams.add("fileContent", new FileSystemResource(__fileContent));
+        if (__idempotencyKey != null)
+            formParams.add("idempotencyKey", __idempotencyKey);
+        if (__dataDirection != null)
+            formParams.add("dataDirection", __dataDirection);
+        if (__dataChannel != null)
+            formParams.add("dataChannel", __dataChannel);
 
         final String[] localVarAccepts = { 
             "application/json"

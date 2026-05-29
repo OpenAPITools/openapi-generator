@@ -48,14 +48,14 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case
      * To test class name in snake case
      * <p><b>200</b> - successful operation
-     * @param client client model
+     * @param __client client model
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClassnameRequestCreation(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
-        Object postBody = client;
+    private ResponseSpec testClassnameRequestCreation(@jakarta.annotation.Nonnull Client __client) throws RestClientResponseException {
+        Object postBody = __client;
         // verify the required parameter 'client' is set
-        if (client == null) {
+        if (__client == null) {
             throw new RestClientResponseException("Missing the required parameter 'client' when calling testClassname", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables

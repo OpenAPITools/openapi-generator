@@ -49,12 +49,12 @@ public class FooApi {
      * Create a Foo
      * 
      * <p><b>201</b> - Error
-     * @param foo The Foo to be created
+     * @param __foo The Foo to be created
      * @return FooRefOrValue
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createFooRequestCreation(@jakarta.annotation.Nullable Foo foo) throws RestClientResponseException {
-        Object postBody = foo;
+    private ResponseSpec createFooRequestCreation(@jakarta.annotation.Nullable Foo __foo) throws RestClientResponseException {
+        Object postBody = __foo;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 

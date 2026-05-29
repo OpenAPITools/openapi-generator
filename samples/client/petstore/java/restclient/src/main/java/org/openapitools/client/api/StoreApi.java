@@ -49,19 +49,19 @@ public class StoreApi {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
-     * @param orderId ID of the order that needs to be deleted
+     * @param __orderId ID of the order that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteOrderRequestCreation(@jakarta.annotation.Nonnull String orderId) throws RestClientResponseException {
+    private ResponseSpec deleteOrderRequestCreation(@jakarta.annotation.Nonnull String __orderId) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
-        if (orderId == null) {
+        if (__orderId == null) {
             throw new RestClientResponseException("Missing the required parameter 'orderId' when calling deleteOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("order_id", orderId);
+        pathParams.put("order_id", __orderId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -189,20 +189,20 @@ public class StoreApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
-     * @param orderId ID of pet that needs to be fetched
+     * @param __orderId ID of pet that needs to be fetched
      * @return Order
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getOrderByIdRequestCreation(@jakarta.annotation.Nonnull Long orderId) throws RestClientResponseException {
+    private ResponseSpec getOrderByIdRequestCreation(@jakarta.annotation.Nonnull Long __orderId) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
-        if (orderId == null) {
+        if (__orderId == null) {
             throw new RestClientResponseException("Missing the required parameter 'orderId' when calling getOrderById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("order_id", orderId);
+        pathParams.put("order_id", __orderId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -271,14 +271,14 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param order order placed for purchasing the pet
+     * @param __order order placed for purchasing the pet
      * @return Order
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec placeOrderRequestCreation(@jakarta.annotation.Nonnull Order order) throws RestClientResponseException {
-        Object postBody = order;
+    private ResponseSpec placeOrderRequestCreation(@jakarta.annotation.Nonnull Order __order) throws RestClientResponseException {
+        Object postBody = __order;
         // verify the required parameter 'order' is set
-        if (order == null) {
+        if (__order == null) {
             throw new RestClientResponseException("Missing the required parameter 'order' when calling placeOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables

@@ -48,13 +48,13 @@ public class FormApi {
      * Test form parameter(s)
      * Test form parameter(s)
      * <p><b>200</b> - Successful operation
-     * @param integerForm The integerForm parameter
-     * @param booleanForm The booleanForm parameter
-     * @param stringForm The stringForm parameter
+     * @param __integerForm The integerForm parameter
+     * @param __booleanForm The booleanForm parameter
+     * @param __stringForm The stringForm parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testFormIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer integerForm, @jakarta.annotation.Nullable Boolean booleanForm, @jakarta.annotation.Nullable String stringForm) throws RestClientResponseException {
+    private ResponseSpec testFormIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer __integerForm, @jakarta.annotation.Nullable Boolean __booleanForm, @jakarta.annotation.Nullable String __stringForm) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -64,12 +64,12 @@ public class FormApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (integerForm != null)
-            formParams.add("integer_form", integerForm);
-        if (booleanForm != null)
-            formParams.add("boolean_form", booleanForm);
-        if (stringForm != null)
-            formParams.add("string_form", stringForm);
+        if (__integerForm != null)
+            formParams.add("integer_form", __integerForm);
+        if (__booleanForm != null)
+            formParams.add("boolean_form", __booleanForm);
+        if (__stringForm != null)
+            formParams.add("string_form", __stringForm);
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -134,14 +134,14 @@ public class FormApi {
      * Test form parameter(s) for multipart schema
      * Test form parameter(s) for multipart schema
      * <p><b>200</b> - Successful operation
-     * @param marker The marker parameter
+     * @param __marker The marker parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testFormObjectMultipartRequestCreation(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws RestClientResponseException {
+    private ResponseSpec testFormObjectMultipartRequestCreation(@jakarta.annotation.Nonnull TestFormObjectMultipartRequestMarker __marker) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'marker' is set
-        if (marker == null) {
+        if (__marker == null) {
             throw new RestClientResponseException("Missing the required parameter 'marker' when calling testFormObjectMultipart", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
@@ -152,8 +152,8 @@ public class FormApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (marker != null)
-            formParams.add("marker", marker);
+        if (__marker != null)
+            formParams.add("marker", __marker);
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -212,16 +212,16 @@ public class FormApi {
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
      * <p><b>200</b> - Successful operation
-     * @param form1 The form1 parameter
-     * @param form2 The form2 parameter
-     * @param form3 The form3 parameter
-     * @param form4 The form4 parameter
-     * @param id The id parameter
-     * @param name The name parameter
+     * @param __form1 The form1 parameter
+     * @param __form2 The form2 parameter
+     * @param __form3 The form3 parameter
+     * @param __form4 The form4 parameter
+     * @param __id The id parameter
+     * @param __name The name parameter
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testFormOneofRequestCreation(@jakarta.annotation.Nullable String form1, @jakarta.annotation.Nullable Integer form2, @jakarta.annotation.Nullable String form3, @jakarta.annotation.Nullable Boolean form4, @jakarta.annotation.Nullable Long id, @jakarta.annotation.Nullable String name) throws RestClientResponseException {
+    private ResponseSpec testFormOneofRequestCreation(@jakarta.annotation.Nullable String __form1, @jakarta.annotation.Nullable Integer __form2, @jakarta.annotation.Nullable String __form3, @jakarta.annotation.Nullable Boolean __form4, @jakarta.annotation.Nullable Long __id, @jakarta.annotation.Nullable String __name) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -231,18 +231,18 @@ public class FormApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (form1 != null)
-            formParams.add("form1", form1);
-        if (form2 != null)
-            formParams.add("form2", form2);
-        if (form3 != null)
-            formParams.add("form3", form3);
-        if (form4 != null)
-            formParams.add("form4", form4);
-        if (id != null)
-            formParams.add("id", id);
-        if (name != null)
-            formParams.add("name", name);
+        if (__form1 != null)
+            formParams.add("form1", __form1);
+        if (__form2 != null)
+            formParams.add("form2", __form2);
+        if (__form3 != null)
+            formParams.add("form3", __form3);
+        if (__form4 != null)
+            formParams.add("form4", __form4);
+        if (__id != null)
+            formParams.add("id", __id);
+        if (__name != null)
+            formParams.add("name", __name);
 
         final String[] localVarAccepts = { 
             "text/plain"

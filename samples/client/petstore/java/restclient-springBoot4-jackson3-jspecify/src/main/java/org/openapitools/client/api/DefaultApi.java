@@ -51,19 +51,19 @@ public class DefaultApi {
      * 
      * 
      * <p><b>200</b> - ok
-     * @param id The id parameter
+     * @param __id The id parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fileIdGetRequestCreation(String id) throws RestClientResponseException {
+    private ResponseSpec fileIdGetRequestCreation(String __id) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'id' is set
-        if (id == null) {
+        if (__id == null) {
             throw new RestClientResponseException("Missing the required parameter 'id' when calling fileIdGet", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("id", id);
+        pathParams.put("id", __id);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -121,27 +121,27 @@ public class DefaultApi {
      * 
      * 
      * <p><b>0</b> - response
-     * @param dtParam The dtParam parameter
-     * @param dtQuery The dtQuery parameter
-     * @param dtCookie The dtCookie parameter
+     * @param __dtParam The dtParam parameter
+     * @param __dtQuery The dtQuery parameter
+     * @param __dtCookie The dtCookie parameter
      * @return Foo
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant dtParam, java.time.@Nullable Instant dtQuery, java.time.@Nullable Instant dtCookie) throws RestClientResponseException {
+    private ResponseSpec fooDtParamGetRequestCreation(java.time.@Nullable Instant __dtParam, java.time.@Nullable Instant __dtQuery, java.time.@Nullable Instant __dtCookie) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
-        pathParams.put("dtParam", dtParam);
+        pathParams.put("dtParam", __dtParam);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", dtQuery));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", __dtQuery));
 
-        cookieParams.putAll(apiClient.parameterToMultiValueMap(null, "dtCookie", dtCookie));
+        cookieParams.putAll(apiClient.parameterToMultiValueMap(null, "dtCookie", __dtCookie));
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -204,10 +204,10 @@ public class DefaultApi {
      * 
      * 
      * <p><b>0</b> - ok
-     * @param _file The _file parameter
+     * @param ___file The _file parameter
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadPostRequestCreation(@Nullable File _file) throws RestClientResponseException {
+    private ResponseSpec uploadPostRequestCreation(@Nullable File ___file) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -217,8 +217,8 @@ public class DefaultApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (_file != null)
-            formParams.add("file", new FileSystemResource(_file));
+        if (___file != null)
+            formParams.add("file", new FileSystemResource(___file));
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
