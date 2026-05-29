@@ -1000,7 +1000,32 @@ public class ModelUtils {
     }
 
     public static boolean shouldGenerateArrayModel(Schema schema) {
-        return ModelUtils.isGenerateAliasAsModel(schema) || !(schema.getProperties() == null || schema.getProperties().isEmpty());
+        if (ModelUtils.isGenerateAliasAsModel(schema)) {
+            return true;
+        }
+        // Generate if the array schema itself has properties (unusual but valid)
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            return true;
+        }
+        // Generate if items are non-trivial (not a simple primitive alias like List<String>).
+        // After InlineModelResolver runs, complex inline items are extracted to components
+        // and replaced with a $ref, so we check for $ref as well as inline properties.
+        Schema<?> items = schema.getItems();
+        if (items != null) {
+            // Items resolved to a $ref (inline object was extracted to components)
+            if (items.get$ref() != null && !items.get$ref().isEmpty()) {
+                return true;
+            }
+            // Items with inline properties
+            if (items.getProperties() != null && !items.getProperties().isEmpty()) {
+                return true;
+            }
+            // Items with composed schema (oneOf/anyOf/allOf)
+            if (ModelUtils.isComposedSchema(items)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

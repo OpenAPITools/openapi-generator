@@ -757,4 +757,60 @@ public class ModelUtilsTest {
         Schema composedSchema = allSchemas.get("RandomAnimalsResponse_animals_inner");
         assertNull(ModelUtils.getParentName(composedSchema, allSchemas));
     }
+
+    @Test
+    public void shouldGenerateArrayModelWithRefItems() {
+        // array with items.$ref should generate a model (most common case after InlineModelResolver)
+        Schema<?> items = new Schema<>();
+        items.set$ref("#/components/schemas/Foo");
+        Schema<?> arraySchema = new ArraySchema().items(items);
+        assertTrue(ModelUtils.shouldGenerateArrayModel(arraySchema));
+    }
+
+    @Test
+    public void shouldNotGenerateArrayModelWithPrimitiveItems() {
+        // array with simple string items is a plain alias (e.g. List<String>) — skip
+        Schema<?> arraySchema = new ArraySchema().items(new StringSchema());
+        assertFalse(ModelUtils.shouldGenerateArrayModel(arraySchema));
+    }
+
+    @Test
+    public void shouldNotGenerateArrayModelWithPrimitiveIntegerItems() {
+        // array with simple integer items is a plain alias (e.g. List<Integer>) — skip
+        Schema<?> arraySchema = new ArraySchema().items(new IntegerSchema());
+        assertFalse(ModelUtils.shouldGenerateArrayModel(arraySchema));
+    }
+
+    @Test
+    public void shouldGenerateArrayModelWithComposedItems() {
+        // array with oneOf items should generate a model
+        Schema<?> items = new Schema<>();
+        items.oneOf(List.of(new Schema<>().$ref("#/components/schemas/A"), new Schema<>().$ref("#/components/schemas/B")));
+        Schema<?> arraySchema = new ArraySchema().items(items);
+        assertTrue(ModelUtils.shouldGenerateArrayModel(arraySchema));
+    }
+
+    @Test
+    public void shouldGenerateArrayModelWithInlineObjectItems() {
+        // array with items that have inline properties should generate a model
+        Schema<?> items = new ObjectSchema();
+        items.addProperty("name", new StringSchema());
+        Schema<?> arraySchema = new ArraySchema().items(items);
+        assertTrue(ModelUtils.shouldGenerateArrayModel(arraySchema));
+    }
+
+    @Test
+    public void shouldNotGenerateArrayModelWithNullItems() {
+        // array with no items at all — alias, skip
+        Schema<?> arraySchema = new ArraySchema();
+        assertFalse(ModelUtils.shouldGenerateArrayModel(arraySchema));
+    }
+
+    @Test
+    public void shouldGenerateArrayModelWhenGenerateAliasAsModelExtensionIsSet() {
+        // with x-generate-alias-as-model extension, even a simple alias should generate
+        Schema<?> arraySchema = new ArraySchema().items(new StringSchema());
+        arraySchema.addExtension("x-generate-alias-as-model", true);
+        assertTrue(ModelUtils.shouldGenerateArrayModel(arraySchema));
+    }
 }

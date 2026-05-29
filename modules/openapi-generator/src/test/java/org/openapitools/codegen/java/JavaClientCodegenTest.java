@@ -598,7 +598,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
-        assertThat(files).hasSize(153);
+        assertThat(files).hasSize(156);
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Dog.java")).content()
                 .contains("import xyz.abcdef.invoker.JSON;");
