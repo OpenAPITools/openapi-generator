@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  title: Nested Map Type Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    StringMap:
+      type: object
+      additionalProperties:
+        type: string
+      description: A map of string to string
+    EmailTemplate:
+      type: object
+      required:
+        - id
+        - ejs
+      properties:
+        id:
+          type: string
+        ejs:
+          type: string
+        translationOverridesByLocale:
+          $ref: '#/components/schemas/NestedStringMap'
+    NestedStringMap:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/StringMap'
+      description: A map of string to map of string to string

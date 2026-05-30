@@ -1,0 +1,49 @@
+openapi: 3.0.1
+info:
+  title: discriminator_enums
+  version: '1.0.0'
+components:
+  schemas:
+    Vehicle:
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        model:
+          type: string
+        name:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/Car'
+        - $ref: '#/components/schemas/Plane'
+      discriminator:
+        propertyName: type
+
+    Car:
+      type: object
+      properties:
+        type:
+          enum:
+            - car
+        has_4_wheel_drive:
+          type: boolean
+
+    Plane:
+      type: object
+      allOf:
+        - properties:
+            type:
+              $ref: '#/components/schemas/PlaneEnum'
+            has_reactor:
+              type: boolean
+            nb_passengers:
+              type: integer
+    PlaneEnum:
+      type: string
+      enum:
+        - plane

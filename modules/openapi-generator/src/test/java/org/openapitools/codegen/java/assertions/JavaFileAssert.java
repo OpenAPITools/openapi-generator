@@ -2,6 +2,8 @@ package org.openapitools.codegen.java.assertions;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
@@ -56,6 +58,43 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 .withFailMessage("Expected type %s to be a normal class(non-abstract)", actual.getType(0).getName().asString())
                 .extracting(ClassOrInterfaceDeclaration::isInterface, NodeWithAbstractModifier::isAbstract)
                 .containsExactly(false, false);
+        return this;
+    }
+
+    public JavaFileAssert extendsClass(String parentClass) {
+        String actualParent = actual.getType(0)
+                .asClassOrInterfaceDeclaration().getExtendedTypes()
+                .stream()
+                .filter(JavaFileAssert::isClass)
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .findFirst()
+                .orElse(null);
+
+        Assertions.assertThat(actualParent)
+                .withFailMessage("Expected type %s to extends %s, but found %s",
+                        actual.getType(0).getName().asString(), parentClass, actualParent)
+                .isEqualTo(parentClass);
+        return this;
+    }
+
+    private static boolean isClass(ClassOrInterfaceType cit) {
+        return cit.asClassOrInterfaceType().getParentNode()
+                .map(node -> node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface())
+                .orElse(false);
+    }
+
+    public JavaFileAssert doesNotExtendsClasses() {
+        String actualParent = actual.getType(0)
+                .asClassOrInterfaceDeclaration().getExtendedTypes()
+                .stream()
+                .filter(JavaFileAssert::isClass)
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .findFirst()
+                .orElse(null);
+        Assertions.assertThat(actualParent)
+                .withFailMessage("Expected type %s to extends a class, but found %s",
+                        actual.getType(0).getName().asString(), actualParent)
+                .isNull();
         return this;
     }
 

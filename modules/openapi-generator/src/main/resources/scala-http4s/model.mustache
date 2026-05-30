@@ -44,12 +44,12 @@ object {{classname}} {
 // with discriminator, no mapping
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
 {{#vendorExtensions.x-discriminator-entries}}
-    case obj: {{classname}} => obj.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{schemaName}}".asJson) +: _)
+    case obj: {{classname}} => obj.asJson.mapObject(("{{discriminator.propertyBaseName}}" -> "{{schemaName}}".asJson) +: _)
 {{/vendorExtensions.x-discriminator-entries}}
   }
 
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
-    cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
+    cursor.downField("{{discriminator.propertyBaseName}}").as[String].flatMap {
       {{#vendorExtensions.x-discriminator-entries}}
       case "{{schemaName}}" => cursor.as[{{classname}}]
       {{/vendorExtensions.x-discriminator-entries}}
@@ -63,12 +63,12 @@ object {{classname}} {
 {{#discriminator}}
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
 {{#mappedModels}}
-    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyBaseName}}" -> "{{mappingName}}".asJson) +: _)
 {{/mappedModels}}
   }
 
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
-    cursor.downField("{{propertyName}}").as[String].flatMap {
+    cursor.downField("{{propertyBaseName}}").as[String].flatMap {
     {{#mappedModels}}
       case "{{mappingName}}" => cursor.as[{{model.classname}}]
     {{/mappedModels}}
@@ -109,12 +109,12 @@ object {{classname}} {
 // with discriminator, no mapping
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
 {{#vendorExtensions.x-oneOfMembers}}
-    case obj: {{classname}} => obj.asJson.mapObject(("{{vendorExtensions.x-parentDiscriminatorName}}" -> "{{name}}".asJson) +: _)
+    case obj: {{classname}} => obj.asJson.mapObject(("{{vendorExtensions.x-parentDiscriminatorBaseName}}" -> "{{name}}".asJson) +: _)
 {{/vendorExtensions.x-oneOfMembers}}
   }
 
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
-    cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
+    cursor.downField("{{discriminator.propertyBaseName}}").as[String].flatMap {
       {{#vendorExtensions.x-oneOfMembers}}
       case "{{name}}" => cursor.as[{{classname}}]
       {{/vendorExtensions.x-oneOfMembers}}
@@ -128,12 +128,12 @@ object {{classname}} {
 {{#discriminator}}
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
 {{#mappedModels}}
-    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyBaseName}}" -> "{{mappingName}}".asJson) +: _)
 {{/mappedModels}}
   }
 
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
-    cursor.downField("{{propertyName}}").as[String].flatMap {
+    cursor.downField("{{propertyBaseName}}").as[String].flatMap {
     {{#mappedModels}}
       case "{{mappingName}}" => cursor.as[{{model.classname}}]
     {{/mappedModels}}

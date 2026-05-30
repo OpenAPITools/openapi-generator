@@ -8,8 +8,6 @@ import javax.ws.rs.core.Response;
 
 
 
-
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -46,7 +44,7 @@ import javax.validation.Valid;
     )
 })
 @Path("/store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class StoreApi {
 
     @DELETE
@@ -66,6 +64,7 @@ public class StoreApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
@@ -82,6 +81,7 @@ public class StoreApi {
     public Response getInventory() {
         return Response.ok().entity("magic!").build();
     }
+
 
     @GET
     @Path("/order/{orderId}")
@@ -107,6 +107,7 @@ public class StoreApi {
         return Response.ok().entity("magic!").build();
     }
 
+
     @POST
     @Path("/order")
     @Consumes({ "application/json" })
@@ -127,4 +128,5 @@ public class StoreApi {
     public Response placeOrder(@Valid @NotNull Order order) {
         return Response.ok().entity("magic!").build();
     }
+
 }

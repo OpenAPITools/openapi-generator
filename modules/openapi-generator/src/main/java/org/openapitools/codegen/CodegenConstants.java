@@ -229,6 +229,9 @@ public class CodegenConstants {
     public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
     public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.";
 
+    public static final String OPENAPI_NULLABLE = "openApiNullable";
+    public static final String OPENAPI_NULLABLE_DESC = "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable properties.";
+
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
@@ -489,7 +492,16 @@ public class CodegenConstants {
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC =
+            "Annotate discriminator-free oneOf interfaces with Jackson's " +
+                    "@JsonTypeInfo(use = Id.DEDUCTION) and @JsonSubTypes so the concrete subtype " +
+                    "is resolved from the JSON field set rather than a type-tag property. " +
+                    "Has no effect when a discriminator is present (name-based resolution is used instead). " +
+                    "Requires subtypes to have structurally distinct sets of properties.";
     public static final String X_DISCRIMINATOR_VALUE = "x-discriminator-value";
     public static final String X_ONE_OF_NAME = "x-one-of-name";
     public static final String X_NULLABLE = "x-nullable";
+    public static final String X_ENUM_VARNAMES = "x-enum-varnames";
+    public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
 }

@@ -49,10 +49,19 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * OpenAPI Generator codegen implementation for Kotlin + Spring.
+ *
+ * <p>Mustache templates are located in
+ * {@code src/main/resources/kotlin-spring/} (root templates shared across all libraries) and
+ * {@code src/main/resources/kotlin-spring/libraries/} (library-specific overrides).
+ * A library-specific template shadows a root-level template of the same name.
+ */
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures, DocumentationProviderFeatures, SwaggerUIFeatures,
                    SpringPageableSupport.Context, GenericSubstitutionSupport.Context {
@@ -66,9 +75,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     "ApiException",
                     "ApiResponse"
             ));
-
-    public static final String OPEN_BRACE = "{";
-    public static final String CLOSE_BRACE = "}";
 
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -109,6 +115,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String DISCOVER_GENERIC_PATTERNS = "discoverGenericPatterns";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
+    public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -202,6 +209,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override public String fileExtension() { return "kt"; }
 
     @Setter private boolean companionObject = false;
+    @Setter private boolean suspendFunctions = false;
+    @Getter @Setter private boolean openApiNullable = false;
+    @Getter @Setter
+    protected boolean useDeductionForOneOfInterfaces = false;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -237,7 +248,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         GlobalFeature.ParameterStyling
                 )
                 .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.oneOf
                 )
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
@@ -245,6 +257,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         );
 
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
+
+        // Enable oneOf interface generation (mirrors SpringCodegen behavior)
+        useOneOfInterfaces = true;
 
         outputFolder = "generated-code/kotlin-spring";
         embeddedTemplateDir = templateDir = "kotlin-spring";
@@ -257,9 +272,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
-
-        additionalProperties.put("openbrace", OPEN_BRACE);
-        additionalProperties.put("closebrace", CLOSE_BRACE);
 
         // Use lists instead of arrays
         typeMapping.put("array", "kotlin.collections.List");
@@ -294,7 +306,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.", useSpringBoot4);
-        addSwitch(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled. Incompatible with `openApiNullable`.", useJackson3);
+        addSwitch(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled.", useJackson3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
         addSwitch(USE_RESPONSE_ENTITY,
@@ -314,7 +326,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
                 + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
-                + "schema are suppressed from code generation. Only applies when library=spring-boot or spring-declarative-http-interface.",
+                + "schema are suppressed from code generation.",
                 false);
         addOption(GENERIC_PATTERNS,
                 "List of generic substitution patterns. Each entry specifies a suffix or prefix to match schema names "
@@ -325,6 +337,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "When true, scans schemas for structural clusters and logs them as INFO-level suggestions for configuring genericPatterns.",
                 false);
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
+        addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        addSwitch(CodegenConstants.OPENAPI_NULLABLE,
+                "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable "
+                + "properties (required: false, nullable: true). When enabled, such properties use "
+                + "JsonNullable<T> = JsonNullable.undefined() so callers can distinguish between a missing key "
+                + "and an explicitly provided null. Requires jackson-databind-nullable >= 0.2.10 when used with useJackson3.",
+                openApiNullable);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -554,10 +574,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        if (isUseJackson3()) {
-            // Override databind imports for Jackson 3
-            importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
-        }
+        // Jackson 3.x intentionally kept jackson-annotations at 2.x (com.fasterxml.jackson.annotation).
+        // Only jackson-databind moved to tools.jackson.databind in Jackson 3.x.
+        importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
+        importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
+        // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3.
+        importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+        // JsonDeserialize lives in jackson-databind which moved packages in Jackson 3.x.
+        importMapping.put("JsonDeserialize", (isUseJackson3() ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         // Spring-specific import mappings for x-spring-paginated support
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
@@ -585,6 +609,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else {
             additionalProperties.put(COMPANION_OBJECT, companionObject);
         }
+
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -715,6 +741,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
         writePropertyBack(USE_FLOW_FOR_ARRAY_RETURN_TYPE, useFlowForArrayReturnType);
 
+        if (additionalProperties.containsKey(SUSPEND_FUNCTIONS)) {
+            this.setSuspendFunctions(convertPropertyToBoolean(SUSPEND_FUNCTIONS));
+        }
+        writePropertyBack(SUSPEND_FUNCTIONS, suspendFunctions);
+
         if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
             this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
         }
@@ -764,7 +795,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setGeneratePageableConstraintValidation(convertPropertyToBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION));
         }
         writePropertyBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, pageableSupport.isGeneratePageableConstraintValidation());
-        if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL) && (library.equals(SPRING_BOOT) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
+        if (additionalProperties.containsKey(SUBSTITUTE_GENERIC_PAGED_MODEL)) {
             this.setSubstituteGenericPagedModel(convertPropertyToBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL));
         }
         writePropertyBack(SUBSTITUTE_GENERIC_PAGED_MODEL, pageableSupport.isSubstituteGenericPagedModel());
@@ -806,10 +837,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
         }
 
-        if (isUseJackson3() && additionalProperties.containsKey("openApiNullable")
-                && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
-            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        if (additionalProperties.containsKey(CodegenConstants.OPENAPI_NULLABLE)) {
+            this.setOpenApiNullable(convertPropertyToBoolean(CodegenConstants.OPENAPI_NULLABLE));
         }
+        writePropertyBack(CodegenConstants.OPENAPI_NULLABLE, openApiNullable);
 
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
@@ -1190,6 +1221,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             property.example = null;
         }
 
+        // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL).
+        // Missing keys still succeed (default = null is used), but explicit {"field": null} fails deserialization.
+        if (!Boolean.TRUE.equals(property.required) && !Boolean.TRUE.equals(property.isNullable)) {
+            property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+            model.imports.add("JsonSetter");
+            model.imports.add("Nulls");
+        }
+
+        // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
+        // so callers can distinguish between a missing key and an explicitly provided null.
+        if (openApiNullable && !Boolean.TRUE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+            property.vendorExtensions.put("x-is-jackson-optional-nullable", true);
+            model.imports.add("JsonNullable");
+        }
+
         //Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
@@ -1210,8 +1256,48 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        if (additionalProperties.containsKey("jackson")) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
+            }
+        }
+    }
+
+    @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModelsMap = getAllModels(objs);
+
+        // For each oneOf interface with a discriminator, mark the discriminator property
+        // as inherited in each subtype and set its default value from the discriminator mapping
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE))
+                    && cm.discriminator != null) {
+                String discrimBaseName = cm.discriminator.getPropertyBaseName();
+                String discrimType = cm.discriminator.getPropertyType();
+                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
+
+                // Build child name -> mapping name lookup from discriminator mappings
+                Map<String, String> childToMappingName = new HashMap<>();
+                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
+                    childToMappingName.put(mm.getModelName(), mm.getMappingName());
+                }
+
+                for (String childName : cm.oneOf) {
+                    CodegenModel child = allModelsMap.get(childName);
+                    if (child != null) {
+                        String mappingName = childToMappingName.get(childName);
+                        markPropertyAsInherited(child, discrimBaseName, discrimType, mappingName, isEnumDiscriminator);
+                    }
+                }
+            }
+        }
 
         if (pageableSupport.isSubstituteGenericPagedModel()) {
             objs = pageableSupport.suppressPagedModels(objs, this);
@@ -1220,6 +1306,47 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         objs = genericSubstitutionSupport.suppressGenericSchemas(objs, this);
 
         return objs;
+    }
+
+    /**
+     * Marks the discriminator property as inherited on a subtype and sets its default value
+     * from the discriminator mapping, so the constructor has the correct default.
+     */
+    private void markPropertyAsInherited(CodegenModel model, String baseName, String dataType,
+                                         String discriminatorValue, boolean isEnumDiscriminator) {
+        Stream.of(model.vars, model.requiredVars, model.optionalVars, model.allVars)
+                .flatMap(List::stream)
+                .filter(p -> baseName.equals(p.baseName))
+                .forEach(p -> {
+                    p.isInherited = true;
+                    // Discriminator properties must match the parent interface type (non-null, required)
+                    if (dataType != null) {
+                        p.dataType = dataType;
+                        p.datatypeWithEnum = dataType;
+                        p.isNullable = false;
+                        p.required = true;
+                    }
+                    if (discriminatorValue != null) {
+                        if (isEnumDiscriminator) {
+                            p.defaultValue = dataType + "." + toEnumVarName(discriminatorValue, dataType);
+                        } else {
+                            p.defaultValue = "\"" + escapeText(discriminatorValue) + "\"";
+                        }
+                    }
+                });
+        // Move discriminator property from optionalVars to requiredVars if needed.
+        // Safe to modify optionalVars here — the stream above has fully completed.
+        if (dataType != null) {
+            model.optionalVars.stream()
+                    .filter(p -> baseName.equals(p.baseName))
+                    .findFirst()
+                    .ifPresent(p -> {
+                        model.optionalVars.remove(p);
+                        model.requiredVars.add(p);
+                    });
+            model.hasRequired = !model.requiredVars.isEmpty();
+            model.hasOptional = !model.optionalVars.isEmpty();
+        }
     }
 
     @Override
@@ -1233,6 +1360,23 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         //Add imports for Jackson
         List<Map<String, String>> imports = objs.getImports();
+
+        // Set 4-state nullable/required vendor extensions on optionalVars instances.
+        // optionalVars are cloned independently from vars by removeAllDuplicatedProperty(),
+        // so they require a separate pass here — postProcessModelProperty only covers vars.
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.optionalVars) {
+                // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL)
+                if (!var.required && !var.isNullable) {
+                    var.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
+                }
+                // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
+                if (openApiNullable && !var.required && var.isNullable) {
+                    var.vendorExtensions.put("x-is-jackson-optional-nullable", true);
+                }
+            }
+        }
 
         objs.getModels().stream()
                 .map(ModelMap::getModel)

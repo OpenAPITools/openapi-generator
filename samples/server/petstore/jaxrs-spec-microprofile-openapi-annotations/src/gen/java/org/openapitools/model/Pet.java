@@ -22,7 +22,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(title="a Pet", description="A pet for sale in the pet store")
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet  implements Serializable {
   private Long id;
   private Category category;
@@ -76,6 +76,7 @@ public class Pet  implements Serializable {
     }
 }
 
+  @Deprecated
   private StatusEnum status;
 
   protected Pet(PetBuilder<?, ?> b) {
@@ -228,19 +229,29 @@ public class Pet  implements Serializable {
   }
   /**
    * pet status in the store
+   * @deprecated
    **/
+  @Deprecated
   public Pet status(StatusEnum status) {
     this.status = status;
     return this;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "pet status in the store")
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "pet status in the store", deprecated = true)
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -341,6 +352,7 @@ public class Pet  implements Serializable {
       this.tags = tags;
       return self();
     }
+    @Deprecated
     public B status(StatusEnum status) {
       this.status = status;
       return self();

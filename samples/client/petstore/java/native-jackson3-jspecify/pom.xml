@@ -212,7 +212,11 @@
             <version>${jackson3-version}</version>
         </dependency>
         <!-- Note: jackson-datatype-jsr310 is included in jackson-databind for Jackson 3 -->
-        <!-- Note: jackson-databind-nullable is not yet available for Jackson 3 -->
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -251,6 +255,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <jackson3-version>3.1.1</jackson3-version>
         <jackson-annotations-version>2.21</jackson-annotations-version>
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <beanvalidation-version>2.0.2</beanvalidation-version>
         <httpmime-version>4.5.14</httpmime-version>

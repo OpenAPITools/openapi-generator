@@ -716,4 +716,28 @@ public class DartModelTest {
         Assert.assertFalse(filterParam.dataType.startsWith("Optional<"),
                 "Query parameter should not be wrapped with Optional");
     }
+
+    @Test(description = "array items can be nullable")
+    public void arrayItemsCanBeNullable() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/array-nullable-items.yaml");
+        final DefaultCodegen codegen = new DartClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArrayWithNullableItemsModel")
+                .getProperties()
+                .get("foo");
+
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "List<String?>");
+    }
+
+    @Test(description = "nested array items can be nullable")
+    public void nestedArrayItemsCanBeNullable() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/nested-array-nullable-items.yaml");
+        final DefaultCodegen codegen = new DartClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("NestedArrayWithNullableItemsModel")
+                .getProperties()
+                .get("foo");
+
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "List<List<String?>>");
+    }
 }

@@ -1,0 +1,85 @@
+{{#delegatePattern}}
+val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate: {{classname}}Delegate? by call.delegates
+{{/delegatePattern}}
+{{#hasFormParams}}
+{{^isMultipart}}
+val formParameters = call.receiveParameters()
+{{/isMultipart}}
+{{/hasFormParams}}
+{{#allParams}}
+{{#isQueryParam}}
+{{#featureResources}}
+val {{paramName}} = {{operationId}}.{{paramName}}
+{{/featureResources}}
+{{^featureResources}}
+val {{paramName}} = call.request.queryParameters["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/featureResources}}
+{{/isQueryParam}}
+{{#isHeaderParam}}
+val {{paramName}} = call.request.headers["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/isHeaderParam}}
+{{#isCookieParam}}
+val {{paramName}} = call.request.cookies["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/isCookieParam}}
+{{#isBodyParam}}
+val {{paramName}} = call.receive<{{{dataType}}}>()
+{{/isBodyParam}}
+{{#isFormParam}}
+{{^isMultipart}}
+val {{paramName}} = formParameters["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/isMultipart}}
+{{/isFormParam}}
+{{#isPathParam}}
+{{#featureResources}}
+val {{paramName}} = {{operationId}}.{{paramName}}
+{{/featureResources}}
+{{^featureResources}}
+val {{paramName}} = call.parameters["{{baseName}}"]{{>libraries/ktor/_extract_param_value}}
+{{/featureResources}}
+{{/isPathParam}}
+{{/allParams}}
+
+{{#isMultipart}}
+val {{operationId}}MultipartReceiver = {{classname}}Delegate.{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPartReceiver { block ->
+    val builder = {{classname}}Delegate.{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}MultiPartFileBuilder()
+    with(builder) { block() }
+    call.receiveMultipart().forEachPart { part ->
+        when (part.name) {
+            {{#allParams}}
+            {{#isFormParam}}
+            "{{baseName}}" -> {
+                {{#isFile}}
+                if(part is PartData.FileItem) {
+                    builder.onReceive{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}}(part)
+                }
+                {{/isFile}}
+                {{^isFile}}
+                if(part is PartData.FormItem) {
+                    builder.{{paramName}}(part.value{{>libraries/ktor/_extract_param_value}})
+                }
+                {{/isFile}}
+            }
+            {{/isFormParam}}
+            {{/allParams}}
+        }
+        part.dispose()
+    }
+    builder.build()
+}
+{{/isMultipart}}
+
+{{#allParams}}
+    {{#hasValidation}}
+        {{>libraries/ktor/_param_validation}}
+    {{/hasValidation}}
+    {{^hasValidation}}
+    {{#isModel}}
+        {{>libraries/ktor/_param_validation}}
+    {{/isModel}}
+    {{/hasValidation}}
+{{/allParams}}
+
+val delegate = {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Delegate ?: throw APINotImplementedException("API operation {{operationId}} has not been implemented yet.")
+val result = delegate.{{operationId}}({{^isMultipart}}{{#allParams}}{{paramName}}, {{/allParams}}{{/isMultipart}}{{#isMultipart}}{{#allParams}}{{^isFormParam}}{{paramName}}, {{/isFormParam}}{{/allParams}}{{operationId}}MultipartReceiver, {{/isMultipart}}call)
+call.respond(result)
+

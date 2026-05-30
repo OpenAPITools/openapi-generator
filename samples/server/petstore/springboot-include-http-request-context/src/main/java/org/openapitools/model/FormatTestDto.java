@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FormatTestDto {
 
   private @Nullable Integer integer;
@@ -219,7 +219,7 @@ public class FormatTestDto {
    * Get string
    * @return string
    */
-  @Pattern(regexp = "/[a-z]/i") 
+  @Pattern(regexp = "[a-zA-Z]") 
   @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
   public @Nullable String getString() {

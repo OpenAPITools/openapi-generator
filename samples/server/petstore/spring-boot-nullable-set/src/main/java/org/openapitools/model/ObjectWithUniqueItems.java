@@ -29,19 +29,15 @@ import jakarta.annotation.Generated;
  * ObjectWithUniqueItems
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
-  @Valid
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
-  @Valid
   private Set<String> notNullSet = new LinkedHashSet<>();
 
-  @Valid
   private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
-  @Valid
   private List<String> notNullList = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

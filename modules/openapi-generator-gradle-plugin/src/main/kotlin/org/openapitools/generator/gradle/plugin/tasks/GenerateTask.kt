@@ -283,6 +283,33 @@ abstract class GenerateTask : DefaultTask() {
     abstract val layout: ProjectLayout
 
     /**
+     * Controls how the code generation worker is isolated from the Gradle daemon.
+     *
+     * - "process" (default): runs in a separate JVM process. Metaspace is fully isolated from the
+     *   daemon and freed after the process exits. Gradle reuses the worker process across tasks that
+     *   share the same classpath, so the JVM startup cost is paid at most once per parallel slot —
+     *   not once per task. Best for projects with many generation tasks.
+     *
+     * - "classloader": runs inside the Gradle daemon JVM using a separate ClassLoader. No process
+     *   startup overhead, but each task loads generator classes into the daemon's Metaspace. With
+     *   many tasks this can exhaust Metaspace. Suitable for projects with very few tasks where the
+     *   daemon memory budget is not a concern.
+     */
+    @get:Optional
+    @get:Input
+    abstract val workerIsolation: Property<String>
+
+    /**
+     * Maximum heap size for the worker process when [workerIsolation] is "process" (e.g. "512m", "1g").
+     * Has no effect when [workerIsolation] is "classloader".
+     * When not set, the JVM uses ergonomic defaults (typically based on available system memory).
+     * Only set this if you hit OutOfMemoryError during generation of unusually large specs.
+     */
+    @get:Optional
+    @get:Input
+    abstract val maxWorkerHeapSize: Property<String>
+
+    /**
      * The verbosity of generation
      */
     @get:Optional
@@ -863,8 +890,37 @@ abstract class GenerateTask : DefaultTask() {
             }
         }
 
-// Submit generation logic to the isolated Worker API Queue
-        val workQueue = workerExecutor.classLoaderIsolation()
+// Submit generation work using the configured isolation mode.
+// "classloader" (default): worker runs inside the Gradle daemon JVM with a separate ClassLoader; no startup
+//   overhead but generator classes accumulate in daemon Metaspace across all tasks.
+// "process": worker runs in a separate JVM; Metaspace is freed after each worker daemon
+//   exits, and Gradle reuses the same worker daemon across tasks that share the same classpath,
+//   so startup cost is amortized — typically paid only once per parallel slot.
+        val isolation = workerIsolation.getOrElse("classloader").lowercase()
+        val workQueue = when (isolation) {
+            "process" -> {
+                val heapMsg = maxWorkerHeapSize.orNull?.let { " (maxHeapSize=$it)" } ?: ""
+                logger.lifecycle(
+                    "[openApiGenerate] Worker isolation: process$heapMsg " +
+                            "(isolated JVM per task, no Metaspace leak - " +
+                            "use workerIsolation = \"classloader\" to skip per-task JVM startup cost at the cost of increased Metaspace usage)"
+                )
+                workerExecutor.processIsolation {
+                    maxWorkerHeapSize.orNull?.let { forkOptions.maxHeapSize = it }
+                }
+            }
+
+            "classloader" -> {
+                logger.lifecycle(
+                    "[openApiGenerate] Worker isolation: classloader " +
+                            "(fast startup, but generator classes accumulate in Gradle daemon Metaspace - " +
+                            "consider workerIsolation = \"process\" if you hit metaspace pressure)"
+                )
+                workerExecutor.classLoaderIsolation()
+            }
+
+            else -> throw GradleException("Invalid workerIsolation mode: $isolation. Supported values are 'process' and 'classloader'.")
+        }
 
         workQueue.submit(OpenApiWorkAction::class.java, object : Action<OpenApiWorkParameters> {
             override fun execute(parameters: OpenApiWorkParameters) {

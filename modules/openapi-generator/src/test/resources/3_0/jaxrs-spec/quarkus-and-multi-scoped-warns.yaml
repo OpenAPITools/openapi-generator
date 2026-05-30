@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: Quarkus AND group — multiple scoped schemes (should NOT emit annotation)
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: AND group with two scoped schemes — unscopable, no annotation emitted
+      security:
+        - oauth2_scheme:
+            - read:items
+          openid_scheme:
+            - write:items
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    oauth2_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read:items: Read items
+    openid_scheme:
+      type: openIdConnect
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration

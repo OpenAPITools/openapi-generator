@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.PageMeta
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -21,11 +23,14 @@ import jakarta.validation.Valid
  */
 data class SearchResult(
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("query") val query: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("totalHits") val totalHits: kotlin.Int? = null,
 
     @field:Valid
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("page") val page: PageMeta? = null
 ) : java.io.Serializable {
 

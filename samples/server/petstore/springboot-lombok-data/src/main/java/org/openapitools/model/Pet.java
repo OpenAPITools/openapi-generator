@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet {
 
   
@@ -56,7 +56,6 @@ public class Pet {
   @JsonProperty("photoUrls")
 
   @lombok.Builder.Default
-  @Valid
   private List<String> photoUrls = new ArrayList<>();
 
   
@@ -64,7 +63,6 @@ public class Pet {
   @JsonProperty("tags")
 
   @lombok.Builder.Default
-  @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**

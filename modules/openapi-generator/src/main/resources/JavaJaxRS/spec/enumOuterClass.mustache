@@ -5,10 +5,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+{{#isDeprecated}}
+ * @deprecated
+{{/isDeprecated}}
  */
 {{>generatedAnnotation}}
 
-{{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+{{#isDeprecated}}
+@Deprecated
+
+{{/isDeprecated}}{{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#gson}}
   {{#allowableValues}}{{#enumVars}}
   @SerializedName({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}})

@@ -33,10 +33,16 @@ import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}
+ {{#isDeprecated}}
+ * @deprecated
+ {{/isDeprecated}}
  **/{{/description}}
-{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
-@Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
-@org.eclipse.microprofile.openapi.annotations.media.Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useMicroProfileOpenAPIAnnotations}}
+{{#isDeprecated}}
+@Deprecated
+
+{{/isDeprecated}}{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
+@Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}{{#isDeprecated}}, deprecated = true{{/isDeprecated}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
+@org.eclipse.microprofile.openapi.annotations.media.Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}{{#isDeprecated}}, deprecated = true{{/isDeprecated}}){{/useMicroProfileOpenAPIAnnotations}}
 {{#jackson}}
 @JsonTypeName("{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}")
 {{#additionalProperties}}
@@ -62,6 +68,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
@@ -128,7 +137,13 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
    {{#maximum}}
    * maximum: {{.}}
    {{/maximum}}
+   {{#deprecated}}
+   * @deprecated
+   {{/deprecated}}
    **/
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
@@ -142,10 +157,16 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#withXml}}
       @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
   {{/withXml}}
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
-  @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
-  @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useMicroProfileOpenAPIAnnotations}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
+  @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}}){{/useMicroProfileOpenAPIAnnotations}}
   {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}"){{/jackson}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}() {
@@ -158,6 +179,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   }
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   {{#jackson}}
   @JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}")
   {{/jackson}}
@@ -172,6 +199,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   }
 
   {{#isArray}}
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
@@ -194,6 +227,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} remove{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if ({{name}}Item != null && this.{{name}} != null && this.{{name}}.isPresent()) {
@@ -214,6 +253,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   }
   {{/isArray}}
   {{#isMap}}
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
@@ -236,6 +281,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
+  {{#deprecated}}
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} remove{{nameInPascalCase}}Item(String key) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} != null && this.{{name}}.isPresent()) {
@@ -325,6 +376,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{/parent}}
 
     {{#vars}}
+    {{#deprecated}}
+    @Deprecated
+    {{/deprecated}}
     public B {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
       this.{{name}} = {{name}};
       return self();

@@ -30,7 +30,7 @@ import org.openapitools.server.models.Pet
 
 fun Route.PetApi() {
     authenticate("petstore_auth") {
-    post<Paths.addPet> {
+    post<Paths.addPet> { addPet ->
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
@@ -39,9 +39,8 @@ fun Route.PetApi() {
         
     }
     }
-
     authenticate("petstore_auth") {
-    delete<Paths.deletePet> {
+    delete<Paths.deletePet> { deletePet ->
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
@@ -50,44 +49,43 @@ fun Route.PetApi() {
         
     }
     }
-
     authenticate("petstore_auth") {
-    get<Paths.findPetsByStatus> {
+    get<Paths.findPetsByStatus> { findPetsByStatus ->
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }, {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             } ]"""
@@ -100,44 +98,43 @@ fun Route.PetApi() {
         
     }
     }
-
     authenticate("petstore_auth") {
-    get<Paths.findPetsByTags> {
+    get<Paths.findPetsByTags> { findPetsByTags ->
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }, {
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             } ]"""
@@ -150,28 +147,27 @@ fun Route.PetApi() {
         
     }
     }
-
     authenticate("api_key") {
-    get<Paths.getPetById> {
+    get<Paths.getPetById> { getPetById ->
         
         val principal = call.authentication.principal<ApiPrincipal>()
         
         
         val exampleContentType = "application/json"
             val exampleContentString = """{
-              "photoUrls" : [ "photoUrls", "photoUrls" ],
-              "name" : "doggie",
               "id" : 0,
               "category" : {
-                "name" : "name",
-                "id" : 6
+                "id" : 6,
+                "name" : "name"
               },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
               "tags" : [ {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               }, {
-                "name" : "name",
-                "id" : 1
+                "id" : 1,
+                "name" : "name"
               } ],
               "status" : "available"
             }"""
@@ -184,9 +180,8 @@ fun Route.PetApi() {
         
     }
     }
-
     authenticate("petstore_auth") {
-    put<Paths.updatePet> {
+    put<Paths.updatePet> { updatePet ->
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
@@ -195,9 +190,8 @@ fun Route.PetApi() {
         
     }
     }
-
     authenticate("petstore_auth") {
-    post<Paths.updatePetWithForm> {
+    post<Paths.updatePetWithForm> { updatePetWithForm ->
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
@@ -206,9 +200,8 @@ fun Route.PetApi() {
         
     }
     }
-
     authenticate("petstore_auth") {
-    post<Paths.uploadFile> {
+    post<Paths.uploadFile> { uploadFile ->
         
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
@@ -228,5 +221,4 @@ fun Route.PetApi() {
         
     }
     }
-
 }

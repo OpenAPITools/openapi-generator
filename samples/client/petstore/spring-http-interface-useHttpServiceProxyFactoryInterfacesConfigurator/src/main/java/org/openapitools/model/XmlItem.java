@@ -11,7 +11,9 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -21,7 +23,7 @@ import jakarta.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class XmlItem {
 
   private @Nullable String attributeString;
@@ -32,7 +34,6 @@ public class XmlItem {
 
   private @Nullable Boolean attributeBoolean;
 
-  
   private List<Integer> wrappedArray = new ArrayList<>();
 
   private @Nullable String nameString;
@@ -43,10 +44,8 @@ public class XmlItem {
 
   private @Nullable Boolean nameBoolean;
 
-  
   private List<Integer> nameArray = new ArrayList<>();
 
-  
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixString;
@@ -57,10 +56,8 @@ public class XmlItem {
 
   private @Nullable Boolean prefixBoolean;
 
-  
   private List<Integer> prefixArray = new ArrayList<>();
 
-  
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private @Nullable String namespaceString;
@@ -71,10 +68,8 @@ public class XmlItem {
 
   private @Nullable Boolean namespaceBoolean;
 
-  
   private List<Integer> namespaceArray = new ArrayList<>();
 
-  
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixNsString;
@@ -85,10 +80,8 @@ public class XmlItem {
 
   private @Nullable Boolean prefixNsBoolean;
 
-  
   private List<Integer> prefixNsArray = new ArrayList<>();
 
-  
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(@Nullable String attributeString) {
@@ -120,7 +113,7 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
    */
-  
+  @Valid 
   @JsonProperty("attribute_number")
   public @Nullable BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -228,7 +221,7 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
    */
-  
+  @Valid 
   @JsonProperty("name_number")
   public @Nullable BigDecimal getNameNumber() {
     return nameNumber;
@@ -364,7 +357,7 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
    */
-  
+  @Valid 
   @JsonProperty("prefix_number")
   public @Nullable BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -500,7 +493,7 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
    */
-  
+  @Valid 
   @JsonProperty("namespace_number")
   public @Nullable BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -636,7 +629,7 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
    */
-  
+  @Valid 
   @JsonProperty("prefix_ns_number")
   public @Nullable BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;

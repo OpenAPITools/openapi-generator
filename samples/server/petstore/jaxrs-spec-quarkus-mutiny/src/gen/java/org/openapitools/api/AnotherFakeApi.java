@@ -7,8 +7,6 @@ import javax.ws.rs.core.Response;
 
 
 
-
-
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
@@ -61,7 +59,7 @@ import javax.validation.Valid;
     ), 
 })
 @Path("/another-fake/dummy")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AnotherFakeApi {
 
     @PATCH
@@ -78,4 +76,5 @@ public class AnotherFakeApi {
     public Response call123testSpecialTags(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
+
 }

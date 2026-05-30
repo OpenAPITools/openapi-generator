@@ -124,6 +124,9 @@ dependencies {
     implementation "tools.jackson.core:jackson-core:$jackson3_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "tools.jackson.core:jackson-databind:$jackson3_version"
+    {{#openApiNullable}}
+    implementation "org.openapitools:jackson-databind-nullable:0.2.10"
+    {{/openApiNullable}}
     {{/useJackson3}}
     {{#useJspecify}}
     implementation "org.jspecify:jspecify:1.0.0"

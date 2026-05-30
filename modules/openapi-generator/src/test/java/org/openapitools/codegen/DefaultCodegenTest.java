@@ -59,6 +59,8 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_VARNAMES;
 
 public class DefaultCodegenTest {
 
@@ -2302,7 +2304,7 @@ public class DefaultCodegenTest {
         allowableValues.put("values", values);
         var.setAllowableValues(allowableValues);
         var.dataType = "String";
-        Map<String, Object> extensions = Collections.singletonMap("x-enum-varnames", aliases);
+        Map<String, Object> extensions = Collections.singletonMap(X_ENUM_VARNAMES, aliases);
         var.setVendorExtensions(extensions);
         return var;
     }
@@ -2327,8 +2329,8 @@ public class DefaultCodegenTest {
         final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
         final List<String> descriptions = Arrays.asList("This is a dog", "This is a cat");
         Map<String, Object> extensions = new HashMap<>();
-        extensions.put("x-enum-varnames", aliases);
-        extensions.put("x-enum-descriptions", descriptions);
+        extensions.put(X_ENUM_VARNAMES, aliases);
+        extensions.put(X_ENUM_DESCRIPTIONS, descriptions);
         cm.setVendorExtensions(extensions);
         cm.setVars(Collections.emptyList());
         return TestUtils.createCodegenModelWrapper(cm);
@@ -2348,8 +2350,8 @@ public class DefaultCodegenTest {
         descriptions.put("dog", "This is a dog");
         descriptions.put("cat", "This is a cat");
         Map<String, Object> extensions = new HashMap<>();
-        extensions.put("x-enum-varnames", aliases);
-        extensions.put("x-enum-descriptions", descriptions);
+        extensions.put(X_ENUM_VARNAMES, aliases);
+        extensions.put(X_ENUM_DESCRIPTIONS, descriptions);
         cm.setVendorExtensions(extensions);
         cm.setVars(Collections.emptyList());
         return TestUtils.createCodegenModelWrapper(cm);
@@ -2432,6 +2434,32 @@ public class DefaultCodegenTest {
 
         assertEquals(1, codegenModel.vars.size());
         assertEquals("TypeAlias", codegenModel.vars.get(0).getBaseType());
+    }
+
+    @Test
+    public void schemaMappingWithNullableAllOfProperty() {
+        // When a property schema uses "nullable: true + allOf: [$ref]", DefaultCodegen must
+        // recognise the property as nullable and resolve its type to the referenced schema name.
+        // Language-specific codegens (Kotlin, Spring) then apply schemaMapping to produce the
+        // final mapped FQN — that is tested in the language-specific test suites.
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.schemaMapping.put("ExternalModel", "foo.bar.ExternalModel");
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/schema-mapping-nullable-allof.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel myObject = codegen.fromModel("MyObject", openAPI.getComponents().getSchemas().get("MyObject"));
+
+        CodegenProperty optionalRef = myObject.vars.stream()
+                .filter(v -> "optionalRef".equals(v.name))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("optionalRef property not found in MyObject"));
+
+        assertTrue(optionalRef.isNullable,
+                "optionalRef must be nullable because the schema uses nullable:true");
+        assertEquals("ExternalModel", optionalRef.dataType,
+                "dataType must resolve to the referenced schema name");
     }
 
     @Test

@@ -90,18 +90,18 @@ function Initialize-PSUser {
 
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "username" = ${Username}
-            "firstName" = ${FirstName}
-            "lastName" = ${LastName}
-            "email" = ${Email}
-            "password" = ${Password}
-            "phone" = ${Phone}
-            "userStatus" = ${UserStatus}
-            "objectWithNoDeclaredProps" = ${ObjectWithNoDeclaredProps}
-            "objectWithNoDeclaredPropsNullable" = ${ObjectWithNoDeclaredPropsNullable}
-            "anyTypeProp" = ${AnyTypeProp}
-            "anyTypePropNullable" = ${AnyTypePropNullable}
+            'id' = ${Id}
+            'username' = ${Username}
+            'firstName' = ${FirstName}
+            'lastName' = ${LastName}
+            'email' = ${Email}
+            'password' = ${Password}
+            'phone' = ${Phone}
+            'userStatus' = ${UserStatus}
+            'objectWithNoDeclaredProps' = ${ObjectWithNoDeclaredProps}
+            'objectWithNoDeclaredPropsNullable' = ${ObjectWithNoDeclaredPropsNullable}
+            'anyTypeProp' = ${AnyTypeProp}
+            'anyTypePropNullable' = ${AnyTypePropNullable}
         }
 
 
@@ -139,98 +139,98 @@ function ConvertFrom-PSJsonToUser {
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
         # check if Json contains properties not defined in PSUser
-        $AllProperties = ("id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus", "objectWithNoDeclaredProps", "objectWithNoDeclaredPropsNullable", "anyTypeProp", "anyTypePropNullable")
+        $AllProperties = ('id', 'username', 'firstName', 'lastName', 'email', 'password', 'phone', 'userStatus', 'objectWithNoDeclaredProps', 'objectWithNoDeclaredPropsNullable', 'anyTypeProp', 'anyTypePropNullable')
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'id'))) { #optional property not found
             $Id = $null
         } else {
-            $Id = $JsonParameters.PSobject.Properties["id"].value
+            $Id = $JsonParameters.PSobject.Properties['id'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "username"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'username'))) { #optional property not found
             $Username = $null
         } else {
-            $Username = $JsonParameters.PSobject.Properties["username"].value
+            $Username = $JsonParameters.PSobject.Properties['username'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "firstName"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'firstName'))) { #optional property not found
             $FirstName = $null
         } else {
-            $FirstName = $JsonParameters.PSobject.Properties["firstName"].value
+            $FirstName = $JsonParameters.PSobject.Properties['firstName'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "lastName"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'lastName'))) { #optional property not found
             $LastName = $null
         } else {
-            $LastName = $JsonParameters.PSobject.Properties["lastName"].value
+            $LastName = $JsonParameters.PSobject.Properties['lastName'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "email"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'email'))) { #optional property not found
             $Email = $null
         } else {
-            $Email = $JsonParameters.PSobject.Properties["email"].value
+            $Email = $JsonParameters.PSobject.Properties['email'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "password"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'password'))) { #optional property not found
             $Password = $null
         } else {
-            $Password = $JsonParameters.PSobject.Properties["password"].value
+            $Password = $JsonParameters.PSobject.Properties['password'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "phone"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'phone'))) { #optional property not found
             $Phone = $null
         } else {
-            $Phone = $JsonParameters.PSobject.Properties["phone"].value
+            $Phone = $JsonParameters.PSobject.Properties['phone'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "userStatus"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'userStatus'))) { #optional property not found
             $UserStatus = $null
         } else {
-            $UserStatus = $JsonParameters.PSobject.Properties["userStatus"].value
+            $UserStatus = $JsonParameters.PSobject.Properties['userStatus'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "objectWithNoDeclaredProps"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'objectWithNoDeclaredProps'))) { #optional property not found
             $ObjectWithNoDeclaredProps = $null
         } else {
-            $ObjectWithNoDeclaredProps = $JsonParameters.PSobject.Properties["objectWithNoDeclaredProps"].value
+            $ObjectWithNoDeclaredProps = $JsonParameters.PSobject.Properties['objectWithNoDeclaredProps'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "objectWithNoDeclaredPropsNullable"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'objectWithNoDeclaredPropsNullable'))) { #optional property not found
             $ObjectWithNoDeclaredPropsNullable = $null
         } else {
-            $ObjectWithNoDeclaredPropsNullable = $JsonParameters.PSobject.Properties["objectWithNoDeclaredPropsNullable"].value
+            $ObjectWithNoDeclaredPropsNullable = $JsonParameters.PSobject.Properties['objectWithNoDeclaredPropsNullable'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "anyTypeProp"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'anyTypeProp'))) { #optional property not found
             $AnyTypeProp = $null
         } else {
-            $AnyTypeProp = $JsonParameters.PSobject.Properties["anyTypeProp"].value
+            $AnyTypeProp = $JsonParameters.PSobject.Properties['anyTypeProp'].value
         }
 
-        if (!([bool]($JsonParameters.PSobject.Properties.name -match "anyTypePropNullable"))) { #optional property not found
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match 'anyTypePropNullable'))) { #optional property not found
             $AnyTypePropNullable = $null
         } else {
-            $AnyTypePropNullable = $JsonParameters.PSobject.Properties["anyTypePropNullable"].value
+            $AnyTypePropNullable = $JsonParameters.PSobject.Properties['anyTypePropNullable'].value
         }
 
         $PSO = [PSCustomObject]@{
-            "id" = ${Id}
-            "username" = ${Username}
-            "firstName" = ${FirstName}
-            "lastName" = ${LastName}
-            "email" = ${Email}
-            "password" = ${Password}
-            "phone" = ${Phone}
-            "userStatus" = ${UserStatus}
-            "objectWithNoDeclaredProps" = ${ObjectWithNoDeclaredProps}
-            "objectWithNoDeclaredPropsNullable" = ${ObjectWithNoDeclaredPropsNullable}
-            "anyTypeProp" = ${AnyTypeProp}
-            "anyTypePropNullable" = ${AnyTypePropNullable}
+            'id' = ${Id}
+            'username' = ${Username}
+            'firstName' = ${FirstName}
+            'lastName' = ${LastName}
+            'email' = ${Email}
+            'password' = ${Password}
+            'phone' = ${Phone}
+            'userStatus' = ${UserStatus}
+            'objectWithNoDeclaredProps' = ${ObjectWithNoDeclaredProps}
+            'objectWithNoDeclaredPropsNullable' = ${ObjectWithNoDeclaredPropsNullable}
+            'anyTypeProp' = ${AnyTypeProp}
+            'anyTypePropNullable' = ${AnyTypePropNullable}
         }
 
         return $PSO

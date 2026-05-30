@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'samples/server/others/kotlin-server/**'
+      - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
@@ -13,11 +14,13 @@ on:
       - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       - 'samples/server/petstore/kotlin-springboot-sort-validation/**'
       - 'samples/server/petstore/kotlin-springboot-paged-model/**'
+      - 'samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
       - 'samples/server/others/kotlin-server/**'
+      - 'samples/server/others/kotlin-springboot/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
@@ -27,6 +30,7 @@ on:
       - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       - 'samples/server/petstore/kotlin-springboot-sort-validation/**'
       - 'samples/server/petstore/kotlin-springboot-paged-model/**'
+      - 'samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -42,6 +46,9 @@ jobs:
       matrix:
         sample:
           # server
+          - samples/server/others/kotlin-springboot/oneOf-discriminator
+          - samples/server/others/kotlin-springboot/oneOf-discriminator-const
+          - samples/server/others/kotlin-springboot/oneOf-enum-discriminator
           - samples/server/others/kotlin-server/polymorphism-allof-and-discriminator
           - samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
           - samples/server/others/kotlin-server/polymorphism-and-discriminator
@@ -58,10 +65,12 @@ jobs:
           - samples/server/petstore/kotlin-server/javalin
           - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/petstore/kotlin-server/ktor
+          - samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server-modelMutable
           - samples/server/petstore/kotlin-misk
           - samples/server/petstore/kotlin-spring-declarative-interface
+          - samples/server/petstore/kotlin-spring-declarative-interface-bean-validation
           - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines
           - samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped
           - samples/server/petstore/kotlin-spring-declarative-interface-wrapped

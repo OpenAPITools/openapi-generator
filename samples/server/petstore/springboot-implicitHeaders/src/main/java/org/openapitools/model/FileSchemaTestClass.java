@@ -23,12 +23,11 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private @Nullable File file;
 
-  @Valid
   private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(@Nullable File file) {

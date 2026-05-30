@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -19,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("NumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class NumberOnlyDto {
 
   private @Nullable BigDecimal justNumber;
@@ -33,7 +35,7 @@ public class NumberOnlyDto {
    * Get justNumber
    * @return justNumber
    */
-  
+  @Valid 
   @JsonProperty("JustNumber")
   public @Nullable BigDecimal getJustNumber() {
     return justNumber;

@@ -1031,7 +1031,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void generateSerializableModel() throws Exception {
+    public void generateSerializableModelImplementsOneOfInterfaces() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -1056,7 +1056,14 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
         assertFileContains(
                 path,
-                ") : java.io.Serializable {",
+                ") : java.io.Serializable, UserOrPet, UserOrPetOrArrayString {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+
+        Path userPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/User.kt");
+        assertFileContains(
+                userPath,
+                ") : java.io.Serializable, UserOrPet, UserOrPetOrArrayString {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -5239,28 +5246,16 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void shouldRefuseOpenApiNullableWithJackson3() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
-        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
-        codegen.additionalProperties().put("openApiNullable", "true");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(input);
-
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(generator::generate);
+    public void shouldAllowOpenApiNullableWithJackson3() throws IOException {
+        // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3,
+        // so openApiNullable + useJackson3 should no longer throw.
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        props.put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
+        Assert.assertTrue(files.containsKey("TestModel.kt"), "TestModel.kt should be generated");
     }
 
     @Test
@@ -5323,6 +5318,42 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(pomPath, "jackson-datatype-jsr310");
         assertFileNotContains(pomPath, "com.fasterxml.jackson.dataformat");
         assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
+    }
+
+    @Test
+    public void shouldGenerateJackson3BuildDepsWithVersions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        // Gradle build file must have Jackson 3 deps with explicit versions
+        Path gradlePath = Paths.get(outputPath + "/build.gradle.kts");
+        assertFileContains(gradlePath, "tools.jackson.dataformat:jackson-dataformat-yaml:");
+        assertFileContains(gradlePath, "tools.jackson.module:jackson-module-kotlin:");
+        // Should NOT include non-existent tools.jackson.core:jackson-annotations
+        assertFileNotContains(gradlePath, "tools.jackson.core:jackson-annotations");
+
+        // Annotations stay in com.fasterxml.jackson.annotation even with Jackson 3
+        Path petModelPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(petModelPath, "com.fasterxml.jackson.annotation.JsonProperty");
     }
 
     @Test
@@ -5788,5 +5819,639 @@ public class KotlinSpringServerCodegenTest {
         props.put(SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
         props.put(USE_RESPONSE_ENTITY, "false");
         return props;
+    }
+
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel — spring-cloud
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_replacesReturnTypeInOperation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        assertThat(content).contains("PagedModel<User>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_generatesPagedModelSupportingFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        assertThat(files).containsKey("PagedModel.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_doesNotGeneratePagedModelFileWhenCustomMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .setLibrary(SPRING_CLOUD_LIBRARY)
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        assertThat(files).doesNotContainKey("PagedModel.kt");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_springCloud_respectsCustomImportMappingClassName() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml",
+                springCloudKotlinPagedModelProps(),
+                new HashMap<>(),
+                configurator -> configurator
+                        .setLibrary(SPRING_CLOUD_LIBRARY)
+                        .addImportMapping("PagedModel", "com.example.custom.MyPagedModel"));
+
+        File userApi = files.get("UserApi.kt");
+        assertThat(userApi).isNotNull();
+        String content = Files.readString(userApi.toPath());
+        assertThat(content).contains("MyPagedModel<User>");
+        assertThat(content).contains("import com.example.custom.MyPagedModel");
+    }
+
+    /** Common properties for substituteGenericPagedModel tests using spring-cloud. */
+    private Map<String, Object> springCloudKotlinPagedModelProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_TAGS, "true");
+        props.put(SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
+        return props;
+    }
+
+    @Test(description = "oneOf with discriminator generates thin sealed interface with Jackson annotations")
+    public void testOneOfWithDiscriminatorGeneratesThinInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{ setOutputDir(output.getAbsolutePath()); }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal should be a thin sealed interface with Jackson annotations and only the discriminator property
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "sealed interface Animal",
+                "@JsonTypeInfo", "property = \"discriminator\"", "visible = true",
+                "@JsonSubTypes",
+                "JsonSubTypes.Type(value = Bird::class, name = \"BIRD\")",
+                "JsonSubTypes.Type(value = Robobird::class, name = \"ROBOBIRD\")",
+                "@JsonIgnoreProperties",
+                "val discriminator: kotlin.String\n}"
+        );
+        // Should NOT contain subtype-specific properties (fat interface bug)
+        assertFileNotContains(Paths.get(outputPath + "/Animal.kt"), "propertyA", "propertyB", "sameNameProperty");
+    }
+
+    @Test(description = "oneOf with discriminator generates subtypes that implement the sealed interface")
+    public void testOneOfSubtypesImplementInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{ setOutputDir(output.getAbsolutePath()); }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Bird and Robobird implement both oneOf hierarchies; discriminator props have default values
+        assertFileContains(Paths.get(outputPath + "/Bird.kt"),
+                "data class Bird",
+                ") : Animal, AnotherAnimal {",
+                "override val discriminator: kotlin.String = \"BIRD\"",
+                "override val anotherDiscriminator: kotlin.String = \"ANOTHER_BIRD\""
+        );
+        // Subtypes must retain their own schema-specific properties
+        assertFileContains(Paths.get(outputPath + "/Bird.kt"),
+                "val propertyA: kotlin.String?",
+                "val sameNameProperty: kotlin.Int?"
+        );
+        assertFileContains(Paths.get(outputPath + "/Robobird.kt"),
+                "data class Robobird",
+                ") : Animal, AnotherAnimal {",
+                "override val discriminator: kotlin.String = \"ROBOBIRD\"",
+                "override val anotherDiscriminator: kotlin.String = \"ANOTHER_ROBOBIRD\""
+        );
+        assertFileContains(Paths.get(outputPath + "/Robobird.kt"),
+                "val propertyB: kotlin.String?",
+                "val sameNameProperty: kotlin.String?"
+        );
+        // AnotherAnimal should also be a sealed interface with Jackson annotations
+        assertFileContains(Paths.get(outputPath + "/AnotherAnimal.kt"),
+                "sealed interface AnotherAnimal",
+                "val anotherDiscriminator: kotlin.String\n}",
+                "@JsonTypeInfo", "property = \"another_discriminator\"", "visible = true",
+                "@JsonSubTypes",
+                "JsonSubTypes.Type(value = Bird::class, name = \"ANOTHER_BIRD\")",
+                "JsonSubTypes.Type(value = Robobird::class, name = \"ANOTHER_ROBOBIRD\")",
+                "@JsonIgnoreProperties"
+        );
+        // Sealed interface must not contain subtype-specific properties or snake_case discriminator
+        assertFileNotContains(Paths.get(outputPath + "/AnotherAnimal.kt"),
+                "val another_discriminator",
+                "propertyA", "propertyB", "sameNameProperty"
+        );
+    }
+
+    @Test(description = "oneOf with discriminator using OpenAPI 3.1 spec generates sealed interface")
+    public void testOneOf31SpecWithDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{ setOutputDir(output.getAbsolutePath()); }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "sealed interface Pet",
+                "@JsonTypeInfo", "property = \"petType\"", "visible = true",
+                "@JsonSubTypes",
+                "JsonSubTypes.Type(value = Cat::class, name = \"cat\")",
+                "JsonSubTypes.Type(value = Dog::class, name = \"dog\")",
+                "@JsonIgnoreProperties",
+                "val petType: kotlin.String\n"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Pet.kt"), "kotlin.Any", "huntingSkill", "packSize");
+        // Discriminator is a constructor param with default value
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"),
+                "data class Cat",
+                ") : Pet {",
+                "override val petType: kotlin.String = \"cat\""
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Cat.kt"), "kotlin.Any");
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "data class Dog",
+                ") : Pet {",
+                "override val petType: kotlin.String = \"dog\""
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "kotlin.Any");
+    }
+
+    @Test(description = "oneOf with $ref enum discriminator resolves property type correctly")
+    public void testOneOfRefEnumDiscriminatorResolvesType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/polymorphism-oneof-enum-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{ setOutputDir(output.getAbsolutePath()); }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Vehicle's discriminator should use the $ref enum type, not hardcoded kotlin.String
+        assertFileContains(Paths.get(outputPath + "/Vehicle.kt"),
+                "sealed interface Vehicle",
+                "@JsonTypeInfo", "property = \"vehicleType\"", "visible = true",
+                "@JsonSubTypes",
+                "JsonSubTypes.Type(value = Car::class, name = \"CAR\")",
+                "JsonSubTypes.Type(value = Truck::class, name = \"TRUCK\")",
+                "@JsonIgnoreProperties",
+                "val vehicleType: VehicleType\n}"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Vehicle.kt"), "numDoors", "payloadCapacity");
+        // Children should implement Vehicle and have enum discriminator with default value
+        assertFileContains(Paths.get(outputPath + "/Car.kt"),
+                "data class Car",
+                ") : Vehicle {",
+                "override val vehicleType: VehicleType = VehicleType.CAR"
+        );
+        assertFileContains(Paths.get(outputPath + "/Truck.kt"),
+                "data class Truck",
+                ") : Vehicle {",
+                "override val vehicleType: VehicleType = VehicleType.TRUCK"
+        );
+    }
+
+    @Test(description = "oneOf without discriminator with useDeductionForOneOfInterfaces generates @JsonTypeInfo(DEDUCTION) annotation")
+    public void testOneOfDeductionWithoutDiscriminatorGeneratesDeductionAnnotation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal has oneOf [Dog, Cat] with NO discriminator → deduction should be applied
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "sealed interface Animal",
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)",
+                "@JsonSubTypes(",
+                "JsonSubTypes.Type(value = Dog::class)",
+                "JsonSubTypes.Type(value = Cat::class)"
+        );
+
+        // Fruit has oneOf [Apple, Banana] WITH a discriminator → must NOT use deduction
+        assertFileNotContains(Paths.get(outputPath + "/Fruit.kt"),
+                "JsonTypeInfo.Id.DEDUCTION"
+        );
+        assertFileContains(Paths.get(outputPath + "/Fruit.kt"),
+                "sealed interface Fruit",
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME"
+        );
+    }
+
+    @Test
+    public void testSealedResponseInterfacesWithDeclarativeHttpInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "true");
+        codegen.additionalProperties().put(REACTIVE, "false");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/DefaultApi.kt"),
+                "import org.openapitools.model.CreateUserResponse",
+                "import org.openapitools.model.GetUserResponse",
+                "fun createUser(",
+                "): ResponseEntity<CreateUserResponse>",
+                "fun getUser(",
+                "): ResponseEntity<GetUserResponse>");
+    }
+
+    @Test
+    public void schemaMappingWithNullableAllOfRendersNullableKotlinProperty() throws IOException {
+        // When a schema is substituted via schemaMapping and a property wraps it with
+        // "nullable: true + allOf: [$ref]", the Kotlin Spring generator must render the
+        // property as MappedType? (nullable with the FQN from the mapping).
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/schema-mapping-nullable-allof.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addSchemaMapping("ExternalModel", "com.example.ExternalModel"));
+
+        File myObjectFile = files.get("MyObject.kt");
+        assertThat(myObjectFile).isNotNull();
+        String content = Files.readString(myObjectFile.toPath());
+        assertThat(content).contains("com.example.ExternalModel?");
+    }
+
+    // ========== REQUIRED + NULLABLE 4-STATE TESTS ==========
+
+    /**
+     * Scenario 1: required=true, nullable=false
+     * Expected: non-nullable type, no default value, @JsonProperty(required=true).
+     */
+    @Test(description = "Scenario 1 – required+non-nullable: strict non-nullable property with no default")
+    public void requiredNullable_scenario1_requiredNonNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must be non-nullable type (no '?'), must have @JsonProperty(required=true), must have no default
+        assertFileContains(modelFile,
+                "@get:JsonProperty(\"requiredNonNullable\", required = true) val requiredNonNullable: kotlin.String");
+        // Must NOT have a nullable marker or default value
+        assertFileNotContains(modelFile, "val requiredNonNullable: kotlin.String?");
+        assertFileNotContains(modelFile, "val requiredNonNullable: kotlin.String = ");
+    }
+
+    /**
+     * Scenario 2: required=true, nullable=true
+     * Expected: nullable type, no default value, @JsonProperty(required=true).
+     */
+    @Test(description = "Scenario 2 – required+nullable: nullable type enforced by Jackson required=true")
+    public void requiredNullable_scenario2_requiredNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must be nullable type with @JsonProperty(required=true), no default value
+        assertFileContains(modelFile,
+                "@get:JsonProperty(\"requiredNullable\", required = true) val requiredNullable: kotlin.String?");
+        // Must NOT have a default value
+        assertFileNotContains(modelFile, "val requiredNullable: kotlin.String? = ");
+    }
+
+    /**
+     * Scenario 3: required=false, nullable=false
+     * Expected: nullable type with null default, AND @field:JsonSetter(nulls=Nulls.FAIL) to block explicit nulls.
+     */
+    @Test(description = "Scenario 3 – optional+non-nullable: null default with JsonSetter FAIL to block explicit nulls")
+    public void requiredNullable_scenario3_optionalNonNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must have @field:JsonSetter(nulls = Nulls.FAIL) annotation
+        assertFileContains(modelFile, "@field:JsonSetter(nulls = Nulls.FAIL)");
+        // Must have JsonSetter and Nulls imports
+        assertFileContains(modelFile,
+                "import com.fasterxml.jackson.annotation.JsonSetter",
+                "import com.fasterxml.jackson.annotation.Nulls");
+        // Must be nullable type with null default
+        assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
+        // Must NOT be JsonNullable
+        assertFileNotContains(modelFile, "JsonNullable<kotlin.String>");
+    }
+
+    /**
+     * Scenario 4 (openApiNullable=false, default): required=false, nullable=true
+     * Without openApiNullable, falls back to nullable type with null default (same as before this feature).
+     */
+    @Test(description = "Scenario 4 – optional+nullable without openApiNullable: nullable type with null default (legacy fallback)")
+    public void requiredNullable_scenario4_optionalNullable_withoutOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                new HashMap<>());
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Without openApiNullable, should still be Type? = null (legacy behavior preserved)
+        assertFileContains(modelFile, "val optionalNullable: kotlin.String? = null");
+        // Must NOT have JsonNullable wrapping
+        assertFileNotContains(modelFile, "JsonNullable<kotlin.String>");
+        // Must NOT have @field:JsonSetter on nullable optional (only non-nullable gets it)
+        // (check that the line itself does not have JsonSetter)
+        String content = Files.readString(modelFile);
+        int idx = content.indexOf("val optionalNullable:");
+        Assert.assertTrue(idx >= 0, "optionalNullable property must exist");
+        String context = content.substring(Math.max(0, idx - 100), idx);
+        Assert.assertFalse(context.contains("@field:JsonSetter"),
+                "optionalNullable should not have @field:JsonSetter when nullable=true");
+    }
+
+    /**
+     * Scenario 4 (openApiNullable=true): required=false, nullable=true
+     * Expected: JsonNullable&lt;T&gt; wrapper with JsonNullable.undefined() default.
+     */
+    @Test(description = "Scenario 4 – optional+nullable with openApiNullable=true: JsonNullable 3-state wrapper")
+    public void requiredNullable_scenario4_optionalNullable_withOpenApiNullable() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must use JsonNullable<T> wrapper
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        // Must default to JsonNullable.undefined()
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        // Must have JsonNullable import
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+        // Must NOT be a plain nullable type
+        assertFileNotContains(modelFile, "val optionalNullable: kotlin.String? = null");
+    }
+
+    /**
+     * Scenario 3 with Jackson 3 (Spring Boot 4): optional + non-nullable.
+     * @JsonSetter / Nulls imports should come from com.fasterxml.jackson.annotation
+     * (Jackson 3.x intentionally kept jackson-annotations at 2.x, same package).
+     */
+    @Test(description = "Scenario 3 with Jackson 3: com.fasterxml.jackson.annotation.JsonSetter + Nulls imports")
+    public void requiredNullable_scenario3_optionalNonNullable_withJackson3() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Annotation must still be rendered
+        assertFileContains(modelFile, "@field:JsonSetter(nulls = Nulls.FAIL)");
+        // Imports must come from com.fasterxml.jackson.annotation (Jackson 3.x keeps annotations at 2.x)
+        assertFileContains(modelFile,
+                "import com.fasterxml.jackson.annotation.JsonSetter",
+                "import com.fasterxml.jackson.annotation.Nulls");
+        // Must be nullable type with null default
+        assertFileContains(modelFile, "val optionalNonNullable: kotlin.String? = null");
+    }
+
+    /**
+     * Scenario 4 with Jackson 3 (Spring Boot 4) + openApiNullable=true.
+     * JsonNullable is in org.openapitools.jackson.nullable regardless of Jackson version
+     * (jackson-databind-nullable >= 0.2.10 supports both).
+     */
+    @Test(description = "Scenario 4 with Jackson 3 + openApiNullable: JsonNullable works with tools.jackson")
+    public void requiredNullable_scenario4_optionalNullable_withOpenApiNullable_jackson3() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml", props);
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // Must use JsonNullable<T> wrapper
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        // Must default to JsonNullable.undefined()
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        // org.openapitools.jackson.nullable package is the same for Jackson 2 and 3
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+        // Must NOT be a plain nullable type
+        assertFileNotContains(modelFile, "val optionalNullable: kotlin.String? = null");
+    }
+
+    /**
+     * Scenario 4 with modelNameSuffix: the generated file is renamed (e.g. TestModelDto.kt)
+     * but JsonNullable wrapping must still be applied to the optional+nullable property.
+     */
+    @Test(description = "Scenario 4 – openApiNullable=true + modelNameSuffix: JsonNullable present in renamed model file")
+    public void requiredNullable_scenario4_withModelNameSuffix() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                props,
+                new HashMap<>(),
+                configurator -> configurator.setModelNameSuffix("Dto"));
+
+        // File must be renamed
+        Assert.assertNotNull(files.get("TestModelDto.kt"), "Expected TestModelDto.kt to be generated");
+        Assert.assertNull(files.get("TestModel.kt"), "TestModel.kt must not exist when suffix=Dto");
+
+        Path modelFile = files.get("TestModelDto.kt").toPath();
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+    }
+
+    /**
+     * Scenario 4 with modelNamePrefix: the generated file is renamed (e.g. ApiTestModel.kt)
+     * but JsonNullable wrapping must still be applied.
+     */
+    @Test(description = "Scenario 4 – openApiNullable=true + modelNamePrefix: JsonNullable present in renamed model file")
+    public void requiredNullable_scenario4_withModelNamePrefix() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(CodegenConstants.OPENAPI_NULLABLE, "true");
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                props,
+                new HashMap<>(),
+                configurator -> configurator.setModelNamePrefix("Api"));
+
+        Assert.assertNotNull(files.get("ApiTestModel.kt"), "Expected ApiTestModel.kt to be generated");
+        Assert.assertNull(files.get("TestModel.kt"), "TestModel.kt must not exist when prefix=Api");
+
+        Path modelFile = files.get("ApiTestModel.kt").toPath();
+        assertFileContains(modelFile, "JsonNullable<kotlin.String>");
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+    }
+
+    /**
+     * Scenario 4 with schemaMapping: when the type of an optional+nullable property is a $ref
+     * that is schema-mapped to an external class, JsonNullable must wrap the mapped type.
+     */
+    @Test(description = "Scenario 4 – openApiNullable=true + schemaMapping: JsonNullable wraps the mapped external type")
+    public void requiredNullable_scenario4_withSchemaMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-ref-type.yaml",
+                Map.of(CodegenConstants.OPENAPI_NULLABLE, "true"),
+                new HashMap<>(),
+                configurator -> configurator.setSchemaMappings(
+                        Map.of("RefType", "com.example.ExternalType")));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        // The optional nullable ref property must be wrapped with the mapped external type
+        assertFileContains(modelFile, "JsonNullable<com.example.ExternalType>");
+        assertFileContains(modelFile, "= JsonNullable.undefined()");
+        assertFileContains(modelFile, "import org.openapitools.jackson.nullable.JsonNullable");
+    }
+
+    @Test
+    public void suspendFunctionsInterfaceOnly() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById("),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
+                                "suspend fun logoutUser()"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
+                                "suspend fun getInventory()")
+                )
+        );
+    }
+
+    @Test
+    public void suspendFunctionsWithDelegatePattern() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById("),
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApiDelegate.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById(")
+                )
+        );
+    }
+
+    @Test
+    public void suspendFunctionsDefaultsToFalse() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "fun deletePet(",
+                                "fun getPetById(")
+                )
+        );
+        // Verify no suspend keyword appears
+        Path petApiPath = root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt");
+        String content = new String(Files.readAllBytes(petApiPath), java.nio.charset.StandardCharsets.UTF_8);
+        Assert.assertFalse(content.contains("suspend fun"),
+            "suspend should not be present when suspendFunctions is not enabled");
+    }
+
+    @Test
+    public void suspendFunctionsWithServiceInterface() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.SUSPEND_FUNCTIONS, true,
+                KotlinSpringServerCodegen.SERVICE_INTERFACE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApiService.kt"), List.of(
+                                "suspend fun deletePet(",
+                                "suspend fun getPetById(")
+                )
+        );
     }
 }

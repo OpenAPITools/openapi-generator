@@ -3,7 +3,9 @@ package org.openapitools.model
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.Pet
@@ -21,8 +23,15 @@ import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
+ * @param name 
+ * @param photoUrls 
+ * @param petType 
  * @param hunts 
  * @param age 
+ * @param id 
+ * @param category 
+ * @param tags 
+ * @param color 
  */
 data class Cat(
 
@@ -36,24 +45,30 @@ data class Cat(
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("hunts") val hunts: kotlin.Boolean? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("age") val age: kotlin.Int? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("id") override val id: kotlin.Long? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("category") override val category: Category? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("color") override val color: Color? = null
 ) : Pet, java.io.Serializable {
 

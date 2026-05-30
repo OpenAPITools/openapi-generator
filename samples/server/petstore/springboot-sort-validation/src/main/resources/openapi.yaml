@@ -757,6 +757,74 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+  /nullable/check-required-only:
+    post:
+      operationId: checkRequiredOnly
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NullableModel"
+        required: true
+      responses:
+        "200":
+          description: OK — assertions in impl passed
+        "400":
+          description: Bad request
+      summary: POST with only required fields — impl asserts optional fields are absent/undefined
+      tags:
+      - nullable
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: nullable
+  /nullable/check-optional-nullable-null:
+    post:
+      operationId: checkOptionalNullableNull
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NullableModel"
+        required: true
+      responses:
+        "200":
+          description: OK — assertions in impl passed
+        "400":
+          description: Bad request
+      summary: POST with optionalNullable set to null — impl asserts JsonNullable
+        is present-with-null
+      tags:
+      - nullable
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: nullable
+  /nullable/check-all-present:
+    post:
+      operationId: checkAllPresent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NullableModel"
+        required: true
+      responses:
+        "200":
+          description: OK — assertions in impl passed
+        "400":
+          description: Bad request
+      summary: POST with all 4 fields present — impl asserts each field has the expected
+        value
+      tags:
+      - nullable
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: nullable
 components:
   parameters:
     PetSortParam:
@@ -783,6 +851,29 @@ components:
         type: array
       style: form
   schemas:
+    NullableModel:
+      example:
+        requiredNonNullable: requiredNonNullable
+        requiredNullable: requiredNullable
+        optionalNonNullable: optionalNonNullable
+        optionalNullable: optionalNullable
+      properties:
+        requiredNonNullable:
+          nullable: false
+          type: string
+        requiredNullable:
+          nullable: true
+          type: string
+        optionalNonNullable:
+          nullable: false
+          type: string
+        optionalNullable:
+          nullable: true
+          type: string
+      required:
+      - requiredNonNullable
+      - requiredNullable
+      type: object
     PetSort:
       enum:
       - "id,asc"
@@ -792,8 +883,8 @@ components:
       type: string
     Pet:
       example:
-        name: name
         id: 0
+        name: name
         status: status
       properties:
         id:

@@ -403,7 +403,7 @@ public class JavaClientCodegenTest {
     public void updateCodegenPropertyEnumWithCustomNames() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
-        array.getItems().setVendorExtensions(Map.of("x-enum-varnames", Collections.singletonList("ONE")));
+        array.getItems().setVendorExtensions(Map.of(X_ENUM_VARNAMES, Collections.singletonList("ONE")));
 
         codegen.updateCodegenPropertyEnum(array);
 
@@ -663,6 +663,85 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("pom.xml")).content()
                 .contains("<groupId>tools.jackson.core</groupId>")
                 .contains("<groupId>com.fasterxml.jackson.core</groupId>");
+    }
+
+    @Test
+    public void testJdkHttpClientWithJackson3AndOpenApiNullable() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("import org.openapitools.jackson.nullable.JsonNullableJackson3Module;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("JsonNullableModule");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JSON.java")).content()
+                .contains("import org.openapitools.jackson.nullable.JsonNullableJackson3Module;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("JsonNullableModule");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("jackson-databind-nullable");
+    }
+
+    @Test
+    public void testApacheHttpClientWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.APACHE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
+                .contains("import tools.jackson.databind.*")
+                .contains("import tools.jackson.databind.json.JsonMapper;")
+                .contains("import org.openapitools.jackson.nullable.JsonNullableJackson3Module;")
+                .contains("new JsonNullableJackson3Module()")
+                .doesNotContain("import com.fasterxml.jackson.databind");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
+                .contains("import tools.jackson.core.type.TypeReference;")
+                .doesNotContain("import com.fasterxml.jackson.core.type.TypeReference");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson.core</groupId>")
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>")
+                .contains("jackson-databind-nullable");
+    }
+
+    @Test(dataProvider = "springBoot4Jackson3Libraries")
+    void supportsJackson3WithOpenApiNullableForSpringBoot4Libraries(String library) {
+        String outputDir = newTempFolder().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(USE_JACKSON_3, true)
+                .addAdditionalProperty(USE_SPRING_BOOT4, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, true)
+                .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
+                .setOutputDir(outputDir);
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).isNotEmpty();
+        assertThat(new File(outputDir, "src/main/java/org/openapitools/client/ApiClient.java"))
+                .content()
+                .contains("JsonNullableJackson3Module");
     }
 
     @Test
@@ -2922,7 +3001,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(library)
                 .addAdditionalProperty(USE_JACKSON_3, true)
                 .addAdditionalProperty(USE_SPRING_BOOT4, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
                 .setOutputDir(outputDir);
 
@@ -2948,7 +3027,7 @@ public class JavaClientCodegenTest {
     void gsonCodeDoesNotContainJacksonReferences(Library library) {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .addAdditionalProperty(SERIALIZATION_LIBRARY, Serializer.GSON)
-                .addAdditionalProperty(OPENAPI_NULLABLE, "false")
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, "false")
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library.getValue())
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
@@ -3000,7 +3079,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON)
                 .addAdditionalProperty(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, true)
-                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
                 .addGlobalProperty(CodegenConstants.MODELS, "FormatTest")
                 .addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
                 .addGlobalProperty(CodegenConstants.MODEL_TESTS, "false")
@@ -3371,6 +3450,77 @@ public class JavaClientCodegenTest {
                 output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "import com.fasterxml.jackson.dataformat.xml.XmlMapper;",
                 "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
+    @Test(description = "Regression test for issue #23860: with useJackson3=true the generated"
+            + " restclient ApiClient must build XmlMapper via the immutable Builder API,"
+            + " because XmlMapper.configure(...) and registerModule(...) were removed in Jackson 3.")
+    public void testRestClientWithXMLAndJackson3_issue_23860() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true,
+                        JavaClientCodegen.USE_JACKSON_3, true,
+                        JavaClientCodegen.USE_SPRING_BOOT4, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import tools.jackson.dataformat.xml.XmlMapper;",
+                "import tools.jackson.dataformat.xml.XmlWriteFeature;",
+                "XmlMapper xmlMapper = XmlMapper.builder()",
+                ".enable(XmlWriteFeature.WRITE_XML_DECLARATION)",
+                ".build();"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "xmlMapper.configure(",
+                "xmlMapper.registerModule(",
+                "import tools.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
+    @Test(description = "Regression test for issue #23860: with useJackson3=true and"
+            + " openApiNullable=true, the JsonNullableJackson3Module must be wired via the"
+            + " XmlMapper.Builder#addModule API.")
+    public void testRestClientWithXMLAndJackson3AndOpenApiNullable_issue_23860() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true,
+                        JavaClientCodegen.USE_JACKSON_3, true,
+                        JavaClientCodegen.USE_SPRING_BOOT4, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import org.openapitools.jackson.nullable.JsonNullableJackson3Module;",
+                "XmlMapper xmlMapper = XmlMapper.builder()",
+                ".addModule(new JsonNullableJackson3Module())",
+                ".build();"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "xmlMapper.registerModule("
         );
     }
 
@@ -4325,4 +4475,66 @@ public class JavaClientCodegenTest {
                 .fileContains("@org.jspecify.annotations.NullMarked");
 
     }
+
+    @DataProvider(name = "replaceOneOf")
+    public Object[][] replaceOneOf() {
+        return new Object[][]{
+                {"src/test/resources/3_0/oneOf_issue_23527.yaml"},
+                {"src/test/resources/3_0/oneOf_issue_23527_1.yaml"},
+                {"src/test/resources/3_0/oneOf_issue_23527_2.yaml"}
+        };
+    }
+
+    @Test(dataProvider = "replaceOneOf" )
+    void replaceOneOfByDiscriminatorMapping(String file) {
+        Map<String, File> files = generateFromContract(file, APACHE, Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"));
+
+        JavaFileAssert.assertThat(files.get("GeoJsonObject.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String type")
+                .fileDoesNotContain("coordinates")
+                .assertTypeAnnotations()
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "MultiPolygon.class", "name", "\"MultiPolygon\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Polygon.class", "name", "\"Polygon\""));
+
+        JavaFileAssert.assertThat(files.get("Polygon.java"))
+                .extendsClass("GeoJsonObject")
+                .doesNotImplementInterfaces("GeoJsonObject")
+                .fileContains("List<Double> coordinates");
+    }
+
+    @Test
+    void oneOf_issue_912() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue_912.yaml", APACHE,
+                Map.of(),
+                codegen -> codegen.addOpenapiNormalizer("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true")
+                        .addInlineSchemaOption("REFACTOR_ALLOF_INLINE_SCHEMAS", "true"));
+        JavaFileAssert.assertThat(files.get("CatalogEntity.java"))
+                .isNormalClass()
+                .doesNotExtendsClasses()
+                .fileContains("String entityType")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("include", "JsonTypeInfo.As.PROPERTY", "property", "\"entityType\""))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Folder.class", "name", "\"folder\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Source.class", "name", "\"source\""));
+    }
+
+    @Test
+    public void testUseDeductionForOneInterfaces() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml", RESTCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true", USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Animal.java")).fileContains("@JsonSubTypes")
+                .isInterface()
+                .assertTypeAnnotations().containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Dog.class"))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Cat.class"))
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("use", "JsonTypeInfo.Id.DEDUCTION"));
+
+    }
+
+
 }

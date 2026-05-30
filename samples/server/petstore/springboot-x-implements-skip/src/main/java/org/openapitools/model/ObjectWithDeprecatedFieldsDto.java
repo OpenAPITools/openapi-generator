@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ObjectWithDeprecatedFields")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ObjectWithDeprecatedFieldsDto {
 
   private @Nullable String uuid;
@@ -38,7 +38,6 @@ public class ObjectWithDeprecatedFieldsDto {
   private @Nullable DeprecatedObjectDto deprecatedRef;
 
   @Deprecated
-  @Valid
   private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFieldsDto uuid(@Nullable String uuid) {

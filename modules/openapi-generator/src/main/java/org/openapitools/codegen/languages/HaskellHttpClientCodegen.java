@@ -46,6 +46,9 @@ import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/haskell-http-client/}.
+ */
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
 

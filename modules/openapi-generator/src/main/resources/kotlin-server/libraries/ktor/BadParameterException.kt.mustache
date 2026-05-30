@@ -1,0 +1,23 @@
+{{>licenseInfo}}
+package {{packageName}}.infrastructure
+
+import io.ktor.http.HttpStatusCode
+
+/**
+ * Exception thrown when a request contains invalid parameters or fails validation.
+ *
+ * @param message The error message detailing the validation failure.
+ * @param statusCode The HTTP status code to respond with, defaults to [HttpStatusCode.BadRequest].
+ * @param parameterName The name of the parameter that failed validation.
+ * @param validationType The type of validation that failed (e.g., "pattern", "minimum").
+ * @param expectedValue The expected value or constraint that was not met.
+ * @param actualValue The actual value that failed validation.
+ */
+class BadParameterException(
+    message: String,
+    val statusCode: HttpStatusCode = HttpStatusCode.BadRequest,
+    val parameterName: String? = null,
+    val validationType: String? = null,
+    val expectedValue: Any? = null,
+    val actualValue: Any? = null
+) : Exception(message)

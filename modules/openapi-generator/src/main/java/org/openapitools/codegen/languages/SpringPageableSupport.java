@@ -202,7 +202,8 @@ public final class SpringPageableSupport {
             }
         }
 
-        if ((SpringCodegen.SPRING_BOOT.equals(library) || httpInterfaceLibrary.equals(library))
+        if ((SpringCodegen.SPRING_BOOT.equals(library) || httpInterfaceLibrary.equals(library)
+                || SpringCodegen.SPRING_CLOUD_LIBRARY.equals(library))
                 && substituteGenericPagedModel) {
             pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
             if (!pagedModelRegistry.isEmpty()) {

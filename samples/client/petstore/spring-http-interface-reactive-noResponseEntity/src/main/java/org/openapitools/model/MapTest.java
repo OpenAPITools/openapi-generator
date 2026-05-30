@@ -20,10 +20,9 @@ import jakarta.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MapTest {
 
-  
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -61,13 +60,10 @@ public class MapTest {
     }
   }
 
-  
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

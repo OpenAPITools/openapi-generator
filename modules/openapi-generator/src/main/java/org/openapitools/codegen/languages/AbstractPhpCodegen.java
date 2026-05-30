@@ -38,6 +38,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_VARNAMES;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -406,7 +408,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
-        if ((p.getAnyOf() != null && !p.getAnyOf().isEmpty()) || (p.getOneOf() != null && !p.getOneOf().isEmpty())) {
+        if (ModelUtils.hasAnyOf(p) || ModelUtils.hasOneOf(p)) {
             return openAPIType;
         }
 
@@ -753,49 +755,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            if (vendorExtensions.containsKey("x-enum-varnames")) {
-                Object extensionValue = vendorExtensions.get("x-enum-varnames");
-                if (extensionValue instanceof List) {
-                    List<String> values = (List<String>) extensionValue;
-                    int size = Math.min(enumVars.size(), values.size());
-                    for (int i = 0; i < size; i++) {
-                        enumVars.get(i).put("name", toEnumVarName(values.get(i), dataType));
-                    }
-                } else if (extensionValue instanceof Map) {
-                    Map<String, String> valueMap = (Map<String, String>) extensionValue;
-                    for (Map<String, Object> enumVar : enumVars) {
-                        String enumValue = (String) enumVar.get("value");
-                        for (Map.Entry<String, String> entry : valueMap.entrySet()) {
-                            if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
-                                enumVar.put("name", toEnumVarName(entry.getValue(), dataType));
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (vendorExtensions.containsKey("x-enum-descriptions")) {
-                Object extensionValue = vendorExtensions.get("x-enum-descriptions");
-                if (extensionValue instanceof List) {
-                    List<String> values = (List<String>) extensionValue;
-                    int size = Math.min(enumVars.size(), values.size());
-                    for (int i = 0; i < size; i++) {
-                        enumVars.get(i).put("enumDescription", values.get(i));
-                    }
-                } else if (extensionValue instanceof Map) {
-                    Map<String, String> valueMap = (Map<String, String>) extensionValue;
-                    for (Map<String, Object> enumVar : enumVars) {
-                        String enumValue = (String) enumVar.get("value");
-                        for (Map.Entry<String, String> entry : valueMap.entrySet()) {
-                            if (toEnumValue(entry.getKey(), dataType).equals(enumValue)) {
-                                enumVar.put("enumDescription", entry.getValue());
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_VARNAMES, "name", dataType, this::toEnumVarName);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, X_ENUM_DESCRIPTIONS, "enumDescription", dataType);
         }
     }
 

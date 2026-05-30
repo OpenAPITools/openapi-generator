@@ -48,6 +48,9 @@ import java.util.Map.Entry;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/nodejs-express-server/}.
+ */
 public class NodeJSExpressServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);

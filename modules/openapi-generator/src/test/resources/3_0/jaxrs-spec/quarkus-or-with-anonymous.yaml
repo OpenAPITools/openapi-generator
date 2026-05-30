@@ -1,0 +1,25 @@
+openapi: 3.0.1
+info:
+  title: Quarkus OR list with anonymous alternative
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080/'
+paths:
+  /items:
+    get:
+      operationId: getItems
+      summary: OR list — oauth2 OR anonymous; least restrictive wins, no @RolesAllowed
+      security:
+        - oauth2_no_scope: []
+        - {}
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    oauth2_no_scope:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes: {}

@@ -1135,8 +1135,8 @@ namespace Org.OpenAPITools.Api
                         ? "/store/order"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/store/order");
 
-                    httpRequestMessageLocalVar.Content = (order as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                    httpRequestMessageLocalVar.Content = (order as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;

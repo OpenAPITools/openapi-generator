@@ -38,6 +38,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Mustache templates are located in {@code src/main/resources/scala-sttp4/}.
+ */
 public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
             "sttp client", "4.0.0-M1");
@@ -171,6 +174,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("additionalTypeSerializers.mustache", invokerFolder, "AdditionalTypeSerializers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
+        supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
         supportingFiles.add(new SupportingFile("project/plugins.mustache", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
     }

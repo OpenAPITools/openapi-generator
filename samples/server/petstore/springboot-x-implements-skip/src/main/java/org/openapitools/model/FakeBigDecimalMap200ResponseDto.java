@@ -24,12 +24,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FakeBigDecimalMap200ResponseDto {
 
   private @Nullable BigDecimal someId;
 
-  @Valid
   private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200ResponseDto someId(@Nullable BigDecimal someId) {

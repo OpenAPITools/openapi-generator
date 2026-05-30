@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -41,8 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
-import static org.openapitools.codegen.CodegenConstants.X_REGEX;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 
@@ -512,7 +512,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             // if required and optionals
             List<String> reqs = new ArrayList<>();
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            if (ModelUtils.hasProperties(schema)) {
                 for (Object toAdd : schema.getProperties().keySet()) {
                     reqs.add((String) toAdd);
                 }
@@ -635,16 +635,104 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         if (parameter.getExample() != null) {
             codegenParameter.example = parameter.getExample().toString();
+            codegenParameter.vendorExtensions.put("x-py-example", toPythonLiteral(parameter.getExample()));
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
             if (example.getValue() != null) {
                 codegenParameter.example = example.getValue().toString();
+                codegenParameter.vendorExtensions.put("x-py-example", toPythonLiteral(example.getValue()));
             }
         } else if (schema != null && schema.getExample() != null) {
             codegenParameter.example = schema.getExample().toString();
+            codegenParameter.vendorExtensions.put("x-py-example", toPythonLiteral(schema.getExample()));
         }
 
         setParameterExampleValue(codegenParameter);
+    }
+
+    protected String toPythonExample(CodegenProperty cp) {
+        if (cp == null) {
+            return null;
+        }
+
+        Object example = getSchemaExample(cp.jsonSchema);
+        if (example != null) {
+            return toPythonLiteral(example);
+        }
+
+        return null;
+    }
+
+    protected String toPythonExample(CodegenParameter cp) {
+        if (cp == null) {
+            return null;
+        }
+
+        Object example = getSchemaExample(cp.jsonSchema);
+        if (example != null) {
+            return toPythonLiteral(example);
+        }
+
+        return null;
+    }
+
+    private Object getSchemaExample(String jsonSchema) {
+        if (StringUtils.isEmpty(jsonSchema)) {
+            return null;
+        }
+        try {
+            Map<String, Object> schema = Json.mapper().readValue(jsonSchema, Map.class);
+            Object example = schema.get("example");
+            if (example != null) {
+                return example;
+            }
+            Object examples = schema.get("examples");
+            if (examples instanceof List && !((List<?>) examples).isEmpty()) {
+                return ((List<?>) examples).get(0);
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    protected String toPythonLiteral(Object value) {
+        if (value == null) {
+            return "None";
+        }
+        if (value instanceof String) {
+            return toPythonStringLiteral((String) value);
+        }
+        if (value instanceof Boolean) {
+            return (Boolean) value ? "True" : "False";
+        }
+        if (value instanceof Number) {
+            return value.toString();
+        }
+        if (value instanceof Map) {
+            List<String> entries = new ArrayList<>();
+            for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
+                entries.add(toPythonStringLiteral(String.valueOf(entry.getKey())) + ": " + toPythonLiteral(entry.getValue()));
+            }
+            return "{" + StringUtils.join(entries, ", ") + "}";
+        }
+        if (value instanceof Iterable) {
+            List<String> items = new ArrayList<>();
+            for (Object item : (Iterable<?>) value) {
+                items.add(toPythonLiteral(item));
+            }
+            return "[" + StringUtils.join(items, ", ") + "]";
+        }
+
+        return toPythonStringLiteral(String.valueOf(value));
+    }
+
+    protected String toPythonStringLiteral(String value) {
+        try {
+            return Json.mapper().writeValueAsString(value);
+        } catch (Exception e) {
+            return "\"" + escapeUnsafeCharacters(value) + "\"";
+        }
     }
 
     @Override
@@ -975,13 +1063,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     if ((Boolean) enumVars.get("isString")) {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
                         // Do not overwrite the variable name if already set through x-enum-varnames
-                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                        if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
                             enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                         }
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames
-                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                        if (model.vendorExtensions.get(X_ENUM_VARNAMES) == null) {
                             enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
                         }
                     }
@@ -1334,6 +1422,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
+
+        if (property.isArray) {
+            postProcessPattern(property.items.pattern, property.items.vendorExtensions);
+        }
     }
 
     /*
@@ -2171,10 +2263,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pt.annotate("alias", cp.baseName);
             }
 
-            /* TODO review as example may break the build
-            if (!StringUtils.isEmpty(cp.getExample())) { // has example
-                fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
-            }*/
+            String example = toPythonExample(cp);
+            if (example != null) {
+                pt.annotate("json_schema_extra", "{\"examples\": [" + example + "]}", false);
+            }
 
             //String defaultValue = null;
             if (!cp.required) { //optional
@@ -2246,11 +2338,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!StringUtils.isEmpty(cp.description)) { // has description
                 pt.annotate("description", cp.description);
             }
-
-            /* TODO support example
-            if (!StringUtils.isEmpty(cp.getExample())) { // has example
-                fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
-            }*/
 
             //return pt.asTypeConstraint(moduleImports);
             return pt.asTypeConstraintWithAnnotations(moduleImports);

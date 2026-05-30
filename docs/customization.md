@@ -651,6 +651,36 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true
 ```
 
+- `REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING`: when set to true, oneOf is removed and is converted into mappings in a discriminator mapping.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/oneOf_issue_23527.yaml -o /tmp/java/ --openapi-normalizer REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING=true
+```
+
+Here is what the change in the spec looks like:
+
+```diff
+diff --git a/api/openapi.yaml b/api/openapi.yaml
+index 6f27abd..146c61c 100644
+--- a/api/openapi.yaml
++++ b/api/openapi.yaml
+@@ -9,10 +9,10 @@ components:
+   schemas:
+     GeoJsonObject:
+       discriminator:
++        mapping:
++          MultiPolygon: "#/components/schemas/Multi-Polygon"
++          Polygon: "#/components/schemas/Polygon"
+         propertyName: type
+-      oneOf:
+-      - $ref: "#/components/schemas/Polygon"
+-      - $ref: "#/components/schemas/Multi-Polygon"
+       properties:
+         type:
+           type: string
+```
+
 - `FILTER`
 
 The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
@@ -722,6 +752,28 @@ Into this securityScheme:
     api_key:
       scheme: bearer
       type: http
+```
+
+- `SECURITY_SCHEMES_FILTER`
+
+The `SECURITY_SCHEMES_FILTER` parameter allows selective inclusion of API security schemes based on specific criteria. It removes security schemes that do **not** match the specified values, preventing them from being generated. All references to removed security schemes also deleted. Multiple filters can be separated by a semicolon.
+
+### Available Filters
+
+- **`key`**
+  When set to `key:api_key|http_bearer`, security schemes **not** matching `api_key` or `http_bearer` will be marked as internal (`x-internal: true`), and excluded from generation. Matching operations will have `x-internal: false`.
+
+- **`type`**
+  When set to `type:apiKey|http`, security schemes **not** using `apiKey` or `http` types will be marked as internal (`x-internal: true`), preventing their generation.
+
+### Example Usage
+
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+  -g java \
+  -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
+  -o /tmp/java-okhttp/ \
+  --openapi-normalizer SECURITY_SCHEMES_FILTER="key:api_key|http_bearer ; type:oauth2"
 ```
 
 - `SORT_MODEL_PROPERTIES`: When set to true, model properties will be sorted alphabetically by name. This ensures deterministic code generation output regardless of property ordering in the source spec.

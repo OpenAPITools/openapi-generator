@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * Search result with metadata — no &#39;content&#39; array at all
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class SearchResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
