@@ -8033,6 +8033,55 @@ public class SpringCodegenTest {
     }
 
     // -------------------------------------------------------------------------
+    // genericPatterns — modelNameSuffix / modelNamePrefix
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_replacesReturnType() throws IOException {
+        // When modelNameSuffix is set, op.returnBaseType includes the suffix (e.g. "UserResponseDto").
+        // The registry must be re-keyed with toModelName() so the lookup succeeds.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        // getUserResponse returns UserResponse → suffix applied → UserResponseDto → replaced with ApiResponse<UserDto>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getUserResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<UserDto>>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNamePrefix_replacesReturnType() throws IOException {
+        // When modelNamePrefix is set, op.returnBaseType includes the prefix (e.g. "MyUserResponse").
+        // The registry must be re-keyed with toModelName() so the lookup succeeds.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNamePrefix", "My"));
+
+        // getUserResponse returns UserResponse → prefix applied → MyUserResponse → replaced with ApiResponse<MyUser>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getUserResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<MyUser>>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_suppressesConcreteSchemaClasses() throws IOException {
+        // Verify schema suppression works with modelNameSuffix:
+        // objs keys are raw schema names; inst.schemaName (raw) must be used for removal.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        // Concrete wrapper schemas are suppressed (raw name + suffix = e.g. UserResponseDto.java)
+        assertThat(files).doesNotContainKey("UserResponseDto.java");
+        assertThat(files).doesNotContainKey("PetResponseDto.java");
+        assertThat(files).doesNotContainKey("OrderResponseDto.java");
+    }
+
+    // -------------------------------------------------------------------------
     // substituteGenericPagedModel — spring-cloud
     // -------------------------------------------------------------------------
 

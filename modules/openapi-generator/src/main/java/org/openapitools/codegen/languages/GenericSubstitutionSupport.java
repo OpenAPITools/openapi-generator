@@ -211,6 +211,18 @@ public final class GenericSubstitutionSupport {
             return;
         }
 
+        // Re-key the registry by applying toModelName() to every raw spec schema name.
+        // This ensures that lookups by op.returnBaseType (already transformed) and
+        // objs keys (also transformed) succeed when modelNameSuffix / modelNamePrefix /
+        // schemaMapping / modelNameMapping are active.
+        Map<String, GenericSchemaScanUtils.GenericInstance> reKeyed = new LinkedHashMap<>();
+        for (Map.Entry<String, GenericSchemaScanUtils.GenericInstance> entry : instanceRegistry.entrySet()) {
+            String transformedKey = ctx.toModelName(entry.getKey());
+            reKeyed.put(transformedKey, entry.getValue());
+        }
+        instanceRegistry.clear();
+        instanceRegistry.putAll(reKeyed);
+
         LOGGER.info("GenericSubstitutionSupport: detected {} generic schema instance(s): {}",
                 instanceRegistry.size(), instanceRegistry.keySet());
 
@@ -293,7 +305,9 @@ public final class GenericSubstitutionSupport {
             op.imports.add(ctx.toModelName(resolvedSchema));
         }
         if (ctx.getAnnotationLibrary() == AnnotationLibrary.NONE) {
-            op.imports.remove(inst.schemaName);
+            // Remove the wrapper schema import using its transformed name (matching op.imports
+            // entries, which are already toModelName()-processed by super.fromOperation).
+            op.imports.remove(ctx.toModelName(inst.schemaName));
         }
 
         LOGGER.info("GenericSubstitutionSupport: operation '{}': replacing return type '{}' with '{}'",
@@ -329,11 +343,12 @@ public final class GenericSubstitutionSupport {
 
         for (Map.Entry<String, GenericSchemaScanUtils.GenericInstance> entry
                 : instanceRegistry.entrySet()) {
-            String schemaName = entry.getKey();
             GenericSchemaScanUtils.GenericInstance inst = entry.getValue();
-            if (objs.remove(schemaName) != null) {
+            // objs is keyed by the raw OpenAPI schema name (DefaultGenerator uses spec keys as-is).
+            // inst.schemaName is the raw spec name (toModelName() only affects the registry key).
+            if (objs.remove(inst.schemaName) != null) {
                 LOGGER.info("GenericSubstitutionSupport: suppressing model '{}' → {}",
-                        schemaName, inst.genericClassName + "<" + inst.typeArgs.values() + ">");
+                        inst.schemaName, inst.genericClassName + "<" + inst.typeArgs.values() + ">");
             }
         }
         return objs;

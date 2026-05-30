@@ -6029,6 +6029,83 @@ public class KotlinSpringServerCodegenTest {
         assertThat(files).doesNotContainKey("PetPageAllOfDto.kt");
     }
 
+    // -------------------------------------------------------------------------
+    // genericPatterns — modelNameSuffix / modelNamePrefix
+    // -------------------------------------------------------------------------
+
+    /**
+     * Builds common test props for Kotlin genericPatterns feature tests.
+     * Uses annotationLibrary=none so that suppression is active.
+     */
+    private Map<String, Object> kotlinGenericPatternsProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SKIP_DEFAULT_INTERFACE, "true");
+        props.put(USE_TAGS, "true");
+        props.put(USE_SPRING_BOOT3, "true");
+        props.put(DOCUMENTATION_PROVIDER, "none");
+        props.put(ANNOTATION_LIBRARY, "none");
+
+        // Pattern: suffix=Response, slot=data, Mode B (simple class name → generate)
+        Map<String, Object> responsePattern = new HashMap<>();
+        responsePattern.put("suffix", "Response");
+        responsePattern.put("genericClass", "ApiResponse");
+        responsePattern.put("slot", "data");
+
+        props.put(GENERIC_PATTERNS, java.util.Arrays.asList(responsePattern));
+        return props;
+    }
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_replacesReturnType() throws IOException {
+        // When modelNameSuffix is set, op.returnBaseType includes the suffix (e.g. "UserResponseDto").
+        // The registry must be re-keyed with toModelName() so the lookup succeeds.
+        Map<String, Object> props = kotlinGenericPatternsProps();
+        props.put("modelNameSuffix", "Dto");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", props);
+
+        // getUserResponse returns UserResponse → suffix applied → UserResponseDto → replaced with ApiResponse<UserDto>
+        File responseApi = files.get("ResponseApi.kt");
+        assertThat(responseApi).isNotNull();
+        String content = Files.readString(responseApi.toPath());
+        assertThat(content).contains("ApiResponse<UserDto>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNamePrefix_replacesReturnType() throws IOException {
+        // When modelNamePrefix is set, op.returnBaseType includes the prefix (e.g. "MyUserResponse").
+        // The registry must be re-keyed with toModelName() so the lookup succeeds.
+        Map<String, Object> props = kotlinGenericPatternsProps();
+        props.put("modelNamePrefix", "My");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", props);
+
+        // getUserResponse returns UserResponse → prefix applied → MyUserResponse → replaced with ApiResponse<MyUser>
+        File responseApi = files.get("ResponseApi.kt");
+        assertThat(responseApi).isNotNull();
+        String content = Files.readString(responseApi.toPath());
+        assertThat(content).contains("ApiResponse<MyUser>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_suppressesConcreteSchemaClasses() throws IOException {
+        // Verify schema suppression works with modelNameSuffix:
+        // objs keys are raw schema names; inst.schemaName (raw) must be used for removal.
+        Map<String, Object> props = kotlinGenericPatternsProps();
+        props.put("modelNameSuffix", "Dto");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", props);
+
+        // Concrete wrapper schemas are suppressed (note: file name uses raw schema + suffix)
+        assertThat(files).doesNotContainKey("UserResponseDto.kt");
+        assertThat(files).doesNotContainKey("PetResponseDto.kt");
+        assertThat(files).doesNotContainKey("OrderResponseDto.kt");
+    }
+
 
     @Test(description = "oneOf with discriminator generates thin sealed interface with Jackson annotations")
     public void testOneOfWithDiscriminatorGeneratesThinInterface() throws IOException {
