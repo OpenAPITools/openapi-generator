@@ -18,7 +18,7 @@ import java.math.BigDecimal
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object BigDecimalAdapter : KSerializer<BigDecimal> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
     override fun deserialize(decoder: Decoder): BigDecimal = BigDecimal(decoder.decodeString())
-    override fun serialize(encoder: Encoder, value: BigDecimal) = encoder.encodeString(value.toPlainString())
+    override fun serialize(encoder: Encoder, value: BigDecimal){{#explicitApi}}: Unit{{/explicitApi}} = encoder.encodeString(value.toPlainString())
 }
 {{/kotlinx_serialization}}
 {{#moshi}}
