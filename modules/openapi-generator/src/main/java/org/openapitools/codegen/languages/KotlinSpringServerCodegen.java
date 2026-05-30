@@ -22,9 +22,6 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -209,6 +206,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override public String fileExtension() { return "kt"; }
 
     @Setter private boolean companionObject = false;
+    @Setter private boolean useEnumValueInterface = false;
+    private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
     @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
@@ -339,6 +338,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
                 "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable "
                 + "properties (required: false, nullable: true). When enabled, such properties use "
@@ -1140,6 +1140,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         genericSubstitutionSupport.preprocessOpenAPI(openAPI, this);
 
+        if (useEnumValueInterface) {
+            valuedEnumClassName = EnumValueInterfaceUtils.setupInPreprocessOpenAPI(
+                    importMapping, additionalProperties, supportingFiles,
+                    sourceFolder, configPackage,
+                    "enumValueInterface.mustache", "ValuedEnum.kt");
+        }
+
         if (!additionalProperties.containsKey(TITLE)) {
             // The purpose of the title is for:
             // - README documentation
@@ -1223,7 +1230,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // Scenario 3: optional + non-nullable → block explicit JSON nulls via @JsonSetter(nulls = Nulls.FAIL).
         // Missing keys still succeed (default = null is used), but explicit {"field": null} fails deserialization.
-        if (!Boolean.TRUE.equals(property.required) && !Boolean.TRUE.equals(property.isNullable)) {
+        if (!property.required && !property.isNullable) {
             property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
             model.imports.add("JsonSetter");
             model.imports.add("Nulls");
@@ -1231,15 +1238,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
         // so callers can distinguish between a missing key and an explicitly provided null.
-        if (openApiNullable && !Boolean.TRUE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+        if (openApiNullable && !property.required && property.isNullable) {
             property.vendorExtensions.put("x-is-jackson-optional-nullable", true);
             model.imports.add("JsonNullable");
         }
 
         //Add imports for Jackson
-        if (!Boolean.TRUE.equals(model.isEnum)) {
+        if (!model.isEnum) {
             model.imports.add("JsonProperty");
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            if (model.hasEnums) {
                 model.imports.add("JsonValue");
                 model.imports.add("JsonCreator");
             }
@@ -1380,7 +1387,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         objs.getModels().stream()
                 .map(ModelMap::getModel)
-                .filter(cm -> Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null)
+                .filter(cm -> cm.isEnum && cm.allowableValues != null)
                 .forEach(cm -> {
                     cm.imports.add(importMapping.get("JsonValue"));
                     cm.imports.add(importMapping.get("JsonCreator"));
@@ -1441,6 +1448,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                 sealedInterfacesFileWritten = true;
             }
+        }
+
+        if (useEnumValueInterface) {
+            EnumValueInterfaceUtils.injectInPostProcessModelsEnum(
+                    objs, valuedEnumClassName, importMapping.get("ValuedEnum"),
+                    VendorExtension.X_KOTLIN_IMPLEMENTS.getName());
         }
 
         return objs;
