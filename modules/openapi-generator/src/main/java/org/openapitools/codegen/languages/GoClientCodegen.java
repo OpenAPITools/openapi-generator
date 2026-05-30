@@ -514,6 +514,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
             if (model.isEnum) {
+                prefixEnumUnknownDefaultCase(model);
                 continue;
             }
 
@@ -574,6 +575,29 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
         }
         return objs;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void prefixEnumUnknownDefaultCase(CodegenModel model) {
+        if (!enumUnknownDefaultCase || enumClassPrefix || model.allowableValues == null) {
+            return;
+        }
+
+        Object enumVarsObject = model.allowableValues.get("enumVars");
+        if (!(enumVarsObject instanceof List)) {
+            return;
+        }
+
+        List<?> enumVars = (List<?>) enumVarsObject;
+        if (enumVars.isEmpty() || !(enumVars.get(enumVars.size() - 1) instanceof Map)) {
+            return;
+        }
+
+        Map<String, Object> fallbackEnumVar = (Map<String, Object>) enumVars.get(enumVars.size() - 1);
+        Object fallbackName = fallbackEnumVar.get("name");
+        if (fallbackName instanceof String) {
+            fallbackEnumVar.put("name", model.classname.toUpperCase(Locale.ROOT) + "_" + fallbackName);
+        }
     }
 
     @Override
