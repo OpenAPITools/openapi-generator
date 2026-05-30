@@ -68,18 +68,42 @@ Configure {{name}}:
 {{/isApiKey}}
 {{#isBasic}}
 {{#isBasicBasic}}
-Configure {{name}}:
-    ApiClient.username = ""
-    ApiClient.password = ""
+Configure {{name}} statically:
+```kotlin
+ApiClient.username = ""
+ApiClient.password = ""
+```
+{{#jvm-okhttp}}
+Configure {{name}} dynamically:
+```kotlin
+apiInstance.userCredentialProvider = { "user" to "pass" }
+```
+{{/jvm-okhttp}}
 {{/isBasicBasic}}
 {{#isBasicBearer}}
-Configure {{name}}:
-    ApiClient.accessToken = ""
+Configure {{name}} statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+{{#jvm-okhttp}}
+Configure {{name}} dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+{{/jvm-okhttp}}
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-Configure {{name}}:
-    ApiClient.accessToken = ""
+Configure {{name}} statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+{{#jvm-okhttp}}
+Configure {{name}} dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+{{/jvm-okhttp}}
 {{/isOAuth}}
 {{/authMethods}}
 
