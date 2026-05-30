@@ -222,7 +222,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     // GenericSubstitutionSupport.Context implementation
     @Override public String fileExtension() { return "java"; }
-    @Override public String toModelImport(String className) { return modelPackage() + "." + className; }
+    @Override public String toModelImport(String className) {
+        if (className.contains(".")) return className; // already fully qualified (e.g. from schemaMapping)
+        return modelPackage() + "." + className;
+    }
     @Override public Map<String, String> schemaMapping() { return schemaMapping; }
 
     // Holds scan results for Spring Pageable features (populated during preprocessOpenAPI)
@@ -928,6 +931,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         pageableSupport.preprocessOpenAPI(openAPI, this, SPRING_HTTP_INTERFACE, "java");
 
+        pageableSupport.contributeToGenericSubstitution(genericSubstitutionSupport, this);
+
         genericSubstitutionSupport.preprocessOpenAPI(openAPI, this);
 
         if (useEnumValueInterface) {
@@ -1339,11 +1344,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             } // Not an SSE compliant definition
         }
 
-        // If substituteGenericPagedModel is enabled, replace paged-model return types
-        // with org.springframework.data.web.PagedModel<T>.
-        pageableSupport.substituteReturnType(codegenOperation, this);
-
-        // Replace operation return types for generic schema patterns (genericPatterns feature).
+        // Replace operation return types for generic schema patterns (genericPatterns feature)
+        // and substituteGenericPagedModel (paged-model schemas contributed via pre-scan).
         genericSubstitutionSupport.substituteReturnType(codegenOperation, this);
 
         return codegenOperation;
@@ -1399,8 +1401,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 cm.vendorExtensions.put("x-java-no-args-constructor", true);
             }
         }
-
-        objs = pageableSupport.suppressPagedModels(objs, this);
 
         objs = genericSubstitutionSupport.suppressGenericSchemas(objs, this);
 

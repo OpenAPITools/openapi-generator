@@ -204,7 +204,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     // GenericSubstitutionSupport.Context implementation
     @Override public String fileExtension() { return "kt"; }
-    @Override public String toModelImport(String className) { return modelPackage() + "." + className; }
+    @Override public String toModelImport(String className) {
+        if (className.contains(".")) return className; // already fully qualified (e.g. from schemaMapping)
+        return modelPackage() + "." + className;
+    }
     @Override public Map<String, String> schemaMapping() { return schemaMapping; }
 
     @Setter private boolean companionObject = false;
@@ -1119,11 +1122,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Build pageable annotations, add Pageable imports, and remove page/size/sort params.
         pageableSupport.processPageableAnnotations(codegenOperation, this, "[", "]");
 
-        // If substituteGenericPagedModel is enabled, replace paged-model return types
-        // with org.springframework.data.web.PagedModel<T>.
-        pageableSupport.substituteReturnType(codegenOperation, this);
-
-        // Replace operation return types for generic schema patterns (genericPatterns feature).
+        // Replace operation return types for generic schema patterns (genericPatterns feature)
+        // and substituteGenericPagedModel (paged-model schemas contributed via pre-scan).
         genericSubstitutionSupport.substituteReturnType(codegenOperation, this);
 
         return codegenOperation;
@@ -1139,6 +1139,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         pageableSupport.preprocessOpenAPI(openAPI, this, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY, "kt");
+
+        pageableSupport.contributeToGenericSubstitution(genericSubstitutionSupport, this);
 
         genericSubstitutionSupport.preprocessOpenAPI(openAPI, this);
 
@@ -1306,10 +1308,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     }
                 }
             }
-        }
-
-        if (pageableSupport.isSubstituteGenericPagedModel()) {
-            objs = pageableSupport.suppressPagedModels(objs, this);
         }
 
         objs = genericSubstitutionSupport.suppressGenericSchemas(objs, this);

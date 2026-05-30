@@ -63,13 +63,20 @@ import java.util.stream.Collectors;
  *       following a naming convention. It does not suppress companion metadata schemas.</li>
  * </ul>
  *
- * <h2>Non-overlap guarantee</h2>
- * <p>When both features are active, they process the same operation sequentially:
- * {@code pageableSupport.substituteReturnType()} runs first (in {@code fromOperation}),
- * then {@code genericSubstitutionSupport.substituteReturnType()} runs. If the first has
- * already replaced {@code returnBaseType} with e.g. {@code "PagedModel"}, the second lookup
- * into the {@code genericPatterns} registry will find no entry for that new name and will
- * skip — so double-substitution cannot occur.</p>
+ * <h2>Integration with {@link GenericSubstitutionSupport}</h2>
+ * <p>When {@code substituteGenericPagedModel} is active, call
+ * {@link #contributeToGenericSubstitution} <em>after</em> {@link #preprocessOpenAPI} and
+ * <em>before</em> {@link GenericSubstitutionSupport#preprocessOpenAPI}. This converts each
+ * structurally-detected {@link PagedModelScanUtils.DetectedPagedModel} into a
+ * {@link GenericSchemaScanUtils.GenericInstance} and registers it in the
+ * {@code GenericSubstitutionSupport} instance registry. Downstream, all return-type
+ * substitution and model suppression (including the companion {@code PageMetadata}-style
+ * schema) are then handled by {@code GenericSubstitutionSupport} uniformly, gaining
+ * property-level substitution and the {@code isStillReferenced} safety check for free.</p>
+ *
+ * <p>The {@link #substituteReturnType} and {@link #suppressPagedModels} methods remain
+ * for backward compatibility but are no longer invoked by the built-in generators once
+ * {@link #contributeToGenericSubstitution} is wired in.</p>
  */
 public final class SpringPageableSupport {
 
@@ -221,6 +228,55 @@ public final class SpringPageableSupport {
                 LOGGER.info("substituteGenericPagedModel: detected {} paged-model schema(s): {}",
                         pagedModelRegistry.size(), pagedModelRegistry.keySet());
             }
+        }
+    }
+
+    /**
+     * Contributes structurally-detected paged-model schemas to {@link GenericSubstitutionSupport}
+     * as pre-scanned {@link GenericSchemaScanUtils.GenericInstance}s.
+     *
+     * <p>Call this in the generator's {@code preprocessOpenAPI}, <em>after</em>
+     * {@link #preprocessOpenAPI} (this class) and <em>before</em>
+     * {@link GenericSubstitutionSupport#preprocessOpenAPI}. That ordering ensures:</p>
+     * <ul>
+     *   <li>Pre-scanned pageable instances are in the registry before tier-1 vendor-extension
+     *       scanning — vendor extensions therefore override structural detection.</li>
+     *   <li>The pre-scanned schemas are included in the {@code tier1Names} exclusion set, so
+     *       tier-2 pattern scanning will not produce duplicate entries for them.</li>
+     *   <li>The {@link GenericSubstitutionSupport} re-keying step (via {@code toModelName()})
+     *       applies to the pre-scanned entries too, making them resilient to
+     *       {@code modelNameSuffix} / {@code modelNamePrefix}.</li>
+     * </ul>
+     *
+     * <p>No-op when {@code substituteGenericPagedModel} is disabled or no paged models
+     * were detected.</p>
+     *
+     * @param genericSupport the {@link GenericSubstitutionSupport} delegate to populate
+     * @param ctx            callback access to the generator's state
+     */
+    public void contributeToGenericSubstitution(GenericSubstitutionSupport genericSupport,
+                                                Context ctx) {
+        if (!substituteGenericPagedModel || pagedModelRegistry.isEmpty()) {
+            return;
+        }
+        String pagedModelFqn = ctx.importMapping().get(pagedModelClassName);
+        for (PagedModelScanUtils.DetectedPagedModel d : pagedModelRegistry.values()) {
+            Map<String, String> typeArgs = new LinkedHashMap<>();
+            typeArgs.put("content", d.itemSchemaName); // raw name; toModelName() applied by GenericSubstitutionSupport
+            Map<String, String> slotTypeParams = new LinkedHashMap<>();
+            slotTypeParams.put("content", "T");
+            GenericSchemaScanUtils.GenericInstance inst = new GenericSchemaScanUtils.GenericInstance(
+                    d.rawSchemaName,        // raw spec name; re-keyed by preprocessOpenAPI
+                    pagedModelClassName,    // e.g. "PagedModel" or custom class simple name
+                    pagedModelFqn,          // FQN already registered in importMapping
+                    false,                  // Mode A — external / supporting-file class
+                    typeArgs,
+                    slotTypeParams,
+                    "content",             // slot property name
+                    true,                  // content is an array in PagedModel<T>
+                    Collections.emptyList()
+            );
+            genericSupport.addPreScannedInstance(inst, d.rawMetaSchemaName);
         }
     }
 

@@ -158,6 +158,15 @@ public final class GenericSubstitutionSupport {
             new LinkedHashMap<>();
 
     /**
+     * Maps raw companion meta-schema name to raw main schema name, contributed by
+     * structural-detection delegates via {@link #addPreScannedInstance}.
+     * E.g. {@code "PageMetadata" → "UserPage"} for each detected paged model.
+     * Each meta-schema is suppressed in {@link #suppressGenericSchemas} only when its
+     * corresponding main schema was actually removed in the same pass.
+     */
+    private final Map<String, String> extraSuppressedMetaSchemas = new LinkedHashMap<>();
+
+    /**
      * Bundle data for each Mode B class, keyed by simple class name (e.g. {@code "ApiResponse"}).
      * Built during {@link #preprocessOpenAPI} and injected into the template bundle by
      * {@link #prepareSupportingFile}.
@@ -174,6 +183,34 @@ public final class GenericSubstitutionSupport {
 
     public void setDiscoverGenericPatterns(boolean v) {
         this.discoverGenericPatterns = v;
+    }
+
+    /**
+     * Adds a pre-scanned generic instance contributed by a structural-detection delegate
+     * (e.g. {@link SpringPageableSupport} for paged-model schemas).
+     *
+     * <p>Pre-scanned instances are added to the registry <em>before</em>
+     * {@link #preprocessOpenAPI} scans tier-1 (vendor extensions) and tier-2 (configured
+     * patterns). Tier-1 vendor-extension declarations therefore take precedence over
+     * pre-scanned instances (overwrite them). Tier-2 pattern scanning skips schemas already
+     * present in the registry (via the {@code tier1Names} exclusion set).</p>
+     *
+     * <p>Call this from the structural-detection delegate's
+     * {@code contributeToGenericSubstitution} method, <em>before</em> calling
+     * {@link #preprocessOpenAPI}.</p>
+     *
+     * @param inst              the detected generic instance; {@code inst.schemaName} must be
+     *                          the raw OpenAPI schema name (re-keying via {@code toModelName()}
+     *                          is performed automatically in {@link #preprocessOpenAPI})
+     * @param rawMetaSchemaName raw OpenAPI name of a companion schema to suppress alongside
+     *                          the main schema (e.g. {@code "PageMetadata"}), or {@code null}
+     */
+    public void addPreScannedInstance(GenericSchemaScanUtils.GenericInstance inst,
+                                      String rawMetaSchemaName) {
+        instanceRegistry.put(inst.schemaName, inst);
+        if (rawMetaSchemaName != null) {
+            extraSuppressedMetaSchemas.put(rawMetaSchemaName, inst.schemaName);
+        }
     }
 
     // =========================================================================
@@ -384,7 +421,7 @@ public final class GenericSubstitutionSupport {
      * @return the (possibly mutated) model map
      */
     public Map<String, ModelsMap> suppressGenericSchemas(Map<String, ModelsMap> objs, Context ctx) {
-        if (instanceRegistry.isEmpty()) {
+        if (instanceRegistry.isEmpty() && extraSuppressedMetaSchemas.isEmpty()) {
             return objs;
         }
         if (ctx.getAnnotationLibrary() != AnnotationLibrary.NONE) {
@@ -395,6 +432,9 @@ public final class GenericSubstitutionSupport {
         }
 
         substitutePropertyTypes(objs, ctx);
+
+        // Track which raw schema names were actually removed (gates meta-schema suppression below).
+        Set<String> suppressedRawNames = new HashSet<>();
 
         for (Map.Entry<String, GenericSchemaScanUtils.GenericInstance> entry
                 : instanceRegistry.entrySet()) {
@@ -414,8 +454,34 @@ public final class GenericSubstitutionSupport {
             // objs is keyed by the raw OpenAPI schema name (DefaultGenerator uses spec keys as-is).
             // inst.schemaName is the raw spec name (toModelName() only affects the registry key).
             if (objs.remove(inst.schemaName) != null) {
+                suppressedRawNames.add(inst.schemaName);
                 LOGGER.info("GenericSubstitutionSupport: suppressing model '{}' → {}",
                         inst.schemaName, buildGenericTypeName(inst, ctx, new HashSet<>()));
+            }
+        }
+
+        // Suppress companion meta-schemas contributed by pre-scan delegates (e.g.
+        // substituteGenericPagedModel). A meta-schema is only suppressed when its
+        // corresponding main schema was actually removed in the loop above, so that
+        // schema-mapped or still-referenced main schemas keep their meta schemas.
+        for (Map.Entry<String, String> metaEntry : extraSuppressedMetaSchemas.entrySet()) {
+            String rawMeta = metaEntry.getKey();
+            String rawMain = metaEntry.getValue();
+            if (!suppressedRawNames.contains(rawMain)) {
+                // Main schema was not removed — keep the meta schema.
+                continue;
+            }
+            String transformedMeta = ctx.toModelName(rawMeta);
+            boolean referencedElsewhere = objs.values().stream()
+                    .flatMap(mm -> mm.getModels().stream())
+                    .map(ModelMap::getModel)
+                    .anyMatch(cm -> cm.imports.contains(transformedMeta));
+            if (referencedElsewhere) {
+                LOGGER.info("GenericSubstitutionSupport: keeping companion meta-schema '{}'"
+                        + " — still referenced by remaining models", rawMeta);
+            } else if (objs.remove(rawMeta) != null) {
+                LOGGER.info("GenericSubstitutionSupport: suppressing companion meta-schema '{}'"
+                        + " — no longer referenced after main schema suppression", rawMeta);
             }
         }
         return objs;
