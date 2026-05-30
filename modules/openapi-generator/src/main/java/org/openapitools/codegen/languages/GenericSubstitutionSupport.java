@@ -17,7 +17,9 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.model.ModelMap;
@@ -123,6 +125,14 @@ public final class GenericSubstitutionSupport {
          * {@code "java"} for Java; {@code "kt"} for Kotlin.
          */
         String fileExtension();
+
+        /**
+         * Converts a simple class name to a fully-qualified model import path.
+         * Typically returns {@code modelPackage() + "." + className}.
+         * Used to build FQN entries when syncing {@code ModelsMap.imports} after
+         * property-type substitution.
+         */
+        String toModelImport(String className);
     }
 
     // =========================================================================
@@ -272,7 +282,10 @@ public final class GenericSubstitutionSupport {
      * Replaces the operation's return type with the generic form when the return base type
      * matches a detected generic schema instance.
      *
-     * <p>Example: operation returning {@code UserResponse} becomes {@code ApiResponse<User>}.</p>
+     * <p>Example: operation returning {@code UserResponse} becomes {@code ApiResponse<User>}.
+     * If a type argument is itself a generic instance (e.g. {@code UserResponse} inside
+     * {@code Page<T>}), the expansion is applied recursively:
+     * {@code UserResponsePage → Page<ApiResponse<User>>}.</p>
      *
      * <p>Call this from {@code fromOperation} <em>after</em> calling
      * {@code super.fromOperation(…)}.</p>
@@ -287,27 +300,19 @@ public final class GenericSubstitutionSupport {
         }
 
         String oldType = op.returnType;
-
-        // Build type args string from all slots in order
-        StringBuilder typeArgsBuilder = new StringBuilder();
-        for (String slotProp : inst.slotTypeParams.keySet()) {
-            if (typeArgsBuilder.length() > 0) typeArgsBuilder.append(", ");
-            typeArgsBuilder.append(ctx.toModelName(inst.typeArgs.get(slotProp)));
-        }
-        String newType = inst.genericClassName + "<" + typeArgsBuilder + ">";
+        String newType = buildGenericTypeName(inst, ctx, new HashSet<>());
 
         op.returnType = newType;
         op.returnBaseType = inst.genericClassName;
         op.returnContainer = null; // generic wrapper is not a container
 
-        op.imports.add(inst.genericClassName);
-        for (String resolvedSchema : inst.typeArgs.values()) {
-            op.imports.add(ctx.toModelName(resolvedSchema));
-        }
+        collectImportsToAdd(inst, ctx, op.imports, new HashSet<>());
         if (ctx.getAnnotationLibrary() == AnnotationLibrary.NONE) {
-            // Remove the wrapper schema import using its transformed name (matching op.imports
-            // entries, which are already toModelName()-processed by super.fromOperation).
-            op.imports.remove(ctx.toModelName(inst.schemaName));
+            // Remove wrapper schema imports (recursively: any nested generic instance is also suppressed).
+            // op.imports holds toModelName()-processed names, matching the registry keys.
+            Set<String> toRemove = new LinkedHashSet<>();
+            collectSuppressedImports(inst, ctx, toRemove, new HashSet<>());
+            op.imports.removeAll(toRemove);
         }
 
         LOGGER.info("GenericSubstitutionSupport: operation '{}': replacing return type '{}' with '{}'",
@@ -319,12 +324,22 @@ public final class GenericSubstitutionSupport {
     // =========================================================================
 
     /**
-     * Removes concrete generic-instance schemas (e.g. {@code UserResponse},
-     * {@code PetResponse}) from the model map when {@code annotationLibrary=none}.
+     * Substitutes generic-instance schema references in model properties and then removes
+     * concrete generic-instance schemas (e.g. {@code UserResponse}, {@code PetResponse})
+     * from the model map when {@code annotationLibrary=none}.
+     *
+     * <p>Property substitution is performed first so that any model referencing a
+     * suppressed wrapper schema (e.g. {@code OrderDetails.userResult: UserResponse})
+     * has its property type replaced ({@code ApiResponse<User>}) before the wrapper
+     * class is removed.  This prevents compile errors in the generated code.</p>
+     *
+     * <p>A safety check prevents suppression when another model still references the
+     * wrapper schema as a parent class ({@code extends UserResponse}) or via an
+     * unsubstituted property, logging a warning in that case.</p>
      *
      * <p>When annotation libraries are active, {@code @ApiResponse} and {@code @Schema}
      * annotations in the generated code reference concrete schema classes, so they must
-     * be kept. Only when {@code annotationLibrary=none} is it safe to suppress them.</p>
+     * be kept (neither property substitution nor suppression is performed).</p>
      *
      * @param objs model map as received by {@code postProcessAllModels}
      * @param ctx  callback access to the generator's state
@@ -341,14 +356,28 @@ public final class GenericSubstitutionSupport {
             return objs;
         }
 
+        substitutePropertyTypes(objs, ctx);
+
         for (Map.Entry<String, GenericSchemaScanUtils.GenericInstance> entry
                 : instanceRegistry.entrySet()) {
             GenericSchemaScanUtils.GenericInstance inst = entry.getValue();
+            String transformedKey = entry.getKey(); // toModelName()-processed registry key
+
+            // Safety check: skip suppression if any model still references this schema
+            // via model.parent (inheritance) or an unsubstituted property baseType.
+            if (isStillReferenced(transformedKey, objs)) {
+                LOGGER.warn("GenericSubstitutionSupport: NOT suppressing '{}' — still referenced "
+                        + "by another model (inheritance or unsubstituted property). "
+                        + "The concrete class will be kept in the output.",
+                        inst.schemaName);
+                continue;
+            }
+
             // objs is keyed by the raw OpenAPI schema name (DefaultGenerator uses spec keys as-is).
             // inst.schemaName is the raw spec name (toModelName() only affects the registry key).
             if (objs.remove(inst.schemaName) != null) {
                 LOGGER.info("GenericSubstitutionSupport: suppressing model '{}' → {}",
-                        inst.schemaName, inst.genericClassName + "<" + inst.typeArgs.values() + ">");
+                        inst.schemaName, buildGenericTypeName(inst, ctx, new HashSet<>()));
             }
         }
         return objs;
@@ -468,6 +497,269 @@ public final class GenericSubstitutionSupport {
     private static String capitalize(String s) {
         if (s == null || s.isEmpty()) return s;
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+
+    // =========================================================================
+    // Recursive generic type helpers
+    // =========================================================================
+
+    /**
+     * Builds the fully-expanded generic type string for the given instance, recursing
+     * into any type argument that is itself a registry entry.
+     *
+     * <p>Examples:
+     * <ul>
+     *   <li>{@code UserResponse → ApiResponse<User>}</li>
+     *   <li>{@code UserResponsePage (Page&lt;T&gt; where T=UserResponse)
+     *       → Page&lt;ApiResponse&lt;User&gt;&gt;}</li>
+     * </ul>
+     *
+     * @param inst    the generic instance to expand
+     * @param ctx     generator context (for {@code toModelName})
+     * @param visited raw schema names already being expanded (cycle guard)
+     * @return e.g. {@code "ApiResponse<User>"} or {@code "Page<ApiResponse<User>>"}
+     */
+    private String buildGenericTypeName(GenericSchemaScanUtils.GenericInstance inst,
+                                        Context ctx, Set<String> visited) {
+        if (!visited.add(inst.schemaName)) {
+            // Cycle detected — fall back to plain class name to avoid infinite recursion
+            return inst.genericClassName;
+        }
+        StringBuilder sb = new StringBuilder(inst.genericClassName).append("<");
+        boolean first = true;
+        for (String slotProp : inst.slotTypeParams.keySet()) {
+            if (!first) sb.append(", ");
+            first = false;
+            String rawTypeArg = inst.typeArgs.get(slotProp);
+            String transformedTypeArg = ctx.toModelName(rawTypeArg);
+            GenericSchemaScanUtils.GenericInstance nestedInst = instanceRegistry.get(transformedTypeArg);
+            if (nestedInst != null) {
+                sb.append(buildGenericTypeName(nestedInst, ctx, visited));
+            } else {
+                sb.append(transformedTypeArg);
+            }
+        }
+        sb.append(">");
+        return sb.toString();
+    }
+
+    /**
+     * Recursively collects all import names that need to be <em>added</em> when
+     * substituting this instance: the generic class itself and all leaf type-arg names.
+     *
+     * <p>E.g. for {@code Page<ApiResponse<User>>}: adds {@code Page}, {@code ApiResponse},
+     * {@code User}.</p>
+     */
+    private void collectImportsToAdd(GenericSchemaScanUtils.GenericInstance inst,
+                                     Context ctx, Set<String> result, Set<String> visited) {
+        if (!visited.add(inst.schemaName)) return;
+        result.add(inst.genericClassName);
+        for (String rawTypeArg : inst.typeArgs.values()) {
+            String transformed = ctx.toModelName(rawTypeArg);
+            GenericSchemaScanUtils.GenericInstance nestedInst = instanceRegistry.get(transformed);
+            if (nestedInst != null) {
+                collectImportsToAdd(nestedInst, ctx, result, visited);
+            } else {
+                result.add(transformed);
+            }
+        }
+    }
+
+    /**
+     * Recursively collects the <em>transformed</em> schema names that should be
+     * <em>removed</em> from imports after substitution (the wrapper schemas that are
+     * being suppressed).
+     *
+     * <p>E.g. for {@code Page<ApiResponse<User>>}: collects the transformed name of
+     * {@code UserResponsePage} and the transformed name of {@code UserResponse}.</p>
+     */
+    private void collectSuppressedImports(GenericSchemaScanUtils.GenericInstance inst,
+                                          Context ctx, Set<String> result, Set<String> visited) {
+        if (!visited.add(inst.schemaName)) return;
+        result.add(ctx.toModelName(inst.schemaName));
+        for (String rawTypeArg : inst.typeArgs.values()) {
+            String transformed = ctx.toModelName(rawTypeArg);
+            GenericSchemaScanUtils.GenericInstance nestedInst = instanceRegistry.get(transformed);
+            if (nestedInst != null) {
+                collectSuppressedImports(nestedInst, ctx, result, visited);
+            }
+        }
+    }
+
+    // =========================================================================
+    // Property-level substitution
+    // =========================================================================
+
+    /**
+     * Substitutes generic-instance schema references in all model properties.
+     *
+     * <p>Iterates all unique property instances across {@code vars}, {@code requiredVars},
+     * {@code optionalVars}, and {@code allVars} (Kotlin Spring templates render from
+     * {@code requiredVars}/{@code optionalVars}; Java Spring from {@code vars};
+     * {@code CodegenModel.removeAllDuplicatedProperty()} clones each list independently so
+     * the lists hold different instances). When a property's {@code baseType} or
+     * {@code complexType} matches a registry key, its type strings are rewritten to the
+     * fully-expanded generic form and the model's import sets are updated accordingly.</p>
+     *
+     * <p>Only called when {@code annotationLibrary=none} (already gated by the caller).</p>
+     */
+    private void substitutePropertyTypes(Map<String, ModelsMap> objs, Context ctx) {
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+
+                // Collect all unique property instances across all property lists.
+                // Kotlin Spring templates render from requiredVars/optionalVars, Java Spring from vars.
+                // CodegenModel.removeAllDuplicatedProperty() clones each list independently, so vars
+                // and optionalVars/requiredVars hold DIFFERENT instances for the same property.
+                // Using IdentityHashMap ensures each physical instance is processed exactly once.
+                Set<CodegenProperty> allProps = Collections.newSetFromMap(new IdentityHashMap<>());
+                allProps.addAll(model.vars);
+                allProps.addAll(model.requiredVars);
+                allProps.addAll(model.optionalVars);
+                allProps.addAll(model.allVars);
+
+                Set<String> removedFromImports = new HashSet<>();
+                Set<String> addedToImports = new HashSet<>();
+
+                for (CodegenProperty prop : allProps) {
+                    // For plain model-ref properties the instance name is in baseType.
+                    // For array/container properties baseType = "List" and the item type is in complexType.
+                    String lookupKey = prop.baseType;
+                    GenericSchemaScanUtils.GenericInstance inst =
+                            lookupKey != null ? instanceRegistry.get(lookupKey) : null;
+                    final boolean usingComplexTypeFallback;
+                    if (inst == null && prop.complexType != null
+                            && !prop.complexType.equals(prop.baseType)) {
+                        lookupKey = prop.complexType;
+                        inst = instanceRegistry.get(lookupKey);
+                        usingComplexTypeFallback = inst != null;
+                    } else {
+                        usingComplexTypeFallback = false;
+                    }
+                    if (inst == null) continue;
+
+                    String newGenericType = buildGenericTypeName(inst, ctx, new HashSet<>());
+
+                    // Replace all occurrences of the old type in the type strings.
+                    // Handles plain "UserResponse", "List<UserResponse>", nullable "UserResponse?" etc.
+                    prop.dataType = prop.dataType.replace(lookupKey, newGenericType);
+                    if (prop.datatypeWithEnum != null) {
+                        prop.datatypeWithEnum = prop.datatypeWithEnum.replace(lookupKey, newGenericType);
+                    }
+                    // Update baseType only when it was the matched key (not for array container types).
+                    if (!usingComplexTypeFallback) {
+                        prop.baseType = inst.genericClassName;
+                    }
+                    if (usingComplexTypeFallback || lookupKey.equals(prop.complexType)) {
+                        prop.complexType = inst.genericClassName;
+                        // Also update prop.items for array/map properties:
+                        // templates like pojo.mustache use items.datatypeWithEnum for addXxxItem methods.
+                        if (prop.items != null) {
+                            prop.items.dataType = prop.items.dataType.replace(lookupKey, newGenericType);
+                            if (prop.items.datatypeWithEnum != null) {
+                                prop.items.datatypeWithEnum =
+                                        prop.items.datatypeWithEnum.replace(lookupKey, newGenericType);
+                            }
+                            if (lookupKey.equals(prop.items.baseType)) {
+                                prop.items.baseType = inst.genericClassName;
+                            }
+                            if (lookupKey.equals(prop.items.complexType)) {
+                                prop.items.complexType = inst.genericClassName;
+                            }
+                        }
+                    }
+
+                    // Update model-level imports Set<String> and track changes for List sync below.
+                    if (model.imports.remove(lookupKey)) {
+                        removedFromImports.add(lookupKey);
+                    }
+                    Set<String> toAdd = new HashSet<>();
+                    collectImportsToAdd(inst, ctx, toAdd, new HashSet<>());
+                    for (String cn : toAdd) {
+                        if (model.imports.add(cn)) {
+                            addedToImports.add(cn);
+                        }
+                    }
+
+                    LOGGER.info("GenericSubstitutionSupport: model '{}' property '{}': "
+                                    + "substituted '{}' → '{}'",
+                            model.name, prop.name, lookupKey, newGenericType);
+                }
+
+                // Synchronize ModelsMap.imports (List<Map<String,String>>) with the updated
+                // model.imports Set. DefaultGenerator builds this List before postProcessAllModels,
+                // so it must be updated here to ensure templates see the correct import statements.
+                if (!removedFromImports.isEmpty() || !addedToImports.isEmpty()) {
+                    syncModelsMapImports(modelsMap, removedFromImports, addedToImports, ctx);
+                }
+            }
+        }
+    }
+
+    /**
+     * Synchronizes the pre-built {@code ModelsMap.imports} List with changes made to
+     * {@code model.imports} during property-type substitution.
+     *
+     * <p>Removes FQN entries whose simple class name is in {@code removed} and adds
+     * FQN entries for simple class names in {@code added} that are not yet present.</p>
+     */
+    private void syncModelsMapImports(ModelsMap modelsMap, Set<String> removed,
+                                      Set<String> added, Context ctx) {
+        List<Map<String, String>> importsList = modelsMap.getImports();
+        if (importsList == null) return;
+
+        // Remove entries for types that were substituted away.
+        for (String simpleName : removed) {
+            final String suffix = "." + simpleName;
+            importsList.removeIf(imp -> {
+                String fqn = imp.get("import");
+                return fqn != null && (fqn.endsWith(suffix) || fqn.equals(simpleName));
+            });
+        }
+
+        // Add entries for newly required types.
+        Set<String> existingFqns = new HashSet<>();
+        for (Map<String, String> imp : importsList) {
+            String fqn = imp.get("import");
+            if (fqn != null) existingFqns.add(fqn);
+        }
+        for (String simpleName : added) {
+            String fqn = ctx.importMapping().get(simpleName);
+            if (fqn == null) fqn = ctx.toModelImport(simpleName);
+            if (fqn != null && !existingFqns.contains(fqn)) {
+                Map<String, String> entry = new HashMap<>();
+                entry.put("import", fqn);
+                importsList.add(entry);
+                existingFqns.add(fqn);
+            }
+        }
+    }
+
+    /**
+     * Returns {@code true} if any model in {@code objs} still references the given
+     * transformed instance name — either via a property {@code baseType} that was not
+     * substituted or via {@code model.parent} (allOf inheritance).
+     *
+     * <p>This is used as a suppression safety check to avoid deleting a class that is
+     * still needed (e.g. as a base class for another model).</p>
+     */
+    private boolean isStillReferenced(String transformedKey, Map<String, ModelsMap> objs) {
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (transformedKey.equals(model.parent)) {
+                    return true;
+                }
+                for (CodegenProperty prop : model.vars) {
+                    if (transformedKey.equals(prop.baseType)
+                            || transformedKey.equals(prop.complexType)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

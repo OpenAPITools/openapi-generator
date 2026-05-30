@@ -8082,6 +8082,115 @@ public class SpringCodegenTest {
     }
 
     // -------------------------------------------------------------------------
+    // genericPatterns — property-level substitution (Scenarios A, B, F, G)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_substitutesPropertyTypeRef() throws IOException {
+        // Scenario A: OrderDetails.userResult: $ref UserResponse → ApiResponse<User>
+        // The plain domain property (pet: Pet) must NOT be changed.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("OrderDetails.java"))
+                .fileContains("ApiResponse<User>")
+                .fileDoesNotContain("UserResponse userResult");
+        JavaFileAssert.assertThat(files.get("OrderDetails.java"))
+                .fileContains("Pet pet");
+    }
+
+    @Test
+    public void genericPatterns_substitutesArrayPropertyTypeRef() throws IOException {
+        // Scenario B: NotificationBatch.responses: array of $ref UserResponse → List<ApiResponse<User>>
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("NotificationBatch.java"))
+                .fileContains("ApiResponse<User>")
+                .fileDoesNotContain("UserResponse");
+    }
+
+    @Test
+    public void genericPatterns_suppressionDoesNotBreakModelWithSubstitutedProperty() throws IOException {
+        // Scenario G: end-to-end coherence check:
+        // OrderDetails.java has correct ApiResponse<User> type AND UserResponse.java is suppressed.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        assertThat(files).doesNotContainKey("UserResponse.java");
+        assertThat(files).containsKey("OrderDetails.java");
+        JavaFileAssert.assertThat(files.get("OrderDetails.java"))
+                .fileContains("ApiResponse<User>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_substitutesPropertyTypeRef() throws IOException {
+        // Scenario F: property substitution combined with modelNameSuffix=Dto
+        // OrderDetails.userResult → ApiResponse<UserDto> (not ApiResponse<User>)
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        JavaFileAssert.assertThat(files.get("OrderDetailsDto.java"))
+                .fileContains("ApiResponse<UserDto>")
+                .fileDoesNotContain("UserResponseDto");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — recursive type-arg expansion (Scenarios C, D)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_recursiveTypeArgInReturnType() throws IOException {
+        // Scenario C: UserResponsePage matched as Page<T> where T=UserResponse (itself ApiResponse<User>)
+        // Expected: listUserResponses → Page<ApiResponse<User>>
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("PageApi.java"))
+                .assertMethod("listUserResponses")
+                .hasReturnType("ResponseEntity<Page<ApiResponse<User>>>");
+    }
+
+    @Test
+    public void genericPatterns_recursiveTypeArgInMultiParamReturn() throws IOException {
+        // Scenario D: UserResponseErrorResult matched as Result<T,E>
+        // where T=UserResponse (itself ApiResponse<User>) and E=ValidationError (plain type)
+        // Expected: getUserResponseErrorResult → Result<ApiResponse<User>, ValidationError>
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("ResultApi.java"))
+                .assertMethod("getUserResponseErrorResult")
+                .hasReturnType("ResponseEntity<Result<ApiResponse<User>, ValidationError>>");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — suppression safety check (Scenario E)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_suppressionSafety_keepsSchemaWhenExtended() throws IOException {
+        // Scenario E: ExtendedUserResponse uses allOf composition (no discriminator → no Java
+        // inheritance, model.parent = null). UserResponse is a detected generic instance and CAN
+        // be safely suppressed — composition merges its properties into ExtendedUserResponse directly.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics-inheritance.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // UserResponse IS correctly suppressed (composition, not inheritance → safe)
+        assertThat(files).doesNotContainKey("UserResponse.java");
+        // ExtendedUserResponse is generated with its own merged properties
+        assertThat(files).containsKey("ExtendedUserResponse.java");
+    }
+
+    // -------------------------------------------------------------------------
     // substituteGenericPagedModel — spring-cloud
     // -------------------------------------------------------------------------
 

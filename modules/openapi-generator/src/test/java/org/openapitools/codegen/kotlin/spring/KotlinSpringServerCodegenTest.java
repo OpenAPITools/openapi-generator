@@ -6106,6 +6106,74 @@ public class KotlinSpringServerCodegenTest {
         assertThat(files).doesNotContainKey("OrderResponseDto.kt");
     }
 
+    // -------------------------------------------------------------------------
+    // genericPatterns — property-level substitution (Scenario A)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_substitutesPropertyTypeRef() throws IOException {
+        // Scenario A: OrderDetails.userResult: $ref UserResponse → ApiResponse<User>
+        Map<String, Object> props = kotlinGenericPatternsProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", props);
+
+        File orderDetails = files.get("OrderDetails.kt");
+        assertThat(orderDetails).isNotNull();
+        String content = Files.readString(orderDetails.toPath());
+        assertThat(content).contains("ApiResponse<User>");
+        assertThat(content).doesNotContain("UserResponse userResult");
+        assertThat(content).doesNotContain("UserResponse?");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — recursive type-arg expansion (Scenario C)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_recursiveTypeArgInReturnType() throws IOException {
+        // Scenario C: UserResponsePage → Page<ApiResponse<User>>
+        // Requires both the Response pattern (to detect UserResponse) and the Page pattern
+        // (to detect UserResponsePage as Page<T> where T=UserResponse).
+        Map<String, Object> props = kotlinGenericPatternsProps();
+
+        // Add the Page pattern (Mode A: FQN generic class, slotArray=content)
+        Map<String, Object> pagePattern = new HashMap<>();
+        pagePattern.put("suffix", "Page");
+        pagePattern.put("genericClass", "org.springframework.data.domain.Page");
+        pagePattern.put("slotArray", "content");
+        List<Map<String, Object>> patterns = new java.util.ArrayList<>((List<Map<String, Object>>) props.get(GENERIC_PATTERNS));
+        patterns.add(pagePattern);
+        props.put(GENERIC_PATTERNS, patterns);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", props);
+
+        File pageApi = files.get("PageApi.kt");
+        assertThat(pageApi).isNotNull();
+        String content = Files.readString(pageApi.toPath());
+        assertThat(content).contains("Page<ApiResponse<User>>");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — suppression safety check (Scenario E)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_suppressionSafety_keepsSchemaWhenExtended() throws IOException {
+        // Scenario E: ExtendedUserResponse uses allOf composition (no discriminator → no Kotlin
+        // inheritance, model.parent = null). UserResponse CAN be safely suppressed.
+        Map<String, Object> props = kotlinGenericPatternsProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics-inheritance.yaml", props);
+
+        // UserResponse IS correctly suppressed (composition, not inheritance → safe)
+        assertThat(files).doesNotContainKey("UserResponse.kt");
+        // ExtendedUserResponse is still generated
+        assertThat(files).containsKey("ExtendedUserResponse.kt");
+    }
+
 
     @Test(description = "oneOf with discriminator generates thin sealed interface with Jackson annotations")
     public void testOneOfWithDiscriminatorGeneratesThinInterface() throws IOException {

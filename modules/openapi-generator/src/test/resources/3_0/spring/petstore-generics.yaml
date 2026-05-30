@@ -188,6 +188,70 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrderErrorResult'
 
+  /users/{id}/response-error-result:
+    get:
+      tags: [result]
+      summary: Get user response-error result (Tier 2 recursive slot - data arg is itself a generic instance)
+      operationId: getUserResponseErrorResult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: UserResponse (ApiResponse<User>) wrapped in Result<T,E>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseErrorResult'
+
+  /users/responses/page:
+    get:
+      tags: [page]
+      summary: List user responses (Tier 2 recursive - Page<UserResponse> expands to Page<ApiResponse<User>>)
+      operationId: listUserResponses
+      responses:
+        '200':
+          description: Paged list of user responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponsePage'
+
+  /orders/{id}/details:
+    get:
+      tags: [response]
+      summary: Get order details (non-generic model with generic-instance property)
+      operationId: getOrderDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order details (userResult property should be substituted)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetails'
+
+  /notifications:
+    get:
+      tags: [response]
+      summary: Get notification batch (non-generic model with array-of-generic-instance property)
+      operationId: getNotificationBatch
+      responses:
+        '200':
+          description: Batch of user response notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationBatch'
+
 
   /logs/latest:
     get:
@@ -506,3 +570,83 @@ components:
           type: object
           additionalProperties:
             type: integer
+
+    # -----------------------------------------------------------------------
+    # NEW: UserResponseErrorResult — suffix=ErrorResult, slots: data→T + error→E
+    # data refs UserResponse (which is itself a generic instance → ApiResponse<User>)
+    # Recursive expansion: Result<ApiResponse<User>, ValidationError>
+    # -----------------------------------------------------------------------
+
+    UserResponseErrorResult:
+      type: object
+      description: |
+        Result whose data slot is a UserResponse (itself a generic instance).
+        Tests recursive multi-param expansion:
+        UserResponseErrorResult → Result<ApiResponse<User>, ValidationError>
+      required: [data]
+      properties:
+        data:
+          $ref: '#/components/schemas/UserResponse'
+        error:
+          $ref: '#/components/schemas/ValidationError'
+        success:
+          type: boolean
+
+    # -----------------------------------------------------------------------
+    # NEW: UserResponsePage — suffix=Page, slotArray=content
+    # content items ref UserResponse (which is itself a generic instance → ApiResponse<User>)
+    # Recursive expansion: Page<ApiResponse<User>>
+    # -----------------------------------------------------------------------
+
+    UserResponsePage:
+      type: object
+      description: |
+        Page whose content items are UserResponse (itself a generic instance).
+        Tests recursive return-type expansion:
+        UserResponsePage → Page<ApiResponse<User>>
+      required: [content, page]
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+        page:
+          $ref: '#/components/schemas/PageMeta'
+
+    # -----------------------------------------------------------------------
+    # NEW: OrderDetails — non-generic model with a generic-instance property
+    # userResult: $ref UserResponse — should be substituted to ApiResponse<User>
+    # pet: $ref Pet — should NOT be changed (not a generic instance)
+    # -----------------------------------------------------------------------
+
+    OrderDetails:
+      type: object
+      description: |
+        A non-generic model whose userResult property references a generic instance.
+        Tests property-level substitution: userResult type → ApiResponse<User>
+        while pet (a plain domain type) is left unchanged.
+      properties:
+        userResult:
+          $ref: '#/components/schemas/UserResponse'
+        pet:
+          $ref: '#/components/schemas/Pet'
+        orderId:
+          type: string
+
+    # -----------------------------------------------------------------------
+    # NEW: NotificationBatch — non-generic model with array-of-generic-instance property
+    # responses: array of $ref UserResponse — should become List<ApiResponse<User>>
+    # -----------------------------------------------------------------------
+
+    NotificationBatch:
+      type: object
+      description: |
+        A non-generic model with an array property of a generic-instance type.
+        Tests array property substitution: responses type → List<ApiResponse<User>>
+      properties:
+        responses:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+        batchId:
+          type: string

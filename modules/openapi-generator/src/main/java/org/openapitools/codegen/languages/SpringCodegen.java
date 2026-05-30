@@ -222,6 +222,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     // GenericSubstitutionSupport.Context implementation
     @Override public String fileExtension() { return "java"; }
+    @Override public String toModelImport(String className) { return modelPackage() + "." + className; }
 
     // Holds scan results for Spring Pageable features (populated during preprocessOpenAPI)
     private final SpringPageableScanUtils pageableUtils = new SpringPageableScanUtils();

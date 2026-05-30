@@ -1,0 +1,87 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore - Generics Inheritance Test
+  description: |
+    Minimal spec for testing the suppression safety check: when a generic-instance schema
+    (UserResponse) is used as a parent class (via allOf) by another schema
+    (ExtendedUserResponse), the safety check must prevent suppression of UserResponse.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: response
+    description: Response operations
+
+paths:
+  /users/{id}/response:
+    get:
+      tags: [response]
+      operationId: getUserResponse
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User response
+
+  /users/{id}/extended-response:
+    get:
+      tags: [response]
+      operationId: getExtendedUserResponse
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedUserResponse'
+          description: Extended user response
+
+components:
+  schemas:
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    # Tier 2 — suffix=Response, slot=data: matched as ApiResponse<User>
+    # Safety check scenario: this schema is also inherited by ExtendedUserResponse
+    # → must NOT be suppressed despite being a detected generic instance
+    UserResponse:
+      type: object
+      required: [data, status]
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        status:
+          type: string
+        message:
+          type: string
+
+    # Inherits UserResponse via allOf — NOT itself matched as a generic instance
+    # (resolveProperties only sees inline allOf properties → {cacheControl}, no 'data' slot)
+    # model.parent = "UserResponse" → triggers suppression safety check
+    ExtendedUserResponse:
+      allOf:
+        - $ref: '#/components/schemas/UserResponse'
+        - type: object
+          properties:
+            cacheControl:
+              type: string
+              description: Cache-Control header value

@@ -204,6 +204,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     // GenericSubstitutionSupport.Context implementation
     @Override public String fileExtension() { return "kt"; }
+    @Override public String toModelImport(String className) { return modelPackage() + "." + className; }
 
     @Setter private boolean companionObject = false;
     @Setter private boolean useEnumValueInterface = false;
