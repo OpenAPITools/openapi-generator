@@ -133,6 +133,13 @@ public final class GenericSubstitutionSupport {
          * property-type substitution.
          */
         String toModelImport(String className);
+
+        /**
+         * Returns the generator's schema mapping (schema name → external class name/FQN).
+         * Used to skip generic substitution for schemas that are explicitly schema-mapped,
+         * since the user's intent is to use an external class, not generate or substitute it.
+         */
+        Map<String, String> schemaMapping();
     }
 
     // =========================================================================
@@ -233,6 +240,24 @@ public final class GenericSubstitutionSupport {
         instanceRegistry.clear();
         instanceRegistry.putAll(reKeyed);
 
+        // Gap B: filter out instances whose raw spec schema name is in schemaMapping.
+        // When a user has schemaMapping: { UserResponse: com.example.UserResponse } they intend
+        // to replace the schema with an external class — generic substitution must not override that.
+        Map<String, String> schemaMappings = ctx.schemaMapping();
+        if (!schemaMappings.isEmpty()) {
+            instanceRegistry.entrySet().removeIf(entry -> {
+                GenericSchemaScanUtils.GenericInstance inst = entry.getValue();
+                if (schemaMappings.containsKey(inst.schemaName)) {
+                    LOGGER.warn("GenericSubstitutionSupport: skipping generic instance '{}' — " +
+                            "its raw schema name '{}' is present in schemaMapping; " +
+                            "schemaMapping takes precedence over genericPatterns.",
+                            entry.getKey(), inst.schemaName);
+                    return true;
+                }
+                return false;
+            });
+        }
+
         LOGGER.info("GenericSubstitutionSupport: detected {} generic schema instance(s): {}",
                 instanceRegistry.size(), instanceRegistry.keySet());
 
@@ -256,6 +281,19 @@ public final class GenericSubstitutionSupport {
             if (inst.generateClass) {
                 // Mode B: register a mustache-based supporting file and add import mapping
                 String fqn = ctx.getConfigPackage() + "." + className;
+
+                // Gap A: warn if there is a pre-existing importMapping entry that points elsewhere.
+                // putIfAbsent below will keep the user's mapping, but the Mode B file is still
+                // generated at configPackage — the two will be out of sync.
+                String existingMapping = ctx.importMapping().get(className);
+                if (existingMapping != null && !existingMapping.equals(fqn)) {
+                    LOGGER.warn("GenericSubstitutionSupport: Mode B class '{}' conflicts with " +
+                            "a pre-existing importMapping entry: importMapping maps '{}' → '{}', " +
+                            "but the generated file will be at '{}.{}'. " +
+                            "Generated imports will reference '{}' while the file lives elsewhere. " +
+                            "Consider removing the conflicting importMapping entry.",
+                            className, className, existingMapping, configPath, ext, existingMapping);
+                }
                 ctx.importMapping().putIfAbsent(className, fqn);
 
                 if (!modeBBundleData.containsKey(className)) {

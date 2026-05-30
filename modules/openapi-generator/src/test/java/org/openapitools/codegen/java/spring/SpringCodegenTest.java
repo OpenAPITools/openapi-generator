@@ -8191,6 +8191,30 @@ public class SpringCodegenTest {
     }
 
     // -------------------------------------------------------------------------
+    // genericPatterns — schemaMapping interaction (Gap B)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_schemaMappingOnInstance_skipsSubstitution() throws IOException {
+        // Gap B: when a generic instance schema is also in schemaMapping, the user's schemaMapping
+        // intent takes precedence and no substitution occurs for that instance.
+        // Only UserResponse is schema-mapped; PetResponse and OrderResponse should still be substituted.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addSchemaMapping("UserResponse", "com.example.external.UserResponse"));
+
+        // getUserResponse must NOT have been rewritten to ApiResponse<User>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .fileDoesNotContain("ApiResponse<User>");
+
+        // Other instances (PetResponse, OrderResponse) must still be substituted
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getPetResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<Pet>>");
+    }
+
+    // -------------------------------------------------------------------------
     // substituteGenericPagedModel — spring-cloud
     // -------------------------------------------------------------------------
 
