@@ -481,8 +481,8 @@ public class UserApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"

@@ -302,7 +302,7 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
 
         if (header1 != null)
         headerParams.add("header_1", apiClient.parameterToString(header1));
@@ -1036,7 +1036,7 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -1733,11 +1733,11 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
 
         if (enumHeaderStringArray != null)
         headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
@@ -1982,10 +1982,10 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
 
         if (requiredBooleanGroup != null)
         headerParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
@@ -2612,9 +2612,9 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "ioutil", ioutil));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("ssv".toUpperCase(Locale.ROOT)), "http", http));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "url", url));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);

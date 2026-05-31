@@ -139,7 +139,7 @@ public class DefaultApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", dtQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "dtQuery", dtQuery));
 
         cookieParams.putAll(apiClient.parameterToMultiValueMap(null, "dtCookie", dtCookie));
 

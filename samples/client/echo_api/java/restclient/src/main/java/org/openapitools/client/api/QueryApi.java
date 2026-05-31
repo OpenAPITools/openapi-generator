@@ -69,8 +69,8 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -146,9 +146,9 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -227,9 +227,9 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -384,7 +384,7 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -748,7 +748,7 @@ public class QueryApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        locaclVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
 
         final String[] localVarAccepts = { 
             "text/plain"
