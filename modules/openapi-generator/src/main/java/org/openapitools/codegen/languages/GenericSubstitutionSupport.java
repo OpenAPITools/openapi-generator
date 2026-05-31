@@ -85,7 +85,7 @@ import java.util.*;
  */
 public final class GenericSubstitutionSupport {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericSubstitutionSupport.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GenericSubstitutionSupport.class);
 
     // =========================================================================
     // Context interface

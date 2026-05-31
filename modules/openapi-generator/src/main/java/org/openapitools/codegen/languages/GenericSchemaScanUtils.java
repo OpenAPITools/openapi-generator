@@ -44,7 +44,13 @@ import java.util.stream.Collectors;
  */
 public final class GenericSchemaScanUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericSchemaScanUtils.class);
+    // No static LOGGER field — project's ArchUnit rule forbids static loggers
+    // (see ArchUnitRulesTest.LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL).
+    // Static methods access the logger via this lazy helper instead. The slf4j
+    // LoggerFactory caches loggers internally, so repeated lookups are essentially free.
+    private static Logger logger() {
+        return LoggerFactory.getLogger(GenericSchemaScanUtils.class);
+    }
 
     /** Type parameter name sequence used when auto-assigning names by position. */
     private static final String[] TYPE_PARAM_LETTERS = {"T", "E", "U", "V", "W"};
@@ -256,7 +262,7 @@ public final class GenericSchemaScanUtils {
             }
 
             if (typeArgs.isEmpty()) {
-                LOGGER.warn("GenericSchemaScanUtils: schema '{}' has x-generic-class '{}' but no "
+                logger().warn("GenericSchemaScanUtils: schema '{}' has x-generic-class '{}' but no "
                         + "x-generic-args — skipping", schemaName, genericClassValue);
                 continue;
             }
@@ -290,7 +296,7 @@ public final class GenericSchemaScanUtils {
                     !isFqn,
                     typeArgs, slotTypeParams, slotProperty, slotIsArray, properties));
 
-            LOGGER.debug("GenericSchemaScanUtils Tier1: schema '{}' → {}{}",
+            logger().debug("GenericSchemaScanUtils Tier1: schema '{}' → {}{}",
                     schemaName, genericClassName,
                     typeArgs.entrySet().stream()
                             .map(e -> "<" + e.getValue() + ">")
@@ -341,7 +347,7 @@ public final class GenericSchemaScanUtils {
 
             for (GenericPatternConfig pattern : patterns) {
                 if (pattern.genericClass == null || pattern.genericClass.isEmpty()) {
-                    LOGGER.warn("GenericSchemaScanUtils Tier2: pattern has no genericClass — skipping: {}",
+                    logger().warn("GenericSchemaScanUtils Tier2: pattern has no genericClass — skipping: {}",
                             pattern);
                     continue;
                 }
@@ -360,7 +366,7 @@ public final class GenericSchemaScanUtils {
                 }
 
                 if (effectiveSlots == null) {
-                    LOGGER.warn("GenericSchemaScanUtils Tier2: pattern has no slot/slotArray/slots — skipping: {}",
+                    logger().warn("GenericSchemaScanUtils Tier2: pattern has no slot/slotArray/slots — skipping: {}",
                             pattern);
                     continue;
                 }
@@ -402,7 +408,7 @@ public final class GenericSchemaScanUtils {
                         continue;
                     }
 
-                    LOGGER.debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' by name "
+                    logger().debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' by name "
                             + "but slot '{}' not found or not a $ref — skipping",
                             schemaName, pattern, slotPropName);
                     allSlotsFound = false;
@@ -426,7 +432,7 @@ public final class GenericSchemaScanUtils {
                         !isFqn,
                         typeArgs, slotTypeParams, primarySlotName, primarySlotIsArray, properties));
 
-                LOGGER.debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' → {}<{}>",
+                logger().debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' → {}<{}>",
                         schemaName, pattern.suffix != null ? ("suffix=" + pattern.suffix) : ("prefix=" + pattern.prefix),
                         genericClassName, String.join(", ", typeArgs.values()));
                 break; // first matching pattern wins

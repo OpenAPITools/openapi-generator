@@ -65,7 +65,7 @@ import java.util.stream.Collectors;
  */
 public final class SpringPageableSupport {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringPageableSupport.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(SpringPageableSupport.class);
 
     // -------------------------------------------------------------------------
     // Context interface — implemented by each generator to expose its internals
