@@ -164,7 +164,7 @@ public interface PetApi {
         produces = { "application/json" }
     )
     ResponseEntity<List<Pet>> findPetsWithMinSizeConstraintFromAllOfRef(
-        @ValidPageable()  final Pageable pageable
+        @ValidPageable(minSize = 5)  final Pageable pageable
     );
 
 

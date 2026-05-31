@@ -127,8 +127,7 @@ public interface PetApi {
     @org.springframework.validation.annotation.Validated
     @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status,
-        @ParameterObject final Pageable pageable
+        @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status
     );
 
 
@@ -174,8 +173,7 @@ public interface PetApi {
         @NotNull @Min(value = 1) @Parameter(name = "size", description = "The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = true, defaultValue = "20") Integer size2,
         @NotNull @Min(value = 0) @Parameter(name = "page", description = "The page to return, starting with page 0. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = true, defaultValue = "0") Integer page,
         @NotNull @Parameter(name = "sort", description = "The sorting to apply to the Pageable object. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = true, defaultValue = "id,asc") String sort,
-        @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) @Nullable String size,
-        @ParameterObject final Pageable pageable
+        @Parameter(name = "size", description = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.", in = ParameterIn.HEADER) @RequestHeader(value = "size", required = false) @Nullable String size
     );
 
 
@@ -252,8 +250,7 @@ public interface PetApi {
     ResponseEntity<List<Pet>> listAllPets(
         @Parameter(name = "page", description = "The page number to return. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
         @Parameter(name = "size", description = "The number of items to return per page. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size,
-        @Parameter(name = "sort", description = "The sort order. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) @Nullable String sort,
-        @ParameterObject final Pageable pageable
+        @Parameter(name = "sort", description = "The sort order. Test QueryParam for issue #8315 - must be removed when x-spring-paginated:true is used.", in = ParameterIn.QUERY) @Valid @RequestParam(value = "sort", required = false) @Nullable String sort
     );
 
 
