@@ -1523,9 +1523,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
      */
     @Override
     public String toExampleValue(Schema p) {
-        return p.getExample() == null
-                ? null
-                : p.getExample().toString();
+        Object example = p.getExample();
+        if (example == null) {
+            return null;
+        }
+        if (example instanceof java.util.Date) {
+            // Render date / date-time examples in UTC so the generated output does not
+            // depend on the JVM's default time zone (keeps samples reproducible across
+            // developer machines and CI). Mirrors the format of Date#toString().
+            java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", java.util.Locale.US);
+            formatter.setTimeZone(java.util.TimeZone.getTimeZone("UTC"));
+            return formatter.format((java.util.Date) example);
+        }
+        return example.toString();
     }
 
     /**

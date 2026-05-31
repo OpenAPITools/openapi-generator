@@ -41,6 +41,22 @@ import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 public class CSharpClientCodegenTest {
 
     @Test
+    public void testDateExampleRenderedInUtc() {
+        // A date example must render in UTC regardless of the JVM's default time zone,
+        // so generated samples are reproducible across developer machines and CI.
+        final CSharpClientCodegen codegen = new CSharpClientCodegen();
+        Schema<?> schema = new Schema<>().example(java.util.Date.from(java.time.Instant.parse("2020-02-02T00:00:00Z")));
+
+        java.util.TimeZone original = java.util.TimeZone.getDefault();
+        try {
+            java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("America/Los_Angeles"));
+            Assert.assertEquals(codegen.toExampleValue(schema), "Sun Feb 02 00:00:00 UTC 2020");
+        } finally {
+            java.util.TimeZone.setDefault(original);
+        }
+    }
+
+    @Test
     public void testToEnumVarName() {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setLibrary("restsharp");
