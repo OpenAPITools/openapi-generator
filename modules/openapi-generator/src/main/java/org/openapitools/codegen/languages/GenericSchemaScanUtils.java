@@ -462,7 +462,10 @@ public final class GenericSchemaScanUtils {
 
         Map<String, Schema> allSchemas = openAPI.getComponents().getSchemas();
 
-        // Build fingerprint → list of schema names
+        // Pre-resolve each candidate schema's property map once. For flat-object schemas this
+        // is the direct properties; for allOf schemas it's the single inline-object entry's
+        // properties (or null if 0 / >1 inline entries — those are out of scope).
+        Map<String, Map<String, Schema>> candidatePropsByName = new LinkedHashMap<>();
         Map<String, List<String>> byFingerprint = new LinkedHashMap<>();
         for (Map.Entry<String, Schema> entry : allSchemas.entrySet()) {
             String name = entry.getKey();
@@ -472,8 +475,13 @@ public final class GenericSchemaScanUtils {
             Schema<?> schema = entry.getValue();
             String fp = buildStructuralFingerprint(schema);
             if (fp == null) {
-                continue; // allOf or no properties
+                continue; // no resolvable properties or out-of-scope allOf shape
             }
+            Map<String, Schema> props = getCandidateProperties(schema);
+            if (props == null) {
+                continue; // shouldn't happen — fingerprint already null-guarded this case
+            }
+            candidatePropsByName.put(name, props);
             byFingerprint.computeIfAbsent(fp, k -> new ArrayList<>()).add(name);
         }
 
@@ -485,7 +493,7 @@ public final class GenericSchemaScanUtils {
             }
 
             // Find the property whose $ref target differs across all members
-            VaryingProperty varying = findVaryingRefProperty(names, allSchemas);
+            VaryingProperty varying = findVaryingRefProperty(names, candidatePropsByName);
             if (varying == null) {
                 continue;
             }
@@ -493,9 +501,8 @@ public final class GenericSchemaScanUtils {
             // Collect all varying types
             List<String> varyingTypes = new ArrayList<>();
             for (String name : names) {
-                Schema<?> schema = allSchemas.get(name);
-                if (schema.getProperties() == null) continue;
-                Schema<?> prop = (Schema<?>) schema.getProperties().get(varying.name);
+                Map<String, Schema> props = candidatePropsByName.get(name);
+                Schema<?> prop = props.get(varying.name);
                 String ref = extractVaryingRef(prop, varying.isArray);
                 if (ref != null) {
                     varyingTypes.add(extractSchemaNameFromRef(ref));
@@ -673,24 +680,91 @@ public final class GenericSchemaScanUtils {
     // =========================================================================
 
     /**
-     * Builds a canonical structural fingerprint for a flat-object schema.
-     * Returns {@code null} if the schema is an allOf or has no properties.
+     * Returns the property map that Tier-3 clustering should fingerprint and inspect for
+     * a varying slot.
      *
-     * <p>The fingerprint encodes each property as {@code "name:typeDescriptor"} where
-     * the type descriptor for {@code $ref} properties is just {@code "$ref"} (ignoring
-     * the target). This allows grouping of structurally identical schemas that differ only
-     * in their {@code $ref} targets.</p>
+     * <ul>
+     *   <li>Flat-object schema → its direct {@code getProperties()}.</li>
+     *   <li>allOf schema with exactly one inline-object entry → that entry's properties
+     *       (the {@code $ref} entries are encoded separately as "extends-bases").</li>
+     *   <li>allOf schema with more than one inline-object entry → {@code null}
+     *       (out of scope; ambiguous which entry owns the slot).</li>
+     *   <li>Anything else → {@code null}.</li>
+     * </ul>
      */
-    @SuppressWarnings("rawtypes")
-    static String buildStructuralFingerprint(Schema<?> schema) {
-        if (schema.getAllOf() != null || schema.getProperties() == null
-                || schema.getProperties().isEmpty()) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static Map<String, Schema> getCandidateProperties(Schema<?> schema) {
+        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            Map<String, Schema> inlineProps = null;
+            int inlineCount = 0;
+            for (Object entryObj : schema.getAllOf()) {
+                if (!(entryObj instanceof Schema)) continue;
+                Schema entry = (Schema) entryObj;
+                if (entry.get$ref() != null) continue; // extends-base — accounted for in fingerprint
+                if (entry.getProperties() == null || entry.getProperties().isEmpty()) continue;
+                inlineCount++;
+                if (inlineCount > 1) return null; // ambiguous, out of scope
+                inlineProps = (Map<String, Schema>) entry.getProperties();
+            }
+            return inlineProps;
+        }
+        if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
             return null;
         }
-        return schema.getProperties().entrySet().stream()
+        return (Map<String, Schema>) schema.getProperties();
+    }
+
+    /**
+     * Returns a sorted, comma-separated list of {@code $ref} target names appearing as
+     * extends-bases in this schema's {@code allOf}. Empty string for non-allOf schemas
+     * or allOf schemas without any {@code $ref} entries.
+     */
+    private static String getAllOfExtendsFingerprint(Schema<?> schema) {
+        if (schema.getAllOf() == null || schema.getAllOf().isEmpty()) return "";
+        List<String> refs = new ArrayList<>();
+        for (Object entryObj : schema.getAllOf()) {
+            if (!(entryObj instanceof Schema)) continue;
+            Schema<?> entry = (Schema<?>) entryObj;
+            String ref = entry.get$ref();
+            if (ref != null) {
+                refs.add(extractSchemaNameFromRef(ref));
+            }
+        }
+        Collections.sort(refs);
+        return String.join(",", refs);
+    }
+
+    /**
+     * Builds a canonical structural fingerprint for a schema.
+     *
+     * <p>For flat-object schemas the fingerprint encodes each property as
+     * {@code "name:typeDescriptor"} where the type descriptor for {@code $ref} properties
+     * is just {@code "$ref"} (ignoring the target). This allows grouping of structurally
+     * identical schemas that differ only in their {@code $ref} targets.</p>
+     *
+     * <p>For allOf schemas (with at most one inline-object entry) the fingerprint includes
+     * the sorted list of {@code $ref} extends-bases AND the inline entry's property
+     * fingerprint. This keeps allOf members that extend different bases from clustering
+     * together (e.g. {@code UserPage extends PageMeta} vs {@code OrderPage extends CursorMeta}).</p>
+     *
+     * <p>Returns {@code null} if the schema cannot be fingerprinted (no resolvable properties,
+     * or more than one inline-object entry in allOf).</p>
+     */
+    static String buildStructuralFingerprint(Schema<?> schema) {
+        Map<String, Schema> props = getCandidateProperties(schema);
+        if (props == null || props.isEmpty()) {
+            return null;
+        }
+        String propsFp = props.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
-                .map(e -> e.getKey() + ":" + propertyTypeDescriptor((Schema<?>) e.getValue()))
+                .map(e -> e.getKey() + ":" + propertyTypeDescriptor(e.getValue()))
                 .collect(Collectors.joining("|"));
+        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            // Prefix with shape marker + extends-bases so allOf and flat never collide and
+            // so allOf members with different bases get different fingerprints.
+            return "allOf|extends:" + getAllOfExtendsFingerprint(schema) + "|inline:" + propsFp;
+        }
+        return "flat|" + propsFp;
     }
 
     @SuppressWarnings("rawtypes")
@@ -715,7 +789,7 @@ public final class GenericSchemaScanUtils {
     }
 
     /**
-     * Returns a $ref string read from a candidate property — either {@code prop.get$ref()}
+     * Returns the {@code $ref} of a candidate slot property — either {@code prop.get$ref()}
      * (plain ref) or {@code prop.getItems().get$ref()} (array of ref), depending on {@code isArray}.
      * Returns {@code null} if the property doesn't carry the expected ref shape.
      */
@@ -737,23 +811,27 @@ public final class GenericSchemaScanUtils {
      * <p>Both plain {@code $ref} and {@code array} of {@code $ref} properties are considered;
      * the result flags which shape was found so the caller can emit {@code slot:} vs
      * {@code slotArray:} suggestions accordingly.</p>
+     *
+     * <p>{@code candidatePropsByName} pre-resolves each member to its property map
+     * (direct properties for flat-object schemas, single inline-allOf-entry properties for
+     * allOf schemas) so the same logic serves both shapes.</p>
      */
     @SuppressWarnings("rawtypes")
     private static VaryingProperty findVaryingRefProperty(List<String> schemaNames,
-                                                  Map<String, Schema> allSchemas) {
+                                                  Map<String, Map<String, Schema>> candidatePropsByName) {
         if (schemaNames.isEmpty()) return null;
-        Schema<?> first = allSchemas.get(schemaNames.get(0));
-        if (first.getProperties() == null) return null;
+        Map<String, Schema> firstProps = candidatePropsByName.get(schemaNames.get(0));
+        if (firstProps == null) return null;
 
         // Collect candidate properties (plain $ref OR array[$ref]) from the first member
         List<VaryingProperty> candidates = new ArrayList<>();
-        for (Map.Entry<?, ?> entry : first.getProperties().entrySet()) {
-            Schema<?> prop = (Schema<?>) entry.getValue();
+        for (Map.Entry<String, Schema> entry : firstProps.entrySet()) {
+            Schema<?> prop = entry.getValue();
             if (prop.get$ref() != null) {
-                candidates.add(new VaryingProperty((String) entry.getKey(), false));
+                candidates.add(new VaryingProperty(entry.getKey(), false));
             } else if ("array".equals(prop.getType()) && prop.getItems() != null
                     && prop.getItems().get$ref() != null) {
-                candidates.add(new VaryingProperty((String) entry.getKey(), true));
+                candidates.add(new VaryingProperty(entry.getKey(), true));
             }
         }
 
@@ -762,9 +840,9 @@ public final class GenericSchemaScanUtils {
             Set<String> refs = new HashSet<>();
             boolean abort = false;
             for (String name : schemaNames) {
-                Schema<?> schema = allSchemas.get(name);
-                if (schema.getProperties() == null) { abort = true; break; }
-                Schema<?> prop = (Schema<?>) schema.getProperties().get(candidate.name);
+                Map<String, Schema> props = candidatePropsByName.get(name);
+                if (props == null) { abort = true; break; }
+                Schema<?> prop = props.get(candidate.name);
                 String ref = extractVaryingRef(prop, candidate.isArray);
                 if (ref == null) { abort = true; break; }
                 refs.add(ref);

@@ -122,6 +122,25 @@ public class GenericSchemaScanUtilsTest {
         return s;
     }
 
+    /**
+     * Builds an allOf "event-envelope" style schema:
+     *   allOf:
+     *     - $ref: BaseEvent
+     *     - type: object
+     *       properties:
+     *         payload: $ref -> payloadRefTarget
+     */
+    private static Schema<?> eventSchemaAllOf(String payloadRefTarget) {
+        ComposedSchema s = new ComposedSchema();
+        Schema<?> baseEventRef = new Schema<>().$ref(ref("BaseEvent"));
+        ObjectSchema inline = new ObjectSchema();
+        Map<String, Schema> props = new LinkedHashMap<>();
+        props.put("payload", refSchema(payloadRefTarget));
+        inline.setProperties(props);
+        s.setAllOf(Arrays.asList(baseEventRef, inline));
+        return s;
+    }
+
     /** Builds a "LogEntry-style" schema: data -> $ref, severity: string, timestamp: string. */
     private static Schema<?> entrySchema(String dataRefTarget) {
         ObjectSchema s = new ObjectSchema();
@@ -247,9 +266,30 @@ public class GenericSchemaScanUtilsTest {
     }
 
     @Test
-    public void buildStructuralFingerprint_allOfSchema_returnsNull() {
+    public void buildStructuralFingerprint_allOfSchema_returnsCompositeFingerprint() {
+        // allOf schemas with ≤1 inline-object entry are now fingerprinted; the result
+        // encodes the shape ("allOf|"), the sorted extends-bases, and the inline entry's
+        // property fingerprint so flat/allOf shapes and different bases never collide.
         Schema<?> allOf = pageSchemaAllOf("Pet");
-        assertThat(GenericSchemaScanUtils.buildStructuralFingerprint(allOf)).isNull();
+        String fp = GenericSchemaScanUtils.buildStructuralFingerprint(allOf);
+        assertThat(fp).isNotNull();
+        assertThat(fp).startsWith("allOf|extends:PageMeta|inline:");
+        assertThat(fp).contains("content:array[$ref]");
+    }
+
+    @Test
+    public void buildStructuralFingerprint_allOfWithTwoInlineEntries_returnsNull() {
+        ComposedSchema two = new ComposedSchema();
+        ObjectSchema a = new ObjectSchema();
+        Map<String, Schema> propsA = new LinkedHashMap<>();
+        propsA.put("payload", refSchema("X"));
+        a.setProperties(propsA);
+        ObjectSchema b = new ObjectSchema();
+        Map<String, Schema> propsB = new LinkedHashMap<>();
+        propsB.put("status", stringSchema());
+        b.setProperties(propsB);
+        two.setAllOf(Arrays.asList(new Schema<>().$ref(ref("Base")), a, b));
+        assertThat(GenericSchemaScanUtils.buildStructuralFingerprint(two)).isNull();
     }
 
     @Test
@@ -747,8 +787,11 @@ public class GenericSchemaScanUtilsTest {
     }
 
     @Test
-    public void discoverClusters_allOfSchemas_excludedFromClustering() {
-        // allOf schemas cannot be fingerprinted
+    public void discoverClusters_allOfPagedSchemas_returnsArraySlotCluster() {
+        // Two paged schemas using allOf: shared extends-base PageMeta, single inline entry
+        // with a `content: array[$ref]` slot. Discovery should cluster these into a
+        // slotArray suggestion (overlaps semantically with substituteGenericPagedModel,
+        // but that's fine — discovery is log-only).
         Map<String, Schema> schemas = new LinkedHashMap<>();
         schemas.put("PetPage", pageSchemaAllOf("Pet"));
         schemas.put("UserPage", pageSchemaAllOf("User"));
@@ -760,7 +803,124 @@ public class GenericSchemaScanUtilsTest {
         List<GenericSchemaScanUtils.ClusterSuggestion> suggestions =
                 GenericSchemaScanUtils.discoverClusters(openAPI, Collections.emptySet());
 
-        // allOf schemas return null fingerprint — they won't cluster
+        assertThat(suggestions).hasSize(1);
+        GenericSchemaScanUtils.ClusterSuggestion s = suggestions.get(0);
+        assertThat(s.schemaNames).containsExactlyInAnyOrder("PetPage", "UserPage");
+        assertThat(s.varyingSlotProperty).isEqualTo("content");
+        assertThat(s.isArraySlot).isTrue();
+        assertThat(s.varyingTypes).containsExactlyInAnyOrder("Pet", "User");
+        assertThat(s.suggestedConfig).contains("slotArray: content");
+    }
+
+    @Test
+    public void discoverClusters_allOfEventStyleSchemas_returnsCluster() {
+        // Event-envelope shape: allOf [$ref BaseEvent, {payload: $ref ...}]
+        // This is the canonical case that substituteGenericPagedModel does NOT cover.
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserEvent", eventSchemaAllOf("User"));
+        schemas.put("OrderEvent", eventSchemaAllOf("Order"));
+        schemas.put("User", new ObjectSchema());
+        schemas.put("Order", new ObjectSchema());
+        schemas.put("BaseEvent", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        List<GenericSchemaScanUtils.ClusterSuggestion> suggestions =
+                GenericSchemaScanUtils.discoverClusters(openAPI, Collections.emptySet());
+
+        assertThat(suggestions).hasSize(1);
+        GenericSchemaScanUtils.ClusterSuggestion s = suggestions.get(0);
+        assertThat(s.schemaNames).containsExactlyInAnyOrder("UserEvent", "OrderEvent");
+        assertThat(s.varyingSlotProperty).isEqualTo("payload");
+        assertThat(s.isArraySlot).isFalse();
+        assertThat(s.varyingTypes).containsExactlyInAnyOrder("User", "Order");
+        assertThat(s.suggestedConfig).contains("slot: payload");
+        assertThat(s.suggestedConfig).doesNotContain("slotArray:");
+    }
+
+    @Test
+    public void discoverClusters_allOfDifferentExtends_doesNotCluster() {
+        // Same inline shape but DIFFERENT extends-bases — must NOT cluster, because the
+        // base schemas are part of the structural identity (PageMeta vs CursorMeta).
+        Schema<?> pageMetaBased = pageSchemaAllOf("User"); // extends PageMeta
+
+        ComposedSchema cursorBased = new ComposedSchema();
+        ObjectSchema cursorInline = new ObjectSchema();
+        Map<String, Schema> cursorProps = new LinkedHashMap<>();
+        cursorProps.put("content", arrayRefSchema("Order"));
+        cursorInline.setProperties(cursorProps);
+        cursorBased.setAllOf(Arrays.asList(new Schema<>().$ref(ref("CursorMeta")), cursorInline));
+
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserPage", pageMetaBased);
+        schemas.put("OrderPage", cursorBased);
+        schemas.put("User", new ObjectSchema());
+        schemas.put("Order", new ObjectSchema());
+        schemas.put("PageMeta", new ObjectSchema());
+        schemas.put("CursorMeta", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        List<GenericSchemaScanUtils.ClusterSuggestion> suggestions =
+                GenericSchemaScanUtils.discoverClusters(openAPI, Collections.emptySet());
+
+        assertThat(suggestions).isEmpty();
+    }
+
+    @Test
+    public void discoverClusters_allOfMixedFlatAndAllOf_doesNotCluster() {
+        // A flat-object schema and an allOf schema with the same merged property set must
+        // NOT cluster — the fingerprint includes a shape marker (flat| vs allOf|) so the
+        // two stay in distinct buckets.
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserPage", pageSchemaFlat("User"));     // flat: content + page
+        schemas.put("PetPage", pageSchemaAllOf("Pet"));      // allOf: extends PageMeta + content
+        schemas.put("User", new ObjectSchema());
+        schemas.put("Pet", new ObjectSchema());
+        schemas.put("PageMeta", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        List<GenericSchemaScanUtils.ClusterSuggestion> suggestions =
+                GenericSchemaScanUtils.discoverClusters(openAPI, Collections.emptySet());
+
+        assertThat(suggestions).isEmpty();
+    }
+
+    @Test
+    public void discoverClusters_allOfWithTwoInlineEntries_skipped() {
+        // Out-of-scope edge case: allOf with TWO inline-object entries is ambiguous
+        // (which entry owns the slot?). Such schemas must be skipped entirely.
+        ComposedSchema two = new ComposedSchema();
+        ObjectSchema inlineA = new ObjectSchema();
+        Map<String, Schema> propsA = new LinkedHashMap<>();
+        propsA.put("payload", refSchema("User"));
+        inlineA.setProperties(propsA);
+        ObjectSchema inlineB = new ObjectSchema();
+        Map<String, Schema> propsB = new LinkedHashMap<>();
+        propsB.put("status", stringSchema());
+        inlineB.setProperties(propsB);
+        two.setAllOf(Arrays.asList(new Schema<>().$ref(ref("BaseEvent")), inlineA, inlineB));
+
+        ComposedSchema two2 = new ComposedSchema();
+        ObjectSchema inlineA2 = new ObjectSchema();
+        Map<String, Schema> propsA2 = new LinkedHashMap<>();
+        propsA2.put("payload", refSchema("Order"));
+        inlineA2.setProperties(propsA2);
+        ObjectSchema inlineB2 = new ObjectSchema();
+        Map<String, Schema> propsB2 = new LinkedHashMap<>();
+        propsB2.put("status", stringSchema());
+        inlineB2.setProperties(propsB2);
+        two2.setAllOf(Arrays.asList(new Schema<>().$ref(ref("BaseEvent")), inlineA2, inlineB2));
+
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserEvent", two);
+        schemas.put("OrderEvent", two2);
+        schemas.put("User", new ObjectSchema());
+        schemas.put("Order", new ObjectSchema());
+        schemas.put("BaseEvent", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        List<GenericSchemaScanUtils.ClusterSuggestion> suggestions =
+                GenericSchemaScanUtils.discoverClusters(openAPI, Collections.emptySet());
+
         assertThat(suggestions).isEmpty();
     }
 

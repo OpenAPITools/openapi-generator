@@ -130,11 +130,13 @@ During the next generation, the tool scans for **structural clusters** — group
 
 ### What discovery does *not* find
 
-Discovery is intentionally limited to **single-slot** patterns on **flat-object** schemas. The slot itself may be either a plain `$ref` (suggested as `slot:`) or an `array` of `$ref` (suggested as `slotArray:`, which covers the typical `Page<T>` shape: `{ content: array of $ref, page: $ref Metadata }`). It will **not** suggest:
+Discovery is intentionally limited to **single-slot** patterns. The slot itself may be either a plain `$ref` (suggested as `slot:`) or an `array` of `$ref` (suggested as `slotArray:`, which covers the typical `Page<T>` shape: `{ content: array of $ref, page: $ref Metadata }`). Both flat-object and `allOf`-based schemas are scanned; for `allOf` shapes the extends-bases are part of the structural fingerprint, so members that extend different bases (e.g. `UserPage extends PageMeta` vs. `OrderPage extends CursorMeta`) will *not* be incorrectly clustered together. Discovery will **not** suggest:
 
-* **`allOf`-based schemas** — schemas defined as `allOf` are skipped during structural fingerprinting. For paged models expressed via `allOf` (common when extending a `PageMetadata` base), enable [`substituteGenericPagedModel`](#companion-feature-substitutegenericpagedmodel) — its structural detector handles both the flat-object and `allOf` forms.
 * **Multi-slot generics** (e.g. `Result<T, E>`) — only single-slot families are auto-detected.
+* **`allOf` schemas with more than one inline-object entry** — ambiguous which entry owns the slot, so they are skipped.
 * **Schemas that don't share a common name suffix** — clustering also needs a stable naming convention to suggest a usable pattern.
+
+> **Note**: paged-`allOf` clusters (e.g. `UserPage` / `OrderPage` extending a shared `PageMeta`) *will* now show up as `slotArray:` suggestions. For pure pagination cases prefer [`substituteGenericPagedModel`](#companion-feature-substitutegenericpagedmodel) — it's auto-applied (no pattern config), structurally detects both flat and `allOf` paged shapes, and removes the orphaned metadata schemas in one go.
 
 For any of these, fall back to a hand-written `genericPatterns` entry or a `x-generic` vendor extension on the individual schema.
 
