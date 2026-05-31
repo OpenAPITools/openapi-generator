@@ -616,6 +616,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 

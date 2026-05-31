@@ -317,6 +317,17 @@ public final class SpringPageableSupport {
     public void processPageableAnnotations(CodegenOperation codegenOperation, Context ctx,
                                            String arrayOpen, String arrayClose) {
         if (!SpringCodegen.SPRING_BOOT.equals(ctx.getLibrary())) {
+            // For client libraries (spring-cloud, spring-declarative-http-interface)
+            // x-spring-paginated is not supported: they need explicit query parameters for HTTP
+            // calls, not a Pageable object. Strip the extension so the template does not render
+            // Pageable. The individual page/size/sort query parameters declared in the spec are
+            // preserved untouched.
+            if (codegenOperation.vendorExtensions.remove("x-spring-paginated") != null) {
+                LOGGER.debug("x-spring-paginated on operation '{}' is ignored for library '{}'; "
+                                + "Pageable is only supported for spring-boot. "
+                                + "Individual page/size/sort query parameters will be used instead.",
+                        codegenOperation.operationId, ctx.getLibrary());
+            }
             return;
         }
         if (!Boolean.TRUE.equals(codegenOperation.vendorExtensions.get("x-spring-paginated"))) {
@@ -340,6 +351,8 @@ public final class SpringPageableSupport {
             List<String> attrs = new ArrayList<>();
             if (constraints.maxSize >= 0) attrs.add("maxSize = " + constraints.maxSize);
             if (constraints.maxPage >= 0) attrs.add("maxPage = " + constraints.maxPage);
+            if (constraints.minSize >= 0) attrs.add("minSize = " + constraints.minSize);
+            if (constraints.minPage >= 0) attrs.add("minPage = " + constraints.minPage);
             pageableAnnotations.add("@ValidPageable(" + String.join(", ", attrs) + ")");
             codegenOperation.imports.add("ValidPageable");
         }
