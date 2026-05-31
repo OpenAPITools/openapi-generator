@@ -796,6 +796,63 @@ public class GenericSchemaScanUtilsTest {
         assertThat(suggestions).isEmpty();
     }
 
+    @Test
+    public void discoverClusters_flatPagedSchemas_returnsArraySlotCluster() {
+        // Two paged schemas with the same shape ({ content: array[$ref], page: $ref PageMeta }).
+        // Only `content` varies (different array item refs); `page` is identical across both.
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserPage", pageSchemaFlat("User"));
+        schemas.put("PetPage", pageSchemaFlat("Pet"));
+        schemas.put("User", new ObjectSchema());
+        schemas.put("Pet", new ObjectSchema());
+        schemas.put("PageMeta", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        List<GenericSchemaScanUtils.ClusterSuggestion> suggestions =
+                GenericSchemaScanUtils.discoverClusters(openAPI, Collections.emptySet());
+
+        assertThat(suggestions).hasSize(1);
+        GenericSchemaScanUtils.ClusterSuggestion s = suggestions.get(0);
+        assertThat(s.schemaNames).containsExactlyInAnyOrder("UserPage", "PetPage");
+        assertThat(s.varyingSlotProperty).isEqualTo("content");
+        assertThat(s.isArraySlot).isTrue();
+        assertThat(s.varyingTypes).containsExactlyInAnyOrder("User", "Pet");
+        // Suggested config must reference slotArray, not slot, so the user gets a working pattern.
+        assertThat(s.suggestedConfig).contains("slotArray: content");
+        assertThat(s.suggestedConfig).doesNotContain("slot: content");
+    }
+
+    @Test
+    public void discoverClusters_pagedSchemasWithVaryingMetadata_doesNotCluster() {
+        // Sanity check: if BOTH the array-of-$ref AND the metadata $ref vary across members,
+        // findVaryingRefProperty must reject (more than one varying property).
+        ObjectSchema a = new ObjectSchema();
+        Map<String, Schema> propsA = new LinkedHashMap<>();
+        propsA.put("content", arrayRefSchema("User"));
+        propsA.put("page", refSchema("PageMetaA"));
+        a.setProperties(propsA);
+
+        ObjectSchema b = new ObjectSchema();
+        Map<String, Schema> propsB = new LinkedHashMap<>();
+        propsB.put("content", arrayRefSchema("Pet"));
+        propsB.put("page", refSchema("PageMetaB"));
+        b.setProperties(propsB);
+
+        Map<String, Schema> schemas = new LinkedHashMap<>();
+        schemas.put("UserPage", a);
+        schemas.put("PetPage", b);
+        schemas.put("User", new ObjectSchema());
+        schemas.put("Pet", new ObjectSchema());
+        schemas.put("PageMetaA", new ObjectSchema());
+        schemas.put("PageMetaB", new ObjectSchema());
+        OpenAPI openAPI = buildOpenAPI(schemas);
+
+        List<GenericSchemaScanUtils.ClusterSuggestion> suggestions =
+                GenericSchemaScanUtils.discoverClusters(openAPI, Collections.emptySet());
+
+        assertThat(suggestions).isEmpty();
+    }
+
     // =========================================================================
     // resolveProperties — allOf merging
     // =========================================================================

@@ -130,9 +130,9 @@ During the next generation, the tool scans for **structural clusters** — group
 
 ### What discovery does *not* find
 
-Discovery is intentionally limited to **single-`$ref` slot** patterns on **flat-object** schemas. It will **not** suggest:
+Discovery is intentionally limited to **single-slot** patterns on **flat-object** schemas. The slot itself may be either a plain `$ref` (suggested as `slot:`) or an `array` of `$ref` (suggested as `slotArray:`, which covers the typical `Page<T>` shape: `{ content: array of $ref, page: $ref Metadata }`). It will **not** suggest:
 
-* **`Page<T>` / `PagedModel<T>`-style schemas** — the varying property in a paged response is typically an `array` of `$ref` (e.g. `content: { type: array, items: { $ref: ... } }`), which Tier-3 discovery skips. Schemas defined via `allOf` are also skipped. For these, enable [`substituteGenericPagedModel`](#companion-feature-substitutegenericpagedmodel) instead — it performs *structural* paged-model detection that handles both the flat-object and `allOf` forms and the `array[$ref] + metadata-$ref` shape.
+* **`allOf`-based schemas** — schemas defined as `allOf` are skipped during structural fingerprinting. For paged models expressed via `allOf` (common when extending a `PageMetadata` base), enable [`substituteGenericPagedModel`](#companion-feature-substitutegenericpagedmodel) — its structural detector handles both the flat-object and `allOf` forms.
 * **Multi-slot generics** (e.g. `Result<T, E>`) — only single-slot families are auto-detected.
 * **Schemas that don't share a common name suffix** — clustering also needs a stable naming convention to suggest a usable pattern.
 

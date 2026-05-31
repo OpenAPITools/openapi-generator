@@ -189,6 +189,11 @@ public final class GenericSchemaScanUtils {
         public final List<String> schemaNames;
         /** Property name that varies between cluster members (the candidate slot). */
         public final String varyingSlotProperty;
+        /**
+         * Whether the varying slot is an {@code array} of {@code $ref} (suggests {@code slotArray:})
+         * rather than a plain {@code $ref} (suggests {@code slot:}).
+         */
+        public final boolean isArraySlot;
         /** $ref target names found across cluster members for the varying property. */
         public final List<String> varyingTypes;
         /** A ready-to-paste YAML snippet for a Tier 2 genericPatterns entry. */
@@ -196,8 +201,15 @@ public final class GenericSchemaScanUtils {
 
         public ClusterSuggestion(List<String> schemaNames, String varyingSlotProperty,
                                  List<String> varyingTypes, String suggestedConfig) {
+            this(schemaNames, varyingSlotProperty, false, varyingTypes, suggestedConfig);
+        }
+
+        public ClusterSuggestion(List<String> schemaNames, String varyingSlotProperty,
+                                 boolean isArraySlot, List<String> varyingTypes,
+                                 String suggestedConfig) {
             this.schemaNames = Collections.unmodifiableList(schemaNames);
             this.varyingSlotProperty = varyingSlotProperty;
+            this.isArraySlot = isArraySlot;
             this.varyingTypes = Collections.unmodifiableList(varyingTypes);
             this.suggestedConfig = suggestedConfig;
         }
@@ -429,8 +441,9 @@ public final class GenericSchemaScanUtils {
 
     /**
      * Scans all named schemas looking for structural clusters: groups of 2 or more schemas
-     * that have the same property names and types except for exactly one {@code $ref} property
-     * which varies across members.
+     * that have the same property names and types except for exactly one varying property
+     * (either a plain {@code $ref} or an {@code array} of {@code $ref}) whose target $ref
+     * differs across members.
      *
      * <p>This is <b>discovery-only</b>: no substitution is performed. The suggestions are
      * returned (and typically logged by the caller) to help the user configure Tier 2
@@ -464,7 +477,7 @@ public final class GenericSchemaScanUtils {
             byFingerprint.computeIfAbsent(fp, k -> new ArrayList<>()).add(name);
         }
 
-        // For each group of 2+, look for the varying $ref property
+        // For each group of 2+, look for the varying $ref / array[$ref] property
         for (Map.Entry<String, List<String>> fpEntry : byFingerprint.entrySet()) {
             List<String> names = fpEntry.getValue();
             if (names.size() < 2) {
@@ -472,8 +485,8 @@ public final class GenericSchemaScanUtils {
             }
 
             // Find the property whose $ref target differs across all members
-            String varyingProp = findVaryingRefProperty(names, allSchemas);
-            if (varyingProp == null) {
+            VaryingProperty varying = findVaryingRefProperty(names, allSchemas);
+            if (varying == null) {
                 continue;
             }
 
@@ -482,18 +495,20 @@ public final class GenericSchemaScanUtils {
             for (String name : names) {
                 Schema<?> schema = allSchemas.get(name);
                 if (schema.getProperties() == null) continue;
-                Schema<?> prop = (Schema<?>) schema.getProperties().get(varyingProp);
-                if (prop != null && prop.get$ref() != null) {
-                    varyingTypes.add(extractSchemaNameFromRef(prop.get$ref()));
+                Schema<?> prop = (Schema<?>) schema.getProperties().get(varying.name);
+                String ref = extractVaryingRef(prop, varying.isArray);
+                if (ref != null) {
+                    varyingTypes.add(extractSchemaNameFromRef(ref));
                 }
             }
 
             // Determine the most likely common suffix for the suggestion
             String suggestedSuffix = commonSuffix(names);
-            String suggestedConfig = buildSuggestedConfig(suggestedSuffix, varyingProp, names);
+            String suggestedConfig = buildSuggestedConfig(suggestedSuffix, varying.name,
+                    varying.isArray, names);
 
-            result.add(new ClusterSuggestion(new ArrayList<>(names), varyingProp,
-                    varyingTypes, suggestedConfig));
+            result.add(new ClusterSuggestion(new ArrayList<>(names), varying.name,
+                    varying.isArray, varyingTypes, suggestedConfig));
         }
         return result;
     }
@@ -692,47 +707,78 @@ public final class GenericSchemaScanUtils {
         return prop.getType() != null ? prop.getType() : "object";
     }
 
+    /** Result of {@link #findVaryingRefProperty(List, Map)}: the candidate slot name + slot shape. */
+    private static final class VaryingProperty {
+        final String name;
+        final boolean isArray;
+        VaryingProperty(String name, boolean isArray) { this.name = name; this.isArray = isArray; }
+    }
+
     /**
-     * Finds the name of the property whose {@code $ref} target varies across all schemas
-     * in the group (all other {@code $ref} properties must be identical).
-     * Returns {@code null} if no such unique varying property exists.
+     * Returns a $ref string read from a candidate property — either {@code prop.get$ref()}
+     * (plain ref) or {@code prop.getItems().get$ref()} (array of ref), depending on {@code isArray}.
+     * Returns {@code null} if the property doesn't carry the expected ref shape.
      */
     @SuppressWarnings("rawtypes")
-    private static String findVaryingRefProperty(List<String> schemaNames,
+    private static String extractVaryingRef(Schema<?> prop, boolean isArray) {
+        if (prop == null) return null;
+        if (isArray) {
+            Schema<?> items = prop.getItems();
+            return items != null ? items.get$ref() : null;
+        }
+        return prop.get$ref();
+    }
+
+    /**
+     * Finds the name of the property whose {@code $ref} target varies across all schemas
+     * in the group (all other {@code $ref} / {@code array[$ref]} properties must be identical).
+     * Returns {@code null} if no such unique varying property exists.
+     *
+     * <p>Both plain {@code $ref} and {@code array} of {@code $ref} properties are considered;
+     * the result flags which shape was found so the caller can emit {@code slot:} vs
+     * {@code slotArray:} suggestions accordingly.</p>
+     */
+    @SuppressWarnings("rawtypes")
+    private static VaryingProperty findVaryingRefProperty(List<String> schemaNames,
                                                   Map<String, Schema> allSchemas) {
         if (schemaNames.isEmpty()) return null;
         Schema<?> first = allSchemas.get(schemaNames.get(0));
         if (first.getProperties() == null) return null;
 
-        List<String> candidates = new ArrayList<>();
+        // Collect candidate properties (plain $ref OR array[$ref]) from the first member
+        List<VaryingProperty> candidates = new ArrayList<>();
         for (Map.Entry<?, ?> entry : first.getProperties().entrySet()) {
             Schema<?> prop = (Schema<?>) entry.getValue();
-            if (prop.get$ref() == null) continue;
-            candidates.add((String) entry.getKey());
+            if (prop.get$ref() != null) {
+                candidates.add(new VaryingProperty((String) entry.getKey(), false));
+            } else if ("array".equals(prop.getType()) && prop.getItems() != null
+                    && prop.getItems().get$ref() != null) {
+                candidates.add(new VaryingProperty((String) entry.getKey(), true));
+            }
         }
 
-        String varyingProp = null;
-        for (String candidate : candidates) {
+        VaryingProperty varying = null;
+        for (VaryingProperty candidate : candidates) {
             Set<String> refs = new HashSet<>();
             boolean abort = false;
             for (String name : schemaNames) {
                 Schema<?> schema = allSchemas.get(name);
                 if (schema.getProperties() == null) { abort = true; break; }
-                Schema<?> prop = (Schema<?>) schema.getProperties().get(candidate);
-                String ref = prop != null ? prop.get$ref() : null;
+                Schema<?> prop = (Schema<?>) schema.getProperties().get(candidate.name);
+                String ref = extractVaryingRef(prop, candidate.isArray);
                 if (ref == null) { abort = true; break; }
                 refs.add(ref);
             }
             if (abort) continue;
             if (refs.size() == schemaNames.size()) {
-                // Every member has this property as a $ref and all are distinct
-                if (varyingProp != null) {
+                // Every member has this property as a ref of the expected shape and all are distinct
+                if (varying != null) {
                     return null; // more than one varying property — not a simple generic
                 }
-                varyingProp = candidate;
+                varying = candidate;
             }
         }
-        return varyingProp;
+        return varying;
     }
 
     private static String commonSuffix(List<String> names) {
@@ -752,13 +798,12 @@ public final class GenericSchemaScanUtils {
     }
 
     private static String buildSuggestedConfig(String suggestedSuffix, String slotProperty,
-                                                List<String> schemaNames) {
-        // Tier 3 cluster discovery currently only follows $ref properties, so the slot is
-        // never an array. Inline as "slot:" and keep the door open for a future array variant.
+                                                boolean isArraySlot, List<String> schemaNames) {
+        String slotKey = isArraySlot ? "slotArray" : "slot";
         return "genericPatterns:\n"
                 + "  - suffix: " + suggestedSuffix + "\n"
                 + "    genericClass: <your.package." + suggestedSuffix + ">\n"
-                + "    slot: " + slotProperty + "\n"
+                + "    " + slotKey + ": " + slotProperty + "\n"
                 + "  # Schemas matched: " + String.join(", ", schemaNames);
     }
 
