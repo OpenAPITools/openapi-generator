@@ -64,38 +64,41 @@ public final class PagedModelScanUtils {
      *
      * <p>Two name variants are stored for each schema:</p>
      * <ul>
-     *   <li><b>transformed</b> ({@code schemaName} / {@code metaSchemaName}) — the model name
-     *       after the generator's {@code toModelName()} has been applied.  These are the names
-     *       that appear in codegen-operation imports and {@code CodegenModel.imports}, so they
-     *       must be used for import removal / import-presence checks.</li>
      *   <li><b>raw</b> ({@code rawSchemaName} / {@code rawMetaSchemaName}) — the original
-     *       OpenAPI component-schema name.  {@code DefaultGenerator} keys {@code allProcessedModels}
-     *       (the {@code objs} map passed to {@code postProcessAllModels}) by the <em>raw</em>
-     *       schema name, so these values must be used for {@code objs.remove()} calls.</li>
+     *       OpenAPI component-schema name as it appears in the spec. {@code DefaultGenerator}
+     *       keys the {@code objs} map passed to {@code postProcessAllModels} by these raw
+     *       names, so any {@code objs.remove(...)} call must use them. This is the variant
+     *       consumed by {@link SpringPageableSupport#contributeToGenericSubstitution} when
+     *       handing detections off to {@link GenericSubstitutionSupport}.</li>
+     *   <li><b>transformed</b> ({@code schemaName} / {@code metaSchemaName}) — the model name
+     *       after the generator's {@code toModelName()} has been applied. Useful for matching
+     *       against {@code codegenOperation.returnBaseType} or entries in
+     *       {@code CodegenModel.imports}, both of which are toModelName-processed.</li>
      * </ul>
      *
-     * <p>When {@link #scanPagedModels(OpenAPI)} is used (no transform), the raw and transformed
-     * names are identical.  When {@link #scanPagedModels(OpenAPI, UnaryOperator)} is used, they
-     * may differ (e.g. {@code rawSchemaName="UserPage"}, {@code schemaName="UserPageDto"}).</p>
+     * <p>When constructed via {@link #scanPagedModels(OpenAPI)} (no transform), the raw and
+     * transformed names are identical. When constructed via
+     * {@link #scanPagedModels(OpenAPI, UnaryOperator)} they may differ (e.g.
+     * {@code rawSchemaName="UserPage"}, {@code schemaName="UserPageDto"}).</p>
      *
      * @param schemaName        Transformed model name of the detected paged schema.
      * @param itemSchemaName    Raw item schema name (always raw; callers apply
      *                          {@code toModelName()} at the point of use).
      * @param metaSchemaName    Transformed model name of the pagination-metadata schema,
      *                          or {@code null} if unresolved.
-     * @param rawSchemaName     Raw OpenAPI schema name of the paged schema (for {@code objs.remove}).
-     * @param rawMetaSchemaName Raw OpenAPI schema name of the pagination-metadata schema
-     *                          (for {@code objs.remove}), or {@code null} if unresolved.
+     * @param rawSchemaName     Raw OpenAPI schema name of the paged schema.
+     * @param rawMetaSchemaName Raw OpenAPI schema name of the pagination-metadata schema,
+     *                          or {@code null} if unresolved.
      */
     public static final class DetectedPagedModel {
-        /** Transformed model name — use for import removal / import-presence checks. */
+        /** Transformed model name. Useful for matching against {@code returnBaseType}. */
         public final String schemaName;
         public final String itemSchemaName;
-        /** Transformed meta model name — use for import-presence checks. */
+        /** Transformed meta model name. Useful for {@code imports} checks. */
         public final String metaSchemaName;
-        /** Raw OpenAPI schema name — use for {@code objs.remove()} in {@code postProcessAllModels}. */
+        /** Raw OpenAPI schema name. Use for {@code objs.remove()} in {@code postProcessAllModels}. */
         public final String rawSchemaName;
-        /** Raw OpenAPI meta schema name — use for {@code objs.remove()} in {@code postProcessAllModels}. */
+        /** Raw OpenAPI meta schema name. Use for {@code objs.remove()} in {@code postProcessAllModels}. */
         public final String rawMetaSchemaName;
 
         /**

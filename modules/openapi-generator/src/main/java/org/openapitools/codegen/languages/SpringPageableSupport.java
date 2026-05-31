@@ -24,8 +24,6 @@ import lombok.Setter;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,35 +46,22 @@ import java.util.stream.Collectors;
  * language-specific logic.</p>
  *
  * <h2>Relationship to {@link GenericSubstitutionSupport}</h2>
- * <p>This class and {@link GenericSubstitutionSupport} both perform return-type substitution,
- * but they are <em>complementary</em>, not redundant:</p>
- * <ul>
- *   <li><b>This class</b> ({@code substituteGenericPagedModel} flag) uses
- *       <em>structural detection</em> via {@link PagedModelScanUtils}: it finds paged-model
- *       schemas by shape (a {@code content} array property + a pagination-metadata {@code $ref}
- *       property) regardless of naming conventions. It also suppresses the companion
- *       {@code PageMetadata}-style schema when it is no longer referenced. No naming convention
- *       or pattern config is required — just one boolean flag.</li>
- *   <li>{@link GenericSubstitutionSupport} ({@code genericPatterns} config) uses
- *       <em>name-based pattern matching</em> (suffix / prefix / vendor extensions). It can
- *       target any generic class and any number of type parameters, but relies on schemas
- *       following a naming convention. It does not suppress companion metadata schemas.</li>
- * </ul>
+ * <p>Substitution and suppression of paged-model schemas is delegated to
+ * {@link GenericSubstitutionSupport}, which is the single code path shared with the
+ * name-based {@code genericPatterns} feature. {@link #contributeToGenericSubstitution}
+ * converts each structurally-detected {@link PagedModelScanUtils.DetectedPagedModel} into a
+ * {@link GenericSchemaScanUtils.GenericInstance} and registers it (alongside the raw name
+ * of the companion {@code PageMetadata}-style schema) so downstream return-type substitution,
+ * property substitution, and meta-schema suppression all happen uniformly.</p>
  *
- * <h2>Integration with {@link GenericSubstitutionSupport}</h2>
- * <p>When {@code substituteGenericPagedModel} is active, call
- * {@link #contributeToGenericSubstitution} <em>after</em> {@link #preprocessOpenAPI} and
- * <em>before</em> {@link GenericSubstitutionSupport#preprocessOpenAPI}. This converts each
- * structurally-detected {@link PagedModelScanUtils.DetectedPagedModel} into a
- * {@link GenericSchemaScanUtils.GenericInstance} and registers it in the
- * {@code GenericSubstitutionSupport} instance registry. Downstream, all return-type
- * substitution and model suppression (including the companion {@code PageMetadata}-style
- * schema) are then handled by {@code GenericSubstitutionSupport} uniformly, gaining
- * property-level substitution and the {@code isStillReferenced} safety check for free.</p>
- *
- * <p>The {@link #substituteReturnType} and {@link #suppressPagedModels} methods remain
- * for backward compatibility but are no longer invoked by the built-in generators once
- * {@link #contributeToGenericSubstitution} is wired in.</p>
+ * <p>Wiring order in the generator's {@code preprocessOpenAPI}:</p>
+ * <ol>
+ *   <li>{@link #preprocessOpenAPI} (this class) — scans pageable features.</li>
+ *   <li>{@link #contributeToGenericSubstitution} — feeds detected paged models into the
+ *       generic substitution registry.</li>
+ *   <li>{@link GenericSubstitutionSupport#preprocessOpenAPI} — runs tier-1/tier-2 generic
+ *       pattern scanning (vendor extensions override pre-scanned entries; tier-2 skips them).</li>
+ * </ol>
  */
 public final class SpringPageableSupport {
 
@@ -272,8 +257,8 @@ public final class SpringPageableSupport {
                     false,                  // Mode A — external / supporting-file class
                     typeArgs,
                     slotTypeParams,
-                    "content",             // slot property name
-                    true,                  // content is an array in PagedModel<T>
+                    "content",              // slot property name
+                    false,                  // slotIsArray is only consumed by Mode B class generation
                     Collections.emptyList()
             );
             genericSupport.addPreScannedInstance(inst, d.rawMetaSchemaName);
@@ -291,15 +276,14 @@ public final class SpringPageableSupport {
      *
      * @param operation the raw OpenAPI operation
      * @param library   the active library name
-     * @return {@code true} if the operation was (or was already) marked as paginated
      */
-    public boolean autoDetectPagination(Operation operation, String library) {
+    public void autoDetectPagination(Operation operation, String library) {
         if (!SpringCodegen.SPRING_BOOT.equals(library) || !autoXSpringPaginated) {
-            return false;
+            return;
         }
         if (operation.getExtensions() != null
                 && Boolean.FALSE.equals(operation.getExtensions().get("x-spring-paginated"))) {
-            return false;
+            return;
         }
         if (operation.getParameters() != null) {
             Set<String> paramNames = operation.getParameters().stream()
@@ -310,10 +294,8 @@ public final class SpringPageableSupport {
                     operation.setExtensions(new HashMap<>());
                 }
                 operation.getExtensions().put("x-spring-paginated", Boolean.TRUE);
-                return true;
             }
         }
-        return false;
     }
 
     /**
@@ -401,97 +383,5 @@ public final class SpringPageableSupport {
         if (!pageableAnnotations.isEmpty()) {
             codegenOperation.vendorExtensions.put("x-pageable-extra-annotation", pageableAnnotations);
         }
-    }
-
-    /**
-     * Replaces the operation's return type with {@code PagedModel<T>} when the return type
-     * is a detected paged-model schema.
-     *
-     * <p>No-op when {@code substituteGenericPagedModel} is false or no paged models were
-     * detected.</p>
-     *
-     * @param codegenOperation the codegen operation whose return type may be replaced
-     * @param ctx              callback access to the generator's state
-     */
-    public void substituteReturnType(CodegenOperation codegenOperation, Context ctx) {
-        if (!substituteGenericPagedModel || pagedModelRegistry.isEmpty()
-                || codegenOperation.returnBaseType == null) {
-            return;
-        }
-        PagedModelScanUtils.DetectedPagedModel detected =
-                pagedModelRegistry.get(codegenOperation.returnBaseType);
-        if (detected == null) {
-            return;
-        }
-        String oldType = codegenOperation.returnType;
-        // Run through toModelName so that schemaMappings (e.g. User → com.example.MyUser)
-        // are honoured: the mapped name is used both in the type arg and for import resolution.
-        String itemType = ctx.toModelName(detected.itemSchemaName);
-        String newBaseType = pagedModelClassName + "<" + itemType + ">";
-        codegenOperation.returnType = newBaseType;
-        codegenOperation.returnBaseType = pagedModelClassName;
-        // Clear any container flag — PagedModel is not itself a List/array
-        codegenOperation.returnContainer = null;
-        codegenOperation.imports.add(itemType);
-        codegenOperation.imports.add(pagedModelClassName);
-        if (ctx.getAnnotationLibrary() == AnnotationLibrary.NONE) {
-            codegenOperation.imports.remove(detected.schemaName);
-        }
-        LOGGER.info("substituteGenericPagedModel: operation '{}': replacing return type '{}' with {}<{}>",
-                codegenOperation.operationId, oldType, pagedModelClassName, itemType);
-    }
-
-    /**
-     * Suppresses detected paged-model schemas (and their orphaned metadata schemas) from
-     * the model map when {@code annotationLibrary=none}.
-     *
-     * <p>When annotations are generated the paged-model schemas are still referenced by
-     * {@code @ApiResponse}, so they must be kept.</p>
-     *
-     * @param objs the full model map, as received by {@code postProcessAllModels}
-     * @param ctx  callback access to the generator's state
-     * @return the (possibly mutated) model map
-     */
-    public Map<String, ModelsMap> suppressPagedModels(Map<String, ModelsMap> objs, Context ctx) {
-        if (!substituteGenericPagedModel || pagedModelRegistry.isEmpty()) {
-            return objs;
-        }
-        if (ctx.getAnnotationLibrary() != AnnotationLibrary.NONE) {
-            LOGGER.info("substituteGenericPagedModel: keeping paged-model schemas (annotationLibrary={}) "
-                    + "— @ApiResponse annotations reference them",
-                    ctx.getAnnotationLibrary().toCliOptValue());
-            return objs;
-        }
-
-        Set<String> metaSchemasToCheck = new HashSet<>();
-        for (PagedModelScanUtils.DetectedPagedModel detected : pagedModelRegistry.values()) {
-            if (detected.metaSchemaName != null) {
-                metaSchemasToCheck.add(detected.metaSchemaName);
-            }
-        }
-        // Remove paged schemas first so that reference checks below reflect post-suppression state.
-        for (Map.Entry<String, PagedModelScanUtils.DetectedPagedModel> entry : pagedModelRegistry.entrySet()) {
-            String schemaName = entry.getKey();
-            PagedModelScanUtils.DetectedPagedModel detected = entry.getValue();
-            if (objs.remove(schemaName) != null) {
-                LOGGER.info("substituteGenericPagedModel: suppressing model '{}' — replaced by PagedModel<{}>",
-                        schemaName, detected.itemSchemaName);
-            }
-        }
-        // Suppress meta schemas only when no remaining schema still references them.
-        for (String metaName : metaSchemasToCheck) {
-            boolean referencedElsewhere = objs.values().stream()
-                    .flatMap(mm -> mm.getModels().stream())
-                    .map(ModelMap::getModel)
-                    .anyMatch(cm -> cm.imports.contains(metaName));
-            if (referencedElsewhere) {
-                LOGGER.info("substituteGenericPagedModel: keeping pagination metadata model '{}'"
-                        + " — referenced by a non-paged schema", metaName);
-            } else if (objs.remove(metaName) != null) {
-                LOGGER.info("substituteGenericPagedModel: suppressing pagination metadata model '{}'"
-                        + " — replaced by PagedModel.PageMetadata", metaName);
-            }
-        }
-        return objs;
     }
 }

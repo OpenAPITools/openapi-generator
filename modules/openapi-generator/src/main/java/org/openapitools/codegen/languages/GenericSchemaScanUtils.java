@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -171,6 +170,10 @@ public final class GenericSchemaScanUtils {
         /**
          * Returns the type argument for the first (and usually only) slot.
          * E.g. {@code "User"} for a {@code UserResponse} matched by slot {@code "data"}.
+         *
+         * @throws java.util.NoSuchElementException if {@code typeArgs} is empty (should never
+         *         happen for instances produced by the scanner, but the public constructor
+         *         does not enforce non-empty)
          */
         public String firstTypeArg() {
             return typeArgs.values().iterator().next();
@@ -364,7 +367,7 @@ public final class GenericSchemaScanUtils {
                     String typeParamName = slotEntry.getValue();
 
                     // Try $ref slot first
-                    String ref = findRefInProperties(props, slotPropName, openAPI);
+                    String ref = findRefInProperties(props, slotPropName);
                     if (ref != null) {
                         typeArgs.put(slotPropName, extractSchemaNameFromRef(ref));
                         slotTypeParams.put(slotPropName, typeParamName);
@@ -413,7 +416,7 @@ public final class GenericSchemaScanUtils {
 
                 LOGGER.debug("GenericSchemaScanUtils Tier2: schema '{}' matched pattern '{}' → {}<{}>",
                         schemaName, pattern.suffix != null ? ("suffix=" + pattern.suffix) : ("prefix=" + pattern.prefix),
-                        genericClassName, typeArgs.values());
+                        genericClassName, String.join(", ", typeArgs.values()));
                 break; // first matching pattern wins
             }
         }
@@ -538,19 +541,16 @@ public final class GenericSchemaScanUtils {
     }
 
     /**
-     * Finds the {@code $ref} string of a property in the resolved properties.
-     * Returns {@code null} if the property is absent or is not a {@code $ref}.
+     * Returns the {@code $ref} string of a property in the resolved properties.
+     * Returns {@code null} if the property is absent or is not declared as a direct
+     * {@code $ref} (inline-composed properties are intentionally not followed).
      */
     @SuppressWarnings("rawtypes")
-    private static String findRefInProperties(Map<String, Schema> props, String propName,
-                                              OpenAPI openAPI) {
+    private static String findRefInProperties(Map<String, Schema> props, String propName) {
         if (props == null) return null;
         Schema<?> prop = (Schema<?>) props.get(propName);
         if (prop == null) return null;
-        if (prop.get$ref() != null) return prop.get$ref();
-        // Might be inlined — check via ModelUtils to handle $ref resolution
-        Schema<?> resolved = ModelUtils.getReferencedSchema(openAPI, prop);
-        return resolved != null && resolved != prop ? prop.get$ref() : null;
+        return prop.get$ref();
     }
 
     /**
@@ -714,14 +714,18 @@ public final class GenericSchemaScanUtils {
         String varyingProp = null;
         for (String candidate : candidates) {
             Set<String> refs = new HashSet<>();
+            boolean abort = false;
             for (String name : schemaNames) {
                 Schema<?> schema = allSchemas.get(name);
-                if (schema.getProperties() == null) { refs.add(null); break; }
+                if (schema.getProperties() == null) { abort = true; break; }
                 Schema<?> prop = (Schema<?>) schema.getProperties().get(candidate);
-                refs.add(prop != null ? prop.get$ref() : null);
+                String ref = prop != null ? prop.get$ref() : null;
+                if (ref == null) { abort = true; break; }
+                refs.add(ref);
             }
+            if (abort) continue;
             if (refs.size() == schemaNames.size()) {
-                // All members have this property, all different
+                // Every member has this property as a $ref and all are distinct
                 if (varyingProp != null) {
                     return null; // more than one varying property — not a simple generic
                 }
@@ -742,17 +746,19 @@ public final class GenericSchemaScanUtils {
                 return first.substring(first.length() - len + 1);
             }
         }
-        return first;
+        // Unreachable: the predicate fails at len == first.length() because the first
+        // name itself doesn't satisfy n.length() > suffix.length().
+        return "";
     }
 
     private static String buildSuggestedConfig(String suggestedSuffix, String slotProperty,
                                                 List<String> schemaNames) {
-        boolean isArray = false; // Tier 3 only handles $ref properties
-        String slotKey = isArray ? "slotArray" : "slot";
+        // Tier 3 cluster discovery currently only follows $ref properties, so the slot is
+        // never an array. Inline as "slot:" and keep the door open for a future array variant.
         return "genericPatterns:\n"
                 + "  - suffix: " + suggestedSuffix + "\n"
                 + "    genericClass: <your.package." + suggestedSuffix + ">\n"
-                + "    " + slotKey + ": " + slotProperty + "\n"
+                + "    slot: " + slotProperty + "\n"
                 + "  # Schemas matched: " + String.join(", ", schemaNames);
     }
 

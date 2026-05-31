@@ -61,24 +61,27 @@ import java.util.*;
  * </ul>
  *
  * <h2>Relationship to {@link SpringPageableSupport}</h2>
- * <p>This class and {@link SpringPageableSupport} both perform return-type substitution
- * for generic wrapper schemas, but they are <em>complementary</em>, not redundant:</p>
+ * <p>This class is the single substitution / suppression code path for both
+ * <em>name-based</em> generic patterns (this class' own {@code genericPatterns} config) and
+ * <em>structurally-detected</em> paged-model schemas (contributed by
+ * {@link SpringPageableSupport} when {@code substituteGenericPagedModel} is enabled):</p>
  * <ul>
- *   <li><b>This class</b> ({@code genericPatterns} config) uses <em>name-based pattern
- *       matching</em> (suffix / prefix / vendor extensions). It can target any generic class
- *       with any number of type parameters ({@code slots}), but relies on schemas following a
- *       naming convention. It suppresses the matched wrapper schema but not any companion
- *       metadata schemas.</li>
- *   <li>{@link SpringPageableSupport} ({@code substituteGenericPagedModel} flag) uses
- *       <em>structural detection</em>: it identifies paged-model schemas by shape, requires no
- *       naming convention, and additionally suppresses the companion {@code PageMetadata}-style
- *       schema. It is specialised for the Spring {@code PagedModel<T>} use case.</li>
+ *   <li><b>{@code genericPatterns}</b> uses name-based pattern matching (suffix / prefix /
+ *       vendor extensions). It can target any generic class with any number of type parameters
+ *       ({@code slots}), but relies on schemas following a naming convention.</li>
+ *   <li><b>{@code substituteGenericPagedModel}</b> uses structural detection via
+ *       {@link PagedModelScanUtils}. {@link SpringPageableSupport#contributeToGenericSubstitution}
+ *       converts each detected paged model into a {@link GenericSchemaScanUtils.GenericInstance}
+ *       and registers it here via {@link #addPreScannedInstance}, along with the raw name of
+ *       the companion metadata schema (e.g. {@code PageMetadata}) so that schema can be
+ *       suppressed alongside the main schema when no longer referenced.</li>
  * </ul>
  *
- * <p>When both features are active on the same spec, {@link SpringPageableSupport} runs first
- * inside {@code fromOperation}. If it replaces a return type, this class will not find the
- * original schema name in its registry (because {@code returnBaseType} has already changed),
- * so double-substitution cannot occur.</p>
+ * <p>Precedence inside {@link #preprocessOpenAPI}: vendor-extension (tier 1) overrides
+ * pre-scanned pageable, which in turn overrides configured patterns (tier 2). Suppression of
+ * companion meta-schemas (e.g. {@code PageMetadata}) is gated on every associated main schema
+ * having been successfully suppressed in the same pass, so a {@code schemaMapping}-protected
+ * sibling will keep its meta-schema alive.</p>
  */
 public final class GenericSubstitutionSupport {
 
@@ -158,13 +161,15 @@ public final class GenericSubstitutionSupport {
             new LinkedHashMap<>();
 
     /**
-     * Maps raw companion meta-schema name to raw main schema name, contributed by
-     * structural-detection delegates via {@link #addPreScannedInstance}.
-     * E.g. {@code "PageMetadata" → "UserPage"} for each detected paged model.
-     * Each meta-schema is suppressed in {@link #suppressGenericSchemas} only when its
-     * corresponding main schema was actually removed in the same pass.
+     * Maps raw companion meta-schema name to the set of raw main schema names that
+     * reference it, contributed by structural-detection delegates via
+     * {@link #addPreScannedInstance}. E.g. {@code "PageMetadata" → {"UserPage", "OrderPage"}}
+     * when both paged models share one metadata schema.
+     * <p>A meta-schema is suppressed in {@link #suppressGenericSchemas} only when <em>all</em>
+     * associated main schemas were actually removed in the same pass, so a
+     * {@code schemaMapping}-protected sibling keeps its meta-schema alive.</p>
      */
-    private final Map<String, String> extraSuppressedMetaSchemas = new LinkedHashMap<>();
+    private final Map<String, Set<String>> extraSuppressedMetaSchemas = new LinkedHashMap<>();
 
     /**
      * Bundle data for each Mode B class, keyed by simple class name (e.g. {@code "ApiResponse"}).
@@ -209,7 +214,9 @@ public final class GenericSubstitutionSupport {
                                       String rawMetaSchemaName) {
         instanceRegistry.put(inst.schemaName, inst);
         if (rawMetaSchemaName != null) {
-            extraSuppressedMetaSchemas.put(rawMetaSchemaName, inst.schemaName);
+            extraSuppressedMetaSchemas
+                    .computeIfAbsent(rawMetaSchemaName, k -> new LinkedHashSet<>())
+                    .add(inst.schemaName);
         }
     }
 
@@ -272,7 +279,14 @@ public final class GenericSubstitutionSupport {
         Map<String, GenericSchemaScanUtils.GenericInstance> reKeyed = new LinkedHashMap<>();
         for (Map.Entry<String, GenericSchemaScanUtils.GenericInstance> entry : instanceRegistry.entrySet()) {
             String transformedKey = ctx.toModelName(entry.getKey());
-            reKeyed.put(transformedKey, entry.getValue());
+            GenericSchemaScanUtils.GenericInstance previous = reKeyed.put(transformedKey, entry.getValue());
+            if (previous != null) {
+                LOGGER.warn("GenericSubstitutionSupport: schema names '{}' and '{}' both map to "
+                                + "the transformed model name '{}' (via toModelName / nameMapping / "
+                                + "modelNameMapping). Only '{}' will be substituted; '{}' will be ignored.",
+                        previous.schemaName, entry.getValue().schemaName,
+                        transformedKey, entry.getValue().schemaName, previous.schemaName);
+            }
         }
         instanceRegistry.clear();
         instanceRegistry.putAll(reKeyed);
@@ -375,11 +389,19 @@ public final class GenericSubstitutionSupport {
         }
 
         String oldType = op.returnType;
-        String newType = buildGenericTypeName(inst, ctx, new HashSet<>());
+        String expansion = buildGenericTypeName(inst, ctx, new HashSet<>());
+        String newType;
+        if (op.returnContainer != null && oldType != null) {
+            // Preserve the outer container — e.g. List<UserResponse> → List<ApiResponse<User>>.
+            // The matched base type appears as the inner type token inside the container.
+            newType = oldType.replace(op.returnBaseType, expansion);
+        } else {
+            newType = expansion;
+            op.returnContainer = null; // generic wrapper is not a container
+        }
 
         op.returnType = newType;
         op.returnBaseType = inst.genericClassName;
-        op.returnContainer = null; // generic wrapper is not a container
 
         collectImportsToAdd(inst, ctx, op.imports, new HashSet<>());
         if (ctx.getAnnotationLibrary() == AnnotationLibrary.NONE) {
@@ -461,22 +483,18 @@ public final class GenericSubstitutionSupport {
         }
 
         // Suppress companion meta-schemas contributed by pre-scan delegates (e.g.
-        // substituteGenericPagedModel). A meta-schema is only suppressed when its
-        // corresponding main schema was actually removed in the loop above, so that
-        // schema-mapped or still-referenced main schemas keep their meta schemas.
-        for (Map.Entry<String, String> metaEntry : extraSuppressedMetaSchemas.entrySet()) {
+        // substituteGenericPagedModel). A meta-schema is only suppressed when ALL of its
+        // associated main schemas were actually removed in the loop above — if any sibling
+        // (e.g. one protected by schemaMapping) is still present, the meta-schema stays.
+        for (Map.Entry<String, Set<String>> metaEntry : extraSuppressedMetaSchemas.entrySet()) {
             String rawMeta = metaEntry.getKey();
-            String rawMain = metaEntry.getValue();
-            if (!suppressedRawNames.contains(rawMain)) {
-                // Main schema was not removed — keep the meta schema.
+            Set<String> rawMains = metaEntry.getValue();
+            if (!suppressedRawNames.containsAll(rawMains)) {
+                // At least one associated main was kept — keep the meta schema too.
                 continue;
             }
             String transformedMeta = ctx.toModelName(rawMeta);
-            boolean referencedElsewhere = objs.values().stream()
-                    .flatMap(mm -> mm.getModels().stream())
-                    .map(ModelMap::getModel)
-                    .anyMatch(cm -> cm.imports.contains(transformedMeta));
-            if (referencedElsewhere) {
+            if (isStillReferenced(transformedMeta, objs)) {
                 LOGGER.info("GenericSubstitutionSupport: keeping companion meta-schema '{}'"
                         + " — still referenced by remaining models", rawMeta);
             } else if (objs.remove(rawMeta) != null) {
@@ -747,6 +765,13 @@ public final class GenericSubstitutionSupport {
 
                     // Replace all occurrences of the old type in the type strings.
                     // Handles plain "UserResponse", "List<UserResponse>", nullable "UserResponse?" etc.
+                    //
+                    // Substring-collision invariant: this relies on lookupKey not being a substring
+                    // of any other registry key whose property might land in the same dataType
+                    // (e.g. registering both "User" and "UserPage" as generic instances would
+                    // corrupt a dataType of "UserPage"). In practice schema names are full identifiers
+                    // — there is no realistic OpenAPI spec where two distinct generic-instance schema
+                    // names exhibit this prefix relationship and reference each other in one property.
                     prop.dataType = prop.dataType.replace(lookupKey, newGenericType);
                     if (prop.datatypeWithEnum != null) {
                         prop.datatypeWithEnum = prop.datatypeWithEnum.replace(lookupKey, newGenericType);
@@ -842,8 +867,11 @@ public final class GenericSubstitutionSupport {
 
     /**
      * Returns {@code true} if any model in {@code objs} still references the given
-     * transformed instance name — either via a property {@code baseType} that was not
-     * substituted or via {@code model.parent} (allOf inheritance).
+     * transformed instance name — either via a property {@code baseType} / {@code complexType}
+     * that was not substituted (checked across {@code vars}, {@code requiredVars},
+     * {@code optionalVars}, and {@code allVars} since {@code removeAllDuplicatedProperty()}
+     * gives each list independent property instances), via {@code model.parent}
+     * (allOf inheritance), or via the model's imports set.
      *
      * <p>This is used as a suppression safety check to avoid deleting a class that is
      * still needed (e.g. as a base class for another model).</p>
@@ -855,7 +883,15 @@ public final class GenericSubstitutionSupport {
                 if (transformedKey.equals(model.parent)) {
                     return true;
                 }
-                for (CodegenProperty prop : model.vars) {
+                if (model.imports != null && model.imports.contains(transformedKey)) {
+                    return true;
+                }
+                Set<CodegenProperty> allProps = Collections.newSetFromMap(new IdentityHashMap<>());
+                allProps.addAll(model.vars);
+                allProps.addAll(model.requiredVars);
+                allProps.addAll(model.optionalVars);
+                allProps.addAll(model.allVars);
+                for (CodegenProperty prop : allProps) {
                     if (transformedKey.equals(prop.baseType)
                             || transformedKey.equals(prop.complexType)) {
                         return true;
