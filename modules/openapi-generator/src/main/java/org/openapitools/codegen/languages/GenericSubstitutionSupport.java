@@ -526,10 +526,10 @@ public final class GenericSubstitutionSupport {
         int dot = dest.lastIndexOf('.');
         if (dot < 0) return;
         String className = dest.substring(0, dot);
-        Map<String, Object> classData = modeBBundleData.get(className);
-        if (classData != null) {
-            bundle.put("genericClassDef", classData);
-        }
+        // Always write the key — using null clears any stale value from a previous Mode B
+        // file render. Mustache's section helpers treat null as falsey so the template's
+        // {{#genericClassDef}}…{{/genericClassDef}} block is correctly skipped.
+        bundle.put("genericClassDef", modeBBundleData.get(className));
     }
 
     // =========================================================================
