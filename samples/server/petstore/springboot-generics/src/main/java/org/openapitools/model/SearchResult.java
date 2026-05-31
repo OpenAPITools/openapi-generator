@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  * Search result — unique structure, not matched by any pattern
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class SearchResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -33,10 +33,8 @@ public class SearchResult implements Serializable {
 
   private @Nullable Long totalHits;
 
-  @Valid
   private List<String> results = new ArrayList<>();
 
-  @Valid
   private Map<String, Integer> facets = new HashMap<>();
 
   public SearchResult query(@Nullable String query) {

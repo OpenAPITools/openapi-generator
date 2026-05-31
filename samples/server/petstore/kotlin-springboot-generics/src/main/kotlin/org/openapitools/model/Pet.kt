@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -22,8 +24,10 @@ data class Pet(
 
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("species") val species: kotlin.String? = null
 ) : java.io.Serializable {
 

@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -24,6 +26,7 @@ data class ValidationError(
 
     @get:JsonProperty("message", required = true) val message: kotlin.String,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("code") val code: kotlin.String? = null
 ) : java.io.Serializable {
 

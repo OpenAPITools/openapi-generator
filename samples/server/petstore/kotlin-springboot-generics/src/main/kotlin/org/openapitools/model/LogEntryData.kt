@@ -2,6 +2,8 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -20,10 +22,13 @@ import jakarta.validation.Valid
  */
 data class LogEntryData(
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("level") val level: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("message") val message: kotlin.String? = null,
 
+    @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("source") val source: kotlin.String? = null
 ) : java.io.Serializable {
 

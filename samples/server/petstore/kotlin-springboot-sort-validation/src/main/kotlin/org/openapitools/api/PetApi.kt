@@ -132,7 +132,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF],
         produces = ["application/json"]
     )
-    fun findPetsWithMinSizeConstraintFromAllOfRef(@ValidPageable(minSize = 5) pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithMinSizeConstraintFromAllOfRef(@ValidPageable() pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

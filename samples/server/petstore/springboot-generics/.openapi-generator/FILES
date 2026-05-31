@@ -13,7 +13,9 @@ src/main/java/org/openapitools/model/LogEntry.java
 src/main/java/org/openapitools/model/LogEntryData.java
 src/main/java/org/openapitools/model/MetricsEntry.java
 src/main/java/org/openapitools/model/MetricsEntryData.java
+src/main/java/org/openapitools/model/NotificationBatch.java
 src/main/java/org/openapitools/model/Order.java
+src/main/java/org/openapitools/model/OrderDetails.java
 src/main/java/org/openapitools/model/PageMeta.java
 src/main/java/org/openapitools/model/PaymentError.java
 src/main/java/org/openapitools/model/Pet.java

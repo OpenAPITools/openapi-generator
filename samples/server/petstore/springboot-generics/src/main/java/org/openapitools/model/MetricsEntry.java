@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * Metrics entry wrapper. Same structure as LogEntry except &#39;data&#39; points to MetricsEntryData. These two form a Tier 3 cluster suggestion. 
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MetricsEntry implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * Payload for a metrics entry
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.22.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MetricsEntryData implements Serializable {
 
   private static final long serialVersionUID = 1L;

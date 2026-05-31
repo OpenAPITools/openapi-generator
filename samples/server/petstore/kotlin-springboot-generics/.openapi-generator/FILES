@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 build.gradle.kts
 gradle/wrapper/gradle-wrapper.jar
@@ -21,7 +20,9 @@ src/main/kotlin/org/openapitools/model/LogEntry.kt
 src/main/kotlin/org/openapitools/model/LogEntryData.kt
 src/main/kotlin/org/openapitools/model/MetricsEntry.kt
 src/main/kotlin/org/openapitools/model/MetricsEntryData.kt
+src/main/kotlin/org/openapitools/model/NotificationBatch.kt
 src/main/kotlin/org/openapitools/model/Order.kt
+src/main/kotlin/org/openapitools/model/OrderDetails.kt
 src/main/kotlin/org/openapitools/model/PageMeta.kt
 src/main/kotlin/org/openapitools/model/PaymentError.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
