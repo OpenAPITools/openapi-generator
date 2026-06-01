@@ -173,11 +173,11 @@ public class ValidateMojo extends AbstractMojo {
 
   @Override
   public void execute() throws MojoExecutionException {
-    validateInputSpecInput();
-
     if (shouldWeSkip()) {
       return;
     }
+
+    validateInputSpecInput();
 
     if(inputSpec != null && inputSpec.length == 1 && inputSpec[0] != null) {
       inputSpec = inputSpec[0].split("\\s*,\\s*");
