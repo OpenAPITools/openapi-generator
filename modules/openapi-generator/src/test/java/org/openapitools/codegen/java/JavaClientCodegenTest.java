@@ -2105,16 +2105,16 @@ public class JavaClientCodegenTest {
                 .printFileContent()
                 .assertMethod("searchRequestCreation")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
                                 + " regularParam));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
                                 + " objectParam.getSomeString()));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
                                 + " objectParam.getSomeBoolean()));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
                                 + " objectParam.getSomeInteger()));");
     }
 
