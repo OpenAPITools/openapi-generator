@@ -4248,11 +4248,11 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
-                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
+                "localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
         );
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
-                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
+                "localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
                         ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
         );
     }
