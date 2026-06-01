@@ -1253,8 +1253,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             .replace("\\", "\\\\")
                             .replace("\"", "\\\""));
 
-            String patternMessage = (items.getVendorExtensions() != null)
-                    ? (String) items.getVendorExtensions().get("x-pattern-message")
+            String patternMessage = (items.getExtensions() != null)
+                    ? (String) items.getExtensions().get("x-pattern-message")
                     : null;
             validations = String.format(Locale.ROOT, "@Pattern(regexp = \"%s\"%s)",
                     pattern,
