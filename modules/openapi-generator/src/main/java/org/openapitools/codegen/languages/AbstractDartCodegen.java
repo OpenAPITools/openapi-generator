@@ -416,7 +416,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (name.matches("^[A-Z_][A-Z0-9_]*$")) {
             return name;
         }
 
