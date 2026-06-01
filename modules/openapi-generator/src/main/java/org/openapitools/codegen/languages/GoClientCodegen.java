@@ -577,22 +577,34 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return objs;
     }
 
+    /**
+     * Prefixes the generated {@code unknown_default_open_api} enum case with the model name when enum class prefixing
+     * is disabled.
+     * <p>
+     * Go enum constants are emitted at package scope, so multiple models otherwise generate duplicate
+     * {@code UNKNOWN_DEFAULT_OPEN_API} constants.
+     */
     @SuppressWarnings("unchecked")
     private void prefixEnumUnknownDefaultCase(CodegenModel model) {
+        // Only the synthetic unknown-default fallback needs a model-specific prefix. Regular enum class prefixing
+        // already prefixes every enum case, and models without allowable values do not need any post-processing.
         if (!enumUnknownDefaultCase || enumClassPrefix || model.allowableValues == null) {
             return;
         }
 
+        // The enum variables are stored by the shared enum post-processing as allowableValues["enumVars"].
         Object enumVarsObject = model.allowableValues.get("enumVars");
         if (!(enumVarsObject instanceof List)) {
             return;
         }
 
+        // The unknown-default fallback is appended as the last enum variable. If that shape changes, skip safely.
         List<?> enumVars = (List<?>) enumVarsObject;
         if (enumVars.isEmpty() || !(enumVars.get(enumVars.size() - 1) instanceof Map)) {
             return;
         }
 
+        // Prefix only the fallback name so user-defined enum values keep their existing generated names.
         Map<String, Object> fallbackEnumVar = (Map<String, Object>) enumVars.get(enumVars.size() - 1);
         Object fallbackName = fallbackEnumVar.get("name");
         if (fallbackName instanceof String) {
