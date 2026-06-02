@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: requiredArg
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Entity:
+      type: object
+      required:
+        - '@type'
+      properties:
+        '@type':
+          type: string
+    EntitySpecification:
+      allOf:
+        - $ref: "#/components/schemas/Entity"
+        - type: object
+          properties:
+            name:
+              type: string
+              description: Name given to the specification
+            lastUpdate:
+              type: string
+              format: date-time
+            lifecycleStatus:
+              type: string
+            isBundle:
+              type: boolean
+            version:
+              type: string
+      discriminator:
+        propertyName: "@type"
+        mapping:
+          EntitySpecification: "#/components/schemas/EntitySpecification"
+          PartyRoleSpecification: "#/components/schemas/PartyRoleSpecification"
+    PartyRoleSpecification:
+      allOf:
+        - $ref: "#/components/schemas/EntitySpecification"
+        - type: object
+          properties:
+            status:
+              type: string
+          required:
+            - name

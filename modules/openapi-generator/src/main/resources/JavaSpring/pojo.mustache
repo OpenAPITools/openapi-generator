@@ -114,6 +114,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
     this.{{name}} = {{name}};
     {{/openApiNullable}}
     {{/required}}
+    {{#requiredVarsOptionalInParent}}
+    {{setter}}({{name}});
+    {{/requiredVarsOptionalInParent}}
     {{/vars}}
   }
   {{/hasRequired}}

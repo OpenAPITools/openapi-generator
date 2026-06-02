@@ -788,6 +788,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 if (codegenModel.getParentModel() != null) {
                     codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
+
+                    codegenModel.requiredVarsOptionalInParent = codegenModel.requiredVars.stream()
+                            .filter(cp ->
+                                codegenModel.getParentModel().getVars().stream()
+                                .anyMatch(p-> !p.getRequired() && cp.getName().equals(p.getName()))
+                            )
+                            .collect(Collectors.toList());
                 }
                 // There must be a better way ...
                 for (String imp : inheritedImports) {
