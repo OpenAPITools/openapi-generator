@@ -76,8 +76,8 @@ export class BaseService {
                 // Otherwise, if it's an object, add each field.
                 if (paramStyle === QueryParamStyle.Form) {
                     if (explode) {
-                        Object.keys(value).forEach(k => {
-                            httpParams = this.addToHttpParams(httpParams, `${key}.${k}`, value[k], paramStyle, explode);
+                        Object.entries(value).forEach(([k, v]) => {
+                            httpParams = this.addToHttpParams(httpParams, `${key}.${k}`, v, paramStyle, explode);
                         });
                         return httpParams;
                     } else {
