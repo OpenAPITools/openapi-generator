@@ -26,7 +26,7 @@ class AnotherFakeApi {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> call123testSpecialTagsWithHttpInfo(ModelClient modelClient,) async {
+  Future<Response> call123testSpecialTagsWithHttpInfo(ModelClient modelClient, { Future<void>? abortTrigger, }) async {
     // ignore: prefer_const_declarations
     final path = r'/another-fake/dummy';
 
@@ -48,6 +48,7 @@ class AnotherFakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
+      abortTrigger: abortTrigger,
     );
   }
 
@@ -59,8 +60,8 @@ class AnotherFakeApi {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<ModelClient?> call123testSpecialTags(ModelClient modelClient,) async {
-    final response = await call123testSpecialTagsWithHttpInfo(modelClient,);
+  Future<ModelClient?> call123testSpecialTags(ModelClient modelClient, { Future<void>? abortTrigger, }) async {
+    final response = await call123testSpecialTagsWithHttpInfo(modelClient, abortTrigger: abortTrigger,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
