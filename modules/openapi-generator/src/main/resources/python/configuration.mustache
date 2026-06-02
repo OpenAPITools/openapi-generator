@@ -1,6 +1,7 @@
 {{>partial_header}}
 
 {{#asyncio}}
+import aiohttp
 import aiohttp_retry
 {{/asyncio}}
 {{#async}}
@@ -192,6 +193,13 @@ class Configuration:
       in PEM format.
 {{#asyncio}}
     :param retries: int | aiohttp_retry.RetryOptionsBase - Retry configuration.
+    :param trace_configs: list of aiohttp.TraceConfig instances forwarded to
+      aiohttp.ClientSession for tracing/instrumentation (e.g. OpenTelemetry).
+    :param tcp_connector_limit_per_host: Per-host concurrency cap forwarded to
+      aiohttp.TCPConnector(limit_per_host=...). None leaves aiohttp's default (0 = unlimited).
+    :param client_session_kwargs: Extra keyword arguments merged into
+      aiohttp.ClientSession(**kwargs) (e.g. json_serialize=orjson.dumps,
+      cookie_jar=aiohttp.DummyCookieJar()).
 {{/asyncio}}
 {{#httpx}}
     :param retries: int - Retry configuration.
@@ -320,6 +328,9 @@ conf = {{{packageName}}}.Configuration(
         ssl_ca_cert: Optional[str]=None,
 {{#asyncio}}
         retries: Optional[Union[int, aiohttp_retry.RetryOptionsBase]] = None,
+        trace_configs: Optional[List[aiohttp.TraceConfig]] = None,
+        tcp_connector_limit_per_host: Optional[int] = None,
+        client_session_kwargs: Optional[Dict[str, Any]] = None,
 {{/asyncio}}
 {{#httpx}}
         retries: Optional[int] = None,
@@ -470,6 +481,17 @@ conf = {{{packageName}}}.Configuration(
         self.retries = retries
         """Retry configuration
         """
+{{#asyncio}}
+        self.trace_configs = trace_configs
+        """aiohttp.TraceConfig list forwarded to ClientSession for tracing.
+        """
+        self.tcp_connector_limit_per_host = tcp_connector_limit_per_host
+        """Per-host concurrency cap forwarded to TCPConnector.
+        """
+        self.client_session_kwargs = client_session_kwargs
+        """Extra kwargs merged into aiohttp.ClientSession(**kwargs).
+        """
+{{/asyncio}}
         # Enable client side validation
         self.client_side_validation = client_side_validation
 
