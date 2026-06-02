@@ -262,9 +262,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="enumNumber">enumNumber.</param>
         /// <param name="outerEnum">outerEnum.</param>
         /// <param name="outerEnumInteger">outerEnumInteger.</param>
-        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue.</param>
-        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
-        public EnumTest(EnumStringEnum? enumString = default, EnumStringRequiredEnum enumStringRequired = default, EnumIntegerEnum? enumInteger = default, EnumIntegerOnlyEnum? enumIntegerOnly = default, EnumNumberEnum? enumNumber = default, OuterEnum? outerEnum = default, OuterEnumInteger? outerEnumInteger = default, OuterEnumDefaultValue? outerEnumDefaultValue = default, OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default)
+        /// <param name="outerEnumDefaultValue">outerEnumDefaultValue (default to OuterEnumDefaultValue.Placed).</param>
+        /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue (default to OuterEnumIntegerDefaultValue.NUMBER_0).</param>
+        public EnumTest(EnumStringEnum? enumString = default, EnumStringRequiredEnum enumStringRequired = default, EnumIntegerEnum? enumInteger = default, EnumIntegerOnlyEnum? enumIntegerOnly = default, EnumNumberEnum? enumNumber = default, OuterEnum? outerEnum = default, OuterEnumInteger? outerEnumInteger = default, OuterEnumDefaultValue? outerEnumDefaultValue = OuterEnumDefaultValue.Placed, OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0)
         {
             this.EnumStringRequired = enumStringRequired;
             this.EnumString = enumString;

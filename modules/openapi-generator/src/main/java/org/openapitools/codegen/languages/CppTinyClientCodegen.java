@@ -21,6 +21,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -351,6 +352,16 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     @Override
+    public String toDefaultValue(CodegenProperty cp, Schema schema) {
+        if (cp != null && cp.isModel) {
+            // Object model members must be default-constructed in C++ regardless of whether
+            // the OAS schema declares an explicit default. Use the resolved type name.
+            return cp.dataType + "()";
+        }
+        return toDefaultValue(schema);
+    }
+
+    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "bool(false)";
@@ -363,8 +374,6 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
             return "int(0)";
         } else if (ModelUtils.isArraySchema(p)) {
             return "std::list";
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             return "std::string()";
         } else if (ModelUtils.isStringSchema(p)) {

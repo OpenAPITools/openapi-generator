@@ -7,6 +7,7 @@ import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A standalone instance for evaluating rules and recommendations related to OAS {@link Schema}
@@ -43,6 +44,27 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                         OpenApiSchemaValidations::checkInvalidType
                 ));
             }
+        }
+        if (ruleConfiguration.isEnableAllOfConflictingDefaultsRecommendation()) {
+            rules.add(ValidationRule.warn(
+                    "Schema has conflicting default values across allOf branches.",
+                    "Conflicting default values detected in allOf composed schema. OpenAPI does not define precedence for defaults in allOf. Consider consolidating to a single source of truth.",
+                    OpenApiSchemaValidations::checkAllOfConflictingDefaults
+            ));
+        }
+        if (ruleConfiguration.isEnableAllOfShadowedDefaultsRecommendation()) {
+            rules.add(ValidationRule.warn(
+                    "Schema has a root-level default that shadows allOf branch defaults.",
+                    "A root-level 'default' is defined alongside 'allOf'. Defaults in allOf branches are shadowed and will be ignored by most generators. Remove redundant nested defaults or move the default to a single location.",
+                    OpenApiSchemaValidations::checkAllOfShadowedDefaults
+            ));
+        }
+        if (ruleConfiguration.isEnableAllOfRedundantDefaultsRecommendation()) {
+            rules.add(ValidationRule.warn(
+                    "Schema has redundant identical default values across allOf branches.",
+                    "Identical default values are repeated in multiple allOf branches. This adds noise without adding clarity. Consider defining the default only once.",
+                    OpenApiSchemaValidations::checkAllOfRedundantDefaults
+            ));
         }
     }
 
@@ -159,5 +181,101 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             return result;
         }
         return result;
+    }
+
+    /**
+     * Checks whether the schema has conflicting (2+ distinct) {@code default} values across its
+     * {@code allOf} tree.  OpenAPI does not define precedence for defaults in {@code allOf}, so
+     * any conflict is a spec smell.
+     *
+     * @param schemaWrapper the schema to validate
+     * @return {@link ValidationRule.Pass} if no conflict exists, otherwise {@link ValidationRule.Fail}
+     */
+    private static ValidationRule.Result checkAllOfConflictingDefaults(SchemaWrapper schemaWrapper) {
+        if (!ModelUtils.isComposedSchema(schemaWrapper.getSchema()) ||
+                !ModelUtils.hasAllOf(schemaWrapper.getSchema())) {
+            return ValidationRule.Pass.empty();
+        }
+
+        List<ModelUtils.DefaultCandidate> candidates = collectCandidates(schemaWrapper);
+        long distinctCount = candidates.stream().map(c -> c.value).distinct().count();
+        if (distinctCount > 1) {
+            List<Object> distinctValues = candidates.stream()
+                    .map(c -> c.value)
+                    .distinct()
+                    .collect(Collectors.toList());
+            ValidationRule.Fail fail = new ValidationRule.Fail();
+            fail.setDetails(String.format(Locale.ROOT,
+                    "Schema '%s' has conflicting default values %s across allOf branches.",
+                    nameOf(schemaWrapper.getSchema()), distinctValues));
+            return fail;
+        }
+        return ValidationRule.Pass.empty();
+    }
+
+    /**
+     * Checks whether the schema has a root-level {@code default:} alongside {@code allOf} items
+     * that also carry defaults.  The root default shadows (and effectively overwrites) any nested
+     * defaults, which may be unintentional.
+     *
+     * @param schemaWrapper the schema to validate
+     * @return {@link ValidationRule.Pass} if no shadowing exists, otherwise {@link ValidationRule.Fail}
+     */
+    private static ValidationRule.Result checkAllOfShadowedDefaults(SchemaWrapper schemaWrapper) {
+        Schema<?> schema = schemaWrapper.getSchema();
+        if (!ModelUtils.hasAllOf(schema) || schema.getDefault() == null) {
+            return ValidationRule.Pass.empty();
+        }
+
+        List<ModelUtils.DefaultCandidate> candidates = collectCandidates(schemaWrapper);
+        boolean hasNestedDefaults = candidates.stream().anyMatch(c -> c.depth > 0);
+        if (hasNestedDefaults) {
+            ValidationRule.Fail fail = new ValidationRule.Fail();
+            fail.setDetails(String.format(Locale.ROOT,
+                    "Schema '%s' has a root-level 'default: %s' that shadows defaults in allOf branches.",
+                    nameOf(schema), schema.getDefault()));
+            return fail;
+        }
+        return ValidationRule.Pass.empty();
+    }
+
+    /**
+     * Checks whether the schema has the same {@code default} value repeated in multiple
+     * {@code allOf} branches.  Redundant identical defaults add maintenance noise without
+     * adding clarity.
+     *
+     * @param schemaWrapper the schema to validate
+     * @return {@link ValidationRule.Pass} if no redundancy exists, otherwise {@link ValidationRule.Fail}
+     */
+    private static ValidationRule.Result checkAllOfRedundantDefaults(SchemaWrapper schemaWrapper) {
+        if (!ModelUtils.isComposedSchema(schemaWrapper.getSchema()) ||
+                !ModelUtils.hasAllOf(schemaWrapper.getSchema())) {
+            return ValidationRule.Pass.empty();
+        }
+
+        List<ModelUtils.DefaultCandidate> candidates = collectCandidates(schemaWrapper);
+        if (candidates.size() < 2) return ValidationRule.Pass.empty();
+
+        // Only flag when there is exactly ONE distinct value but MORE than one candidate
+        // (i.e., the same value is repeated — not a conflict, but redundant).
+        long distinctCount = candidates.stream().map(c -> c.value).distinct().count();
+        if (distinctCount == 1 && candidates.size() > 1) {
+            ValidationRule.Fail fail = new ValidationRule.Fail();
+            fail.setDetails(String.format(Locale.ROOT,
+                    "Schema '%s' has the default value '%s' repeated in %d allOf branches. "
+                            + "Consider defining it only once.",
+                    nameOf(schemaWrapper.getSchema()), candidates.get(0).value, candidates.size()));
+            return fail;
+        }
+        return ValidationRule.Pass.empty();
+    }
+
+    /** Collects default candidates for a schema, tolerating a null OpenAPI document. */
+    private static List<ModelUtils.DefaultCandidate> collectCandidates(SchemaWrapper schemaWrapper) {
+        io.swagger.v3.oas.models.OpenAPI openAPI = schemaWrapper.getOpenAPI();
+        if (openAPI == null) {
+            openAPI = new io.swagger.v3.oas.models.OpenAPI();
+        }
+        return ModelUtils.collectDefaultCandidatesForLinting(openAPI, schemaWrapper.getSchema());
     }
 }

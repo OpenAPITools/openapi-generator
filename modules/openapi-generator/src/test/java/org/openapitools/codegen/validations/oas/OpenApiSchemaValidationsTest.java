@@ -128,4 +128,251 @@ public class OpenApiSchemaValidationsTest {
 
         return schema;
     }
+
+    // -------------------------------------------------------------------------
+    // allOf conflicting defaults lint rule
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void checkAllOfConflictingDefaults_distinctDefaults_firesWarning() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfConflictingDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch1 = new StringSchema();
+        branch1.setDefault("alpha");
+        StringSchema branch2 = new StringSchema();
+        branch2.setDefault("beta");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch1, branch2));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has conflicting default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 1, "Expected conflicting-defaults warning to fire.");
+    }
+
+    @Test
+    public void checkAllOfConflictingDefaults_identicalDefaults_doesNotFireConflict() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfConflictingDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch1 = new StringSchema();
+        branch1.setDefault("same");
+        StringSchema branch2 = new StringSchema();
+        branch2.setDefault("same");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch1, branch2));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has conflicting default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 0, "Identical defaults must not fire the conflict rule.");
+    }
+
+    @Test
+    public void checkAllOfConflictingDefaults_disabled_doesNotFire() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfConflictingDefaultsRecommendation(false);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch1 = new StringSchema();
+        branch1.setDefault("alpha");
+        StringSchema branch2 = new StringSchema();
+        branch2.setDefault("beta");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch1, branch2));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has conflicting default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 0, "Rule must be suppressed when disabled.");
+    }
+
+    @Test
+    public void checkAllOfConflictingDefaults_noAllOf_doesNotFire() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfConflictingDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema schema = new StringSchema();
+        schema.setDefault("only");
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has conflicting default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 0, "Plain schema must not trigger allOf rule.");
+    }
+
+    // -------------------------------------------------------------------------
+    // allOf shadowed defaults lint rule
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void checkAllOfShadowedDefaults_rootAndBranchDefault_firesWarning() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfShadowedDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch = new StringSchema();
+        branch.setDefault("nested");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.setDefault("root");
+        schema.allOf(Arrays.asList(branch));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has a root-level default that shadows allOf branch defaults.");
+        Assert.assertEquals(warnings.size(), 1, "Expected shadowed-defaults warning to fire.");
+    }
+
+    @Test
+    public void checkAllOfShadowedDefaults_onlyRootDefault_doesNotFire() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfShadowedDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch = new StringSchema(); // no default in branch
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.setDefault("root");
+        schema.allOf(Arrays.asList(branch));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has a root-level default that shadows allOf branch defaults.");
+        Assert.assertEquals(warnings.size(), 0, "No shadowing when branch has no default.");
+    }
+
+    @Test
+    public void checkAllOfShadowedDefaults_disabled_doesNotFire() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfShadowedDefaultsRecommendation(false);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch = new StringSchema();
+        branch.setDefault("nested");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.setDefault("root");
+        schema.allOf(Arrays.asList(branch));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has a root-level default that shadows allOf branch defaults.");
+        Assert.assertEquals(warnings.size(), 0, "Rule must be suppressed when disabled.");
+    }
+
+    // -------------------------------------------------------------------------
+    // allOf redundant defaults lint rule
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void checkAllOfRedundantDefaults_identicalDefaults_firesWarning() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfRedundantDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch1 = new StringSchema();
+        branch1.setDefault("same");
+        StringSchema branch2 = new StringSchema();
+        branch2.setDefault("same");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch1, branch2));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has redundant identical default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 1, "Expected redundant-defaults warning to fire.");
+    }
+
+    @Test
+    public void checkAllOfRedundantDefaults_distinctDefaults_doesNotFireRedundant() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfRedundantDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch1 = new StringSchema();
+        branch1.setDefault("alpha");
+        StringSchema branch2 = new StringSchema();
+        branch2.setDefault("beta");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch1, branch2));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has redundant identical default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 0, "Distinct defaults must not fire the redundant rule.");
+    }
+
+    @Test
+    public void checkAllOfRedundantDefaults_disabled_doesNotFire() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfRedundantDefaultsRecommendation(false);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch1 = new StringSchema();
+        branch1.setDefault("same");
+        StringSchema branch2 = new StringSchema();
+        branch2.setDefault("same");
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch1, branch2));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has redundant identical default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 0, "Rule must be suppressed when disabled.");
+    }
+
+    @Test
+    public void checkAllOfRedundantDefaults_singleBranchDefault_doesNotFire() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfRedundantDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        StringSchema branch1 = new StringSchema();
+        branch1.setDefault("only_one");
+        StringSchema branch2 = new StringSchema(); // no default
+
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch1, branch2));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> warnings = warningsForRule(result, "Schema has redundant identical default values across allOf branches.");
+        Assert.assertEquals(warnings.size(), 0, "Single default cannot be redundant.");
+    }
+
+    // -------------------------------------------------------------------------
+    // Clean schema — no warnings from any allOf default rule
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void allOfDefaultRules_cleanSchema_noWarnings() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableAllOfConflictingDefaultsRecommendation(true);
+        config.setEnableAllOfShadowedDefaultsRecommendation(true);
+        config.setEnableAllOfRedundantDefaultsRecommendation(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        // Clean: allOf with one branch that has a default, root has no default
+        StringSchema branch = new StringSchema();
+        branch.setDefault("clean");
+        ComposedSchema schema = new ComposedSchema();
+        schema.allOf(Arrays.asList(branch));
+
+        ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
+        List<Invalid> allOfWarnings = result.getWarnings().stream()
+                .filter(w -> w.getRule().getDescription() != null
+                        && w.getRule().getDescription().contains("allOf"))
+                .collect(Collectors.toList());
+        Assert.assertEquals(allOfWarnings.size(), 0, "Clean schema should not fire any allOf default warnings.");
+    }
+
+    // -------------------------------------------------------------------------
+    // Helper
+    // -------------------------------------------------------------------------
+
+    private List<Invalid> warningsForRule(ValidationResult result, String ruleDescription) {
+        return result.getWarnings().stream()
+                .filter(w -> ruleDescription.equals(w.getRule().getDescription()))
+                .collect(Collectors.toList());
+    }
 }

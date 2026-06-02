@@ -65,7 +65,7 @@ public:
     void setValue(OuterEnumInteger value);
 
 protected:
-    OuterEnumInteger m_Value = OuterEnumInteger{};
+    OuterEnumInteger m_Value = 0;
 };
 
 std::vector<OuterObjectWithEnumProperty> createOuterObjectWithEnumPropertyVectorFromJsonString(const std::string& json);

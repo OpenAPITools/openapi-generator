@@ -163,7 +163,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client()
 );
 $enum_class = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass(); // \OpenAPI\Client\Model\EnumClass | enum class parameter
-$enum_class_array = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // \OpenAPI\Client\Model\EnumClass[] | enum class parameter
+$enum_class_array = ; // \OpenAPI\Client\Model\EnumClass[] | enum class parameter
 $enum_class_map = array('key' => new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // array<string,\OpenAPI\Client\Model\EnumClass> | enum class parameter
 
 try {
@@ -1251,7 +1251,7 @@ $enum_query_string_array = ['$']; // string[] | Query parameter enum test (strin
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // float | Query parameter enum test (double)
-$enum_query_model_array = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // \OpenAPI\Client\Model\EnumClass[]
+$enum_query_model_array = ; // \OpenAPI\Client\Model\EnumClass[]
 $enum_form_string_array = ['$']; // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
 

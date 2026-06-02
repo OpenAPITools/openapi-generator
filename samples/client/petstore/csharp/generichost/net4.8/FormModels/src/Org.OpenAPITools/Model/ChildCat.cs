@@ -36,19 +36,12 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ChildCat(Option<string> name = default) : base()
         {
-            PetType = (ChildCatAllOfPetType)Enum.Parse(typeof(ChildCatAllOfPetType), this.GetType().Name);
             NameOption = name;
+            PetType = (ChildCatAllOfPetType)Enum.Parse(typeof(ChildCatAllOfPetType), this.GetType().Name);
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new ChildCatAllOfPetType PetType { get; }
 
         /// <summary>
         /// Used to track the state of Name
@@ -62,6 +55,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get { return this.NameOption.Value; } set { this.NameOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new ChildCatAllOfPetType PetType { get; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -100,8 +100,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<ChildCatAllOfPetType?> petType = default;
             Option<string> name = default;
+            Option<ChildCatAllOfPetType?> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,13 +118,13 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "name":
+                            name = new Option<string>(utf8JsonReader.GetString());
+                            break;
                         case "pet_type":
                             string petTypeRawValue = utf8JsonReader.GetString();
                             if (petTypeRawValue != null)
                                 petType = new Option<ChildCatAllOfPetType?>(ChildCatAllOfPetTypeValueConverter.FromStringOrDefault(petTypeRawValue));
-                            break;
-                        case "name":
-                            name = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -135,11 +135,11 @@ namespace Org.OpenAPITools.Model
             if (!petType.IsSet)
                 throw new ArgumentException("Property is required for class ChildCat.", nameof(petType));
 
-            if (petType.IsSet && petType.Value == null)
-                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
-
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
+
+            if (petType.IsSet && petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
 
             return new ChildCat(name);
         }
@@ -171,10 +171,10 @@ namespace Org.OpenAPITools.Model
             if (childCat.NameOption.IsSet && childCat.Name == null)
                 throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
 
-            writer.WriteString("pet_type", ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCat.PetType));
-
             if (childCat.NameOption.IsSet)
                 writer.WriteString("name", childCat.Name);
+
+            writer.WriteString("pet_type", ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCat.PetType));
         }
     }
 }

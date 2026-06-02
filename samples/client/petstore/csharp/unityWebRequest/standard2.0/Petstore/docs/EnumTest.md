@@ -11,8 +11,8 @@ Name | Type | Description | Notes
 **EnumNumber** | **double** |  | [optional] 
 **OuterEnum** | **OuterEnum** |  | [optional] 
 **OuterEnumInteger** | **OuterEnumInteger** |  | [optional] 
-**OuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
-**OuterEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  | [optional] 
+**OuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] [default to OuterEnumDefaultValue.Placed]
+**OuterEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  | [optional] [default to OuterEnumIntegerDefaultValue.NUMBER_0]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

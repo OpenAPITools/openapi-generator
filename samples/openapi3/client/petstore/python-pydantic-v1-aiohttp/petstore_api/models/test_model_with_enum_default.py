@@ -29,7 +29,7 @@ class TestModelWithEnumDefault(BaseModel):
     """
     test_enum: TestEnum = Field(...)
     test_string: Optional[StrictStr] = None
-    test_enum_with_default: Optional[TestEnumWithDefault] = None
+    test_enum_with_default: Optional[TestEnumWithDefault] = 'ZWEI'
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
     test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
     __properties = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
@@ -82,7 +82,7 @@ class TestModelWithEnumDefault(BaseModel):
         _obj = TestModelWithEnumDefault.parse_obj({
             "test_enum": obj.get("test_enum"),
             "test_string": obj.get("test_string"),
-            "test_enum_with_default": obj.get("test_enum_with_default"),
+            "test_enum_with_default": obj.get("test_enum_with_default") if obj.get("test_enum_with_default") is not None else 'ZWEI',
             "test_string_with_default": obj.get("test_string_with_default") if obj.get("test_string_with_default") is not None else 'ahoy matey',
             "test_inline_defined_enum_with_default": obj.get("test_inline_defined_enum_with_default") if obj.get("test_inline_defined_enum_with_default") is not None else 'B'
         })

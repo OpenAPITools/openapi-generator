@@ -1363,7 +1363,10 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             }
             if (var.isModel) {
                 var.vendorExtensions.put("isModel", true);
-                if (var.defaultValue != null && var.defaultValue.startsWith("std::make_shared<")) {
+                if (var.defaultValue == null) {
+                    // fromProperty pre-resolves $ref before calling toDefaultValue, so model
+                    // properties with no OAS default arrive here as null. Set C++ value-type
+                    // construction so the member appears in the initializer list.
                     var.defaultValue = var.datatypeWithEnum + "()";
                 }
             }
@@ -1779,10 +1782,6 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         if (ModelUtils.isMapSchema(p)) {
             String inner = getTypeDeclaration(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
-        }
-        if (p.get$ref() != null && !p.get$ref().isEmpty()) {
-            // Model references as shared pointers - create instance with make_shared
-            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
         }
         // Unknown type - skip initialization, let default constructor handle it
         return null;

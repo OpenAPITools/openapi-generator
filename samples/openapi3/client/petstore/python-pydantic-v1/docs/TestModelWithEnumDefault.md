@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **test_enum** | [**TestEnum**](TestEnum.md) |  | 
 **test_string** | **str** |  | [optional] 
-**test_enum_with_default** | [**TestEnumWithDefault**](TestEnumWithDefault.md) |  | [optional] 
+**test_enum_with_default** | [**TestEnumWithDefault**](TestEnumWithDefault.md) |  | [optional] [default to 'ZWEI']
 **test_string_with_default** | **str** |  | [optional] [default to 'ahoy matey']
 **test_inline_defined_enum_with_default** | **str** |  | [optional] [default to 'B']
 

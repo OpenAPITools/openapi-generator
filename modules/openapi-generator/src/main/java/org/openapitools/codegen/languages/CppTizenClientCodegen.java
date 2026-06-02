@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
@@ -235,6 +236,16 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     //Might not be needed
     @Override
+    public String toDefaultValue(CodegenProperty cp, Schema schema) {
+        if (cp != null && cp.isModel) {
+            // Object model members use heap-allocated default construction in C++ regardless
+            // of whether the OAS schema declares an explicit default.
+            return "new " + cp.dataType + "()";
+        }
+        return toDefaultValue(schema);
+    }
+
+    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "bool(false)";
@@ -253,8 +264,6 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
             return "new std::map()";
         } else if (ModelUtils.isArraySchema(p)) {
             return "new std::list()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         } else if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             return "null";
         } else if (ModelUtils.isStringSchema(p)) {

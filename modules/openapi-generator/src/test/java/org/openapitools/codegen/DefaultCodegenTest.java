@@ -5176,6 +5176,42 @@ public class DefaultCodegenTest {
         assertTrue(openIdScheme.isOpenId);
     }
 
+    @Test
+    public void testFromPropertyRefDefaultPropagation() {
+        // fromProperty should resolve $ref chains and propagate the default from the referenced schema.
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Bar is a string schema with a default value.
+        openAPI.getComponents().addSchemas("Bar", new StringSchema()._default("active"));
+        // Item has a `status` property that is a pure $ref to Bar.
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema statusRef = new Schema<>().$ref("#/components/schemas/Bar");
+        CodegenProperty cp = codegen.fromProperty("status", statusRef);
+
+        assertEquals("active", cp.defaultValue,
+                "fromProperty must propagate default from $ref target for a pure $ref property");
+    }
+
+    @Test
+    public void testFromPropertyRefChainDefaultPropagation() {
+        // fromProperty must follow multi-level $ref chains to find the default.
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // Base is the concrete string schema with the default.
+        openAPI.getComponents().addSchemas("Base", new StringSchema()._default("pending"));
+        // Middle is a $ref to Base.
+        openAPI.getComponents().addSchemas("Middle", new Schema<>().$ref("#/components/schemas/Base"));
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // The property schema points to Middle, which transitively has default "pending" via Base.
+        Schema middleRef = new Schema<>().$ref("#/components/schemas/Middle");
+        CodegenProperty cp = codegen.fromProperty("status", middleRef);
+
+        assertEquals("pending", cp.defaultValue,
+                "fromProperty must follow a $ref chain to find the default from the concrete schema");
+    }
+
     private List<String> getRequiredVars(CodegenModel model) {
         return getNames(model.getRequiredVars());
     }

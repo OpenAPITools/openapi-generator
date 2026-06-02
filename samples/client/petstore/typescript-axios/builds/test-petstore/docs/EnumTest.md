@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 **enum_number** | **number** |  | [optional] [default to undefined]
 **outerEnum** | [**OuterEnum**](OuterEnum.md) |  | [optional] [default to undefined]
 **outerEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] [default to undefined]
-**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] [default to undefined]
-**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to undefined]
+**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] [default to OuterEnumDefaultValue_Placed]
+**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to OuterEnumIntegerDefaultValue_NUMBER_0]
 
 ## Example
 

@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **enumNumber** | **Number** |  | [optional] 
 **outerEnum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **outerEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
-**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
-**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
+**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] [default to &#39;placed&#39;]
+**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to OuterEnumIntegerDefaultValue.0]
 
 
 

@@ -65,8 +65,8 @@ class EnumTest
         public \OpenAPI\Server\Model\EnumTestEnumInteger $enumInteger,
         public \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumNumber,
         public \OpenAPI\Server\Model\OuterEnumInteger $outerEnumInteger,
-        public \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue,
-        public \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue,
+        public \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue = OuterEnumDefaultValue::PLACED,
+        public \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue = 0,
         public ?\OpenAPI\Server\Model\OuterEnum $outerEnum = null,
     ) {}
 }

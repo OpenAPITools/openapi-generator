@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.utils.DefaultResolutionStrategy;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -756,5 +757,410 @@ public class ModelUtilsTest {
         Map<String, Schema> allSchemas = openAPI.getComponents().getSchemas();
         Schema composedSchema = allSchemas.get("RandomAnimalsResponse_animals_inner");
         assertNull(ModelUtils.getParentName(composedSchema, allSchemas));
+    }
+    // -------------------------------------------------------------------------
+    // resolveDefault
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveDefault_nullSchema_returnsNull() {
+        assertNull(ModelUtils.resolveDefault(new OpenAPI(), null));
+    }
+
+    @Test
+    public void resolveDefault_noDefaultDefined_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        assertNull(ModelUtils.resolveDefault(openAPI, new IntegerSchema()));
+    }
+
+    @Test
+    public void resolveDefault_inlineDefault_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new IntegerSchema();
+        schema.setDefault(10);
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), 10);
+    }
+
+    @Test
+    public void resolveDefault_refToSchemaWithDefault_resolvesRef() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> refTarget = new IntegerSchema();
+        refTarget.setDefault(0);
+        openAPI.getComponents().addSchemas("MyInt", refTarget);
+
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/MyInt");
+        assertEquals(ModelUtils.resolveDefault(openAPI, ref), 0);
+    }
+
+    @Test
+    public void resolveDefault_allOfItemHasDefault_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setDefault(20);
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        // Inline schema has no default; allOf item has default=20
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), 20);
+    }
+
+    @Test
+    public void resolveDefault_inlineDefaultTakesPrecedenceOverAllOf() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> allOfItem = new IntegerSchema();
+        allOfItem.setDefault(99);
+        openAPI.getComponents().addSchemas("Base", allOfItem);
+
+        // Inline schema default=5 should win over allOf item default=99
+        Schema<?> schema = new IntegerSchema();
+        schema.setDefault(5);
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), 5);
+    }
+
+    @Test
+    public void resolveDefault_allOfItemsNoDefault_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("Base", new IntegerSchema()); // no default
+
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertNull(ModelUtils.resolveDefault(openAPI, schema));
+    }
+
+    @Test
+    public void resolveDefault_stringDefault_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new StringSchema();
+        schema.setDefault("hello");
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), "hello");
+    }
+
+    @Test
+    public void resolveDefault_nestedAllOf_findsDefaultInNestedItem() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        // base has default=99; mid allOf ΓåÆ base; top allOf ΓåÆ mid
+        Schema<?> base = new IntegerSchema();
+        base.setDefault(99);
+        openAPI.getComponents().addSchemas("Base", base);
+
+        Schema<?> mid = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        openAPI.getComponents().addSchemas("Mid", mid);
+
+        Schema<?> top = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Mid")));
+
+        assertEquals(ModelUtils.resolveDefault(openAPI, top), 99);
+    }
+
+    @Test
+    public void resolveDefault_allOf_lastDefaultWins() {
+        // allOf: [Base1(default="base_1"), Base2(default="base_2")]
+        // Base2 is last ΓåÆ wins
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("base_1");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("base_2");
+        openAPI.getComponents().addSchemas("Base2", base2);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new Schema<>().$ref("#/components/schemas/Base2")
+        ));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), "base_2");
+    }
+
+    @Test
+    public void resolveDefault_allOf_lastNonNullDefaultWins() {
+        // allOf: [Base1(default="base_1"), NoDefault] ΓÇö trailing null item does not clear candidate
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("base_1");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new StringSchema() // no default
+        ));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema), "base_1");
+    }
+
+    @Test
+    public void resolveDefault_fullChain_lastWriterWins() {
+        // Mirrors the documented resolution example:
+        //   Base1: default="base_1"
+        //   Base2: default="base_2"
+        //   Intermediate: allOf: [Base1, Base2]  ΓåÆ resolves to "base_2" (Base2 is last)
+        //   Final: allOf: [Intermediate, {default:"final"}]  ΓåÆ resolves to "final" (inline patch is last)
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("base_1");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("base_2");
+        openAPI.getComponents().addSchemas("Base2", base2);
+
+        Schema<?> intermediate = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new Schema<>().$ref("#/components/schemas/Base2")
+        ));
+        openAPI.getComponents().addSchemas("Intermediate", intermediate);
+
+        Schema<?> inlinePatch = new StringSchema();
+        inlinePatch.setDefault("final");
+        Schema<?> finalSchema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Intermediate"),
+                inlinePatch
+        ));
+
+        // Intermediate alone resolves to "base_2"
+        assertEquals(ModelUtils.resolveDefault(openAPI, new Schema<>().$ref("#/components/schemas/Intermediate")), "base_2");
+        // Full chain resolves to "final"
+        assertEquals(ModelUtils.resolveDefault(openAPI, finalSchema), "final");
+    }
+
+    // -------------------------------------------------------------------------
+    // resolveDefault with explicit strategies
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void resolveDefault_strategy_nullSchema_returnsNull() {
+        for (DefaultResolutionStrategy strategy : DefaultResolutionStrategy.values()) {
+            assertNull(ModelUtils.resolveDefault(new OpenAPI(), null, strategy),
+                    "Expected null for null schema with strategy " + strategy);
+        }
+    }
+
+    @Test
+    public void resolveDefault_strategy_noDefault_allStrategiesReturnNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new StringSchema(); // no default
+        for (DefaultResolutionStrategy strategy : DefaultResolutionStrategy.values()) {
+            assertNull(ModelUtils.resolveDefault(openAPI, schema, strategy),
+                    "Expected null when no default exists, strategy=" + strategy);
+        }
+    }
+
+    @Test
+    public void resolveDefault_strategy_singleDefault_allStrategiesReturnIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> schema = new StringSchema();
+        schema.setDefault("only");
+        for (DefaultResolutionStrategy strategy : DefaultResolutionStrategy.values()) {
+            assertEquals(ModelUtils.resolveDefault(openAPI, schema, strategy), "only",
+                    "Expected 'only' with strategy=" + strategy);
+        }
+    }
+
+    // -- LAST_WINS (explicit) --
+
+    @Test
+    public void resolveDefault_lastWins_rootDefaultWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base = new StringSchema();
+        base.setDefault("from_base");
+        openAPI.getComponents().addSchemas("Base", base);
+
+        Schema<?> schema = new StringSchema();
+        schema.setDefault("root");
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.LAST_WINS),
+                "root");
+    }
+
+    @Test
+    public void resolveDefault_lastWins_lastAllOfBranchWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("first");
+        openAPI.getComponents().addSchemas("First", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("last");
+        openAPI.getComponents().addSchemas("Last", base2);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/First"),
+                new Schema<>().$ref("#/components/schemas/Last")
+        ));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.LAST_WINS),
+                "last");
+    }
+
+    // -- NEAREST_WINS --
+
+    @Test
+    public void resolveDefault_nearestWins_rootDefaultWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base = new StringSchema();
+        base.setDefault("deep");
+        openAPI.getComponents().addSchemas("Deep", base);
+
+        Schema<?> schema = new StringSchema();
+        schema.setDefault("root");
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Deep")));
+
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.NEAREST_WINS),
+                "root");
+    }
+
+    @Test
+    public void resolveDefault_nearestWins_noRootDefault_firstAllOfBranchWins() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> first = new StringSchema();
+        first.setDefault("first_branch");
+        openAPI.getComponents().addSchemas("First", first);
+
+        Schema<?> second = new StringSchema();
+        second.setDefault("second_branch");
+        openAPI.getComponents().addSchemas("Second", second);
+
+        // No root default ΓÇö NEAREST_WINS picks the shallowest (depth 1) leftmost candidate
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/First"),
+                new Schema<>().$ref("#/components/schemas/Second")
+        ));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.NEAREST_WINS),
+                "first_branch");
+    }
+
+    @Test
+    public void resolveDefault_nearestWins_depthPrecedence() {
+        // depth-1 branch wins over depth-2 even if depth-2 would win under LAST_WINS
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        Schema<?> deepBase = new StringSchema();
+        deepBase.setDefault("deep_value");
+        openAPI.getComponents().addSchemas("DeepBase", deepBase);
+
+        // Mid: allOf ΓåÆ DeepBase  (no own default)
+        Schema<?> mid = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/DeepBase")));
+        openAPI.getComponents().addSchemas("Mid", mid);
+
+        Schema<?> shallow = new StringSchema();
+        shallow.setDefault("shallow_value");
+        openAPI.getComponents().addSchemas("Shallow", shallow);
+
+        // Root allOf: [Mid (depth-2 leaf), Shallow (depth-1)]
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Mid"),
+                new Schema<>().$ref("#/components/schemas/Shallow")
+        ));
+
+        // LAST_WINS would pick "shallow_value" (last in post-order among depth-1 siblings)
+        // NEAREST_WINS should also pick "shallow_value" because depth-1 < depth-2
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.NEAREST_WINS),
+                "shallow_value");
+    }
+
+    // -- ROOT_WINS --
+
+    @Test
+    public void resolveDefault_rootWins_directDefaultReturned() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base = new StringSchema();
+        base.setDefault("ignored");
+        openAPI.getComponents().addSchemas("Base", base);
+
+        Schema<?> schema = new StringSchema();
+        schema.setDefault("winner");
+        schema.setAllOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.ROOT_WINS),
+                "winner");
+    }
+
+    @Test
+    public void resolveDefault_rootWins_noDirectDefault_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base = new StringSchema();
+        base.setDefault("nested");
+        openAPI.getComponents().addSchemas("Base", base);
+
+        // Root has no direct default ΓÇö ROOT_WINS must return null
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertNull(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.ROOT_WINS));
+    }
+
+    // -- STRICT --
+
+    @Test
+    public void resolveDefault_strict_singleDefault_returnsIt() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base = new StringSchema();
+        base.setDefault("unique");
+        openAPI.getComponents().addSchemas("Base", base);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(new Schema<>().$ref("#/components/schemas/Base")));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.STRICT),
+                "unique");
+    }
+
+    @Test
+    public void resolveDefault_strict_conflictingDefaults_returnsNull() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("value_a");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("value_b");
+        openAPI.getComponents().addSchemas("Base2", base2);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new Schema<>().$ref("#/components/schemas/Base2")
+        ));
+        assertNull(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.STRICT),
+                "STRICT should return null on conflicting defaults");
+    }
+
+    @Test
+    public void resolveDefault_strict_identicalDefaults_returnsValue() {
+        // Same value in two branches ΓÇö not a conflict
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("same");
+        openAPI.getComponents().addSchemas("Base1", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("same");
+        openAPI.getComponents().addSchemas("Base2", base2);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/Base1"),
+                new Schema<>().$ref("#/components/schemas/Base2")
+        ));
+        assertEquals(ModelUtils.resolveDefault(openAPI, schema, DefaultResolutionStrategy.STRICT),
+                "same");
+    }
+
+    // -- Determinism --
+
+    @Test
+    public void resolveDefault_deterministic_sameInputSameOutput() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Schema<?> base1 = new StringSchema();
+        base1.setDefault("alpha");
+        openAPI.getComponents().addSchemas("A", base1);
+
+        Schema<?> base2 = new StringSchema();
+        base2.setDefault("beta");
+        openAPI.getComponents().addSchemas("B", base2);
+
+        Schema<?> schema = new Schema<>().allOf(List.of(
+                new Schema<>().$ref("#/components/schemas/A"),
+                new Schema<>().$ref("#/components/schemas/B")
+        ));
+
+        for (DefaultResolutionStrategy strategy : DefaultResolutionStrategy.values()) {
+            Object first = ModelUtils.resolveDefault(openAPI, schema, strategy);
+            Object second = ModelUtils.resolveDefault(openAPI, schema, strategy);
+            assertEquals(first, second, "Strategy " + strategy + " must be deterministic");
+        }
     }
 }

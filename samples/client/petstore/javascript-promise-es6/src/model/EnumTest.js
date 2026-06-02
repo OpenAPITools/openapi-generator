@@ -40,6 +40,8 @@ class EnumTest {
      */
     static initialize(obj, enumStringRequired) { 
         obj['enum_string_required'] = enumStringRequired;
+        obj['outerEnumDefaultValue'] = 'placed';
+        obj['outerEnumIntegerDefaultValue'] = OuterEnumIntegerDefaultValue.0;
     }
 
     /**
@@ -142,13 +144,15 @@ EnumTest.prototype['outerEnumInteger'] = undefined;
 
 /**
  * @member {module:model/OuterEnumDefaultValue} outerEnumDefaultValue
+ * @default 'placed'
  */
-EnumTest.prototype['outerEnumDefaultValue'] = undefined;
+EnumTest.prototype['outerEnumDefaultValue'] = 'placed';
 
 /**
  * @member {module:model/OuterEnumIntegerDefaultValue} outerEnumIntegerDefaultValue
+ * @default OuterEnumIntegerDefaultValue.0
  */
-EnumTest.prototype['outerEnumIntegerDefaultValue'] = undefined;
+EnumTest.prototype['outerEnumIntegerDefaultValue'] = OuterEnumIntegerDefaultValue.0;
 
 
 
