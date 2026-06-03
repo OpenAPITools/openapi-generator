@@ -116,7 +116,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
     {{/required}}
     {{/vars}}
     {{#requiredVarsOptionalInParent}}
-    {{setter}}({{name}});
+    {{name}}({{name}});
     {{/requiredVarsOptionalInParent}}
   }
   {{/hasRequired}}

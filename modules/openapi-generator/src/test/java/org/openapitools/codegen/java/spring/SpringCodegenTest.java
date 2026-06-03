@@ -7945,8 +7945,8 @@ public class SpringCodegenTest {
     @Test
     void issue_23918() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_23918.yaml", SPRING_BOOT,
-                Map.of(USE_ONE_OF_INTERFACES, "true", GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, "true"));
+                Map.of(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, "true", USE_OPTIONAL, "true"));
         JavaFileAssert.assertThat(files.get("PartyRoleSpecification.java"))
-                .fileContains("setName(name);", "PartyRoleSpecification(String atType, String name)");
+                .fileContains("name(name);", "PartyRoleSpecification(String atType, String name)");
     }
 }
