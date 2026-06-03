@@ -1058,9 +1058,6 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
     }
 
-    /** Internal vendor extension carrying the {@code List<Operation>} a divided operation expands to. */
-    public static final String X_CONTENT_TYPE_VARIANTS = "x-content-type-variants";
-
     protected boolean splitOperationsByContentType = false;
 
     public void setSplitOperationsByContentType(boolean splitOperationsByContentType) {
@@ -1068,26 +1065,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * When {@link CodegenConstants#SPLIT_OPERATIONS_BY_CONTENT_TYPE} is enabled, divides every operation whose request
-     * body and/or success response expose several content-types with <em>different</em> schemas into one
-     * operation per content-type (the cartesian product of the request and response axes). The variants
-     * are stored on the original {@link Operation} under {@link #X_CONTENT_TYPE_VARIANTS} and expanded by
-     * {@code DefaultGenerator}, so each one re-enters {@code fromOperation} and is typed natively by the
-     * target generator. This keeps the feature language-neutral: no per-language type re-derivation here.
+     * When {@link CodegenConstants#SPLIT_OPERATIONS_BY_CONTENT_TYPE} is enabled, divides an operation whose
+     * request body and/or success response expose several content-types with <em>different</em> schemas
+     * into one operation per content-type (the cartesian product of the request and response axes,
+     * deduplicated by schema). Each variant is narrowed to a single content-type on each axis with a typed,
+     * collision-free operationId; {@code DefaultGenerator} processes each so it re-enters
+     * {@code fromOperation} and is typed natively by the target generator. This keeps the feature
+     * language-neutral: no per-language type re-derivation here. Returns the operation as a singleton when
+     * the option is off or no division applies.
      */
-    private void divideOperationsByContentType(OpenAPI openAPI) {
-        if (!splitOperationsByContentType || openAPI.getPaths() == null) {
-            return;
+    @Override
+    public List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        if (!splitOperationsByContentType || operation == null) {
+            return Collections.singletonList(operation);
         }
-        for (Map.Entry<String, PathItem> pathEntry : openAPI.getPaths().entrySet()) {
-            String path = pathEntry.getKey();
-            for (Map.Entry<PathItem.HttpMethod, Operation> opEntry : pathEntry.getValue().readOperationsMap().entrySet()) {
-                divideOperationByContentType(openAPI, path, opEntry.getKey().name().toLowerCase(Locale.ROOT), opEntry.getValue());
-            }
-        }
-    }
-
-    private void divideOperationByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
         List<String> requestAxis = requestContentTypeAxis(openAPI, operation);
         String targetResponseCode = findMultiSchemaSuccessResponseCode(openAPI, operation);
         ApiResponse targetResponse = targetResponseCode == null ? null
@@ -1097,7 +1088,7 @@ public class DefaultCodegen implements CodegenConfig {
         boolean requestSplit = requestAxis.size() > 1;
         boolean responseSplit = responseAxis.size() > 1;
         if (!requestSplit && !responseSplit) {
-            return; // single content-type on both axes: nothing to divide
+            return Collections.singletonList(operation); // single content-type on both axes: nothing to divide
         }
 
         String baseId = getOrGenerateOperationId(operation, path, httpMethod);
@@ -1110,7 +1101,7 @@ public class DefaultCodegen implements CodegenConfig {
                         targetResponseCode, targetResponse));
             }
         }
-        operation.addExtension(X_CONTENT_TYPE_VARIANTS, variants);
+        return variants;
     }
 
     /** Distinct (by resolved schema) request-body content-types, JSON first; a singleton list if not split. */
@@ -1265,7 +1256,6 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        divideOperationsByContentType(openAPI);
         if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<>(openAPI.getComponents().getSchemas());

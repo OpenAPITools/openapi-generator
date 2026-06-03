@@ -5231,11 +5231,10 @@ public class DefaultCodegenTest {
         codegen.setSplitOperationsByContentType(true);
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type.yaml");
 
-        codegen.preprocessOpenAPI(openAPI);
-
         // POST /reports: request {json -> Report, xml -> ReportXml} x response {json -> Receipt, pdf -> binary}
         // is divided into the cartesian product, each variant narrowed to a single content-type on both axes.
-        List<Operation> postVariants = contentTypeVariants(openAPI.getPaths().get("/reports").getPost());
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        List<Operation> postVariants = codegen.divideOperationsByContentType(openAPI, "/reports", "post", post);
         assertThat(postVariants).extracting(Operation::getOperationId)
                 .containsExactlyInAnyOrder("createReportWithJsonAsJson", "createReportWithJsonAsPdf",
                         "createReportWithXmlAsJson", "createReportWithXmlAsPdf");
@@ -5245,8 +5244,9 @@ public class DefaultCodegenTest {
         }
 
         // GET /reports/{id}: no request body, response {json -> Report, directlog -> binary} => 2 variants.
-        List<Operation> getVariants = contentTypeVariants(openAPI.getPaths().get("/reports/{id}").getGet());
-        assertThat(getVariants).extracting(Operation::getOperationId)
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get))
+                .extracting(Operation::getOperationId)
                 .containsExactlyInAnyOrder("getReportAsJson", "getReportAsDirectlog");
     }
 
@@ -5256,13 +5256,12 @@ public class DefaultCodegenTest {
         codegen.setSplitOperationsByContentType(true);
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
 
-        codegen.preprocessOpenAPI(openAPI);
-
-        // petstore has no operation exposing several content-types with different schemas: nothing is divided.
-        boolean anyDivided = openAPI.getPaths().values().stream()
-                .flatMap(path -> path.readOperations().stream())
-                .anyMatch(op -> op.getExtensions() != null && op.getExtensions().containsKey(DefaultCodegen.X_CONTENT_TYPE_VARIANTS));
-        assertThat(anyDivided).isFalse();
+        // petstore has no operation exposing several content-types with different schemas: every operation
+        // is returned unchanged (as a singleton).
+        openAPI.getPaths().forEach((path, pathItem) ->
+                pathItem.readOperationsMap().forEach((method, operation) ->
+                        assertThat(codegen.divideOperationsByContentType(openAPI, path, method.name(), operation))
+                                .containsExactly(operation)));
     }
 
     @Test
@@ -5271,22 +5270,15 @@ public class DefaultCodegenTest {
         codegen.setSplitOperationsByContentType(true);
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-method-response-target.yaml");
 
-        codegen.preprocessOpenAPI(openAPI);
-
         // /a: the method response (200, the lowest 2xx) is multi-content -> split by content-type.
-        assertThat(contentTypeVariants(openAPI.getPaths().get("/a").getGet()))
+        Operation getA = openAPI.getPaths().get("/a").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/a", "get", getA))
                 .extracting(Operation::getOperationId)
                 .containsExactlyInAnyOrder("getAAsJson", "getAAsPdf");
 
         // /b: only the non-method response (206) is multi-content; the method response (200) is single,
         // so the operation is left untouched - the generator derives the return type from 200 only.
         Operation getB = openAPI.getPaths().get("/b").getGet();
-        assertThat(getB.getExtensions() != null
-                && getB.getExtensions().containsKey(DefaultCodegen.X_CONTENT_TYPE_VARIANTS)).isFalse();
-    }
-
-    @SuppressWarnings("unchecked")
-    private static List<Operation> contentTypeVariants(Operation operation) {
-        return (List<Operation>) operation.getExtensions().get(DefaultCodegen.X_CONTENT_TYPE_VARIANTS);
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/b", "get", getB)).containsExactly(getB);
     }
 }

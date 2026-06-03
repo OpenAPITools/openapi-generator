@@ -1521,16 +1521,15 @@ public class DefaultGenerator implements Generator {
             return;
         }
 
-        // splitOperationsByContentType: an operation divided by content-type expands into its variants,
-        // each a self-contained single-content-type Operation that re-enters the normal pipeline.
-        if (operation.getExtensions() != null) {
-            Object variants = operation.getExtensions().get(DefaultCodegen.X_CONTENT_TYPE_VARIANTS);
-            if (variants instanceof List && !((List<?>) variants).isEmpty()) {
-                for (Object variant : (List<?>) variants) {
-                    processOperation(resourcePath, httpMethod, (Operation) variant, operations, path);
-                }
-                return;
+        // splitOperationsByContentType: an operation that exposes several content-types with different
+        // schemas is divided into one self-contained single-content-type Operation per content-type, each
+        // re-entering the pipeline so it is typed natively by the generator.
+        List<Operation> contentTypeVariants = config.divideOperationsByContentType(openAPI, resourcePath, httpMethod, operation);
+        if (contentTypeVariants.size() > 1) {
+            for (Operation variant : contentTypeVariants) {
+                processOperation(resourcePath, httpMethod, variant, operations, path);
             }
+            return;
         }
 
         if (GlobalSettings.getProperty("debugOperations") != null) {

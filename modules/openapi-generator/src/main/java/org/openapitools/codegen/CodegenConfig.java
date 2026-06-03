@@ -130,6 +130,22 @@ public interface CodegenConfig {
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
 
+    /**
+     * Divides an operation into one operation per content-type when it exposes several request/response
+     * content-types with different schemas (opt-in, see {@code splitOperationsByContentType}). Each
+     * returned operation is self-contained and re-enters {@link #fromOperation}. The default keeps the
+     * operation unchanged (returns it as a singleton).
+     *
+     * @param openAPI    the OpenAPI document
+     * @param path       the resource path
+     * @param httpMethod the HTTP method
+     * @param operation  the operation to (maybe) divide
+     * @return the operations to generate for {@code operation} (the operation itself when not divided)
+     */
+    default List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        return java.util.Collections.singletonList(operation);
+    }
+
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
     List<CodegenServer> fromServers(List<Server> servers);
