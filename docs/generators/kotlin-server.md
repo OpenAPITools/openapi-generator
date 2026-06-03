@@ -23,6 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |delegatePattern|Whether to generate the server files using the delegate pattern. This option is currently supported only when using ktor library.| |false|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original' but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)| |original|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.| |false|
 |featureAutoHead|Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.| |true|
 |featureCORS|Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.| |false|
 |featureCompression|Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.| |true|
