@@ -66,7 +66,8 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
  * A library-specific template shadows a root-level template of the same name.
  */
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures,
+                   SpringPageableSupport.Context, GenericSubstitutionSupport.Context {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -122,6 +123,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
+    public static final String GENERIC_PATTERNS = "genericPatterns";
+    public static final String DISCOVER_GENERIC_PATTERNS = "discoverGenericPatterns";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
 
     @Getter
@@ -193,23 +196,40 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Getter @Setter
     protected boolean additionalNotNullAnnotations = false;
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
-    @Setter protected boolean autoXSpringPaginated = false;
-    @Setter protected boolean generateSortValidation = false;
-    @Setter protected boolean generatePageableConstraintValidation = false;
-    @Setter protected boolean substituteGenericPagedModel = false;
     @Getter @Setter
     protected String clientRegistrationId = null;
+    @Setter protected boolean useEnumValueInterface = false;
+    private String valuedEnumClassName = "ValuedEnum";
 
-    // Map from operationId to allowed sort values for @ValidSort annotation generation
-    private Map<String, List<String>> sortValidationEnums = new HashMap<>();
-    // Map from operationId to pageable defaults for @PageableDefault/@SortDefault annotation generation
-    private Map<String, SpringPageableScanUtils.PageableDefaultsData> pageableDefaultsRegistry = new HashMap<>();
-    // Map from operationId to pageable constraints for @ValidPageable annotation generation
-    private Map<String, SpringPageableScanUtils.PageableConstraintsData> pageableConstraintsRegistry = new HashMap<>();
-    // Map from schema name to detected paged-model info (populated when substituteGenericPagedModel=true)
-    private Map<String, PagedModelScanUtils.DetectedPagedModel> pagedModelRegistry = new HashMap<>();
-    // Simple class name of the PagedModel substitute (derived from importMapping; defaults to "PagedModel")
-    private String pagedModelClassName = "PagedModel";
+    private final SpringPageableSupport pageableSupport = new SpringPageableSupport();
+    private final GenericSubstitutionSupport genericSubstitutionSupport = new GenericSubstitutionSupport();
+
+    // These setters are called by convertPropertyToBooleanAndWriteBack and delegate to the
+    // shared SpringPageableSupport instance so that all pageable state is in one place.
+    public void setAutoXSpringPaginated(boolean v) { pageableSupport.setAutoXSpringPaginated(v); }
+    public void setGenerateSortValidation(boolean v) { pageableSupport.setGenerateSortValidation(v); }
+    public void setGeneratePageableConstraintValidation(boolean v) { pageableSupport.setGeneratePageableConstraintValidation(v); }
+    public void setSubstituteGenericPagedModel(boolean v) { pageableSupport.setSubstituteGenericPagedModel(v); }
+
+    // SpringPageableSupport.Context implementation — additional methods not already present
+    @Override public String getSourceFolder() { return sourceFolder; }
+    @Override public boolean isUseBeanValidation() { return useBeanValidation; }
+    @Override public void applySpringdocPageableAnnotation(CodegenOperation op) {
+        if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+            op.imports.add("ParameterObject");
+        }
+    }
+
+    // GenericSubstitutionSupport.Context implementation
+    @Override public String fileExtension() { return "java"; }
+    @Override public String toModelImport(String className) {
+        if (className.contains(".")) return className; // already fully qualified (e.g. from schemaMapping)
+        return modelPackage() + "." + className;
+    }
+    @Override public Map<String, String> schemaMapping() { return schemaMapping; }
+
+    // Holds scan results for Spring Pageable features (populated during preprocessOpenAPI)
+    private final SpringPageableScanUtils pageableUtils = new SpringPageableScanUtils();
 
     public SpringCodegen() {
         super();
@@ -366,25 +386,39 @@ public class SpringCodegen extends AbstractJavaCodegen
                 + "When enabled, operations with all three parameters will have Pageable support automatically applied. "
                 + "Operations with x-spring-paginated explicitly set to false will not be auto-detected. "
                 + "Only applies when library=spring-boot.",
-                autoXSpringPaginated));
+                false));
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
                 + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
                 + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. "
                 + "Requires useBeanValidation=true and library=spring-boot.",
-                generateSortValidation));
+                false));
         cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION,
                 "Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to "
                 + "the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. "
                 + "The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. "
                 + "Requires useBeanValidation=true and library=spring-boot.",
-                generatePageableConstraintValidation));
+                false));
         cliOptions.add(CliOption.newBoolean(SUBSTITUTE_GENERIC_PAGED_MODEL,
                 "Detect schemas that represent paginated responses (an object with a 'content' array property and a 'page' "
                 + "pagination-metadata property) and replace their generated references with "
                 + "PagedModel<T>. By default this uses a generated type in the config package (default 'org.openapitools.configuration'), but `importMappings.PagedModel` can override it to a custom/FQCN-mapped type. The detected page schemas and the pagination metadata "
                 + "schema are suppressed from code generation.",
-                substituteGenericPagedModel));
+                false));
+        cliOptions.add(new CliOption(GENERIC_PATTERNS,
+                "List of generic substitution patterns. Each entry specifies a suffix or prefix to match schema names "
+                + "against, a target generic class (FQN for import-only Mode A, or simple name for generated Mode B), "
+                + "and the slot or slotArray property that becomes the type parameter T. "
+                + "Example (YAML config): genericPatterns: [{suffix: Response, genericClass: ApiResponse, slot: data}]. "
+                + "See GenericPatternConfig for full documentation."));
+        cliOptions.add(CliOption.newBoolean(DISCOVER_GENERIC_PATTERNS,
+                "When true, scans schemas for structural clusters (groups of schemas with the same structure except for "
+                + "one varying $ref property) and logs them as INFO-level suggestions for configuring genericPatterns. "
+                + "Never auto-applies substitution.",
+                false));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE,
+                CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC,
+                useEnumValueInterface));
 
     }
 
@@ -613,11 +647,42 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
 
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
 
         if (SPRING_BOOT.equals(library)) {
             convertPropertyToBooleanAndWriteBack(AUTO_X_SPRING_PAGINATED, this::setAutoXSpringPaginated);
             convertPropertyToBooleanAndWriteBack(GENERATE_SORT_VALIDATION, this::setGenerateSortValidation);
             convertPropertyToBooleanAndWriteBack(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, this::setGeneratePageableConstraintValidation);
+        }
+
+        // Parse genericPatterns from additionalProperties
+        Object rawPatterns = additionalProperties.get(GENERIC_PATTERNS);
+        if (rawPatterns instanceof List) {
+            for (Object item : (List<?>) rawPatterns) {
+                if (item instanceof Map) {
+                    Map<?, ?> map = (Map<?, ?>) item;
+                    GenericPatternConfig cfg = new GenericPatternConfig();
+                    if (map.get("suffix") instanceof String) cfg.suffix = (String) map.get("suffix");
+                    if (map.get("prefix") instanceof String) cfg.prefix = (String) map.get("prefix");
+                    if (map.get("genericClass") instanceof String) cfg.genericClass = (String) map.get("genericClass");
+                    if (map.get("slot") instanceof String) cfg.slot = (String) map.get("slot");
+                    if (map.get("slotArray") instanceof String) cfg.slotArray = (String) map.get("slotArray");
+                    if (map.get("slots") instanceof Map) {
+                        Map<String, String> slots = new java.util.LinkedHashMap<>();
+                        ((Map<?, ?>) map.get("slots")).forEach((k, v) -> {
+                            if (k instanceof String && v instanceof String) slots.put((String) k, (String) v);
+                        });
+                        if (!slots.isEmpty()) cfg.slots = slots;
+                    }
+                    genericSubstitutionSupport.addPattern(cfg);
+                }
+            }
+        }
+        Object rawDiscover = additionalProperties.get(DISCOVER_GENERIC_PATTERNS);
+        if (rawDiscover instanceof Boolean) {
+            genericSubstitutionSupport.setDiscoverGenericPatterns((Boolean) rawDiscover);
+        } else if ("true".equals(rawDiscover)) {
+            genericSubstitutionSupport.setDiscoverGenericPatterns(true);
         }
 
         // override parent one
@@ -864,55 +929,17 @@ public class SpringCodegen extends AbstractJavaCodegen
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
         }
 
-        if (SPRING_BOOT.equals(library) && generateSortValidation && useBeanValidation) {
-            sortValidationEnums = SpringPageableScanUtils.scanSortValidationEnums(openAPI, autoXSpringPaginated);
-            if (!sortValidationEnums.isEmpty()) {
-                importMapping.putIfAbsent("ValidSort", configPackage + ".ValidSort");
-                supportingFiles.add(new SupportingFile("validSort.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "ValidSort.java"));
-            }
-        }
+        pageableSupport.preprocessOpenAPI(openAPI, this, SPRING_HTTP_INTERFACE, "java");
 
-        if (SPRING_BOOT.equals(library)) {
-            pageableDefaultsRegistry = SpringPageableScanUtils.scanPageableDefaults(openAPI, autoXSpringPaginated);
-            if (!pageableDefaultsRegistry.isEmpty()) {
-                importMapping.putIfAbsent("PageableDefault", "org.springframework.data.web.PageableDefault");
-                importMapping.putIfAbsent("SortDefault", "org.springframework.data.web.SortDefault");
-                importMapping.putIfAbsent("Sort", "org.springframework.data.domain.Sort");
-            }
-        }
+        pageableSupport.contributeToGenericSubstitution(genericSubstitutionSupport, this);
 
-        if (SPRING_BOOT.equals(library) && generatePageableConstraintValidation && useBeanValidation) {
-            pageableConstraintsRegistry = SpringPageableScanUtils.scanPageableConstraints(openAPI, autoXSpringPaginated);
-            if (!pageableConstraintsRegistry.isEmpty()) {
-                importMapping.putIfAbsent("ValidPageable", configPackage + ".ValidPageable");
-                supportingFiles.add(new SupportingFile("validPageable.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "ValidPageable.java"));
-            }
-        }
+        genericSubstitutionSupport.preprocessOpenAPI(openAPI, this);
 
-        if (substituteGenericPagedModel) {
-            pagedModelRegistry = PagedModelScanUtils.scanPagedModels(openAPI);
-            if (!pagedModelRegistry.isEmpty()) {
-                boolean customMapping = importMapping.containsKey("PagedModel");
-                importMapping.putIfAbsent("PagedModel", configPackage + ".PagedModel");
-                if (!customMapping) {
-                    // No custom class provided — generate the simple PagedModel into the config package.
-                    supportingFiles.add(new SupportingFile("pagedModel.mustache",
-                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "PagedModel.java"));
-                }
-                // Derive the actual simple class name from the FQN in importMapping so that a
-                // custom mapping (e.g. "PagedModel" → "com.example.MyPagedModel") is respected.
-                // The simple name of the FQN becomes the token used in generated code, and is
-                // registered in importMapping so that template import resolution works.
-                String fqn = importMapping.get("PagedModel");
-                pagedModelClassName = fqn.substring(fqn.lastIndexOf('.') + 1);
-                if (!pagedModelClassName.equals("PagedModel")) {
-                    importMapping.put(pagedModelClassName, fqn);
-                }
-                LOGGER.info("substituteGenericPagedModel: detected {} paged-model schema(s): {}",
-                        pagedModelRegistry.size(), pagedModelRegistry.keySet());
-            }
+        if (useEnumValueInterface) {
+            valuedEnumClassName = EnumValueInterfaceUtils.setupInPreprocessOpenAPI(
+                    importMapping, additionalProperties, supportingFiles,
+                    sourceFolder, configPackage,
+                    "enumValueInterface.mustache", "ValuedEnum.java");
         }
 
         /*
@@ -1243,26 +1270,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
 
         // Auto-detect pagination parameters and add x-spring-paginated if autoXSpringPaginated is enabled.
-        // Only for spring-boot; respect manual x-spring-paginated: false override.
-        if (SPRING_BOOT.equals(library) && autoXSpringPaginated) {
-            if (operation.getExtensions() == null || !Boolean.FALSE.equals(operation.getExtensions().get("x-spring-paginated"))) {
-                if (operation.getParameters() != null) {
-                    Set<String> paramNames = operation.getParameters().stream()
-                            .map(io.swagger.v3.oas.models.parameters.Parameter::getName)
-                            .collect(Collectors.toSet());
-                    if (paramNames.containsAll(Arrays.asList("page", "size", "sort"))) {
-                        if (operation.getExtensions() == null) {
-                            operation.setExtensions(new HashMap<>());
-                        }
-                        operation.getExtensions().put("x-spring-paginated", Boolean.TRUE);
-                    }
-                }
-            }
-        }
+        // Must be called before super.fromOperation so the extension is copied to vendorExtensions.
+        pageableSupport.autoDetectPagination(operation, library);
 
-        // add Pageable import only if x-spring-paginated explicitly used
-        // this allows to use a custom Pageable schema without importing Spring Pageable.
-        if (Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+        // add Pageable import only if x-spring-paginated explicitly used AND it's a server library.
+        // this allows to use a custom Pageable schema without importing Spring Pageable,
+        // and avoids polluting the import mapping for client libraries.
+        if (SPRING_BOOT.equals(library) && operation.getExtensions() != null
+                && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
             importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         }
 
@@ -1273,68 +1288,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
                 .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
-        // add org.springframework.data.domain.Pageable import when needed
-        if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
-            codegenOperation.imports.add("Pageable");
-            if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
-                codegenOperation.imports.add("ParameterObject");
-            }
 
-            // #8315 Spring Data Web default query params recognized by Pageable
-            List<String> defaultPageableQueryParams = new ArrayList<>(
-                Arrays.asList("page", "size", "sort")
-            );
-
-            // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
-            codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
-            codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
-
-            // Build pageable parameter annotations (@ValidPageable, @ValidSort, @PageableDefault, @SortDefault.SortDefaults)
-            List<String> pageableAnnotations = new ArrayList<>();
-
-            if (generatePageableConstraintValidation && useBeanValidation && pageableConstraintsRegistry.containsKey(codegenOperation.operationId)) {
-                SpringPageableScanUtils.PageableConstraintsData constraints = pageableConstraintsRegistry.get(codegenOperation.operationId);
-                List<String> attrs = new ArrayList<>();
-                if (constraints.maxSize >= 0) attrs.add("maxSize = " + constraints.maxSize);
-                if (constraints.maxPage >= 0) attrs.add("maxPage = " + constraints.maxPage);
-                pageableAnnotations.add("@ValidPageable(" + String.join(", ", attrs) + ")");
-                codegenOperation.imports.add("ValidPageable");
-            }
-
-            if (generateSortValidation && useBeanValidation && sortValidationEnums.containsKey(codegenOperation.operationId)) {
-                List<String> allowedSortValues = sortValidationEnums.get(codegenOperation.operationId);
-                // Java annotation arrays use {} syntax
-                String allowedValuesStr = allowedSortValues.stream()
-                        .map(v -> "\"" + v.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
-                        .collect(Collectors.joining(", "));
-                pageableAnnotations.add("@ValidSort(allowedValues = {" + allowedValuesStr + "})");
-                codegenOperation.imports.add("ValidSort");
-            }
-
-            if (pageableDefaultsRegistry.containsKey(codegenOperation.operationId)) {
-                SpringPageableScanUtils.PageableDefaultsData defaults = pageableDefaultsRegistry.get(codegenOperation.operationId);
-                if (defaults.page != null || defaults.size != null) {
-                    List<String> attrs = new ArrayList<>();
-                    if (defaults.page != null) attrs.add("page = " + defaults.page);
-                    if (defaults.size != null) attrs.add("size = " + defaults.size);
-                    pageableAnnotations.add("@PageableDefault(" + String.join(", ", attrs) + ")");
-                    codegenOperation.imports.add("PageableDefault");
-                }
-                if (!defaults.sortDefaults.isEmpty()) {
-                    // Java annotation arrays use @SortDefault(...) with {} for the sort field array
-                    List<String> sortEntries = defaults.sortDefaults.stream()
-                            .map(sf -> "@SortDefault(sort = {\"" + sf.field + "\"}, direction = Sort.Direction." + sf.direction + ")")
-                            .collect(Collectors.toList());
-                    pageableAnnotations.add("@SortDefault.SortDefaults({" + String.join(", ", sortEntries) + "})");
-                    codegenOperation.imports.add("SortDefault");
-                    codegenOperation.imports.add("Sort");
-                }
-            }
-
-            if (!pageableAnnotations.isEmpty()) {
-                codegenOperation.vendorExtensions.put("x-pageable-extra-annotation", pageableAnnotations);
-            }
-        }
+        // Build pageable annotations, add Pageable imports, and remove page/size/sort params.
+        pageableSupport.processPageableAnnotations(codegenOperation, this, "{", "}");
         if (codegenOperation.vendorExtensions.containsKey("x-spring-provide-args") && !provideArgsClassSet.isEmpty()) {
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
@@ -1388,34 +1344,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             } // Not an SSE compliant definition
         }
 
-        // If substituteGenericPagedModel is enabled, replace paged-model return types
-        // with org.springframework.data.web.PagedModel<T>.
-        if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()
-                && codegenOperation.returnBaseType != null) {
-            PagedModelScanUtils.DetectedPagedModel detected =
-                    pagedModelRegistry.get(codegenOperation.returnBaseType);
-            if (detected != null) {
-                String oldType = codegenOperation.returnType;
-                // Run through toModelName so that schemaMappings (e.g. User → com.example.MyUser)
-                // are honored: the mapped name is used both in the type arg and for import resolution.
-                String itemType = toModelName(detected.itemSchemaName);
-                String newBaseType = pagedModelClassName + "<" + itemType + ">";
-                codegenOperation.returnType = newBaseType;
-                codegenOperation.returnBaseType = pagedModelClassName;
-                // Clear any container flag — PagedModel is not itself a List/array
-                codegenOperation.returnContainer = null;
-                // Add item type import (needed for PagedModel<T> in method signature)
-                codegenOperation.imports.add(itemType);
-                codegenOperation.imports.add(pagedModelClassName);
-                // Remove paged schema import when no annotations are generated —
-                // the class is suppressed and not referenced anywhere
-                if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
-                    codegenOperation.imports.remove(detected.schemaName);
-                }
-                LOGGER.info("substituteGenericPagedModel: operation '{}': replacing return type '{}' with {}<{}>",
-                        codegenOperation.operationId, oldType, pagedModelClassName, itemType);
-            }
-        }
+        // Replace operation return types for generic schema patterns (genericPatterns feature)
+        // and substituteGenericPagedModel (paged-model schemas contributed via pre-scan).
+        genericSubstitutionSupport.substituteReturnType(codegenOperation, this);
 
         return codegenOperation;
     }
@@ -1471,47 +1402,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
-        if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
-            if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
-                // No @ApiResponse annotations are generated when annotationLibrary=none,
-                // so paged schemas are not referenced anywhere → safe to suppress.
-                Set<String> metaSchemasToCheck = new HashSet<>();
-                for (PagedModelScanUtils.DetectedPagedModel detected : pagedModelRegistry.values()) {
-                    if (detected.metaSchemaName != null) {
-                        metaSchemasToCheck.add(detected.metaSchemaName);
-                    }
-                }
-                // Remove paged schemas first so reference checks below reflect the post-suppression state.
-                for (Map.Entry<String, PagedModelScanUtils.DetectedPagedModel> entry : pagedModelRegistry.entrySet()) {
-                    String schemaName = entry.getKey();
-                    PagedModelScanUtils.DetectedPagedModel detected = entry.getValue();
-                    if (objs.remove(schemaName) != null) {
-                        LOGGER.info("substituteGenericPagedModel: suppressing model '{}' — replaced by PagedModel<{}>",
-                                schemaName, detected.itemSchemaName);
-                    }
-                }
-                // Suppress meta schemas only when no remaining (non-suppressed) schema references them.
-                // Example: if SearchResult has a 'page: PageMeta' property, PageMeta must be kept.
-                for (String metaName : metaSchemasToCheck) {
-                    boolean referencedElsewhere = objs.values().stream()
-                            .flatMap(mm -> mm.getModels().stream())
-                            .map(ModelMap::getModel)
-                            .anyMatch(cm -> cm.imports.contains(metaName));
-                    if (referencedElsewhere) {
-                        LOGGER.info("substituteGenericPagedModel: keeping pagination metadata model '{}'"
-                                + " — referenced by a non-paged schema", metaName);
-                    } else if (objs.remove(metaName) != null) {
-                        LOGGER.info("substituteGenericPagedModel: suppressing pagination metadata model '{}'"
-                                + " — replaced by PagedModel.PageMetadata", metaName);
-                    }
-                }
-            } else {
-                LOGGER.info("substituteGenericPagedModel: keeping paged-model schemas (annotationLibrary={}) — @ApiResponse annotations reference them",
-                        getAnnotationLibrary().toCliOptValue());
-            }
-        }
+        objs = genericSubstitutionSupport.suppressGenericSchemas(objs, this);
 
         return objs;
+    }
+
+    @Override
+    public void prepareSupportingFile(Map<String, Object> bundle, SupportingFile file) {
+        genericSubstitutionSupport.prepareSupportingFile(bundle, file);
     }
 
     @Override
@@ -1526,7 +1424,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             for (CodegenProperty var : cm.vars) {
                 addNullableImports = isAddNullableImports(cm, addNullableImports, var);
             }
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            if (cm.isEnum && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 final Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
@@ -1537,6 +1435,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                 imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
                 addImports(imports, cm, imports2Classnames);
             }
+        }
+
+        if (useEnumValueInterface) {
+            EnumValueInterfaceUtils.injectInPostProcessModelsEnum(
+                    objs, valuedEnumClassName, importMapping.get("ValuedEnum"),
+                    CodegenConstants.X_IMPLEMENTS);
         }
 
         return objs;

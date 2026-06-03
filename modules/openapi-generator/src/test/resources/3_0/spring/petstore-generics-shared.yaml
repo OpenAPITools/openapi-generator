@@ -1,0 +1,46 @@
+openapi: "3.0.1"
+info:
+  title: Petstore Generics - Shared Schemas
+  version: 1.0.0
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+    Order:
+      type: object
+      required: [orderId]
+      properties:
+        orderId:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        totalPrice:
+          type: number
+          format: double
+
+    PageMeta:
+      type: object
+      description: Pagination metadata
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+      required: [size, number, totalElements, totalPages]

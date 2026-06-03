@@ -1106,6 +1106,12 @@ public class DefaultGenerator implements Generator {
                     shouldGenerate = supportingFilesToGenerate.contains(support.getDestinationFilename());
                 }
 
+                // Only let the codegen mutate the shared bundle when this file will actually
+                // be rendered. Otherwise per-file injections (e.g. genericClassDef from
+                // GenericSubstitutionSupport) would leak into the next iteration's render.
+                if (shouldGenerate && ignoreProcessor.allowsFile(new File(outputFilename))) {
+                    config.prepareSupportingFile(bundle, support);
+                }
                 File written = processTemplateToFile(bundle, support.getTemplateFile(), outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
                 if (written != null) {
                     files.add(written);

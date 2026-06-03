@@ -224,6 +224,16 @@ public interface CodegenConfig {
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
+    /**
+     * Called immediately before each supporting file is rendered.
+     * Generators may override this to mutate {@code bundle} with per-file data.
+     * The default implementation is a no-op.
+     *
+     * @param bundle  the shared data bundle passed to the template engine
+     * @param support the supporting file about to be rendered
+     */
+    default void prepareSupportingFile(Map<String, Object> bundle, SupportingFile support) {}
+
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
 
     void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property);

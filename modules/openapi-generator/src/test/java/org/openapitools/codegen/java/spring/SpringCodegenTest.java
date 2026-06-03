@@ -50,7 +50,9 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -67,9 +69,7 @@ import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BO
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class SpringCodegenTest {
 
@@ -7088,6 +7088,34 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void explicitXSpringPaginatedIgnoredForSpringCloud() throws IOException {
+        // When x-spring-paginated: true is set explicitly in the spec but the library is spring-cloud,
+        // the extension must be stripped so the template does not emit "@ParameterObject Pageable pageable".
+        // Instead, individual page/size/sort @RequestParam args from the spec should remain.
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.DOCUMENTATION_PROVIDER, "springdoc");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", "spring-cloud", props);
+
+        JavaFileAssert petApi = JavaFileAssert.assertThat(files.get("PetApi.java"));
+
+        // No Pageable type, @ParameterObject annotation, or their imports must appear for spring-cloud
+        petApi.fileDoesNotContain("Pageable pageable", "@ParameterObject")
+              .hasNoImports(
+                      "org.springframework.data.domain.Pageable",
+                      "org.springdoc.core.annotations.ParameterObject");
+
+        // findPetsByStatus has only the 'status' param from the spec (no Pageable added)
+        petApi.assertMethod("findPetsByStatus", "List<String>");
+
+        // findPetsByTags retains all individual query params defined alongside x-spring-paginated
+        // (page, size, sort remain; header 'size' also stays)
+        petApi.assertMethod("findPetsByTags", "List<String>", "Integer", "Integer", "String", "String");
+    }
+
+    @Test
     public void autoXSpringPaginatedDisabledByDefault() throws IOException {
         Map<String, Object> props = new HashMap<>();
         props.put(SpringCodegen.INTERFACE_ONLY, "true");
@@ -7375,6 +7403,46 @@ public class SpringCodegenTest {
                 .assertParameter("pageable")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("ValidPageable", Map.of("maxSize", "50", "maxPage", "999"));
+    }
+
+    @Test
+    public void generatePageableConstraintValidationResolvesMaximumFromAllOfRef() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithSizeConstraintFromAllOfRef: maximum: 75 is on the referenced schema only
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithSizeConstraintFromAllOfRef")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ValidPageable", Map.of("maxSize", "75"));
+    }
+
+    @Test
+    public void generatePageableConstraintValidationResolvesMinimumFromAllOfRef() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_PAGEABLE_CONSTRAINT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        // findPetsWithMinSizeConstraintFromAllOfRef: minimum: 5 is on the referenced schema only
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsWithMinSizeConstraintFromAllOfRef")
+                .assertParameter("pageable")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ValidPageable", Map.of("minSize", "5"));
     }
 
     // -------------------------------------------------------------------------
@@ -7728,6 +7796,424 @@ public class SpringCodegenTest {
         return props;
     }
 
+    // =========================================================================
+    // genericPatterns integration tests
+    // =========================================================================
+
+    /**
+     * Builds common test props for genericPatterns feature tests.
+     * Uses annotationLibrary=none so that suppression is active.
+     */
+    private Map<String, Object> genericPatternsProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(DOCUMENTATION_PROVIDER, "none");
+        props.put(ANNOTATION_LIBRARY, "none");
+
+        // Pattern 1: suffix=Response, slot=data, Mode B (simple class name → generate)
+        Map<String, Object> responsePattern = new HashMap<>();
+        responsePattern.put("suffix", "Response");
+        responsePattern.put("genericClass", "ApiResponse");
+        responsePattern.put("slot", "data");
+
+        // Pattern 2: suffix=Page, slotArray=content, Mode A (FQN → import only)
+        Map<String, Object> pagePattern = new HashMap<>();
+        pagePattern.put("suffix", "Page");
+        pagePattern.put("genericClass", "org.springframework.data.domain.Page");
+        pagePattern.put("slotArray", "content");
+
+        // Pattern 3: suffix=ErrorResult, slots: data→T + error→E, Mode B (multi-param)
+        Map<String, Object> resultPattern = new HashMap<>();
+        resultPattern.put("suffix", "ErrorResult");
+        resultPattern.put("genericClass", "Result");
+        Map<String, String> resultSlots = new LinkedHashMap<>();
+        resultSlots.put("data", "T");
+        resultSlots.put("error", "E");
+        resultPattern.put("slots", resultSlots);
+
+        props.put(SpringCodegen.GENERIC_PATTERNS, Arrays.asList(responsePattern, pagePattern, resultPattern));
+        return props;
+    }
+
+    @Test
+    public void genericPatterns_replacesReturnTypeForSuffixSlotPattern() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // getUserResponse returns UserResponse → must become ApiResponse<User>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getUserResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<User>>");
+    }
+
+    @Test
+    public void genericPatterns_replacesReturnTypeForAllMatchedSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getPetResponse").hasReturnType("ResponseEntity<ApiResponse<Pet>>")
+                .toFileAssert()
+                .assertMethod("getOrderResponse").hasReturnType("ResponseEntity<ApiResponse<Order>>");
+    }
+
+    @Test
+    public void genericPatterns_suppressesConcreteSchemaClassesWhenNoAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Concrete wrapper schemas should be suppressed
+        assertThat(files).doesNotContainKey("UserResponse.java");
+        assertThat(files).doesNotContainKey("PetResponse.java");
+        assertThat(files).doesNotContainKey("OrderResponse.java");
+    }
+
+    @Test
+    public void genericPatterns_keepsNonMatchedSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // SearchResult is not matched → must still be generated
+        assertThat(files).containsKey("SearchResult.java");
+        // Domain types must still be generated
+        assertThat(files).containsKey("User.java");
+        assertThat(files).containsKey("Pet.java");
+    }
+
+    @Test
+    public void genericPatterns_modeBGeneratesClassFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Mode B: "ApiResponse" simple name → registered as SupportingFile, must appear in generate() output
+        assertThat(files).containsKey("ApiResponse.java");
+    }
+
+    @Test
+    public void genericPatterns_modeADoesNotGenerateClassFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Mode A: "org.springframework.data.domain.Page" FQN → no generated file
+        assertThat(files).doesNotContainKey("Page.java");
+    }
+
+    @Test
+    public void genericPatterns_slotArrayPatternReplacesReturnType() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // listUsers returns UserPage → must become Page<User>
+        JavaFileAssert.assertThat(files.get("PageApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<Page<User>>");
+    }
+
+    @Test
+    public void genericPatterns_slotArrayAllOfPatternReplacesReturnType() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // listPets returns PetPage (allOf form) → must become Page<Pet>
+        JavaFileAssert.assertThat(files.get("PageApi.java"))
+                .assertMethod("listPets")
+                .hasReturnType("ResponseEntity<Page<Pet>>");
+    }
+
+    @Test
+    public void genericPatterns_tier1VendorExtensionDetected() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // UserVendorResult has x-generic-class=com.example.generic.VendorResult → Mode A
+        // Operation getVendorUserResult returns VendorResult<User>
+        JavaFileAssert.assertThat(files.get("VendorApi.java"))
+                .assertMethod("getVendorUserResult")
+                .hasReturnType("ResponseEntity<VendorResult<User>>");
+    }
+
+    @Test
+    public void genericPatterns_disabledByDefault_concreteSchemaGenerated() throws IOException {
+        // Without genericPatterns, response schemas must still be generated as concrete classes
+        Map<String, Object> props = new HashMap<>();
+        props.put(SpringCodegen.INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(DOCUMENTATION_PROVIDER, "none");
+        props.put(ANNOTATION_LIBRARY, "none");
+        // NOT setting GENERIC_PATTERNS
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT, props);
+
+        assertThat(files).containsKey("UserResponse.java");
+        assertThat(files).containsKey("PetResponse.java");
+    }
+
+    // =========================================================================
+    // Multi-type-parameter integration tests
+    // =========================================================================
+
+    @Test
+    public void genericPatterns_multiParam_replacesReturnTypeWithTwoTypeArgs() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // getUserErrorResult returns UserErrorResult → must become Result<User, ValidationError>
+        JavaFileAssert.assertThat(files.get("ResultApi.java"))
+                .assertMethod("getUserErrorResult")
+                .hasReturnType("ResponseEntity<Result<User, ValidationError>>");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_replacesReturnTypeForAllMatchedSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("ResultApi.java"))
+                .assertMethod("getOrderErrorResult")
+                .hasReturnType("ResponseEntity<Result<Order, PaymentError>>");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_suppressesConcreteSchemas() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        assertThat(files).doesNotContainKey("UserErrorResult.java");
+        assertThat(files).doesNotContainKey("OrderErrorResult.java");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_modeBGeneratesResultClassFile() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Mode B: "Result" simple name → registered as SupportingFile
+        assertThat(files).containsKey("Result.java");
+    }
+
+    @Test
+    public void genericPatterns_multiParam_resultClassHasTwoTypeParams() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // Result.java must declare class Result<T, E>
+        JavaFileAssert.assertThat(files.get("Result.java"))
+                .fileContains("public class Result<T, E>");
+    }
+
+    @Test
+    public void genericPatterns_singleParam_resultClassStillHasOneTypeParam() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // ApiResponse.java must still declare class ApiResponse<T> (not <T, E>)
+        JavaFileAssert.assertThat(files.get("ApiResponse.java"))
+                .fileContains("public class ApiResponse<T>");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — modelNameSuffix / modelNamePrefix
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_replacesReturnType() throws IOException {
+        // When modelNameSuffix is set, op.returnBaseType includes the suffix (e.g. "UserResponseDto").
+        // The registry must be re-keyed with toModelName() so the lookup succeeds.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        // getUserResponse returns UserResponse → suffix applied → UserResponseDto → replaced with ApiResponse<UserDto>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getUserResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<UserDto>>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNamePrefix_replacesReturnType() throws IOException {
+        // When modelNamePrefix is set, op.returnBaseType includes the prefix (e.g. "MyUserResponse").
+        // The registry must be re-keyed with toModelName() so the lookup succeeds.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNamePrefix", "My"));
+
+        // getUserResponse returns UserResponse → prefix applied → MyUserResponse → replaced with ApiResponse<MyUser>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getUserResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<MyUser>>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_suppressesConcreteSchemaClasses() throws IOException {
+        // Verify schema suppression works with modelNameSuffix:
+        // objs keys are raw schema names; inst.schemaName (raw) must be used for removal.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        // Concrete wrapper schemas are suppressed (raw name + suffix = e.g. UserResponseDto.java)
+        assertThat(files).doesNotContainKey("UserResponseDto.java");
+        assertThat(files).doesNotContainKey("PetResponseDto.java");
+        assertThat(files).doesNotContainKey("OrderResponseDto.java");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — property-level substitution (Scenarios A, B, F, G)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_substitutesPropertyTypeRef() throws IOException {
+        // Scenario A: OrderDetails.userResult: $ref UserResponse → ApiResponse<User>
+        // The plain domain property (pet: Pet) must NOT be changed.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("OrderDetails.java"))
+                .fileContains("ApiResponse<User>")
+                .fileDoesNotContain("UserResponse userResult");
+        JavaFileAssert.assertThat(files.get("OrderDetails.java"))
+                .fileContains("Pet pet");
+    }
+
+    @Test
+    public void genericPatterns_substitutesArrayPropertyTypeRef() throws IOException {
+        // Scenario B: NotificationBatch.responses: array of $ref UserResponse → List<ApiResponse<User>>
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("NotificationBatch.java"))
+                .fileContains("ApiResponse<User>")
+                .fileDoesNotContain("UserResponse");
+    }
+
+    @Test
+    public void genericPatterns_suppressionDoesNotBreakModelWithSubstitutedProperty() throws IOException {
+        // Scenario G: end-to-end coherence check:
+        // OrderDetails.java has correct ApiResponse<User> type AND UserResponse.java is suppressed.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        assertThat(files).doesNotContainKey("UserResponse.java");
+        assertThat(files).containsKey("OrderDetails.java");
+        JavaFileAssert.assertThat(files.get("OrderDetails.java"))
+                .fileContains("ApiResponse<User>");
+    }
+
+    @Test
+    public void genericPatterns_withModelNameSuffix_substitutesPropertyTypeRef() throws IOException {
+        // Scenario F: property substitution combined with modelNameSuffix=Dto
+        // OrderDetails.userResult → ApiResponse<UserDto> (not ApiResponse<User>)
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        JavaFileAssert.assertThat(files.get("OrderDetailsDto.java"))
+                .fileContains("ApiResponse<UserDto>")
+                .fileDoesNotContain("UserResponseDto");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — recursive type-arg expansion (Scenarios C, D)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_recursiveTypeArgInReturnType() throws IOException {
+        // Scenario C: UserResponsePage matched as Page<T> where T=UserResponse (itself ApiResponse<User>)
+        // Expected: listUserResponses → Page<ApiResponse<User>>
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("PageApi.java"))
+                .assertMethod("listUserResponses")
+                .hasReturnType("ResponseEntity<Page<ApiResponse<User>>>");
+    }
+
+    @Test
+    public void genericPatterns_recursiveTypeArgInMultiParamReturn() throws IOException {
+        // Scenario D: UserResponseErrorResult matched as Result<T,E>
+        // where T=UserResponse (itself ApiResponse<User>) and E=ValidationError (plain type)
+        // Expected: getUserResponseErrorResult → Result<ApiResponse<User>, ValidationError>
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        JavaFileAssert.assertThat(files.get("ResultApi.java"))
+                .assertMethod("getUserResponseErrorResult")
+                .hasReturnType("ResponseEntity<Result<ApiResponse<User>, ValidationError>>");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — suppression safety check (Scenario E)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_suppressionSafety_keepsSchemaWhenExtended() throws IOException {
+        // Scenario E: ExtendedUserResponse uses allOf composition (no discriminator → no Java
+        // inheritance, model.parent = null). UserResponse is a detected generic instance and CAN
+        // be safely suppressed — composition merges its properties into ExtendedUserResponse directly.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics-inheritance.yaml", SPRING_BOOT,
+                genericPatternsProps());
+
+        // UserResponse IS correctly suppressed (composition, not inheritance → safe)
+        assertThat(files).doesNotContainKey("UserResponse.java");
+        // ExtendedUserResponse is generated with its own merged properties
+        assertThat(files).containsKey("ExtendedUserResponse.java");
+    }
+
+    // -------------------------------------------------------------------------
+    // genericPatterns — schemaMapping interaction (Gap B)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void genericPatterns_schemaMappingOnInstance_skipsSubstitution() throws IOException {
+        // Gap B: when a generic instance schema is also in schemaMapping, the user's schemaMapping
+        // intent takes precedence and no substitution occurs for that instance.
+        // Only UserResponse is schema-mapped; PetResponse and OrderResponse should still be substituted.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-generics.yaml", SPRING_BOOT,
+                genericPatternsProps(),
+                configurator -> configurator.addSchemaMapping("UserResponse", "com.example.external.UserResponse"));
+
+        // getUserResponse must NOT have been rewritten to ApiResponse<User>
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .fileDoesNotContain("ApiResponse<User>");
+
+        // Other instances (PetResponse, OrderResponse) must still be substituted
+        JavaFileAssert.assertThat(files.get("ResponseApi.java"))
+                .assertMethod("getPetResponse")
+                .hasReturnType("ResponseEntity<ApiResponse<Pet>>");
+    }
+
     // -------------------------------------------------------------------------
     // substituteGenericPagedModel — spring-cloud
     // -------------------------------------------------------------------------
@@ -7781,6 +8267,59 @@ public class SpringCodegenTest {
         props.put(SpringCodegen.USE_TAGS, "true");
         props.put(SpringCodegen.SUBSTITUTE_GENERIC_PAGED_MODEL, "true");
         return props;
+    }
+
+
+    // -------------------------------------------------------------------------
+    // substituteGenericPagedModel — modelNameSuffix / modelNamePrefix
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void substituteGenericPagedModel_withModelNameSuffix_replacesReturnType() throws IOException {
+        // When modelNameSuffix is set the returnBaseType includes the suffix,
+        // so the registry lookup must also use the suffix-applied key.
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        // listUsers returns UserPage → suffix applied → UserPageDto → replaced with PagedModel<UserDto>
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<UserDto>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_withModelNamePrefix_replacesReturnType() throws IOException {
+        // When modelNamePrefix is set the returnBaseType includes the prefix,
+        // so the registry lookup must also use the prefix-applied key.
+        Map<String, Object> props = commonPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator.addAdditionalProperty("modelNamePrefix", "My"));
+
+        // listUsers returns UserPage → prefix applied → MyUserPage → replaced with PagedModel<MyUser>
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("listUsers")
+                .hasReturnType("ResponseEntity<PagedModel<MyUser>>");
+    }
+
+    @Test
+    public void substituteGenericPagedModel_withModelNameSuffix_suppressesPagedSchemasWhenNoAnnotations()
+            throws IOException {
+        // Verify schema suppression also works correctly under modelNameSuffix
+        // (objs keys are suffix-applied, registry keys must match them).
+        Map<String, Object> props = noAnnotationPagedModelProps();
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-paged-model.yaml", SPRING_BOOT, props,
+                configurator -> configurator.addAdditionalProperty("modelNameSuffix", "Dto"));
+
+        assertThat(files).doesNotContainKey("UserPageDto.java");
+        assertThat(files).doesNotContainKey("OrderPageDto.java");
+        assertThat(files).doesNotContainKey("PetPageAllOfDto.java");
     }
 
 
@@ -7925,6 +8464,77 @@ public class SpringCodegenTest {
             Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false"));
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
             .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
+    }
+
+    // useEnumValueInterface tests
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void useEnumValueInterface_isDisabledByDefault() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT, new HashMap<>());
+
+        assertThat(files).doesNotContainKey("ValuedEnum.java");
+        JavaFileAssert.assertThat(files.get("OrderStatus.java"))
+                .fileDoesNotContain("implements ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_generatesInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        assertThat(files).containsKey("ValuedEnum.java");
+        JavaFileAssert.assertThat(files.get("ValuedEnum.java"))
+                .isInterface()
+                .fileContains("interface ValuedEnum<T>");
+    }
+
+    @Test
+    public void useEnumValueInterface_topLevelEnumImplementsInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        JavaFileAssert.assertThat(files.get("OrderStatus.java"))
+                .fileContains("implements ValuedEnum<String>")
+                .hasImports("org.openapitools.configuration.ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_inlineEnumImplementsInterface() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"));
+
+        JavaFileAssert.assertThat(files.get("Order.java"))
+                .fileContains("implements ValuedEnum<String>")
+                .hasImports("org.openapitools.configuration.ValuedEnum");
+    }
+
+    @Test
+    public void useEnumValueInterface_noFileGeneratedWithCustomImportMapping() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"),
+                configurator -> configurator
+                        .addImportMapping("ValuedEnum", "com.example.custom.ValuedEnum"));
+
+        assertThat(files).doesNotContainKey("ValuedEnum.java");
+    }
+
+    @Test
+    public void useEnumValueInterface_customImportMappingUsedInGeneratedCode() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/enum-value-interface.yaml", SPRING_BOOT,
+                Map.of(USE_ENUM_VALUE_INTERFACE, "true"),
+                configurator -> configurator
+                        .addImportMapping("ValuedEnum", "com.example.custom.ValuedEnum"));
+
+        JavaFileAssert.assertThat(files.get("OrderStatus.java"))
+                .fileContains("implements ValuedEnum<String>")
+                .hasImports("com.example.custom.ValuedEnum");
     }
 
     @Test
