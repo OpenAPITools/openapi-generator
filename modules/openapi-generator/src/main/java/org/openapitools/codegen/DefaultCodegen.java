@@ -419,7 +419,7 @@ public class DefaultCodegen implements CodegenConfig {
         convertPropertyToBooleanAndWriteBack(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, this::setPrependFormOrBodyParameters);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ENSURE_UNIQUE_PARAMS, this::setEnsureUniqueParams);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, this::setAllowUnicodeIdentifiers);
-        convertPropertyToBooleanAndWriteBack(SPLIT_OPERATIONS_BY_CONTENT_TYPE, this::setSplitOperationsByContentType);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, this::setSplitOperationsByContentType);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_PREFIX, this::setApiNamePrefix);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_SUFFIX, this::setApiNameSuffix);
         convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_NAME_PREFIX, this::setModelNamePrefix);
@@ -1058,9 +1058,6 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
     }
 
-    /** Opt-in option key: split operations that expose several request/response content-types. */
-    public static final String SPLIT_OPERATIONS_BY_CONTENT_TYPE = "splitOperationsByContentType";
-
     /** Internal vendor extension carrying the {@code List<Operation>} a divided operation expands to. */
     public static final String X_CONTENT_TYPE_VARIANTS = "x-content-type-variants";
 
@@ -1071,7 +1068,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * When {@link #SPLIT_OPERATIONS_BY_CONTENT_TYPE} is enabled, divides every operation whose request
+     * When {@link CodegenConstants#SPLIT_OPERATIONS_BY_CONTENT_TYPE} is enabled, divides every operation whose request
      * body and/or success response expose several content-types with <em>different</em> schemas into one
      * operation per content-type (the cartesian product of the request and response axes). The variants
      * are stored on the original {@link Operation} under {@link #X_CONTENT_TYPE_VARIANTS} and expanded by
@@ -2040,9 +2037,8 @@ public class DefaultCodegen implements CodegenConfig {
         cliOptions.add(CliOption.newBoolean(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC).defaultValue(Boolean.FALSE.toString()));
         // option to split operations that expose several request/response content-types with different schemas
-        cliOptions.add(CliOption.newBoolean(SPLIT_OPERATIONS_BY_CONTENT_TYPE,
-                "Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.")
-                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE,
+                CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE_DESC).defaultValue(Boolean.FALSE.toString()));
 
         // option to change how we process + set the data in the discriminator mapping
         CliOption legacyDiscriminatorBehaviorOpt = CliOption.newBoolean(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString());

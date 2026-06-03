@@ -57,6 +57,7 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
                 .put(AbstractPhpCodegen.SRC_BASE_PATH, SRC_BASE_PATH_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "false")
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)

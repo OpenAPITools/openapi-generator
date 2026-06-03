@@ -150,6 +150,9 @@ public class CodegenConstants {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS = "prependFormOrBodyParameters";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_DESC = "Add form or body parameters to the beginning of the parameter list.";
 
+    public static final String SPLIT_OPERATIONS_BY_CONTENT_TYPE = "splitOperationsByContentType";
+    public static final String SPLIT_OPERATIONS_BY_CONTENT_TYPE_DESC = "Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.";
+
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
 

@@ -54,6 +54,7 @@ public class XojoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "true")
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
+                .put(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "false")
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "false")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "false")

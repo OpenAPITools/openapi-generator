@@ -64,6 +64,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(RubyClientCodegen.GEM_AUTHOR_EMAIL, GEM_AUTHOR_EMAIL_VALUE)
                 .put(RubyClientCodegen.GEM_METADATA, GEM_METADATA_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "false")
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")

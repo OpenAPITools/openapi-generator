@@ -37,6 +37,7 @@ public class ElixirClientOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false")
+                .put(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "false")
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false")
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "false")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "false")
