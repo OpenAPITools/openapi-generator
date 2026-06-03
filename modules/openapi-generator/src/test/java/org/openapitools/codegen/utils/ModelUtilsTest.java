@@ -686,7 +686,8 @@ public class ModelUtilsTest {
         Schema refSchema = anyOf.get(0);
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, refSchema));
 
-        // second sub-schema is {type: object, nullable: true} — expresses nullability
+        // second sub-schema is {type: object, nullable: true} which is just any type that's also nullable
+        // when normalizer rule `LOOSE_NULL_DEFINITIONS` is NOT enabled
         Schema bareNullableObject = anyOf.get(1);
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, bareNullableObject),
                 "not `null` (3.1 spec) as normalizer rule `LOOSE_NULL_DEFINITIONS` is NOT enabled");

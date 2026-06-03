@@ -1891,6 +1891,9 @@ public class OpenAPINormalizerTest {
         assertEquals(order2.getProperties().get("shippingAddress").get$ref(),  null);
         assertEquals(order2.getProperties().get("shippingAddress").getNullable(), true);
         assertEquals( ((Schema) order2.getProperties().get("shippingAddress").getAllOf().get(0)).get$ref(), "#/components/schemas/Address");
+
+        // reset to false after tests
+        ModelUtils.looseNullDefinitions = false;
     }
 
 }
