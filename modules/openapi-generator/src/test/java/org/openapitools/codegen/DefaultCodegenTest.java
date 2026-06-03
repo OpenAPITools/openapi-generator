@@ -5224,4 +5224,49 @@ public class DefaultCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void splitOperationsByContentType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type.yaml");
+
+        codegen.preprocessOpenAPI(openAPI);
+
+        // POST /reports: request {json -> Report, xml -> ReportXml} x response {json -> Receipt, pdf -> binary}
+        // is divided into the cartesian product, each variant narrowed to a single content-type on both axes.
+        List<Operation> postVariants = contentTypeVariants(openAPI.getPaths().get("/reports").getPost());
+        assertThat(postVariants).extracting(Operation::getOperationId)
+                .containsExactlyInAnyOrder("createReportWithJsonAsJson", "createReportWithJsonAsPdf",
+                        "createReportWithXmlAsJson", "createReportWithXmlAsPdf");
+        for (Operation variant : postVariants) {
+            assertThat(variant.getRequestBody().getContent()).hasSize(1);
+            assertThat(variant.getResponses().get("200").getContent()).hasSize(1);
+        }
+
+        // GET /reports/{id}: no request body, response {json -> Report, directlog -> binary} => 2 variants.
+        List<Operation> getVariants = contentTypeVariants(openAPI.getPaths().get("/reports/{id}").getGet());
+        assertThat(getVariants).extracting(Operation::getOperationId)
+                .containsExactlyInAnyOrder("getReportAsJson", "getReportAsDirectlog");
+    }
+
+    @Test
+    public void splitOperationsByContentTypeLeavesUnambiguousOperationsUntouched() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+
+        codegen.preprocessOpenAPI(openAPI);
+
+        // petstore has no operation exposing several content-types with different schemas: nothing is divided.
+        boolean anyDivided = openAPI.getPaths().values().stream()
+                .flatMap(path -> path.readOperations().stream())
+                .anyMatch(op -> op.getExtensions() != null && op.getExtensions().containsKey(DefaultCodegen.X_CONTENT_TYPE_VARIANTS));
+        assertThat(anyDivided).isFalse();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Operation> contentTypeVariants(Operation operation) {
+        return (List<Operation>) operation.getExtensions().get(DefaultCodegen.X_CONTENT_TYPE_VARIANTS);
+    }
 }

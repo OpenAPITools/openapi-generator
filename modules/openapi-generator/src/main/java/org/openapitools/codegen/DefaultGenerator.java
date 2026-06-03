@@ -1521,6 +1521,18 @@ public class DefaultGenerator implements Generator {
             return;
         }
 
+        // splitOperationsByContentType: an operation divided by content-type expands into its variants,
+        // each a self-contained single-content-type Operation that re-enters the normal pipeline.
+        if (operation.getExtensions() != null) {
+            Object variants = operation.getExtensions().get(DefaultCodegen.X_CONTENT_TYPE_VARIANTS);
+            if (variants instanceof List && !((List<?>) variants).isEmpty()) {
+                for (Object variant : (List<?>) variants) {
+                    processOperation(resourcePath, httpMethod, (Operation) variant, operations, path);
+                }
+                return;
+            }
+        }
+
         if (GlobalSettings.getProperty("debugOperations") != null) {
             LOGGER.info("processOperation: resourcePath=  {}\t;{} {}\n", resourcePath, httpMethod, operation);
         }
