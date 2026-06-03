@@ -227,7 +227,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, packageName);
-        removeOption(CodegenConstants.API_SUFFIX);
         removeOption(CodegenConstants.PARCELIZE_MODELS);
         removeOption(CodegenConstants.SERIALIZABLE_MODEL);
         removeOption(CodegenConstants.SERIALIZATION_LIBRARY);

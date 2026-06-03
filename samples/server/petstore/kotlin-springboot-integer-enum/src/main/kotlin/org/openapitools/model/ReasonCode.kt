@@ -4,6 +4,7 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.openapitools.configuration.ValuedEnum
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -18,7 +19,7 @@ import jakarta.validation.Valid
 * 
 * Values: _10,_20
 */
-enum class ReasonCode(@get:JsonValue val value: kotlin.Int) {
+enum class ReasonCode(@get:JsonValue override val value: kotlin.Int) : ValuedEnum<kotlin.Int> {
 
     _10(10),
     _20(20);

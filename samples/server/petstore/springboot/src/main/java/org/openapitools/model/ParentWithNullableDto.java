@@ -13,15 +13,16 @@ import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * ParentWithNullableDto
@@ -42,7 +43,7 @@ public class ParentWithNullableDto {
   /**
    * Gets or Sets type
    */
-  public enum TypeEnum {
+  public enum TypeEnum implements ValuedEnum<String> {
     CHILD_WITH_NULLABLE("ChildWithNullable");
 
     private final String value;
