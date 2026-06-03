@@ -37,6 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |psr7Implementation|Slim 4 provides its own PSR-7 implementation so that it works out of the box. However, you are free to replace Slim&rsquo;s default PSR-7 objects with a third-party implementation. Ref: https://www.slimframework.com/docs/v4/concepts/value-objects.html|<dl><dt>**slim-psr7**</dt><dd>Slim PSR-7 Message implementation</dd><dt>**nyholm-psr7**</dt><dd>Nyholm PSR-7 Message implementation</dd><dt>**guzzle-psr7**</dt><dd>Guzzle PSR-7 Message implementation</dd><dt>**zend-diactoros**</dt><dd>Zend Diactoros PSR-7 Message implementation</dd></dl>|slim-psr7|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 |srcBasePath|The directory to serve as source root.| |null|
 |variableNamingConvention|naming convention of variable name, e.g. camelCase.|<dl><dt>**camelCase**</dt><dd>Use camelCase convention</dd><dt>**PascalCase**</dt><dd>Use PascalCase convention</dd><dt>**snake_case**</dt><dd>Use snake_case convention</dd><dt>**original**</dt><dd>Do not change the variable name</dd></dl>|camelCase|
 

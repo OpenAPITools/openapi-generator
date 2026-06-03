@@ -33,6 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectVersion|version of the project (Default: using info.version or &quot;1.0.0&quot;)| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 
 ## IMPORT MAPPING
 
