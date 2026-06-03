@@ -6678,4 +6678,116 @@ public class KotlinSpringServerCodegenTest {
         String content = Files.readString(myObjectFile.toPath());
         assertThat(content).contains("com.example.ExternalModel?");
     }
+
+     @Test(description = "test enumUnknownDefaultCase option")
+    public void testEnumUnknownDefaultCaseOption() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        // Test default value is false
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.FALSE);
+
+        // Test setting via additionalProperties
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.TRUE);
+    }
+
+    @Test(description = "test enum model generation with enumUnknownDefaultCase")
+    public void testEnumModelWithUnknownDefaultCase() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/enum_unknown_default_case.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        // Enable enumUnknownDefaultCase
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        // Verify that enumUnknownDefaultCase is set
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.TRUE);
+
+        // Process all models to trigger enum processing
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        Map<String, ModelsMap> allModels = new HashMap<>();
+        for (String modelName : schemas.keySet()) {
+            Schema schema = schemas.get(modelName);
+            CodegenModel cm = codegen.fromModel(modelName, schema);
+            ModelsMap modelsMap = new ModelsMap();
+            modelsMap.setModels(Collections.singletonList(new ModelMap(Collections.singletonMap("model", cm))));
+            allModels.put(modelName, modelsMap);
+        }
+
+        // Post-process to add enumVars
+        allModels = codegen.postProcessAllModels(allModels);
+
+        // Get the ColorEnum model
+        CodegenModel colorEnum = null;
+        for (Map.Entry<String, ModelsMap> entry : allModels.entrySet()) {
+            if ("ColorEnum".equals(entry.getKey())) {
+                colorEnum = entry.getValue().getModels().get(0).getModel();
+                break;
+            }
+        }
+
+        Assert.assertNotNull(colorEnum);
+        Assert.assertNotNull(colorEnum.allowableValues);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) colorEnum.allowableValues.get("enumVars");
+        Assert.assertNotNull(enumVars);
+
+        // Check that we have the expected enum values including UNKNOWN_DEFAULT_OPEN_API
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'RED'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'GREEN'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'BLUE'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'YELLOW'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'unknown_default_open_api'".equals(var.get("value"))));
+    }
+
+    @Test(description = "test enum generation with enumUnknownDefaultCase enabled")
+    public void testEnumGenerationWithUnknownDefaultCase() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin-spring")
+                .setInputSpec("src/test/resources/3_1/enum_unknown_default_case.yaml")
+                .setOutputDir(outputPath)
+                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path enumFile = Paths.get(outputPath, "openapi_client", "models", "color_enum.kt");
+
+        TestUtils.assertFileContains(enumFile,
+                "UNKNOWN_DEFAULT_OPEN_API");
+
+        TestUtils.assertFileContains(enumFile,
+                "?: UNKNOWN_DEFAULT_OPEN_API");
+}
+
+    @Test(description = "test enum generation with enumUnknownDefaultCase disabled")
+    public void testEnumGenerationWithoutUnknownDefaultCase() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin-spring")
+                .setInputSpec("src/test/resources/3_1/enum_unknown_default_case.yaml")
+                .setOutputDir(outputPath)
+                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "false");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path enumFile = Paths.get(outputPath, "openapi_client", "models", "color_enum.kt");
+
+        // Check that UNKNOWN_DEFAULT_OPEN_API is NOT added
+        TestUtils.assertFileNotContains(enumFile, "UNKNOWN_DEFAULT_OPEN_API");
+
+    }
 }
