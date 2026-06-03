@@ -199,6 +199,37 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testEnumUnknownDefaultCaseUsesModelSpecificNamesWhenEnumClassPrefixDisabled() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true);
+        properties.put(CodegenConstants.ENUM_CLASS_PREFIX, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/go/enum_unknown_default_case_multiple_models.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path statusA = Paths.get(output + "/model_status_a.go");
+        Path statusB = Paths.get(output + "/model_status_b.go");
+        TestUtils.assertFileContains(statusA,
+                "STATUSA_UNKNOWN_DEFAULT_OPEN_API StatusA = \"unknown_default_open_api\"",
+                "*v = STATUSA_UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileContains(statusB,
+                "STATUSB_UNKNOWN_DEFAULT_OPEN_API StatusB = \"unknown_default_open_api\"",
+                "*v = STATUSB_UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileNotContains(statusA, "\n\tUNKNOWN_DEFAULT_OPEN_API StatusA =");
+        TestUtils.assertFileNotContains(statusB, "\n\tUNKNOWN_DEFAULT_OPEN_API StatusB =");
+    }
+
+    @Test
     public void testAdditionalPropertiesModelFileFolder() throws Exception {
         final GoClientCodegen codegen = new GoClientCodegen();
         codegen.additionalProperties().put(GoClientCodegen.MODEL_FILE_FOLDER, "model_dir");

@@ -239,8 +239,23 @@ public class AbstractKotlinCodegenTest {
 
     @Test
     public void convertApiNameWithSuffix() {
-        codegen.setApiSuffix("Test");
+        codegen.setApiNameSuffix("Test");
         assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithPrefix() {
+        codegen.setApiNamePrefix("Prefix");
+        assertEquals(codegen.toApiName("Fake"), "PrefixFakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithPrefixAndSuffix() {
+        codegen.setApiNamePrefix("Prefix");
+        codegen.setApiNameSuffix("Suffix");
+        assertEquals(codegen.toApiName("Fake"), "PrefixFakeSuffix");
         assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 

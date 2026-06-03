@@ -41,9 +41,6 @@ public class CodegenConstants {
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
-    public static final String API_SUFFIX = "apiSuffix";
-    public static final String API_SUFFIX_DESC = "suffix for api classes";
-
     public static final String AUTOSET_CONSTANTS = "autosetConstants";
 
     public static final String MODEL_PACKAGE = "modelPackage";
@@ -487,6 +484,7 @@ public class CodegenConstants {
     public static final String X_NULLABLE_TYPE = "x-nullable-type";
     public static final String X_CSHARP_VALUE_TYPE = "x-csharp-value-type";
     public static final String X_REGEX = "x-regex";
+    public static final String X_PATTERN = "x-pattern";
     public static final String X_MODIFIERS = "x-modifiers";
     public static final String X_MODIFIER_PREFIX = "x-modifier-";
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
@@ -511,4 +509,17 @@ public class CodegenConstants {
     public static final String X_NULLABLE = "x-nullable";
     public static final String X_ENUM_VARNAMES = "x-enum-varnames";
     public static final String X_ENUM_DESCRIPTIONS = "x-enum-descriptions";
+    public static final String X_PY_TYPING = "x-py-typing";
+    public static final String X_PY_EXAMPLE = "x-py-example";
+    public static final String X_PY_EXAMPLE_IMPORT = "x-py-example-import";
+    public static final String X_PY_FASTAPI_EXAMPLE = "x-py-fastapi-example";
+    public static final String X_PY_NAME = "x-py-name";
+    public static final String X_PY_ENUM_TYPE = "x-py-enum-type";
+    public static final String X_PY_READONLY = "x-py-readonly";
+    public static final String X_PY_MODEL_IMPORTS = "x-py-model-imports";
+    public static final String X_PY_OTHER_IMPORTS = "x-py-other-imports";
+    public static final String X_PY_POSTPONED_MODEL_IMPORTS = "x-py-postponed-model-imports";
+    public static final String X_PY_TYPING_IMPORTS = "x-py-typing-imports";
+    public static final String X_PY_PYDANTIC_IMPORTS = "x-py-pydantic-imports";
+    public static final String X_PY_DATETIME_IMPORTS = "x-py-datetime-imports";
 }
