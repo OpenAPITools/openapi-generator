@@ -81,6 +81,10 @@ public class ModelUtils {
     private static final ObjectMapper JSON_MAPPER;
     private static final ObjectMapper YAML_MAPPER;
 
+    // allow more schema definitions to be the `null` type in 3.1 spec
+    // e.g. {type: object, nullable: true} which is any type that's nullable
+    public static boolean looseNullDefinitions = false;
+
     static {
         JSON_MAPPER = ObjectMapperFactory.createJson();
         YAML_MAPPER = ObjectMapperFactory.createYaml();
@@ -2394,8 +2398,11 @@ public class ModelUtils {
             return false;
         }
 
-        // OpenAPI 3.0.x: nullable object with no properties or constraints expresses nullability
-        if (!(schema instanceof JsonSchema) // 3.0.x only
+        // OpenAPI 3.0.x: nullable object with no properties or constraints expresses nullability, which
+        // is any type that's nullable, i.e. {type: object, nullable: true}
+        // given that the normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled
+        if (looseNullDefinitions &&
+                !(schema instanceof JsonSchema) // 3.0.x only
                 && "object".equals(schema.getType())
                 && Boolean.TRUE.equals(schema.getNullable())
                 && schema.get$ref() == null

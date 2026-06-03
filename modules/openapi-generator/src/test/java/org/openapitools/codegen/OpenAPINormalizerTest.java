@@ -1852,7 +1852,6 @@ public class OpenAPINormalizerTest {
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
         openAPINormalizer.normalize();
-//        ModelUtils.dumpAsYaml(openAPI);
         Schema vehicle = openAPI.getComponents().getSchemas().get("Vehicle");
         Map<String, String> mapping = vehicle.getDiscriminator().getMapping();
         assertEquals(mapping, Map.of("car", "#/components/schemas/Car", "plane", "#/components/schemas/Plane" ));
@@ -1870,10 +1869,28 @@ public class OpenAPINormalizerTest {
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
         openAPINormalizer.normalize();
-//         ModelUtils.dumpAsYaml(openAPI);
         Schema payload = (Schema)openAPI.getComponents().getSchemas().get("DeviceLifecycleEvent").getProperties().get("payload");
         // inline oneOf are not converted
         assertNotNull(payload.getOneOf());
+    }
+
+    @Test
+    public void testLooseNullDefinitions() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml");
+
+        Schema<?> order = openAPI.getComponents().getSchemas().get("Order");
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(0)).get$ref(),  "#/components/schemas/Address");
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(1)).getNullable(), true);
+        assertEquals(((Schema) order.getProperties().get("shippingAddress").getAnyOf().get(1)).getType(), "object");
+
+        Map<String, String> options = Map.of("LOOSE_NULL_DEFINITIONS", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema<?> order2 = openAPI.getComponents().getSchemas().get("Order");
+        assertEquals(order2.getProperties().get("shippingAddress").get$ref(),  null);
+        assertEquals(order2.getProperties().get("shippingAddress").getNullable(), true);
+        assertEquals( ((Schema) order2.getProperties().get("shippingAddress").getAllOf().get(0)).get$ref(), "#/components/schemas/Address");
     }
 
 }

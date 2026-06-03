@@ -4476,19 +4476,6 @@ public class JavaClientCodegenTest {
 
     }
 
-    @Test(description = "anyOf with $ref and {type: object, nullable: true} should resolve to typed nullable field, not Object")
-    public void testAnyOfBareNullableObjectResolvesToTypedField() {
-        Map<String, File> files = generateFromContract(
-                "src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml",
-                JavaClientCodegen.JERSEY3);
-
-        JavaFileAssert.assertThat(files.get("Order.java"))
-                .fileContains("Address")
-                .fileDoesNotContain("OrderShippingAddress", "Object getShippingAddress");
-
-        Assert.assertNull(files.get("OrderShippingAddress.java"),
-                "Should not generate synthetic anyOf wrapper; the anyOf should simplify to Address");
-    }
     @DataProvider(name = "replaceOneOf")
     public Object[][] replaceOneOf() {
         return new Object[][]{

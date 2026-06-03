@@ -656,14 +656,17 @@ public class ModelUtilsTest {
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
 
         // {type: "object", nullable: true} with no properties/constraints expresses nullability (OAS 3.0.3)
+        // but only if the normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled
         schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
-        assertTrue(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
 
         // {type: "object", nullable: true} WITH properties is a real object, not expressing nullability
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
         schema = openAPI.getComponents().getSchemas().get("NullableObjectWithProperties");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
 
         // {type: "object", nullable: true, additionalProperties: ...} is a nullable map, not expressing nullability
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
         schema = openAPI.getComponents().getSchemas().get("NullableObjectMap");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
     }
@@ -685,8 +688,8 @@ public class ModelUtilsTest {
 
         // second sub-schema is {type: object, nullable: true} — expresses nullability
         Schema bareNullableObject = anyOf.get(1);
-        assertTrue(ModelUtils.isNullTypeSchema(openAPI, bareNullableObject),
-                "{type: object, nullable: true} with no properties/constraints expresses nullability");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, bareNullableObject),
+                "not `null` (3.1 spec) as normalizer rule `LOOSE_NULL_DEFINITIONS` is NOT enabled");
     }
 
     @Test
@@ -731,6 +734,7 @@ public class ModelUtilsTest {
 
         // In 3.1, {type: object, nullable: true} is NOT a null type — it's a real
         // nullable object. Nullability in 3.1 is expressed via type: ["object", "null"].
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
         schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
     }

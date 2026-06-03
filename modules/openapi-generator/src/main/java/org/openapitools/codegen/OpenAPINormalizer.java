@@ -165,6 +165,9 @@ public class OpenAPINormalizer {
     // when set to true, sort model properties by name to ensure deterministic output
     final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
 
+    // when set to true, some more schema definitions are considered as `null` in 3.1 spec
+    final String LOOSE_NULL_DEFINITIONS = "LOOSE_NULL_DEFINITIONS";
+
     // ============= end of rules =============
 
     /**
@@ -225,6 +228,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
         ruleNames.add(SORT_MODEL_PROPERTIES);
+        ruleNames.add(LOOSE_NULL_DEFINITIONS);
         ruleNames.add(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING);
 
         // rules that are default to true
@@ -340,6 +344,12 @@ public class OpenAPINormalizer {
         bearerAuthSecuritySchemeName = inputRules.get(SET_BEARER_AUTH_FOR_NAME);
         if (bearerAuthSecuritySchemeName != null) {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
+        }
+
+        // update ModelUtils to allow loose null definitions if the normalizer rule is set
+        if (inputRules.get(LOOSE_NULL_DEFINITIONS) != null) {
+            rules.put(SECURITY_SCHEMES_FILTER, true);
+            ModelUtils.looseNullDefinitions = true;
         }
     }
 
