@@ -6759,7 +6759,15 @@ public class KotlinSpringServerCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        Path enumFile = Paths.get(outputPath, "openapi_client", "models", "color_enum.kt");
+        Path enumFile = Paths.get(outputPath,
+                "src",        
+                "main",         
+                "kotlin",        
+                "org",         
+                "openapitools",         
+                "model",
+                "Color.kt"
+        );
 
         TestUtils.assertFileContains(enumFile,
                 "UNKNOWN_DEFAULT_OPEN_API");
@@ -6784,7 +6792,15 @@ public class KotlinSpringServerCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        Path enumFile = Paths.get(outputPath, "openapi_client", "models", "color_enum.kt");
+        Path enumFile = Paths.get(outputPath,
+                "src",        
+                "main",         
+                "kotlin",        
+                "org",         
+                "openapitools",         
+                "model",
+                "Color.kt"
+        );
 
         // Check that UNKNOWN_DEFAULT_OPEN_API is NOT added
         TestUtils.assertFileNotContains(enumFile, "UNKNOWN_DEFAULT_OPEN_API");
