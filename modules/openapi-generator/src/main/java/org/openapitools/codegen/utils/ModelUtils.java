@@ -2394,6 +2394,15 @@ public class ModelUtils {
             return false;
         }
 
+        // OpenAPI 3.0.x: nullable object with no properties or constraints expresses nullability
+        if (!(schema instanceof JsonSchema) // 3.0.x only
+                && "object".equals(schema.getType())
+                && Boolean.TRUE.equals(schema.getNullable())
+                && schema.get$ref() == null
+                && schema.getAdditionalProperties() == null) {
+            return true;
+        }
+
         // convert referenced enum of null only to `nullable:true`
         if (schema.getEnum() != null && schema.getEnum().size() == 1) {
             if ("null".equals(String.valueOf(schema.getEnum().get(0)))) {
