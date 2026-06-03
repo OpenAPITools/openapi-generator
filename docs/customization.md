@@ -644,7 +644,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer NORMALIZER_CLASS=org.openapitools.codegen.OpenAPINormalizerTest$RemoveRequiredNormalizer
 ```
 
-- `LOOSE_NULL_DEFINITIONS`: When set to true, allow more schema definitions to be the same as `null` in OpenAPI 3.1 spec by setting ModelUtils.looseNullDefinitions to true.
+- `LOOSE_NULL_DEFINITIONS`: When set to true, allow more schema definitions in OpenAPI 3.0 spec to be the same as `null` in OpenAPI 3.1 spec by setting ModelUtils.looseNullDefinitions to true.
 
 Example:
 ```
