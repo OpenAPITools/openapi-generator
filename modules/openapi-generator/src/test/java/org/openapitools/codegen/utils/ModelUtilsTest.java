@@ -654,6 +654,43 @@ public class ModelUtilsTest {
 
         schema = openAPI.getComponents().getSchemas().get("JustDescription");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // {type: "object", nullable: true} with no properties/constraints expresses nullability (OAS 3.0.3)
+        // but only if the normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled
+        schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // {type: "object", nullable: true} WITH properties is a real object, not expressing nullability
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
+        schema = openAPI.getComponents().getSchemas().get("NullableObjectWithProperties");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // {type: "object", nullable: true, additionalProperties: ...} is a nullable map, not expressing nullability
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
+        schema = openAPI.getComponents().getSchemas().get("NullableObjectMap");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+    }
+
+    @Test
+    public void isNullTypeSchemaTestBareNullableObject() {
+        OpenAPI openAPI = TestUtils.parseSpec(
+                "src/test/resources/bugs/issue_anyof_bare_nullable_object.yaml");
+        Schema order = (Schema) openAPI.getComponents().getSchemas().get("Order");
+        Schema shippingProp = (Schema) order.getProperties().get("shippingAddress");
+        assertNotNull(shippingProp.getAnyOf(), "shippingAddress should have anyOf");
+
+        List<Schema> anyOf = shippingProp.getAnyOf();
+        assertEquals(anyOf.size(), 2);
+
+        // first sub-schema is the $ref to Address
+        Schema refSchema = anyOf.get(0);
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, refSchema));
+
+        // second sub-schema is {type: object, nullable: true} which is just any type that's also nullable
+        // when normalizer rule `LOOSE_NULL_DEFINITIONS` is NOT enabled
+        Schema bareNullableObject = anyOf.get(1);
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, bareNullableObject),
+                "not `null` (3.1 spec) as normalizer rule `LOOSE_NULL_DEFINITIONS` is NOT enabled");
     }
 
     @Test
@@ -694,6 +731,12 @@ public class ModelUtilsTest {
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(1)));
 
         schema = openAPI.getComponents().getSchemas().get("JustDescription");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        // In 3.1, {type: object, nullable: true} is NOT a null type — it's a real
+        // nullable object. Nullability in 3.1 is expressed via type: ["object", "null"].
+        // whether normalizer rule `LOOSE_NULL_DEFINITIONS` is enabled or not
+        schema = openAPI.getComponents().getSchemas().get("BareNullableObject");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
     }
 
