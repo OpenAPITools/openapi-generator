@@ -346,9 +346,8 @@ public class OpenAPINormalizer {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
         }
 
-        // update ModelUtils to allow loose null definitions if the normalizer rule is set
-        if (inputRules.get(LOOSE_NULL_DEFINITIONS) != null) {
-            rules.put(SECURITY_SCHEMES_FILTER, true);
+        // update ModelUtils to allow loose null definitions if the normalizer rule LOOSE_NULL_DEFINITIONS is set
+        if (Boolean.TRUE.equals(rules.get(LOOSE_NULL_DEFINITIONS))) {
             ModelUtils.looseNullDefinitions = true;
         }
     }
