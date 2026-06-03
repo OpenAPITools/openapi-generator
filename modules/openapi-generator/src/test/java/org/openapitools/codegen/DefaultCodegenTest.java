@@ -5265,6 +5265,26 @@ public class DefaultCodegenTest {
         assertThat(anyDivided).isFalse();
     }
 
+    @Test
+    public void splitOperationsByContentTypeUsesTheMethodResponse() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-method-response-target.yaml");
+
+        codegen.preprocessOpenAPI(openAPI);
+
+        // /a: the method response (200, the lowest 2xx) is multi-content -> split by content-type.
+        assertThat(contentTypeVariants(openAPI.getPaths().get("/a").getGet()))
+                .extracting(Operation::getOperationId)
+                .containsExactlyInAnyOrder("getAAsJson", "getAAsPdf");
+
+        // /b: only the non-method response (206) is multi-content; the method response (200) is single,
+        // so the operation is left untouched - the generator derives the return type from 200 only.
+        Operation getB = openAPI.getPaths().get("/b").getGet();
+        assertThat(getB.getExtensions() != null
+                && getB.getExtensions().containsKey(DefaultCodegen.X_CONTENT_TYPE_VARIANTS)).isFalse();
+    }
+
     @SuppressWarnings("unchecked")
     private static List<Operation> contentTypeVariants(Operation operation) {
         return (List<Operation>) operation.getExtensions().get(DefaultCodegen.X_CONTENT_TYPE_VARIANTS);

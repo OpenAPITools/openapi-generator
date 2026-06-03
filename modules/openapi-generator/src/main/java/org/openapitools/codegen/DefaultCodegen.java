@@ -1158,24 +1158,21 @@ public class DefaultCodegen implements CodegenConfig {
         if (operation.getResponses() == null) {
             return null;
         }
-        for (Map.Entry<String, ApiResponse> entry : operation.getResponses().entrySet()) {
-            String code = entry.getKey();
-            if (code == null || code.length() != 3 || code.charAt(0) != '2') {
-                continue;
-            }
-            ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, entry.getValue());
-            Content content = response == null ? null : response.getContent();
-            if (content == null || content.size() < 2) {
-                continue;
-            }
-            long distinct = content.values().stream()
-                    .map(mt -> schemaKey(mt == null ? null : mt.getSchema()))
-                    .distinct().count();
-            if (distinct >= 2) {
-                return code;
-            }
+        // Only split the response the generator actually derives the return type from, so the variants'
+        // return types and Accept headers stay consistent (see findMethodResponse).
+        String code = findMethodResponseCode(operation.getResponses());
+        if (code == null) {
+            return null;
         }
-        return null;
+        ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(code));
+        Content content = response == null ? null : response.getContent();
+        if (content == null || content.size() < 2) {
+            return null;
+        }
+        long distinctSchemas = content.values().stream()
+                .map(mt -> schemaKey(mt == null ? null : mt.getSchema()))
+                .distinct().count();
+        return distinctSchemas >= 2 ? code : null;
     }
 
     /**
@@ -1184,7 +1181,12 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private Operation buildOperationVariant(OpenAPI openAPI, Operation original, String baseId, String requestMediaType,
                                             String responseMediaType, String targetResponseCode, ApiResponse targetResponse) {
-        Operation variant = shallowCopyOperation(original);
+        boolean openapi31 = specVersionGreaterThanOrEqualTo310(openAPI);
+        Operation variant = ModelUtils.cloneOperation(original, openapi31);
+        // generators (e.g. SpringCodegen) read the extensions map without null-guards
+        if (variant.getExtensions() == null) {
+            variant.setExtensions(new LinkedHashMap<>());
+        }
 
         // typed, collision-free operationId: request -> "With<Subtype>", response -> "As<Subtype>"
         StringBuilder operationId = new StringBuilder(baseId);
@@ -1198,51 +1200,26 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (requestMediaType != null) {
             RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, original.getRequestBody());
-            variant.setRequestBody(narrowRequestBody(requestBody, requestMediaType));
+            variant.setRequestBody(narrowRequestBody(requestBody, requestMediaType, openapi31));
         }
         if (responseMediaType != null) {
-            variant.setResponses(narrowResponses(original.getResponses(), targetResponseCode, targetResponse, responseMediaType));
+            variant.setResponses(narrowResponses(original.getResponses(), targetResponseCode, targetResponse, responseMediaType, openapi31));
         }
         return variant;
     }
 
-    /** Shallow-copies an {@link Operation}, giving the copy its own mutable parameter/extension lists. */
-    private Operation shallowCopyOperation(Operation source) {
-        Operation copy = new Operation();
-        copy.setTags(source.getTags());
-        copy.setSummary(source.getSummary());
-        copy.setDescription(source.getDescription());
-        copy.setExternalDocs(source.getExternalDocs());
-        copy.setOperationId(source.getOperationId());
-        copy.setParameters(source.getParameters() == null ? null : new ArrayList<>(source.getParameters()));
-        copy.setRequestBody(source.getRequestBody());
-        copy.setResponses(source.getResponses());
-        copy.setCallbacks(source.getCallbacks());
-        copy.setDeprecated(source.getDeprecated());
-        copy.setSecurity(source.getSecurity() == null ? null : new ArrayList<>(source.getSecurity()));
-        copy.setServers(source.getServers());
-        // Keep a non-null extensions map: generators (e.g. SpringCodegen) read it without null-guards.
-        copy.setExtensions(source.getExtensions() == null ? new LinkedHashMap<>() : new LinkedHashMap<>(source.getExtensions()));
+    private RequestBody narrowRequestBody(RequestBody source, String mediaType, boolean openapi31) {
+        RequestBody copy = ModelUtils.cloneRequestBody(source, openapi31);
+        copy.setContent(singleContent(source.getContent(), mediaType));
         return copy;
     }
 
-    private RequestBody narrowRequestBody(RequestBody source, String mediaType) {
-        RequestBody copy = new RequestBody();
-        copy.setDescription(source.getDescription());
-        copy.setRequired(source.getRequired());
-        copy.setExtensions(source.getExtensions());
-        Content content = new Content();
-        content.addMediaType(mediaType, source.getContent().get(mediaType));
-        copy.setContent(content);
-        return copy;
-    }
-
-    private ApiResponses narrowResponses(ApiResponses responses, String targetCode, ApiResponse targetResponse, String mediaType) {
+    private ApiResponses narrowResponses(ApiResponses responses, String targetCode, ApiResponse targetResponse, String mediaType, boolean openapi31) {
         ApiResponses copy = new ApiResponses();
         copy.setExtensions(responses.getExtensions());
         for (Map.Entry<String, ApiResponse> entry : responses.entrySet()) {
             if (entry.getKey().equals(targetCode)) {
-                copy.addApiResponse(entry.getKey(), narrowApiResponse(targetResponse, mediaType));
+                copy.addApiResponse(entry.getKey(), narrowApiResponse(targetResponse, mediaType, openapi31));
             } else {
                 copy.addApiResponse(entry.getKey(), entry.getValue());
             }
@@ -1250,16 +1227,17 @@ public class DefaultCodegen implements CodegenConfig {
         return copy;
     }
 
-    private ApiResponse narrowApiResponse(ApiResponse source, String mediaType) {
-        ApiResponse copy = new ApiResponse();
-        copy.setDescription(source.getDescription());
-        copy.setHeaders(source.getHeaders());
-        copy.setLinks(source.getLinks());
-        copy.setExtensions(source.getExtensions());
-        Content content = new Content();
-        content.addMediaType(mediaType, source.getContent().get(mediaType));
-        copy.setContent(content);
+    private ApiResponse narrowApiResponse(ApiResponse source, String mediaType, boolean openapi31) {
+        ApiResponse copy = ModelUtils.cloneApiResponse(source, openapi31);
+        copy.setContent(singleContent(source.getContent(), mediaType));
         return copy;
+    }
+
+    /** A new {@link Content} holding only {@code mediaType} taken from {@code source}. */
+    private static Content singleContent(Content source, String mediaType) {
+        Content content = new Content();
+        content.addMediaType(mediaType, source.get(mediaType));
+        return content;
     }
 
     /** Stable identity key for a schema: its {@code $ref} when present, else a structural key. */
@@ -4824,6 +4802,21 @@ public class DefaultCodegen implements CodegenConfig {
      * @return default method response or <code>null</code> if not found
      */
     protected ApiResponse findMethodResponse(ApiResponses responses) {
+        String code = findMethodResponseCode(responses);
+        if (code == null) {
+            return null;
+        }
+        return ModelUtils.getReferencedApiResponse(openAPI, responses.get(code));
+    }
+
+    /**
+     * Returns the response code the operation's return type is derived from: the lowest 2xx code, or
+     * {@code "default"} when no 2xx is present.
+     *
+     * @param responses the API responses of an operation
+     * @return the selected response code, or {@code null} if there is no success/default response
+     */
+    protected String findMethodResponseCode(ApiResponses responses) {
         String code = null;
         for (String responseCode : responses.keySet()) {
             if (responseCode.startsWith("2") || responseCode.equals("default")) {
@@ -4832,10 +4825,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        if (code == null) {
-            return null;
-        }
-        return ModelUtils.getReferencedApiResponse(openAPI, responses.get(code));
+        return code;
     }
 
     /**

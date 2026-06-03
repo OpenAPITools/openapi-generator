@@ -20,6 +20,8 @@ package org.openapitools.codegen.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.AnnotationsUtils;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Json31;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -2313,6 +2315,45 @@ public class ModelUtils {
             result.setType(schemaType);
             return result;
         }
+    }
+
+    /**
+     * Deep-clones an {@link Operation} through the swagger object mapper (like {@link #cloneSchema}).
+     *
+     * @param source    the operation to clone
+     * @param openapi31 whether the document is OpenAPI 3.1 (selects the matching mapper so embedded
+     *                  schemas are serialized with the right dialect)
+     * @return a deep clone of {@code source}
+     */
+    public static Operation cloneOperation(Operation source, boolean openapi31) {
+        return cloneViaMapper(source, Operation.class, openapi31);
+    }
+
+    /**
+     * Deep-clones a {@link RequestBody} through the swagger object mapper.
+     *
+     * @param source    the request body to clone
+     * @param openapi31 whether the document is OpenAPI 3.1
+     * @return a deep clone of {@code source}
+     */
+    public static RequestBody cloneRequestBody(RequestBody source, boolean openapi31) {
+        return cloneViaMapper(source, RequestBody.class, openapi31);
+    }
+
+    /**
+     * Deep-clones an {@link ApiResponse} through the swagger object mapper.
+     *
+     * @param source    the response to clone
+     * @param openapi31 whether the document is OpenAPI 3.1
+     * @return a deep clone of {@code source}
+     */
+    public static ApiResponse cloneApiResponse(ApiResponse source, boolean openapi31) {
+        return cloneViaMapper(source, ApiResponse.class, openapi31);
+    }
+
+    private static <T> T cloneViaMapper(T source, Class<T> type, boolean openapi31) {
+        ObjectMapper mapper = openapi31 ? Json31.mapper() : Json.mapper();
+        return mapper.convertValue(source, type);
     }
 
     /**
