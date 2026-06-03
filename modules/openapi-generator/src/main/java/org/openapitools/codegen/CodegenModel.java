@@ -141,7 +141,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Getter @Setter
     public List<CodegenProperty> parentVars = new ArrayList<>();
     public List<CodegenProperty> parentRequiredVars = new ArrayList<>();
-    public List<CodegenProperty> requiredVarsOptionalInParent;
+    public List<CodegenProperty> requiredVarsOptionalInParent = new ArrayList<>();
     @Getter @Setter
     public List<CodegenProperty> nonNullableVars = new ArrayList<>(); // a list of non-nullable properties
     @Getter @Setter
