@@ -18,3 +18,4 @@ additionalProperties:
   generatePageableConstraintValidation: "true"
   useTags: "true"
   requestMappingMode: api_interface
+  useEnumValueInterface: "true"

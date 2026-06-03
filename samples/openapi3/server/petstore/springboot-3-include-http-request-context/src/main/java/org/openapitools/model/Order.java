@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -45,7 +46,7 @@ public class Order {
   /**
    * Order Status
    */
-  public enum StatusEnum {
+  public enum StatusEnum implements ValuedEnum<String> {
     PLACED("placed"),
     
     APPROVED("approved"),

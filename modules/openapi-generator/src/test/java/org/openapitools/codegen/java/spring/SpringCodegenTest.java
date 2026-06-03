@@ -8068,7 +8068,8 @@ public class SpringCodegenTest {
         assertThat(files).containsKey("ValuedEnum.java");
         JavaFileAssert.assertThat(files.get("ValuedEnum.java"))
                 .isInterface()
-                .fileContains("interface ValuedEnum<T>");
+                .fileContains("interface ValuedEnum<T>")
+                .hasImports("jakarta.annotation.Generated");
     }
 
     @Test

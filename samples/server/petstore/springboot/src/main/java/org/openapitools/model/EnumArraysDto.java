@@ -10,15 +10,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * EnumArraysDto
@@ -31,7 +32,7 @@ public class EnumArraysDto {
   /**
    * Gets or Sets justSymbol
    */
-  public enum JustSymbolEnum {
+  public enum JustSymbolEnum implements ValuedEnum<String> {
     GREATER_THAN_OR_EQUAL_TO(">="),
     
     DOLLAR("$");
