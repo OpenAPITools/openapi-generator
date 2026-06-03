@@ -1079,11 +1079,15 @@ public class DefaultCodegen implements CodegenConfig {
         if (!splitOperationsByContentType || operation == null) {
             return Collections.singletonList(operation);
         }
-        List<String> requestAxis = requestContentTypeAxis(openAPI, operation);
-        String targetResponseCode = findMultiSchemaSuccessResponseCode(openAPI, operation);
-        ApiResponse targetResponse = targetResponseCode == null ? null
-                : ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(targetResponseCode));
-        List<String> responseAxis = axisOf(targetResponse == null ? null : targetResponse.getContent());
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+        List<String> requestAxis = axisOf(requestBody == null ? null : requestBody.getContent());
+
+        // Only the response the generator derives the return type from (the method response) is split, so the
+        // variants' return types and Accept headers stay consistent (see findMethodResponse).
+        String methodResponseCode = operation.getResponses() == null ? null : findMethodResponseCode(operation.getResponses());
+        ApiResponse methodResponse = methodResponseCode == null ? null
+                : ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(methodResponseCode));
+        List<String> responseAxis = axisOf(methodResponse == null ? null : methodResponse.getContent());
 
         boolean requestSplit = requestAxis.size() > 1;
         boolean responseSplit = responseAxis.size() > 1;
@@ -1098,16 +1102,10 @@ public class DefaultCodegen implements CodegenConfig {
                 variants.add(buildOperationVariant(openAPI, operation, baseId,
                         requestSplit ? requestMediaType : null,
                         responseSplit ? responseMediaType : null,
-                        targetResponseCode, targetResponse));
+                        methodResponseCode, methodResponse));
             }
         }
         return variants;
-    }
-
-    /** Distinct (by resolved schema) request-body content-types, JSON first; a singleton list if not split. */
-    private List<String> requestContentTypeAxis(OpenAPI openAPI, Operation operation) {
-        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
-        return axisOf(requestBody == null ? null : requestBody.getContent());
     }
 
     /**
@@ -1139,28 +1137,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         return ordered;
-    }
-
-    /** First 2xx response exposing at least two content-types with different schemas, or {@code null}. */
-    private String findMultiSchemaSuccessResponseCode(OpenAPI openAPI, Operation operation) {
-        if (operation.getResponses() == null) {
-            return null;
-        }
-        // Only split the response the generator actually derives the return type from, so the variants'
-        // return types and Accept headers stay consistent (see findMethodResponse).
-        String code = findMethodResponseCode(operation.getResponses());
-        if (code == null) {
-            return null;
-        }
-        ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(code));
-        Content content = response == null ? null : response.getContent();
-        if (content == null || content.size() < 2) {
-            return null;
-        }
-        long distinctSchemas = content.values().stream()
-                .map(mt -> schemaKey(mt == null ? null : mt.getSchema()))
-                .distinct().count();
-        return distinctSchemas >= 2 ? code : null;
     }
 
     /**
@@ -1237,7 +1213,7 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.get$ref();
         }
         StringBuilder key = new StringBuilder();
-        key.append(schema.getType()).append('|').append(schema.getFormat());
+        key.append(ModelUtils.getType(schema)).append('|').append(schema.getFormat());
         if (schema.getItems() != null) {
             key.append("|items=").append(schemaKey(schema.getItems()));
         }
