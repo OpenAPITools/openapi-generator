@@ -1834,7 +1834,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testREPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING() {
+    public void testReplaceOneOfByDiscriminatorMapping() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23527.yaml");
 
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
@@ -1847,7 +1847,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void issue_14769() {
+    public void testIssue14769() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_14769.yaml");
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
@@ -1864,7 +1864,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void oneOf_issue_23276() {
+    public void oneOfIssue23276() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_23276.yaml");
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
