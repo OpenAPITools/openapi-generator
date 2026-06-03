@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 |srcBasePath|The directory to serve as source root.| |null|
 |variableNamingConvention|naming convention of variable name, e.g. camelCase.|<dl><dt>**camelCase**</dt><dd>Use camelCase convention</dd><dt>**PascalCase**</dt><dd>Use PascalCase convention</dd><dt>**snake_case**</dt><dd>Use snake_case convention</dd><dt>**original**</dt><dd>Do not change the variable name</dd></dl>|snake_case|
 

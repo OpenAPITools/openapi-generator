@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |null|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 |sttpClientVersion|The version of sttp client| |4.0.0-M1|
 
 ## IMPORT MAPPING

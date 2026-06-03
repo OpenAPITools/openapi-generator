@@ -46,6 +46,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |requestType|Set the name of the type used to generate requests| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 |strictFields|Add strictness annotations to all model fields| |true|
 |useKatip|Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger| |true|
 

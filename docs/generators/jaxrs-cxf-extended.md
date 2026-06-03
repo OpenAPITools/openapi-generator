@@ -80,6 +80,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/gen/java|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 |supportMultipleSpringServices|Support generation of Spring services from multiple specifications| |false|
 |testDataControlFile|JSON file to control test data generation| |null|
 |testDataFile|JSON file to contain generated test data| |null|

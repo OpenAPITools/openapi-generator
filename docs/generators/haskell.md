@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |serveStatic|serve will serve files from the directory 'static'.| |true|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 |useCustomMonad|use a custom monad instead of the default Handler| |false|
 
 ## IMPORT MAPPING

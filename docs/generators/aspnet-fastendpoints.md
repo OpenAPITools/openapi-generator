@@ -30,6 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |solutionGuid|The solution GUID to be used in the solution file (auto generated if not provided)| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|splitOperationsByContentType|Generate one operation per request/response content-type when an operation exposes several content-types with different schemas.| |false|
 |useApiVersioning|Enable API versioning (https://fast-endpoints.com/docs/api-versioning).| |false|
 |useAuthentication|Enable authentication (https://fast-endpoints.com/docs/security).| |false|
 |useProblemDetails|Enable RFC compatible error responses (https://fast-endpoints.com/docs/configuration-settings#rfc7807-rfc9457-compatible-problem-details).| |false|
