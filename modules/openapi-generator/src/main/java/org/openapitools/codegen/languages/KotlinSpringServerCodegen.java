@@ -311,7 +311,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
-        cliOptions.add(cliOption.newBoolean(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue("false"));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue("false"));
 
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
