@@ -1,0 +1,53 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllOfTest"
+components:
+  schemas:
+    AllOfTest:
+      description: to test allOf
+      allOf:
+        - type: string
+        - type: 'null'
+        - type: null
+        - $ref: null
+    SingleAllOfTest:
+      description: to test allOf (enum string only)
+      allOf:
+        - type: string
+          enum:
+            - A
+            - B
+    ArrayAllOfTest:
+      type: object
+      properties:
+        outer:
+          type: array
+          items:
+            allOf:
+              - type: array
+                minItems: 1
+                items:
+                  type: string

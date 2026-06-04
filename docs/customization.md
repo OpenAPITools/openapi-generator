@@ -536,7 +536,7 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 
 OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectly conform to the specification) to make it workable with OpenAPI Generator. A few rules are switched on by default since 7.0.0 release:
 
-- SIMPLIFY_ONEOF_ANYOF_ALLOF 
+- SIMPLIFY_ONEOF_ANYOF 
 - SIMPLIFY_BOOLEAN_ENUM
 - SIMPLIFY_ONEOF_ANYOF_ENUM
 - REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
@@ -581,11 +581,18 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyBooleanEnum_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_BOOLEAN_ENUM=true
 ```
 
-- `SIMPLIFY_ONEOF_ANYOF_ALLOF`: when set to `true`, simplify oneOf/anyOf/allOf by 1) removing null (sub-schema) or enum of null (sub-schema) and setting nullable to true instead, and 2) simplifying oneOf/anyOf/allOf with a single sub-schema to just the sub-schema itself.
+- `SIMPLIFY_ONEOF_ANYOF`: when set to `true`, simplify oneOf/anyOf by 1) removing null (sub-schema) or enum of null (sub-schema) and setting nullable to true instead, and 2) simplifying oneOf/anyOf with a single sub-schema to just the sub-schema itself.
 
 Example:
 ```
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF_ALLOF=true
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF=true
+```
+
+- `SIMPLIFY_ALLOF`: when set to `true`, simplify allOf by 1) removing null (sub-schema) or enum of null (sub-schema) and setting nullable to true instead, and 2) simplifying allOf with a single sub-schema to just the sub-schema itself.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAllOf_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ALLOF=true
 ```
 
 - `KEEP_ONLY_FIRST_TAG_IN_OPERATION`: when set to `true`, only keep the first tag in operation if there are more than one tag defined.

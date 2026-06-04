@@ -13,4 +13,4 @@ additionalProperties:
   serializationLibrary: gson
   generateOneOfAnyOfWrappers: true
 openapiNormalizer:
-  SIMPLIFY_ONEOF_ANYOF_ALLOF: false
+  SIMPLIFY_ONEOF_ANYOF: false
