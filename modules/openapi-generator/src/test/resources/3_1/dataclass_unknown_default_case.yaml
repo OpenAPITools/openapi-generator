@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: Dataclass Nested Enum Test API
+  description: API for testing inline/nested enum generation in data classes with enumUnknownDefaultCase
+  version: 1.0.0
+paths:
+  /colors:
+    get:
+      summary: Get color
+      operationId: getColor
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ColorResponse'
+components:
+  schemas:
+    ColorResponse:
+      type: object
+      required:
+        - color
+      properties:
+        color:
+          type: string
+          description: Available colors
+          enum:
+            - RED
+            - GREEN
+            - BLUE
+            - YELLOW
+        priority:
+          type: integer
+          description: Priority levels
+          enum:
+            - 1
+            - 2
+            - 3
