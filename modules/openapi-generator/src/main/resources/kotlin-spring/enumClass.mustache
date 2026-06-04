@@ -3,9 +3,7 @@
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
 enum class {{classname}}(
-    @get:JsonValue
-    {{#useEnumValueInterface}}override {{/useEnumValueInterface}}
-    val value: {{dataType}}
+    @get:JsonValue {{#useEnumValueInterface}}override {{/useEnumValueInterface}}val value: {{dataType}}
 ) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}} {
 
 {{#allowableValues}}{{#enumVars}}
