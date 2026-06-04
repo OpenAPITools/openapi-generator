@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.Nulls
-import org.openapitools.configuration.ValuedEnum
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -51,7 +50,7 @@ data class Order(
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(@get:JsonValue override val value: kotlin.String) : ValuedEnum<kotlin.String> {
+    enum class Status(@get:JsonValue override val value: kotlin.String) {
 
         placed("placed"),
         approved("approved"),

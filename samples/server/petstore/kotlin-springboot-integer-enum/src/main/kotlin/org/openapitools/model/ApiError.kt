@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.ReasonCode
-import org.openapitools.configuration.ValuedEnum
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -36,7 +35,7 @@ data class ApiError(
     * 
     * Values: OK,ERROR
     */
-    enum class ErrorCode(@get:JsonValue override val value: kotlin.Int) : ValuedEnum<kotlin.Int> {
+    enum class ErrorCode(@get:JsonValue override val value: kotlin.Int) {
 
         OK(0),
         ERROR(100);
