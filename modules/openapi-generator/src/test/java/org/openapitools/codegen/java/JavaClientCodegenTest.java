@@ -4536,5 +4536,26 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test
+    public void testSwagger2TagImportRestAssured() throws IOException {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml",
+                JavaClientCodegen.REST_ASSURED,
+                Map.of(ANNOTATION_LIBRARY, "swagger2")
+        );
+
+        // find the generated API file
+        File apiFile = files.values().stream()
+                .filter(f -> f.getName().endsWith("Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("No API file generated"));
+
+        String content = Files.readString(apiFile.toPath());
+
+        // verify tags import is present when swagger2 is used with rest-assured
+        assertThat(content)
+                .contains("import io.swagger.v3.oas.annotations.tags.*;")
+                .contains("@Tag(");
+    }
 
 }
