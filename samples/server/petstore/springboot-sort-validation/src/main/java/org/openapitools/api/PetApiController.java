@@ -81,6 +81,21 @@ public class PetApiController implements PetApi {
     // ── @ValidPageable only ───────────────────────────────────────────────────
 
     @Override
+    public ResponseEntity<List<Pet>> findPetsWithSizeConstraintFromAllOfRef(Pageable pageable) {
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @Override
+    public ResponseEntity<List<Pet>> findPetsWithMinSizeConstraintFromAllOfRef(Pageable pageable) {
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @Override
+    public ResponseEntity<List<Pet>> findPetsWithDefaultFromAllOfRef(Pageable pageable) {
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @Override
     public ResponseEntity<List<Pet>> findPetsWithSizeConstraint(Pageable pageable) {
         return ResponseEntity.ok(Collections.emptyList());
     }

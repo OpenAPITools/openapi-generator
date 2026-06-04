@@ -490,6 +490,13 @@ public class CodegenConstants {
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
+    public static final String USE_ENUM_VALUE_INTERFACE = "useEnumValueInterface";
+    public static final String USE_ENUM_VALUE_INTERFACE_DESC =
+            "Generate a ValuedEnum<T> interface in the config package and make all generated enums " +
+                    "implement it, providing a common typed way to access the underlying enum value. " +
+                    "Use `importMappings.ValuedEnum` to substitute a custom/library-provided interface " +
+                    "instead of generating one.";
+
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC =
             "Annotate discriminator-free oneOf interfaces with Jackson's " +
