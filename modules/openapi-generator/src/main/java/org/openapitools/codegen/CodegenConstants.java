@@ -452,6 +452,9 @@ public class CodegenConstants {
 
     public static final String GENERATE_UNMARSHAL_JSON = "generateUnmarshalJSON";
     public static final String GENERATE_UNMARSHAL_JSON_DESC = "Generate UnmarshalJSON method";
+
+    public static final String GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS = "generateTypeAliasesForDedupedSchemas";
+    public static final String GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS_DESC = "Generate type aliases for deduplicated inline model schemas (Go only)";
     public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
 
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";

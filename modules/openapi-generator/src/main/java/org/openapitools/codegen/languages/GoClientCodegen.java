@@ -156,6 +156,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(WITH_GO_MOD, "Generate go.mod and go.sum", true));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_MARSHAL_JSON, CodegenConstants.GENERATE_MARSHAL_JSON_DESC, true));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_UNMARSHAL_JSON, CodegenConstants.GENERATE_UNMARSHAL_JSON_DESC, true));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS, CodegenConstants.GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS_DESC, true));
 
         CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
                 CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,
@@ -313,6 +314,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_UNMARSHAL_JSON)) {
             setGenerateUnmarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_UNMARSHAL_JSON).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS)) {
+            setGenerateTypeAliasesForDedupedSchemas(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_TYPE_ALIASES_FOR_DEDUPED_SCHEMAS).toString()));
         }
 
 
