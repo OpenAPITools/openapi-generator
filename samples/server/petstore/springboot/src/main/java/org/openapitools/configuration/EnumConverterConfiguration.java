@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.openapitools.model.EnumClassDto;
 import org.openapitools.model.OuterEnumDto;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

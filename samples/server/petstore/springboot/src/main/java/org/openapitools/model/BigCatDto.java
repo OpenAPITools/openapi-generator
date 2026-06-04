@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.CatDto;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ public class BigCatDto extends CatDto {
   /**
    * Gets or Sets kind
    */
-  public enum KindEnum {
+  public enum KindEnum implements ValuedEnum<String> {
     LIONS("lions"),
     
     TIGERS("tigers"),

@@ -15,6 +15,7 @@ import java.util.Set;
 import org.openapitools.model.CategoryDto;
 import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -46,7 +47,7 @@ public class PetDto {
   /**
    * pet status in the store
    */
-  public enum StatusEnum {
+  public enum StatusEnum implements ValuedEnum<String> {
     AVAILABLE("available"),
     
     PENDING("pending"),
