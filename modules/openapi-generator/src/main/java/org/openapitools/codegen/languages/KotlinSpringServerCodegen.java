@@ -183,6 +183,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String valuedEnumClassName = "ValuedEnum";
     @Setter private boolean suspendFunctions = false;
     @Getter @Setter private boolean openApiNullable = false;
+    @Getter @Setter private boolean nullableRequiredForBeanValidation = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
 
@@ -275,6 +276,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        addSwitch("nullableRequiredForBeanValidation",
+                "Generate required model properties as nullable constructor parameters so Bean Validation can catch missing values instead of Jackson throwing MissingKotlinParameterException.",
+                nullableRequiredForBeanValidation);
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces (Api interfaces or Delegate interfaces depending on the delegatePattern option)", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
@@ -653,6 +657,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey("nullableRequiredForBeanValidation")) {
+            this.setNullableRequiredForBeanValidation(convertPropertyToBoolean("nullableRequiredForBeanValidation"));
+        }
+        writePropertyBack("nullableRequiredForBeanValidation", nullableRequiredForBeanValidation);
 
         if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
             this.setSkipDefaultInterface(convertPropertyToBoolean(SKIP_DEFAULT_INTERFACE));
@@ -1274,6 +1283,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             model.imports.add("Nulls");
         }
 
+        if (Boolean.TRUE.equals(property.required) && !Boolean.TRUE.equals(property.isNullable) && nullableRequiredForBeanValidation) {
+            property.vendorExtensions.put("x-is-required-nullable", true);
+        }
+
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
         // so callers can distinguish between a missing key and an explicitly provided null.
         if (openApiNullable && !property.required && property.isNullable) {
@@ -1451,6 +1464,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
                 if (openApiNullable && !var.required && var.isNullable) {
                     var.vendorExtensions.put("x-is-jackson-optional-nullable", true);
+                }
+            }
+            for (CodegenProperty var : cm.requiredVars) {
+                if (Boolean.TRUE.equals(var.required) && !Boolean.TRUE.equals(var.isNullable) && nullableRequiredForBeanValidation) {
+                    var.vendorExtensions.put("x-is-required-nullable", true);
                 }
             }
         }
