@@ -67,6 +67,7 @@ public class BashClientOptionsProvider implements OptionsProvider {
                 .put(BashClientCodegen.APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME,
                         APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false")
+                .put(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "false")
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false")
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "false")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)

@@ -5224,4 +5224,61 @@ public class DefaultCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void splitOperationsByContentType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type.yaml");
+
+        // POST /reports: request {json -> Report, xml -> ReportXml} x response {json -> Receipt, pdf -> binary}
+        // is divided into the cartesian product, each variant narrowed to a single content-type on both axes.
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        List<Operation> postVariants = codegen.divideOperationsByContentType(openAPI, "/reports", "post", post);
+        assertThat(postVariants).extracting(Operation::getOperationId)
+                .containsExactlyInAnyOrder("createReportWithJsonAsJson", "createReportWithJsonAsPdf",
+                        "createReportWithXmlAsJson", "createReportWithXmlAsPdf");
+        for (Operation variant : postVariants) {
+            assertThat(variant.getRequestBody().getContent()).hasSize(1);
+            assertThat(variant.getResponses().get("200").getContent()).hasSize(1);
+        }
+
+        // GET /reports/{id}: no request body, response {json -> Report, directlog -> binary} => 2 variants.
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get))
+                .extracting(Operation::getOperationId)
+                .containsExactlyInAnyOrder("getReportAsJson", "getReportAsDirectlog");
+    }
+
+    @Test
+    public void splitOperationsByContentTypeLeavesUnambiguousOperationsUntouched() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+
+        // petstore has no operation exposing several content-types with different schemas: every operation
+        // is returned unchanged (as a singleton).
+        openAPI.getPaths().forEach((path, pathItem) ->
+                pathItem.readOperationsMap().forEach((method, operation) ->
+                        assertThat(codegen.divideOperationsByContentType(openAPI, path, method.name(), operation))
+                                .containsExactly(operation)));
+    }
+
+    @Test
+    public void splitOperationsByContentTypeUsesTheMethodResponse() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-method-response-target.yaml");
+
+        // /a: the method response (200, the lowest 2xx) is multi-content -> split by content-type.
+        Operation getA = openAPI.getPaths().get("/a").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/a", "get", getA))
+                .extracting(Operation::getOperationId)
+                .containsExactlyInAnyOrder("getAAsJson", "getAAsPdf");
+
+        // /b: only the non-method response (206) is multi-content; the method response (200) is single,
+        // so the operation is left untouched - the generator derives the return type from 200 only.
+        Operation getB = openAPI.getPaths().get("/b").getGet();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/b", "get", getB)).containsExactly(getB);
+    }
 }

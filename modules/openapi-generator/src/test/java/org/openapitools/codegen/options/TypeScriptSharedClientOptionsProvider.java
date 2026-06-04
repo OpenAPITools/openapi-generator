@@ -49,6 +49,7 @@ public interface TypeScriptSharedClientOptionsProvider extends OptionsProvider {
                 entry(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE),
                 entry(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE),
                 entry(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE),
+                entry(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "false"),
                 entry(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE),
                 entry(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE),
                 entry(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, LEGACY_DISCRIMINATOR_BEHAVIOUR_VALUE),

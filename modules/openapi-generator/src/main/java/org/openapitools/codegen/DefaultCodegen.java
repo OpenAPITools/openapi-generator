@@ -419,6 +419,7 @@ public class DefaultCodegen implements CodegenConfig {
         convertPropertyToBooleanAndWriteBack(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, this::setPrependFormOrBodyParameters);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ENSURE_UNIQUE_PARAMS, this::setEnsureUniqueParams);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, this::setAllowUnicodeIdentifiers);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, this::setSplitOperationsByContentType);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_PREFIX, this::setApiNamePrefix);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_SUFFIX, this::setApiNameSuffix);
         convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_NAME_PREFIX, this::setModelNamePrefix);
@@ -1055,6 +1056,176 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void postProcessParameter(CodegenParameter parameter) {
+    }
+
+    protected boolean splitOperationsByContentType = false;
+
+    public void setSplitOperationsByContentType(boolean splitOperationsByContentType) {
+        this.splitOperationsByContentType = splitOperationsByContentType;
+    }
+
+    /**
+     * When {@link CodegenConstants#SPLIT_OPERATIONS_BY_CONTENT_TYPE} is enabled, divides an operation whose
+     * request body and/or success response expose several content-types with <em>different</em> schemas
+     * into one operation per content-type (the cartesian product of the request and response axes,
+     * deduplicated by schema). Each variant is narrowed to a single content-type on each axis with a typed,
+     * collision-free operationId; {@code DefaultGenerator} processes each so it re-enters
+     * {@code fromOperation} and is typed natively by the target generator. This keeps the feature
+     * language-neutral: no per-language type re-derivation here. Returns the operation as a singleton when
+     * the option is off or no division applies.
+     */
+    @Override
+    public List<Operation> divideOperationsByContentType(OpenAPI openAPI, String path, String httpMethod, Operation operation) {
+        if (!splitOperationsByContentType || operation == null) {
+            return Collections.singletonList(operation);
+        }
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+        List<String> requestAxis = axisOf(requestBody == null ? null : requestBody.getContent());
+
+        // Only the response the generator derives the return type from (the method response) is split, so the
+        // variants' return types and Accept headers stay consistent (see findMethodResponse).
+        String methodResponseCode = operation.getResponses() == null ? null : findMethodResponseCode(operation.getResponses());
+        ApiResponse methodResponse = methodResponseCode == null ? null
+                : ModelUtils.getReferencedApiResponse(openAPI, operation.getResponses().get(methodResponseCode));
+        List<String> responseAxis = axisOf(methodResponse == null ? null : methodResponse.getContent());
+
+        boolean requestSplit = requestAxis.size() > 1;
+        boolean responseSplit = responseAxis.size() > 1;
+        if (!requestSplit && !responseSplit) {
+            return Collections.singletonList(operation); // single content-type on both axes: nothing to divide
+        }
+
+        String baseId = getOrGenerateOperationId(operation, path, httpMethod);
+        List<Operation> variants = new ArrayList<>(requestAxis.size() * responseAxis.size());
+        for (String requestMediaType : requestAxis) {
+            for (String responseMediaType : responseAxis) {
+                variants.add(buildOperationVariant(openAPI, operation, baseId,
+                        requestSplit ? requestMediaType : null,
+                        responseSplit ? responseMediaType : null,
+                        methodResponseCode, methodResponse));
+            }
+        }
+        return variants;
+    }
+
+    /**
+     * The media-types of {@code content} deduplicated by resolved schema (so two media-types mapping to
+     * the same schema collapse), JSON-first for determinism. Returns a singleton {@code [null]} when there
+     * are fewer than two distinct schemas, meaning "do not split this axis".
+     */
+    private List<String> axisOf(Content content) {
+        if (content == null || content.size() < 2) {
+            return Collections.singletonList(null);
+        }
+        List<String> kept = new ArrayList<>();
+        Set<String> seenSchemas = new LinkedHashSet<>();
+        for (Map.Entry<String, MediaType> entry : content.entrySet()) {
+            String key = schemaKey(entry.getValue() == null ? null : entry.getValue().getSchema());
+            if (seenSchemas.add(key)) {
+                kept.add(entry.getKey());
+            }
+        }
+        if (kept.size() < 2) {
+            return Collections.singletonList(null);
+        }
+        String preferred = kept.stream().filter(mt -> isJsonMimeType(mt)).findFirst().orElse(kept.get(0));
+        List<String> ordered = new ArrayList<>(kept.size());
+        ordered.add(preferred);
+        for (String mediaType : kept) {
+            if (!mediaType.equals(preferred)) {
+                ordered.add(mediaType);
+            }
+        }
+        return ordered;
+    }
+
+    /**
+     * Builds one operation variant narrowed to a single request and/or response media-type (a {@code null}
+     * media-type leaves that axis untouched), with a typed, collision-free operationId.
+     */
+    private Operation buildOperationVariant(OpenAPI openAPI, Operation original, String baseId, String requestMediaType,
+                                            String responseMediaType, String targetResponseCode, ApiResponse targetResponse) {
+        boolean openapi31 = specVersionGreaterThanOrEqualTo310(openAPI);
+        Operation variant = ModelUtils.cloneOperation(original, openapi31);
+        // generators (e.g. SpringCodegen) read the extensions map without null-guards
+        if (variant.getExtensions() == null) {
+            variant.setExtensions(new LinkedHashMap<>());
+        }
+
+        // typed, collision-free operationId: request -> "With<Subtype>", response -> "As<Subtype>"
+        StringBuilder operationId = new StringBuilder(baseId);
+        if (requestMediaType != null) {
+            operationId.append("With").append(camelize(subtypeToken(requestMediaType)));
+        }
+        if (responseMediaType != null) {
+            operationId.append("As").append(camelize(subtypeToken(responseMediaType)));
+        }
+        variant.setOperationId(operationId.toString());
+
+        if (requestMediaType != null) {
+            RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, original.getRequestBody());
+            variant.setRequestBody(narrowRequestBody(requestBody, requestMediaType, openapi31));
+        }
+        if (responseMediaType != null) {
+            variant.setResponses(narrowResponses(original.getResponses(), targetResponseCode, targetResponse, responseMediaType, openapi31));
+        }
+        return variant;
+    }
+
+    private RequestBody narrowRequestBody(RequestBody source, String mediaType, boolean openapi31) {
+        RequestBody copy = ModelUtils.cloneRequestBody(source, openapi31);
+        copy.setContent(singleContent(source.getContent(), mediaType));
+        return copy;
+    }
+
+    private ApiResponses narrowResponses(ApiResponses responses, String targetCode, ApiResponse targetResponse, String mediaType, boolean openapi31) {
+        ApiResponses copy = new ApiResponses();
+        copy.setExtensions(responses.getExtensions());
+        for (Map.Entry<String, ApiResponse> entry : responses.entrySet()) {
+            if (entry.getKey().equals(targetCode)) {
+                copy.addApiResponse(entry.getKey(), narrowApiResponse(targetResponse, mediaType, openapi31));
+            } else {
+                copy.addApiResponse(entry.getKey(), entry.getValue());
+            }
+        }
+        return copy;
+    }
+
+    private ApiResponse narrowApiResponse(ApiResponse source, String mediaType, boolean openapi31) {
+        ApiResponse copy = ModelUtils.cloneApiResponse(source, openapi31);
+        copy.setContent(singleContent(source.getContent(), mediaType));
+        return copy;
+    }
+
+    /** A new {@link Content} holding only {@code mediaType} taken from {@code source}. */
+    private static Content singleContent(Content source, String mediaType) {
+        Content content = new Content();
+        content.addMediaType(mediaType, source.get(mediaType));
+        return content;
+    }
+
+    /** Stable identity key for a schema: its {@code $ref} when present, else a structural key. */
+    private static String schemaKey(Schema schema) {
+        if (schema == null) {
+            return "null";
+        }
+        if (schema.get$ref() != null) {
+            return schema.get$ref();
+        }
+        StringBuilder key = new StringBuilder();
+        key.append(ModelUtils.getType(schema)).append('|').append(schema.getFormat());
+        if (schema.getItems() != null) {
+            key.append("|items=").append(schemaKey(schema.getItems()));
+        }
+        return key.toString();
+    }
+
+    /** Token derived from a media-type subtype, e.g. {@code Directlog} from {@code application/directlog}. */
+    private static String subtypeToken(String mediaType) {
+        String subtype = mediaType.substring(mediaType.indexOf('/') + 1);
+        subtype = subtype.replaceAll("\\+.*$", "");      // drop structured suffix (+json, +xml, ...)
+        subtype = subtype.replaceAll("[^a-zA-Z0-9]+", "_");
+        return subtype;
     }
 
     //override with any special handling of the entire OpenAPI spec document
@@ -1831,6 +2002,9 @@ public class DefaultCodegen implements CodegenConfig {
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC).defaultValue(Boolean.FALSE.toString()));
+        // option to split operations that expose several request/response content-types with different schemas
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE,
+                CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE_DESC).defaultValue(Boolean.FALSE.toString()));
 
         // option to change how we process + set the data in the discriminator mapping
         CliOption legacyDiscriminatorBehaviorOpt = CliOption.newBoolean(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC).defaultValue(Boolean.TRUE.toString());
@@ -4590,6 +4764,21 @@ public class DefaultCodegen implements CodegenConfig {
      * @return default method response or <code>null</code> if not found
      */
     protected ApiResponse findMethodResponse(ApiResponses responses) {
+        String code = findMethodResponseCode(responses);
+        if (code == null) {
+            return null;
+        }
+        return ModelUtils.getReferencedApiResponse(openAPI, responses.get(code));
+    }
+
+    /**
+     * Returns the response code the operation's return type is derived from: the lowest 2xx code, or
+     * {@code "default"} when no 2xx is present.
+     *
+     * @param responses the API responses of an operation
+     * @return the selected response code, or {@code null} if there is no success/default response
+     */
+    protected String findMethodResponseCode(ApiResponses responses) {
         String code = null;
         for (String responseCode : responses.keySet()) {
             if (responseCode.startsWith("2") || responseCode.equals("default")) {
@@ -4598,10 +4787,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        if (code == null) {
-            return null;
-        }
-        return ModelUtils.getReferencedApiResponse(openAPI, responses.get(code));
+        return code;
     }
 
     /**
