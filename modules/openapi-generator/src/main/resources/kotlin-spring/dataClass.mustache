@@ -51,7 +51,7 @@
     enum class {{{nameInPascalCase}}}(@get:JsonValue {{#useEnumValueInterface}}{{^isContainer}}override {{/isContainer}}{{/useEnumValueInterface}}val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}} {{/vendorExtensions.x-kotlin-implements}}{
 {{#allowableValues}}{{#enumVars}}
         {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{#enumUnknownDefaultCase}},
-        UNKNOWN_DEFAULT_OPEN_API({{#isString}}"unknown_default_open_api"{{/isString}}{{^isString}}{{#dataType}}null{{/dataType}}{{/isString}}){{/enumUnknownDefaultCase}};
+        UNKNOWN_DEFAULT_OPEN_API({{#isString}}"unknown_default_open_api"{{/isString}}{{^isString}}{{#isLong}}11184809L{{/isLong}}{{#isInteger}}11184809{{/isInteger}}{{#isNumber}}11184809{{/isNumber}}{{#isDouble}}11184809.0{{/isDouble}}{{#isFloat}}11184809.0f{{/isFloat}}{{/isString}}){{/enumUnknownDefaultCase}};
 
         companion object {
             @JvmStatic
