@@ -154,6 +154,12 @@ paths:
           default:
             - item0
 
+        - name: qs0
+          in: query
+          required: false
+          type: string
+          default: "hello $world, backslash=\\, quote=\", end */"
+          description: "String with $dollar, backslash, quote, comment-close in default"
 
       responses:
         "200":
@@ -178,3 +184,7 @@ definitions:
       n1:
         type: number
         default: 68
+      s0:
+        type: string
+        default: "hello $world, backslash=\\, quote=\", end */"
+        description: "String property with $dollar, backslash, quote, comment-close in default"

@@ -63,7 +63,7 @@ interface {{classname}} {
 }}{{^useResponseEntity}}    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
 {{/useResponseEntity}}{{!
 }}{{#httpMethod}}    @HttpExchange(
-        // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
+        // "{{#lambda.escapeInNormalString}}{{{path}}}{{/lambda.escapeInNormalString}}"
         url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
         method = "{{httpMethod}}"
     )

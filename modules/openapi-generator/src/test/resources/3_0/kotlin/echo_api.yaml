@@ -602,6 +602,34 @@ paths:
             text/plain:
               schema:
                 type: string
+  # To test string escaping edge cases in Kotlin (Issue 20502)
+  /echo/string-escaping/{$paramName}:
+    get:
+      tags:
+        - echo
+      summary: "Test $-in-path-param escaping"
+      description: "Tests that path params with $dollar, backslash \\ and quote \" are properly escaped"
+      operationId: "tests/echo/string-escaping/{$paramName}"
+      parameters:
+        - in: path
+          name: "$paramName"
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: "filter$Type"
+          required: false
+          description: "Filter with $dollar in description and comment-close */"
+          schema:
+            type: string
+            default: "default$Value with \\ and \""
+      responses:
+        '200':
+          description: "ok"
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   securitySchemes:
     http_auth:
@@ -810,3 +838,14 @@ components:
           format: double
           minimum: 0.8
           maximum: 50.2
+    StringEscapingEdgeCases:
+      type: object
+      description: "Model to test: $dollar, backslash \\, quote \", comment-close */"
+      properties:
+        dollarDefault:
+          type: string
+          description: "A string whose default has $dollar, backslash \\, quote \" and comment-close */"
+          default: "hello $world, backslash=\\, quote=\", end */"
+        regularProp:
+          type: string
+          description: "Regular property for baseline comparison"

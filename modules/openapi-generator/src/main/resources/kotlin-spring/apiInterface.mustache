@@ -84,24 +84,24 @@ interface {{classname}} {
 }}{{#swagger2AnnotationLibrary}}{{!
 }}    @Operation(
         tags = [{{#tags}}"{{{name}}}",{{/tags}}],
-        summary = "{{{summary}}}",
+        summary = "{{#lambda.escapeInNormalString}}{{{unescapedSummary}}}{{/lambda.escapeInNormalString}}",
         operationId = "{{{operationId}}}",
-        description = """{{{unescapedNotes}}}""",
+        description = """{{#lambda.escapeDollarInMultiline}}{{{unescapedNotes}}}{{/lambda.escapeDollarInMultiline}}""",
         responses = [{{#responses}}
-            ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
+            ApiResponse(responseCode = "{{{code}}}", description = "{{#lambda.escapeInNormalString}}{{{unescapedMessage}}}{{/lambda.escapeInNormalString}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
         ]{{#hasAuthMethods}},
         security = [ {{#authMethods}}SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
     ){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
     @ApiOperation(
-        value = "{{{summary}}}",
+        value = "{{#lambda.escapeInNormalString}}{{{unescapedSummary}}}{{/lambda.escapeInNormalString}}",
         nickname = "{{{operationId}}}",
-        notes = "{{{notes}}}"{{#returnBaseType}},
+        notes = "{{#lambda.escapeInNormalString}}{{{unescapedNotes}}}{{/lambda.escapeInNormalString}}"{{#returnBaseType}},
         response = {{{.}}}::class{{/returnBaseType}}{{#returnContainer}},
         responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}},
         authorizations = [{{#authMethods}}Authorization(value = "{{name}}"{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}}, {{/-last}}{{/scopes}}]{{/isOAuth}}){{^-last}}, {{/-last}}{{/authMethods}}]{{/hasAuthMethods}}
     )
     @ApiResponses(
-        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}}, {{/-last}}{{/responses}}]
+        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{#lambda.escapeInNormalString}}{{{unescapedMessage}}}{{/lambda.escapeInNormalString}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}}, {{/-last}}{{/responses}}]
     ){{/swagger1AnnotationLibrary}}
 {{#implicitHeadersParams.0}}
 {{>implicitHeaders}}
@@ -114,7 +114,7 @@ interface {{classname}} {
     {{/isDeprecated}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
-        // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
+        // "{{#lambda.escapeInNormalString}}{{{path}}}{{/lambda.escapeInNormalString}}"
         value = [PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}]{{#singleContentTypes}}{{#hasProduces}},
         produces = [{{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
@@ -142,7 +142,7 @@ interface {{classname}} {
         const val BASE_PATH: String = "{{=<% %>=}}<%contextPath%><%={{ }}=%>"
     {{/useRequestMappingOnInterface}}
     {{#operation}}
-        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = "{{{path}}}"
+        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = "{{#lambda.escapeInNormalString}}{{{path}}}{{/lambda.escapeInNormalString}}"
     {{/operation}}
     }
 }

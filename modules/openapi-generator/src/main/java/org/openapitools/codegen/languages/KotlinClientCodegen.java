@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -115,6 +116,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String COMPANION_OBJECT = "companionObject";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
+    private static final Pattern RETROFIT_PATH_PARAM_NAME_PATTERN = Pattern.compile("[a-zA-Z][a-zA-Z0-9_-]*");
 
 
     @Setter protected String dateLibrary = DateLibrary.JAVA8.value;
@@ -1060,6 +1062,26 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
                 if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
+                }
+
+                // For jvm-retrofit2, Retrofit @Path names must match [a-zA-Z][a-zA-Z0-9_-]*.
+                // When the OpenAPI baseName is invalid (e.g., starts with '$'), replace the
+                // URL placeholder with the sanitized paramName and mark via vendor extension.
+                if (JVM_RETROFIT2.equals(getLibrary())) {
+                    for (CodegenParameter param : operation.allParams) {
+                        if (param.isPathParam) {
+                            boolean validRetrofitName = RETROFIT_PATH_PARAM_NAME_PATTERN.matcher(param.baseName).matches();
+                            if (validRetrofitName) {
+                                param.vendorExtensions.put("x-retrofit-path-name", param.baseName);
+                            } else {
+                                param.vendorExtensions.put("x-retrofit-path-name", param.paramName);
+                                operation.path = operation.path.replace(
+                                    "{" + param.baseName + "}",
+                                    "{" + param.paramName + "}"
+                                );
+                            }
+                        }
+                    }
                 }
 
                 if (JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary())) {

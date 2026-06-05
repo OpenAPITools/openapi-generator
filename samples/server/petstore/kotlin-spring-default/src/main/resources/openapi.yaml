@@ -856,6 +856,20 @@ components:
       - items:
           type: string
         type: array
+    PetWithSpecialProps:
+      description: Model with $-prefixed property names for escaping tests (Issue
+        20502)
+      properties:
+        $id:
+          default: hello $world
+          description: Property with $-prefix in name; default has $dollar and backslash
+            \
+          type: string
+        name$Suffix:
+          description: Property with $ mid-name; description has backslash \ and quote
+            "
+          type: string
+      type: object
     updatePetWithForm_request:
       properties:
         name:

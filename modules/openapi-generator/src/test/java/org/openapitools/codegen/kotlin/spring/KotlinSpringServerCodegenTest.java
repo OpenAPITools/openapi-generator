@@ -6329,6 +6329,178 @@ public class KotlinSpringServerCodegenTest {
                 "import com.example.custom.ValuedEnum");
     }
 
+
+    // ── Issue 20502: string-escaping fixes ─────────────────────────────────────────────────────────
+
+    /**
+     * Issue 1: path parameters containing {@code $} (e.g. {@code {item$Id}}) were emitted as-is into
+     * Kotlin {@code const val} string literals, triggering Kotlin string interpolation and causing a
+     * compile error.  The path must be rendered with {@code $} escaped to {@code \$}.
+     */
+    @Test(description = "Issue 20502 #1: $ in path param names must be escaped to \\$ in PATH const val")
+    public void issue20502_dollarEscapedInPathConstVal() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/ItemsApiController.kt");
+        // The path "/items/{item$Id}/sub/{item$SubId}" must have $ escaped as \$ in the const val
+        assertFileContains(apiFile, "\"/items/{item\\$Id}/sub/{item\\$SubId}\"");
+    }
+
+    /**
+     * Issue 2: {@code $}, {@code "}, and {@code \} in operation summaries, descriptions, response
+     * messages, and parameter descriptions were not properly escaped when placed inside Kotlin
+     * annotation double-quoted strings, producing invalid Kotlin code.
+     */
+    @Test(description = "Issue 20502 #2: $, \", \\ in annotation strings must be properly escaped")
+    public void issue20502_specialCharsEscapedInAnnotationStrings() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/ItemsApiController.kt");
+        // Summary/message annotation strings must have $ escaped to \$
+        assertFileContains(apiFile, "\\$some");
+        // Notes/description uses triple-quoted strings: $ becomes ${'$'}
+        assertFileContains(apiFile, "${'$'}some");
+    }
+
+    /**
+     * Issue 3: {@code toDefaultValue()} previously called {@code escapeText()} which internally
+     * calls {@code escapeUnsafeCharacters()}, corrupting star-slash to star-underscore-slash inside
+     * Kotlin string literals.  Default values must be emitted verbatim (modulo string-literal
+     * escaping).
+     */
+    @Test(description = "Issue 20502 #3: */ in string defaults must not be corrupted to *_/")
+    public void issue20502_starSlashNotCorruptedInModelDefaults() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path modelFile = Paths.get(output + "/src/main/kotlin/org/openapitools/model/ItemWithAllEscapingEdgeCases.kt");
+        // The default "starts /* comment and ends */" must not be mangled to *_/
+        assertFileContains(modelFile, "\"starts /* comment and ends */\"");
+        // $ in string defaults must be escaped to \$ (not left raw, which would cause interpolation)
+        assertFileContains(modelFile, "\"\\$one");
+        // baseName with $ must be escaped in @get:JsonProperty (verifies lambda resolves baseName correctly)
+        assertFileContains(modelFile, "@get:JsonProperty(\"\\$id\")");
+        assertFileContains(modelFile, "@get:JsonProperty(\"name\\$Value\")");
+    }
+
+    @Test
+    public void gradleWrapperIsGenerated() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(
+                new ClientOptInput().openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+        String outputPath = output.getAbsolutePath();
+        Path gradleWrapperProperties = Paths.get(outputPath + "/gradle/wrapper/gradle-wrapper.properties");
+        Path gradleWrapperJar = Paths.get(outputPath + "/gradle/wrapper/gradle-wrapper.jar");
+        Path gradleWrapper = Paths.get(outputPath + "/gradlew");
+        Path gradleWrapperBat = Paths.get(outputPath + "/gradlew.bat");
+        TestUtils.assertFileExists(gradleWrapperProperties);
+        TestUtils.assertFileExists(gradleWrapper);
+        TestUtils.assertFileExists(gradleWrapperBat);
+        // Different because file is not a text file
+        Assert.assertTrue(Files.exists(gradleWrapperJar));
+
+        // Spring Cloud
+        File outputCloud = Files.createTempDirectory("testCloud").toFile().getCanonicalFile();
+        outputCloud.deleteOnExit();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(outputCloud.getAbsolutePath());
+        new DefaultGenerator().opts(
+                new ClientOptInput().openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        String outputPathCloud = outputCloud.getAbsolutePath();
+        Path gradleWrapperPropertiesCloud = Paths.get(outputPathCloud + "/gradle/wrapper/gradle-wrapper.properties");
+        Path gradleWrapperJarCloud = Paths.get(outputPathCloud + "/gradle/wrapper/gradle-wrapper.jar");
+        Path gradleWrapperCloud = Paths.get(outputPathCloud + "/gradlew");
+        Path gradleWrapperBatCloud = Paths.get(outputPathCloud + "/gradlew.bat");
+        TestUtils.assertFileExists(gradleWrapperPropertiesCloud);
+        TestUtils.assertFileExists(gradleWrapperCloud);
+        TestUtils.assertFileExists(gradleWrapperBatCloud);
+        // Different because file is not a text file
+        Assert.assertTrue(Files.exists(gradleWrapperJarCloud));
+    }
+
+    @Test(description = "generate polymorphic jackson model")
+    public void polymorphicJacksonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/polymorphism.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path animalKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/Animal.kt");
+        // base has extra jackson imports
+        assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonIgnoreProperties");
+        assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonSubTypes");
+        assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonTypeInfo");
+        // and these are being used
+        assertFileContains(animalKt, "@JsonIgnoreProperties");
+        assertFileContains(animalKt, "@JsonSubTypes");
+        assertFileContains(animalKt, "@JsonTypeInfo");
+        // base is interface
+        assertFileContains(animalKt, "interface Animal");
+        // base properties are present
+        assertFileContains(animalKt, "val id");
+        assertFileContains(animalKt, "val optionalProperty");
+        assertFileContains(animalKt, "val stringArray: kotlin.collections.List<kotlin.String>");
+        assertFileContains(animalKt, "val stringSet: kotlin.collections.Set<kotlin.String>");
+        // base doesn't contain discriminator
+        assertFileNotContains(animalKt, "val discriminator");
+
+        final Path birdKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/Bird.kt");
+        // derived has serial name set to mapping key
+        assertFileContains(birdKt, "data class Bird");
+        // derived properties are overridden
+        assertFileContains(birdKt, "override val id");
+        assertFileContains(birdKt, "override val optionalProperty");
+        assertFileContains(birdKt, "override val stringArray: kotlin.collections.List<kotlin.String>");
+        assertFileContains(birdKt, "override val stringSet: kotlin.collections.Set<kotlin.String>");
+        // derived doesn't contain discriminator
+        assertFileNotContains(birdKt, "val discriminator");
+    }
+
     // ========== REQUIRED + NULLABLE 4-STATE TESTS ==========
 
     /**

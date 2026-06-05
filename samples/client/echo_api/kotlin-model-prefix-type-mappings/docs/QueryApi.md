@@ -35,9 +35,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-| **enumNonrefStringQuery** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **enumNonrefStringQuery** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
 | **enumRefStringQuery** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
@@ -77,10 +77,10 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-| **datetimeQuery** | **java.time.OffsetDateTime**|  | [optional] |
-| **dateQuery** | **java.time.LocalDate**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **datetimeQuery** | **java.time.OffsetDateTime**|  | [optional] |
+| **dateQuery** | **java.time.LocalDate**|  | [optional] |
 | **stringQuery** | **kotlin.String**|  | [optional] |
 
 ### Return type
@@ -120,10 +120,10 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-| **integerQuery** | **kotlin.Int**|  | [optional] |
-| **booleanQuery** | **kotlin.Boolean**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **integerQuery** | **kotlin.Int**|  | [optional] |
+| **booleanQuery** | **kotlin.Boolean**|  | [optional] |
 | **stringQuery** | **kotlin.String**|  | [optional] |
 
 ### Return type

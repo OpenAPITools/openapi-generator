@@ -5,15 +5,15 @@ All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{#lambda.escapeMarkdown}}{{{unescapedSummary}}}{{/lambda.escapeMarkdown}}{{/summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 
-{{summary}}{{#notes}}
+{{#lambda.escapeMarkdown}}{{{unescapedSummary}}}{{/lambda.escapeMarkdown}}{{#unescapedNotes}}
 
-{{notes}}{{/notes}}
+{{#lambda.escapeMarkdown}}{{{unescapedNotes}}}{{/lambda.escapeMarkdown}}{{/unescapedNotes}}
 
 ### Example
 ```kotlin
@@ -35,7 +35,7 @@ apiClient.setBearerToken("TOKEN")
 {{/authMethods}}
 val webService = apiClient.createWebservice({{{classname}}}::class.java)
 {{#allParams}}
-val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{#lambda.collapseNewlines}}{{{unescapedDescription}}}{{/lambda.collapseNewlines}}
 {{/allParams}}
 
 {{#useCoroutines}}
@@ -48,10 +48,10 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-first}}
 Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#generateModelDocs}}[**{{dataType}}**]({{baseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{dataType}}**{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+------------- | ------------- | ------------- | -------------{{/-first}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#generateModelDocs}}[**{{dataType}}**]({{baseType}}.md){{/generateModelDocs}}{{^generateModelDocs}}**{{dataType}}**{{/generateModelDocs}}{{/isFile}}{{/isPrimitiveType}}| {{#lambda.escapeMarkdown}}{{{unescapedDescription}}}{{/lambda.escapeMarkdown}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{{defaultValue}}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
 {{/allParams}}
 
 ### Return type

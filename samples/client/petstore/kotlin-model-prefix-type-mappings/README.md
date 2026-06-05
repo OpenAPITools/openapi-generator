@@ -79,6 +79,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
  - [org.openapitools.client.models.ApiCategory](docs/ApiCategory.md)
  - [org.openapitools.client.models.ApiOrder](docs/ApiOrder.md)
  - [org.openapitools.client.models.ApiPet](docs/ApiPet.md)
+ - [org.openapitools.client.models.ApiPetWithSpecialProps](docs/ApiPetWithSpecialProps.md)
  - [org.openapitools.client.models.ApiTag](docs/ApiTag.md)
  - [org.openapitools.client.models.ApiUser](docs/ApiUser.md)
  - [org.openapitools.client.models.ApiUserOrPet](docs/ApiUserOrPet.md)

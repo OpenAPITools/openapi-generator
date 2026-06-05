@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**deletePet**](PetApi.md#deletePet) | **Delete** /pet/{petId} | Deletes a pet
 [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **Get** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApi.md#findPetsByTags) | **Get** /pet/findByTags | Finds Pets by tags
+[**getEscapingEdgeCases**](PetApi.md#getEscapingEdgeCases) | **Get** /pet/escaping | Test escaping: \$dollar, backslash \\ and quote "
 [**getPetById**](PetApi.md#getPetById) | **Get** /pet/{petId} | Find pet by ID
 [**updatePet**](PetApi.md#updatePet) | **Put** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **Post** /pet/{petId} | Updates a pet in the store with form data
@@ -202,6 +203,49 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: APPLICATION_XML, APPLICATION_JSON
+
+<a name="getEscapingEdgeCases"></a>
+# **getEscapingEdgeCases**
+> EscapingEdgeCases getEscapingEdgeCases()
+
+Test escaping: \$dollar, backslash \\ and quote "
+
+Retrieves edge-cases for escaping: \$var, \\, ", */
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.infrastructure.*
+//import org.openapitools.server.api.model.*
+
+val apiInstance = PetApi()
+try {
+    val result : EscapingEdgeCases = apiInstance.getEscapingEdgeCases()
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PetApi#getEscapingEdgeCases")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PetApi#getEscapingEdgeCases")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**EscapingEdgeCases**](EscapingEdgeCases.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: APPLICATION_JSON
 
 <a name="getPetById"></a>
 # **getPetById**

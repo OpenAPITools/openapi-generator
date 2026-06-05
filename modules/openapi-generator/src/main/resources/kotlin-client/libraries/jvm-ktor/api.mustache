@@ -164,19 +164,19 @@ import com.fasterxml.jackson.databind.ObjectMapper
             {{/isDeepObject}}
             {{/isMap}}
             {{^isMap}}
-            {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
+            {{{paramName}}}?.apply { localVariableQuery["{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
             {{/isMap}}
             {{/isModel}}
         {{/queryParams}}
 
             val localVariableHeaders = mutableMapOf<String, String>()
         {{#headerParams}}
-            {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+            {{{paramName}}}?.apply { localVariableHeaders["{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
         {{/headerParams}}
 
             val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
+            "{{#lambda.escapeInNormalString}}{{{path}}}{{/lambda.escapeInNormalString}}"{{#pathParams}}.replace("{" + "{{#lambda.escapeInNormalString}}{{baseName}}{{/lambda.escapeInNormalString}}" + "}", "${{{paramName}}}"){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},

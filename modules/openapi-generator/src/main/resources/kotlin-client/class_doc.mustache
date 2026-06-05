@@ -3,7 +3,7 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-{{#vars}}| **{{name}}** | {{#isEnum}}[**inline**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}} |
+{{#vars}}| **{{name}}** | {{#isEnum}}[**inline**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{#lambda.escapeMarkdown}}{{{unescapedDescription}}}{{/lambda.escapeMarkdown}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}} |
 {{/vars}}
 {{#vars}}{{#isEnum}}
 
@@ -11,5 +11,5 @@
 ## Enum: {{baseName}}
 | Name | Value |
 | ---- | ----- |{{#allowableValues}}
-| {{name}} | {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}} |
+| {{name}} | {{#values}}{{#lambda.escapeMarkdown}}{{{.}}}{{/lambda.escapeMarkdown}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}} |
 {{/isEnum}}{{/vars}}

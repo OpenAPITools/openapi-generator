@@ -171,6 +171,29 @@ public class KotlinClientCodegenApiTest {
         assertFileNotContains(Paths.get(apiClientPath), "is OffsetDateTime -> parseDateToQueryString(value)");
     }
 
+    @Test
+    public void testDollarInPathParamSanitizedForRetrofit2_20502() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/echo_api.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_RETROFIT2);
+        codegen.additionalProperties().put(KotlinClientCodegen.USE_COROUTINES, "true");
+        codegen.additionalProperties().put(KotlinClientCodegen.USE_RESPONSE_AS_RETURN_TYPE, "true");
+
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File echoApi = files.stream().filter(file -> file.getName().equals("EchoApi.kt")).findAny().orElseThrow();
+
+        // Retrofit @Path name must not contain '$' — must use the sanitized paramName
+        assertFileContains(echoApi.toPath(), "@Path(\"dollarParamName\")");
+        assertFileContains(echoApi.toPath(), "echo/string-escaping/{dollarParamName}");
+        // Raw '$paramName' must never appear in the @Path annotation value
+        assertFileNotContains(echoApi.toPath(), "@Path(\"$paramName\")");
+        assertFileNotContains(echoApi.toPath(), "@Path(\"\\$paramName\")");
+    }
+
     @Test(dataProvider = "librariesWithDateQueryHelper")
     public void testGeneratedApisUseExplicitDateTypeArgumentsForQuerySerialization(ClientLibrary library) throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/echo_api.yaml");
@@ -210,6 +233,25 @@ public class KotlinClientCodegenApiTest {
         assertFileContains(defaultApi.toPath(), "localVariableQuery[\"model_deep[a]\"]");
 
         assertFileNotContains(defaultApi.toPath(), "mapDeep?.apply {");
+    }
+
+    @Test
+    public void testJvmKtorDollarInQueryParamBaseNameIsEscaped_20502() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File itemsApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        // $ in query param baseName must be escaped to \$ inside the Kotlin string literal used as localVariableQuery key
+        assertFileContains(itemsApi.toPath(), "localVariableQuery[\"filter\\$Type\"]");
+        assertFileContains(itemsApi.toPath(), "localVariableQuery[\"filter\\$SubType\"]");
+        // Unescaped $ must not appear as the map key
+        assertFileNotContains(itemsApi.toPath(), "localVariableQuery[\"filter$Type\"]");
+        assertFileNotContains(itemsApi.toPath(), "localVariableQuery[\"filter$SubType\"]");
     }
 
     private static void assertFileContainsLine(List<String> lines, String line) {

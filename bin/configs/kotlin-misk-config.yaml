@@ -1,6 +1,6 @@
 generatorName: kotlin-misk
 outputDir: samples/server/petstore/kotlin-misk-config
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-kotlin-misk.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-misk
 validateSpec: false
 useBeanValidation: true

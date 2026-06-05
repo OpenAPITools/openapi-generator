@@ -134,7 +134,7 @@ import okhttp3.MediaType.Companion.toMediaType
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         {{^kotlinx_serialization}}serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},{{/kotlinx_serialization}}
         authNames: Array<String>
-    ) : this(baseUrl, okHttpClientBuilder{{^kotlinx_serialization}}, serializerBuilder{{/kotlinx_serialization}}) {
+    ) : this(baseUrl, okHttpClientBuilder{{^kotlinx_serialization}}, {{#generateOneOfAnyOfWrappers}}{{#gson}}registerTypeAdapterFactoryForAllModels(serializerBuilder){{/gson}}{{^gson}}serializerBuilder{{/gson}}{{/generateOneOfAnyOfWrappers}}{{^generateOneOfAnyOfWrappers}}serializerBuilder{{/generateOneOfAnyOfWrappers}}{{/kotlinx_serialization}}) {
         authNames.forEach { authName ->
             val auth: Interceptor? = when (authName) { {{#authMethods}}
                 {{#isBasicBasic}}"{{name}}" -> HttpBasicAuth()
@@ -148,21 +148,6 @@ import okhttp3.MediaType.Companion.toMediaType
                 addAuthorization(authName, auth)
             }
         }
-        {{#generateOneOfAnyOfWrappers}}
-        {{^kotlinx_serialization}}
-        {{#gson}}
-        {{#models}}
-        {{#model}}
-        {{^isEnum}}
-        {{^hasChildren}}
-        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
-        {{/hasChildren}}
-        {{/isEnum}}
-        {{/model}}
-        {{/models}}
-        {{/gson}}
-        {{/kotlinx_serialization}}
-        {{/generateOneOfAnyOfWrappers}}
     }
 
     {{#authMethods}}
