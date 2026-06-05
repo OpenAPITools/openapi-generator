@@ -110,6 +110,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
+    public static final String TYPE_INFO_DEFAULT_IMPLS = "typeInfoDefaultImpls";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -185,6 +186,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Getter @Setter private boolean openApiNullable = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+
+    private Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -311,6 +314,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         addSwitch(SUSPEND_FUNCTIONS, "Whether to generate suspend functions for API operations. Useful for Spring MVC with Kotlin coroutines without requiring the full reactive stack.", suspendFunctions);
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES_DESC, useDeductionForOneOfInterfaces));
+        addOption(TYPE_INFO_DEFAULT_IMPLS, "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`", "empty map");
         addSwitch(CodegenConstants.USE_ENUM_VALUE_INTERFACE, CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC, useEnumValueInterface);
         addSwitch(CodegenConstants.OPENAPI_NULLABLE,
                 "Enable OpenAPI Jackson Nullable library (jackson-databind-nullable) for optional + nullable "
@@ -584,6 +588,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+
+        if (additionalProperties.containsKey(TYPE_INFO_DEFAULT_IMPLS)) {
+            typeInfoDefaultImpls.putAll(getPropertyAsStringMap(TYPE_INFO_DEFAULT_IMPLS));
+        }
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -1318,6 +1326,36 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         objs = super.postProcessAllModels(objs);
 
         Map<String, CodegenModel> allModelsMap = getAllModels(objs);
+
+        // Resolve x-jackson-default-impl and typeInfoDefaultImpls into x-jackson-resolved-default-impl
+        // on each model. This drives defaultImpl = ... in @JsonTypeInfo for both deduction-based
+        // and discriminator-based oneOf interfaces.
+        for (CodegenModel cm : allModelsMap.values()) {
+            String schemaAnnotation = (String) cm.vendorExtensions.get("x-jackson-default-impl");
+            String configValue = typeInfoDefaultImpls.get(cm.schemaName);
+            String rawValue;
+            if (configValue != null && !configValue.isBlank()) {
+                if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
+                    LOGGER.warn("typeInfoDefaultImpls overrides x-jackson-default-impl on schema '{}': '{}' → '{}'",
+                            cm.schemaName, schemaAnnotation, configValue);
+                }
+                rawValue = configValue;
+            } else if (schemaAnnotation != null && !schemaAnnotation.isBlank()) {
+                rawValue = schemaAnnotation;
+            } else {
+                continue;
+            }
+            String resolved = toModelName(rawValue);
+            if (resolved != null && !resolved.isBlank()) {
+                cm.vendorExtensions.put("x-jackson-resolved-default-impl", resolved);
+                // When a discriminator is present, the typeInfoAnnotation partial is rendered
+                // inside {{#discriminator}}, so JMustache resolves 'vendorExtensions' against
+                // CodegenDiscriminator (not CodegenModel). Store there too.
+                if (cm.discriminator != null) {
+                    cm.discriminator.getVendorExtensions().put("x-jackson-resolved-default-impl", resolved);
+                }
+            }
+        }
 
         // For each oneOf interface with a discriminator, mark the discriminator property
         // as inherited in each subtype and set its default value from the discriminator mapping

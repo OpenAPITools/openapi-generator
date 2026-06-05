@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: Jackson defaultImpl test
+  version: 0.0.1
+paths:
+  /animals:
+    post:
+      operationId: createAnimal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Animal'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fruit'
+components:
+  schemas:
+    # Deduction-based oneOf: no discriminator, x-jackson-default-impl set
+    Animal:
+      x-jackson-default-impl: Dog
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+    Cat:
+      type: object
+      properties:
+        declawed:
+          type: boolean
+    # Discriminator-based oneOf: has discriminator, x-jackson-default-impl set
+    Fruit:
+      x-jackson-default-impl: Apple
+      type: object
+      properties:
+        fruitType:
+          type: string
+      required:
+        - fruitType
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+      discriminator:
+        propertyName: fruitType
+        mapping:
+          APPLE: '#/components/schemas/Apple'
+          BANANA: '#/components/schemas/Banana'
+    Apple:
+      type: object
+      properties:
+        seeds:
+          type: integer
+    Banana:
+      type: object
+      properties:
+        length:
+          type: integer
