@@ -185,7 +185,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean generatePageableConstraintValidation = false;
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
-    @Getter @Setter private boolean useSealedDiscriminatorInterfaces = true;
+    @Setter private boolean useSealedDiscriminatorInterfaces = true;
     @Setter private boolean companionObject = false;
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
@@ -1405,14 +1405,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         // For children of open (non-interface) parent classes, build a parent constructor call
-        // string (x-parent-ctor-args) so the template can emit `: Dog(className = className, ...)`.
-        // This is only needed when the parent is an open class (mid-level model), not when the
-        // parent is a sealed/plain interface (which takes no constructor arguments).
+        // so the template can emit `: Dog(className = className, ...)`.
+        // x-parent-is-class tells the template the parent requires `()` (even when arg list is empty);
+        // x-parent-ctor-args holds the argument string. Kept separate so a parent with no properties
+        // still generates `: ParentClass()` rather than the compile-error `: ParentClass` (no parens).
         for (CodegenModel cm : allModelsMap.values()) {
             if (cm.parent != null) {
                 CodegenModel parentModel = allModelsMap.get(cm.parent);
                 if (parentModel != null
                         && Boolean.TRUE.equals(parentModel.vendorExtensions.get("x-is-open-class"))) {
+                    cm.vendorExtensions.put("x-parent-is-class", true);
                     List<String> ctorArgs = new ArrayList<>();
                     for (CodegenProperty prop : parentModel.getRequiredVars()) {
                         ctorArgs.add(prop.getName() + " = " + prop.getName());
