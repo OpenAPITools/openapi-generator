@@ -66,6 +66,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | **parameterTypes** | **GET** /fake/misc | misc parameter type tests
 *PetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *PetApi* | **deletePet** | **DELETE** /pet/${petIdPathParam} | Deletes a pet
 *PetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
