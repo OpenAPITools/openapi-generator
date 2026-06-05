@@ -759,13 +759,13 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(
                 Paths.get(
                         outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
-                "description = \"\"\"# Multi-line descriptions\n"
-                + "\n"
-                + "This is an example of a multi-line description.\n"
-                + "\n"
-                + "It:\n"
-                + "- has multiple lines\n"
-                + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+                "description = \"# Multi-line descriptions\\n"
+                + "\\n"
+                + "This is an example of a multi-line description.\\n"
+                + "\\n"
+                + "It:\\n"
+                + "- has multiple lines\\n"
+                + "- uses Markdown (CommonMark) for rich text representation\""
         );
     }
 
@@ -6171,10 +6171,59 @@ public class KotlinSpringServerCodegenTest {
                 .generate();
 
         Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/ItemsApiController.kt");
-        // Summary/message annotation strings must have $ escaped to \$
+        // Summary, message, and description annotation strings must all have $ escaped to \$
         assertFileContains(apiFile, "\\$some");
-        // Notes/description uses triple-quoted strings: $ becomes ${'$'}
-        assertFileContains(apiFile, "${'$'}some");
+    }
+
+    /**
+     * Security regression test for CVE-2026-22785: a malicious OpenAPI description containing
+     * {@code """} must not break out of the annotation string and inject arbitrary Kotlin/Spring
+     * declarations into the generated controller.
+     */
+    @Test(description = "CVE-2026-22785: triple-quote in description must not inject code into generated controller")
+    public void tripleQuoteInjectionInDescriptionIsBlocked() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/cve-description-injection.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/PingApiController.kt");
+        // With the fix, the injected annotation appears only as an escaped string value
+        // (e.g. @GetMapping(\"/pwn\")), never as unescaped annotation code with plain double quotes.
+        assertFileNotContains(apiFile, "@GetMapping(\"/pwn\")");
+    }
+
+    /**
+     * Security regression for KDoc comment injection: a description containing {@code *}{@code /}
+     * must be sanitised to {@code *_/} (via {@code escapeUnsafeCharacters}) so it cannot
+     * prematurely close the KDoc block comment and expose attacker content as live Kotlin code.
+     */
+    @Test(description = "Comment-ending */ in description must become *_/ in generated KDoc service comments")
+    public void commentEndingInDescriptionIsSanitized() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setServiceInterface(true);
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue20502-kotlin-string-escaping.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // The service file contains KDoc comments built from op.notes, which goes through
+        // escapeUnsafeCharacters(): */ must become *_/ so the block comment is never closed early.
+        Path serviceFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/ItemsApiService.kt");
+        assertFileContains(serviceFile, "*_/");
     }
 
     /**

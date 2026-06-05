@@ -86,7 +86,7 @@ interface {{classname}} {
         tags = [{{#tags}}"{{{name}}}",{{/tags}}],
         summary = "{{#lambda.escapeInNormalString}}{{{unescapedSummary}}}{{/lambda.escapeInNormalString}}",
         operationId = "{{{operationId}}}",
-        description = """{{#lambda.escapeDollarInMultiline}}{{{unescapedNotes}}}{{/lambda.escapeDollarInMultiline}}""",
+        description = "{{#lambda.escapeInNormalString}}{{{unescapedNotes}}}{{/lambda.escapeInNormalString}}",
         responses = [{{#responses}}
             ApiResponse(responseCode = "{{{code}}}", description = "{{#lambda.escapeInNormalString}}{{{unescapedMessage}}}{{/lambda.escapeInNormalString}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
         ]{{#hasAuthMethods}},
