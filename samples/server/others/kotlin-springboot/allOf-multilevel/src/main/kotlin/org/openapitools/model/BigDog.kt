@@ -37,7 +37,7 @@ data class BigDog(
 
     @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("breed") override val breed: kotlin.String? = null
-) : Dog(className = className, breed = breed, color = color) {
+) : Dog {
 
 }
 

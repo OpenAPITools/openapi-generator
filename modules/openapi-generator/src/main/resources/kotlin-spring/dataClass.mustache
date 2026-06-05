@@ -43,6 +43,23 @@
         {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/discriminator}}
+{{#vendorExtensions.x-is-open-class}}
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+        other as {{classname}}
+        return {{#allVars}}{{name}} == other.{{name}}{{^-last}}
+                && {{/-last}}{{/allVars}}{{^allVars}}true{{/allVars}}
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash({{#allVars}}{{name}}{{^-last}}, {{/-last}}{{/allVars}})
+    }
+
+    override fun toString(): String {
+        return "{{classname}}({{#allVars}}{{name}}=${{name}}{{^-last}}, {{/-last}}{{/allVars}})"
+    }
+{{/vendorExtensions.x-is-open-class}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}

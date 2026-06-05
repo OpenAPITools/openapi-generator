@@ -31,6 +31,22 @@ open class Dog(
     @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("color") override val color: kotlin.String? = "red"
 ) : Animal {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+        other as Dog
+        return className == other.className
+                && color == other.color
+                && breed == other.breed
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(className, color, breed)
+    }
+
+    override fun toString(): String {
+        return "Dog(className=$className, color=$color, breed=$breed)"
+    }
 
 }
 
