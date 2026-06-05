@@ -1540,6 +1540,12 @@ public class OpenAPINormalizerTest {
         assertEquals(schema16.getOneOf(), null);
         assertEquals(schema16.getEnum().size(), 3);
         assertEquals(schema16.getEnum().get(0), 1);
+        // per-value deprecated flags from oneOf sub-schemas should be preserved as x-enum-deprecated
+        List<Boolean> enumDeprecated = (List<Boolean>) schema16.getExtensions().get("x-enum-deprecated");
+        assertEquals(enumDeprecated.size(), 3);
+        assertEquals(enumDeprecated.get(0), Boolean.TRUE);
+        assertEquals(enumDeprecated.get(1), Boolean.FALSE);
+        assertEquals(enumDeprecated.get(2), Boolean.FALSE);
 
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead

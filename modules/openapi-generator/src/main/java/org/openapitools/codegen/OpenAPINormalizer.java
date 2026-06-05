@@ -1600,6 +1600,7 @@ public class OpenAPINormalizer {
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
         Map<Object, String> enumValues = new LinkedHashMap<>();
+        Map<Object, Boolean> deprecatedValues = new LinkedHashMap<>();
 
         if(schema.getTypes() != null && schema.getTypes().size() > 1) {
             // we cannot handle enums with multiple types
@@ -1643,6 +1644,7 @@ public class OpenAPINormalizer {
                     return schema;
                 }
             }
+            boolean subSchemaDeprecated = Boolean.TRUE.equals(subSchema.getDeprecated());
             // Add all enum values from this sub-schema to our collection
             if(subSchemaEnumValues.size() == 1) {
                 String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
@@ -1653,15 +1655,17 @@ public class OpenAPINormalizer {
                     description += subSchema.getDescription();
                 }
                 enumValues.put(subSchemaEnumValues.get(0), description);
+                deprecatedValues.put(subSchemaEnumValues.get(0), subSchemaDeprecated);
             } else {
                 for(Object e: subSchemaEnumValues) {
                     enumValues.put(e, "");
+                    deprecatedValues.put(e, subSchemaDeprecated);
                 }
             }
 
         }
 
-        return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
+        return createSimplifiedEnumSchema(schema, enumValues, deprecatedValues, schemaType, composedType);
     }
 
 
@@ -1670,11 +1674,12 @@ public class OpenAPINormalizer {
      *
      * @param originalSchema Original schema to modify
      * @param enumValues Collected enum values
+     * @param deprecatedValues Per-value deprecated flags (aligned with enumValues key order)
      * @param schemaType Consistent type across sub-schemas
      * @param composedType Type of composed schema being simplified
      * @return Simplified enum schema
      */
-    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, Map<Object, Boolean> deprecatedValues, String schemaType, String composedType) {
         // Clear the composed schema type
         if ("oneOf".equals(composedType)) {
             originalSchema.setOneOf(null);
@@ -1691,6 +1696,10 @@ public class OpenAPINormalizer {
         if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
             //set x-enum-descriptions only if there's at least one non-empty description
             originalSchema.addExtension(X_ENUM_DESCRIPTIONS, new ArrayList<>(enumValues.values()));
+        }
+        if (deprecatedValues != null && deprecatedValues.values().stream().anyMatch(Boolean.TRUE::equals)) {
+            // preserve per-value deprecated flags from OAS 3.1 oneOf/anyOf + const sub-schemas
+            originalSchema.addExtension("x-enum-deprecated", new ArrayList<>(deprecatedValues.values()));
         }
 
         LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
