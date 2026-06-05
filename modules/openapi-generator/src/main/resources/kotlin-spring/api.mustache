@@ -29,9 +29,7 @@ import org.springframework.http.ResponseEntity
 {{/useResponseEntity}}
 
 import org.springframework.web.bind.annotation.*
-{{#useBeanValidation}}
-import org.springframework.validation.annotation.Validated
-{{/useBeanValidation}}
+{{#useBeanValidation}}{{^useSpringBuiltInValidation}}import org.springframework.validation.annotation.Validated{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -54,9 +52,7 @@ import kotlin.collections.List
 import kotlin.collections.Map
 
 @RestController{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
-{{#useBeanValidation}}
-@Validated
-{{/useBeanValidation}}
+{{#useBeanValidation}}{{^useSpringBuiltInValidation}}@Validated{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swagger1AnnotationLibrary}}
