@@ -59,6 +59,12 @@
     override fun toString(): String {
         return "{{classname}}({{#allVars}}{{name}}=${{name}}{{^-last}}, {{/-last}}{{/allVars}})"
     }
+
+    fun copy(
+{{#allVars}}
+        {{name}}: {{{dataType}}}{{^required}}?{{/required}} = this.{{name}}{{^-last}},{{/-last}}
+{{/allVars}}
+    ): {{classname}} = {{classname}}({{#allVars}}{{name}} = {{name}}{{^-last}}, {{/-last}}{{/allVars}})
 {{/vendorExtensions.x-is-open-class}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**

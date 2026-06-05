@@ -6863,13 +6863,15 @@ public class KotlinSpringServerCodegenTest {
         );
         assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
         assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), ": Animal(");
-        // open class generates equals/hashCode/toString since data class would normally provide these
+        // open class generates equals/hashCode/toString/copy since data class would normally provide these
         assertFileContains(Paths.get(outputPath + "/Dog.kt"),
                 "override fun equals(other: Any?): Boolean",
                 "if (other?.javaClass != javaClass) return false",
                 "override fun hashCode(): Int",
                 "Objects.hash(",
-                "override fun toString(): String"
+                "override fun toString(): String",
+                "fun copy(",
+                "): Dog = Dog("
         );
 
         // Cat: leaf (no children) — stays a data class, unaffected

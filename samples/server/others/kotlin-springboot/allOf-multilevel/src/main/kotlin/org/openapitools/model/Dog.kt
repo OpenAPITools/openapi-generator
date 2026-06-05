@@ -48,5 +48,11 @@ open class Dog(
         return "Dog(className=$className, color=$color, breed=$breed)"
     }
 
+    fun copy(
+        className: kotlin.String = this.className,
+        color: kotlin.String? = this.color,
+        breed: kotlin.String? = this.breed
+    ): Dog = Dog(className = className, color = color, breed = breed)
+
 }
 
