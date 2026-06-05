@@ -1310,7 +1310,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"));
+                .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"))
+                // Full escaping for values going into "..." double-quoted Kotlin strings:
+                // backslash, dollar sign, double-quote, and newlines.
+                .put("escapeInNormalString", (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute()
+                        .replace("\\", "\\\\")
+                        .replace("$", "\\$")
+                        .replace("\"", "\\\"")
+                        .replace("\n", "\\n")
+                        .replace("\r", "\\r")));
     }
 
     protected interface DataTypeAssigner {
