@@ -41,7 +41,7 @@ interface FooApi {
         tags = ["default",],
         summary = "",
         operationId = "fooGet",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "200", description = "response", content = [Content(schema = Schema(implementation = FooGetDefaultResponse::class))])
         ]
