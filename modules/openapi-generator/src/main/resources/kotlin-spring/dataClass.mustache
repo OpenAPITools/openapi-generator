@@ -14,7 +14,7 @@
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{#discriminator}}{{#useSealedDiscriminatorInterfaces}}sealed {{/useSealedDiscriminatorInterfaces}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},

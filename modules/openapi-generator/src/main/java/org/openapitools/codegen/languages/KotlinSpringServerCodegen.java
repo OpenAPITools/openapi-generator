@@ -108,6 +108,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
+    public static final String USE_SEALED_DISCRIMINATOR_INTERFACES = "useSealedDiscriminatorInterfaces";
+    public static final String USE_SEALED_DISCRIMINATOR_INTERFACES_DESC =
+            "Generate sealed interfaces instead of plain interfaces for allOf discriminator parent models. " +
+            "When true (default), discriminator parents rendered as `sealed interface`, enabling exhaustive " +
+            "`when` matching and preventing external implementors (which cannot know all subtypes). " +
+            "Set to false to restore the legacy plain `interface` behavior, e.g. when you implement " +
+            "the generated interface from a module outside the generated package.";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
 
@@ -178,6 +185,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean generatePageableConstraintValidation = false;
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
+    @Getter @Setter private boolean useSealedDiscriminatorInterfaces = true;
     @Setter private boolean companionObject = false;
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";
@@ -229,7 +237,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 )
                 .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.oneOf
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.allOf
                 )
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
@@ -295,6 +304,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_SEALED_RESPONSE_INTERFACES,
                 "Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)",
                 useSealedResponseInterfaces);
+        addSwitch(USE_SEALED_DISCRIMINATOR_INTERFACES, USE_SEALED_DISCRIMINATOR_INTERFACES_DESC,
+                useSealedDiscriminatorInterfaces);
         addOption(X_KOTLIN_IMPLEMENTS_SKIP, "A list of fully qualified interfaces that should NOT be implemented despite their presence in vendor extension `x-kotlin-implements`. Example: yaml `xKotlinImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface in any schema", "empty list");
         addOption(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, "A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`", "empty map");
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
@@ -576,6 +587,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseSealedResponseInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_SEALED_RESPONSE_INTERFACES).toString()));
         }
         writePropertyBack(USE_SEALED_RESPONSE_INTERFACES, useSealedResponseInterfaces);
+
+        if (additionalProperties.containsKey(USE_SEALED_DISCRIMINATOR_INTERFACES)) {
+            this.setUseSealedDiscriminatorInterfaces(
+                    Boolean.parseBoolean(additionalProperties.get(USE_SEALED_DISCRIMINATOR_INTERFACES).toString()));
+        }
+        writePropertyBack(USE_SEALED_DISCRIMINATOR_INTERFACES, useSealedDiscriminatorInterfaces);
 
         if (additionalProperties.containsKey(COMPANION_OBJECT)) {
             this.setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
