@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -19,9 +20,13 @@ import jakarta.annotation.Generated;
  * Client
  */
 
+@JsonPropertyOrder({
+    Client.JSON_PROPERTY_CLIENT
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Client {
 
+    public static final String JSON_PROPERTY_CLIENT = "client";
   private @Nullable String client;
 
   public Client() {

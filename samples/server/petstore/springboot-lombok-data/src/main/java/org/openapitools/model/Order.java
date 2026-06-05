@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,27 +28,39 @@ import jakarta.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Order", description = "An order for a pets from the pet store")
+@JsonPropertyOrder({
+    Order.JSON_PROPERTY_ID,
+    Order.JSON_PROPERTY_PET_ID,
+    Order.JSON_PROPERTY_QUANTITY,
+    Order.JSON_PROPERTY_SHIP_DATE,
+    Order.JSON_PROPERTY_STATUS,
+    Order.JSON_PROPERTY_COMPLETE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Order {
 
+    public static final String JSON_PROPERTY_ID = "id";
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
 
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_PET_ID = "petId";
   
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
 
   private @Nullable Long petId;
 
+    public static final String JSON_PROPERTY_QUANTITY = "quantity";
   
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
 
   private @Nullable Integer quantity;
 
+    public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
@@ -92,12 +105,14 @@ public class Order {
     }
   }
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
 
   private @Nullable StatusEnum status;
 
+    public static final String JSON_PROPERTY_COMPLETE = "complete";
   
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")

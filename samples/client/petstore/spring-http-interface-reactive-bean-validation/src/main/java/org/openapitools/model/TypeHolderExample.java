@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,19 +23,33 @@ import jakarta.annotation.Generated;
  * TypeHolderExample
  */
 
+@JsonPropertyOrder({
+    TypeHolderExample.JSON_PROPERTY_STRING_ITEM,
+    TypeHolderExample.JSON_PROPERTY_NUMBER_ITEM,
+    TypeHolderExample.JSON_PROPERTY_FLOAT_ITEM,
+    TypeHolderExample.JSON_PROPERTY_INTEGER_ITEM,
+    TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
+    TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class TypeHolderExample {
 
+    public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem;
 
+    public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
   private BigDecimal numberItem;
 
+    public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
   private Float floatItem;
 
+    public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
   private Integer integerItem;
 
+    public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
   private Boolean boolItem;
 
+    public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample() {

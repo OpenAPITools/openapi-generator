@@ -1181,6 +1181,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
+            model.imports.add("JsonPropertyOrder");
 
             if (Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonValue");

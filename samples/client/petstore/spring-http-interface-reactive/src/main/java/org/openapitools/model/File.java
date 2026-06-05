@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -17,9 +18,13 @@ import jakarta.annotation.Generated;
  * Must be named &#x60;File&#x60; for test.
  */
 
+@JsonPropertyOrder({
+    File.JSON_PROPERTY_SOURCE_U_R_I
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class File {
 
+    public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   private @Nullable String sourceURI;
 
   public File sourceURI(@Nullable String sourceURI) {

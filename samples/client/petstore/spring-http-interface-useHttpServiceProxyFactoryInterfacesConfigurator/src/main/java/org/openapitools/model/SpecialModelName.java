@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,10 +21,14 @@ import jakarta.annotation.Generated;
  * SpecialModelName
  */
 
+@JsonPropertyOrder({
+    SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
+})
 @JsonTypeName("_special_model.name_")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class SpecialModelName {
 
+    public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private @Nullable Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(@Nullable Long $specialPropertyName) {

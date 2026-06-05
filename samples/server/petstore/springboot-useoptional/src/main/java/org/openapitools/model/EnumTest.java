@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnum;
@@ -22,6 +23,13 @@ import jakarta.annotation.Generated;
  * EnumTest
  */
 
+@JsonPropertyOrder({
+    EnumTest.JSON_PROPERTY_ENUM_STRING,
+    EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
+    EnumTest.JSON_PROPERTY_ENUM_INTEGER,
+    EnumTest.JSON_PROPERTY_ENUM_NUMBER,
+    EnumTest.JSON_PROPERTY_OUTER_ENUM
+})
 @JsonTypeName("Enum_Test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class EnumTest {
@@ -63,6 +71,7 @@ public class EnumTest {
     }
   }
 
+    public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
   private Optional<EnumStringEnum> enumString = Optional.empty();
 
   /**
@@ -102,6 +111,7 @@ public class EnumTest {
     }
   }
 
+    public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -139,6 +149,7 @@ public class EnumTest {
     }
   }
 
+    public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
   private Optional<EnumIntegerEnum> enumInteger = Optional.empty();
 
   /**
@@ -176,8 +187,10 @@ public class EnumTest {
     }
   }
 
+    public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
   private Optional<EnumNumberEnum> enumNumber = Optional.empty();
 
+    public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
   private Optional<OuterEnum> outerEnum = Optional.empty();
 
   public EnumTest() {

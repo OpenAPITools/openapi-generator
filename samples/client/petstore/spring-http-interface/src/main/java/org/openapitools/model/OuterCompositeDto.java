@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
@@ -19,14 +20,22 @@ import jakarta.annotation.Generated;
  * OuterCompositeDto
  */
 
+@JsonPropertyOrder({
+    OuterCompositeDto.JSON_PROPERTY_MY_NUMBER,
+    OuterCompositeDto.JSON_PROPERTY_MY_STRING,
+    OuterCompositeDto.JSON_PROPERTY_MY_BOOLEAN
+})
 @JsonTypeName("OuterComposite")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class OuterCompositeDto {
 
+    public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   private @Nullable BigDecimal myNumber;
 
+    public static final String JSON_PROPERTY_MY_STRING = "my_string";
   private @Nullable String myString;
 
+    public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
   private @Nullable Boolean myBoolean;
 
   public OuterCompositeDto myNumber(@Nullable BigDecimal myNumber) {

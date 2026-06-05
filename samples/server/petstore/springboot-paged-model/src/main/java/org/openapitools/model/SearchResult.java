@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.model.PageMeta;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,15 +21,23 @@ import jakarta.annotation.Generated;
  * Search result with metadata — no &#39;content&#39; array at all
  */
 
+@JsonPropertyOrder({
+    SearchResult.JSON_PROPERTY_QUERY,
+    SearchResult.JSON_PROPERTY_TOTAL_HITS,
+    SearchResult.JSON_PROPERTY_PAGE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class SearchResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+    public static final String JSON_PROPERTY_QUERY = "query";
   private @Nullable String query;
 
+    public static final String JSON_PROPERTY_TOTAL_HITS = "totalHits";
   private @Nullable Integer totalHits;
 
+    public static final String JSON_PROPERTY_PAGE = "page";
   private @Nullable PageMeta page;
 
   public SearchResult query(@Nullable String query) {

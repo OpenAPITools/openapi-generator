@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.FooDto;
 import org.springframework.lang.Nullable;
@@ -21,10 +22,14 @@ import jakarta.annotation.Generated;
  * FooGetDefaultResponseDto
  */
 
+@JsonPropertyOrder({
+    FooGetDefaultResponseDto.JSON_PROPERTY_STRING
+})
 @JsonTypeName("_foo_get_default_response")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FooGetDefaultResponseDto {
 
+    public static final String JSON_PROPERTY_STRING = "string";
   private @Nullable FooDto string;
 
   public FooGetDefaultResponseDto string(@Nullable FooDto string) {

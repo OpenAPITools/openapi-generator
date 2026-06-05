@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,10 +21,14 @@ import jakarta.annotation.Generated;
  * FooDto
  */
 
+@JsonPropertyOrder({
+    FooDto.JSON_PROPERTY_BAR
+})
 @JsonTypeName("Foo")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FooDto implements com.custompackage.WithBar, com.custompackage.WithDefaultMethod {
 
+    public static final String JSON_PROPERTY_BAR = "bar";
   private String bar = "bar";
 
   public FooDto bar(String bar) {

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -26,6 +27,9 @@ import jakarta.annotation.Generated;
  */
 
 
+@JsonPropertyOrder({
+    BigCatDto.JSON_PROPERTY_KIND
+})
 @JsonTypeName("BigCat")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class BigCatDto extends CatDto {
@@ -69,6 +73,7 @@ public class BigCatDto extends CatDto {
     }
   }
 
+    public static final String JSON_PROPERTY_KIND = "kind";
   private @Nullable KindEnum kind;
 
   public BigCatDto() {

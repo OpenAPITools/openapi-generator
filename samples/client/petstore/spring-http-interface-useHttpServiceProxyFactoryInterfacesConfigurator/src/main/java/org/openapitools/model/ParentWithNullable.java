@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -35,6 +36,10 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable")
 })
 
+@JsonPropertyOrder({
+    ParentWithNullable.JSON_PROPERTY_TYPE,
+    ParentWithNullable.JSON_PROPERTY_NULLABLE_PROPERTY
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ParentWithNullable {
 
@@ -71,8 +76,10 @@ public class ParentWithNullable {
     }
   }
 
+    public static final String JSON_PROPERTY_TYPE = "type";
   private @Nullable TypeEnum type;
 
+    public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable type(@Nullable TypeEnum type) {

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -19,9 +20,13 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ClassModel", description = "Model for testing model with \"_class\" property")
+@JsonPropertyOrder({
+    ClassModel.JSON_PROPERTY_PROPERTY_CLASS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ClassModel {
 
+    public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   private @Nullable String propertyClass;
 
   public ClassModel propertyClass(@Nullable String propertyClass) {

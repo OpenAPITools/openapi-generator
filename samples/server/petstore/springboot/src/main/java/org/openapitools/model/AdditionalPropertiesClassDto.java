@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -27,30 +28,54 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClassDto
  */
 
+@JsonPropertyOrder({
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_STRING,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_NUMBER,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_INTEGER,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_BOOLEAN,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_ARRAY_INTEGER,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_ARRAY_ANYTYPE,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_MAP_STRING,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_MAP_ANYTYPE,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_ANYTYPE1,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_ANYTYPE2,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_ANYTYPE3
+})
 @JsonTypeName("AdditionalPropertiesClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
+    public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   private Map<String, String> mapString = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   private Map<String, Integer> mapInteger = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
+    public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   private @Nullable Object anytype1;
 
+    public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
+    public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
   private @Nullable Object anytype3;
 
   public AdditionalPropertiesClassDto mapString(Map<String, String> mapString) {

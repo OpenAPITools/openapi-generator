@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.lang.Nullable;
@@ -20,9 +21,13 @@ import jakarta.annotation.Generated;
  * NullableMapProperty
  */
 
+@JsonPropertyOrder({
+    NullableMapProperty.JSON_PROPERTY_LANGUAGE_VALUES
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class NullableMapProperty {
 
+    public static final String JSON_PROPERTY_LANGUAGE_VALUES = "languageValues";
   private @Nullable Map<String, String> languageValues;
 
   public NullableMapProperty languageValues(@Nullable Map<String, String> languageValues) {

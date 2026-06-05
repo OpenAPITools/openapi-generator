@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.lang.Nullable;
@@ -32,21 +33,37 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
 
+@JsonPropertyOrder({
+    EntityRef.JSON_PROPERTY_HREF,
+    EntityRef.JSON_PROPERTY_ID,
+    EntityRef.JSON_PROPERTY_AT_SCHEMA_LOCATION,
+    EntityRef.JSON_PROPERTY_AT_BASE_TYPE,
+    EntityRef.JSON_PROPERTY_AT_TYPE,
+    EntityRef.JSON_PROPERTY_NAME,
+    EntityRef.JSON_PROPERTY_AT_REFERRED_TYPE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class EntityRef {
 
+    public static final String JSON_PROPERTY_HREF = "href";
   private @Nullable String href;
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable String id;
 
+    public static final String JSON_PROPERTY_AT_SCHEMA_LOCATION = "@schemaLocation";
   private @Nullable String atSchemaLocation;
 
+    public static final String JSON_PROPERTY_AT_BASE_TYPE = "@baseType";
   private @Nullable String atBaseType;
 
+    public static final String JSON_PROPERTY_AT_TYPE = "@type";
   private String atType;
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private @Nullable String name;
 
+    public static final String JSON_PROPERTY_AT_REFERRED_TYPE = "@referredType";
   private @Nullable String atReferredType;
 
   public EntityRef() {

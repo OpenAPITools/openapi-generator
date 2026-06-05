@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -18,23 +19,41 @@ import jakarta.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
+@JsonPropertyOrder({
+    User.JSON_PROPERTY_ID,
+    User.JSON_PROPERTY_USERNAME,
+    User.JSON_PROPERTY_FIRST_NAME,
+    User.JSON_PROPERTY_LAST_NAME,
+    User.JSON_PROPERTY_EMAIL,
+    User.JSON_PROPERTY_PASSWORD,
+    User.JSON_PROPERTY_PHONE,
+    User.JSON_PROPERTY_USER_STATUS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class User {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private Optional<Long> id = Optional.empty();
 
+    public static final String JSON_PROPERTY_USERNAME = "username";
   private Optional<String> username = Optional.empty();
 
+    public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   private Optional<String> firstName = Optional.empty();
 
+    public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   private Optional<String> lastName = Optional.empty();
 
+    public static final String JSON_PROPERTY_EMAIL = "email";
   private Optional<String> email = Optional.empty();
 
+    public static final String JSON_PROPERTY_PASSWORD = "password";
   private Optional<String> password = Optional.empty();
 
+    public static final String JSON_PROPERTY_PHONE = "phone";
   private Optional<String> phone = Optional.empty();
 
+    public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Optional<Integer> userStatus = Optional.empty();
 
   public User id(Long id) {

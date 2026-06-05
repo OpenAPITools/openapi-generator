@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +22,16 @@ import jakarta.annotation.Generated;
  * MapTest
  */
 
+@JsonPropertyOrder({
+    MapTest.JSON_PROPERTY_MAP_MAP_OF_STRING,
+    MapTest.JSON_PROPERTY_MAP_OF_ENUM_STRING,
+    MapTest.JSON_PROPERTY_DIRECT_MAP,
+    MapTest.JSON_PROPERTY_INDIRECT_MAP
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MapTest {
 
+    public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
@@ -61,10 +69,13 @@ public class MapTest {
     }
   }
 
+    public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
+    public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   private Map<String, Boolean> directMap = new HashMap<>();
 
+    public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

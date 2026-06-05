@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -17,23 +18,41 @@ import jakarta.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
+@JsonPropertyOrder({
+    User.JSON_PROPERTY_ID,
+    User.JSON_PROPERTY_USERNAME,
+    User.JSON_PROPERTY_FIRST_NAME,
+    User.JSON_PROPERTY_LAST_NAME,
+    User.JSON_PROPERTY_EMAIL,
+    User.JSON_PROPERTY_PASSWORD,
+    User.JSON_PROPERTY_PHONE,
+    User.JSON_PROPERTY_USER_STATUS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class User {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
+    public static final String JSON_PROPERTY_USERNAME = "username";
   private String username;
 
+    public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   private String firstName;
 
+    public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   private String lastName;
 
+    public static final String JSON_PROPERTY_EMAIL = "email";
   private String email;
 
+    public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
+    public static final String JSON_PROPERTY_PHONE = "phone";
   private String phone;
 
+    public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
 
   public User id(Long id) {

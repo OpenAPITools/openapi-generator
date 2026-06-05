@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.SingleRefTypeDto;
@@ -22,12 +23,18 @@ import jakarta.annotation.Generated;
  * AllOfWithSingleRefDto
  */
 
+@JsonPropertyOrder({
+    AllOfWithSingleRefDto.JSON_PROPERTY_USERNAME,
+    AllOfWithSingleRefDto.JSON_PROPERTY_SINGLE_REF_TYPE
+})
 @JsonTypeName("AllOfWithSingleRef")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AllOfWithSingleRefDto {
 
+    public static final String JSON_PROPERTY_USERNAME = "username";
   private @Nullable String username;
 
+    public static final String JSON_PROPERTY_SINGLE_REF_TYPE = "SingleRefType";
   private @Nullable SingleRefTypeDto singleRefType;
 
   public AllOfWithSingleRefDto username(@Nullable String username) {

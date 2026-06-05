@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
@@ -22,17 +23,27 @@ import jakarta.annotation.Generated;
  * NullableModel
  */
 
+@JsonPropertyOrder({
+    NullableModel.JSON_PROPERTY_REQUIRED_NON_NULLABLE,
+    NullableModel.JSON_PROPERTY_REQUIRED_NULLABLE,
+    NullableModel.JSON_PROPERTY_OPTIONAL_NON_NULLABLE,
+    NullableModel.JSON_PROPERTY_OPTIONAL_NULLABLE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class NullableModel implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+    public static final String JSON_PROPERTY_REQUIRED_NON_NULLABLE = "requiredNonNullable";
   private String requiredNonNullable;
 
+    public static final String JSON_PROPERTY_REQUIRED_NULLABLE = "requiredNullable";
   private JsonNullable<String> requiredNullable = JsonNullable.<String>undefined();
 
+    public static final String JSON_PROPERTY_OPTIONAL_NON_NULLABLE = "optionalNonNullable";
   private @Nullable String optionalNonNullable;
 
+    public static final String JSON_PROPERTY_OPTIONAL_NULLABLE = "optionalNullable";
   private JsonNullable<String> optionalNullable = JsonNullable.<String>undefined();
 
   public NullableModel() {

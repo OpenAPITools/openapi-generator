@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -20,11 +21,17 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Addressable", description = "Base schema for addressable entities")
+@JsonPropertyOrder({
+    Addressable.JSON_PROPERTY_HREF,
+    Addressable.JSON_PROPERTY_ID
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public final class Addressable {
 
+    public static final String JSON_PROPERTY_HREF = "href";
   private @Nullable String href;
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable String id;
 
   public Addressable href(@Nullable String href) {

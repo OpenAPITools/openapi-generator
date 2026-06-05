@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -19,15 +20,23 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
+@JsonPropertyOrder({
+    Pet.JSON_PROPERTY_ID,
+    Pet.JSON_PROPERTY_NAME,
+    Pet.JSON_PROPERTY_STATUS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   private @Nullable String status;
 
   public Pet() {

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -25,10 +26,14 @@ import jakarta.annotation.Generated;
  */
 
 
+@JsonPropertyOrder({
+    ChildWithNullableDto.JSON_PROPERTY_OTHER_PROPERTY
+})
 @JsonTypeName("ChildWithNullable")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ChildWithNullableDto extends ParentWithNullableDto {
 
+    public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
   private @Nullable String otherProperty;
 
   public ChildWithNullableDto otherProperty(@Nullable String otherProperty) {

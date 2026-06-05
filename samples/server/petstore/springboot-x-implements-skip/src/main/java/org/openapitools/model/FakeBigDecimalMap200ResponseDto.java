@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -23,12 +24,18 @@ import jakarta.annotation.Generated;
  * FakeBigDecimalMap200ResponseDto
  */
 
+@JsonPropertyOrder({
+    FakeBigDecimalMap200ResponseDto.JSON_PROPERTY_SOME_ID,
+    FakeBigDecimalMap200ResponseDto.JSON_PROPERTY_SOME_MAP
+})
 @JsonTypeName("fakeBigDecimalMap_200_response")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FakeBigDecimalMap200ResponseDto {
 
+    public static final String JSON_PROPERTY_SOME_ID = "someId";
   private @Nullable BigDecimal someId;
 
+    public static final String JSON_PROPERTY_SOME_MAP = "someMap";
   private Map<String, BigDecimal> someMap = new HashMap<>();
 
   public FakeBigDecimalMap200ResponseDto someId(@Nullable BigDecimal someId) {

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
@@ -27,17 +28,30 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
+@JsonPropertyOrder({
+    Pet.JSON_PROPERTY_ID,
+    Pet.JSON_PROPERTY_CATEGORY,
+    Pet.JSON_PROPERTY_NAME,
+    Pet.JSON_PROPERTY_PHOTO_URLS,
+    Pet.JSON_PROPERTY_TAGS,
+    Pet.JSON_PROPERTY_STATUS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_CATEGORY = "category";
   private @Nullable Category category;
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+    public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   private Set<String> photoUrls = new LinkedHashSet<>();
 
+    public static final String JSON_PROPERTY_TAGS = "tags";
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -77,6 +91,7 @@ public class Pet {
     }
   }
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   @Deprecated
   private @Nullable StatusEnum status;
 

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,27 +31,39 @@ import jakarta.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
+@JsonPropertyOrder({
+    Pet.JSON_PROPERTY_ID,
+    Pet.JSON_PROPERTY_CATEGORY,
+    Pet.JSON_PROPERTY_NAME,
+    Pet.JSON_PROPERTY_PHOTO_URLS,
+    Pet.JSON_PROPERTY_TAGS,
+    Pet.JSON_PROPERTY_STATUS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet {
 
+    public static final String JSON_PROPERTY_ID = "id";
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
 
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_CATEGORY = "category";
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
 
   private @Nullable Category category;
 
+    public static final String JSON_PROPERTY_NAME = "name";
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
 
   private String name;
 
+    public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
@@ -58,6 +71,7 @@ public class Pet {
   @lombok.Builder.Default
   private List<String> photoUrls = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_TAGS = "tags";
   
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
@@ -102,6 +116,7 @@ public class Pet {
     }
   }
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")

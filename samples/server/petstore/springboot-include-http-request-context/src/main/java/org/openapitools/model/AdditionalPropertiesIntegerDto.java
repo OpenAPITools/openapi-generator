@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -24,10 +25,14 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesIntegerDto
  */
 
+@JsonPropertyOrder({
+    AdditionalPropertiesIntegerDto.JSON_PROPERTY_NAME
+})
 @JsonTypeName("AdditionalPropertiesInteger")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AdditionalPropertiesIntegerDto {
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private @Nullable String name;
 
   public AdditionalPropertiesIntegerDto name(@Nullable String name) {

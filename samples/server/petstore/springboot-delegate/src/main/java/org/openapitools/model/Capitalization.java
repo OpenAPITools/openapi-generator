@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -19,19 +20,33 @@ import jakarta.annotation.Generated;
  * Capitalization
  */
 
+@JsonPropertyOrder({
+    Capitalization.JSON_PROPERTY_SMALL_CAMEL,
+    Capitalization.JSON_PROPERTY_CAPITAL_CAMEL,
+    Capitalization.JSON_PROPERTY_SMALL_SNAKE,
+    Capitalization.JSON_PROPERTY_CAPITAL_SNAKE,
+    Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
+    Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Capitalization {
 
+    public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   private @Nullable String smallCamel;
 
+    public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
   private @Nullable String capitalCamel;
 
+    public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
   private @Nullable String smallSnake;
 
+    public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
   private @Nullable String capitalSnake;
 
+    public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   private @Nullable String scAETHFlowPoints;
 
+    public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
   private @Nullable String ATT_NAME;
 
   public Capitalization() {

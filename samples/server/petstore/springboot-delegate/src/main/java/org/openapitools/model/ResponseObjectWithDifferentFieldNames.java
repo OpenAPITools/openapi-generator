@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -19,15 +20,25 @@ import jakarta.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
+@JsonPropertyOrder({
+    ResponseObjectWithDifferentFieldNames.JSON_PROPERTY_NORMAL_PROPERTY_NAME,
+    ResponseObjectWithDifferentFieldNames.JSON_PROPERTY_U_P_P_E_R_C_A_S_E_P_R_O_P_E_R_T_Y_S_N_A_K_E,
+    ResponseObjectWithDifferentFieldNames.JSON_PROPERTY_LOWER_CASE_PROPERTY_DASHES,
+    ResponseObjectWithDifferentFieldNames.JSON_PROPERTY_PROPERTY_NAME_WITH_SPACES
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
+    public static final String JSON_PROPERTY_NORMAL_PROPERTY_NAME = "normalPropertyName";
   private @Nullable String normalPropertyName;
 
+    public static final String JSON_PROPERTY_U_P_P_E_R_C_A_S_E_P_R_O_P_E_R_T_Y_S_N_A_K_E = "UPPER_CASE_PROPERTY_SNAKE";
   private @Nullable String UPPER_CASE_PROPERTY_SNAKE;
 
+    public static final String JSON_PROPERTY_LOWER_CASE_PROPERTY_DASHES = "lower-case-property-dashes";
   private @Nullable String lowerCasePropertyDashes;
 
+    public static final String JSON_PROPERTY_PROPERTY_NAME_WITH_SPACES = "property name with spaces";
   private @Nullable String propertyNameWithSpaces;
 
   public ResponseObjectWithDifferentFieldNames() {

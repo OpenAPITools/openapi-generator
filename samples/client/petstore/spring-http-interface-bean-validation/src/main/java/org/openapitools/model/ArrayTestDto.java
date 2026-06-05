@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,14 +24,22 @@ import jakarta.annotation.Generated;
  * ArrayTestDto
  */
 
+@JsonPropertyOrder({
+    ArrayTestDto.JSON_PROPERTY_ARRAY_OF_STRING,
+    ArrayTestDto.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
+    ArrayTestDto.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
+})
 @JsonTypeName("ArrayTest")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ArrayTestDto {
 
+    public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   private List<String> arrayOfString = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {

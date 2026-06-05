@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -19,11 +20,17 @@ import jakarta.annotation.Generated;
  * Dog
  */
 
+@JsonPropertyOrder({
+    Dog.JSON_PROPERTY_NAME,
+    Dog.JSON_PROPERTY_AGE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Dog {
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private @Nullable String name;
 
+    public static final String JSON_PROPERTY_AGE = "age";
   private @Nullable Integer age;
 
   public Dog name(@Nullable String name) {

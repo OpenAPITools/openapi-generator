@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -19,11 +20,17 @@ import jakarta.annotation.Generated;
  * Error
  */
 
+@JsonPropertyOrder({
+    Error.JSON_PROPERTY_CODE,
+    Error.JSON_PROPERTY_MESSAGE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Error {
 
+    public static final String JSON_PROPERTY_CODE = "code";
   private @Nullable Integer code;
 
+    public static final String JSON_PROPERTY_MESSAGE = "message";
   private @Nullable String message;
 
   public Error code(@Nullable Integer code) {

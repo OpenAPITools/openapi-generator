@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -23,11 +24,17 @@ import jakarta.annotation.Generated;
  * Apple
  */
 
+@JsonPropertyOrder({
+    Apple.JSON_PROPERTY_SEEDS,
+    Apple.JSON_PROPERTY_FRUIT_TYPE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Apple implements Fruit {
 
+    public static final String JSON_PROPERTY_SEEDS = "seeds";
   private Integer seeds;
 
+    public static final String JSON_PROPERTY_FRUIT_TYPE = "fruitType";
   private FruitType fruitType;
 
   public Apple() {

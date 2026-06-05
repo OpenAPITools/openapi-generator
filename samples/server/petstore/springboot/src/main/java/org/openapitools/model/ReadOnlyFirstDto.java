@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,12 +21,18 @@ import javax.annotation.Generated;
  * ReadOnlyFirstDto
  */
 
+@JsonPropertyOrder({
+    ReadOnlyFirstDto.JSON_PROPERTY_BAR,
+    ReadOnlyFirstDto.JSON_PROPERTY_BAZ
+})
 @JsonTypeName("ReadOnlyFirst")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ReadOnlyFirstDto {
 
+    public static final String JSON_PROPERTY_BAR = "bar";
   private @Nullable String bar;
 
+    public static final String JSON_PROPERTY_BAZ = "baz";
   private @Nullable String baz;
 
   public ReadOnlyFirstDto bar(@Nullable String bar) {

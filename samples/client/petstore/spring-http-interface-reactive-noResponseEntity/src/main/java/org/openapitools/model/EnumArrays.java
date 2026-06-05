@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,10 @@ import jakarta.annotation.Generated;
  * EnumArrays
  */
 
+@JsonPropertyOrder({
+    EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+    EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class EnumArrays {
 
@@ -59,6 +64,7 @@ public class EnumArrays {
     }
   }
 
+    public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   private @Nullable JustSymbolEnum justSymbol;
 
   /**
@@ -96,6 +102,7 @@ public class EnumArrays {
     }
   }
 
+    public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(@Nullable JustSymbolEnum justSymbol) {

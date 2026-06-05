@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -29,20 +30,34 @@ import jakarta.annotation.Generated;
  * ObjectWithUniqueItems
  */
 
+@JsonPropertyOrder({
+    ObjectWithUniqueItems.JSON_PROPERTY_NULL_SET,
+    ObjectWithUniqueItems.JSON_PROPERTY_NOT_NULL_SET,
+    ObjectWithUniqueItems.JSON_PROPERTY_NULL_LIST,
+    ObjectWithUniqueItems.JSON_PROPERTY_NOT_NULL_LIST,
+    ObjectWithUniqueItems.JSON_PROPERTY_NOT_NULL_DATE_FIELD,
+    ObjectWithUniqueItems.JSON_PROPERTY_NULL_DATE_FIELD
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
+    public static final String JSON_PROPERTY_NULL_SET = "nullSet";
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
+    public static final String JSON_PROPERTY_NOT_NULL_SET = "notNullSet";
   private Set<String> notNullSet = new LinkedHashSet<>();
 
+    public static final String JSON_PROPERTY_NULL_LIST = "nullList";
   private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
+    public static final String JSON_PROPERTY_NOT_NULL_LIST = "notNullList";
   private List<String> notNullList = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NOT_NULL_DATE_FIELD = "notNullDateField";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime notNullDateField;
 
+    public static final String JSON_PROPERTY_NULL_DATE_FIELD = "nullDateField";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime nullDateField;
 

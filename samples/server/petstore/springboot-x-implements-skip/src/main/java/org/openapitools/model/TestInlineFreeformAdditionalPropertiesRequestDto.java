@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -24,10 +25,14 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * TestInlineFreeformAdditionalPropertiesRequestDto
  */
 
+@JsonPropertyOrder({
+    TestInlineFreeformAdditionalPropertiesRequestDto.JSON_PROPERTY_SOME_PROPERTY
+})
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequestDto {
 
+    public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   private @Nullable String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequestDto someProperty(@Nullable String someProperty) {

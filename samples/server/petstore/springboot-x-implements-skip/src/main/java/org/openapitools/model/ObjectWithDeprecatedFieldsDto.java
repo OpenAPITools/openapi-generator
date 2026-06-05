@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,18 +26,28 @@ import jakarta.annotation.Generated;
  * ObjectWithDeprecatedFieldsDto
  */
 
+@JsonPropertyOrder({
+    ObjectWithDeprecatedFieldsDto.JSON_PROPERTY_UUID,
+    ObjectWithDeprecatedFieldsDto.JSON_PROPERTY_ID,
+    ObjectWithDeprecatedFieldsDto.JSON_PROPERTY_DEPRECATED_REF,
+    ObjectWithDeprecatedFieldsDto.JSON_PROPERTY_BARS
+})
 @JsonTypeName("ObjectWithDeprecatedFields")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ObjectWithDeprecatedFieldsDto {
 
+    public static final String JSON_PROPERTY_UUID = "uuid";
   private @Nullable String uuid;
 
+    public static final String JSON_PROPERTY_ID = "id";
   @Deprecated
   private @Nullable BigDecimal id;
 
+    public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
   @Deprecated
   private @Nullable DeprecatedObjectDto deprecatedRef;
 
+    public static final String JSON_PROPERTY_BARS = "bars";
   @Deprecated
   private List<String> bars = new ArrayList<>();
 

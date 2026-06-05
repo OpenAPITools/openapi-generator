@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.lang.Nullable;
@@ -36,17 +37,29 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = PizzaSpeziale.class, name = "PizzaSpeziale")
 })
 
+@JsonPropertyOrder({
+    Entity.JSON_PROPERTY_HREF,
+    Entity.JSON_PROPERTY_ID,
+    Entity.JSON_PROPERTY_AT_SCHEMA_LOCATION,
+    Entity.JSON_PROPERTY_AT_BASE_TYPE,
+    Entity.JSON_PROPERTY_AT_TYPE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
 
+    public static final String JSON_PROPERTY_HREF = "href";
   private @Nullable String href;
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable String id;
 
+    public static final String JSON_PROPERTY_AT_SCHEMA_LOCATION = "@schemaLocation";
   private @Nullable String atSchemaLocation;
 
+    public static final String JSON_PROPERTY_AT_BASE_TYPE = "@baseType";
   private @Nullable String atBaseType;
 
+    public static final String JSON_PROPERTY_AT_TYPE = "@type";
   private String atType;
 
   public Entity() {

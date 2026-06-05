@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -21,12 +22,18 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "200_response", description = "Model for testing model name starting with number")
+@JsonPropertyOrder({
+    Model200Response.JSON_PROPERTY_NAME,
+    Model200Response.JSON_PROPERTY_PROPERTY_CLASS
+})
 @JsonTypeName("200_response")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Model200Response {
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private Optional<Integer> name = Optional.empty();
 
+    public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
   private Optional<String> propertyClass = Optional.empty();
 
   public Model200Response name(Integer name) {

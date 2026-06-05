@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,10 +25,14 @@ import javax.annotation.Generated;
  * ArrayOfNumberOnlyDto
  */
 
+@JsonPropertyOrder({
+    ArrayOfNumberOnlyDto.JSON_PROPERTY_ARRAY_NUMBER
+})
 @JsonTypeName("ArrayOfNumberOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ArrayOfNumberOnlyDto {
 
+    public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnlyDto arrayNumber(List<BigDecimal> arrayNumber) {

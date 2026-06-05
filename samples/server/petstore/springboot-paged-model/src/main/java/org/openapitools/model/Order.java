@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -19,13 +20,19 @@ import jakarta.annotation.Generated;
  * Order
  */
 
+@JsonPropertyOrder({
+    Order.JSON_PROPERTY_ID,
+    Order.JSON_PROPERTY_AMOUNT
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Order implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable String id;
 
+    public static final String JSON_PROPERTY_AMOUNT = "amount";
   private @Nullable Double amount;
 
   public Order id(@Nullable String id) {

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Animal;
@@ -24,9 +25,13 @@ import jakarta.annotation.Generated;
  */
 
 
+@JsonPropertyOrder({
+    Dog.JSON_PROPERTY_BREED
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Dog extends Animal {
 
+    public static final String JSON_PROPERTY_BREED = "breed";
   private @Nullable String breed;
 
   public Dog() {

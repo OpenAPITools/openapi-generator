@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -28,24 +29,38 @@ import jakarta.annotation.Generated;
  * Foo
  */
 
+@JsonPropertyOrder({
+    Foo.JSON_PROPERTY_DT,
+    Foo.JSON_PROPERTY_BINARY,
+    Foo.JSON_PROPERTY_LIST_OF_DT,
+    Foo.JSON_PROPERTY_LIST_MIN_INTEMS,
+    Foo.JSON_PROPERTY_REQUIRED_DT,
+    Foo.JSON_PROPERTY_NUMBER
+})
 @JacksonXmlRootElement(localName = "Foo")
 @XmlRootElement(name = "Foo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Foo {
 
+    public static final String JSON_PROPERTY_DT = "dt";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dt;
 
+    public static final String JSON_PROPERTY_BINARY = "binary";
   private org.springframework.core.io.@Nullable Resource binary;
 
+    public static final String JSON_PROPERTY_LIST_OF_DT = "listOfDt";
   private List<OffsetDateTime> listOfDt = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_LIST_MIN_INTEMS = "listMinIntems";
   private List<OffsetDateTime> listMinIntems = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_REQUIRED_DT = "requiredDt";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime requiredDt;
 
+    public static final String JSON_PROPERTY_NUMBER = "number";
   private @Nullable BigDecimal number;
 
   public Foo() {

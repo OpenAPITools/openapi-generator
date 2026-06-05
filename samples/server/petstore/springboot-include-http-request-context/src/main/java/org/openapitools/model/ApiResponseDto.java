@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,14 +21,22 @@ import jakarta.annotation.Generated;
  * ApiResponseDto
  */
 
+@JsonPropertyOrder({
+    ApiResponseDto.JSON_PROPERTY_CODE,
+    ApiResponseDto.JSON_PROPERTY_TYPE,
+    ApiResponseDto.JSON_PROPERTY_MESSAGE
+})
 @JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ApiResponseDto {
 
+    public static final String JSON_PROPERTY_CODE = "code";
   private @Nullable Integer code;
 
+    public static final String JSON_PROPERTY_TYPE = "type";
   private @Nullable String type;
 
+    public static final String JSON_PROPERTY_MESSAGE = "message";
   private @Nullable String message;
 
   public ApiResponseDto code(@Nullable Integer code) {

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,34 +36,60 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * NullableClassDto
  */
 
+@JsonPropertyOrder({
+    NullableClassDto.JSON_PROPERTY_INTEGER_PROP,
+    NullableClassDto.JSON_PROPERTY_NUMBER_PROP,
+    NullableClassDto.JSON_PROPERTY_BOOLEAN_PROP,
+    NullableClassDto.JSON_PROPERTY_STRING_PROP,
+    NullableClassDto.JSON_PROPERTY_DATE_PROP,
+    NullableClassDto.JSON_PROPERTY_DATETIME_PROP,
+    NullableClassDto.JSON_PROPERTY_ARRAY_NULLABLE_PROP,
+    NullableClassDto.JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP,
+    NullableClassDto.JSON_PROPERTY_ARRAY_ITEMS_NULLABLE,
+    NullableClassDto.JSON_PROPERTY_OBJECT_NULLABLE_PROP,
+    NullableClassDto.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
+    NullableClassDto.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
+})
 @JsonTypeName("NullableClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class NullableClassDto {
 
+    public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
 
+    public static final String JSON_PROPERTY_NUMBER_PROP = "number_prop";
   private JsonNullable<BigDecimal> numberProp = JsonNullable.<BigDecimal>undefined();
 
+    public static final String JSON_PROPERTY_BOOLEAN_PROP = "boolean_prop";
   private JsonNullable<Boolean> booleanProp = JsonNullable.<Boolean>undefined();
 
+    public static final String JSON_PROPERTY_STRING_PROP = "string_prop";
   private JsonNullable<String> stringProp = JsonNullable.<String>undefined();
 
+    public static final String JSON_PROPERTY_DATE_PROP = "date_prop";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private JsonNullable<LocalDate> dateProp = JsonNullable.<LocalDate>undefined();
 
+    public static final String JSON_PROPERTY_DATETIME_PROP = "datetime_prop";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private JsonNullable<OffsetDateTime> datetimeProp = JsonNullable.<OffsetDateTime>undefined();
 
+    public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   private JsonNullable<List<Object>> arrayNullableProp = JsonNullable.<List<Object>>undefined();
 
+    public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
+    public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
+    public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
+    public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClassDto integerProp(Integer integerProp) {

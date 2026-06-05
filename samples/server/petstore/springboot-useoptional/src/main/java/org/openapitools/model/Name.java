@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -20,15 +21,25 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Name", description = "Model for testing model name same as property name")
+@JsonPropertyOrder({
+    Name.JSON_PROPERTY_NAME,
+    Name.JSON_PROPERTY_SNAKE_CASE,
+    Name.JSON_PROPERTY_PROPERTY,
+    Name.JSON_PROPERTY_123NUMBER
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Name {
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
 
+    public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
   private Optional<Integer> snakeCase = Optional.empty();
 
+    public static final String JSON_PROPERTY_PROPERTY = "property";
   private Optional<String> property = Optional.empty();
 
+    public static final String JSON_PROPERTY_123NUMBER = "123Number";
   private Optional<Integer> _123number = Optional.empty();
 
   public Name() {

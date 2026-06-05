@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,25 +26,43 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
+@JsonPropertyOrder({
+    Pet.JSON_PROPERTY_AT_TYPE,
+    Pet.JSON_PROPERTY_AGE,
+    Pet.JSON_PROPERTY_HAPPY,
+    Pet.JSON_PROPERTY_PRICE,
+    Pet.JSON_PROPERTY_LAST_FEED,
+    Pet.JSON_PROPERTY_DATE_OF_BIRTH,
+    Pet.JSON_PROPERTY_FEEDING_TIME,
+    Pet.JSON_PROPERTY_ADOPTION_DATE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet {
 
+    public static final String JSON_PROPERTY_AT_TYPE = "@type";
   private String atType = "Pet";
 
+    public static final String JSON_PROPERTY_AGE = "age";
   private Integer age = 4;
 
+    public static final String JSON_PROPERTY_HAPPY = "happy";
   private Boolean happy = true;
 
+    public static final String JSON_PROPERTY_PRICE = "price";
   private BigDecimal price = new BigDecimal("32000000000");
 
+    public static final String JSON_PROPERTY_LAST_FEED = "lastFeed";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
+    public static final String JSON_PROPERTY_DATE_OF_BIRTH = "dateOfBirth";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
+    public static final String JSON_PROPERTY_FEEDING_TIME = "feedingTime";
   private LocalTime feedingTime = LocalTime.parse("10:15:30");
 
+    public static final String JSON_PROPERTY_ADOPTION_DATE = "adoptionDate";
   private LocalDateTime adoptionDate = LocalDateTime.parse("2007-12-03T10:15:30");
 
   public Pet() {
