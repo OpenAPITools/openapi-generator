@@ -1344,6 +1344,28 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        // For each allOf discriminator parent (not a oneOf interface), mark the discriminator
+        // property as inherited in each mapped child and set its default value from the mapping.
+        // This mirrors the oneOf handling above so allOf children also get, e.g., `= "Dog"`.
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.discriminator != null
+                    && !Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE))
+                    && cm.discriminator.getMappedModels() != null
+                    && !cm.discriminator.getMappedModels().isEmpty()) {
+                String discrimBaseName = cm.discriminator.getPropertyBaseName();
+                String discrimType = cm.discriminator.getPropertyType();
+                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
+
+                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
+                    CodegenModel child = allModelsMap.get(mm.getModelName());
+                    if (child != null && child != cm) {
+                        markPropertyAsInherited(child, discrimBaseName, discrimType,
+                                mm.getMappingName(), isEnumDiscriminator);
+                    }
+                }
+            }
+        }
+
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
                 // No @ApiResponse annotations are generated when annotationLibrary=none,

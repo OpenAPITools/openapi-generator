@@ -52,7 +52,7 @@ data class Dog(
     @get:JsonProperty("photoUrls", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
+    @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "Dog",
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonSetter(nulls = Nulls.FAIL)
