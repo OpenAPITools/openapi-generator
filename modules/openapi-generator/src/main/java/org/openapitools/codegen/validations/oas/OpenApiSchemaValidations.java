@@ -133,6 +133,15 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         return result;
     }
 
+    /**
+     * Return true if the schema explicitly uses the deprecated nullable markers.
+     * <p>
+     * This intentionally excludes JSON Schema nullability forms such as type arrays containing
+     * {@code null} or oneOf schemas with a null type, which are valid OAS 3.1 nullability forms.
+     *
+     * @param schema the OAS schema.
+     * @return true if the schema uses the {@code nullable} attribute or {@code x-nullable} extension.
+     */
     private static boolean usesNullableAttribute(Schema schema) {
         if (schema == null) {
             return false;
