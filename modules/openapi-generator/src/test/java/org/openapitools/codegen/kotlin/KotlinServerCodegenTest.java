@@ -751,4 +751,55 @@ public class KotlinServerCodegenTest {
                 "if (intVal % 2 != 0) {"
         );
     }
+
+    /**
+     * Security regression for CVE-2026-22785 in ktor: a response schema example containing
+     * {@code """} must not break out of the triple-quoted Kotlin string in the generated API.
+     * The fix changes {@code val exampleContentString = """..."""} to a double-quoted string
+     * with proper escaping via {@code lambda.escapeInNormalString}.
+     */
+    @Test(description = "CVE-2026-22785 ktor: triple-quote in response example must not inject code (ktor library)")
+    public void ktorTripleQuoteInExampleIsBlocked() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, KTOR);
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/cve-ktor-example-injection.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/server/apis/PingApi.kt");
+        // With the fix exampleContentString must use a normal double-quoted string, not triple-quoted.
+        assertFileNotContains(apiFile, "exampleContentString = \"\"\"");
+        assertFileContains(apiFile, "exampleContentString = \"");
+    }
+
+    /**
+     * Security regression for CVE-2026-22785 in ktor2: same check as above for the ktor2 library.
+     */
+    @Test(description = "CVE-2026-22785 ktor2: triple-quote in response example must not inject code (ktor2 library)")
+    public void ktor2TripleQuoteInExampleIsBlocked() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, "ktor2");
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/cve-ktor-example-injection.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/server/apis/PingApi.kt");
+        // With the fix exampleContentString must use a normal double-quoted string, not triple-quoted.
+        assertFileNotContains(apiFile, "exampleContentString = \"\"\"");
+        assertFileContains(apiFile, "exampleContentString = \"");
+    }
 }
