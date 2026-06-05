@@ -1,0 +1,36 @@
+package org.openapitools.model
+
+import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
+import org.openapitools.model.Animal
+import jakarta.validation.constraints.DecimalMax
+import jakarta.validation.constraints.DecimalMin
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
+import jakarta.validation.Valid
+
+/**
+ * 
+ * @param className 
+ * @param breed 
+ * @param color 
+ */
+open class Dog(
+
+    @get:JsonProperty("className", required = true) override val className: kotlin.String = "Dog",
+
+    @field:JsonSetter(nulls = Nulls.FAIL)
+    @get:JsonProperty("breed") open val breed: kotlin.String? = null,
+
+    @field:JsonSetter(nulls = Nulls.FAIL)
+    @get:JsonProperty("color") override val color: kotlin.String? = "red"
+) : Animal {
+
+}
+

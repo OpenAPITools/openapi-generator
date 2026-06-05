@@ -1383,6 +1383,50 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        // Multi-level allOf inheritance: detect "mid-level" models — models that (a) have at least
+        // one child via allOf and (b) are themselves a child (have a parent) but are NOT a
+        // discriminator root. These must become `open class` so their own subclasses can extend them.
+        // Example: Animal (sealed interface) ← Dog (open class, has child BigDog) ← BigDog (data class)
+        for (CodegenModel cm : allModelsMap.values()) {
+            boolean isMidLevel = cm.hasChildren
+                    && cm.discriminator == null
+                    && cm.parent != null
+                    && !Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE));
+            if (isMidLevel) {
+                // Mark for `open class` rendering in the template
+                cm.vendorExtensions.put("x-is-open-class", true);
+                // Mark every *own* (non-inherited) property as `open` so subclasses can override it.
+                // Inherited properties (override) are implicitly open in an open class.
+                Stream.of(cm.vars, cm.requiredVars, cm.optionalVars, cm.allVars)
+                        .flatMap(List::stream)
+                        .filter(p -> !p.isInherited)
+                        .forEach(p -> p.vendorExtensions.put("x-model-is-open", true));
+            }
+        }
+
+        // For children of open (non-interface) parent classes, build a parent constructor call
+        // string (x-parent-ctor-args) so the template can emit `: Dog(className = className, ...)`.
+        // This is only needed when the parent is an open class (mid-level model), not when the
+        // parent is a sealed/plain interface (which takes no constructor arguments).
+        for (CodegenModel cm : allModelsMap.values()) {
+            if (cm.parent != null) {
+                CodegenModel parentModel = allModelsMap.get(cm.parent);
+                if (parentModel != null
+                        && Boolean.TRUE.equals(parentModel.vendorExtensions.get("x-is-open-class"))) {
+                    List<String> ctorArgs = new ArrayList<>();
+                    for (CodegenProperty prop : parentModel.getRequiredVars()) {
+                        ctorArgs.add(prop.getName() + " = " + prop.getName());
+                    }
+                    for (CodegenProperty prop : parentModel.getOptionalVars()) {
+                        ctorArgs.add(prop.getName() + " = " + prop.getName());
+                    }
+                    if (!ctorArgs.isEmpty()) {
+                        cm.vendorExtensions.put("x-parent-ctor-args", String.join(", ", ctorArgs));
+                    }
+                }
+            }
+        }
+
         if (substituteGenericPagedModel && !pagedModelRegistry.isEmpty()) {
             if (getAnnotationLibrary() == AnnotationLibrary.NONE) {
                 // No @ApiResponse annotations are generated when annotationLibrary=none,

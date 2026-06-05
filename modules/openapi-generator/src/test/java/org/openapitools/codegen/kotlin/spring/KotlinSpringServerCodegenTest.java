@@ -6823,4 +6823,54 @@ public class KotlinSpringServerCodegenTest {
         // oneOf parent uses oneof_interface.mustache, not dataClass.mustache — flag has no effect on it
         assertFileContains(Paths.get(outputPath + "/Animal.kt"), "sealed interface Animal");
     }
+
+    // ==================== multi-level allOf inheritance tests (fixes #18206) ====================
+
+    @Test(description = "multi-level allOf: mid-level model becomes open class, leaf stays data class with parent ctor call")
+    public void testMultiLevelAllOfInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal: sealed interface (PR-B) with Jackson annotations listing ALL descendants
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "sealed interface Animal",
+                "@JsonTypeInfo", "property = \"className\"", "visible = true",
+                "BigDog::class",
+                "Dog::class",
+                "Cat::class"
+        );
+
+        // Dog: open class (not data class) so BigDog can extend it; no ctor call to Animal (interface parent)
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "open class Dog(",
+                ") : Animal {",
+                "override val className: kotlin.String = \"Dog\"",
+                "open val breed: kotlin.String?"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), ": Animal(");
+
+        // Cat: leaf (no children) — stays a data class, unaffected
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+
+        // BigDog: data class extending open class Dog with constructor call passing all parent ctor args
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"),
+                "data class BigDog(",
+                "override val className: kotlin.String = \"BigDog\"",
+                "override val breed",
+                "override val color"
+        );
+        // Must call Dog's constructor (not bare `: Dog`)
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog(");
+        assertFileNotContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog {");
+    }
 }
