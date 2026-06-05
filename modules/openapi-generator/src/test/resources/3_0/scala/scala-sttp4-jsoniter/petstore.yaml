@@ -569,6 +569,42 @@ paths:
           description: User not found
       security:
         - api_key: []
+  '/fake/misc':
+    get:
+      tags:
+        - fake 
+      summary: misc parameter type tests
+      description: ''
+      operationId: parameter_types
+      parameters:
+        - name: uuid
+          in: query
+          description: uuid
+          required: required
+          schema:
+            type: string
+            format: uuid
+        - name: datetime
+          in: query
+          description: datetime
+          required: required
+          schema:
+            type: string
+            format: date-time
+        - name: date
+          in: query
+          description: date
+          required: required
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
