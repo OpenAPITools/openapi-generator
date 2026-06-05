@@ -109,12 +109,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
     public static final String USE_SEALED_DISCRIMINATOR_INTERFACES = "useSealedDiscriminatorInterfaces";
-    public static final String USE_SEALED_DISCRIMINATOR_INTERFACES_DESC =
-            "Generate sealed interfaces instead of plain interfaces for allOf discriminator parent models. " +
-            "When true (default), discriminator parents rendered as `sealed interface`, enabling exhaustive " +
-            "`when` matching and preventing external implementors (which cannot know all subtypes). " +
-            "Set to false to restore the legacy plain `interface` behavior, e.g. when you implement " +
-            "the generated interface from a module outside the generated package.";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
 
@@ -304,7 +298,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_SEALED_RESPONSE_INTERFACES,
                 "Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)",
                 useSealedResponseInterfaces);
-        addSwitch(USE_SEALED_DISCRIMINATOR_INTERFACES, USE_SEALED_DISCRIMINATOR_INTERFACES_DESC,
+        addSwitch(USE_SEALED_DISCRIMINATOR_INTERFACES,
+                "Generate sealed interfaces instead of plain interfaces for allOf discriminator parent models. " +
+                "When true (default), discriminator parents rendered as `sealed interface`, enabling exhaustive " +
+                "`when` matching and preventing external implementors (which cannot know all subtypes). " +
+                "Set to false to restore the legacy plain `interface` behavior, e.g. when you implement " +
+                "the generated interface from a module outside the generated package.",
                 useSealedDiscriminatorInterfaces);
         addOption(X_KOTLIN_IMPLEMENTS_SKIP, "A list of fully qualified interfaces that should NOT be implemented despite their presence in vendor extension `x-kotlin-implements`. Example: yaml `xKotlinImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface in any schema", "empty list");
         addOption(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, "A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`", "empty map");
@@ -1336,49 +1335,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         Map<String, CodegenModel> allModelsMap = getAllModels(objs);
 
-        // For each oneOf interface with a discriminator, mark the discriminator property
-        // as inherited in each subtype and set its default value from the discriminator mapping
+        // For each discriminator parent (oneOf interfaces and allOf parents alike), mark the
+        // discriminator property as inherited in each child and set its default value.
         for (CodegenModel cm : allModelsMap.values()) {
-            if (Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE))
-                    && cm.discriminator != null) {
-                String discrimBaseName = cm.discriminator.getPropertyBaseName();
-                String discrimType = cm.discriminator.getPropertyType();
-                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
-
-                // Build child name -> mapping name lookup from discriminator mappings
-                Map<String, String> childToMappingName = new HashMap<>();
-                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
-                    childToMappingName.put(mm.getModelName(), mm.getMappingName());
-                }
-
-                for (String childName : cm.oneOf) {
-                    CodegenModel child = allModelsMap.get(childName);
-                    if (child != null) {
-                        String mappingName = childToMappingName.get(childName);
-                        markPropertyAsInherited(child, discrimBaseName, discrimType, mappingName, isEnumDiscriminator);
-                    }
-                }
-            }
-        }
-
-        // For each allOf discriminator parent (not a oneOf interface), mark the discriminator
-        // property as inherited in each mapped child and set its default value from the mapping.
-        // This mirrors the oneOf handling above so allOf children also get, e.g., `= "Dog"`.
-        for (CodegenModel cm : allModelsMap.values()) {
-            if (cm.discriminator != null
-                    && !Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE))
-                    && cm.discriminator.getMappedModels() != null
-                    && !cm.discriminator.getMappedModels().isEmpty()) {
-                String discrimBaseName = cm.discriminator.getPropertyBaseName();
-                String discrimType = cm.discriminator.getPropertyType();
-                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
-
-                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
-                    CodegenModel child = allModelsMap.get(mm.getModelName());
-                    if (child != null && child != cm) {
-                        markPropertyAsInherited(child, discrimBaseName, discrimType,
-                                mm.getMappingName(), isEnumDiscriminator);
-                    }
+            if (cm.discriminator == null
+                    || cm.discriminator.getMappedModels() == null
+                    || cm.discriminator.getMappedModels().isEmpty()) continue;
+            String discrimBaseName = cm.discriminator.getPropertyBaseName();
+            String discrimType = cm.discriminator.getPropertyType();
+            boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
+            for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
+                CodegenModel child = allModelsMap.get(mm.getModelName());
+                if (child != null && child != cm) {
+                    markPropertyAsInherited(child, discrimBaseName, discrimType,
+                            mm.getMappingName(), isEnumDiscriminator);
                 }
             }
         }
