@@ -289,9 +289,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     async fn test_enum_parameters<'a>(
         &self,
         enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
         enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
         enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
