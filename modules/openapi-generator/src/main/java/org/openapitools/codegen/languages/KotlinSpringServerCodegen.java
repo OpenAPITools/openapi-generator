@@ -185,7 +185,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean generatePageableConstraintValidation = false;
     @Setter private boolean substituteGenericPagedModel = false;
     @Setter private boolean useSealedResponseInterfaces = false;
-    @Getter @Setter private boolean useSealedDiscriminatorInterfaces = true;
+    @Setter private boolean useSealedDiscriminatorInterfaces = true;
     @Setter private boolean companionObject = false;
     @Setter private boolean useEnumValueInterface = false;
     private String valuedEnumClassName = "ValuedEnum";

@@ -6763,6 +6763,11 @@ public class KotlinSpringServerCodegenTest {
                 "@JsonTypeInfo", "property = \"petType\"", "visible = true",
                 "@JsonSubTypes"
         );
+        // Children must remain data classes — sealing only applies to the discriminator parent
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "sealed");
+        assertFileNotContains(Paths.get(outputPath + "/Cat.kt"), "sealed");
     }
 
     @Test(description = "allOf discriminator parent generates plain interface when useSealedDiscriminatorInterfaces=false")
