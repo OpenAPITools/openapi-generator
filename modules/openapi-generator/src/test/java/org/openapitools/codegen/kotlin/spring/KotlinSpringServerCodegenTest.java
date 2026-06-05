@@ -6704,7 +6704,7 @@ public class KotlinSpringServerCodegenTest {
                 "data class Dog",
                 "override val petType: kotlin.String = \"Dog\""
         );
-        // Pet is a plain interface (PR-B addresses sealing — this PR is orthogonal)
+        // Pet parent is a plain interface when useSealedDiscriminatorInterfaces is at its default
         assertFileContains(Paths.get(outputPath + "/Pet.kt"),
                 "interface Pet"
         );
