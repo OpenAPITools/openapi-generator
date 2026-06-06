@@ -48,7 +48,7 @@ fun Route.StoreApi() {
 
     get<Paths.getOrderById> {
         val exampleContentType = "application/json"
-        val exampleContentString = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"status\" : \"placed\",\n  \"complete\" : false\n}"
+        val exampleContentString = """"""
         
         when (exampleContentType) {
             "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
@@ -60,7 +60,7 @@ fun Route.StoreApi() {
 
     post<Paths.placeOrder> {
         val exampleContentType = "application/json"
-        val exampleContentString = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"status\" : \"placed\",\n  \"complete\" : false\n}"
+        val exampleContentString = """"""
         
         when (exampleContentType) {
             "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))

@@ -60,7 +60,7 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = "[ {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n} ]"
+            val exampleContentString = """"""
             
             when (exampleContentType) {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
@@ -78,7 +78,7 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = "[ {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n} ]"
+            val exampleContentString = """"""
             
             when (exampleContentType) {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
@@ -107,7 +107,7 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = "{\n  \"id\" : 0,\n  \"category\" : {\n    \"id\" : 6,\n    \"name\" : \"name\"\n  },\n  \"name\" : \"doggie\",\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"tags\" : [ {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  }, {\n    \"id\" : 1,\n    \"name\" : \"name\"\n  } ],\n  \"status\" : \"available\"\n}"
+            val exampleContentString = """"""
             
             when (exampleContentType) {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
@@ -147,7 +147,7 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = "{\n  \"code\" : 0,\n  \"type\" : \"type\",\n  \"message\" : \"message\"\n}"
+            val exampleContentString = """"""
             
             when (exampleContentType) {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
@@ -165,7 +165,7 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = "{\n  \"code\" : 0,\n  \"type\" : \"type\",\n  \"message\" : \"message\"\n}"
+            val exampleContentString = """"""
             
             when (exampleContentType) {
                 "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
