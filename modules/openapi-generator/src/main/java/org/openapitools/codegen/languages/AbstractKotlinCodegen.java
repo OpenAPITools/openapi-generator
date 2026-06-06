@@ -1318,7 +1318,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                         .replace("$", "\\$")
                         .replace("\"", "\\\"")
                         .replace("\n", "\\n")
-                        .replace("\r", "\\r")));
+                        .replace("\r", "\\r")))
+                // Escaping for values going into """...""" triple-quoted Kotlin strings.
+                // Backslash escapes do not work here; a literal $ must be written as ${'$'}.
+                .put("escapeInTripleQuotedString", (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute()
+                        .replace("$", "${'$'}")));
     }
 
     protected interface DataTypeAssigner {

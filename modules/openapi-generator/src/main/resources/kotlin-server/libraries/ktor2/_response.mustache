@@ -1,5 +1,5 @@
 val exampleContentType = "{{{contentType}}}"
-val exampleContentString = "{{#lambda.escapeInNormalString}}{{&example}}{{/lambda.escapeInNormalString}}"
+val exampleContentString = """{{#lambda.escapeInTripleQuotedString}}{{&example}}{{/lambda.escapeInTripleQuotedString}}"""
 
 when (exampleContentType) {
     "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))

@@ -33,16 +33,8 @@ import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RETURN_RESPONSE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.*;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.DELEGATE_PATTERN;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.KTOR;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RESOURCES;
 
 public class KotlinServerCodegenTest {
 
@@ -754,12 +746,13 @@ public class KotlinServerCodegenTest {
 
     /**
      * Security regression for CVE-2026-22785 in ktor: a response schema example containing
-     * {@code """} must not break out of the triple-quoted Kotlin string in the generated API.
-     * The fix changes {@code val exampleContentString = """..."""} to a double-quoted string
-     * with proper escaping via {@code lambda.escapeInNormalString}.
+     * Kotlin string-interpolation syntax (e.g. {@code ${expr}}) must not survive unescaped into
+     * the triple-quoted {@code exampleContentString} in the generated API. The fix applies
+     * {@code lambda.escapeInTripleQuotedString} which replaces every {@code $} with
+     * {@code ${'$'}}, so interpolation cannot be triggered at runtime.
      */
-    @Test(description = "CVE-2026-22785 ktor: triple-quote in response example must not inject code (ktor library)")
-    public void ktorTripleQuoteInExampleIsBlocked() throws IOException {
+    @Test(description = "CVE-2026-22785 ktor: dollar-sign interpolation in response example must be escaped (ktor library)")
+    public void ktorDollarInterpolationInExampleIsBlocked() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -774,22 +767,23 @@ public class KotlinServerCodegenTest {
                 .generate();
 
         Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/server/apis/PingApi.kt");
-        // With the fix exampleContentString must use a normal double-quoted string, not triple-quoted.
-        assertFileNotContains(apiFile, "exampleContentString = \"\"\"");
-        assertFileContains(apiFile, "exampleContentString = \"");
+        // Bare Kotlin string interpolation must not appear in the generated file.
+        assertFileNotContains(apiFile, "${attemptedStringInter}");
+        // The dollar sign must be escaped using the ${'$'} idiom for triple-quoted strings.
+        assertFileContains(apiFile, "${'$'}");
     }
 
     /**
      * Security regression for CVE-2026-22785 in ktor2: same check as above for the ktor2 library.
      */
-    @Test(description = "CVE-2026-22785 ktor2: triple-quote in response example must not inject code (ktor2 library)")
-    public void ktor2TripleQuoteInExampleIsBlocked() throws IOException {
+    @Test(description = "CVE-2026-22785 ktor2: dollar-sign interpolation in response example must be escaped (ktor2 library)")
+    public void ktor2DollarInterpolationInExampleIsBlocked() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         KotlinServerCodegen codegen = new KotlinServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(LIBRARY, "ktor2");
+        codegen.additionalProperties().put(LIBRARY, KTOR2);
 
         new DefaultGenerator()
                 .opts(new ClientOptInput()
@@ -798,8 +792,9 @@ public class KotlinServerCodegenTest {
                 .generate();
 
         Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/server/apis/PingApi.kt");
-        // With the fix exampleContentString must use a normal double-quoted string, not triple-quoted.
-        assertFileNotContains(apiFile, "exampleContentString = \"\"\"");
-        assertFileContains(apiFile, "exampleContentString = \"");
+        // Bare Kotlin string interpolation must not appear in the generated file.
+        assertFileNotContains(apiFile, "${attemptedStringInter}");
+        // The dollar sign must be escaped using the ${'$'} idiom for triple-quoted strings.
+        assertFileContains(apiFile, "${'$'}");
     }
 }
