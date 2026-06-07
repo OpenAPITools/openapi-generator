@@ -30,9 +30,9 @@ jobs:
           # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
-            'samples/client/echo_api/ruby-httpx/'
-            'samples/client/echo_api/ruby-faraday/'
-            'samples/client/echo_api/ruby-typhoeus/'
+            samples/client/echo_api/ruby-httpx
+            samples/client/echo_api/ruby-faraday
+            samples/client/echo_api/ruby-typhoeus
 
   build:
     name: Build Ruby
