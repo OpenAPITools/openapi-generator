@@ -4,11 +4,21 @@ on:
   push:
     # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
-      - samples/client/echo_api/java/**
+      - samples/client/echo_api/java/apache-httpclient/**
+      - samples/client/echo_api/java/native/**
+      - samples/client/echo_api/java/feign-gson/**
+      - samples/client/echo_api/java/resttemplate/**
+      - samples/client/echo_api/java/resteasy/**
+      - samples/client/echo_api/java/restclient/**
   pull_request:
     # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
-      - samples/client/echo_api/java/**
+      - samples/client/echo_api/java/apache-httpclient/**
+      - samples/client/echo_api/java/native/**
+      - samples/client/echo_api/java/feign-gson/**
+      - samples/client/echo_api/java/resttemplate/**
+      - samples/client/echo_api/java/resteasy/**
+      - samples/client/echo_api/java/restclient/**
 jobs:
   setup:
     runs-on: ubuntu-latest
