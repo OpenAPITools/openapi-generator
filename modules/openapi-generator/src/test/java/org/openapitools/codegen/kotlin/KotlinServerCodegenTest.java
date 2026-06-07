@@ -744,46 +744,29 @@ public class KotlinServerCodegenTest {
         );
     }
 
+    @DataProvider(name = "ktorDollarInterpolationLibraries")
+    private Object[][] ktorDollarInterpolationLibraries() {
+        return new Object[][]{
+                new Object[]{KTOR},
+                new Object[]{KTOR2}
+        };
+    }
+
     /**
-     * Security regression for CVE-2026-22785 in ktor: a response schema example containing
+     * Security regression for CVE-2026-22785 in ktor/ktor2: a response schema example containing
      * Kotlin string-interpolation syntax (e.g. {@code ${expr}}) must not survive unescaped into
      * the triple-quoted {@code exampleContentString} in the generated API. The fix applies
      * {@code lambda.escapeInTripleQuotedString} which replaces every {@code $} with
      * {@code ${'$'}}, so interpolation cannot be triggered at runtime.
      */
-    @Test(description = "CVE-2026-22785 ktor: dollar-sign interpolation in response example must be escaped (ktor library)")
-    public void ktorDollarInterpolationInExampleIsBlocked() throws IOException {
+    @Test(description = "CVE-2026-22785 ktor/ktor2: dollar-sign interpolation in response example must be escaped", dataProvider = "ktorDollarInterpolationLibraries")
+    public void dollarInterpolationInExampleIsBlockedForKtorLibraries(String library) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         KotlinServerCodegen codegen = new KotlinServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(LIBRARY, KTOR);
-
-        new DefaultGenerator()
-                .opts(new ClientOptInput()
-                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/cve-ktor-example-injection.yaml"))
-                        .config(codegen))
-                .generate();
-
-        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/server/apis/PingApi.kt");
-        // Bare Kotlin string interpolation must not appear in the generated file.
-        assertFileNotContains(apiFile, "${attemptedStringInter}");
-        // The dollar sign must be escaped using the ${'$'} idiom for triple-quoted strings.
-        assertFileContains(apiFile, "${'$'}");
-    }
-
-    /**
-     * Security regression for CVE-2026-22785 in ktor2: same check as above for the ktor2 library.
-     */
-    @Test(description = "CVE-2026-22785 ktor2: dollar-sign interpolation in response example must be escaped (ktor2 library)")
-    public void ktor2DollarInterpolationInExampleIsBlocked() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        KotlinServerCodegen codegen = new KotlinServerCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(LIBRARY, KTOR2);
+        codegen.additionalProperties().put(LIBRARY, library);
 
         new DefaultGenerator()
                 .opts(new ClientOptInput()
