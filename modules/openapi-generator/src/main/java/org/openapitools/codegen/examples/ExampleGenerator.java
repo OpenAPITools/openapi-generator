@@ -407,13 +407,21 @@ public class ExampleGenerator {
     private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
         List<Schema> interfaces = schema.getAllOf();
         for (Schema composed : interfaces) {
-            traverseSchemaProperties(mediaType, composed, processedModels, values);
             if (composed.get$ref() != null) {
                 String ref = ModelUtils.getSimpleRef(composed.get$ref());
+
+                if (processedModels.contains(ref)) {
+                    LOGGER.warn("Circular reference detected in allOf for $ref: {}. Skipping.", ref);
+                    continue;
+                }
+
                 Schema resolved = ModelUtils.getSchema(openAPI, ref);
                 if (resolved != null) {
+                    processedModels.add(ref);
                     traverseSchemaProperties(mediaType, resolved, processedModels, values);
                 }
+            } else {
+                traverseSchemaProperties(mediaType, composed, processedModels, values);
             }
         }
     }
