@@ -63,6 +63,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'ArrayEnumNullable'
+        /// </summary>
+        [Fact]
+        public void ArrayEnumNullableTest()
+        {
+            // TODO unit test for the property 'ArrayEnumNullable'
+        }
+
+        /// <summary>
         /// Test the property 'JustSymbol'
         /// </summary>
         [Fact]
