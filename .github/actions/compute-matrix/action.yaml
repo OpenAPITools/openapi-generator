@@ -38,16 +38,25 @@ runs:
         HEAD_SHA: ${{ github.sha }}
         ALL_SAMPLES: ${{ inputs.all_samples }}
       run: |
+        RUN_ALL=false
+
         # Resolve the base SHA — github.event.before is all zeros for brand-new branches
         if [[ "$BASE_SHA" == "0000000000000000000000000000000000000000" ]] || [[ -z "$BASE_SHA" ]]; then
           BASE_SHA=$(git rev-parse HEAD~1 2>/dev/null || echo "")
+        elif ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+          # BASE_SHA is set but unreachable locally — happens after a force-push that rewrites
+          # history. git diff would fail and fall back to HEAD~1, which only sees the latest
+          # commit and can miss changes in earlier commits. Run all samples to be safe.
+          RUN_ALL=true
         fi
 
         # Get list of changed files relative to the base commit
-        if [[ -n "$BASE_SHA" ]]; then
-          CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || git diff --name-only HEAD~1 HEAD)
-        else
-          CHANGED=$(git diff --name-only HEAD~1 HEAD)
+        if [[ "$RUN_ALL" == "false" ]]; then
+          if [[ -n "$BASE_SHA" ]]; then
+            CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || git diff --name-only HEAD~1 HEAD)
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD)
+          fi
         fi
 
         # Filter: keep only sample dirs where at least one changed file lives inside them
@@ -62,7 +71,7 @@ runs:
           sample="${sample%/}"
 
           # A file belongs to a sample dir if its path starts with "<sample>/"
-          if echo "$CHANGED" | grep -q "^${sample}/"; then
+          if [[ "$RUN_ALL" == "true" ]] || echo "$CHANGED" | grep -q "^${sample}/"; then
             RESULT+=("$sample")
           fi
         done <<< "$ALL_SAMPLES"
