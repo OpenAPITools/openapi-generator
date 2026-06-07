@@ -2,18 +2,42 @@ name: Samples JS clients
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       #- samples/client/petstore/javascript-flowtyped/**
       - samples/client/petstore/javascript-es6/**
       - samples/client/petstore/javascript-promise-es6/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       #- samples/client/petstore/javascript-flowtyped/**
       - samples/client/petstore/javascript-es6/**
       - samples/client/petstore/javascript-promise-es6/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      samples: ${{ steps.filter.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/javascript-es6/
+            samples/client/petstore/javascript-promise-es6/
+            # Commented-out samples from original matrix:
+            # clients
+
   build:
     name: Build projects
+    needs: setup
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -21,10 +45,7 @@ jobs:
         node:
           - "18.x"
           - "20.x"
-        sample:
-          # clients
-          - samples/client/petstore/javascript-es6/
-          - samples/client/petstore/javascript-promise-es6/
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     services:
       petstore-api:
         image: swaggerapi/petstore

@@ -2,16 +2,40 @@ name: Samples PHP Syntax Checker
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/php/OpenAPIClient-php/**
       - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/php/OpenAPIClient-php/**
       - samples/client/petstore/php-nextgen/OpenAPIClient-php/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      samples: ${{ steps.filter.outputs.samples }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/php/OpenAPIClient-php/
+            samples/client/petstore/php-nextgen/OpenAPIClient-php/
+            # Commented-out samples from original matrix:
+            # clients
+
   build:
     name: Build PHP projects
+    needs: setup
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -21,10 +45,7 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
-        sample:
-          # clients
-          - samples/client/petstore/php/OpenAPIClient-php/
-          - samples/client/petstore/php-nextgen/OpenAPIClient-php/
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     steps:
       - uses: actions/checkout@v5
       - name: Setup PHP with tools

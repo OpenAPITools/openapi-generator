@@ -2,30 +2,48 @@ name: Samples Java Helidon v4
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/java-helidon-client/v4/**
       - samples/server/petstore/java-helidon-server/v4/**
       - samples/server/others/java-helidon-server/v4/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/java-helidon-client/v4/**
       - samples/server/petstore/java-helidon-server/v4/**
       - samples/server/others/java-helidon-server/v4/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/java-helidon-client/v4/mp
+            samples/client/petstore/java-helidon-client/v4/se
+            samples/server/petstore/java-helidon-server/v4/mp
+            samples/server/petstore/java-helidon-server/v4/se
+            samples/server/petstore/java-helidon-server/v4/se-uac
+            samples/server/others/java-helidon-server/v4/mp-format-test
+
   build:
     name: Build Java Helidon 
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/client/petstore/java-helidon-client/v4/mp
-          - samples/client/petstore/java-helidon-client/v4/se
-          - samples/server/petstore/java-helidon-server/v4/mp
-          - samples/server/petstore/java-helidon-server/v4/se
-          - samples/server/petstore/java-helidon-server/v4/se-uac
-          - samples/server/others/java-helidon-server/v4/mp-format-test
-        version: [21]
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

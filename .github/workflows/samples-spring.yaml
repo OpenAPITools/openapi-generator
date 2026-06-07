@@ -2,6 +2,7 @@ name: Samples Java Spring
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       # clients
       - 'samples/client/petstore/spring*/**'
@@ -9,6 +10,7 @@ on:
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       # clients
       - 'samples/client/petstore/spring*/**'
@@ -16,52 +18,67 @@ on:
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/spring-cloud
+            samples/client/petstore/spring-cloud-auth
+            samples/client/petstore/spring-cloud-date-time
+            samples/client/petstore/spring-cloud-deprecated
+            samples/client/petstore/spring-cloud-tags
+            samples/openapi3/client/petstore/spring-cloud
+            samples/openapi3/client/petstore/spring-cloud-async
+            samples/openapi3/client/petstore/spring-cloud-date-time
+            samples/openapi3/client/petstore/spring-cloud-http-basic
+            samples/openapi3/client/petstore/spring-cloud-spring-pageable
+            samples/openapi3/client/petstore/spring-stubs
+            samples/openapi3/client/petstore/spring-stubs-skip-default-interface
+            samples/openapi3/server/petstore/springboot
+            samples/openapi3/server/petstore/springboot-implicitHeaders
+            samples/openapi3/server/petstore/springboot-delegate
+            samples/openapi3/server/petstore/spring-boot-oneof
+            samples/server/petstore/spring-boot-nullable-set
+            samples/server/petstore/spring-boot-defaultInterface-unhandledExcp
+            samples/server/petstore/springboot
+            samples/server/petstore/springboot-include-http-request-context
+            samples/server/petstore/springboot-beanvalidation
+            samples/server/petstore/springboot-builtin-validation
+            samples/server/petstore/springboot-delegate
+            samples/server/petstore/springboot-delegate-no-response-entity
+            samples/server/petstore/springboot-implicitHeaders
+            samples/server/petstore/springboot-implicitHeaders-annotationLibrary
+            samples/server/petstore/springboot-lombok-data
+            samples/server/petstore/springboot-reactive
+            samples/server/petstore/springboot-reactive-noResponseEntity
+            samples/server/petstore/springboot-spring-pageable-delegatePattern-without-j8
+            samples/server/petstore/springboot-spring-pageable-delegatePattern
+            samples/server/petstore/springboot-spring-pageable-without-j8
+            samples/server/petstore/springboot-spring-pageable
+            samples/server/petstore/springboot-spring-provide-args
+            samples/server/petstore/springboot-useoptional
+            samples/server/petstore/springboot-virtualan
+            samples/openapi3/server/petstore/spring-boot-oneof-interface
+
   build:
     name: Build Java Spring
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # clients
-          - samples/client/petstore/spring-cloud
-          - samples/client/petstore/spring-cloud-auth
-          - samples/client/petstore/spring-cloud-date-time
-          - samples/client/petstore/spring-cloud-deprecated
-          - samples/client/petstore/spring-cloud-tags
-          - samples/openapi3/client/petstore/spring-cloud
-          - samples/openapi3/client/petstore/spring-cloud-async
-          - samples/openapi3/client/petstore/spring-cloud-date-time
-          - samples/openapi3/client/petstore/spring-cloud-http-basic
-          - samples/openapi3/client/petstore/spring-cloud-spring-pageable
-          - samples/openapi3/client/petstore/spring-stubs
-          - samples/openapi3/client/petstore/spring-stubs-skip-default-interface
-          # servers
-          - samples/openapi3/server/petstore/springboot
-          - samples/openapi3/server/petstore/springboot-implicitHeaders
-          - samples/openapi3/server/petstore/springboot-delegate
-          - samples/openapi3/server/petstore/spring-boot-oneof
-          - samples/server/petstore/spring-boot-nullable-set
-          - samples/server/petstore/spring-boot-defaultInterface-unhandledExcp
-          - samples/server/petstore/springboot
-          - samples/server/petstore/springboot-include-http-request-context
-          - samples/server/petstore/springboot-beanvalidation
-          - samples/server/petstore/springboot-builtin-validation
-          - samples/server/petstore/springboot-delegate
-          - samples/server/petstore/springboot-delegate-no-response-entity
-          - samples/server/petstore/springboot-implicitHeaders
-          - samples/server/petstore/springboot-implicitHeaders-annotationLibrary
-          - samples/server/petstore/springboot-lombok-data
-          - samples/server/petstore/springboot-reactive
-          - samples/server/petstore/springboot-reactive-noResponseEntity
-          - samples/server/petstore/springboot-spring-pageable-delegatePattern-without-j8
-          - samples/server/petstore/springboot-spring-pageable-delegatePattern
-          - samples/server/petstore/springboot-spring-pageable-without-j8
-          - samples/server/petstore/springboot-spring-pageable
-          - samples/server/petstore/springboot-spring-provide-args
-          - samples/server/petstore/springboot-useoptional
-          - samples/server/petstore/springboot-virtualan
-          - samples/openapi3/server/petstore/spring-boot-oneof-interface
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

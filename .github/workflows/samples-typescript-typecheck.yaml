@@ -2,6 +2,7 @@ name: TypeScript clients type checks
 
 on:
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/**
       - bin/ts-typecheck-all.sh

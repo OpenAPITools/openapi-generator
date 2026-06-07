@@ -2,7 +2,8 @@ name: Samples Kotlin client
 
 on:
   push:
-    branches:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
+    paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
       - samples/client/others/kotlin-integer-enum/**
@@ -10,6 +11,7 @@ on:
       - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization*/**
       - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization*/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
@@ -19,70 +21,86 @@ on:
       - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization*/**
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/kotlin
+            samples/client/petstore/kotlin-explicit
+            samples/client/petstore/kotlin-gson
+            samples/client/petstore/kotlin-jackson
+            samples/client/petstore/kotlin-model-prefix-type-mappings
+            samples/client/petstore/kotlin-jvm-okhttp4-coroutines
+            samples/client/petstore/kotlin-moshi-codegen
+            samples/client/petstore/kotlin-multiplatform
+            samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
+            samples/client/petstore/kotlin-multiplatform-allOf-discriminator
+            samples/client/petstore/kotlin-nonpublic
+            samples/client/petstore/kotlin-nullable
+            samples/client/petstore/kotlin-retrofit2
+            samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
+            samples/client/petstore/kotlin-retrofit2-jackson
+            samples/client/petstore/kotlin-retrofit2-rx3
+            samples/client/petstore/kotlin-string
+            samples/client/petstore/kotlin-threetenbp
+            samples/client/petstore/kotlin-kotlinx-datetime
+            samples/client/petstore/kotlin-uppercase-enum
+            samples/client/petstore/kotlin-array-integer-enum
+            samples/client/petstore/kotlin-default-values-jvm-okhttp4
+            samples/client/petstore/kotlin-default-values-jvm-retrofit2
+            samples/client/petstore/kotlin-default-values-multiplatform
+            samples/client/petstore/kotlin-enum-integers-multiplatform
+            samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
+            samples/client/petstore/kotlin-array-simple-string-multiplatform
+            samples/client/petstore/kotlin-array-nullable-items
+            samples/client/petstore/kotlin-array-nullable-items-multiplatform
+            samples/client/petstore/kotlin-bigdecimal-default-multiplatform
+            samples/client/petstore/kotlin-bigdecimal-default-okhttp4
+            samples/client/petstore/kotlin-jvm-jackson
+            samples/client/petstore/kotlin-jvm-ktor-jackson
+            samples/client/petstore/kotlin-jvm-ktor-gson
+            samples/client/petstore/kotlin-jvm-ktor-kotlinx_serialization
+            samples/client/petstore/kotlin-jvm-vertx-gson
+            samples/client/petstore/kotlin-jvm-vertx-jackson
+            samples/client/petstore/kotlin-jvm-vertx-jackson-coroutines
+            samples/client/petstore/kotlin-jvm-vertx-moshi
+            samples/client/petstore/kotlin-jvm-spring-2-webclient
+            samples/client/petstore/kotlin-jvm-spring-3-webclient
+            samples/client/echo_api/kotlin-jvm-spring-3-webclient
+            samples/client/petstore/kotlin-jvm-spring-3-restclient
+            samples/client/echo_api/kotlin-jvm-spring-3-restclient
+            samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return
+            samples/client/petstore/kotlin-name-parameter-mappings
+            samples/client/others/kotlin-jvm-okhttp-parameter-tests
+            samples/client/others/kotlin-jvm-okhttp-path-comments
+            samples/client/others/kotlin-integer-enum
+            samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
+            samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization
+            samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization
+            samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-nonPublicApi
+            samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-explicitApi
+            # Commented-out samples from original matrix:
+            #- samples/client/petstore/kotlin-json-request-string
+
   build:
     name: Build Kotlin client
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # client
-          - samples/client/petstore/kotlin
-          - samples/client/petstore/kotlin-explicit
-          - samples/client/petstore/kotlin-gson
-          - samples/client/petstore/kotlin-jackson
-          - samples/client/petstore/kotlin-model-prefix-type-mappings
-          # needs Android configured
-          #- samples/client/petstore/kotlin-json-request-string
-          - samples/client/petstore/kotlin-jvm-okhttp4-coroutines
-          - samples/client/petstore/kotlin-moshi-codegen
-          - samples/client/petstore/kotlin-multiplatform
-          - samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
-          - samples/client/petstore/kotlin-multiplatform-allOf-discriminator
-          - samples/client/petstore/kotlin-nonpublic
-          - samples/client/petstore/kotlin-nullable
-          - samples/client/petstore/kotlin-retrofit2
-          - samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
-          - samples/client/petstore/kotlin-retrofit2-jackson
-          - samples/client/petstore/kotlin-retrofit2-rx3
-          - samples/client/petstore/kotlin-string
-          - samples/client/petstore/kotlin-threetenbp
-          - samples/client/petstore/kotlin-kotlinx-datetime
-          - samples/client/petstore/kotlin-uppercase-enum
-          - samples/client/petstore/kotlin-array-integer-enum
-          - samples/client/petstore/kotlin-default-values-jvm-okhttp4
-          - samples/client/petstore/kotlin-default-values-jvm-retrofit2
-          - samples/client/petstore/kotlin-default-values-multiplatform
-          - samples/client/petstore/kotlin-enum-integers-multiplatform
-          - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
-          - samples/client/petstore/kotlin-array-simple-string-multiplatform
-          - samples/client/petstore/kotlin-array-nullable-items
-          - samples/client/petstore/kotlin-array-nullable-items-multiplatform
-          - samples/client/petstore/kotlin-bigdecimal-default-multiplatform
-          - samples/client/petstore/kotlin-bigdecimal-default-okhttp4
-          - samples/client/petstore/kotlin-jvm-jackson
-          - samples/client/petstore/kotlin-jvm-ktor-jackson
-          - samples/client/petstore/kotlin-jvm-ktor-gson
-          - samples/client/petstore/kotlin-jvm-ktor-kotlinx_serialization
-          - samples/client/petstore/kotlin-jvm-vertx-gson
-          - samples/client/petstore/kotlin-jvm-vertx-jackson
-          - samples/client/petstore/kotlin-jvm-vertx-jackson-coroutines
-          - samples/client/petstore/kotlin-jvm-vertx-moshi
-          - samples/client/petstore/kotlin-jvm-spring-2-webclient
-          - samples/client/petstore/kotlin-jvm-spring-3-webclient
-          - samples/client/echo_api/kotlin-jvm-spring-3-webclient
-          - samples/client/petstore/kotlin-jvm-spring-3-restclient
-          - samples/client/echo_api/kotlin-jvm-spring-3-restclient
-          - samples/client/others/kotlin-jvm-spring-3-restclient-nullable-return
-          - samples/client/petstore/kotlin-name-parameter-mappings
-          - samples/client/others/kotlin-jvm-okhttp-parameter-tests
-          - samples/client/others/kotlin-jvm-okhttp-path-comments
-          - samples/client/others/kotlin-integer-enum
-          - samples/client/petstore/kotlin-allOf-discriminator-kotlinx-serialization
-          - samples/client/others/kotlin-oneOf-discriminator-kotlinx-serialization
-          - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization
-          - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-nonPublicApi
-          - samples/client/others/kotlin-oneOf-anyOf-kotlinx-serialization-explicitApi
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

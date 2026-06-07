@@ -2,43 +2,60 @@ name: Samples C# .Net 9 Clients
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/csharp/generichost/net9/**
       - samples/client/petstore/csharp/httpclient/net9/**
       - samples/client/petstore/csharp/restsharp/net9/**
       - samples/client/petstore/csharp/unityWebRequest/net9/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/csharp/generichost/net9/**
       - samples/client/petstore/csharp/httpclient/net9/**
       - samples/client/petstore/csharp/restsharp/net9/**
       - samples/client/petstore/csharp/unityWebRequest/net9/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/petstore/csharp/generichost/net9/AllOf
+            samples/client/petstore/csharp/generichost/net9/AnyOf
+            samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare
+            samples/client/petstore/csharp/generichost/net9/FormModels
+            samples/client/petstore/csharp/generichost/net9/NullReferenceTypes
+            samples/client/petstore/csharp/generichost/net9/OneOf
+            samples/client/petstore/csharp/generichost/net9/Petstore
+            samples/client/petstore/csharp/generichost/net9/SourceGeneration
+            samples/client/petstore/csharp/generichost/net9/UseDateTimeForDate
+            samples/client/petstore/csharp/restsharp/net9/EnumMappings
+            samples/client/petstore/csharp/httpclient/net9/Petstore
+            samples/client/petstore/csharp/httpclient/net9/Petstore-nonPublicApi
+            # Commented-out samples from original matrix:
+            # - samples/client/petstore/csharp/generichost/net9/ManualPetstoreTests
+            # - samples/client/petstore/csharp/generichost/net9/ManualSourceGenerationTests
+            #- samples/client/petstore/csharp/unityWebRequest/net9/Petstore
+
   build:
     name: Build .Net 9 projects
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          - samples/client/petstore/csharp/generichost/net9/AllOf
-          - samples/client/petstore/csharp/generichost/net9/AnyOf
-          - samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare
-          - samples/client/petstore/csharp/generichost/net9/FormModels
-          # - samples/client/petstore/csharp/generichost/net9/ManualPetstoreTests
-          # - samples/client/petstore/csharp/generichost/net9/ManualSourceGenerationTests
-          - samples/client/petstore/csharp/generichost/net9/NullReferenceTypes
-          - samples/client/petstore/csharp/generichost/net9/OneOf
-          - samples/client/petstore/csharp/generichost/net9/Petstore
-          - samples/client/petstore/csharp/generichost/net9/SourceGeneration
-          - samples/client/petstore/csharp/generichost/net9/UseDateTimeForDate
-          # restsharp
-          - samples/client/petstore/csharp/restsharp/net9/EnumMappings
-          # httpclient
-          - samples/client/petstore/csharp/httpclient/net9/Petstore
-          - samples/client/petstore/csharp/httpclient/net9/Petstore-nonPublicApi
-          # unity
-          #- samples/client/petstore/csharp/unityWebRequest/net9/Petstore
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5.3.0

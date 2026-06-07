@@ -2,10 +2,12 @@ name: Samples Julia
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/client/petstore/julia/**'
       - 'samples/server/petstore/julia/**'
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - 'samples/client/petstore/julia/**'
       - 'samples/server/petstore/julia/**'

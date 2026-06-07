@@ -2,17 +2,39 @@ name: Samples Rust Clients
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - "samples/client/others/rust/**"
       - "samples/client/petstore/rust-server/**"
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - "samples/client/others/rust/**"
       - "samples/client/petstore/rust/**"
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/client/others/rust/
+            samples/client/petstore/rust/
+
   build:
     name: Build Rust
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     services:
       petstore-api:
@@ -24,11 +46,7 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # these folders contain sub-projects of rust clients, servers
-          - samples/client/others/rust/
-          - samples/client/petstore/rust/
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions-rs/toolchain@v1

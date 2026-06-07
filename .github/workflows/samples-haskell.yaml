@@ -2,30 +2,48 @@ name: Samples Haskell
 
 on:
   push:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/server/petstore/haskell-yesod/**
       - samples/server/petstore/haskell-servant/**
       - samples/server/others/haskell-servant-ping/**
       - samples/client/petstore/haskell-http-client/**
   pull_request:
+    # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/server/petstore/haskell-yesod/**
       - samples/server/petstore/haskell-servant/**
       - samples/server/others/haskell-servant-ping/**
       - samples/client/petstore/haskell-http-client/**
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.filter.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: filter
+        uses: ./.github/actions/compute-matrix
+        with:
+          # List of sample directories to consider building (one per line).
+          # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
+          # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
+          all_samples: |
+            samples/server/petstore/haskell-yesod/
+            samples/server/petstore/haskell-servant/
+            samples/server/others/haskell-servant-ping/
+            samples/client/petstore/haskell-http-client/
+
   build:
     name: Build stack projects
+    needs: setup
+    if: ${{ needs.setup.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        sample:
-          # servers
-          - samples/server/petstore/haskell-yesod/
-          - samples/server/petstore/haskell-servant/
-          - samples/server/others/haskell-servant-ping/
-          - samples/client/petstore/haskell-http-client/
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v5
       - uses: haskell/actions/setup@v2

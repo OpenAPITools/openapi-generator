@@ -1,0 +1,79 @@
+name: 'Compute changed samples matrix'
+description: >
+  Determines which sample directories from a given list have changed files
+  in the current push or pull_request event, and outputs a filtered JSON matrix.
+  Requires the calling job to have checked out the repository with fetch-depth: 0.
+
+inputs:
+  all_samples:
+    description: >
+      Newline-separated list of sample directory paths to consider (the full matrix).
+      Paths should NOT include a trailing /** glob — the action matches by directory prefix.
+      Comment lines (starting with #) and blank lines are ignored.
+    required: true
+
+outputs:
+  matrix:
+    description: >
+      Use this for single-dimension sample matrices.
+      JSON object {"sample":["path/a","path/b"]} ready for: matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      Returns the string "[]" when no samples changed (use in an if: guard to skip the job).
+    value: ${{ steps.filter.outputs.matrix }}
+  samples:
+    description: >
+      Use this for multi-dimensional matrices (e.g. os + sample, php-version + sample).
+      Plain JSON array ["path/a","path/b"] to assign to the sample: dimension only.
+      Returns the string "[]" when no samples changed (use in an if: guard to skip the job).
+    value: ${{ steps.filter.outputs.samples }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: filter
+      shell: bash
+      env:
+        # For pull_request events, base.sha is the target branch tip.
+        # For push events, event.before is the previous HEAD (all-zeros for new branches).
+        BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        HEAD_SHA: ${{ github.sha }}
+        ALL_SAMPLES: ${{ inputs.all_samples }}
+      run: |
+        # Resolve the base SHA — github.event.before is all zeros for brand-new branches
+        if [[ "$BASE_SHA" == "0000000000000000000000000000000000000000" ]] || [[ -z "$BASE_SHA" ]]; then
+          BASE_SHA=$(git rev-parse HEAD~1 2>/dev/null || echo "")
+        fi
+
+        # Get list of changed files relative to the base commit
+        if [[ -n "$BASE_SHA" ]]; then
+          CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || git diff --name-only HEAD~1 HEAD)
+        else
+          CHANGED=$(git diff --name-only HEAD~1 HEAD)
+        fi
+
+        # Filter: keep only sample dirs where at least one changed file lives inside them
+        RESULT=()
+        while IFS= read -r sample; do
+          # Strip leading/trailing whitespace
+          sample="${sample#"${sample%%[![:space:]]*}"}"
+          sample="${sample%"${sample##*[![:space:]]}"}"
+          # Skip blank lines and comment lines
+          if [[ -z "$sample" ]] || [[ "$sample" == \#* ]]; then continue; fi
+          # Normalise: strip any accidental trailing slash (paths: uses /**, all_samples: should not)
+          sample="${sample%/}"
+
+          # A file belongs to a sample dir if its path starts with "<sample>/"
+          if echo "$CHANGED" | grep -q "^${sample}/"; then
+            RESULT+=("$sample")
+          fi
+        done <<< "$ALL_SAMPLES"
+
+        # Emit both output formats
+        if [[ ${#RESULT[@]} -eq 0 ]]; then
+          echo 'matrix=[]' >> "$GITHUB_OUTPUT"
+          echo 'samples=[]' >> "$GITHUB_OUTPUT"
+        else
+          SAMPLES_ARRAY=$(printf '%s\n' "${RESULT[@]}" | jq -R . | jq -sc .)
+          echo "matrix={\"sample\":${SAMPLES_ARRAY}}" >> "$GITHUB_OUTPUT"
+          echo "samples=${SAMPLES_ARRAY}" >> "$GITHUB_OUTPUT"
+        fi
+
