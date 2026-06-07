@@ -20,10 +20,6 @@ export interface Order {
     quantity?: number;
     shipDate?: string;
     /**
-     * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
-     */
-    stringWithAttemptedInjection?: string;
-    /**
      * Order Status
      */
     status?: Order.StatusEnum;

@@ -44,12 +44,6 @@ export interface Order {
      */
     shipDate?: Date;
     /**
-     * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\backslash"""attemptToBreakOutOfMultiline
-     * @type {string}
-     * @memberof Order
-     */
-    stringWithAttemptedInjection?: string;
-    /**
      * Order Status
      * @type {OrderStatusEnum}
      * @memberof Order
@@ -96,7 +90,6 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'petId': json['petId'] == null ? undefined : json['petId'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
         'shipDate': json['shipDate'] == null ? undefined : (new Date(json['shipDate'])),
-        'stringWithAttemptedInjection': json['stringWithAttemptedInjection'] == null ? undefined : json['stringWithAttemptedInjection'],
         'status': json['status'] == null ? undefined : json['status'],
         'complete': json['complete'] == null ? undefined : json['complete'],
     };
@@ -117,7 +110,6 @@ export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: bool
         'petId': value['petId'],
         'quantity': value['quantity'],
         'shipDate': value['shipDate'] == null ? value['shipDate'] : value['shipDate'].toISOString(),
-        'stringWithAttemptedInjection': value['stringWithAttemptedInjection'],
         'status': value['status'],
         'complete': value['complete'],
     };

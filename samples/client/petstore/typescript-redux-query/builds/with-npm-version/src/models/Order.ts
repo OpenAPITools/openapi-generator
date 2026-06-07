@@ -43,12 +43,6 @@ export interface Order  {
      */
     shipDate?: Date;
     /**
-     * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
-     * @type {string}
-     * @memberof Order
-     */
-    stringWithAttemptedInjection?: string;
-    /**
      * Order Status
      * @type {string}
      * @memberof Order
@@ -68,7 +62,6 @@ export function OrderFromJSON(json: any): Order {
         'petId': !exists(json, 'petId') ? undefined : json['petId'],
         'quantity': !exists(json, 'quantity') ? undefined : json['quantity'],
         'shipDate': !exists(json, 'shipDate') ? undefined : new Date(json['shipDate']),
-        'stringWithAttemptedInjection': !exists(json, 'stringWithAttemptedInjection') ? undefined : json['stringWithAttemptedInjection'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'complete': !exists(json, 'complete') ? undefined : json['complete'],
     };
@@ -83,7 +76,6 @@ export function OrderToJSON(value?: Order): any {
         'petId': value.petId,
         'quantity': value.quantity,
         'shipDate': value.shipDate === undefined ? undefined : value.shipDate.toISOString(),
-        'stringWithAttemptedInjection': value.stringWithAttemptedInjection,
         'status': value.status,
         'complete': value.complete,
     };

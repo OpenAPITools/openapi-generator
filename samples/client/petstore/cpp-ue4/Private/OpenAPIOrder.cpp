@@ -95,10 +95,6 @@ void OpenAPIOrder::WriteJson(JsonWriter& Writer) const
 	{
 		Writer->WriteIdentifierPrefix(TEXT("shipDate")); WriteJsonValue(Writer, ShipDate.GetValue());
 	}
-	if (StringWithAttemptedInjection.IsSet())
-	{
-		Writer->WriteIdentifierPrefix(TEXT("stringWithAttemptedInjection")); WriteJsonValue(Writer, StringWithAttemptedInjection.GetValue());
-	}
 	if (Status.IsSet())
 	{
 		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());
@@ -122,7 +118,6 @@ bool OpenAPIOrder::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("petId"), PetId);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("quantity"), Quantity);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("shipDate"), ShipDate);
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("stringWithAttemptedInjection"), StringWithAttemptedInjection);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("status"), Status);
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("complete"), Complete);
 

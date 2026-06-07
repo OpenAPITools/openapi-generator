@@ -32,13 +32,6 @@ public class Order  {
 
   private Date shipDate;
 
- /**
-  * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
-  */
-  @ApiModelProperty(example = "${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline", value = "This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline")
-
-  private String stringWithAttemptedInjection;
-
 public enum StatusEnum {
 
 PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
@@ -154,24 +147,6 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
   }
 
  /**
-   * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\&quot;\&quot;\&quot;attemptToBreakOutOfMultiline
-   * @return stringWithAttemptedInjection
-  **/
-  @JsonProperty("stringWithAttemptedInjection")
-  public String getStringWithAttemptedInjection() {
-    return stringWithAttemptedInjection;
-  }
-
-  public void setStringWithAttemptedInjection(String stringWithAttemptedInjection) {
-    this.stringWithAttemptedInjection = stringWithAttemptedInjection;
-  }
-
-  public Order stringWithAttemptedInjection(String stringWithAttemptedInjection) {
-    this.stringWithAttemptedInjection = stringWithAttemptedInjection;
-    return this;
-  }
-
- /**
    * Order Status
    * @return status
   **/
@@ -223,14 +198,13 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
         Objects.equals(this.petId, order.petId) &&
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
-        Objects.equals(this.stringWithAttemptedInjection, order.stringWithAttemptedInjection) &&
         Objects.equals(this.status, order.status) &&
         Objects.equals(this.complete, order.complete);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, stringWithAttemptedInjection, status, complete);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
   }
 
   @Override
@@ -242,7 +216,6 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
-    sb.append("    stringWithAttemptedInjection: ").append(toIndentedString(stringWithAttemptedInjection)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
     sb.append("}");

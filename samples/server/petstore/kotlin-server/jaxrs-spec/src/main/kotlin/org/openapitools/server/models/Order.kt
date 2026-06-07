@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param petId 
  * @param quantity 
  * @param shipDate 
- * @param stringWithAttemptedInjection This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
  * @param status Order Status
  * @param complete 
  */
@@ -42,11 +41,6 @@ data class Order (
 
     @JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
-
-    /* This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline */
-
-    @JsonProperty("stringWithAttemptedInjection")
-    val stringWithAttemptedInjection: kotlin.String? = null,
 
     /* Order Status */
 

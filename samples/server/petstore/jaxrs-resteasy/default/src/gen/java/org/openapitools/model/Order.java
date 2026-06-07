@@ -19,7 +19,6 @@ public class Order   {
   private Long petId;
   private Integer quantity;
   private Date shipDate;
-  private String stringWithAttemptedInjection;
 
   /**
    * Order Status
@@ -95,19 +94,6 @@ public class Order   {
   }
 
   /**
-   * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\&quot;\&quot;\&quot;attemptToBreakOutOfMultiline
-   **/
-  
-  @ApiModelProperty(example = "${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline", value = "This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline")
-  @JsonProperty("stringWithAttemptedInjection")
-  public String getStringWithAttemptedInjection() {
-    return stringWithAttemptedInjection;
-  }
-  public void setStringWithAttemptedInjection(String stringWithAttemptedInjection) {
-    this.stringWithAttemptedInjection = stringWithAttemptedInjection;
-  }
-
-  /**
    * Order Status
    **/
   
@@ -146,14 +132,13 @@ public class Order   {
         Objects.equals(this.petId, order.petId) &&
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
-        Objects.equals(this.stringWithAttemptedInjection, order.stringWithAttemptedInjection) &&
         Objects.equals(this.status, order.status) &&
         Objects.equals(this.complete, order.complete);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, stringWithAttemptedInjection, status, complete);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
   }
 
   @Override
@@ -165,7 +150,6 @@ public class Order   {
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
-    sb.append("    stringWithAttemptedInjection: ").append(toIndentedString(stringWithAttemptedInjection)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
     sb.append("}");

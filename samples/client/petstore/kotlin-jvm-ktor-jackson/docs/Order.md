@@ -8,7 +8,6 @@
 | **petId** | **kotlin.Long** |  |  [optional] |
 | **quantity** | **kotlin.Int** |  |  [optional] |
 | **shipDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **stringWithAttemptedInjection** | **kotlin.String** | This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\&quot;\&quot;\&quot;attemptToBreakOutOfMultiline |  [optional] |
 | **status** | [**inline**](#Status) | Order Status |  [optional] |
 | **complete** | **kotlin.Boolean** |  |  [optional] |
 

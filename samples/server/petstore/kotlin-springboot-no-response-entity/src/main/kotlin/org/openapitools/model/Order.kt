@@ -22,7 +22,6 @@ import javax.validation.Valid
  * @param petId 
  * @param quantity 
  * @param shipDate 
- * @param stringWithAttemptedInjection This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
  * @param status Order Status
  * @param complete 
  */
@@ -39,9 +38,6 @@ data class Order(
 
     @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
-
-    @field:JsonSetter(nulls = Nulls.FAIL)
-    @get:JsonProperty("stringWithAttemptedInjection") val stringWithAttemptedInjection: kotlin.String? = null,
 
     @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("status") val status: Order.Status? = null,

@@ -758,7 +758,6 @@
           "petId" : 6,
           "quantity" : 1,
           "shipDate" : "2000-01-23T04:56:07.000+00:00",
-          "stringWithAttemptedInjection" : "${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline",
           "status" : "placed",
           "complete" : false
         },
@@ -777,11 +776,6 @@
           },
           "shipDate" : {
             "format" : "date-time",
-            "type" : "string"
-          },
-          "stringWithAttemptedInjection" : {
-            "description" : "This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline",
-            "example" : "${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline",
             "type" : "string"
           },
           "status" : {

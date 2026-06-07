@@ -45,9 +45,6 @@ void OAIOrder::initializeModel() {
     m_ship_date_isSet = false;
     m_ship_date_isValid = false;
 
-    m_string_with_attempted_injection_isSet = false;
-    m_string_with_attempted_injection_isValid = false;
-
     m_status_isSet = false;
     m_status_isValid = false;
 
@@ -76,9 +73,6 @@ void OAIOrder::fromJsonObject(QJsonObject json) {
     m_ship_date_isValid = ::OpenAPI::fromJsonValue(ship_date, json[QString("shipDate")]);
     m_ship_date_isSet = !json[QString("shipDate")].isNull() && m_ship_date_isValid;
 
-    m_string_with_attempted_injection_isValid = ::OpenAPI::fromJsonValue(string_with_attempted_injection, json[QString("stringWithAttemptedInjection")]);
-    m_string_with_attempted_injection_isSet = !json[QString("stringWithAttemptedInjection")].isNull() && m_string_with_attempted_injection_isValid;
-
     m_status_isValid = ::OpenAPI::fromJsonValue(status, json[QString("status")]);
     m_status_isSet = !json[QString("status")].isNull() && m_status_isValid;
 
@@ -106,9 +100,6 @@ QJsonObject OAIOrder::asJsonObject() const {
     }
     if (m_ship_date_isSet) {
         obj.insert(QString("shipDate"), ::OpenAPI::toJsonValue(ship_date));
-    }
-    if (m_string_with_attempted_injection_isSet) {
-        obj.insert(QString("stringWithAttemptedInjection"), ::OpenAPI::toJsonValue(string_with_attempted_injection));
     }
     if (m_status_isSet) {
         obj.insert(QString("status"), ::OpenAPI::toJsonValue(status));
@@ -183,22 +174,6 @@ bool OAIOrder::is_ship_date_Valid() const{
     return m_ship_date_isValid;
 }
 
-QString OAIOrder::getStringWithAttemptedInjection() const {
-    return string_with_attempted_injection;
-}
-void OAIOrder::setStringWithAttemptedInjection(const QString &string_with_attempted_injection) {
-    this->string_with_attempted_injection = string_with_attempted_injection;
-    this->m_string_with_attempted_injection_isSet = true;
-}
-
-bool OAIOrder::is_string_with_attempted_injection_Set() const{
-    return m_string_with_attempted_injection_isSet;
-}
-
-bool OAIOrder::is_string_with_attempted_injection_Valid() const{
-    return m_string_with_attempted_injection_isValid;
-}
-
 QString OAIOrder::getStatus() const {
     return status;
 }
@@ -250,11 +225,6 @@ bool OAIOrder::isSet() const {
         }
 
         if (m_ship_date_isSet) {
-            isObjectUpdated = true;
-            break;
-        }
-
-        if (m_string_with_attempted_injection_isSet) {
             isObjectUpdated = true;
             break;
         }

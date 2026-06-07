@@ -15,7 +15,7 @@ class Order(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, pet_id: int=None, quantity: int=None, ship_date: datetime=None, string_with_attempted_injection: str=None, status: str=None, complete: bool=False):  # noqa: E501
+    def __init__(self, id: int=None, pet_id: int=None, quantity: int=None, ship_date: datetime=None, status: str=None, complete: bool=False):  # noqa: E501
         """Order - a model defined in Swagger
 
         :param id: The id of this Order.  # noqa: E501
@@ -26,8 +26,6 @@ class Order(Model):
         :type quantity: int
         :param ship_date: The ship_date of this Order.  # noqa: E501
         :type ship_date: datetime
-        :param string_with_attempted_injection: The string_with_attempted_injection of this Order.  # noqa: E501
-        :type string_with_attempted_injection: str
         :param status: The status of this Order.  # noqa: E501
         :type status: str
         :param complete: The complete of this Order.  # noqa: E501
@@ -38,7 +36,6 @@ class Order(Model):
             'pet_id': int,
             'quantity': int,
             'ship_date': datetime,
-            'string_with_attempted_injection': str,
             'status': str,
             'complete': bool
         }
@@ -48,7 +45,6 @@ class Order(Model):
             'pet_id': 'petId',
             'quantity': 'quantity',
             'ship_date': 'shipDate',
-            'string_with_attempted_injection': 'stringWithAttemptedInjection',
             'status': 'status',
             'complete': 'complete'
         }
@@ -57,7 +53,6 @@ class Order(Model):
         self._pet_id = pet_id
         self._quantity = quantity
         self._ship_date = ship_date
-        self._string_with_attempted_injection = string_with_attempted_injection
         self._status = status
         self._complete = complete
 
@@ -155,29 +150,6 @@ class Order(Model):
         """
 
         self._ship_date = ship_date
-
-    @property
-    def string_with_attempted_injection(self) -> str:
-        """Gets the string_with_attempted_injection of this Order.
-
-        This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline  # noqa: E501
-
-        :return: The string_with_attempted_injection of this Order.
-        :rtype: str
-        """
-        return self._string_with_attempted_injection
-
-    @string_with_attempted_injection.setter
-    def string_with_attempted_injection(self, string_with_attempted_injection: str):
-        """Sets the string_with_attempted_injection of this Order.
-
-        This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline  # noqa: E501
-
-        :param string_with_attempted_injection: The string_with_attempted_injection of this Order.
-        :type string_with_attempted_injection: str
-        """
-
-        self._string_with_attempted_injection = string_with_attempted_injection
 
     @property
     def status(self) -> str:

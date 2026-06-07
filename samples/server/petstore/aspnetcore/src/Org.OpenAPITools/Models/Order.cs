@@ -50,14 +50,6 @@ namespace Org.OpenAPITools.Models
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
         public DateTime ShipDate { get; set; }
 
-        /// <summary>
-        /// This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\&quot;\&quot;\&quot;attemptToBreakOutOfMultiline
-        /// </summary>
-        /// <value>This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\&quot;\&quot;\&quot;attemptToBreakOutOfMultiline</value>
-        /* <example>${attemptedStringInter}\backslash&quot;&quot;&quot;attemptToBreakOutOfMultiline</example> */
-        [DataMember(Name="stringWithAttemptedInjection", EmitDefaultValue=false)]
-        public string StringWithAttemptedInjection { get; set; }
-
 
         /// <summary>
         /// Order Status
@@ -112,7 +104,6 @@ namespace Org.OpenAPITools.Models
             sb.Append("  PetId: ").Append(PetId).Append("\n");
             sb.Append("  Quantity: ").Append(Quantity).Append("\n");
             sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
-            sb.Append("  StringWithAttemptedInjection: ").Append(StringWithAttemptedInjection).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("}\n");
@@ -172,11 +163,6 @@ namespace Org.OpenAPITools.Models
                     ShipDate.Equals(other.ShipDate)
                 ) && 
                 (
-                    StringWithAttemptedInjection == other.StringWithAttemptedInjection ||
-                    StringWithAttemptedInjection != null &&
-                    StringWithAttemptedInjection.Equals(other.StringWithAttemptedInjection)
-                ) && 
-                (
                     Status == other.Status ||
                     
                     Status.Equals(other.Status)
@@ -206,8 +192,6 @@ namespace Org.OpenAPITools.Models
                     hashCode = hashCode * 59 + Quantity.GetHashCode();
                     
                     hashCode = hashCode * 59 + ShipDate.GetHashCode();
-                    if (StringWithAttemptedInjection != null)
-                    hashCode = hashCode * 59 + StringWithAttemptedInjection.GetHashCode();
                     
                     hashCode = hashCode * 59 + Status.GetHashCode();
                     

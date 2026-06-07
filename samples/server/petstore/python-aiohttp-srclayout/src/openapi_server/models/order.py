@@ -14,14 +14,13 @@ class Order(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, pet_id: int=None, quantity: int=None, ship_date: datetime=None, string_with_attempted_injection: str=None, status: str=None, complete: bool=False):
+    def __init__(self, id: int=None, pet_id: int=None, quantity: int=None, ship_date: datetime=None, status: str=None, complete: bool=False):
         """Order - a model defined in OpenAPI
 
         :param id: The id of this Order.
         :param pet_id: The pet_id of this Order.
         :param quantity: The quantity of this Order.
         :param ship_date: The ship_date of this Order.
-        :param string_with_attempted_injection: The string_with_attempted_injection of this Order.
         :param status: The status of this Order.
         :param complete: The complete of this Order.
         """
@@ -30,7 +29,6 @@ class Order(Model):
             'pet_id': int,
             'quantity': int,
             'ship_date': datetime,
-            'string_with_attempted_injection': str,
             'status': str,
             'complete': bool
         }
@@ -40,7 +38,6 @@ class Order(Model):
             'pet_id': 'petId',
             'quantity': 'quantity',
             'ship_date': 'shipDate',
-            'string_with_attempted_injection': 'stringWithAttemptedInjection',
             'status': 'status',
             'complete': 'complete'
         }
@@ -49,7 +46,6 @@ class Order(Model):
         self._pet_id = pet_id
         self._quantity = quantity
         self._ship_date = ship_date
-        self._string_with_attempted_injection = string_with_attempted_injection
         self._status = status
         self._complete = complete
 
@@ -145,29 +141,6 @@ class Order(Model):
         """
 
         self._ship_date = ship_date
-
-    @property
-    def string_with_attempted_injection(self):
-        """Gets the string_with_attempted_injection of this Order.
-
-        This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
-
-        :return: The string_with_attempted_injection of this Order.
-        :rtype: str
-        """
-        return self._string_with_attempted_injection
-
-    @string_with_attempted_injection.setter
-    def string_with_attempted_injection(self, string_with_attempted_injection):
-        """Sets the string_with_attempted_injection of this Order.
-
-        This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
-
-        :param string_with_attempted_injection: The string_with_attempted_injection of this Order.
-        :type string_with_attempted_injection: str
-        """
-
-        self._string_with_attempted_injection = string_with_attempted_injection
 
     @property
     def status(self):
