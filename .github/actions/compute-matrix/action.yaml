@@ -32,10 +32,13 @@ runs:
     - id: filter
       shell: bash
       env:
-        # For pull_request events, base.sha is the target branch tip.
+        # For pull_request events, base.sha is the target branch tip (may be stale if base advanced).
         # For push events, event.before is the previous HEAD (all-zeros for new branches).
         BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         HEAD_SHA: ${{ github.sha }}
+        # PR head SHA (only set for pull_request events). Used to isolate just the PR's changes
+        # via merge-base, avoiding false positives from unrelated base-branch advances.
+        PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         ALL_SAMPLES: ${{ inputs.all_samples }}
       run: |
         RUN_ALL=false
@@ -52,7 +55,19 @@ runs:
 
         # Get list of changed files relative to the base commit
         if [[ "$RUN_ALL" == "false" ]]; then
-          if [[ -n "$BASE_SHA" ]]; then
+          if [[ -n "$PR_HEAD_SHA" ]]; then
+            # pull_request event: use merge-base to isolate only the PR's own changes.
+            # Diffing base.sha..merge_commit would include unrelated changes from the base
+            # branch that landed after the PR was last synchronised. Using merge-base gives
+            # only the commits that are in the PR branch but not in the base branch.
+            MERGE_BASE=$(git merge-base "$PR_HEAD_SHA" "$BASE_SHA" 2>/dev/null || echo "")
+            if [[ -n "$MERGE_BASE" ]]; then
+              CHANGED=$(git diff --name-only "$MERGE_BASE" "$PR_HEAD_SHA")
+            else
+              CHANGED=$(git diff --name-only "$BASE_SHA" "$PR_HEAD_SHA" 2>/dev/null || git diff --name-only HEAD~1 HEAD)
+            fi
+          elif [[ -n "$BASE_SHA" ]]; then
+            # push event: diff from the previous HEAD
             CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || git diff --name-only HEAD~1 HEAD)
           else
             CHANGED=$(git diff --name-only HEAD~1 HEAD)
