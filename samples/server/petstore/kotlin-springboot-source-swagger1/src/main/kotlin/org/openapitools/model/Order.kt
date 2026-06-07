@@ -45,7 +45,7 @@ data class Order(
     @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
-    @ApiModelProperty(example = "\${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline", value = "This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline")
+    @ApiModelProperty(example = "\${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline", value = "This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. \${attemptedStringInter}\\\\backslash\\\"\\\"\\\"attemptToBreakOutOfMultiline")
     @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("stringWithAttemptedInjection") val stringWithAttemptedInjection: kotlin.String? = null,
 
