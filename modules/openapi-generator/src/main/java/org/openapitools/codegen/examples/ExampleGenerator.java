@@ -406,6 +406,10 @@ public class ExampleGenerator {
      */
     private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
         List<Schema> interfaces = schema.getAllOf();
+        if (interfaces == null) {
+            return;
+        }
+
         for (Schema composed : interfaces) {
             if (composed.get$ref() != null) {
                 String ref = ModelUtils.getSimpleRef(composed.get$ref());
@@ -419,6 +423,7 @@ public class ExampleGenerator {
                 if (resolved != null) {
                     processedModels.add(ref);
                     traverseSchemaProperties(mediaType, resolved, processedModels, values);
+                    processedModels.remove(ref);
                 }
             } else {
                 traverseSchemaProperties(mediaType, composed, processedModels, values);
