@@ -77,14 +77,35 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Defines ArrayEnumNullable
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ArrayEnumNullableEnum
+        {
+            /// <summary>
+            /// Enum Fish for value: fish
+            /// </summary>
+            [EnumMember(Value = "fish")]
+            Fish = 1,
+
+            /// <summary>
+            /// Enum Crab for value: crab
+            /// </summary>
+            [EnumMember(Value = "crab")]
+            Crab = 2
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
         /// <param name="justSymbol">justSymbol.</param>
         /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default, List<ArrayEnumEnum> arrayEnum = default)
+        /// <param name="arrayEnumNullable">arrayEnumNullable.</param>
+        public EnumArrays(JustSymbolEnum? justSymbol = default, List<ArrayEnumEnum> arrayEnum = default, List<ArrayEnumNullableEnum> arrayEnumNullable = default)
         {
             this.JustSymbol = justSymbol;
             this.ArrayEnum = arrayEnum;
+            this.ArrayEnumNullable = arrayEnumNullable;
         }
 
         /// <summary>
@@ -92,6 +113,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
         public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayEnumNullable
+        /// </summary>
+        [DataMember(Name = "array_enum_nullable", EmitDefaultValue = true)]
+        public List<EnumArrays.ArrayEnumNullableEnum> ArrayEnumNullable { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,6 +130,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class EnumArrays {\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
             sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  ArrayEnumNullable: ").Append(ArrayEnumNullable).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -149,6 +177,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ArrayEnum != null)
                 {
                     hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
+                if (this.ArrayEnumNullable != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnumNullable.GetHashCode();
                 }
                 return hashCode;
             }

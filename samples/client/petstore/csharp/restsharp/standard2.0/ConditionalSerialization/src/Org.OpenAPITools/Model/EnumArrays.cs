@@ -97,11 +97,31 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Defines ArrayEnumNullable
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ArrayEnumNullableEnum
+        {
+            /// <summary>
+            /// Enum Fish for value: fish
+            /// </summary>
+            [EnumMember(Value = "fish")]
+            Fish = 1,
+
+            /// <summary>
+            /// Enum Crab for value: crab
+            /// </summary>
+            [EnumMember(Value = "crab")]
+            Crab = 2
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
         /// <param name="justSymbol">justSymbol.</param>
         /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default, List<ArrayEnumEnum> arrayEnum = default)
+        /// <param name="arrayEnumNullable">arrayEnumNullable.</param>
+        public EnumArrays(JustSymbolEnum? justSymbol = default, List<ArrayEnumEnum> arrayEnum = default, List<ArrayEnumNullableEnum> arrayEnumNullable = default)
         {
             this._JustSymbol = justSymbol;
             if (this.JustSymbol != null)
@@ -112,6 +132,11 @@ namespace Org.OpenAPITools.Model
             if (this.ArrayEnum != null)
             {
                 this._flagArrayEnum = true;
+            }
+            this._ArrayEnumNullable = arrayEnumNullable;
+            if (this.ArrayEnumNullable != null)
+            {
+                this._flagArrayEnumNullable = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -141,6 +166,30 @@ namespace Org.OpenAPITools.Model
             return _flagArrayEnum;
         }
         /// <summary>
+        /// Gets or Sets ArrayEnumNullable
+        /// </summary>
+        [DataMember(Name = "array_enum_nullable", EmitDefaultValue = true)]
+        public List<EnumArrays.ArrayEnumNullableEnum> ArrayEnumNullable
+        {
+            get{ return _ArrayEnumNullable;}
+            set
+            {
+                _ArrayEnumNullable = value;
+                _flagArrayEnumNullable = true;
+            }
+        }
+        private List<EnumArrays.ArrayEnumNullableEnum> _ArrayEnumNullable;
+        private bool _flagArrayEnumNullable;
+
+        /// <summary>
+        /// Returns false as ArrayEnumNullable should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeArrayEnumNullable()
+        {
+            return _flagArrayEnumNullable;
+        }
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -156,6 +205,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class EnumArrays {\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
             sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  ArrayEnumNullable: ").Append(ArrayEnumNullable).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -203,6 +253,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ArrayEnum != null)
                 {
                     hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
+                if (this.ArrayEnumNullable != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnumNullable.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

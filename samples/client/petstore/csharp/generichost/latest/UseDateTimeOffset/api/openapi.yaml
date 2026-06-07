@@ -2025,6 +2025,14 @@ components:
             - crab
             type: string
           type: array
+        array_enum_nullable:
+          items:
+            enum:
+            - fish
+            - crab
+            type: string
+          nullable: true
+          type: array
       type: object
     FreeFormObject:
       additionalProperties: true

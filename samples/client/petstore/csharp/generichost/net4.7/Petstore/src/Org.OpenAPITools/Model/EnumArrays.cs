@@ -33,11 +33,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
         /// <param name="arrayEnum">arrayEnum</param>
+        /// <param name="arrayEnumNullable">arrayEnumNullable</param>
         /// <param name="justSymbol">justSymbol</param>
         [JsonConstructor]
-        public EnumArrays(Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default, Option<JustSymbolEnum?> justSymbol = default)
+        public EnumArrays(Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default, Option<List<EnumArrays.ArrayEnumNullableEnum>> arrayEnumNullable = default, Option<JustSymbolEnum?> justSymbol = default)
         {
             ArrayEnumOption = arrayEnum;
+            ArrayEnumNullableOption = arrayEnumNullable;
             JustSymbolOption = justSymbol;
             OnCreated();
         }
@@ -105,6 +107,72 @@ namespace Org.OpenAPITools.Model
                 return "fish";
 
             if (value == ArrayEnumEnum.Crab)
+                return "crab";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
+        /// <summary>
+        /// Defines ArrayEnumNullable
+        /// </summary>
+        public enum ArrayEnumNullableEnum
+        {
+            /// <summary>
+            /// Enum Fish for value: fish
+            /// </summary>
+            Fish = 1,
+
+            /// <summary>
+            /// Enum Crab for value: crab
+            /// </summary>
+            Crab = 2
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ArrayEnumNullableEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static ArrayEnumNullableEnum ArrayEnumNullableEnumFromString(string value)
+        {
+            if (value.Equals("fish"))
+                return ArrayEnumNullableEnum.Fish;
+
+            if (value.Equals("crab"))
+                return ArrayEnumNullableEnum.Crab;
+
+            throw new NotImplementedException($"Could not convert value to type ArrayEnumNullableEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ArrayEnumNullableEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ArrayEnumNullableEnum? ArrayEnumNullableEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals("fish"))
+                return ArrayEnumNullableEnum.Fish;
+
+            if (value.Equals("crab"))
+                return ArrayEnumNullableEnum.Crab;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="ArrayEnumNullableEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string ArrayEnumNullableEnumToJsonValue(ArrayEnumNullableEnum value)
+        {
+            if (value == ArrayEnumNullableEnum.Fish)
+                return "fish";
+
+            if (value == ArrayEnumNullableEnum.Crab)
                 return "crab";
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
@@ -203,6 +271,19 @@ namespace Org.OpenAPITools.Model
         public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get { return this.ArrayEnumOption.Value; } set { this.ArrayEnumOption = new Option<List<EnumArrays.ArrayEnumEnum>>(value); } }
 
         /// <summary>
+        /// Used to track the state of ArrayEnumNullable
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<EnumArrays.ArrayEnumNullableEnum>> ArrayEnumNullableOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayEnumNullable
+        /// </summary>
+        [JsonPropertyName("array_enum_nullable")]
+        public List<EnumArrays.ArrayEnumNullableEnum> ArrayEnumNullable { get { return this.ArrayEnumNullableOption.Value; } set { this.ArrayEnumNullableOption = new Option<List<EnumArrays.ArrayEnumNullableEnum>>(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -217,6 +298,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
             sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  ArrayEnumNullable: ").Append(ArrayEnumNullable).Append("\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -257,6 +339,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default;
+            Option<List<EnumArrays.ArrayEnumNullableEnum>> arrayEnumNullable = default;
             Option<EnumArrays.JustSymbolEnum?> justSymbol = default;
 
             while (utf8JsonReader.Read())
@@ -275,7 +358,38 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "array_enum":
-                            arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>>(JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions));
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>>(null);
+                            else
+                            {
+                                var arrayEnumItems = new List<EnumArrays.ArrayEnumEnum>();
+                                while (utf8JsonReader.Read())
+                                {
+                                    if (utf8JsonReader.TokenType == JsonTokenType.EndArray)
+                                        break;
+                                    string arrayEnumItemRawValue = utf8JsonReader.GetString();
+                                    if (arrayEnumItemRawValue != null)
+                                        arrayEnumItems.Add(EnumArrays.ArrayEnumEnumFromStringOrDefault(arrayEnumItemRawValue));
+                                }
+                                arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>>(arrayEnumItems);
+                            }
+                            break;
+                        case "array_enum_nullable":
+                            if (utf8JsonReader.TokenType == JsonTokenType.Null)
+                                arrayEnumNullable = new Option<List<EnumArrays.ArrayEnumNullableEnum>>(null);
+                            else
+                            {
+                                var arrayEnumNullableItems = new List<EnumArrays.ArrayEnumNullableEnum>();
+                                while (utf8JsonReader.Read())
+                                {
+                                    if (utf8JsonReader.TokenType == JsonTokenType.EndArray)
+                                        break;
+                                    string arrayEnumNullableItemRawValue = utf8JsonReader.GetString();
+                                    if (arrayEnumNullableItemRawValue != null)
+                                        arrayEnumNullableItems.Add(EnumArrays.ArrayEnumNullableEnumFromStringOrDefault(arrayEnumNullableItemRawValue));
+                                }
+                                arrayEnumNullable = new Option<List<EnumArrays.ArrayEnumNullableEnum>>(arrayEnumNullableItems);
+                            }
                             break;
                         case "just_symbol":
                             string justSymbolRawValue = utf8JsonReader.GetString();
@@ -294,7 +408,7 @@ namespace Org.OpenAPITools.Model
             if (justSymbol.IsSet && justSymbol.Value == null)
                 throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
 
-            return new EnumArrays(arrayEnum, justSymbol);
+            return new EnumArrays(arrayEnum, arrayEnumNullable, justSymbol);
         }
 
         /// <summary>
@@ -327,8 +441,22 @@ namespace Org.OpenAPITools.Model
             if (enumArrays.ArrayEnumOption.IsSet)
             {
                 writer.WritePropertyName("array_enum");
-                JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
+                writer.WriteStartArray();
+                foreach (var arrayEnumItem in enumArrays.ArrayEnum)
+                    writer.WriteStringValue(EnumArrays.ArrayEnumEnumToJsonValue(arrayEnumItem));
+                writer.WriteEndArray();
             }
+            if (enumArrays.ArrayEnumNullableOption.IsSet)
+                if (enumArrays.ArrayEnumNullableOption.Value != null)
+                {
+                    writer.WritePropertyName("array_enum_nullable");
+                    writer.WriteStartArray();
+                    foreach (var arrayEnumNullableItem in enumArrays.ArrayEnumNullableOption.Value)
+                        writer.WriteStringValue(EnumArrays.ArrayEnumNullableEnumToJsonValue(arrayEnumNullableItem));
+                    writer.WriteEndArray();
+                }
+                else
+                    writer.WriteNull("array_enum_nullable");
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value.Value);
             writer.WriteString("just_symbol", justSymbolRawValue);
         }

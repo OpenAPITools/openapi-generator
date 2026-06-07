@@ -162,6 +162,8 @@ namespace Org.OpenAPITools.Client
                 return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
             if (obj is EnumArrays.ArrayEnumEnum enumArraysArrayEnumEnum)
                 return EnumArrays.ArrayEnumEnumToJsonValue(enumArraysArrayEnumEnum);
+            if (obj is EnumArrays.ArrayEnumNullableEnum enumArraysArrayEnumNullableEnum)
+                return EnumArrays.ArrayEnumNullableEnumToJsonValue(enumArraysArrayEnumNullableEnum);
             if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)
                 return EnumArrays.JustSymbolEnumToJsonValue(enumArraysJustSymbolEnum);
             if (obj is EnumClass enumClass)

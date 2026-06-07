@@ -1942,6 +1942,11 @@ components:
           items:
             $ref: "#/components/schemas/EnumArrays_array_enum_inner"
           type: array
+        array_enum_nullable:
+          items:
+            $ref: "#/components/schemas/EnumArrays_array_enum_inner"
+          nullable: true
+          type: array
       type: object
     FreeFormObject:
       additionalProperties: true

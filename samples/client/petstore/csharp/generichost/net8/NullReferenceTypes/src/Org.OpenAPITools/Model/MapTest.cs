@@ -331,7 +331,10 @@ namespace Org.OpenAPITools.Model
             if (mapTest.MapOfEnumStringOption.IsSet)
             {
                 writer.WritePropertyName("map_of_enum_string");
-                JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
+                writer.WriteStartArray();
+                foreach (var mapOfEnumStringItem in mapTest.MapOfEnumString!)
+                    writer.WriteStringValue(MapTest.InnerEnumToJsonValue(mapOfEnumStringItem));
+                writer.WriteEndArray();
             }
         }
     }

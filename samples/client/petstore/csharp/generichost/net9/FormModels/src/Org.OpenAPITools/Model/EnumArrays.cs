@@ -33,11 +33,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
         /// <param name="arrayEnum">arrayEnum</param>
+        /// <param name="arrayEnumNullable">arrayEnumNullable</param>
         /// <param name="justSymbol">justSymbol</param>
         [JsonConstructor]
-        public EnumArrays(Option<List<EnumArraysArrayEnumInner>> arrayEnum = default, Option<EnumArraysJustSymbol?> justSymbol = default)
+        public EnumArrays(Option<List<EnumArraysArrayEnumInner>> arrayEnum = default, Option<List<EnumArraysArrayEnumInner>> arrayEnumNullable = default, Option<EnumArraysJustSymbol?> justSymbol = default)
         {
             ArrayEnumOption = arrayEnum;
+            ArrayEnumNullableOption = arrayEnumNullable;
             JustSymbolOption = justSymbol;
             OnCreated();
         }
@@ -71,6 +73,19 @@ namespace Org.OpenAPITools.Model
         public List<EnumArraysArrayEnumInner> ArrayEnum { get { return this.ArrayEnumOption.Value; } set { this.ArrayEnumOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of ArrayEnumNullable
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<EnumArraysArrayEnumInner>> ArrayEnumNullableOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayEnumNullable
+        /// </summary>
+        [JsonPropertyName("array_enum_nullable")]
+        public List<EnumArraysArrayEnumInner> ArrayEnumNullable { get { return this.ArrayEnumNullableOption.Value; } set { this.ArrayEnumNullableOption = new(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -85,6 +100,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
             sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  ArrayEnumNullable: ").Append(ArrayEnumNullable).Append("\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -125,6 +141,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<List<EnumArraysArrayEnumInner>> arrayEnum = default;
+            Option<List<EnumArraysArrayEnumInner>> arrayEnumNullable = default;
             Option<EnumArraysJustSymbol?> justSymbol = default;
 
             while (utf8JsonReader.Read())
@@ -145,6 +162,9 @@ namespace Org.OpenAPITools.Model
                         case "array_enum":
                             arrayEnum = new Option<List<EnumArraysArrayEnumInner>>(JsonSerializer.Deserialize<List<EnumArraysArrayEnumInner>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
+                        case "array_enum_nullable":
+                            arrayEnumNullable = new Option<List<EnumArraysArrayEnumInner>>(JsonSerializer.Deserialize<List<EnumArraysArrayEnumInner>>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
                         case "just_symbol":
                             string justSymbolRawValue = utf8JsonReader.GetString();
                             if (justSymbolRawValue != null)
@@ -162,7 +182,7 @@ namespace Org.OpenAPITools.Model
             if (justSymbol.IsSet && justSymbol.Value == null)
                 throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
 
-            return new EnumArrays(arrayEnum, justSymbol);
+            return new EnumArrays(arrayEnum, arrayEnumNullable, justSymbol);
         }
 
         /// <summary>
@@ -197,6 +217,14 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             }
+            if (enumArrays.ArrayEnumNullableOption.IsSet)
+                if (enumArrays.ArrayEnumNullableOption.Value != null)
+                {
+                    writer.WritePropertyName("array_enum_nullable");
+                    JsonSerializer.Serialize(writer, enumArrays.ArrayEnumNullable, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("array_enum_nullable");
             if (enumArrays.JustSymbolOption.IsSet)
             {
                 var justSymbolRawValue = EnumArraysJustSymbolValueConverter.ToJsonValue(enumArrays.JustSymbol.Value);
