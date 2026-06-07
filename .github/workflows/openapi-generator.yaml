@@ -11,9 +11,11 @@ on:
       - '[5-9]+.[0-9]+.x'
 
 jobs:
-  # Detect whether source files (modules/, pom.xml, bin/) changed.
-  # When only samples/ changed, the unit tests and doc checks are skipped — they are
-  # not affected by sample-only changes and the samples job still runs to verify freshness.
+  # Detect whether source files (modules/, pom.xml) changed.
+  # When only samples/ or bin/configs/ changed, the unit tests and doc checks are skipped —
+  # they are not affected by sample or config-only changes. The samples job still runs to
+  # verify freshness. Nothing in bin/ affects mvn test; those scripts are used by the
+  # documentation and samples jobs which run unconditionally.
   setup:
     name: Detect source changes
     runs-on: ubuntu-latest
@@ -37,7 +39,7 @@ jobs:
           else
             CHANGED=$(git diff --name-only HEAD~1 HEAD)
           fi
-          if echo "$CHANGED" | grep -qE '^(modules/|pom\.xml|bin/|\.mvn/)'; then
+          if echo "$CHANGED" | grep -qE '^(modules/|pom\.xml|\.mvn/)'; then
             echo "source-changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "source-changed=false" >> "$GITHUB_OUTPUT"
