@@ -35,6 +35,7 @@ import kotlinx.serialization.encoding.*
  * @param petId 
  * @param quantity 
  * @param shipDate 
+ * @param stringWithAttemptedInjection This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
  * @param status Order Status
  * @param complete 
  */
@@ -49,6 +50,9 @@ data class Order (
     @SerialName(value = "quantity") val quantity: kotlin.Int? = null,
 
     @SerialName(value = "shipDate") val shipDate: kotlin.time.Instant? = null,
+
+    /* This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline */
+    @SerialName(value = "stringWithAttemptedInjection") val stringWithAttemptedInjection: kotlin.String? = null,
 
     /* Order Status */
     @SerialName(value = "status") val status: Order.Status? = null,

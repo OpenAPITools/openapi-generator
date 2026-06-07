@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param petId 
  * @param quantity 
  * @param shipDate 
+ * @param stringWithAttemptedInjection This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
  * @param status Order Status
  * @param complete 
  */
@@ -43,6 +44,10 @@ data class Order(
     @Schema(example = "null", description = "")
     @field:JsonSetter(nulls = Nulls.FAIL)
     @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+
+    @Schema(example = "\${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline", description = "This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline")
+    @field:JsonSetter(nulls = Nulls.FAIL)
+    @get:JsonProperty("stringWithAttemptedInjection") val stringWithAttemptedInjection: kotlin.String? = null,
 
     @Schema(example = "null", description = "Order Status")
     @field:JsonSetter(nulls = Nulls.FAIL)
