@@ -56,7 +56,39 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = """"""
+            val exampleContentString = """[ {
+              "id" : 0,
+              "category" : {
+                "id" : 6,
+                "name" : "name"
+              },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
+              "tags" : [ {
+                "id" : 1,
+                "name" : "name"
+              }, {
+                "id" : 1,
+                "name" : "name"
+              } ],
+              "status" : "available"
+            }, {
+              "id" : 0,
+              "category" : {
+                "id" : 6,
+                "name" : "name"
+              },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
+              "tags" : [ {
+                "id" : 1,
+                "name" : "name"
+              }, {
+                "id" : 1,
+                "name" : "name"
+              } ],
+              "status" : "available"
+            } ]"""
             
             when (exampleContentType) {
                 "application/json" -> call.respondText(exampleContentType, ContentType.Application.Json)
@@ -73,7 +105,39 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = """"""
+            val exampleContentString = """[ {
+              "id" : 0,
+              "category" : {
+                "id" : 6,
+                "name" : "name"
+              },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
+              "tags" : [ {
+                "id" : 1,
+                "name" : "name"
+              }, {
+                "id" : 1,
+                "name" : "name"
+              } ],
+              "status" : "available"
+            }, {
+              "id" : 0,
+              "category" : {
+                "id" : 6,
+                "name" : "name"
+              },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
+              "tags" : [ {
+                "id" : 1,
+                "name" : "name"
+              }, {
+                "id" : 1,
+                "name" : "name"
+              } ],
+              "status" : "available"
+            } ]"""
             
             when (exampleContentType) {
                 "application/json" -> call.respondText(exampleContentType, ContentType.Application.Json)
@@ -90,7 +154,23 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = """"""
+            val exampleContentString = """{
+              "id" : 0,
+              "category" : {
+                "id" : 6,
+                "name" : "name"
+              },
+              "name" : "doggie",
+              "photoUrls" : [ "photoUrls", "photoUrls" ],
+              "tags" : [ {
+                "id" : 1,
+                "name" : "name"
+              }, {
+                "id" : 1,
+                "name" : "name"
+              } ],
+              "status" : "available"
+            }"""
             
             when (exampleContentType) {
                 "application/json" -> call.respondText(exampleContentType, ContentType.Application.Json)
@@ -127,7 +207,11 @@ fun Route.PetApi() {
         
         
         val exampleContentType = "application/json"
-            val exampleContentString = """"""
+            val exampleContentString = """{
+              "code" : 0,
+              "type" : "type",
+              "message" : "message"
+            }"""
             
             when (exampleContentType) {
                 "application/json" -> call.respondText(exampleContentType, ContentType.Application.Json)

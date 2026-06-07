@@ -52,7 +52,16 @@ fun Route.UserApi() {
 
     get<Paths.getUserByName> {
         val exampleContentType = "application/json"
-        val exampleContentString = """"""
+        val exampleContentString = """{
+          "id" : 0,
+          "username" : "username",
+          "firstName" : "firstName",
+          "lastName" : "lastName",
+          "email" : "email",
+          "password" : "password",
+          "phone" : "phone",
+          "userStatus" : 6
+        }"""
         
         when (exampleContentType) {
             "application/json" -> call.respond(gson.fromJson(exampleContentString, Any::class.java))
