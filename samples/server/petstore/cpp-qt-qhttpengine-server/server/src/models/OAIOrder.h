@@ -59,6 +59,11 @@ public:
     bool is_ship_date_Set() const;
     bool is_ship_date_Valid() const;
 
+    QString getStringWithAttemptedInjection() const;
+    void setStringWithAttemptedInjection(const QString &string_with_attempted_injection);
+    bool is_string_with_attempted_injection_Set() const;
+    bool is_string_with_attempted_injection_Valid() const;
+
     QString getStatus() const;
     void setStatus(const QString &status);
     bool is_status_Set() const;
@@ -90,6 +95,10 @@ private:
     QDateTime ship_date;
     bool m_ship_date_isSet;
     bool m_ship_date_isValid;
+
+    QString string_with_attempted_injection;
+    bool m_string_with_attempted_injection_isSet;
+    bool m_string_with_attempted_injection_isValid;
 
     QString status;
     bool m_status_isSet;

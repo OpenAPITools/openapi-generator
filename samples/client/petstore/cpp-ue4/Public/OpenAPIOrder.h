@@ -33,6 +33,8 @@ public:
 	TOptional<int64> PetId;
 	TOptional<int32> Quantity;
 	TOptional<FDateTime> ShipDate;
+	/* This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline */
+	TOptional<FString> StringWithAttemptedInjection;
 	enum class StatusEnum
 	{
 		Placed,

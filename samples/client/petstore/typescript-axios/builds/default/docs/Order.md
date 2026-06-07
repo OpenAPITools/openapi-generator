@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **petId** | **number** |  | [optional] [default to undefined]
 **quantity** | **number** |  | [optional] [default to undefined]
 **shipDate** | **string** |  | [optional] [default to undefined]
+**stringWithAttemptedInjection** | **string** | This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\&quot;\&quot;\&quot;attemptToBreakOutOfMultiline | [optional] [default to undefined]
 **status** | **string** | Order Status | [optional] [default to undefined]
 **complete** | **boolean** |  | [optional] [default to false]
 
@@ -23,6 +24,7 @@ const instance: Order = {
     petId,
     quantity,
     shipDate,
+    stringWithAttemptedInjection,
     status,
     complete,
 };

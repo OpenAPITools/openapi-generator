@@ -21,6 +21,10 @@ export class Order {
     'quantity'?: number;
     'shipDate'?: Date;
     /**
+    * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
+    */
+    'stringWithAttemptedInjection'?: string;
+    /**
     * Order Status
     */
     'status'?: Order.StatusEnum;
@@ -48,6 +52,11 @@ export class Order {
             "name": "shipDate",
             "baseName": "shipDate",
             "type": "Date"
+        },
+        {
+            "name": "stringWithAttemptedInjection",
+            "baseName": "stringWithAttemptedInjection",
+            "type": "string"
         },
         {
             "name": "status",

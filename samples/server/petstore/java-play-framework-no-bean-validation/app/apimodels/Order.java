@@ -23,6 +23,9 @@ public class Order   {
   @JsonProperty("shipDate")
   private OffsetDateTime shipDate;
 
+  @JsonProperty("stringWithAttemptedInjection")
+  private String stringWithAttemptedInjection;
+
   /**
    * Order Status
    */
@@ -130,6 +133,23 @@ public class Order   {
     this.shipDate = shipDate;
   }
 
+  public Order stringWithAttemptedInjection(String stringWithAttemptedInjection) {
+    this.stringWithAttemptedInjection = stringWithAttemptedInjection;
+    return this;
+  }
+
+   /**
+   * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\"\"\"attemptToBreakOutOfMultiline
+   * @return stringWithAttemptedInjection
+  **/
+  public String getStringWithAttemptedInjection() {
+    return stringWithAttemptedInjection;
+  }
+
+  public void setStringWithAttemptedInjection(String stringWithAttemptedInjection) {
+    this.stringWithAttemptedInjection = stringWithAttemptedInjection;
+  }
+
   public Order status(StatusEnum status) {
     this.status = status;
     return this;
@@ -178,13 +198,14 @@ public class Order   {
         Objects.equals(petId, order.petId) &&
         Objects.equals(quantity, order.quantity) &&
         Objects.equals(shipDate, order.shipDate) &&
+        Objects.equals(stringWithAttemptedInjection, order.stringWithAttemptedInjection) &&
         Objects.equals(status, order.status) &&
         Objects.equals(complete, order.complete);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+    return Objects.hash(id, petId, quantity, shipDate, stringWithAttemptedInjection, status, complete);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -197,6 +218,7 @@ public class Order   {
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
+    sb.append("    stringWithAttemptedInjection: ").append(toIndentedString(stringWithAttemptedInjection)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
     sb.append("}");

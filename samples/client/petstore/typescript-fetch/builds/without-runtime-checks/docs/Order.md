@@ -11,6 +11,7 @@ Name | Type
 `petId` | number
 `quantity` | number
 `shipDate` | string
+`stringWithAttemptedInjection` | string
 `status` | string
 `complete` | boolean
 

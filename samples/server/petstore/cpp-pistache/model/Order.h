@@ -87,6 +87,13 @@ public:
     bool shipDateIsSet() const;
     void unsetShipDate();
     /// <summary>
+    /// This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\\backslash\&quot;\&quot;\&quot;attemptToBreakOutOfMultiline
+    /// </summary>
+    std::string getStringWithAttemptedInjection() const;
+    void setStringWithAttemptedInjection(std::string const& value);
+    bool stringWithAttemptedInjectionIsSet() const;
+    void unsetStringWithAttemptedInjection();
+    /// <summary>
     /// Order Status
     /// </summary>
     std::string getStatus() const;
@@ -112,6 +119,8 @@ protected:
     bool m_QuantityIsSet;
     std::string m_ShipDate;
     bool m_ShipDateIsSet;
+    std::string m_StringWithAttemptedInjection;
+    bool m_StringWithAttemptedInjectionIsSet;
     std::string m_Status;
     bool m_StatusIsSet;
     bool m_Complete;

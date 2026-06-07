@@ -98,8 +98,8 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
             string exampleJson = null;
-            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"status\" : \"placed\",\n  \"complete\" : false\n}";
-            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
+            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"stringWithAttemptedInjection\" : \"${attemptedStringInter}\\backslash\\"\\"\\"attemptToBreakOutOfMultiline\",\n  \"status\" : \"placed\",\n  \"complete\" : false\n}";
+            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <stringWithAttemptedInjection>${attemptedStringInter}\backslash\"\"\"attemptToBreakOutOfMultiline</stringWithAttemptedInjection>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
@@ -127,8 +127,8 @@ namespace Org.OpenAPITools.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
             string exampleJson = null;
-            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"status\" : \"placed\",\n  \"complete\" : false\n}";
-            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
+            exampleJson = "{\n  \"id\" : 0,\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"stringWithAttemptedInjection\" : \"${attemptedStringInter}\\backslash\\"\\"\\"attemptToBreakOutOfMultiline\",\n  \"status\" : \"placed\",\n  \"complete\" : false\n}";
+            exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <stringWithAttemptedInjection>${attemptedStringInter}\backslash\"\"\"attemptToBreakOutOfMultiline</stringWithAttemptedInjection>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)

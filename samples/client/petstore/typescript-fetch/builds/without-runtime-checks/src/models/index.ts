@@ -75,6 +75,12 @@ export interface Order {
      */
     shipDate?: string;
     /**
+     * This is an example of a string property that includes attempted injection attack content. It should be properly escaped and handled by the server to prevent security vulnerabilities. ${attemptedStringInter}\backslash"""attemptToBreakOutOfMultiline
+     * @type {string}
+     * @memberof Order
+     */
+    stringWithAttemptedInjection?: string;
+    /**
      * Order Status
      * @type {OrderStatusEnum}
      * @memberof Order

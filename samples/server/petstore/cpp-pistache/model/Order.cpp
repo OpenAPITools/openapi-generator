@@ -29,6 +29,8 @@ Order::Order()
     m_QuantityIsSet = false;
     m_ShipDate = "";
     m_ShipDateIsSet = false;
+    m_StringWithAttemptedInjection = "";
+    m_StringWithAttemptedInjectionIsSet = false;
     m_Status = "";
     m_StatusIsSet = false;
     m_Complete = false;
@@ -57,7 +59,7 @@ bool Order::validate(std::stringstream& msg, const std::string& pathPrefix) cons
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Order" : pathPrefix;
 
-                            
+                                
     return success;
 }
 
@@ -77,6 +79,9 @@ bool Order::operator==(const Order& rhs) const
     
     
     ((!shipDateIsSet() && !rhs.shipDateIsSet()) || (shipDateIsSet() && rhs.shipDateIsSet() && getShipDate() == rhs.getShipDate())) &&
+    
+    
+    ((!stringWithAttemptedInjectionIsSet() && !rhs.stringWithAttemptedInjectionIsSet()) || (stringWithAttemptedInjectionIsSet() && rhs.stringWithAttemptedInjectionIsSet() && getStringWithAttemptedInjection() == rhs.getStringWithAttemptedInjection())) &&
     
     
     ((!statusIsSet() && !rhs.statusIsSet()) || (statusIsSet() && rhs.statusIsSet() && getStatus() == rhs.getStatus())) &&
@@ -103,6 +108,8 @@ void to_json(nlohmann::json& j, const Order& o)
         j["quantity"] = o.m_Quantity;
     if(o.shipDateIsSet())
         j["shipDate"] = o.m_ShipDate;
+    if(o.stringWithAttemptedInjectionIsSet())
+        j["stringWithAttemptedInjection"] = o.m_StringWithAttemptedInjection;
     if(o.statusIsSet())
         j["status"] = o.m_Status;
     if(o.completeIsSet())
@@ -131,6 +138,11 @@ void from_json(const nlohmann::json& j, Order& o)
     {
         j.at("shipDate").get_to(o.m_ShipDate);
         o.m_ShipDateIsSet = true;
+    } 
+    if(j.find("stringWithAttemptedInjection") != j.end())
+    {
+        j.at("stringWithAttemptedInjection").get_to(o.m_StringWithAttemptedInjection);
+        o.m_StringWithAttemptedInjectionIsSet = true;
     } 
     if(j.find("status") != j.end())
     {
@@ -212,6 +224,23 @@ bool Order::shipDateIsSet() const
 void Order::unsetShipDate()
 {
     m_ShipDateIsSet = false;
+}
+std::string Order::getStringWithAttemptedInjection() const
+{
+    return m_StringWithAttemptedInjection;
+}
+void Order::setStringWithAttemptedInjection(std::string const& value)
+{
+    m_StringWithAttemptedInjection = value;
+    m_StringWithAttemptedInjectionIsSet = true;
+}
+bool Order::stringWithAttemptedInjectionIsSet() const
+{
+    return m_StringWithAttemptedInjectionIsSet;
+}
+void Order::unsetStringWithAttemptedInjection()
+{
+    m_StringWithAttemptedInjectionIsSet = false;
 }
 std::string Order::getStatus() const
 {

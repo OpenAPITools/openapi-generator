@@ -11,6 +11,7 @@ Name | Type
 `petId` | number
 `quantity` | number
 `shipDate` | Date
+`stringWithAttemptedInjection` | string
 `status` | string
 `complete` | boolean
 
@@ -25,6 +26,7 @@ const example = {
   "petId": null,
   "quantity": null,
   "shipDate": null,
+  "stringWithAttemptedInjection": ${attemptedStringInter}\backslash"""attemptToBreakOutOfMultiline,
   "status": null,
   "complete": null,
 } satisfies Order
