@@ -9,3 +9,4 @@ additionalProperties:
   useSwaggerUI: "false"
   interfaceOnly: "true"
   useSpringBoot3: "true"
+  enumUnknownDefaultCase: "true"

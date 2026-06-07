@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
@@ -11,6 +12,8 @@ import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -23,6 +26,8 @@ import org.openapitools.codegen.languages.features.DocumentationProviderFeatures
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.ModelMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -6735,12 +6740,12 @@ public class KotlinSpringServerCodegenTest {
         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) colorEnum.allowableValues.get("enumVars");
         Assert.assertNotNull(enumVars);
 
-        // Check that we have the expected enum values including UNKNOWN_DEFAULT_OPEN_API
+        // Check that we have the expected enum values
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'RED'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'GREEN'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'BLUE'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'YELLOW'".equals(var.get("value"))));
-        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'unknown_default_open_api'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'UNKNOWN_DEFAULT_OPEN_API'".equals(var.get("value"))));
     }
 
     @Test(description = "test enum generation with enumUnknownDefaultCase enabled")
@@ -6844,7 +6849,7 @@ public class KotlinSpringServerCodegenTest {
         }
 
         Assert.assertNotNull(colorResponse);
-        Assert.assertTrue(colorResponse.getHasEnums());
+        Assert.assertTrue(colorResponse.hasEnums);
 
         CodegenProperty colorVar = colorResponse.vars.stream()
                 .filter(var -> "color".equals(var.name))
@@ -6862,7 +6867,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'GREEN'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'BLUE'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'YELLOW'".equals(var.get("value"))));
-        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'unknown_default_open_api'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'UNKNOWN_DEFAULT_OPEN_API'".equals(var.get("value"))));
     }
 
     @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase enabled")
