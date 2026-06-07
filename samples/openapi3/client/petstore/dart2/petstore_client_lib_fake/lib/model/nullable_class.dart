@@ -54,33 +54,35 @@ class NullableClass {
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
     other.integerProp == integerProp &&
-    other.numberProp == numberProp &&
-    other.booleanProp == booleanProp &&
-    other.stringProp == stringProp &&
-    other.dateProp == dateProp &&
-    other.datetimeProp == datetimeProp &&
-    _deepEquality.equals(other.arrayNullableProp, arrayNullableProp) &&
-    _deepEquality.equals(other.arrayAndItemsNullableProp, arrayAndItemsNullableProp) &&
-    _deepEquality.equals(other.arrayItemsNullable, arrayItemsNullable) &&
-    _deepEquality.equals(other.objectNullableProp, objectNullableProp) &&
-    _deepEquality.equals(other.objectAndItemsNullableProp, objectAndItemsNullableProp) &&
-    _deepEquality.equals(other.objectItemsNullable, objectItemsNullable);
+      other.numberProp == numberProp &&
+      other.booleanProp == booleanProp &&
+      other.stringProp == stringProp &&
+      other.dateProp == dateProp &&
+      other.datetimeProp == datetimeProp &&
+      _deepEquality.equals(other.arrayNullableProp, arrayNullableProp) &&
+      _deepEquality.equals(other.arrayAndItemsNullableProp, arrayAndItemsNullableProp) &&
+      _deepEquality.equals(other.arrayItemsNullable, arrayItemsNullable) &&
+      _deepEquality.equals(other.objectNullableProp, objectNullableProp) &&
+      _deepEquality.equals(other.objectAndItemsNullableProp, objectAndItemsNullableProp) &&
+      _deepEquality.equals(other.objectItemsNullable, objectItemsNullable);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (integerProp == null ? 0 : integerProp!.hashCode) +
-    (numberProp == null ? 0 : numberProp!.hashCode) +
-    (booleanProp == null ? 0 : booleanProp!.hashCode) +
-    (stringProp == null ? 0 : stringProp!.hashCode) +
-    (dateProp == null ? 0 : dateProp!.hashCode) +
-    (datetimeProp == null ? 0 : datetimeProp!.hashCode) +
-    (arrayNullableProp == null ? 0 : arrayNullableProp!.hashCode) +
-    (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp!.hashCode) +
-    (arrayItemsNullable.hashCode) +
-    (objectNullableProp == null ? 0 : objectNullableProp!.hashCode) +
-    (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp!.hashCode) +
-    (objectItemsNullable.hashCode);
+      (numberProp == null ? 0 : numberProp!.hashCode) +
+      (booleanProp == null ? 0 : booleanProp!.hashCode) +
+      (stringProp == null ? 0 : stringProp!.hashCode) +
+      (dateProp == null ? 0 : dateProp!.hashCode) +
+      (datetimeProp == null ? 0 : datetimeProp!.hashCode) +
+      (arrayNullableProp == null ? 0 : arrayNullableProp!.hashCode) +
+      (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp!.hashCode) +
+      (arrayItemsNullable.hashCode) +
+      (objectNullableProp == null ? 0 : objectNullableProp!.hashCode) +
+      (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp!.hashCode) +
+      (objectItemsNullable.hashCode);
+  
 
   @override
   String toString() => 'NullableClass[integerProp=$integerProp, numberProp=$numberProp, booleanProp=$booleanProp, stringProp=$stringProp, dateProp=$dateProp, datetimeProp=$datetimeProp, arrayNullableProp=$arrayNullableProp, arrayAndItemsNullableProp=$arrayAndItemsNullableProp, arrayItemsNullable=$arrayItemsNullable, objectNullableProp=$objectNullableProp, objectAndItemsNullableProp=$objectAndItemsNullableProp, objectItemsNullable=$objectItemsNullable]';

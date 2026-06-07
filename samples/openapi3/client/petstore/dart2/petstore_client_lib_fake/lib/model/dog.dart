@@ -33,15 +33,17 @@ class Dog {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Dog &&
     other.className == className &&
-    other.color == color &&
-    other.breed == breed;
+      other.color == color &&
+      other.breed == breed;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (className.hashCode) +
-    (color.hashCode) +
-    (breed == null ? 0 : breed!.hashCode);
+      (color.hashCode) +
+      (breed == null ? 0 : breed!.hashCode);
+  
 
   @override
   String toString() => 'Dog[className=$className, color=$color, breed=$breed]';

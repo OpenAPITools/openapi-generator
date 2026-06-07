@@ -39,15 +39,17 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
     other.uuid == uuid &&
-    other.dateTime == dateTime &&
-    _deepEquality.equals(other.map, map);
+      other.dateTime == dateTime &&
+      _deepEquality.equals(other.map, map);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (uuid == null ? 0 : uuid!.hashCode) +
-    (dateTime == null ? 0 : dateTime!.hashCode) +
-    (map.hashCode);
+      (dateTime == null ? 0 : dateTime!.hashCode) +
+      (map.hashCode);
+  
 
   @override
   String toString() => 'MixedPropertiesAndAdditionalPropertiesClass[uuid=$uuid, dateTime=$dateTime, map=$map]';

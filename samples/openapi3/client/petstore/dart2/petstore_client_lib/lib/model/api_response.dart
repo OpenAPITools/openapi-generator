@@ -45,15 +45,17 @@ class ApiResponse {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
     other.code == code &&
-    other.type == type &&
-    other.message == message;
+      other.type == type &&
+      other.message == message;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (code == null ? 0 : code!.hashCode) +
-    (type == null ? 0 : type!.hashCode) +
-    (message == null ? 0 : message!.hashCode);
+      (type == null ? 0 : type!.hashCode) +
+      (message == null ? 0 : message!.hashCode);
+  
 
   @override
   String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';

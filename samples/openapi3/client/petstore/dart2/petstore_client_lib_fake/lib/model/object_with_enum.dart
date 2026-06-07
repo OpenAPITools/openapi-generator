@@ -21,11 +21,13 @@ class ObjectWithEnum {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithEnum &&
     other.attribute == attribute;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (attribute.hashCode);
+  
 
   @override
   String toString() => 'ObjectWithEnum[attribute=$attribute]';

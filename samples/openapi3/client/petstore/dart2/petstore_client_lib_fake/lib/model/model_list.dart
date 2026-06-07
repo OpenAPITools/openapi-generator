@@ -27,11 +27,13 @@ class ModelList {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelList &&
     other.n123list == n123list;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (n123list == null ? 0 : n123list!.hashCode);
+  
 
   @override
   String toString() => 'ModelList[n123list=$n123list]';

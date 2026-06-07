@@ -27,11 +27,13 @@ class NumberOnly {
   @override
   bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
     other.justNumber == justNumber;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (justNumber == null ? 0 : justNumber!.hashCode);
+  
 
   @override
   String toString() => 'NumberOnly[justNumber=$justNumber]';

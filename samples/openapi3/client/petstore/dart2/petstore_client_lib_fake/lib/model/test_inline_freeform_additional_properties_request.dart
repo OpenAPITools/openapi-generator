@@ -27,11 +27,13 @@ class TestInlineFreeformAdditionalPropertiesRequest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is TestInlineFreeformAdditionalPropertiesRequest &&
     other.someProperty == someProperty;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (someProperty == null ? 0 : someProperty!.hashCode);
+  
 
   @override
   String toString() => 'TestInlineFreeformAdditionalPropertiesRequest[someProperty=$someProperty]';

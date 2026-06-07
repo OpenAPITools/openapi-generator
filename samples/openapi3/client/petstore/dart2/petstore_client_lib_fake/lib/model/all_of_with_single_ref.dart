@@ -36,13 +36,15 @@ class AllOfWithSingleRef {
   @override
   bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
     other.username == username &&
-    other.singleRefType == singleRefType;
+      other.singleRefType == singleRefType;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (username == null ? 0 : username!.hashCode) +
-    (singleRefType == null ? 0 : singleRefType!.hashCode);
+      (singleRefType == null ? 0 : singleRefType!.hashCode);
+  
 
   @override
   String toString() => 'AllOfWithSingleRef[username=$username, singleRefType=$singleRefType]';

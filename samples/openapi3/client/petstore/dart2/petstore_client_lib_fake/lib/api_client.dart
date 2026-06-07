@@ -281,6 +281,14 @@ class ApiClient {
           return ParentWithNullable.fromJson(value);
         case 'Pet':
           return Pet.fromJson(value);
+        case 'PetEmptyMetadata':
+          return PetEmptyMetadata.fromJson(value);
+        case 'PetReactionResponse':
+          return PetReactionResponse.fromJson(value);
+        case 'PetReactionStatus':
+          return PetReactionStatusTypeTransformer().decode(value);
+        case 'PetReactionsResponse':
+          return PetReactionsResponse.fromJson(value);
         case 'ReadOnlyFirst':
           return ReadOnlyFirst.fromJson(value);
         case 'SingleRefType':

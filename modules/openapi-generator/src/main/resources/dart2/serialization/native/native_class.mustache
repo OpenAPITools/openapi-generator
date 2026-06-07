@@ -47,17 +47,17 @@ class {{{classname}}} {
 
 {{/vars}}
   @override
-  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}}{{#hasVars}} &&
   {{#vars}}
     {{#isMap}}_deepEquality.equals(other.{{{name}}}, {{{name}}}){{/isMap}}{{^isMap}}{{#isArray}}_deepEquality.equals(other.{{{name}}}, {{{name}}}){{/isArray}}{{^isArray}}other.{{{name}}} == {{{name}}}{{/isArray}}{{/isMap}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
+  {{/vars}}{{/hasVars}}{{^hasVars}};{{/hasVars}}
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
   {{#vars}}
     ({{#isNullable}}{{{name}}} == null ? 0 : {{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}{{{name}}} == null ? 0 : {{/defaultValue}}{{/required}}{{/isNullable}}{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
+  {{/vars}}{{^hasVars}}    0;{{/hasVars}}
 
   @override
   String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
@@ -228,7 +228,7 @@ class {{{classname}}} {
         {{{name}}}: {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
                   {{/items.complexType}}
                   {{^items.complexType}}
-        {{{name}}}: mapCastOfType<String, dynamic>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: (json[r'{{{baseName}}}'] as Map?)?.map((k, v) => MapEntry(k as String, (v as Map).cast<String, {{items.items.dataType}}>())){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                   {{/items.complexType}}
                 {{/items.isMap}}
                 {{^items.isMap}}

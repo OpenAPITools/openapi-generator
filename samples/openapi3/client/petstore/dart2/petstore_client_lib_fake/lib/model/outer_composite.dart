@@ -45,15 +45,17 @@ class OuterComposite {
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
     other.myNumber == myNumber &&
-    other.myString == myString &&
-    other.myBoolean == myBoolean;
+      other.myString == myString &&
+      other.myBoolean == myBoolean;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (myNumber == null ? 0 : myNumber!.hashCode) +
-    (myString == null ? 0 : myString!.hashCode) +
-    (myBoolean == null ? 0 : myBoolean!.hashCode);
+      (myString == null ? 0 : myString!.hashCode) +
+      (myBoolean == null ? 0 : myBoolean!.hashCode);
+  
 
   @override
   String toString() => 'OuterComposite[myNumber=$myNumber, myString=$myString, myBoolean=$myBoolean]';

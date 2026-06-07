@@ -22,11 +22,13 @@ class ObjectWithInlineEnumDefaultValue {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithInlineEnumDefaultValue &&
     other.attribute == attribute;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (attribute.hashCode);
+  
 
   @override
   String toString() => 'ObjectWithInlineEnumDefaultValue[attribute=$attribute]';

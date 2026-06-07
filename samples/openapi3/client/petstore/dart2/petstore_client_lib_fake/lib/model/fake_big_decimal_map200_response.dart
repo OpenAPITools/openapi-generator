@@ -30,13 +30,15 @@ class FakeBigDecimalMap200Response {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FakeBigDecimalMap200Response &&
     other.someId == someId &&
-    _deepEquality.equals(other.someMap, someMap);
+      _deepEquality.equals(other.someMap, someMap);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (someId == null ? 0 : someId!.hashCode) +
-    (someMap.hashCode);
+      (someMap.hashCode);
+  
 
   @override
   String toString() => 'FakeBigDecimalMap200Response[someId=$someId, someMap=$someMap]';

@@ -60,25 +60,27 @@ class EnumTest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
     other.enumString == enumString &&
-    other.enumStringRequired == enumStringRequired &&
-    other.enumInteger == enumInteger &&
-    other.enumNumber == enumNumber &&
-    other.outerEnum == outerEnum &&
-    other.outerEnumInteger == outerEnumInteger &&
-    other.outerEnumDefaultValue == outerEnumDefaultValue &&
-    other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
+      other.enumStringRequired == enumStringRequired &&
+      other.enumInteger == enumInteger &&
+      other.enumNumber == enumNumber &&
+      other.outerEnum == outerEnum &&
+      other.outerEnumInteger == outerEnumInteger &&
+      other.outerEnumDefaultValue == outerEnumDefaultValue &&
+      other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (enumString == null ? 0 : enumString!.hashCode) +
-    (enumStringRequired.hashCode) +
-    (enumInteger == null ? 0 : enumInteger!.hashCode) +
-    (enumNumber == null ? 0 : enumNumber!.hashCode) +
-    (outerEnum == null ? 0 : outerEnum!.hashCode) +
-    (outerEnumInteger == null ? 0 : outerEnumInteger!.hashCode) +
-    (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue!.hashCode) +
-    (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue!.hashCode);
+      (enumStringRequired.hashCode) +
+      (enumInteger == null ? 0 : enumInteger!.hashCode) +
+      (enumNumber == null ? 0 : enumNumber!.hashCode) +
+      (outerEnum == null ? 0 : outerEnum!.hashCode) +
+      (outerEnumInteger == null ? 0 : outerEnumInteger!.hashCode) +
+      (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue!.hashCode) +
+      (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue!.hashCode);
+  
 
   @override
   String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';

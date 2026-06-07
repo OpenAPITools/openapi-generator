@@ -21,11 +21,13 @@ class HealthCheckResult {
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
     other.nullableMessage == nullableMessage;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (nullableMessage == null ? 0 : nullableMessage!.hashCode);
+  
 
   @override
   String toString() => 'HealthCheckResult[nullableMessage=$nullableMessage]';

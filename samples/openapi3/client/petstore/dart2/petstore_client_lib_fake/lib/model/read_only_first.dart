@@ -36,13 +36,15 @@ class ReadOnlyFirst {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
     other.bar == bar &&
-    other.baz == baz;
+      other.baz == baz;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (bar == null ? 0 : bar!.hashCode) +
-    (baz == null ? 0 : baz!.hashCode);
+      (baz == null ? 0 : baz!.hashCode);
+  
 
   @override
   String toString() => 'ReadOnlyFirst[bar=$bar, baz=$baz]';

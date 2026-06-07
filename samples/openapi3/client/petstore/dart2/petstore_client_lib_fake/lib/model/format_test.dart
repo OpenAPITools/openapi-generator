@@ -150,41 +150,43 @@ class FormatTest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
     other.integer == integer &&
-    other.int32 == int32 &&
-    other.int64 == int64 &&
-    other.number == number &&
-    other.float == float &&
-    other.double_ == double_ &&
-    other.decimal == decimal &&
-    other.string == string &&
-    other.byte == byte &&
-    other.binary == binary &&
-    other.date == date &&
-    other.dateTime == dateTime &&
-    other.uuid == uuid &&
-    other.password == password &&
-    other.patternWithDigits == patternWithDigits &&
-    other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
+      other.int32 == int32 &&
+      other.int64 == int64 &&
+      other.number == number &&
+      other.float == float &&
+      other.double_ == double_ &&
+      other.decimal == decimal &&
+      other.string == string &&
+      other.byte == byte &&
+      other.binary == binary &&
+      other.date == date &&
+      other.dateTime == dateTime &&
+      other.uuid == uuid &&
+      other.password == password &&
+      other.patternWithDigits == patternWithDigits &&
+      other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (integer == null ? 0 : integer!.hashCode) +
-    (int32 == null ? 0 : int32!.hashCode) +
-    (int64 == null ? 0 : int64!.hashCode) +
-    (number.hashCode) +
-    (float == null ? 0 : float!.hashCode) +
-    (double_ == null ? 0 : double_!.hashCode) +
-    (decimal == null ? 0 : decimal!.hashCode) +
-    (string == null ? 0 : string!.hashCode) +
-    (byte.hashCode) +
-    (binary == null ? 0 : binary!.hashCode) +
-    (date.hashCode) +
-    (dateTime == null ? 0 : dateTime!.hashCode) +
-    (uuid == null ? 0 : uuid!.hashCode) +
-    (password.hashCode) +
-    (patternWithDigits == null ? 0 : patternWithDigits!.hashCode) +
-    (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter!.hashCode);
+      (int32 == null ? 0 : int32!.hashCode) +
+      (int64 == null ? 0 : int64!.hashCode) +
+      (number.hashCode) +
+      (float == null ? 0 : float!.hashCode) +
+      (double_ == null ? 0 : double_!.hashCode) +
+      (decimal == null ? 0 : decimal!.hashCode) +
+      (string == null ? 0 : string!.hashCode) +
+      (byte.hashCode) +
+      (binary == null ? 0 : binary!.hashCode) +
+      (date.hashCode) +
+      (dateTime == null ? 0 : dateTime!.hashCode) +
+      (uuid == null ? 0 : uuid!.hashCode) +
+      (password.hashCode) +
+      (patternWithDigits == null ? 0 : patternWithDigits!.hashCode) +
+      (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter!.hashCode);
+  
 
   @override
   String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';

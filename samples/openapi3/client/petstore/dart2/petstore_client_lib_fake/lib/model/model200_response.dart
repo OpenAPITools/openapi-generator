@@ -36,13 +36,15 @@ class Model200Response {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
     other.name == name &&
-    other.class_ == class_;
+      other.class_ == class_;
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (name == null ? 0 : name!.hashCode) +
-    (class_ == null ? 0 : class_!.hashCode);
+      (class_ == null ? 0 : class_!.hashCode);
+  
 
   @override
   String toString() => 'Model200Response[name=$name, class_=$class_]';

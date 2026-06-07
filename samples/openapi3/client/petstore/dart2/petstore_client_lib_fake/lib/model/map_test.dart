@@ -30,17 +30,19 @@ class MapTest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
     _deepEquality.equals(other.mapMapOfString, mapMapOfString) &&
-    _deepEquality.equals(other.mapOfEnumString, mapOfEnumString) &&
-    _deepEquality.equals(other.directMap, directMap) &&
-    _deepEquality.equals(other.indirectMap, indirectMap);
+      _deepEquality.equals(other.mapOfEnumString, mapOfEnumString) &&
+      _deepEquality.equals(other.directMap, directMap) &&
+      _deepEquality.equals(other.indirectMap, indirectMap);
+  
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (mapMapOfString.hashCode) +
-    (mapOfEnumString.hashCode) +
-    (directMap.hashCode) +
-    (indirectMap.hashCode);
+      (mapOfEnumString.hashCode) +
+      (directMap.hashCode) +
+      (indirectMap.hashCode);
+  
 
   @override
   String toString() => 'MapTest[mapMapOfString=$mapMapOfString, mapOfEnumString=$mapOfEnumString, directMap=$directMap, indirectMap=$indirectMap]';
@@ -69,7 +71,7 @@ class MapTest {
       }());
 
       return MapTest(
-        mapMapOfString: mapCastOfType<String, dynamic>(json, r'map_map_of_string') ?? const {},
+        mapMapOfString: (json[r'map_map_of_string'] as Map?)?.map((k, v) => MapEntry(k as String, (v as Map).cast<String, String>())) ?? const {},
         mapOfEnumString: mapCastOfType<String, String>(json, r'map_of_enum_string') ?? const {},
         directMap: mapCastOfType<String, bool>(json, r'direct_map') ?? const {},
         indirectMap: mapCastOfType<String, bool>(json, r'indirect_map') ?? const {},
