@@ -2090,6 +2090,14 @@ components:
             enum:
               - fish
               - crab
+        array_enum_nullable:
+          type: array
+          nullable: true
+          items:
+            type: string
+            enum:
+              - fish
+              - crab
     FreeFormObject:
       type: object
       description: A schema consisting only of additional properties
