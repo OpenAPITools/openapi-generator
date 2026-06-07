@@ -27,7 +27,6 @@ jobs:
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
             samples/client/petstore/java/jersey3
-            80:8080
 
   build:
     name: Build Java Client JDK17
@@ -37,6 +36,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
       - name: Add hosts to /etc/hosts

@@ -7,14 +7,12 @@ on:
       - samples/client/petstore/csharp/generichost/standard2.0/**
       - samples/client/petstore/csharp/httpclient/standard2.0/**
       - samples/client/petstore/csharp/restsharp/standard2.0/**
-      - samples/client/petstore/csharp/unityWebRequest/standard2.0/**
   pull_request:
     # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - samples/client/petstore/csharp/generichost/standard2.0/**
       - samples/client/petstore/csharp/httpclient/standard2.0/**
       - samples/client/petstore/csharp/restsharp/standard2.0/**
-      - samples/client/petstore/csharp/unityWebRequest/standard2.0/**
 jobs:
   setup:
     runs-on: ubuntu-latest

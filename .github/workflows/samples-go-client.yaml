@@ -35,8 +35,8 @@ jobs:
           # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
-            'samples/openapi3/client/petstore/go/go-petstore-aws-signature/'
-            'samples/openapi3/client/petstore/go-petstore-withXml/'
+            samples/openapi3/client/petstore/go/go-petstore-aws-signature
+            samples/openapi3/client/petstore/go-petstore-withXml
             samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false/
             samples/client/others/go/allof_multiple_ref_and_discriminator/
             samples/client/others/go/oneof-anyof-required/

@@ -5,12 +5,10 @@ on:
     # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - "samples/server/petstore/cpp-httplib-server/**"
-      - ".github/workflows/samples-cpp-httplib-server.yaml"
   pull_request:
     # Determines whether this workflow fires at all. Keep in sync with all_samples: in the setup job below.
     paths:
       - "samples/server/petstore/cpp-httplib-server/**"
-      - ".github/workflows/samples-cpp-httplib-server.yaml"
 
 env:
   GRADLE_VERSION: 6.9
