@@ -16,13 +16,13 @@ outputs:
   matrix:
     description: >
       Use this for single-dimension sample matrices.
-      JSON object {"sample":["path/a","path/b"]} ready for: matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      JSON object {"sample":["path/a","path/b"]} - assign directly to the matrix: key using fromJson().
       Returns the string "[]" when no samples changed (use in an if: guard to skip the job).
     value: ${{ steps.filter.outputs.matrix }}
   samples:
     description: >
       Use this for multi-dimensional matrices (e.g. os + sample, php-version + sample).
-      Plain JSON array ["path/a","path/b"] to assign to the sample: dimension only.
+      Plain JSON array ["path/a","path/b"] - assign to the sample: dimension only using fromJson().
       Returns the string "[]" when no samples changed (use in an if: guard to skip the job).
     value: ${{ steps.filter.outputs.samples }}
 
