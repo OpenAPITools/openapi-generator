@@ -10,7 +10,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.filter.outputs.matrix }}
+      samples: ${{ steps.filter.outputs.samples }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -23,18 +23,20 @@ jobs:
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
             samples/client/echo_api/typescript-axios/test
-            16
-            18
-            20
 
   build:
     name: Test TypeScript Axios client
     needs: setup
-    if: ${{ needs.setup.outputs.matrix != '[]' }}
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      matrix:
+        node-version:
+          - 16
+          - 18
+          - 20
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     steps:
       - uses: actions/checkout@v5
 
