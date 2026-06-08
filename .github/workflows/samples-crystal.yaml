@@ -25,8 +25,7 @@ jobs:
           # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
-            samples/client/petstore/crystal/
-            80:8080
+            samples/client/petstore/crystal
 
   build:
     name: Build Crystal projects
@@ -36,6 +35,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
       - name: Install Crystal

@@ -36,12 +36,12 @@ jobs:
           # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
-            'samples/client/petstore/ocaml/'
-            'samples/client/petstore/ocaml-fake-petstore/'
-            'samples/client/petstore/ocaml-oneOf-primitive/'
-            'samples/client/petstore/ocaml-additional-properties/'
-            'samples/client/petstore/ocaml-enum-in-composed-schema/'
-            'samples/client/petstore/ocaml-recursion-test/'
+            samples/client/petstore/ocaml
+            samples/client/petstore/ocaml-fake-petstore
+            samples/client/petstore/ocaml-oneOf-primitive
+            samples/client/petstore/ocaml-additional-properties
+            samples/client/petstore/ocaml-enum-in-composed-schema
+            samples/client/petstore/ocaml-recursion-test
 
   build:
     name: Build OCaml

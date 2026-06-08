@@ -11,7 +11,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.filter.outputs.matrix }}
+      samples: ${{ steps.filter.outputs.samples }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -23,21 +23,23 @@ jobs:
           # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
-            samples/client/echo_api/python-pydantic-v1/
-            "3.8"
-            "3.9"
-            "3.10"
-            "3.11"
-            "3.12"
+            samples/client/echo_api/python-pydantic-v1
 
   build:
     name: Test Python client
     needs: setup
-    if: ${{ needs.setup.outputs.matrix != '[]' }}
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      matrix:
+        python-version:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

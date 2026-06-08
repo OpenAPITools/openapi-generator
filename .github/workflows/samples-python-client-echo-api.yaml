@@ -11,7 +11,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.filter.outputs.matrix }}
+      samples: ${{ steps.filter.outputs.samples }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -25,20 +25,22 @@ jobs:
           all_samples: |
             samples/client/echo_api/python
             samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent
-            "3.10"
-            "3.11"
-            "3.12"
-            "3.13"
-            "3.14"
 
   build:
     name: Test Python client
     needs: setup
-    if: ${{ needs.setup.outputs.matrix != '[]' }}
+    if: ${{ needs.setup.outputs.samples != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+          - "3.14"
+        sample: ${{ fromJson(needs.setup.outputs.samples) }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

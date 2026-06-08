@@ -50,7 +50,6 @@ jobs:
             samples/client/petstore/scala-sttp-circe
             samples/client/petstore/scala-sttp4
             samples/client/petstore/scala-sttp4-circe
-            80:8080
 
   build:
     name: Build sbt/Scala
@@ -60,6 +59,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
       - name: Add hosts to /etc/hosts

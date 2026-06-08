@@ -28,9 +28,9 @@ jobs:
           # Action inputs don't support arrays, so this is a newline-delimited string parsed in the action script.
           # To add a new sample: add it here AND add a matching entry to the paths: trigger above.
           all_samples: |
-            'samples/config/petstore/protobuf-schema/'
-            'samples/config/petstore/protobuf-schema-config/'
-            'samples/config/petstore/protobuf-schema-config-complex/'
+            samples/config/petstore/protobuf-schema
+            samples/config/petstore/protobuf-schema-config
+            samples/config/petstore/protobuf-schema-config-complex
 
   build:
     name: Build Protobuf Client
