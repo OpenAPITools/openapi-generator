@@ -6729,4 +6729,28 @@ public class KotlinSpringServerCodegenTest {
         Path serviceFile = Paths.get(output + "/src/main/kotlin/org/openapitools/api/ItemsApiService.kt");
         assertFileContains(serviceFile, "*_/");
     }
+
+    @Test(description = "Discriminator interface property examples are escaped in generated interface annotations")
+    public void discriminatorInterfaceExamplesAreEscaped() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/cve-example-injection-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path animalFile = Paths.get(output + "/src/main/kotlin/org/openapitools/model/Animal.kt");
+
+        assertFileContains(
+                animalFile,
+                "@get:Schema(example = \"CAT\\\"@GetMapping(\\\"/pwn\\\")\", requiredMode = Schema.RequiredMode.REQUIRED",
+                "@get:Schema(example = \"nick\\\"@GetMapping(\\\"/opt\\\")\", description = \"\")"
+        );
+        assertFileNotContains(animalFile, "@GetMapping(\"/pwn\")", "@GetMapping(\"/opt\")");
+    }
 }
