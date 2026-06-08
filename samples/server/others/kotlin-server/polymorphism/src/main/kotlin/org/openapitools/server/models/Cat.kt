@@ -16,6 +16,7 @@ package org.openapitools.server.models
  * A pet cat
  * @param huntingSkill The measured skill for hunting
  * @param petType 
+ * @param name 
  */
 data class Cat(
     /* The measured skill for hunting */

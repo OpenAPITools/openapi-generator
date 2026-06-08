@@ -325,7 +325,7 @@ public class KotlinServerCodegenTest {
     // ==================== Polymorphism and Discriminator Tests ====================
 
     @Test
-    public void oneOfWithDiscriminator_generatesSealedClassWithDiscriminatorProperty() throws IOException {
+    public void oneOfWithDiscriminator_generatesSealedInterfaceWithDiscriminatorProperty() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -341,20 +341,20 @@ public class KotlinServerCodegenTest {
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
 
-        // Pet should be a sealed class with Jackson polymorphism annotations and discriminator property
+        // Pet should be a sealed interface with Jackson polymorphism annotations and discriminator property
         assertFileContains(
                 petModel,
-                "sealed class Pet(",
-                "open val petType: kotlin.String",
+                "sealed interface Pet",
+                "val petType:",
                 "@com.fasterxml.jackson.annotation.JsonTypeInfo",
                 "property = \"petType\"",
-                "visible = true",
                 "@com.fasterxml.jackson.annotation.JsonSubTypes"
         );
+        assertFileNotContains(petModel, "sealed class", "typealias");
     }
 
     @Test
-    public void oneOfWithDiscriminator_generatesChildrenWithOverrideDiscriminatorProperty() throws IOException {
+    public void oneOfWithDiscriminator_generatesChildrenImplementingInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -369,35 +369,14 @@ public class KotlinServerCodegenTest {
 
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
 
-        // Cat should have petType as overridden non-nullable String with default value
+        // Cat and Dog should be data classes (not typealias)
         Path catModel = Paths.get(outputPath + "/models/Cat.kt");
-        assertFileContains(
-                catModel,
-                "data class Cat(",
-                "override val petType: kotlin.String = \"cat\"",
-                ") : Pet(petType = petType)"
-        );
-        // Should NOT be nullable
-        assertFileNotContains(
-                catModel,
-                "petType: kotlin.String?",
-                "petType: kotlin.Any"
-        );
+        assertFileContains(catModel, "data class Cat(");
+        assertFileNotContains(catModel, "typealias", "kotlin.Any");
 
-        // Dog should have petType as overridden non-nullable String with default value
         Path dogModel = Paths.get(outputPath + "/models/Dog.kt");
-        assertFileContains(
-                dogModel,
-                "data class Dog(",
-                "override val petType: kotlin.String = \"dog\"",
-                ") : Pet(petType = petType)"
-        );
-        // Should NOT be nullable
-        assertFileNotContains(
-                dogModel,
-                "petType: kotlin.String?",
-                "petType: kotlin.Any"
-        );
+        assertFileContains(dogModel, "data class Dog(");
+        assertFileNotContains(dogModel, "typealias", "kotlin.Any");
     }
 
     @Test
@@ -466,7 +445,7 @@ public class KotlinServerCodegenTest {
     }
 
     @Test
-    public void polymorphismWithoutDiscriminator_generatesRegularDataClass() throws IOException {
+    public void polymorphismWithoutDiscriminator_generatesSealedInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -482,14 +461,12 @@ public class KotlinServerCodegenTest {
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
 
-        // Without discriminator, Pet should be a regular data class (not sealed)
-        assertFileContains(
-                petModel,
-                "data class Pet("
-        );
+        // Without discriminator, Pet should be a sealed interface (oneOf) without Jackson annotations
+        assertFileContains(petModel, "sealed interface Pet");
         assertFileNotContains(
                 petModel,
                 "sealed class",
+                "typealias",
                 "@com.fasterxml.jackson.annotation.JsonTypeInfo",
                 "@com.fasterxml.jackson.annotation.JsonSubTypes"
         );
@@ -513,12 +490,9 @@ public class KotlinServerCodegenTest {
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
 
-        // When fixJacksonJsonTypeInfoInheritance is false and parent has no properties,
-        // visible should be false for oneOf pattern
-        assertFileContains(
-                petModel,
-                "visible = false"
-        );
+        // With useOneOfInterfaces, Pet is a sealed interface.
+        // When fixJacksonJsonTypeInfoInheritance is false, visible should be false.
+        assertFileContains(petModel, "sealed interface Pet", "visible = false");
     }
 
     // ==================== useTags for JAXRS-SPEC ====================
@@ -750,5 +724,37 @@ public class KotlinServerCodegenTest {
                 multipleOfModel,
                 "if (intVal % 2 != 0) {"
         );
+    }
+
+    @Test(description = "oneOf with discriminator generates sealed interface, not typealias")
+    public void testOneOfWithDiscriminatorGeneratesSealedInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/polymorphism-and-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server/models";
+
+        // Pet must be a sealed interface with Jackson annotations, not a typealias
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "sealed interface Pet",
+                "@com.fasterxml.jackson.annotation.JsonTypeInfo",
+                "property = \"petType\"",
+                "@com.fasterxml.jackson.annotation.JsonSubTypes"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Pet.kt"), "typealias", "kotlin.Any");
+
+        // Subtypes must extend the sealed interface
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+        assertFileNotContains(Paths.get(outputPath + "/Cat.kt"), "typealias", "kotlin.Any");
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "typealias", "kotlin.Any");
     }
 }
