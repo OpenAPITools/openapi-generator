@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -19,24 +20,42 @@ import jakarta.annotation.Generated;
  * UserDto
  */
 
+@JsonPropertyOrder({
+    UserDto.JSON_PROPERTY_ID,
+    UserDto.JSON_PROPERTY_USERNAME,
+    UserDto.JSON_PROPERTY_FIRST_NAME,
+    UserDto.JSON_PROPERTY_LAST_NAME,
+    UserDto.JSON_PROPERTY_EMAIL,
+    UserDto.JSON_PROPERTY_PASSWORD,
+    UserDto.JSON_PROPERTY_PHONE,
+    UserDto.JSON_PROPERTY_USER_STATUS
+})
 @JsonTypeName("User")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class UserDto {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_USERNAME = "username";
   private @Nullable String username;
 
+    public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   private @Nullable String firstName;
 
+    public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   private @Nullable String lastName;
 
+    public static final String JSON_PROPERTY_EMAIL = "email";
   private @Nullable String email;
 
+    public static final String JSON_PROPERTY_PASSWORD = "password";
   private @Nullable String password;
 
+    public static final String JSON_PROPERTY_PHONE = "phone";
   private @Nullable String phone;
 
+    public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private @Nullable Integer userStatus;
 
   public UserDto id(@Nullable Long id) {

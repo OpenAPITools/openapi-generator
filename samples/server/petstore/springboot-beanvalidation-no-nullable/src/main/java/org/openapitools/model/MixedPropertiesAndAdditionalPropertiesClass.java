@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,14 +25,22 @@ import jakarta.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
+@JsonPropertyOrder({
+    MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_UUID,
+    MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
+    MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
+    public static final String JSON_PROPERTY_UUID = "uuid";
   private @Nullable UUID uuid;
 
+    public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
+    public static final String JSON_PROPERTY_MAP = "map";
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(@Nullable UUID uuid) {

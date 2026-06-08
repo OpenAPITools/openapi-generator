@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,17 +25,30 @@ import jakarta.annotation.Generated;
  * A pet for sale in the pet store
  */
 
+@JsonPropertyOrder({
+    Pet.JSON_PROPERTY_ID,
+    Pet.JSON_PROPERTY_CATEGORY,
+    Pet.JSON_PROPERTY_NAME,
+    Pet.JSON_PROPERTY_PHOTO_URLS,
+    Pet.JSON_PROPERTY_TAGS,
+    Pet.JSON_PROPERTY_STATUS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Pet {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private Optional<Long> id = Optional.empty();
 
+    public static final String JSON_PROPERTY_CATEGORY = "category";
   private Optional<Category> category = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+    public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   private List<String> photoUrls = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_TAGS = "tags";
   private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
@@ -74,6 +88,7 @@ public class Pet {
     }
   }
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   @Deprecated
   private Optional<StatusEnum> status = Optional.empty();
 

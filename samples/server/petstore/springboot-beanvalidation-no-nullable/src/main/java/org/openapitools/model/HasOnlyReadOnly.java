@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -19,12 +20,18 @@ import jakarta.annotation.Generated;
  * HasOnlyReadOnly
  */
 
+@JsonPropertyOrder({
+    HasOnlyReadOnly.JSON_PROPERTY_BAR,
+    HasOnlyReadOnly.JSON_PROPERTY_FOO
+})
 @JsonTypeName("hasOnlyReadOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
+    public static final String JSON_PROPERTY_BAR = "bar";
   private @Nullable String bar;
 
+    public static final String JSON_PROPERTY_FOO = "foo";
   private @Nullable String foo;
 
   public HasOnlyReadOnly bar(@Nullable String bar) {

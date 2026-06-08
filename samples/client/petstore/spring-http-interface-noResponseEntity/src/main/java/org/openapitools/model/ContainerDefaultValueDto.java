@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,16 +24,26 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValueDto
  */
 
+@JsonPropertyOrder({
+    ContainerDefaultValueDto.JSON_PROPERTY_NULLABLE_ARRAY,
+    ContainerDefaultValueDto.JSON_PROPERTY_NULLABLE_REQUIRED_ARRAY,
+    ContainerDefaultValueDto.JSON_PROPERTY_REQUIRED_ARRAY,
+    ContainerDefaultValueDto.JSON_PROPERTY_NULLABLE_ARRAY_WITH_DEFAULT
+})
 @JsonTypeName("ContainerDefaultValue")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
+    public static final String JSON_PROPERTY_NULLABLE_ARRAY = "nullable_array";
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
+    public static final String JSON_PROPERTY_NULLABLE_REQUIRED_ARRAY = "nullable_required_array";
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
+    public static final String JSON_PROPERTY_REQUIRED_ARRAY = "required_array";
   private List<String> requiredArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NULLABLE_ARRAY_WITH_DEFAULT = "nullable_array_with_default";
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValueDto() {

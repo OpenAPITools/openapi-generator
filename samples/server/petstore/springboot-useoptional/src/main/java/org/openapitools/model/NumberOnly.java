@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,9 +21,13 @@ import jakarta.annotation.Generated;
  * NumberOnly
  */
 
+@JsonPropertyOrder({
+    NumberOnly.JSON_PROPERTY_JUST_NUMBER
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class NumberOnly {
 
+    public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   private Optional<BigDecimal> justNumber = Optional.empty();
 
   public NumberOnly justNumber(BigDecimal justNumber) {

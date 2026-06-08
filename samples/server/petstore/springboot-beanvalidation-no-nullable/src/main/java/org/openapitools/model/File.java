@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -19,9 +20,13 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "File", description = "Must be named `File` for test.")
+@JsonPropertyOrder({
+    File.JSON_PROPERTY_SOURCE_U_R_I
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class File {
 
+    public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   private @Nullable String sourceURI;
 
   public File sourceURI(@Nullable String sourceURI) {

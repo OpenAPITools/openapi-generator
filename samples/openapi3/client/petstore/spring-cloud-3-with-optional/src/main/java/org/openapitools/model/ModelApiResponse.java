@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -19,14 +20,22 @@ import jakarta.annotation.Generated;
  * Describes the result of uploading an image resource
  */
 
+@JsonPropertyOrder({
+    ModelApiResponse.JSON_PROPERTY_CODE,
+    ModelApiResponse.JSON_PROPERTY_TYPE,
+    ModelApiResponse.JSON_PROPERTY_MESSAGE
+})
 @JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ModelApiResponse {
 
+    public static final String JSON_PROPERTY_CODE = "code";
   private Optional<Integer> code = Optional.empty();
 
+    public static final String JSON_PROPERTY_TYPE = "type";
   private Optional<String> type = Optional.empty();
 
+    public static final String JSON_PROPERTY_MESSAGE = "message";
   private Optional<String> message = Optional.empty();
 
   public ModelApiResponse code(Integer code) {

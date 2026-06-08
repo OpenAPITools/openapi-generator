@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -19,13 +20,21 @@ import jakarta.annotation.Generated;
  * Extensible
  */
 
+@JsonPropertyOrder({
+    Extensible.JSON_PROPERTY_AT_SCHEMA_LOCATION,
+    Extensible.JSON_PROPERTY_AT_BASE_TYPE,
+    Extensible.JSON_PROPERTY_AT_TYPE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public final class Extensible {
 
+    public static final String JSON_PROPERTY_AT_SCHEMA_LOCATION = "@schemaLocation";
   private @Nullable String atSchemaLocation;
 
+    public static final String JSON_PROPERTY_AT_BASE_TYPE = "@baseType";
   private @Nullable String atBaseType;
 
+    public static final String JSON_PROPERTY_AT_TYPE = "@type";
   private String atType;
 
   public Extensible() {

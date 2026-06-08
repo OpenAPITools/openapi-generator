@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -19,17 +20,27 @@ import jakarta.annotation.Generated;
  * Shared pagination metadata schema
  */
 
+@JsonPropertyOrder({
+    PageMeta.JSON_PROPERTY_SIZE,
+    PageMeta.JSON_PROPERTY_NUMBER,
+    PageMeta.JSON_PROPERTY_TOTAL_ELEMENTS,
+    PageMeta.JSON_PROPERTY_TOTAL_PAGES
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class PageMeta implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+    public static final String JSON_PROPERTY_SIZE = "size";
   private Long size;
 
+    public static final String JSON_PROPERTY_NUMBER = "number";
   private Long number;
 
+    public static final String JSON_PROPERTY_TOTAL_ELEMENTS = "totalElements";
   private Long totalElements;
 
+    public static final String JSON_PROPERTY_TOTAL_PAGES = "totalPages";
   private Long totalPages;
 
   public PageMeta() {

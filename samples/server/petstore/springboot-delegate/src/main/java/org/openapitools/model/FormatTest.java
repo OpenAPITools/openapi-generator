@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,38 +27,68 @@ import jakarta.annotation.Generated;
  * FormatTest
  */
 
+@JsonPropertyOrder({
+    FormatTest.JSON_PROPERTY_INTEGER,
+    FormatTest.JSON_PROPERTY_INT32,
+    FormatTest.JSON_PROPERTY_INT64,
+    FormatTest.JSON_PROPERTY_NUMBER,
+    FormatTest.JSON_PROPERTY_FLOAT,
+    FormatTest.JSON_PROPERTY_DOUBLE,
+    FormatTest.JSON_PROPERTY_STRING,
+    FormatTest.JSON_PROPERTY_BYTE,
+    FormatTest.JSON_PROPERTY_BINARY,
+    FormatTest.JSON_PROPERTY_DATE,
+    FormatTest.JSON_PROPERTY_DATE_TIME,
+    FormatTest.JSON_PROPERTY_UUID,
+    FormatTest.JSON_PROPERTY_PASSWORD,
+    FormatTest.JSON_PROPERTY_BIG_DECIMAL
+})
 @JsonTypeName("format_test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FormatTest {
 
+    public static final String JSON_PROPERTY_INTEGER = "integer";
   private @Nullable Integer integer;
 
+    public static final String JSON_PROPERTY_INT32 = "int32";
   private @Nullable Integer int32;
 
+    public static final String JSON_PROPERTY_INT64 = "int64";
   private @Nullable Long int64;
 
+    public static final String JSON_PROPERTY_NUMBER = "number";
   private BigDecimal number;
 
+    public static final String JSON_PROPERTY_FLOAT = "float";
   private @Nullable Float _float;
 
+    public static final String JSON_PROPERTY_DOUBLE = "double";
   private @Nullable Double _double;
 
+    public static final String JSON_PROPERTY_STRING = "string";
   private @Nullable String string;
 
+    public static final String JSON_PROPERTY_BYTE = "byte";
   private byte[] _byte;
 
+    public static final String JSON_PROPERTY_BINARY = "binary";
   private @Nullable org.springframework.core.io.Resource binary;
 
+    public static final String JSON_PROPERTY_DATE = "date";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
+    public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
+    public static final String JSON_PROPERTY_UUID = "uuid";
   private @Nullable UUID uuid;
 
+    public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
+    public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
   private @Nullable BigDecimal bigDecimal;
 
   public FormatTest() {

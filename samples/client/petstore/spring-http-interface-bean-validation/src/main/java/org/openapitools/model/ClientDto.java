@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -19,10 +20,14 @@ import jakarta.annotation.Generated;
  * ClientDto
  */
 
+@JsonPropertyOrder({
+    ClientDto.JSON_PROPERTY_CLIENT
+})
 @JsonTypeName("Client")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ClientDto {
 
+    public static final String JSON_PROPERTY_CLIENT = "client";
   private @Nullable String client;
 
   public ClientDto client(@Nullable String client) {

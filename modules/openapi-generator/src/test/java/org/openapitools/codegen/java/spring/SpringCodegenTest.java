@@ -3364,6 +3364,51 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testJsonPropertyOrderAnnotationGeneratedForSpring_issue23933() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_BOOT);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .hasImports("com.fasterxml.jackson.annotation.JsonPropertyOrder")
+                .assertTypeAnnotations()
+                .containsWithName("JsonPropertyOrder");
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("public static final String JSON_PROPERTY_ID")
+                .fileContains("public static final String JSON_PROPERTY_NAME")
+                .fileContains("public static final String JSON_PROPERTY_STATUS")
+                .fileContains("Pet.JSON_PROPERTY_ID")
+                .fileContains("Pet.JSON_PROPERTY_NAME")
+                .fileContains("Pet.JSON_PROPERTY_STATUS");
+
+        JavaFileAssert.assertThat(files.get("Order.java"))
+                .fileContains("public static final String JSON_PROPERTY_ID")
+                .fileContains("public static final String JSON_PROPERTY_STATUS");
+
+        String orderContent = java.nio.file.Files.readString(files.get("Order.java").toPath());
+        assertThat(orderContent).doesNotContainPattern("@JsonPropertyOrder\\s*\\([^{]*\\)\\s*public enum StatusEnum");
+    }
+
+    @Test
     public void testReturnTypeVoidWithResponseEntity_issue12341() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

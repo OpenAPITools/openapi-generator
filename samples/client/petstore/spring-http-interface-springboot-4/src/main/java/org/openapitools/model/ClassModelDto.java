@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -19,10 +20,14 @@ import jakarta.annotation.Generated;
  * Model for testing model with \&quot;_class\&quot; property
  */
 
+@JsonPropertyOrder({
+    ClassModelDto.JSON_PROPERTY_PROPERTY_CLASS
+})
 @JsonTypeName("ClassModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ClassModelDto {
 
+    public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   private @Nullable String propertyClass;
 
   public ClassModelDto propertyClass(@Nullable String propertyClass) {

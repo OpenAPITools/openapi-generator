@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Entity;
@@ -25,15 +26,25 @@ import jakarta.annotation.Generated;
  */
 
 
+@JsonPropertyOrder({
+    Bar.JSON_PROPERTY_ID,
+    Bar.JSON_PROPERTY_BAR_PROP_A,
+    Bar.JSON_PROPERTY_FOO_PROP_B,
+    Bar.JSON_PROPERTY_FOO
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public final class Bar extends Entity implements BarRefOrValue {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private String id;
 
+    public static final String JSON_PROPERTY_BAR_PROP_A = "barPropA";
   private @Nullable String barPropA;
 
+    public static final String JSON_PROPERTY_FOO_PROP_B = "fooPropB";
   private @Nullable String fooPropB;
 
+    public static final String JSON_PROPERTY_FOO = "foo";
   private @Nullable FooRefOrValue foo;
 
   public Bar() {

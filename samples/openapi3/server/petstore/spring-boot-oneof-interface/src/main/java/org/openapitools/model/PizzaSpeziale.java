@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.math.BigDecimal;
@@ -25,9 +26,13 @@ import jakarta.annotation.Generated;
  */
 
 
+@JsonPropertyOrder({
+    PizzaSpeziale.JSON_PROPERTY_TOPPINGS
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class PizzaSpeziale extends Pizza {
 
+    public static final String JSON_PROPERTY_TOPPINGS = "toppings";
   private @Nullable String toppings;
 
   public PizzaSpeziale() {

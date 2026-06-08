@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
@@ -23,16 +24,28 @@ import jakarta.annotation.Generated;
  * OrderDto
  */
 
+@JsonPropertyOrder({
+    OrderDto.JSON_PROPERTY_ID,
+    OrderDto.JSON_PROPERTY_PET_ID,
+    OrderDto.JSON_PROPERTY_QUANTITY,
+    OrderDto.JSON_PROPERTY_SHIP_DATE,
+    OrderDto.JSON_PROPERTY_STATUS,
+    OrderDto.JSON_PROPERTY_COMPLETE
+})
 @JsonTypeName("Order")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class OrderDto {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_PET_ID = "petId";
   private @Nullable Long petId;
 
+    public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private @Nullable Integer quantity;
 
+    public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime shipDate;
 
@@ -73,8 +86,10 @@ public class OrderDto {
     }
   }
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   private @Nullable StatusEnum status;
 
+    public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
   public OrderDto id(@Nullable Long id) {

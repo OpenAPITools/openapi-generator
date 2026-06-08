@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,15 +23,27 @@ import jakarta.annotation.Generated;
  * Order
  */
 
+@JsonPropertyOrder({
+    Order.JSON_PROPERTY_ID,
+    Order.JSON_PROPERTY_PET_ID,
+    Order.JSON_PROPERTY_QUANTITY,
+    Order.JSON_PROPERTY_SHIP_DATE,
+    Order.JSON_PROPERTY_STATUS,
+    Order.JSON_PROPERTY_COMPLETE
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class Order {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private Optional<Long> id = Optional.empty();
 
+    public static final String JSON_PROPERTY_PET_ID = "petId";
   private Optional<Long> petId = Optional.empty();
 
+    public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Optional<Integer> quantity = Optional.empty();
 
+    public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Optional<OffsetDateTime> shipDate = Optional.empty();
 
@@ -71,8 +84,10 @@ public class Order {
     }
   }
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   private Optional<StatusEnum> status = Optional.empty();
 
+    public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {

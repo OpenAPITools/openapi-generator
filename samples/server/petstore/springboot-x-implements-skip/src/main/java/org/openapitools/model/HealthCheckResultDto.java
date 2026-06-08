@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -24,10 +25,14 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "HealthCheckResult", description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
+@JsonPropertyOrder({
+    HealthCheckResultDto.JSON_PROPERTY_NULLABLE_MESSAGE
+})
 @JsonTypeName("HealthCheckResult")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class HealthCheckResultDto {
 
+    public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
   public HealthCheckResultDto nullableMessage(String nullableMessage) {

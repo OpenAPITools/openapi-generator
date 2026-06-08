@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -18,12 +19,18 @@ import jakarta.annotation.Generated;
  * TagDto
  */
 
+@JsonPropertyOrder({
+    TagDto.JSON_PROPERTY_ID,
+    TagDto.JSON_PROPERTY_NAME
+})
 @JsonTypeName("Tag")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class TagDto {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private @Nullable String name;
 
   public TagDto id(@Nullable Long id) {

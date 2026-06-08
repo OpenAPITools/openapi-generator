@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -19,10 +20,14 @@ import jakarta.annotation.Generated;
  * ModelList
  */
 
+@JsonPropertyOrder({
+    ModelList.JSON_PROPERTY_123LIST
+})
 @JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ModelList {
 
+    public static final String JSON_PROPERTY_123LIST = "123-list";
   private @Nullable String _123list;
 
   public ModelList _123list(@Nullable String _123list) {

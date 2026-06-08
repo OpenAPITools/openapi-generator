@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,12 +23,18 @@ import jakarta.annotation.Generated;
  * AdditionalPropertiesClassDto
  */
 
+@JsonPropertyOrder({
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_PROPERTY,
+    AdditionalPropertiesClassDto.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
+})
 @JsonTypeName("AdditionalPropertiesClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
+    public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   private Map<String, String> mapProperty = new HashMap<>();
 
+    public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClassDto mapProperty(Map<String, String> mapProperty) {

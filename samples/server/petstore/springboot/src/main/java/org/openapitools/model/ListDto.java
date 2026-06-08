@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,10 +21,14 @@ import javax.annotation.Generated;
  * ListDto
  */
 
+@JsonPropertyOrder({
+    ListDto.JSON_PROPERTY_123_LIST
+})
 @JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class ListDto {
 
+    public static final String JSON_PROPERTY_123_LIST = "123-list";
   private @Nullable String _123List;
 
   public ListDto _123List(@Nullable String _123List) {

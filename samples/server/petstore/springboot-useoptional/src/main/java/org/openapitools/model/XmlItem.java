@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,65 +24,125 @@ import jakarta.annotation.Generated;
  * XmlItem
  */
 
+@JsonPropertyOrder({
+    XmlItem.JSON_PROPERTY_ATTRIBUTE_STRING,
+    XmlItem.JSON_PROPERTY_ATTRIBUTE_NUMBER,
+    XmlItem.JSON_PROPERTY_ATTRIBUTE_INTEGER,
+    XmlItem.JSON_PROPERTY_ATTRIBUTE_BOOLEAN,
+    XmlItem.JSON_PROPERTY_WRAPPED_ARRAY,
+    XmlItem.JSON_PROPERTY_NAME_STRING,
+    XmlItem.JSON_PROPERTY_NAME_NUMBER,
+    XmlItem.JSON_PROPERTY_NAME_INTEGER,
+    XmlItem.JSON_PROPERTY_NAME_BOOLEAN,
+    XmlItem.JSON_PROPERTY_NAME_ARRAY,
+    XmlItem.JSON_PROPERTY_NAME_WRAPPED_ARRAY,
+    XmlItem.JSON_PROPERTY_PREFIX_STRING,
+    XmlItem.JSON_PROPERTY_PREFIX_NUMBER,
+    XmlItem.JSON_PROPERTY_PREFIX_INTEGER,
+    XmlItem.JSON_PROPERTY_PREFIX_BOOLEAN,
+    XmlItem.JSON_PROPERTY_PREFIX_ARRAY,
+    XmlItem.JSON_PROPERTY_PREFIX_WRAPPED_ARRAY,
+    XmlItem.JSON_PROPERTY_NAMESPACE_STRING,
+    XmlItem.JSON_PROPERTY_NAMESPACE_NUMBER,
+    XmlItem.JSON_PROPERTY_NAMESPACE_INTEGER,
+    XmlItem.JSON_PROPERTY_NAMESPACE_BOOLEAN,
+    XmlItem.JSON_PROPERTY_NAMESPACE_ARRAY,
+    XmlItem.JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY,
+    XmlItem.JSON_PROPERTY_PREFIX_NS_STRING,
+    XmlItem.JSON_PROPERTY_PREFIX_NS_NUMBER,
+    XmlItem.JSON_PROPERTY_PREFIX_NS_INTEGER,
+    XmlItem.JSON_PROPERTY_PREFIX_NS_BOOLEAN,
+    XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
+    XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class XmlItem {
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
   private Optional<String> attributeString = Optional.empty();
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
   private Optional<BigDecimal> attributeNumber = Optional.empty();
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
   private Optional<Integer> attributeInteger = Optional.empty();
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_BOOLEAN = "attribute_boolean";
   private Optional<Boolean> attributeBoolean = Optional.empty();
 
+    public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
   private List<Integer> wrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   private Optional<String> nameString = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
   private Optional<BigDecimal> nameNumber = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
   private Optional<Integer> nameInteger = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAME_BOOLEAN = "name_boolean";
   private Optional<Boolean> nameBoolean = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
   private List<Integer> nameArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   private Optional<String> prefixString = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
   private Optional<BigDecimal> prefixNumber = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
   private Optional<Integer> prefixInteger = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_BOOLEAN = "prefix_boolean";
   private Optional<Boolean> prefixBoolean = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
   private List<Integer> prefixArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   private Optional<String> namespaceString = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
   private Optional<BigDecimal> namespaceNumber = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
   private Optional<Integer> namespaceInteger = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAMESPACE_BOOLEAN = "namespace_boolean";
   private Optional<Boolean> namespaceBoolean = Optional.empty();
 
+    public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
   private List<Integer> namespaceArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   private Optional<String> prefixNsString = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
   private Optional<BigDecimal> prefixNsNumber = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
   private Optional<Integer> prefixNsInteger = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
   private Optional<Boolean> prefixNsBoolean = Optional.empty();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
   private List<Integer> prefixNsArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {

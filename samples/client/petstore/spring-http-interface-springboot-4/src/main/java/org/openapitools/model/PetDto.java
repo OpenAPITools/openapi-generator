@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
@@ -28,18 +29,31 @@ import jakarta.annotation.Generated;
  * PetDto
  */
 
+@JsonPropertyOrder({
+    PetDto.JSON_PROPERTY_ID,
+    PetDto.JSON_PROPERTY_CATEGORY,
+    PetDto.JSON_PROPERTY_NAME,
+    PetDto.JSON_PROPERTY_PHOTO_URLS,
+    PetDto.JSON_PROPERTY_TAGS,
+    PetDto.JSON_PROPERTY_STATUS
+})
 @JsonTypeName("Pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class PetDto {
 
+    public static final String JSON_PROPERTY_ID = "id";
   private @Nullable Long id;
 
+    public static final String JSON_PROPERTY_CATEGORY = "category";
   private @Nullable CategoryDto category;
 
+    public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+    public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   private Set<String> photoUrls = new LinkedHashSet<>();
 
+    public static final String JSON_PROPERTY_TAGS = "tags";
   private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
@@ -79,6 +93,7 @@ public class PetDto {
     }
   }
 
+    public static final String JSON_PROPERTY_STATUS = "status";
   @Deprecated
   private @Nullable StatusEnum status;
 

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,66 +24,126 @@ import jakarta.annotation.Generated;
  * XmlItemDto
  */
 
+@JsonPropertyOrder({
+    XmlItemDto.JSON_PROPERTY_ATTRIBUTE_STRING,
+    XmlItemDto.JSON_PROPERTY_ATTRIBUTE_NUMBER,
+    XmlItemDto.JSON_PROPERTY_ATTRIBUTE_INTEGER,
+    XmlItemDto.JSON_PROPERTY_ATTRIBUTE_BOOLEAN,
+    XmlItemDto.JSON_PROPERTY_WRAPPED_ARRAY,
+    XmlItemDto.JSON_PROPERTY_NAME_STRING,
+    XmlItemDto.JSON_PROPERTY_NAME_NUMBER,
+    XmlItemDto.JSON_PROPERTY_NAME_INTEGER,
+    XmlItemDto.JSON_PROPERTY_NAME_BOOLEAN,
+    XmlItemDto.JSON_PROPERTY_NAME_ARRAY,
+    XmlItemDto.JSON_PROPERTY_NAME_WRAPPED_ARRAY,
+    XmlItemDto.JSON_PROPERTY_PREFIX_STRING,
+    XmlItemDto.JSON_PROPERTY_PREFIX_NUMBER,
+    XmlItemDto.JSON_PROPERTY_PREFIX_INTEGER,
+    XmlItemDto.JSON_PROPERTY_PREFIX_BOOLEAN,
+    XmlItemDto.JSON_PROPERTY_PREFIX_ARRAY,
+    XmlItemDto.JSON_PROPERTY_PREFIX_WRAPPED_ARRAY,
+    XmlItemDto.JSON_PROPERTY_NAMESPACE_STRING,
+    XmlItemDto.JSON_PROPERTY_NAMESPACE_NUMBER,
+    XmlItemDto.JSON_PROPERTY_NAMESPACE_INTEGER,
+    XmlItemDto.JSON_PROPERTY_NAMESPACE_BOOLEAN,
+    XmlItemDto.JSON_PROPERTY_NAMESPACE_ARRAY,
+    XmlItemDto.JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY,
+    XmlItemDto.JSON_PROPERTY_PREFIX_NS_STRING,
+    XmlItemDto.JSON_PROPERTY_PREFIX_NS_NUMBER,
+    XmlItemDto.JSON_PROPERTY_PREFIX_NS_INTEGER,
+    XmlItemDto.JSON_PROPERTY_PREFIX_NS_BOOLEAN,
+    XmlItemDto.JSON_PROPERTY_PREFIX_NS_ARRAY,
+    XmlItemDto.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
+})
 @JsonTypeName("XmlItem")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class XmlItemDto {
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
   private @Nullable String attributeString;
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
   private @Nullable BigDecimal attributeNumber;
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
   private @Nullable Integer attributeInteger;
 
+    public static final String JSON_PROPERTY_ATTRIBUTE_BOOLEAN = "attribute_boolean";
   private @Nullable Boolean attributeBoolean;
 
+    public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
   private List<Integer> wrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   private @Nullable String nameString;
 
+    public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
   private @Nullable BigDecimal nameNumber;
 
+    public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
   private @Nullable Integer nameInteger;
 
+    public static final String JSON_PROPERTY_NAME_BOOLEAN = "name_boolean";
   private @Nullable Boolean nameBoolean;
 
+    public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
   private List<Integer> nameArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   private @Nullable String prefixString;
 
+    public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
   private @Nullable BigDecimal prefixNumber;
 
+    public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
   private @Nullable Integer prefixInteger;
 
+    public static final String JSON_PROPERTY_PREFIX_BOOLEAN = "prefix_boolean";
   private @Nullable Boolean prefixBoolean;
 
+    public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
   private List<Integer> prefixArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   private @Nullable String namespaceString;
 
+    public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
   private @Nullable BigDecimal namespaceNumber;
 
+    public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
   private @Nullable Integer namespaceInteger;
 
+    public static final String JSON_PROPERTY_NAMESPACE_BOOLEAN = "namespace_boolean";
   private @Nullable Boolean namespaceBoolean;
 
+    public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
   private List<Integer> namespaceArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   private @Nullable String prefixNsString;
 
+    public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
   private @Nullable BigDecimal prefixNsNumber;
 
+    public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
   private @Nullable Integer prefixNsInteger;
 
+    public static final String JSON_PROPERTY_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
   private @Nullable Boolean prefixNsBoolean;
 
+    public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
   private List<Integer> prefixNsArray = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItemDto attributeString(@Nullable String attributeString) {

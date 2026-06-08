@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -34,11 +35,17 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
+@JsonPropertyOrder({
+    AnimalDto.JSON_PROPERTY_CLASS_NAME,
+    AnimalDto.JSON_PROPERTY_COLOR
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class AnimalDto {
 
+    public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+    public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";
 
   public AnimalDto() {

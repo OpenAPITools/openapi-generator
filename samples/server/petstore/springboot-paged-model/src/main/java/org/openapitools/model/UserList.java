@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,13 +24,19 @@ import jakarta.annotation.Generated;
  * A plain list wrapper — has content array but no pagination metadata property
  */
 
+@JsonPropertyOrder({
+    UserList.JSON_PROPERTY_CONTENT,
+    UserList.JSON_PROPERTY_DESCRIPTION
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class UserList implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+    public static final String JSON_PROPERTY_CONTENT = "content";
   private List<@Valid User> content = new ArrayList<>();
 
+    public static final String JSON_PROPERTY_DESCRIPTION = "description";
   private @Nullable String description;
 
   public UserList content(List<@Valid User> content) {

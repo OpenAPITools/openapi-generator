@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,11 +22,17 @@ import jakarta.annotation.Generated;
  * FileSchemaTestClass
  */
 
+@JsonPropertyOrder({
+    FileSchemaTestClass.JSON_PROPERTY_FILE,
+    FileSchemaTestClass.JSON_PROPERTY_FILES
+})
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
+    public static final String JSON_PROPERTY_FILE = "file";
   private @Nullable File file;
 
+    public static final String JSON_PROPERTY_FILES = "files";
   private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(@Nullable File file) {

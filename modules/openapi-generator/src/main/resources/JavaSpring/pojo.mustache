@@ -20,6 +20,11 @@
 
 {{/discriminator}}
 {{#jackson}}
+@JsonPropertyOrder({
+{{#vars}}
+    {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
+{{/vars}}
+})
 {{#isClassnameSanitized}}
 {{^hasDiscriminatorWithNonEmptyMapping}}
 @JsonTypeName("{{name}}")
@@ -57,6 +62,9 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
+{{#jackson}}
+    public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
+{{/jackson}}
 {{>lombokAnnotation}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
