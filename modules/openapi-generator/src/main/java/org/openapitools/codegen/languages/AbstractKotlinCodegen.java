@@ -1321,13 +1321,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                         .replace("\r", "\\r")))
                 // Escaping for values going into """...""" triple-quoted Kotlin strings.
                 // Backslash escapes do not work here; a literal $ must be written as ${'$'}.
-                // Triple quotes can be escaped by breaking them up, e.g. """ becomes ${"\"\"\""}.
-                // Note: Triple quotes can never be used in annotations as their arguments must be compile-time constants
-                // hence we can never do the safe escaping.
                 .put("escapeInTripleQuotedString", (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute()
-                        .replace("$", "${'$'}")
-                        .replace("\"\"\"", "${\"\\\"\\\"\\\"\"}")
-                ));
+                        .replace("$", "${'$'}")));
     }
 
     protected interface DataTypeAssigner {
