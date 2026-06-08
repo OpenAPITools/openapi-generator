@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   private @Nullable UUID uuid;
