@@ -2,6 +2,15 @@
 #
 # A bash script to run CircleCI node/test in parallel
 #
+# STRATEGY:
+# - On master branch: Always run all tests (post-merge verification)
+# - On feature branches: Use short-circuit logic to skip tests if no relevant files changed
+#   This speeds up CI by avoiding unnecessary test runs when only docs/unrelated files changed.
+#
+# The reference branch for comparison is origin/master. Feature branches are compared against it
+# to determine if affected samples or generator code changed. If a feature branch has no diffs
+# from master in any relevant files, that node's tests are skipped.
+#
 
 NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
@@ -18,6 +27,19 @@ should_run_tests() {
   echo "════════════════════════════════════════════════════════════════"
   echo "Node $node_index: Determining if tests should run"
   echo "════════════════════════════════════════════════════════════════"
+
+  # CRITICAL: Always run tests on master branch (after merge)
+  # When on master, there are no differences between the current commit and origin/master,
+  # which would incorrectly trigger the short-circuit. To ensure post-merge testing on master,
+  # we detect the branch and bypass the diff check entirely on the reference branch.
+  #
+  # Note: We compare against origin/master for feature branches, so we need to ensure
+  # that when the current branch IS master, we always run tests.
+  if [ "$CIRCLE_BRANCH" = "master" ]; then
+    echo "ℹ️  Current branch is master (reference branch)"
+    echo "✓ DECISION: Running tests (always test on master after merge)"
+    return 0
+  fi
 
   # Always run tests if origin/master doesn't exist (e.g., fresh CI environment)
   if ! git rev-parse origin/master >/dev/null 2>&1; then
@@ -44,6 +66,7 @@ should_run_tests() {
   echo "$changed" | sed 's/^/  /'
 
   # Check if generator source or config changed (affects all samples)
+  # These are core files that impact all sample outputs
   echo ""
   echo "Checking for generator/config changes (affects all samples)..."
   if echo "$changed" | grep -qE '^(modules/|bin/configs/|pom\.xml|\.mvn/)'; then
@@ -52,7 +75,9 @@ should_run_tests() {
     return 0
   fi
 
-  # Check if this node's sample directories changed
+  # Short-circuit: Check if this node's sample directories changed
+  # Each node tests specific sample directories. If none of the relevant samples changed,
+  # there's no point in running this node's tests.
   echo ""
   echo "Checking for sample changes relevant to this node..."
   for pattern in $sample_patterns; do
