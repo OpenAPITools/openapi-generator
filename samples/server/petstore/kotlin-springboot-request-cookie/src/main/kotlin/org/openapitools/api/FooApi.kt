@@ -43,7 +43,7 @@ interface FooApi {
         operationId = "fooGet",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "response", content = [Content(schema = Schema(implementation = FooGetDefaultResponse::class))])
+            ApiResponse(responseCode = "default", description = "response", content = [Content(schema = Schema(implementation = FooGetDefaultResponse::class))])
         ]
     )
     @RequestMapping(
