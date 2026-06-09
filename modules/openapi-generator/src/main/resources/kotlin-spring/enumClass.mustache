@@ -2,10 +2,7 @@
  * {{{description}}}
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
-enum class {{classname}}(
-    @get:JsonValue {{#useEnumValueInterface}}override {{/useEnumValueInterface}}val value: {{dataType}}
-) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}} {
-
+enum class {{classname}}(@get:JsonValue {{#useEnumValueInterface}}override {{/useEnumValueInterface}}val value: {{dataType}}){{#vendorExtensions.x-kotlin-implements}}{{#-first}} : {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}} {
 {{#allowableValues}}
 {{#enumVars}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
@@ -16,7 +13,7 @@ enum class {{classname}}(
         @JvmStatic
         @JsonCreator
         fun forValue(value: {{dataType}}): {{classname}} {
-            return values().firstOrNull { it.value == value }
+            return values().firstOrNull{ it.value == value }
         {{#enumUnknownDefaultCase}}
         {{#allowableValues}}
         {{#enumVars}}
