@@ -17,20 +17,20 @@ enum class {{classname}}(
         @JsonCreator
         fun forValue(value: {{dataType}}): {{classname}} {
             return values().firstOrNull { it.value == value }
-{{#enumUnknownDefaultCase}}
-{{#allowableValues}}
-{{#enumVars}}
-{{#-last}}
+        {{#enumUnknownDefaultCase}}
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{#-last}}
                 ?: {{&name}}
-{{/-last}}
-{{/enumVars}}
-{{/allowableValues}}
-{{/enumUnknownDefaultCase}}
-{{^enumUnknownDefaultCase}}
+        {{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+        {{/enumUnknownDefaultCase}}
+        {{^enumUnknownDefaultCase}}
                 ?: throw IllegalArgumentException(
                     "Unexpected value '$value' for enum '{{classname}}'"
                 )
-{{/enumUnknownDefaultCase}}
+        {{/enumUnknownDefaultCase}}
         }
     }
 }

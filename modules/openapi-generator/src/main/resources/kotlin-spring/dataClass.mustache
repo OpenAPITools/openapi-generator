@@ -48,17 +48,29 @@
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{{nameInPascalCase}}}(@get:JsonValue {{#useEnumValueInterface}}{{^isContainer}}override {{/isContainer}}{{/useEnumValueInterface}}val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}} {{/vendorExtensions.x-kotlin-implements}}{
+    enum class {{{nameInPascalCase}}}(@get:JsonValue {{#useEnumValueInterface}}{{^isContainer}}override {{/isContainer}}{{/useEnumValueInterface}}val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}} {{/vendorExtensions.x-kotlin-implements}} {
+
 {{#allowableValues}}{{#enumVars}}
-        {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}{{#enumUnknownDefaultCase}},
-        UNKNOWN_DEFAULT_OPEN_API({{#isString}}"unknown_default_open_api"{{/isString}}{{^isString}}{{#isLong}}11184809L{{/isLong}}{{#isInteger}}11184809{{/isInteger}}{{#isNumber}}11184809{{/isNumber}}{{#isDouble}}11184809.0{{/isDouble}}{{#isFloat}}11184809.0f{{/isFloat}}{{/isString}}){{/enumUnknownDefaultCase}};
+        {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+{{/enumVars}}{{/allowableValues}}
 
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
-                return values().firstOrNull{it -> it.value == value}
-                    {{^enumUnknownDefaultCase}}?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{nameInPascalCase}}'"){{/enumUnknownDefaultCase}}{{#enumUnknownDefaultCase}}?: UNKNOWN_DEFAULT_OPEN_API{{/enumUnknownDefaultCase}}
+                return values().firstOrNull { it.value == value }
+            {{#enumUnknownDefaultCase}}
+            {{#allowableValues}}
+            {{#enumVars}}
+            {{#-last}}
+                                ?: {{{name}}}
+            {{/-last}}
+            {{/enumVars}}
+            {{/allowableValues}}
+            {{/enumUnknownDefaultCase}}
+            {{^enumUnknownDefaultCase}}
+                                ?: throw IllegalArgumentException("Unexpected value '$value' for enum '{{nameInPascalCase}}'")
+            {{/enumUnknownDefaultCase}}
             }
         }
     }
