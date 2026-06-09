@@ -6745,7 +6745,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'GREEN'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'BLUE'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'YELLOW'".equals(var.get("value"))));
-        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'UNKNOWN_DEFAULT_OPEN_API'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'unknown_default_open_api'".equals(var.get("value"))));
     }
 
     @Test(description = "test enum generation with enumUnknownDefaultCase enabled")
@@ -6775,10 +6775,10 @@ public class KotlinSpringServerCodegenTest {
         );
 
         TestUtils.assertFileContains(enumFile,
-                "UNKNOWN_DEFAULT_OPEN_API");
+                "unknown_default_open_api");
 
         TestUtils.assertFileContains(enumFile,
-                "?: UNKNOWN_DEFAULT_OPEN_API");
+                "?: unknown_default_open_api");
 }
 
     @Test(description = "test enum generation with enumUnknownDefaultCase disabled")
@@ -6808,7 +6808,7 @@ public class KotlinSpringServerCodegenTest {
         );
 
         // Check that UNKNOWN_DEFAULT_OPEN_API is NOT added
-        TestUtils.assertFileNotContains(enumFile, "UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileNotContains(enumFile, "unknown_default_open_api");
 
     }
 
@@ -6867,7 +6867,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'GREEN'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'BLUE'".equals(var.get("value"))));
         Assert.assertTrue(enumVars.stream().anyMatch(var -> "'YELLOW'".equals(var.get("value"))));
-        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'UNKNOWN_DEFAULT_OPEN_API'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'unknown_default_open_api'".equals(var.get("value"))));
     }
 
     @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase enabled")
@@ -6898,10 +6898,10 @@ public class KotlinSpringServerCodegenTest {
 
         // Assert inline Color enum includes UNKNOWN_DEFAULT_OPEN_API
         TestUtils.assertFileContains(modelFile,
-                "UNKNOWN_DEFAULT_OPEN_API");
+                "unknown_default_open_api");
 
         TestUtils.assertFileContains(modelFile,
-                "?: UNKNOWN_DEFAULT_OPEN_API");
+                "?: unknown_default_open_api");
     }
 
     @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase disabled")
@@ -6931,6 +6931,6 @@ public class KotlinSpringServerCodegenTest {
         );
 
         // Check that UNKNOWN_DEFAULT_OPEN_API is NOT added within the inner enum of ColorResponse
-        TestUtils.assertFileNotContains(modelFile, "UNKNOWN_DEFAULT_OPEN_API");
+        TestUtils.assertFileNotContains(modelFile, "unknown_default_open_api");
     }
 }
