@@ -1,5 +1,5 @@
 val exampleContentType = "{{{contentType}}}"
-val exampleContentString = """{{&example}}"""
+val exampleContentString = """{{#lambda.escapeInTripleQuotedString}}{{&example}}{{/lambda.escapeInTripleQuotedString}}"""
 
 when (exampleContentType) {
     "application/json" -> call.respondText(exampleContentType, ContentType.Application.Json)

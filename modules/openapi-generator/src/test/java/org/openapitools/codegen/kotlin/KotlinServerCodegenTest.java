@@ -33,16 +33,8 @@ import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN5;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAVALIN6;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RETURN_RESPONSE;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.USE_TAGS;
+import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.*;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.DELEGATE_PATTERN;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.KTOR;
-import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RESOURCES;
 
 public class KotlinServerCodegenTest {
 
@@ -750,5 +742,42 @@ public class KotlinServerCodegenTest {
                 multipleOfModel,
                 "if (intVal % 2 != 0) {"
         );
+    }
+
+    @DataProvider(name = "ktorDollarInterpolationLibraries")
+    private Object[][] ktorDollarInterpolationLibraries() {
+        return new Object[][]{
+                new Object[]{KTOR},
+                new Object[]{KTOR2}
+        };
+    }
+
+    /**
+     * Security regression for CVE-2026-22785 in ktor/ktor2: a response schema example containing
+     * Kotlin string-interpolation syntax (e.g. {@code ${expr}}) must not survive unescaped into
+     * the triple-quoted {@code exampleContentString} in the generated API. The fix applies
+     * {@code lambda.escapeInTripleQuotedString} which replaces every {@code $} with
+     * {@code ${'$'}}, so interpolation cannot be triggered at runtime.
+     */
+    @Test(description = "CVE-2026-22785 ktor/ktor2: dollar-sign interpolation in response example must be escaped", dataProvider = "ktorDollarInterpolationLibraries")
+    public void dollarInterpolationInExampleIsBlockedForKtorLibraries(String library) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, library);
+
+        new DefaultGenerator()
+                .opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/cve-ktor-example-injection.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path apiFile = Paths.get(output + "/src/main/kotlin/org/openapitools/server/apis/PingApi.kt");
+        // Bare Kotlin string interpolation must not appear in the generated file.
+        assertFileNotContains(apiFile, "${attemptedStringInter}");
+        // The dollar sign must be escaped using the ${'$'} idiom for triple-quoted strings.
+        assertFileContains(apiFile, "${'$'}");
     }
 }

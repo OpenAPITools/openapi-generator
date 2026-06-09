@@ -1310,7 +1310,24 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"));
+                .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"))
+                // Full escaping for values going into "..." double-quoted Kotlin strings:
+                // backslash, dollar sign, double-quote, and newlines.
+                .put("escapeInNormalString", (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute()
+                        .replace("\\", "\\\\")
+                        .replace("$", "\\$")
+                        .replace("\"", "\\\"")
+                        .replace("\n", "\\n")
+                        .replace("\r", "\\r")))
+                // Escaping for values going into """...""" triple-quoted Kotlin strings.
+                // Backslash escapes do not work here; a literal $ must be written as ${'$'}.
+                // Triple quotes can be escaped by breaking them up, e.g. """ becomes ${"\"\"\""}.
+                // Note: Triple quotes can never be used in annotations as their arguments must be compile-time constants
+                // hence we can never do the safe escaping.
+                .put("escapeInTripleQuotedString", (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute()
+                        .replace("$", "${'$'}")
+                        .replace("\"\"\"", "${\"\\\"\\\"\\\"\"}")
+                ));
     }
 
     protected interface DataTypeAssigner {
