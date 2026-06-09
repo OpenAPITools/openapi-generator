@@ -6,11 +6,11 @@ enum class {{classname}}(
     @get:JsonValue {{#useEnumValueInterface}}override {{/useEnumValueInterface}}val value: {{dataType}}
 ) {{#vendorExtensions.x-kotlin-implements}}{{#-first}}: {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}} {
 
-{{#allowableValues}}{{#enumVars}}
-    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-{{#enumUnknownDefaultCase}},
-    UNKNOWN_DEFAULT_OPEN_API({{#isString}}"unknown_default_open_api"{{/isString}}{{^isString}}{{#dataType}}null{{/dataType}}{{/isString}})
-{{/enumUnknownDefaultCase}};
+{{#allowableValues}}
+{{#enumVars}}
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
 
     companion object {
         @JvmStatic
@@ -18,7 +18,13 @@ enum class {{classname}}(
         fun forValue(value: {{dataType}}): {{classname}} {
             return values().firstOrNull { it.value == value }
 {{#enumUnknownDefaultCase}}
-                ?: UNKNOWN_DEFAULT_OPEN_API
+{{#allowableValues}}
+{{#enumVars}}
+{{#-last}}
+                ?: {{&name}}
+{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
 {{/enumUnknownDefaultCase}}
 {{^enumUnknownDefaultCase}}
                 ?: throw IllegalArgumentException(

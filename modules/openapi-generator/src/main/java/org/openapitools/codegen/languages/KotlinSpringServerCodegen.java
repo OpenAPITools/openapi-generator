@@ -1527,18 +1527,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
-        // If enumUnknownDefaultCase is enabled, remove "unknown_default_open_api" from allowableValues
-        if (additionalProperties.containsKey(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE) &&
-            Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE).toString())) {
-
-            for (ModelMap modelMap : objs.getModels()) {
-                CodegenModel cm = modelMap.getModel();
-                if (cm.isEnum && cm.allowableValues != null) {
-                    cm.allowableValues.removeIf(av -> "unknown_default_open_api".equals(av.value));
-                }
-            }
-        }
-
         if (useEnumValueInterface) {
             EnumValueInterfaceUtils.injectInPostProcessModelsEnum(
                     objs, valuedEnumClassName, importMapping.get("ValuedEnum"),
