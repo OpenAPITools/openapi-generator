@@ -69,6 +69,7 @@ public class InlineModelResolver {
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
     public boolean skipSchemaReuse = false; // skip reusing inline schema if set to true
+    public boolean skipAnonymousSchemaReuse = false; // skip reusing untitled (anonymous) inline schemas only
     public Boolean refactorAllOfInlineSchemas = null; // refactor allOf inline schemas into $ref
 
     // structure mapper sorts properties alphabetically on write to ensure models are
@@ -161,6 +162,11 @@ public class InlineModelResolver {
         if ("true".equalsIgnoreCase(
                 this.inlineSchemaOptions.getOrDefault("SKIP_SCHEMA_REUSE", "false"))) {
             this.skipSchemaReuse = true;
+        }
+
+        if ("true".equalsIgnoreCase(
+                this.inlineSchemaOptions.getOrDefault("SKIP_ANONYMOUS_SCHEMA_REUSE", "false"))) {
+            this.skipAnonymousSchemaReuse = true;
         }
 
         if (this.inlineSchemaOptions.containsKey("REFACTOR_ALLOF_INLINE_SCHEMAS")) {
@@ -852,6 +858,15 @@ public class InlineModelResolver {
     private String matchGenerated(Schema model) {
         if (skipSchemaReuse) { // skip reusing schema
             return null;
+        }
+        // When skipAnonymousSchemaReuse is set, schemas without a meaningful title are not eligible
+        // for reuse across different parent contexts. "Meaningful title" mirrors the same check in
+        // resolveModelName: non-null and not empty after sanitization.
+        if (skipAnonymousSchemaReuse) {
+            String title = model.getTitle();
+            if (title == null || "".equals(sanitizeName(title).replace("_", ""))) {
+                return null;
+            }
         }
 
         try {
