@@ -86,6 +86,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private static final String textXmlMimeType = "text/xml";
     private static final String formUrlEncodedMimeType = "application/x-www-form-urlencoded";
     private static final String jsonMimeType = "application/json";
+    private static final String eventStreamMimeType = "text/event-stream";
+    // Multipart
+    private static final String multipartFormData = "multipart/form-data";
+    private static final String multipartRelated = "multipart/related";
     // RFC 7386 support
     private static final String mergePatchJsonMimeType = "application/merge-patch+json";
     // RFC 7807 Support
@@ -287,7 +291,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+    public Mustache.Compiler processCompiler(final Mustache.Compiler compiler) {
         return compiler
                 .emptyStringIsFalse(true)
                 .zeroIsFalse(true);
@@ -357,14 +361,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
-    private void setPackageName(String packageName) {
+    private void setPackageName(final String packageName) {
         this.packageName = packageName;
 
         // Also set the extern crate name, which has any '-' replace with a '_'.
         this.externCrateName = packageName.replace('-', '_');
     }
 
-    private void setPackageVersion(String packageVersion) {
+    private void setPackageVersion(final String packageVersion) {
         this.packageVersion = packageVersion;
     }
 
@@ -374,7 +378,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
+    public void preprocessOpenAPI(final OpenAPI openAPI) {
         Info info = openAPI.getInfo();
 
         if (packageVersion == null || packageVersion.isEmpty()) {
@@ -393,14 +397,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public String toApiName(String name) {
+    public String toApiName(final String name) {
         return name.isEmpty() ?
                 "default" :
                 sanitizeIdentifier(name, CasingType.SNAKE_CASE, "api", "API", true);
     }
 
     @Override
-    public String toApiFilename(String name) {
+    public String toApiFilename(final String name) {
         return toApiName(name);
     }
 
@@ -414,57 +418,64 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public String toOperationId(String operationId) {
+    public String toOperationId(final String operationId) {
         return sanitizeIdentifier(operationId, CasingType.CAMEL_CASE, "call", "method", true);
     }
 
     @Override
-    public String toEnumValue(String value, String datatype) {
+    public String toEnumValue(final String value, final String datatype) {
         return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
-    private boolean isObjectType(String type) {
+    private boolean isObjectType(final String type) {
         return "object".equals(type);
     }
 
-    private boolean isMimetypeXml(String mimetype) {
+    private boolean isMimetypeXml(final String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(problemXmlMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(textXmlMimeType);
     }
 
-    private boolean isMimetypeJson(String mimetype) {
+    private boolean isMimetypeJson(final String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(mergePatchJsonMimeType) ||
                 mimetype.toLowerCase(Locale.ROOT).startsWith(problemJsonMimeType);
     }
 
-    private boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
+    private boolean isMimetypeWwwFormUrlEncoded(final String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(formUrlEncodedMimeType);
     }
 
-    private boolean isMimetypeMultipartFormData(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/form-data");
+    private boolean isMimetypeMultipartFormData(final String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(multipartFormData);
     }
 
-    private boolean isMimetypeMultipartRelated(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/related");
+    private boolean isMimetypeMultipartRelated(final String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(multipartRelated);
     }
 
-    private boolean isMimetypeUnknown(String mimetype) {
+    private boolean isMimetypeEventStream(final String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(eventStreamMimeType);
+    }
+
+    private boolean isMimetypeUnknown(final String mimetype) {
         return "*/*".equals(mimetype);
     }
 
-    boolean isMimetypePlain(String mimetype) {
+    boolean isMimetypePlain(final String mimetype) {
         return !(isMimetypeUnknown(mimetype) ||
                 isMimetypeJson(mimetype) ||
                 isMimetypeWwwFormUrlEncoded(mimetype) ||
                 isMimetypeMultipartFormData(mimetype) ||
-                isMimetypeMultipartRelated(mimetype));
+                isMimetypeMultipartRelated(mimetype) ||
+                isMimetypeEventStream(mimetype)
+        );
     }
 
+
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(final String path, final String httpMethod, final Operation operation, final List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         String underscoredOperationId = underscore(op.operationId);
@@ -500,20 +511,23 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         // Determine the types that this operation produces. `getProducesInfo`
         // simply lists all the types, and then we add the correct imports to
         // the generated library.
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+        final Set<String> producesInfo = getProducesInfo(openAPI, operation);
         boolean producesPlainText = false;
         boolean producesFormUrlEncoded = false;
+        boolean producesSSE = false; // Server-Sent Events
         if (producesInfo != null && !producesInfo.isEmpty()) {
             List<Map<String, String>> produces = new ArrayList<>(producesInfo.size());
 
             for (String mimeType : producesInfo) {
                 if (isMimetypeWwwFormUrlEncoded(mimeType)) {
                     producesFormUrlEncoded = true;
+                } else if (isMimetypeEventStream(mimeType)) {
+                    producesSSE = true;
                 } else if (isMimetypePlain(mimeType)) {
                     producesPlainText = true;
                 }
 
-                Map<String, String> mediaType = new HashMap<>();
+                final Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", mimeType);
 
                 produces.add(mediaType);
@@ -524,7 +538,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         // Set for deduplication of response IDs
-        for (CodegenResponse rsp : op.responses) {
+        for (final CodegenResponse rsp : op.responses) {
             // Get the original API response, so we get process the schema
             // directly.
             ApiResponse original;
@@ -552,10 +566,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 // that although in general responses produces a set of
                 // different mimetypes currently we only support 1 per
                 // response.
-                String firstProduces = null;
+                String targetProduce = null;
 
                 if (original.getContent() != null) {
-                    firstProduces = original.getContent().keySet().stream().findFirst().orElse(null);
+                    targetProduce = original.getContent().keySet().stream().findFirst().orElse(null);
                 }
 
                 // The output mime type. This allows us to do sensible fallback
@@ -563,9 +577,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 // mimetype.
                 String outputMime;
 
-                if (firstProduces == null) {
+                if (targetProduce == null) {
                     if (producesFormUrlEncoded) {
                         outputMime = formUrlEncodedMimeType;
+                    } else if (producesSSE) {
+                        outputMime = eventStreamMimeType;
                     } else if (producesPlainText) {
                         if (bytesType.equals(rsp.dataType)) {
                             outputMime = octetMimeType;
@@ -576,31 +592,36 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         outputMime = jsonMimeType;
                     }
                 } else {
-                    if (isMimetypeWwwFormUrlEncoded(firstProduces)) {
+                    producesFormUrlEncoded = false;
+                    producesPlainText = false;
+                    producesSSE = false;
+
+                    if (isMimetypeWwwFormUrlEncoded(targetProduce)) {
                         producesFormUrlEncoded = true;
-                        producesPlainText = false;
-                    } else if (isMimetypePlain(firstProduces)) {
-                        producesFormUrlEncoded = false;
+                    } else if (isMimetypeEventStream(targetProduce)) {
+                        producesSSE = true;
+                    } else if (isMimetypePlain(targetProduce)) {
                         producesPlainText = true;
-                    } else {
-                        producesFormUrlEncoded = false;
-                        producesPlainText = false;
                     }
 
-                    outputMime = firstProduces;
+                    outputMime = targetProduce;
+                }
 
+                if (isMimetypeXml(outputMime)) {
                     // As we don't support XML, fallback to plain text
-                    if (isMimetypeXml(outputMime)) {
-                        outputMime = plainTextMimeType;
-                    }
+                    producesPlainText = true;
+                    outputMime = plainTextMimeType;
                 }
 
                 rsp.vendorExtensions.put("x-mime-type", outputMime);
 
                 if (producesFormUrlEncoded) {
                     rsp.vendorExtensions.put("x-produces-form-urlencoded", true);
+                } else if (producesSSE) {
+                    rsp.vendorExtensions.put("x-produces-sse", true);
+                    op.vendorExtensions.put("x-produces-sse", true);
                 } else if (producesPlainText) {
-                    // Plain text means that there is not structured data in
+                    // Plain text means that there is no structured data in
                     // this response. So it'll either be a UTF-8 encoded string
                     // 'plainText' or some generic 'bytes'.
                     //
@@ -615,9 +636,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     }
                 } else {
                     rsp.vendorExtensions.put("x-produces-json", true);
-                    if (isObjectType(rsp.dataType)) {
-                        rsp.dataType = objectType;
-                    }
+                }
+
+                if (isObjectType(rsp.dataType)) {
+                    rsp.dataType = objectType;
                 }
             }
 
@@ -1222,7 +1244,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         // Integer type fitting
-        if (Boolean.TRUE.equals(property.isInteger) || Boolean.TRUE.equals(property.isLong) || Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong")) {
+        if (property.isInteger || property.isLong || Objects.equals(property.baseType, "UnsignedInteger") || Objects.equals(property.baseType, "UnsignedLong")) {
             final BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
             final BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
             property.dataType = getIntegerDataType(
