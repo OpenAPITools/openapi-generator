@@ -1186,6 +1186,9 @@ public class InlineModelResolverTest {
 
     @Test
     public void testInlineSchemaSkipReuseSetToFalse() {
+        // meta_200_response and mega_200_response are anonymous (untitled) inline schemas under
+        // different operations. Anonymous inline schemas are not reused across parents, so both
+        // receive their own named model even though they are structurally identical.
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
         Map<String, String> inlineSchemaOptions = new HashMap<>();
@@ -1197,9 +1200,10 @@ public class InlineModelResolverTest {
         assertTrue(schema.getProperties().get("name") instanceof StringSchema);
         assertTrue(schema.getProperties().get("id") instanceof IntegerSchema);
 
-        // mega_200_response is NOT created since meta_200_response is reused
         Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
-        assertNull(schema2);
+        assertNotNull(schema2);
+        assertTrue(schema2.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema2.getProperties().get("id") instanceof IntegerSchema);
     }
 
     @Test
@@ -1218,6 +1222,86 @@ public class InlineModelResolverTest {
         Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
         assertTrue(schema2.getProperties().get("name") instanceof StringSchema);
         assertTrue(schema2.getProperties().get("id") instanceof IntegerSchema);
+    }
+
+    @Test
+    public void resolveAnonymousInlineSchemaNotReusedAcrossParents() {
+        // Two different component schemas (Item, Issue) each define an anonymous (untitled) inline
+        // `user` object with identical members (id, name). Each parent must produce its own named
+        // model; the name from one parent's context must not be imposed on the other.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+
+        Schema userSchema = new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("name", new StringSchema());
+
+        Schema anotherUserSchema = new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("name", new StringSchema());
+
+        openapi.getComponents().addSchemas("Item", new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("user", userSchema));
+
+        openapi.getComponents().addSchemas("Issue", new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("user", anotherUserSchema));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+
+        // Both inline user schemas must exist as separate named models
+        assertNotNull("Item_user model must exist", schemas.get("Item_user"));
+        assertNotNull("Issue_user model must exist", schemas.get("Issue_user"));
+
+        // Item.user must reference its own model
+        Schema itemUser = (Schema) schemas.get("Item").getProperties().get("user");
+        assertEquals("#/components/schemas/Item_user", itemUser.get$ref());
+
+        // Issue.user must reference its own model, not Item_user
+        Schema issueUser = (Schema) schemas.get("Issue").getProperties().get("user");
+        assertEquals("#/components/schemas/Issue_user", issueUser.get$ref());
+    }
+
+    @Test
+    public void resolveTitledInlineSchemaIsReusedAcrossParents() {
+        // A titled inline schema represents a named type that is intentionally shared. When two
+        // different parent schemas each have a property whose inline schema carries the same title
+        // and identical structure, both properties must reference the same named model — only one
+        // entry is created in components, not a numbered variant.
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+
+        openapi.getComponents().addSchemas("Item", new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("user", new ObjectSchema()
+                        .title("UserSummary")
+                        .addProperty("id", new StringSchema().format("uuid"))
+                        .addProperty("name", new StringSchema())));
+
+        openapi.getComponents().addSchemas("Issue", new ObjectSchema()
+                .addProperty("id", new StringSchema().format("uuid"))
+                .addProperty("user", new ObjectSchema()
+                        .title("UserSummary")
+                        .addProperty("id", new StringSchema().format("uuid"))
+                        .addProperty("name", new StringSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+
+        // Titled inline schema must be deduplicated — no numbered variant
+        assertNotNull("UserSummary schema must exist", schemas.get("UserSummary"));
+        assertNull("Duplicate UserSummary_1 must not exist", schemas.get("UserSummary_1"));
+
+        // Both parents must reference the same shared model
+        Schema itemUser = (Schema) schemas.get("Item").getProperties().get("user");
+        assertEquals("#/components/schemas/UserSummary", itemUser.get$ref());
+
+        Schema issueUser = (Schema) schemas.get("Issue").getProperties().get("user");
+        assertEquals("#/components/schemas/UserSummary", issueUser.get$ref());
     }
 
     @Test
