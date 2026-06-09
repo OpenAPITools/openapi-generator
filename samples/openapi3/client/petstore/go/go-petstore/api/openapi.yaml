@@ -55,13 +55,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/_foo_get_default_response"
+                $ref: "#/components/schemas/_foo_get_4XX_response"
           description: client error
         "404":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/_foo_get_default_response"
+                $ref: "#/components/schemas/_foo_get_404_response"
           description: not found
   /pet:
     post:
@@ -2338,6 +2338,30 @@ components:
       - example2
       type: string
     _foo_get_default_response:
+      example:
+        string:
+          bar: bar
+          map:
+            key:
+            - 2000-01-23T04:56:07.000+00:00
+            - 2000-01-23T04:56:07.000+00:00
+      properties:
+        string:
+          $ref: "#/components/schemas/Foo"
+      type: object
+    _foo_get_4XX_response:
+      example:
+        string:
+          bar: bar
+          map:
+            key:
+            - 2000-01-23T04:56:07.000+00:00
+            - 2000-01-23T04:56:07.000+00:00
+      properties:
+        string:
+          $ref: "#/components/schemas/Foo"
+      type: object
+    _foo_get_404_response:
       example:
         string:
           bar: bar

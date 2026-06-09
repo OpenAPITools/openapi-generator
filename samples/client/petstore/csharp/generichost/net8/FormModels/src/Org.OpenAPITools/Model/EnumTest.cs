@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         [JsonConstructor]
-        public EnumTest(EnumTestEnumString enumStringRequired, Option<EnumTestEnumInteger?> enumInteger = default, Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default, Option<TestEnumParametersEnumQueryDoubleParameter?> enumNumber = default, Option<EnumTestEnumString?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
+        public EnumTest(EnumTestEnumStringRequired enumStringRequired, Option<EnumTestEnumInteger?> enumInteger = default, Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default, Option<EnumTestEnumNumber?> enumNumber = default, Option<EnumTestEnumString?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
         {
             EnumStringRequired = enumStringRequired;
             EnumIntegerOption = enumInteger;
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumStringRequired
         /// </summary>
         [JsonPropertyName("enum_string_required")]
-        public EnumTestEnumString EnumStringRequired { get; set; }
+        public EnumTestEnumStringRequired EnumStringRequired { get; set; }
 
         /// <summary>
         /// Used to track the state of EnumInteger
@@ -95,13 +95,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<TestEnumParametersEnumQueryDoubleParameter?> EnumNumberOption { get; private set; }
+        public Option<EnumTestEnumNumber?> EnumNumberOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
         [JsonPropertyName("enum_number")]
-        public TestEnumParametersEnumQueryDoubleParameter? EnumNumber { get { return this.EnumNumberOption.Value; } set { this.EnumNumberOption = new(value); } }
+        public EnumTestEnumNumber? EnumNumber { get { return this.EnumNumberOption.Value; } set { this.EnumNumberOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of EnumString
@@ -229,10 +229,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<EnumTestEnumString?> enumStringRequired = default;
+            Option<EnumTestEnumStringRequired?> enumStringRequired = default;
             Option<EnumTestEnumInteger?> enumInteger = default;
             Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default;
-            Option<TestEnumParametersEnumQueryDoubleParameter?> enumNumber = default;
+            Option<EnumTestEnumNumber?> enumNumber = default;
             Option<EnumTestEnumString?> enumString = default;
             Option<OuterEnum?> outerEnum = default;
             Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default;
@@ -257,7 +257,7 @@ namespace Org.OpenAPITools.Model
                         case "enum_string_required":
                             string enumStringRequiredRawValue = utf8JsonReader.GetString();
                             if (enumStringRequiredRawValue != null)
-                                enumStringRequired = new Option<EnumTestEnumString?>(EnumTestEnumStringValueConverter.FromStringOrDefault(enumStringRequiredRawValue));
+                                enumStringRequired = new Option<EnumTestEnumStringRequired?>(EnumTestEnumStringRequiredValueConverter.FromStringOrDefault(enumStringRequiredRawValue));
                             break;
                         case "enum_integer":
                             string enumIntegerRawValue = utf8JsonReader.GetString();
@@ -272,7 +272,7 @@ namespace Org.OpenAPITools.Model
                         case "enum_number":
                             string enumNumberRawValue = utf8JsonReader.GetString();
                             if (enumNumberRawValue != null)
-                                enumNumber = new Option<TestEnumParametersEnumQueryDoubleParameter?>(TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(enumNumberRawValue));
+                                enumNumber = new Option<EnumTestEnumNumber?>(EnumTestEnumNumberValueConverter.FromStringOrDefault(enumNumberRawValue));
                             break;
                         case "enum_string":
                             string enumStringRawValue = utf8JsonReader.GetString();
@@ -358,7 +358,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            var enumStringRequiredRawValue = EnumTestEnumStringValueConverter.ToJsonValue(enumTest.EnumStringRequired);
+            var enumStringRequiredRawValue = EnumTestEnumStringRequiredValueConverter.ToJsonValue(enumTest.EnumStringRequired);
             writer.WriteString("enum_string_required", enumStringRequiredRawValue);
 
             if (enumTest.EnumIntegerOption.IsSet)
@@ -373,7 +373,7 @@ namespace Org.OpenAPITools.Model
             }
             if (enumTest.EnumNumberOption.IsSet)
             {
-                var enumNumberRawValue = TestEnumParametersEnumQueryDoubleParameterValueConverter.ToJsonValue(enumTest.EnumNumber.Value);
+                var enumNumberRawValue = EnumTestEnumNumberValueConverter.ToJsonValue(enumTest.EnumNumber.Value);
                 writer.WriteNumber("enum_number", enumNumberRawValue);
             }
             if (enumTest.EnumStringOption.IsSet)

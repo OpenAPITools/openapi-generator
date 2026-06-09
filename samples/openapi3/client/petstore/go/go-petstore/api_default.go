@@ -132,7 +132,7 @@ func (a *DefaultAPIService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultRes
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v FooGetDefaultResponse
+			var v FooGet404Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -143,7 +143,7 @@ func (a *DefaultAPIService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultRes
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
-			var v FooGetDefaultResponse
+			var v FooGet4XXResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

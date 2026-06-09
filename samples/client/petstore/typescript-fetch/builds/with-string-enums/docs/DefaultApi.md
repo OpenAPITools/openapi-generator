@@ -6,7 +6,7 @@ All URIs are relative to *http://localhost:3000*
 |------------- | ------------- | -------------|
 | [**fakeEnumRequestGetInline**](DefaultApi.md#fakeenumrequestgetinline) | **GET** /fake/enum-request-inline |  |
 | [**fakeEnumRequestGetRef**](DefaultApi.md#fakeenumrequestgetref) | **GET** /fake/enum-request-ref |  |
-| [**fakeEnumRequestPostInline**](DefaultApi.md#fakeenumrequestpostinline) | **POST** /fake/enum-request-inline |  |
+| [**fakeEnumRequestPostInline**](DefaultApi.md#fakeenumrequestpostinlineoperation) | **POST** /fake/enum-request-inline |  |
 | [**fakeEnumRequestPostRef**](DefaultApi.md#fakeenumrequestpostref) | **POST** /fake/enum-request-ref |  |
 
 
@@ -161,7 +161,7 @@ No authorization required
 
 ## fakeEnumRequestPostInline
 
-> FakeEnumRequestGetInline200Response fakeEnumRequestPostInline(fakeEnumRequestGetInline200Response)
+> FakeEnumRequestPostInline200Response fakeEnumRequestPostInline(fakeEnumRequestPostInlineRequest)
 
 
 
@@ -172,16 +172,16 @@ import {
   Configuration,
   DefaultApi,
 } from '';
-import type { FakeEnumRequestPostInlineRequest } from '';
+import type { FakeEnumRequestPostInlineOperationRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new DefaultApi();
 
   const body = {
-    // FakeEnumRequestGetInline200Response (optional)
-    fakeEnumRequestGetInline200Response: ...,
-  } satisfies FakeEnumRequestPostInlineRequest;
+    // FakeEnumRequestPostInlineRequest (optional)
+    fakeEnumRequestPostInlineRequest: ...,
+  } satisfies FakeEnumRequestPostInlineOperationRequest;
 
   try {
     const data = await api.fakeEnumRequestPostInline(body);
@@ -200,11 +200,11 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **fakeEnumRequestGetInline200Response** | [FakeEnumRequestGetInline200Response](FakeEnumRequestGetInline200Response.md) |  | [Optional] |
+| **fakeEnumRequestPostInlineRequest** | [FakeEnumRequestPostInlineRequest](FakeEnumRequestPostInlineRequest.md) |  | [Optional] |
 
 ### Return type
 
-[**FakeEnumRequestGetInline200Response**](FakeEnumRequestGetInline200Response.md)
+[**FakeEnumRequestPostInline200Response**](FakeEnumRequestPostInline200Response.md)
 
 ### Authorization
 

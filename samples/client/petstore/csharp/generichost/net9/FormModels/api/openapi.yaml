@@ -763,7 +763,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: "#/components/schemas/testEnumParameters_request_enum_form_string_array_inner"
+            $ref: "#/components/schemas/testEnumParameters_enum_header_string_array_parameter_inner"
           type: array
         style: simple
       - description: Header parameter enum test (string)
@@ -772,7 +772,7 @@ paths:
         name: enum_header_string
         required: false
         schema:
-          $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
+          $ref: "#/components/schemas/testEnumParameters_enum_header_string_parameter"
         style: simple
       - description: Query parameter enum test (string array)
         explode: true
@@ -781,7 +781,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: "#/components/schemas/testEnumParameters_request_enum_form_string_array_inner"
+            $ref: "#/components/schemas/testEnumParameters_enum_query_string_array_parameter_inner"
           type: array
         style: form
       - description: Query parameter enum test (string)
@@ -790,7 +790,7 @@ paths:
         name: enum_query_string
         required: false
         schema:
-          $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
+          $ref: "#/components/schemas/testEnumParameters_enum_query_string_parameter"
         style: form
       - description: Query parameter enum test (double)
         explode: true
@@ -1758,13 +1758,13 @@ components:
         enum_string:
           $ref: "#/components/schemas/Enum_Test_enum_string"
         enum_string_required:
-          $ref: "#/components/schemas/Enum_Test_enum_string"
+          $ref: "#/components/schemas/Enum_Test_enum_string_required"
         enum_integer:
           $ref: "#/components/schemas/Enum_Test_enum_integer"
         enum_integer_only:
           $ref: "#/components/schemas/Enum_Test_enum_integer_only"
         enum_number:
-          $ref: "#/components/schemas/testEnumParameters_enum_query_double_parameter"
+          $ref: "#/components/schemas/Enum_Test_enum_number"
         outerEnum:
           $ref: "#/components/schemas/OuterEnum"
         outerEnumInteger:
@@ -2122,25 +2122,25 @@ components:
         required_notnullable_enum_integer:
           $ref: "#/components/schemas/RequiredClass_required_notnullable_enum_integer"
         notrequired_nullable_enum_integer:
-          $ref: "#/components/schemas/RequiredClass_required_nullable_enum_integer"
+          $ref: "#/components/schemas/RequiredClass_notrequired_nullable_enum_integer"
         notrequired_notnullable_enum_integer:
-          $ref: "#/components/schemas/RequiredClass_required_notnullable_enum_integer"
+          $ref: "#/components/schemas/RequiredClass_notrequired_notnullable_enum_integer"
         required_nullable_enum_integer_only:
           $ref: "#/components/schemas/RequiredClass_required_nullable_enum_integer_only"
         required_notnullable_enum_integer_only:
           $ref: "#/components/schemas/RequiredClass_required_notnullable_enum_integer_only"
         notrequired_nullable_enum_integer_only:
-          $ref: "#/components/schemas/RequiredClass_required_nullable_enum_integer_only"
+          $ref: "#/components/schemas/RequiredClass_notrequired_nullable_enum_integer_only"
         notrequired_notnullable_enum_integer_only:
-          $ref: "#/components/schemas/RequiredClass_required_notnullable_enum_integer_only"
+          $ref: "#/components/schemas/RequiredClass_notrequired_notnullable_enum_integer_only"
         required_notnullable_enum_string:
           $ref: "#/components/schemas/RequiredClass_required_notnullable_enum_string"
         required_nullable_enum_string:
           $ref: "#/components/schemas/RequiredClass_required_nullable_enum_string"
         notrequired_nullable_enum_string:
-          $ref: "#/components/schemas/RequiredClass_required_nullable_enum_string"
+          $ref: "#/components/schemas/RequiredClass_notrequired_nullable_enum_string"
         notrequired_notnullable_enum_string:
-          $ref: "#/components/schemas/RequiredClass_required_notnullable_enum_string"
+          $ref: "#/components/schemas/RequiredClass_notrequired_notnullable_enum_string"
         required_nullable_outerEnumDefaultValue:
           allOf:
           - $ref: "#/components/schemas/OuterEnumDefaultValue"
@@ -2819,6 +2819,32 @@ components:
         enum_form_string:
           $ref: "#/components/schemas/testEnumParameters_request_enum_form_string"
       type: object
+    testEnumParameters_enum_header_string_array_parameter_inner:
+      default: $
+      enum:
+      - '>'
+      - $
+      type: string
+    testEnumParameters_enum_header_string_parameter:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
+    testEnumParameters_enum_query_string_array_parameter_inner:
+      default: $
+      enum:
+      - '>'
+      - $
+      type: string
+    testEnumParameters_enum_query_string_parameter:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
     testEnumParameters_enum_query_integer_parameter:
       enum:
       - 1
@@ -2977,6 +3003,19 @@ components:
         value
       - "Duplicate\r\nvalue"
       type: string
+    Enum_Test_enum_string_required:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      - "Value\twith tab"
+      - Value with " quote
+      - Value with escaped \" quote
+      - |-
+        Duplicate
+        value
+      - "Duplicate\r\nvalue"
+      type: string
     Enum_Test_enum_integer:
       enum:
       - 1
@@ -2988,6 +3027,12 @@ components:
       - 2
       - -2
       type: integer
+    Enum_Test_enum_number:
+      enum:
+      - 1.1
+      - -1.2
+      format: double
+      type: number
     MapTest_map_of_enum_string_value:
       enum:
       - UPPER
@@ -3017,6 +3062,20 @@ components:
       format: int32
       nullable: false
       type: integer
+    RequiredClass_notrequired_nullable_enum_integer:
+      enum:
+      - 1
+      - -1
+      format: int32
+      nullable: true
+      type: integer
+    RequiredClass_notrequired_notnullable_enum_integer:
+      enum:
+      - 1
+      - -1
+      format: int32
+      nullable: false
+      type: integer
     RequiredClass_required_nullable_enum_integer_only:
       enum:
       - 2
@@ -3024,6 +3083,18 @@ components:
       nullable: true
       type: integer
     RequiredClass_required_notnullable_enum_integer_only:
+      enum:
+      - 2
+      - -2
+      nullable: false
+      type: integer
+    RequiredClass_notrequired_nullable_enum_integer_only:
+      enum:
+      - 2
+      - -2
+      nullable: true
+      type: integer
+    RequiredClass_notrequired_notnullable_enum_integer_only:
       enum:
       - 2
       - -2
@@ -3056,6 +3127,34 @@ components:
         value
       - "Duplicate\r\nvalue"
       nullable: true
+      type: string
+    RequiredClass_notrequired_nullable_enum_string:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      - "Value\twith tab"
+      - Value with " quote
+      - Value with escaped \" quote
+      - |-
+        Duplicate
+        value
+      - "Duplicate\r\nvalue"
+      nullable: true
+      type: string
+    RequiredClass_notrequired_notnullable_enum_string:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      - "Value\twith tab"
+      - Value with " quote
+      - Value with escaped \" quote
+      - |-
+        Duplicate
+        value
+      - "Duplicate\r\nvalue"
+      nullable: false
       type: string
     zebra_type:
       enum:

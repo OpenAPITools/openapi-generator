@@ -63,7 +63,7 @@ enum Operation {
         #[structopt(parse(try_from_str = parse_json))]
         required_binary_field: swagger::ByteArray,
         #[structopt(parse(try_from_str = parse_json))]
-        object_field: Option<models::MultipartRequestObjectField>,
+        object_field: Option<models::MultipartRelatedRequestObjectField>,
         #[structopt(parse(try_from_str = parse_json))]
         optional_binary_field: Option<swagger::ByteArray>,
     },

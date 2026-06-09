@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**EnumStringRequired** | **EnumTestEnumString** |  | 
+**EnumStringRequired** | **EnumTestEnumStringRequired** |  | 
 **EnumInteger** | **EnumTestEnumInteger** |  | [optional] 
 **EnumIntegerOnly** | **EnumTestEnumIntegerOnly** |  | [optional] 
-**EnumNumber** | **TestEnumParametersEnumQueryDoubleParameter** |  | [optional] 
+**EnumNumber** | **EnumTestEnumNumber** |  | [optional] 
 **EnumString** | **EnumTestEnumString** |  | [optional] 
 **OuterEnum** | **OuterEnum** |  | [optional] 
 **OuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 

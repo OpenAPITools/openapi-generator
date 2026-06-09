@@ -116,7 +116,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     async fn multipart_related_request_post(
         &self,
         required_binary_field: swagger::ByteArray,
-        object_field: Option<models::MultipartRequestObjectField>,
+        object_field: Option<models::MultipartRelatedRequestObjectField>,
         optional_binary_field: Option<swagger::ByteArray>,
         context: &C) -> Result<MultipartRelatedRequestPostResponse, ApiError>
     {

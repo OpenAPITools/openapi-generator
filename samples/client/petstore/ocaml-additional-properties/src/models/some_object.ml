@@ -34,9 +34,9 @@
                  [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: string]] [@of_yojson JsonSupport.to_map_of [%of_yojson: string]]
                 ; [@key "optional_field2"]
                     (** Optional, dictionary of strings *)
-                                      optional_field3: (string * Some_object_required_field3_value.t) list
+                                      optional_field3: (string * Some_object_optional_field3_value.t) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Some_object_required_field3_value.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Some_object_required_field3_value.t]]
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Some_object_optional_field3_value.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Some_object_optional_field3_value.t]]
                 ; [@key "optional_field3"]
                     (** Optional, dictionary of objects *)
                 } [@@deriving yojson { strict = false }, show, eq ];;

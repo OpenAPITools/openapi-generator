@@ -57,7 +57,7 @@ type BodyAPIServicer interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type BothAPIServicer interface { 
-	Both(context.Context, string, BodyRequest) (ImplResponse, error)
+	Both(context.Context, string, BothRequest) (ImplResponse, error)
 }
 
 

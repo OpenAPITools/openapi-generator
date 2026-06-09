@@ -1329,9 +1329,9 @@ impl<S, C> Api<C> for Client<S, C> where
     async fn test_enum_parameters(
         &self,
         param_enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        param_enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
-        param_enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
-        param_enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        param_enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        param_enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumQueryStringArrayParameterInner>>,
+        param_enum_query_string: Option<models::TestEnumParametersEnumQueryStringParameter>,
         param_enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         param_enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
         param_enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,

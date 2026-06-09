@@ -3,11 +3,15 @@ apis/index.ts
 docs/DefaultApi.md
 docs/EnumPatternObject.md
 docs/FakeEnumRequestGetInline200Response.md
+docs/FakeEnumRequestPostInline200Response.md
+docs/FakeEnumRequestPostInlineRequest.md
 docs/NumberEnum.md
 docs/StringEnum.md
 index.ts
 models/EnumPatternObject.ts
 models/FakeEnumRequestGetInline200Response.ts
+models/FakeEnumRequestPostInline200Response.ts
+models/FakeEnumRequestPostInlineRequest.ts
 models/NumberEnum.ts
 models/StringEnum.ts
 models/index.ts

@@ -82,22 +82,22 @@ func (c *BothAPIController) Both(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"pathParam"}, nil)
 		return
 	}
-	var bodyRequestParam BodyRequest
+	var bothRequestParam BothRequest
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&bodyRequestParam); err != nil {
+	if err := d.Decode(&bothRequestParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertBodyRequestRequired(bodyRequestParam); err != nil {
+	if err := AssertBothRequestRequired(bothRequestParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertBodyRequestConstraints(bodyRequestParam); err != nil {
+	if err := AssertBothRequestConstraints(bothRequestParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.Both(r.Context(), pathParamParam, bodyRequestParam)
+	result, err := c.service.Both(r.Context(), pathParamParam, bothRequestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

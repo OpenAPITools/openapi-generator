@@ -47,7 +47,7 @@ pub trait Api<C: Send + Sync> {
     async fn multipart_related_request_post(
         &self,
         required_binary_field: swagger::ByteArray,
-        object_field: Option<models::MultipartRequestObjectField>,
+        object_field: Option<models::MultipartRelatedRequestObjectField>,
         optional_binary_field: Option<swagger::ByteArray>,
         context: &C) -> Result<MultipartRelatedRequestPostResponse, ApiError>;
 
@@ -82,7 +82,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn multipart_related_request_post(
         &self,
         required_binary_field: swagger::ByteArray,
-        object_field: Option<models::MultipartRequestObjectField>,
+        object_field: Option<models::MultipartRelatedRequestObjectField>,
         optional_binary_field: Option<swagger::ByteArray>,
         ) -> Result<MultipartRelatedRequestPostResponse, ApiError>;
 
@@ -124,7 +124,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     async fn multipart_related_request_post(
         &self,
         required_binary_field: swagger::ByteArray,
-        object_field: Option<models::MultipartRequestObjectField>,
+        object_field: Option<models::MultipartRelatedRequestObjectField>,
         optional_binary_field: Option<swagger::ByteArray>,
         ) -> Result<MultipartRelatedRequestPostResponse, ApiError>
     {

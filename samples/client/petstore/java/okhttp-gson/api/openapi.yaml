@@ -1543,7 +1543,7 @@ components:
       content:
         multipart/form-data:
           schema:
-            $ref: "#/components/schemas/uploadFile_request"
+            $ref: "#/components/schemas/fake_upload_ref_request_bodies_request"
     UserArray:
       content:
         application/json:
@@ -3239,6 +3239,16 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
+    fake_upload_ref_request_bodies_request:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          format: binary
+          type: string
       type: object
     fake_ref_parameter_petId_parameter:
       oneOf:

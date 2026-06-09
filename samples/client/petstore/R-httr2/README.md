@@ -104,6 +104,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [AddPetOptionalRequest](docs/AddPetOptionalRequest.md)
  - [AllofTagApiResponse](docs/AllofTagApiResponse.md)
  - [Animal](docs/Animal.md)
  - [AnyOfPig](docs/AnyOfPig.md)

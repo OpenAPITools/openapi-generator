@@ -47,6 +47,8 @@ docs/FilterAny.md
 docs/FilterTypeRange.md
 docs/FilterTypeRegex.md
 docs/Foo.md
+docs/FooGet404Response.md
+docs/FooGet4XXResponse.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/Fruit.md
@@ -97,6 +99,8 @@ git_push.sh
 go.mod
 go.sum
 model_200_response.go
+model__foo_get_404_response.go
+model__foo_get_4_xx_response.go
 model__foo_get_default_response.go
 model__special_model_name_.go
 model_additional_properties_class.go

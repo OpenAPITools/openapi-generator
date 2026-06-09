@@ -450,7 +450,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
     async fn multipart_related_request_post(
         &self,
         param_required_binary_field: swagger::ByteArray,
-        param_object_field: Option<models::MultipartRequestObjectField>,
+        param_object_field: Option<models::MultipartRelatedRequestObjectField>,
         param_optional_binary_field: Option<swagger::ByteArray>,
         context: &C) -> Result<MultipartRelatedRequestPostResponse, ApiError>
     {
