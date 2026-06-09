@@ -34,19 +34,20 @@ data class ApiError(
 
     /**
     * 
-    * Values: OK,ERROR
+    * Values: OK,ERROR,UNKNOWN_DEFAULT_OPEN_API
     */
     enum class ErrorCode(@get:JsonValue override val value: kotlin.Int) : ValuedEnum<kotlin.Int> {
     
         OK(0),
-        ERROR(100);
+        ERROR(100),
+        UNKNOWN_DEFAULT_OPEN_API(11184809);
         
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.Int): ErrorCode {
                 return values().firstOrNull{ it.value == value }
-                                ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'ErrorCode'")
+                                ?: UNKNOWN_DEFAULT_OPEN_API
             }
         }
     }
