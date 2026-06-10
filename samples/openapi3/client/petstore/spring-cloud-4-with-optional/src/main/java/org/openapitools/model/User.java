@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -51,6 +53,7 @@ public class User {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
@@ -71,6 +74,7 @@ public class User {
     return username;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("username")
   public void setUsername(String username) {
     this.username = username;
@@ -91,6 +95,7 @@ public class User {
     return firstName;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("firstName")
   public void setFirstName(String firstName) {
     this.firstName = firstName;
@@ -111,6 +116,7 @@ public class User {
     return lastName;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("lastName")
   public void setLastName(String lastName) {
     this.lastName = lastName;
@@ -131,6 +137,7 @@ public class User {
     return email;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("email")
   public void setEmail(String email) {
     this.email = email;
@@ -151,6 +158,7 @@ public class User {
     return password;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
@@ -171,6 +179,7 @@ public class User {
     return phone;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("phone")
   public void setPhone(String phone) {
     this.phone = phone;
@@ -191,6 +200,7 @@ public class User {
     return userStatus;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("userStatus")
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;

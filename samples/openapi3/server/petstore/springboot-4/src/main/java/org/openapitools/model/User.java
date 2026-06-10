@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -81,6 +83,7 @@ public class User {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
@@ -105,6 +108,7 @@ public class User {
     return username;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("username")
   @JacksonXmlProperty(localName = "username")
   public void setUsername(@Nullable String username) {
@@ -129,6 +133,7 @@ public class User {
     return firstName;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("firstName")
   @JacksonXmlProperty(localName = "firstName")
   public void setFirstName(@Nullable String firstName) {
@@ -153,6 +158,7 @@ public class User {
     return lastName;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("lastName")
   @JacksonXmlProperty(localName = "lastName")
   public void setLastName(@Nullable String lastName) {
@@ -177,6 +183,7 @@ public class User {
     return email;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("email")
   @JacksonXmlProperty(localName = "email")
   public void setEmail(@Nullable String email) {
@@ -201,6 +208,7 @@ public class User {
     return password;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("password")
   @JacksonXmlProperty(localName = "password")
   public void setPassword(@Nullable String password) {
@@ -225,6 +233,7 @@ public class User {
     return phone;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("phone")
   @JacksonXmlProperty(localName = "phone")
   public void setPhone(@Nullable String phone) {
@@ -249,6 +258,7 @@ public class User {
     return userStatus;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("userStatus")
   @JacksonXmlProperty(localName = "userStatus")
   public void setUserStatus(@Nullable Integer userStatus) {

@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -44,6 +46,7 @@ public class OuterComposite {
     return myNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_number")
   public void setMyNumber(@Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -65,6 +68,7 @@ public class OuterComposite {
     return myString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_string")
   public void setMyString(@Nullable String myString) {
     this.myString = myString;
@@ -86,6 +90,7 @@ public class OuterComposite {
     return myBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("my_boolean")
   public void setMyBoolean(@Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;

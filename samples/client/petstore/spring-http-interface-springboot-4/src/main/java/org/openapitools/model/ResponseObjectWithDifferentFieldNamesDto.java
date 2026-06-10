@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -46,6 +48,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return normalPropertyName;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("normalPropertyName")
   public void setNormalPropertyName(@Nullable String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
@@ -66,6 +69,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return UPPER_CASE_PROPERTY_SNAKE;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public void setUPPERCASEPROPERTYSNAKE(@Nullable String UPPER_CASE_PROPERTY_SNAKE) {
     this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
@@ -86,6 +90,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return lowerCasePropertyDashes;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("lower-case-property-dashes")
   public void setLowerCasePropertyDashes(@Nullable String lowerCasePropertyDashes) {
     this.lowerCasePropertyDashes = lowerCasePropertyDashes;
@@ -106,6 +111,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
     return propertyNameWithSpaces;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("property name with spaces")
   public void setPropertyNameWithSpaces(@Nullable String propertyNameWithSpaces) {
     this.propertyNameWithSpaces = propertyNameWithSpaces;

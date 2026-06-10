@@ -37,22 +37,22 @@ data class Pet(
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("category") val category: Category? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("status") val status: Pet.Status? = null
 ) : UserOrPet, UserOrPetOrArrayString {
 

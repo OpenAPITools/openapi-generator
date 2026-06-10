@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -128,6 +130,7 @@ public class Pet {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
@@ -152,6 +155,7 @@ public class Pet {
     return category;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "Category")
   public void setCategory(@Nullable Category category) {
@@ -245,6 +249,7 @@ public class Pet {
     return tags;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
@@ -275,6 +280,7 @@ public class Pet {
   /**
    * @deprecated
    */
+  @JsonSetter(nulls = Nulls.SKIP)
   @Deprecated
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")

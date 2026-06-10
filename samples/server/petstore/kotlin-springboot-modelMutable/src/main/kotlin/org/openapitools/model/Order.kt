@@ -29,27 +29,27 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Order(
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") var id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("petId") var petId: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("quantity") var quantity: kotlin.Int? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
 
     @Schema(example = "null", description = "Order Status")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("status") var status: Order.Status? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("complete") var complete: kotlin.Boolean? = false
 ) : java.io.Serializable {
 

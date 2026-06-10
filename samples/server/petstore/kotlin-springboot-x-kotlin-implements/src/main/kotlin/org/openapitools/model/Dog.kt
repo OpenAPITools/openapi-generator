@@ -55,22 +55,22 @@ data class Dog(
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") override val id: kotlin.Long? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("category") override val category: Category? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("color") override val color: Color? = null
 ) : Pet, com.some.pack.Canine, com.some.pack.Fetchable, java.io.Serializable {
 

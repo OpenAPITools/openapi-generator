@@ -37,21 +37,21 @@ data class Pet(
     @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("category") val category: Category? = null,
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("status") val status: Pet.Status? = null
 ) : java.io.Serializable {
 

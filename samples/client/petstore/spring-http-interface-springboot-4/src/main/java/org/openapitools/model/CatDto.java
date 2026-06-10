@@ -5,9 +5,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.openapitools.model.AnimalDto;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -56,6 +58,7 @@ public class CatDto extends AnimalDto {
     return declawed;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("declawed")
   public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;

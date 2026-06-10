@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -43,6 +45,7 @@ public class HasOnlyReadOnly {
     return bar;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
@@ -64,6 +67,7 @@ public class HasOnlyReadOnly {
     return foo;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("foo")
   public void setFoo(@Nullable String foo) {
     this.foo = foo;

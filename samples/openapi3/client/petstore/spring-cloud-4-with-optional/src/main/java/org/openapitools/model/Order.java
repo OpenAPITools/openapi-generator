@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
@@ -88,6 +90,7 @@ public class Order {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
@@ -108,6 +111,7 @@ public class Order {
     return petId;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("petId")
   public void setPetId(Long petId) {
     this.petId = petId;
@@ -128,6 +132,7 @@ public class Order {
     return quantity;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("quantity")
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
@@ -148,6 +153,7 @@ public class Order {
     return shipDate;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("shipDate")
   public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
@@ -168,6 +174,7 @@ public class Order {
     return status;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -188,6 +195,7 @@ public class Order {
     return complete;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;

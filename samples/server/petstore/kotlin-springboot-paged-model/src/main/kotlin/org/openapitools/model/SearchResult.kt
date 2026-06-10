@@ -23,14 +23,14 @@ import jakarta.validation.Valid
  */
 data class SearchResult(
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("query") val query: kotlin.String? = null,
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("totalHits") val totalHits: kotlin.Int? = null,
 
     @field:Valid
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("page") val page: PageMeta? = null
 ) : java.io.Serializable {
 

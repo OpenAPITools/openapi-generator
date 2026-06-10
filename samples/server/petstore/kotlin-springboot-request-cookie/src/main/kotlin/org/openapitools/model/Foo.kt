@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Foo(
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("bar") val bar: kotlin.String? = "bar"
 ) {
 

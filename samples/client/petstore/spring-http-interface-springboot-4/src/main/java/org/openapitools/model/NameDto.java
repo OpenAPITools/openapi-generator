@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -70,6 +72,7 @@ public class NameDto {
     return snakeCase;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("snake_case")
   public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
@@ -90,6 +93,7 @@ public class NameDto {
     return property;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("property")
   public void setProperty(@Nullable String property) {
     this.property = property;
@@ -110,6 +114,7 @@ public class NameDto {
     return _123number;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("123Number")
   public void set123number(@Nullable Integer _123number) {
     this._123number = _123number;

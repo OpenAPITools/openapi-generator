@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +52,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return uuid;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("uuid")
   public void setUuid(@Nullable UUID uuid) {
     this.uuid = uuid;
@@ -71,6 +74,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return dateTime;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dateTime")
   public void setDateTime(@Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -100,6 +104,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return map;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("map")
   public void setMap(Map<String, Animal> map) {
     this.map = map;

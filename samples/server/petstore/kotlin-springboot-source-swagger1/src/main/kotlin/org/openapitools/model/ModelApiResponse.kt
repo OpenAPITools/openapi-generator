@@ -24,15 +24,15 @@ import io.swagger.annotations.ApiModelProperty
 data class ModelApiResponse(
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("code") val code: kotlin.Int? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("message") val message: kotlin.String? = null
 ) : java.io.Serializable {
 

@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,6 +102,7 @@ public class XmlItemDto {
     return attributeString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("attribute_string")
   public void setAttributeString(@Nullable String attributeString) {
     this.attributeString = attributeString;
@@ -120,6 +123,7 @@ public class XmlItemDto {
     return attributeNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("attribute_number")
   public void setAttributeNumber(@Nullable BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
@@ -140,6 +144,7 @@ public class XmlItemDto {
     return attributeInteger;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("attribute_integer")
   public void setAttributeInteger(@Nullable Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
@@ -160,6 +165,7 @@ public class XmlItemDto {
     return attributeBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("attribute_boolean")
   public void setAttributeBoolean(@Nullable Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
@@ -188,6 +194,7 @@ public class XmlItemDto {
     return wrappedArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("wrapped_array")
   public void setWrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
@@ -208,6 +215,7 @@ public class XmlItemDto {
     return nameString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name_string")
   public void setNameString(@Nullable String nameString) {
     this.nameString = nameString;
@@ -228,6 +236,7 @@ public class XmlItemDto {
     return nameNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name_number")
   public void setNameNumber(@Nullable BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
@@ -248,6 +257,7 @@ public class XmlItemDto {
     return nameInteger;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name_integer")
   public void setNameInteger(@Nullable Integer nameInteger) {
     this.nameInteger = nameInteger;
@@ -268,6 +278,7 @@ public class XmlItemDto {
     return nameBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name_boolean")
   public void setNameBoolean(@Nullable Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
@@ -296,6 +307,7 @@ public class XmlItemDto {
     return nameArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name_array")
   public void setNameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
@@ -324,6 +336,7 @@ public class XmlItemDto {
     return nameWrappedArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("name_wrapped_array")
   public void setNameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
@@ -344,6 +357,7 @@ public class XmlItemDto {
     return prefixString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_string")
   public void setPrefixString(@Nullable String prefixString) {
     this.prefixString = prefixString;
@@ -364,6 +378,7 @@ public class XmlItemDto {
     return prefixNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_number")
   public void setPrefixNumber(@Nullable BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
@@ -384,6 +399,7 @@ public class XmlItemDto {
     return prefixInteger;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_integer")
   public void setPrefixInteger(@Nullable Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
@@ -404,6 +420,7 @@ public class XmlItemDto {
     return prefixBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_boolean")
   public void setPrefixBoolean(@Nullable Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
@@ -432,6 +449,7 @@ public class XmlItemDto {
     return prefixArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_array")
   public void setPrefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
@@ -460,6 +478,7 @@ public class XmlItemDto {
     return prefixWrappedArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_wrapped_array")
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
@@ -480,6 +499,7 @@ public class XmlItemDto {
     return namespaceString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("namespace_string")
   public void setNamespaceString(@Nullable String namespaceString) {
     this.namespaceString = namespaceString;
@@ -500,6 +520,7 @@ public class XmlItemDto {
     return namespaceNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("namespace_number")
   public void setNamespaceNumber(@Nullable BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
@@ -520,6 +541,7 @@ public class XmlItemDto {
     return namespaceInteger;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("namespace_integer")
   public void setNamespaceInteger(@Nullable Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
@@ -540,6 +562,7 @@ public class XmlItemDto {
     return namespaceBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("namespace_boolean")
   public void setNamespaceBoolean(@Nullable Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
@@ -568,6 +591,7 @@ public class XmlItemDto {
     return namespaceArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("namespace_array")
   public void setNamespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
@@ -596,6 +620,7 @@ public class XmlItemDto {
     return namespaceWrappedArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("namespace_wrapped_array")
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
@@ -616,6 +641,7 @@ public class XmlItemDto {
     return prefixNsString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_ns_string")
   public void setPrefixNsString(@Nullable String prefixNsString) {
     this.prefixNsString = prefixNsString;
@@ -636,6 +662,7 @@ public class XmlItemDto {
     return prefixNsNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_ns_number")
   public void setPrefixNsNumber(@Nullable BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
@@ -656,6 +683,7 @@ public class XmlItemDto {
     return prefixNsInteger;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_ns_integer")
   public void setPrefixNsInteger(@Nullable Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
@@ -676,6 +704,7 @@ public class XmlItemDto {
     return prefixNsBoolean;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_ns_boolean")
   public void setPrefixNsBoolean(@Nullable Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
@@ -704,6 +733,7 @@ public class XmlItemDto {
     return prefixNsArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_ns_array")
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
@@ -732,6 +762,7 @@ public class XmlItemDto {
     return prefixNsWrappedArray;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("prefix_ns_wrapped_array")
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;

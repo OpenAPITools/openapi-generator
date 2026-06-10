@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,6 +57,7 @@ public class ArrayTest {
     return arrayOfString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -84,6 +87,7 @@ public class ArrayTest {
     return arrayArrayOfInteger;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -113,6 +117,7 @@ public class ArrayTest {
     return arrayArrayOfModel;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_array_of_model")
   public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;

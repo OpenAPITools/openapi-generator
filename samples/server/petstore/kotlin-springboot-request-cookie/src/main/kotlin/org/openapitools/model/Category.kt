@@ -26,7 +26,7 @@ data class Category(
     @get:JsonProperty("name", required = true) val name: kotlin.String = "default-name",
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null
 ) {
 

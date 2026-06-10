@@ -28,7 +28,7 @@ data class ApiError(
     @get:JsonProperty("errorCode", required = true) val errorCode: ApiError.ErrorCode,
 
     @field:Valid
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("reasonCode") val reasonCode: ReasonCode? = null
 ) {
 

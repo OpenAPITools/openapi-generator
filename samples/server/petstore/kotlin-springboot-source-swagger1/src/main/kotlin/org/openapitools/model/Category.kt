@@ -23,11 +23,11 @@ import io.swagger.annotations.ApiModelProperty
 data class Category(
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("name") val name: kotlin.String? = null
 ) : java.io.Serializable {
 

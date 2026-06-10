@@ -5,9 +5,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.openapitools.model.ParentWithNullable;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -45,6 +47,7 @@ public class ChildWithNullable extends ParentWithNullable {
     return otherProperty;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("otherProperty")
   public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;

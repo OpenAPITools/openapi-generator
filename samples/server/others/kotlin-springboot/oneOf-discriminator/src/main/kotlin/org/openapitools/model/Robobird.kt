@@ -30,10 +30,10 @@ data class Robobird(
 
     @get:JsonProperty("another_discriminator", required = true) override val anotherDiscriminator: kotlin.String = "ANOTHER_ROBOBIRD",
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("propertyB") val propertyB: kotlin.String? = null,
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("sameNameProperty") val sameNameProperty: kotlin.String? = null
 ) : Animal, AnotherAnimal {
 

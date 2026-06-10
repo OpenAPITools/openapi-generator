@@ -21,10 +21,10 @@ import jakarta.validation.Valid
  */
 data class Order(
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.String? = null,
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("amount") val amount: kotlin.Double? = null
 ) : java.io.Serializable {
 

@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -89,6 +91,7 @@ public class Foo {
     return dt;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("dt")
   @JacksonXmlProperty(localName = "dt")
   public void setDt(@Nullable OffsetDateTime dt) {
@@ -113,6 +116,7 @@ public class Foo {
     return binary;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("binary")
   @JacksonXmlProperty(localName = "binary")
   public void setBinary(org.springframework.core.io.@Nullable Resource binary) {
@@ -146,6 +150,7 @@ public class Foo {
     return listOfDt;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listOfDt")
   @JacksonXmlProperty(localName = "listOfDt")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -180,6 +185,7 @@ public class Foo {
     return listMinIntems;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("listMinIntems")
   @JacksonXmlProperty(localName = "listMinIntems")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -229,6 +235,7 @@ public class Foo {
     return number;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("number")
   @JacksonXmlProperty(localName = "number")
   public void setNumber(@Nullable BigDecimal number) {

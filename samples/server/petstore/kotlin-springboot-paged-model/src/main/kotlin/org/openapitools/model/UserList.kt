@@ -23,10 +23,10 @@ import jakarta.validation.Valid
 data class UserList(
 
     @field:Valid
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("content") val content: kotlin.collections.List<User>? = null,
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("description") val description: kotlin.String? = null
 ) : java.io.Serializable {
 

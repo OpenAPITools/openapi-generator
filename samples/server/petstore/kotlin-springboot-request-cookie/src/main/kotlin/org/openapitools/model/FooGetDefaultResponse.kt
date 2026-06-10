@@ -24,7 +24,7 @@ data class FooGetDefaultResponse(
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("string") val string: Foo? = null
 ) {
 

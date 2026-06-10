@@ -28,11 +28,11 @@ data class Dog(
     @get:JsonProperty("className", required = true) override val className: kotlin.String,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("breed") val breed: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("color") override val color: kotlin.String? = "red"
 ) : Animal {
 

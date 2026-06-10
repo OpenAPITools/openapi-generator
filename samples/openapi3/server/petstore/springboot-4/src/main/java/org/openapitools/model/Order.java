@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
@@ -117,6 +119,7 @@ public class Order {
     return id;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
@@ -141,6 +144,7 @@ public class Order {
     return petId;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("petId")
   @JacksonXmlProperty(localName = "petId")
   public void setPetId(@Nullable Long petId) {
@@ -165,6 +169,7 @@ public class Order {
     return quantity;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("quantity")
   @JacksonXmlProperty(localName = "quantity")
   public void setQuantity(@Nullable Integer quantity) {
@@ -189,6 +194,7 @@ public class Order {
     return shipDate;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("shipDate")
   @JacksonXmlProperty(localName = "shipDate")
   public void setShipDate(@Nullable OffsetDateTime shipDate) {
@@ -213,6 +219,7 @@ public class Order {
     return status;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   public void setStatus(@Nullable StatusEnum status) {
@@ -237,6 +244,7 @@ public class Order {
     return complete;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("complete")
   @JacksonXmlProperty(localName = "complete")
   public void setComplete(Boolean complete) {

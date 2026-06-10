@@ -5,10 +5,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.openapitools.model.CatDto;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -89,6 +91,7 @@ public class BigCatDto extends CatDto {
     return kind;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("kind")
   public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;

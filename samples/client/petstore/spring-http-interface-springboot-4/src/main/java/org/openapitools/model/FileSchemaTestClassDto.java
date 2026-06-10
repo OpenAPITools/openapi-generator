@@ -4,7 +4,9 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +48,7 @@ public class FileSchemaTestClassDto {
     return file;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("file")
   public void setFile(@Nullable FileDto file) {
     this.file = file;
@@ -74,6 +77,7 @@ public class FileSchemaTestClassDto {
     return files;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("files")
   public void setFiles(List<@Valid FileDto> files) {
     this.files = files;

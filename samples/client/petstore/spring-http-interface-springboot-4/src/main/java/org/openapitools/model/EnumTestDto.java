@@ -4,8 +4,10 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.openapitools.model.OuterEnumDto;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -198,6 +200,7 @@ public class EnumTestDto {
     return enumString;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_string")
   public void setEnumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -238,6 +241,7 @@ public class EnumTestDto {
     return enumInteger;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_integer")
   public void setEnumInteger(@Nullable EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -258,6 +262,7 @@ public class EnumTestDto {
     return enumNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("enum_number")
   public void setEnumNumber(@Nullable EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -278,6 +283,7 @@ public class EnumTestDto {
     return outerEnum;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("outerEnum")
   public void setOuterEnum(@Nullable OuterEnumDto outerEnum) {
     this.outerEnum = outerEnum;

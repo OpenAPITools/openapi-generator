@@ -24,10 +24,10 @@ data class Pet(
 
     @get:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("status") val status: kotlin.String? = null
 ) : java.io.Serializable {
 
