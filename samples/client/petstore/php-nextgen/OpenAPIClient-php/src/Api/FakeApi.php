@@ -40,7 +40,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -5823,7 +5822,7 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'integer' => $integer,
@@ -6211,7 +6210,7 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'enum_form_string_array' => $enum_form_string_array,
@@ -7224,7 +7223,7 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'param' => $param,

@@ -41,7 +41,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -367,7 +366,7 @@ class FormApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'integer_form' => $integer_form,
@@ -649,7 +648,7 @@ class FormApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'marker' => $marker,
@@ -978,7 +977,7 @@ class FormApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'form1' => $form1,

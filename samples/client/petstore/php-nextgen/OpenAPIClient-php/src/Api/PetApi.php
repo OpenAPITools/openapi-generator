@@ -40,7 +40,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -2159,7 +2158,7 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'name' => $name,
@@ -2475,7 +2474,7 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'additionalMetadata' => $additional_metadata,
@@ -2797,7 +2796,7 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'additionalMetadata' => $additional_metadata,
