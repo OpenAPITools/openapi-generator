@@ -353,35 +353,30 @@ class PathApi
         string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): Request
     {
-
         // verify the required parameter 'path_string' is set
         if ($path_string === null || (is_array($path_string) && count($path_string) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $path_string when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
-
         // verify the required parameter 'path_integer' is set
         if ($path_integer === null || (is_array($path_integer) && count($path_integer) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $path_integer when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
-
         // verify the required parameter 'enum_nonref_string_path' is set
         if ($enum_nonref_string_path === null || (is_array($enum_nonref_string_path) && count($enum_nonref_string_path) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $enum_nonref_string_path when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
-
         // verify the required parameter 'enum_ref_string_path' is set
         if ($enum_ref_string_path === null || (is_array($enum_ref_string_path) && count($enum_ref_string_path) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $enum_ref_string_path when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
-
 
         $resourcePath = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}';
         $formParams = [];

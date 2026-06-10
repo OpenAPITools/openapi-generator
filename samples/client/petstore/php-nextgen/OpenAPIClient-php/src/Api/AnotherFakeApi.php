@@ -322,14 +322,12 @@ class AnotherFakeApi
         string $contentType = self::contentTypes['call123TestSpecialTags'][0]
     ): Request
     {
-
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $client when calling call123TestSpecialTags'
             );
         }
-
 
         $resourcePath = '/another-fake/dummy';
         $formParams = [];

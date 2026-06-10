@@ -295,14 +295,12 @@ class UserApi
         string $contentType = self::contentTypes['createUser'][0]
     ): Request
     {
-
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling createUser'
             );
         }
-
 
         $resourcePath = '/user';
         $formParams = [];
@@ -525,14 +523,12 @@ class UserApi
         string $contentType = self::contentTypes['createUsersWithArrayInput'][0]
     ): Request
     {
-
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling createUsersWithArrayInput'
             );
         }
-
 
         $resourcePath = '/user/createWithArray';
         $formParams = [];
@@ -755,14 +751,12 @@ class UserApi
         string $contentType = self::contentTypes['createUsersWithListInput'][0]
     ): Request
     {
-
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling createUsersWithListInput'
             );
         }
-
 
         $resourcePath = '/user/createWithList';
         $formParams = [];
@@ -985,14 +979,12 @@ class UserApi
         string $contentType = self::contentTypes['deleteUser'][0]
     ): Request
     {
-
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling deleteUser'
             );
         }
-
 
         $resourcePath = '/user/{username}';
         $formParams = [];
@@ -1240,14 +1232,12 @@ class UserApi
         string $contentType = self::contentTypes['getUserByName'][0]
     ): Request
     {
-
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling getUserByName'
             );
         }
-
 
         $resourcePath = '/user/{username}';
         $formParams = [];
@@ -1505,21 +1495,18 @@ class UserApi
         string $contentType = self::contentTypes['loginUser'][0]
     ): Request
     {
-
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling loginUser'
             );
         }
-
         // verify the required parameter 'password' is set
         if ($password === null || (is_array($password) && count($password) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $password when calling loginUser'
             );
         }
-
 
         $resourcePath = '/user/login';
         $formParams = [];
@@ -1719,7 +1706,6 @@ class UserApi
         string $contentType = self::contentTypes['logoutUser'][0]
     ): Request
     {
-
 
         $resourcePath = '/user/logout';
         $formParams = [];
@@ -1921,21 +1907,18 @@ class UserApi
         string $contentType = self::contentTypes['updateUser'][0]
     ): Request
     {
-
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $username when calling updateUser'
             );
         }
-
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling updateUser'
             );
         }
-
 
         $resourcePath = '/user/{username}';
         $formParams = [];

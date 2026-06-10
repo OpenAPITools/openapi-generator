@@ -350,10 +350,6 @@ class FormApi
     ): Request
     {
 
-
-
-
-
         $resourcePath = '/form/integer/boolean/string';
         $formParams = [];
         $queryParams = [];
@@ -627,14 +623,12 @@ class FormApi
         string $contentType = self::contentTypes['testFormObjectMultipart'][0]
     ): Request
     {
-
         // verify the required parameter 'marker' is set
         if ($marker === null || (is_array($marker) && count($marker) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $marker when calling testFormObjectMultipart'
             );
         }
-
 
         $resourcePath = '/form/object/multipart';
         $formParams = [];
@@ -957,13 +951,6 @@ class FormApi
         string $contentType = self::contentTypes['testFormOneof'][0]
     ): Request
     {
-
-
-
-
-
-
-
 
         $resourcePath = '/form/oneof';
         $formParams = [];

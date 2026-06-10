@@ -364,12 +364,6 @@ class HeaderApi
     ): Request
     {
 
-
-
-
-
-
-
         $resourcePath = '/header/integer/boolean/string/enums';
         $formParams = [];
         $queryParams = [];

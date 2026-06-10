@@ -283,14 +283,12 @@ class StoreApi
         string $contentType = self::contentTypes['deleteOrder'][0]
     ): Request
     {
-
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $order_id when calling deleteOrder'
             );
         }
-
 
         $resourcePath = '/store/order/{order_id}';
         $formParams = [];
@@ -528,7 +526,6 @@ class StoreApi
         string $contentType = self::contentTypes['getInventory'][0]
     ): Request
     {
-
 
         $resourcePath = '/store/inventory';
         $formParams = [];
@@ -774,7 +771,6 @@ class StoreApi
         string $contentType = self::contentTypes['getOrderById'][0]
     ): Request
     {
-
         // verify the required parameter 'order_id' is set
         if ($order_id === null || (is_array($order_id) && count($order_id) === 0)) {
             throw new InvalidArgumentException(
@@ -787,7 +783,6 @@ class StoreApi
         if ($order_id < 1) {
             throw new InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.');
         }
-        
 
         $resourcePath = '/store/order/{order_id}';
         $formParams = [];
@@ -1035,14 +1030,12 @@ class StoreApi
         string $contentType = self::contentTypes['placeOrder'][0]
     ): Request
     {
-
         // verify the required parameter 'order' is set
         if ($order === null || (is_array($order) && count($order) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $order when calling placeOrder'
             );
         }
-
 
         $resourcePath = '/store/order';
         $formParams = [];

@@ -301,7 +301,6 @@ class DefaultApi
     ): Request
     {
 
-
         $resourcePath = '/error';
         $formParams = [];
         $queryParams = [];
@@ -522,7 +521,6 @@ class DefaultApi
         string $contentType = self::contentTypes['fooGet'][0]
     ): Request
     {
-
 
         $resourcePath = '/foo';
         $formParams = [];

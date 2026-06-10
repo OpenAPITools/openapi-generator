@@ -364,9 +364,6 @@ class QueryApi
     ): Request
     {
 
-
-
-
         $resourcePath = '/query/enum_ref_string';
         $formParams = [];
         $queryParams = [];
@@ -643,10 +640,6 @@ class QueryApi
         string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
     ): Request
     {
-
-
-
-
 
         $resourcePath = '/query/datetime/date/string';
         $formParams = [];
@@ -934,10 +927,6 @@ class QueryApi
     ): Request
     {
 
-
-
-
-
         $resourcePath = '/query/integer/boolean/string';
         $formParams = [];
         $queryParams = [];
@@ -1204,8 +1193,6 @@ class QueryApi
     ): Request
     {
 
-
-
         $resourcePath = '/query/style_deepObject/explode_true/object';
         $formParams = [];
         $queryParams = [];
@@ -1453,8 +1440,6 @@ class QueryApi
         string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
     ): Request
     {
-
-
 
         $resourcePath = '/query/style_deepObject/explode_true/object/allOf';
         $formParams = [];
@@ -1704,8 +1689,6 @@ class QueryApi
     ): Request
     {
 
-
-
         $resourcePath = '/query/style_form/explode_false/array_integer';
         $formParams = [];
         $queryParams = [];
@@ -1953,8 +1936,6 @@ class QueryApi
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): Request
     {
-
-
 
         $resourcePath = '/query/style_form/explode_false/array_string';
         $formParams = [];
@@ -2204,8 +2185,6 @@ class QueryApi
     ): Request
     {
 
-
-
         $resourcePath = '/query/style_form/explode_true/array_string';
         $formParams = [];
         $queryParams = [];
@@ -2454,8 +2433,6 @@ class QueryApi
     ): Request
     {
 
-
-
         $resourcePath = '/query/style_form/explode_true/object';
         $formParams = [];
         $queryParams = [];
@@ -2703,8 +2680,6 @@ class QueryApi
         string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
     ): Request
     {
-
-
 
         $resourcePath = '/query/style_form/explode_true/object/allOf';
         $formParams = [];
@@ -2963,9 +2938,6 @@ class QueryApi
         string $contentType = self::contentTypes['testQueryStyleJsonSerializationObject'][0]
     ): Request
     {
-
-
-
 
         $resourcePath = '/query/style_jsonSerialization/object';
         $formParams = [];

@@ -317,7 +317,6 @@ class AuthApi
     ): Request
     {
 
-
         $resourcePath = '/auth/http/basic';
         $formParams = [];
         $queryParams = [];
@@ -551,7 +550,6 @@ class AuthApi
         string $contentType = self::contentTypes['testAuthHttpBearer'][0]
     ): Request
     {
-
 
         $resourcePath = '/auth/http/bearer';
         $formParams = [];

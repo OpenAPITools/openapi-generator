@@ -405,14 +405,12 @@ class PetApi
         string $contentType = self::contentTypes['addPet'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet when calling addPet'
             );
         }
-
 
         $resourcePath = '/pet';
         $formParams = [];
@@ -706,15 +704,12 @@ class PetApi
         string $contentType = self::contentTypes['deletePet'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling deletePet'
             );
         }
-
-
 
         $resourcePath = '/pet/{petId}';
         $formParams = [];
@@ -971,14 +966,12 @@ class PetApi
         string $contentType = self::contentTypes['findPetsByStatus'][0]
     ): Request
     {
-
         // verify the required parameter 'status' is set
         if ($status === null || (is_array($status) && count($status) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $status when calling findPetsByStatus'
             );
         }
-
 
         $resourcePath = '/pet/findByStatus';
         $formParams = [];
@@ -1237,14 +1230,12 @@ class PetApi
         string $contentType = self::contentTypes['findPetsByTags'][0]
     ): Request
     {
-
         // verify the required parameter 'tags' is set
         if ($tags === null || (is_array($tags) && count($tags) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $tags when calling findPetsByTags'
             );
         }
-        
 
         $resourcePath = '/pet/findByTags';
         $formParams = [];
@@ -1498,14 +1489,12 @@ class PetApi
         string $contentType = self::contentTypes['getPetById'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling getPetById'
             );
         }
-
 
         $resourcePath = '/pet/{petId}';
         $formParams = [];
@@ -1816,14 +1805,12 @@ class PetApi
         string $contentType = self::contentTypes['updatePet'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet when calling updatePet'
             );
         }
-
 
         $resourcePath = '/pet';
         $formParams = [];
@@ -2127,16 +2114,12 @@ class PetApi
         string $contentType = self::contentTypes['updatePetWithForm'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling updatePetWithForm'
             );
         }
-
-
-
 
         $resourcePath = '/pet/{petId}';
         $formParams = [];
@@ -2443,16 +2426,12 @@ class PetApi
         string $contentType = self::contentTypes['uploadFile'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling uploadFile'
             );
         }
-
-
-
 
         $resourcePath = '/pet/{petId}/uploadImage';
         $formParams = [];
@@ -2759,22 +2738,18 @@ class PetApi
         string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling uploadFileWithRequiredFile'
             );
         }
-
         // verify the required parameter 'required_file' is set
         if ($required_file === null || (is_array($required_file) && count($required_file) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $required_file when calling uploadFileWithRequiredFile'
             );
         }
-
-
 
         $resourcePath = '/fake/{petId}/uploadImageWithRequiredFile';
         $formParams = [];

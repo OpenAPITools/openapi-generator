@@ -341,7 +341,6 @@ class BodyApi
     ): Request
     {
 
-
         $resourcePath = '/binary/gif';
         $formParams = [];
         $queryParams = [];
@@ -580,8 +579,6 @@ class BodyApi
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): Request
     {
-
-
 
         $resourcePath = '/body/application/octetstream/binary';
         $formParams = [];
@@ -852,14 +849,12 @@ class BodyApi
         string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
     ): Request
     {
-
         // verify the required parameter 'files' is set
         if ($files === null || (is_array($files) && count($files) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $files when calling testBodyMultipartFormdataArrayOfBinary'
             );
         }
-
 
         $resourcePath = '/body/application/octetstream/array_of_binary';
         $formParams = [];
@@ -1133,8 +1128,6 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/body/application/octetstream/single_binary';
         $formParams = [];
         $queryParams = [];
@@ -1407,8 +1400,6 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/allOf/Pet';
         $formParams = [];
         $queryParams = [];
@@ -1678,8 +1669,6 @@ class BodyApi
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): Request
     {
-
-
 
         $resourcePath = '/echo/body/FreeFormObject/response_string';
         $formParams = [];
@@ -1951,8 +1940,6 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/Pet';
         $formParams = [];
         $queryParams = [];
@@ -2222,8 +2209,6 @@ class BodyApi
         string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
     ): Request
     {
-
-
 
         $resourcePath = '/echo/body/Pet/response_string';
         $formParams = [];
@@ -2495,8 +2480,6 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/string_enum';
         $formParams = [];
         $queryParams = [];
@@ -2766,8 +2749,6 @@ class BodyApi
         string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
     ): Request
     {
-
-
 
         $resourcePath = '/echo/body/Tag/response_string';
         $formParams = [];
