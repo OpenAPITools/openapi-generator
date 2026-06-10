@@ -31,7 +31,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -343,7 +342,7 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -573,7 +572,7 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -803,7 +802,7 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -1984,7 +1983,7 @@ class UserApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
