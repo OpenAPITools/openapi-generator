@@ -306,6 +306,34 @@ public class PhpNextgenClientCodegenTest {
                 a -> a.contains("\\OpenAPI\\Client\\Model\\ErrorResponse|\\OpenAPI\\Client\\Model\\ErrorResponse"),
                 "duplicate response types must be collapsed in the WithHttpInfo @return");
 
+        // The API doc example must instantiate a concrete oneOf member, not the abstract
+        // dispatcher: `new Mammal()` is not usable, so the first member `new Whale()` is used.
+        List<String> fakeApiDoc = Files.readAllLines(files.get("FakeApi.md").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(fakeApiDoc,
+                a -> a.contains("$mammal = new \\OpenAPI\\Client\\Model\\Whale()"),
+                "the doc example instantiates the first oneOf member (Whale)");
+        Assert.assertListNotContains(fakeApiDoc,
+                a -> a.contains("new \\OpenAPI\\Client\\Model\\Mammal()"),
+                "the doc example must not instantiate the abstract Mammal oneOf dispatcher");
+
+        // The oneOf model doc documents its concrete member types, not the umbrella's flattened
+        // properties, and names the wire discriminator.
+        List<String> mammalDoc = Files.readAllLines(files.get("Mammal.md").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(mammalDoc,
+                a -> a.contains("[**\\OpenAPI\\Client\\Model\\Whale**](Whale.md)"),
+                "Mammal doc links to its Whale member");
+        Assert.assertListContains(mammalDoc,
+                a -> a.contains("[**\\OpenAPI\\Client\\Model\\Zebra**](Zebra.md)"),
+                "Mammal doc links to its Zebra member");
+        Assert.assertListContains(mammalDoc,
+                a -> a.contains("`class_name` discriminator"),
+                "Mammal doc names the discriminator with the same property convention as the model docs (class_name)");
+        Assert.assertListNotContains(mammalDoc,
+                a -> a.equals("## Properties") || a.contains("**has_baleen**") || a.contains("**has_teeth**"),
+                "Mammal doc must not present the umbrella's flattened member properties");
+
         // ObjectSerializer dispatches oneOf deserialization to the member types.
         List<String> objectSerializer = Files.readAllLines(files.get("ObjectSerializer.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());

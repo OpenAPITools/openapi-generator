@@ -264,6 +264,27 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         return nullable ? docType + "|null" : docType;
     }
 
+    /**
+     * A oneOf model is an abstract dispatcher, so the default doc example ({@code new Mammal()})
+     * instantiates a type that cannot be used. Rewrite the example to instantiate the first member
+     * of the union instead ({@code new Whale()}). Handles a oneOf parameter directly as well as a
+     * container whose items are a oneOf.
+     */
+    private void useFirstOneOfMemberInExample(CodegenParameter param, Map<String, String> oneOfTypeHints) {
+        if (param.example == null) {
+            return;
+        }
+        String alias = oneOfTypeHints.containsKey(param.dataType) ? param.dataType
+                : (param.items != null && oneOfTypeHints.containsKey(param.items.dataType) ? param.items.dataType : null);
+        if (alias == null) {
+            return;
+        }
+        String firstMember = oneOfTypeHints.get(alias).split("\\|", 2)[0];
+        if (firstMember.startsWith("\\")) { // a concrete class we can instantiate
+            param.example = param.example.replace(alias, firstMember);
+        }
+    }
+
     private ModelsMap postProcessModelsMap(ModelsMap objs, Map<String, String> oneOfTypeHints) {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
@@ -328,6 +349,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 param.vendorExtensions.putIfAbsent("x-php-param-type",
                         phpSignatureType(param.dataType, param.isArray || param.isMap, param.notRequiredOrIsNullable(), oneOfTypeHints));
                 param.vendorExtensions.putIfAbsent("x-php-param-doc-type", phpDocType(param, oneOfTypeHints));
+                useFirstOneOfMemberInExample(param, oneOfTypeHints);
             }
         }
 
