@@ -69,9 +69,6 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
         );
 
         // clear import mapping (from default generator) as php does not use it
@@ -127,6 +124,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("FormDataProcessor.mustache", toSrcPath(invokerPackage, srcBasePath), "FormDataProcessor.php"));
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("ModelInterface.mustache", toSrcPath(modelPackage, srcBasePath), "ModelInterface.php"));
+        supportingFiles.add(new SupportingFile("OneOfInterface.mustache", toSrcPath(modelPackage, srcBasePath), "OneOfInterface.php"));
         supportingFiles.add(new SupportingFile("HeaderSelector.mustache", toSrcPath(invokerPackage, srcBasePath), "HeaderSelector.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -145,14 +143,51 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
+        Map<String, String> oneOfTypeHints = new HashMap<>();
+        for (ModelsMap modelsMap : processed.values()) {
+            for (ModelMap m : modelsMap.getModels()) {
+                collectOneOfTypeHint(m.getModel(), oneOfTypeHints);
+            }
+        }
+
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
-            entry.setValue(postProcessModelsMap(entry.getValue()));
+            entry.setValue(postProcessModelsMap(entry.getValue(), oneOfTypeHints));
         }
 
         return processed;
     }
 
-    private ModelsMap postProcessModelsMap(ModelsMap objs) {
+    /**
+     * If the given model is a oneOf composition, record the PHP union type that should be used
+     * wherever the model is referenced.
+     */
+    private void collectOneOfTypeHint(CodegenModel model, Map<String, String> oneOfTypeHints) {
+        if (model == null || model.getComposedSchemas() == null) {
+            return;
+        }
+
+        List<CodegenProperty> oneOf = model.getComposedSchemas().getOneOf();
+        if (oneOf == null || oneOf.isEmpty()) {
+            return;
+        }
+
+        Set<String> memberTypes = new LinkedHashSet<>();
+        for (CodegenProperty member : oneOf) {
+            memberTypes.add((member.isArray || member.isMap) ? "array" : member.dataType);
+        }
+
+        oneOfTypeHints.put("\\" + modelPackage + "\\" + model.classname, String.join("|", memberTypes));
+    }
+
+    /**
+     * PHP forbids the nullable shorthand ({@code ?T}) on union types, so a union must instead
+     * gain an explicit {@code |null} member.
+     */
+    private static String makeNullable(String phpType) {
+        return phpType.contains("|") ? phpType + "|null" : "?" + phpType;
+    }
+
+    private ModelsMap postProcessModelsMap(ModelsMap objs, Map<String, String> oneOfTypeHints) {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
 
@@ -161,11 +196,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 if (prop.isArray || prop.isMap) {
                     propType = "array";
                 } else {
-                    propType = prop.dataType;
+                    propType = oneOfTypeHints.getOrDefault(prop.dataType, prop.dataType);
                 }
 
                 if ((!prop.required || prop.isNullable) && !propType.equals("mixed")) { // optional or nullable but not mixed
-                    propType = "?" + propType;
+                    propType = makeNullable(propType);
                 }
 
                 prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
@@ -177,6 +212,12 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        Map<String, String> oneOfTypeHints = new HashMap<>();
+        for (ModelMap m : allModels) {
+            collectOneOfTypeHint(m.getModel(), oneOfTypeHints);
+        }
+
         OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
             Set<String> phpReturnTypeOptions = new LinkedHashSet<>();
@@ -190,6 +231,8 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                         // PHP does not understand array type hinting so we strip it
                         // The phpdoc will still contain the array type hinting
                         returnType = "array";
+                    } else {
+                        returnType = oneOfTypeHints.getOrDefault(returnType, returnType);
                     }
 
                     phpReturnTypeOptions.add(returnType);
@@ -207,11 +250,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 String phpReturnType = String.join("|", phpReturnTypeOptions);
                 String docReturnType = String.join("|", docReturnTypeOptions);
                 if (hasEmptyResponse) {
-                    if (phpReturnTypeOptions.size() > 1) {
-                        phpReturnType = phpReturnType + "|null";
-                    } else {
-                        phpReturnType = "?" + phpReturnType;
-                    }
+                    phpReturnType = makeNullable(phpReturnType);
                     docReturnType = docReturnType + "|null";
                 }
 
@@ -225,10 +264,10 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 if (param.isArray || param.isMap) {
                     paramType = "array";
                 } else {
-                    paramType = param.dataType;
+                    paramType = oneOfTypeHints.getOrDefault(param.dataType, param.dataType);
                 }
                 if ((!param.required || param.isNullable) && !paramType.equals("mixed")) { // optional or nullable but not mixed
-                    paramType = "?" + paramType;
+                    paramType = makeNullable(paramType);
                 }
                 param.vendorExtensions.putIfAbsent("x-php-param-type", paramType);
             }

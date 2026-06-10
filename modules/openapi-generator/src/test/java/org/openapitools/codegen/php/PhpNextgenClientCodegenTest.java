@@ -215,4 +215,65 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertListContains(modelContent, a -> a.equals("): int|string|null"), "Expected to find nullable return type declaration.");
         Assert.assertListNotContains(modelContent, a -> a.equals("): ?int|string"), "Expected to not find invalid union type with '?'.");
     }
+
+    @Test
+    public void testOneOfPolymorphism() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // The marker interface used to recognize oneOf models is generated.
+        Assert.assertTrue(files.containsKey("OneOfInterface.php"), "Expected OneOfInterface.php to be generated.");
+
+        // A oneOf without a discriminator becomes a dispatcher exposing its member types.
+        List<String> fruit = Files.readAllLines(files.get("Fruit.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(fruit, a -> a.equals("class Fruit implements OneOfInterface"),
+                "Fruit must implement OneOfInterface");
+        Assert.assertListContains(fruit, a -> a.equals("public const DISCRIMINATOR = null;"),
+                "Fruit has no discriminator");
+        Assert.assertListContains(fruit, a -> a.equals("'\\OpenAPI\\Client\\Model\\Apple',"),
+                "Fruit lists Apple as a member type");
+        Assert.assertListContains(fruit, a -> a.equals("'\\OpenAPI\\Client\\Model\\Banana'"),
+                "Fruit lists Banana as a member type");
+
+        // A oneOf with a discriminator exposes its property name and value mapping.
+        List<String> mammal = Files.readAllLines(files.get("Mammal.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(mammal, a -> a.equals("public const DISCRIMINATOR = 'className';"),
+                "Mammal exposes its discriminator property by its wire (base) name");
+        Assert.assertListContains(mammal, a -> a.equals("'whale' => '\\OpenAPI\\Client\\Model\\Whale',"),
+                "Mammal maps the whale discriminator value");
+        Assert.assertListContains(mammal, a -> a.equals("'zebra' => '\\OpenAPI\\Client\\Model\\Zebra'"),
+                "Mammal maps the zebra discriminator value");
+
+        // References to a oneOf are type-hinted as the PHP union of its members.
+        List<String> fakeApi = Files.readAllLines(files.get("FakeApi.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(fakeApi,
+                a -> a.contains("\\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra"),
+                "Mammal request body is hinted as a union");
+        Assert.assertListContains(fakeApi,
+                a -> a.contains("\\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana"),
+                "Fruit response is hinted as a union");
+
+        // ObjectSerializer dispatches oneOf deserialization to the member types.
+        List<String> objectSerializer = Files.readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+        Assert.assertListContains(objectSerializer,
+                a -> a.contains("private static function deserializeOneOf("),
+                "ObjectSerializer resolves oneOf schemas");
+    }
 }

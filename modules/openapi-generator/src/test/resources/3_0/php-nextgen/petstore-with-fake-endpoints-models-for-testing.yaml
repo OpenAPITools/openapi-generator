@@ -17,6 +17,26 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /fake/oneof:
+    post:
+      tags:
+        - fake
+      summary: test oneOf polymorphism
+      description: Accepts and returns oneOf schemas to exercise polymorphism support
+      operationId: testOneOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mammal'
+        required: true
+      responses:
+        '200':
+          description: a fruit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fruit'
   /foo:
     get:
       responses:
@@ -2309,4 +2329,59 @@ components:
           properties:
             childProperty:
               type: string
+
+    Apple:
+      type: object
+      properties:
+        cultivar:
+          type: string
+        origin:
+          type: string
+
+    Banana:
+      type: object
+      properties:
+        lengthCm:
+          type: number
+
+    Fruit:
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Banana'
+
+    Whale:
+      type: object
+      required:
+        - className
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+
+    Zebra:
+      type: object
+      required:
+        - className
+      properties:
+        type:
+          type: string
+          enum:
+            - plains
+            - mountain
+            - grevys
+        className:
+          type: string
+
+    Mammal:
+      oneOf:
+        - $ref: '#/components/schemas/Whale'
+        - $ref: '#/components/schemas/Zebra'
+      discriminator:
+        propertyName: className
+        mapping:
+          whale: '#/components/schemas/Whale'
+          zebra: '#/components/schemas/Zebra'
 
