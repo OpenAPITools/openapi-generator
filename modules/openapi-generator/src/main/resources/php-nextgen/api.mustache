@@ -679,8 +679,12 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/allParams}}
 
         $resourcePath = '{{{path}}}';
+        {{#hasBodyOrFormParams}}
         $formParams = [];
+        {{/hasBodyOrFormParams}}
+        {{#hasQueryParams}}
         $queryParams = [];
+        {{/hasQueryParams}}
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
