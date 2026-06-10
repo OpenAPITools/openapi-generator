@@ -365,7 +365,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/enum_ref_string';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -642,7 +641,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/datetime/date/string';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -928,7 +926,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/integer/boolean/string';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1194,7 +1191,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_deepObject/explode_true/object';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1442,7 +1438,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_deepObject/explode_true/object/allOf';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1690,7 +1685,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_form/explode_false/array_integer';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1938,7 +1932,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_form/explode_false/array_string';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2186,7 +2179,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_form/explode_true/array_string';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2434,7 +2426,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_form/explode_true/object';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2682,7 +2673,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_form/explode_true/object/allOf';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -2940,7 +2930,6 @@ class QueryApi
     {
 
         $resourcePath = '/query/style_jsonSerialization/object';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';

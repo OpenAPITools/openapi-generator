@@ -318,8 +318,6 @@ class AuthApi
     {
 
         $resourcePath = '/auth/http/basic';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -552,8 +550,6 @@ class AuthApi
     {
 
         $resourcePath = '/auth/http/bearer';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

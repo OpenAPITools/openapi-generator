@@ -396,8 +396,6 @@ class FakeApi
     {
 
         $resourcePath = '/fake/BigDecimalMap';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -618,8 +616,6 @@ class FakeApi
         }
 
         $resourcePath = '/fake/pet/{pet_id}';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -903,7 +899,6 @@ class FakeApi
         }
 
         $resourcePath = '/fake/enum/endpoint';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1159,8 +1154,6 @@ class FakeApi
     {
 
         $resourcePath = '/fake/health';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1652,7 +1645,6 @@ class FakeApi
 
         $resourcePath = '/fake/outer/boolean';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1914,7 +1906,6 @@ class FakeApi
 
         $resourcePath = '/fake/outer/composite';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2176,7 +2167,6 @@ class FakeApi
 
         $resourcePath = '/fake/outer/number';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2438,7 +2428,6 @@ class FakeApi
 
         $resourcePath = '/fake/outer/string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2706,7 +2695,6 @@ class FakeApi
 
         $resourcePath = '/fake/property/enum-int';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -3014,7 +3002,6 @@ class FakeApi
 
         $resourcePath = '/fake/with_400_and_4xx_range_response/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -3290,7 +3277,6 @@ class FakeApi
 
         $resourcePath = '/fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -3580,7 +3566,6 @@ class FakeApi
 
         $resourcePath = '/fake/with_400_response/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -3874,7 +3859,6 @@ class FakeApi
 
         $resourcePath = '/fake/with_4xx_range_response/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4150,7 +4134,6 @@ class FakeApi
 
         $resourcePath = '/fake/with_4xx_range_response_no_4xx_datatype/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4378,7 +4361,6 @@ class FakeApi
 
         $resourcePath = '/fake/additionalProperties-reference';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4598,7 +4580,6 @@ class FakeApi
 
         $resourcePath = '/fake/body-with-binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4818,7 +4799,6 @@ class FakeApi
 
         $resourcePath = '/fake/body-with-file-schema';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -5339,7 +5319,6 @@ class FakeApi
 
         $resourcePath = '/fake';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -5754,7 +5733,6 @@ class FakeApi
 
         $resourcePath = '/fake';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -6412,7 +6390,6 @@ class FakeApi
         }
 
         $resourcePath = '/fake';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -6659,7 +6636,6 @@ class FakeApi
 
         $resourcePath = '/fake/inline-additionalProperties';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -6887,7 +6863,6 @@ class FakeApi
 
         $resourcePath = '/fake/inline-freeform-additionalProperties';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -7131,7 +7106,6 @@ class FakeApi
 
         $resourcePath = '/fake/jsonFormData';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -7362,7 +7336,6 @@ class FakeApi
 
         $resourcePath = '/fake/nullable';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -7671,7 +7644,6 @@ class FakeApi
         }
 
         $resourcePath = '/fake/test-query-parameters';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -7932,7 +7904,6 @@ class FakeApi
 
         $resourcePath = '/fake/stringMap-reference';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

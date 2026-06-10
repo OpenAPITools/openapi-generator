@@ -342,8 +342,6 @@ class BodyApi
     {
 
         $resourcePath = '/binary/gif';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -582,7 +580,6 @@ class BodyApi
 
         $resourcePath = '/body/application/octetstream/binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -858,7 +855,6 @@ class BodyApi
 
         $resourcePath = '/body/application/octetstream/array_of_binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1130,7 +1126,6 @@ class BodyApi
 
         $resourcePath = '/body/application/octetstream/single_binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1402,7 +1397,6 @@ class BodyApi
 
         $resourcePath = '/echo/body/allOf/Pet';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1672,7 +1666,6 @@ class BodyApi
 
         $resourcePath = '/echo/body/FreeFormObject/response_string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1942,7 +1935,6 @@ class BodyApi
 
         $resourcePath = '/echo/body/Pet';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2212,7 +2204,6 @@ class BodyApi
 
         $resourcePath = '/echo/body/Pet/response_string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2482,7 +2473,6 @@ class BodyApi
 
         $resourcePath = '/echo/body/string_enum';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2752,7 +2742,6 @@ class BodyApi
 
         $resourcePath = '/echo/body/Tag/response_string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

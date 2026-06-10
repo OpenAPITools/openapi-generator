@@ -304,7 +304,6 @@ class UserApi
 
         $resourcePath = '/user';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -532,7 +531,6 @@ class UserApi
 
         $resourcePath = '/user/createWithArray';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -760,7 +758,6 @@ class UserApi
 
         $resourcePath = '/user/createWithList';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -987,8 +984,6 @@ class UserApi
         }
 
         $resourcePath = '/user/{username}';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1240,8 +1235,6 @@ class UserApi
         }
 
         $resourcePath = '/user/{username}';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1509,7 +1502,6 @@ class UserApi
         }
 
         $resourcePath = '/user/login';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1708,8 +1700,6 @@ class UserApi
     {
 
         $resourcePath = '/user/logout';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1922,7 +1912,6 @@ class UserApi
 
         $resourcePath = '/user/{username}';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;

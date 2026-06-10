@@ -302,8 +302,6 @@ class DefaultApi
     {
 
         $resourcePath = '/error';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -523,8 +521,6 @@ class DefaultApi
     {
 
         $resourcePath = '/foo';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
