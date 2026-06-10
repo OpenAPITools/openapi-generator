@@ -242,7 +242,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\FakeBigDecimalMap200Response, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\FakeBigDecimalMap200Response, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeBigDecimalMapWithHttpInfo(
         string $contentType = self::contentTypes['fakeBigDecimalMap'][0]
@@ -491,7 +491,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeDeletePetWithHttpInfo(
         string $pet_id,
@@ -757,7 +757,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\EnumClass, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\EnumClass, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeEnumEndpointWithHttpInfo(
         \OpenAPI\Client\Model\EnumClass $enum_class,
@@ -1080,7 +1080,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\HealthCheckResult, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\HealthCheckResult, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeHealthGetWithHttpInfo(
         string $contentType = self::contentTypes['fakeHealthGet'][0]
@@ -1342,7 +1342,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeHttpSignatureTestWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,
@@ -1598,7 +1598,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of bool, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: bool, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeOuterBooleanSerializeWithHttpInfo(
         ?bool $body = null,
@@ -1862,7 +1862,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\OuterComposite, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\OuterComposite, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeOuterCompositeSerializeWithHttpInfo(
         ?\OpenAPI\Client\Model\OuterComposite $outer_composite = null,
@@ -2126,7 +2126,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of float, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: float, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeOuterNumberSerializeWithHttpInfo(
         ?float $body = null,
@@ -2390,7 +2390,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeOuterStringSerializeWithHttpInfo(
         ?string $body = null,
@@ -2654,7 +2654,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\OuterObjectWithEnumProperty, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\OuterObjectWithEnumProperty, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakePropertyEnumIntegerSerializeWithHttpInfo(
         \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property,
@@ -2928,7 +2928,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse|\OpenAPI\Client\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeWith400And4xxRangeResponseEndpointWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,
@@ -3238,7 +3238,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Pet|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,
@@ -3516,7 +3516,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeWith400ResponseEndpointWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,
@@ -3808,7 +3808,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeWith4xxRangeResponseEndpointWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,
@@ -4104,7 +4104,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Pet|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,
@@ -4381,7 +4381,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testAdditionalPropertiesReferenceWithHttpInfo(
         array $request_body,
@@ -4607,7 +4607,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyWithBinaryWithHttpInfo(
         ?\SplFileObject $body,
@@ -4829,7 +4829,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyWithFileSchemaWithHttpInfo(
         \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class,
@@ -5054,7 +5054,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyWithQueryParamsWithHttpInfo(
         string $query,
@@ -5304,7 +5304,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Client, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testClientModelWithHttpInfo(
         \OpenAPI\Client\Model\Client $client,
@@ -5620,7 +5620,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEndpointParametersWithHttpInfo(
         float $number,
@@ -6055,7 +6055,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEnumParametersWithHttpInfo(
         ?array $enum_header_string_array = ['$'],
@@ -6415,7 +6415,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testGroupParametersWithHttpInfo(
         array $associative_array
@@ -6729,7 +6729,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testInlineAdditionalPropertiesWithHttpInfo(
         array $request_body,
@@ -6959,7 +6959,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testInlineFreeformAdditionalPropertiesWithHttpInfo(
         \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request,
@@ -7192,7 +7192,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testJsonFormDataWithHttpInfo(
         string $param,
@@ -7439,7 +7439,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testNullableWithHttpInfo(
         \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable,
@@ -7644,12 +7644,12 @@ class FakeApi
      *
      * test oneOf polymorphism
      *
-     * @param  \OpenAPI\Client\Model\Mammal $mammal mammal (required)
+     * @param  \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $mammal mammal (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testOneOf'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Fruit
+     * @return \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana
      */
     public function testOneOf(
         \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $mammal,
@@ -7665,12 +7665,12 @@ class FakeApi
      *
      * test oneOf polymorphism
      *
-     * @param  \OpenAPI\Client\Model\Mammal $mammal (required)
+     * @param  \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $mammal (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testOneOf'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Fruit, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testOneOfWithHttpInfo(
         \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $mammal,
@@ -7750,7 +7750,7 @@ class FakeApi
      *
      * test oneOf polymorphism
      *
-     * @param  \OpenAPI\Client\Model\Mammal $mammal (required)
+     * @param  \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $mammal (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testOneOf'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -7774,7 +7774,7 @@ class FakeApi
      *
      * test oneOf polymorphism
      *
-     * @param  \OpenAPI\Client\Model\Mammal $mammal (required)
+     * @param  \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $mammal (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testOneOf'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -7827,7 +7827,7 @@ class FakeApi
     /**
      * Create request for operation 'testOneOf'
      *
-     * @param  \OpenAPI\Client\Model\Mammal $mammal (required)
+     * @param  \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $mammal (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testOneOf'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -7961,7 +7961,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryParameterCollectionFormatWithHttpInfo(
         array $pipe,
@@ -8321,7 +8321,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testStringMapReferenceWithHttpInfo(
         array $request_body,

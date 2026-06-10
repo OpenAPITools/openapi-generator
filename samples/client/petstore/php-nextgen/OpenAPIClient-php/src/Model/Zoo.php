@@ -291,7 +291,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets favorite_mammal
      *
-     * @return \OpenAPI\Client\Model\Mammal
+     * @return \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra
      */
     public function getFavoriteMammal(): \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra
     {
@@ -301,7 +301,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets favorite_mammal
      *
-     * @param \OpenAPI\Client\Model\Mammal $favorite_mammal favorite_mammal
+     * @param \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra $favorite_mammal favorite_mammal
      *
      * @return $this
      */
@@ -318,7 +318,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets optional_mammal
      *
-     * @return \OpenAPI\Client\Model\Mammal|null
+     * @return \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|null
      */
     public function getOptionalMammal(): \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|null
     {
@@ -328,7 +328,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets optional_mammal
      *
-     * @param \OpenAPI\Client\Model\Mammal|null $optional_mammal optional_mammal
+     * @param \OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra|null $optional_mammal optional_mammal
      *
      * @return $this
      */
@@ -345,7 +345,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets snack
      *
-     * @return \OpenAPI\Client\Model\Fruit|null
+     * @return \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
      */
     public function getSnack(): \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null
     {
@@ -355,7 +355,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets snack
      *
-     * @param \OpenAPI\Client\Model\Fruit|null $snack snack
+     * @param \OpenAPI\Client\Model\Apple|\OpenAPI\Client\Model\Banana|null $snack snack
      *
      * @return $this
      */
@@ -372,7 +372,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Gets mammals
      *
-     * @return \OpenAPI\Client\Model\Mammal[]|null
+     * @return (\OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra)[]|null
      */
     public function getMammals(): ?array
     {
@@ -382,7 +382,7 @@ class Zoo implements ModelInterface, ArrayAccess, JsonSerializable
     /**
      * Sets mammals
      *
-     * @param \OpenAPI\Client\Model\Mammal[]|null $mammals mammals
+     * @param (\OpenAPI\Client\Model\Whale|\OpenAPI\Client\Model\Zebra)[]|null $mammals mammals
      *
      * @return $this
      */

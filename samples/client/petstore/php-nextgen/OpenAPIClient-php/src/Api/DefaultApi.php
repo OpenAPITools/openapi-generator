@@ -156,7 +156,7 @@ class DefaultApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function errorWithHttpInfo(
         string $contentType = self::contentTypes['error'][0]
@@ -391,7 +391,7 @@ class DefaultApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\FooGetDefaultResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\FooGetDefaultResponse, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fooGetWithHttpInfo(
         string $contentType = self::contentTypes['fooGet'][0]

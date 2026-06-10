@@ -187,23 +187,91 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         return phpType.contains("|") ? phpType + "|null" : "?" + phpType;
     }
 
+    /**
+     * The base PHP type hint for a single element: a container collapses to {@code array} (PHP
+     * cannot type-hint {@code Foo[]}), a oneOf alias expands to the union of its members, and
+     * everything else stays its {@code dataType}.
+     */
+    private String phpBaseType(String dataType, boolean isContainer, Map<String, String> oneOfTypeHints) {
+        return isContainer ? "array" : oneOfTypeHints.getOrDefault(dataType, dataType);
+    }
+
+    /**
+     * The PHP signature type hint: the {@link #phpBaseType base type}, made nullable when the
+     * element is optional or nullable - except {@code mixed}, which already admits null.
+     */
+    private String phpSignatureType(String dataType, boolean isContainer, boolean nullable, Map<String, String> oneOfTypeHints) {
+        String base = phpBaseType(dataType, isContainer, oneOfTypeHints);
+        return (nullable && !base.equals("mixed")) ? makeNullable(base) : base;
+    }
+
+    /**
+     * Wrap an expanded inner union back into container phpdoc notation: {@code (Apple|Banana)[]}
+     * for arrays (parenthesised so {@code []} binds to the whole union, not just its last member)
+     * and {@code array<string,Apple|Banana>} for maps. A {@code null} inner propagates, signalling
+     * "no oneOf in this type".
+     */
+    private static String wrapContainerDoc(boolean isArray, String inner) {
+        if (inner == null) {
+            return null;
+        }
+        return isArray ? (inner.contains("|") ? "(" + inner + ")[]" : inner + "[]")
+                : "array<string," + inner + ">";
+    }
+
+    /**
+     * The phpdoc type with any reference to a oneOf model expanded to the union of its members.
+     * A oneOf model is only a deserialization dispatcher, so its members do not inherit from it
+     * and {@code @param Fruit} would be a lie — {@code @param Apple|Banana} is the truth.
+     * Returns {@code null} when no oneOf is involved, so the caller can leave the original
+     * {@code dataType} phpdoc untouched.
+     */
+    private String oneOfDocType(CodegenProperty prop, Map<String, String> oneOfTypeHints) {
+        return docTypeOf(prop.isArray, prop.isMap, prop.items, prop.dataType, oneOfTypeHints);
+    }
+
+    private String oneOfDocType(CodegenParameter param, Map<String, String> oneOfTypeHints) {
+        return docTypeOf(param.isArray, param.isMap, param.items, param.dataType, oneOfTypeHints);
+    }
+
+    private String oneOfDocType(CodegenResponse response, Map<String, String> oneOfTypeHints) {
+        return docTypeOf(response.isArray, response.isMap, response.items, response.dataType, oneOfTypeHints);
+    }
+
+    private String docTypeOf(boolean isArray, boolean isMap, CodegenProperty items, String dataType, Map<String, String> oneOfTypeHints) {
+        if ((isArray || isMap) && items != null) {
+            return wrapContainerDoc(isArray, oneOfDocType(items, oneOfTypeHints));
+        }
+        return oneOfTypeHints.get(dataType);
+    }
+
+    /**
+     * The fully-baked phpdoc type the template can emit verbatim: the oneOf-expanded type (or the
+     * unchanged {@code dataType} when no oneOf is involved), with a {@code |null} member appended
+     * when the element is optional or nullable. phpdoc unions always spell out {@code |null}
+     * rather than using the {@code ?T} shorthand.
+     */
+    private String phpDocType(CodegenProperty prop, Map<String, String> oneOfTypeHints) {
+        return bakeDocType(oneOfDocType(prop, oneOfTypeHints), prop.dataType, prop.notRequiredOrIsNullable());
+    }
+
+    private String phpDocType(CodegenParameter param, Map<String, String> oneOfTypeHints) {
+        return bakeDocType(oneOfDocType(param, oneOfTypeHints), param.dataType, param.notRequiredOrIsNullable());
+    }
+
+    private static String bakeDocType(String expandedType, String dataType, boolean nullable) {
+        String docType = expandedType != null ? expandedType : dataType;
+        return nullable ? docType + "|null" : docType;
+    }
+
     private ModelsMap postProcessModelsMap(ModelsMap objs, Map<String, String> oneOfTypeHints) {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
 
             for (CodegenProperty prop : model.vars) {
-                String propType;
-                if (prop.isArray || prop.isMap) {
-                    propType = "array";
-                } else {
-                    propType = oneOfTypeHints.getOrDefault(prop.dataType, prop.dataType);
-                }
-
-                if ((!prop.required || prop.isNullable) && !propType.equals("mixed")) { // optional or nullable but not mixed
-                    propType = makeNullable(propType);
-                }
-
-                prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
+                prop.vendorExtensions.putIfAbsent("x-php-prop-type",
+                        phpSignatureType(prop.dataType, prop.isArray || prop.isMap, prop.notRequiredOrIsNullable(), oneOfTypeHints));
+                prop.vendorExtensions.putIfAbsent("x-php-prop-doc-type", phpDocType(prop, oneOfTypeHints));
             }
         }
         return objs;
@@ -226,17 +294,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
             for (CodegenResponse response : operation.responses) {
                 if (response.dataType != null) {
-                    String returnType = response.dataType;
-                    if (response.isArray || response.isMap) {
-                        // PHP does not understand array type hinting so we strip it
-                        // The phpdoc will still contain the array type hinting
-                        returnType = "array";
-                    } else {
-                        returnType = oneOfTypeHints.getOrDefault(returnType, returnType);
-                    }
-
-                    phpReturnTypeOptions.add(returnType);
-                    docReturnTypeOptions.add(response.dataType);
+                    // The signature collapses a container to `array` (PHP cannot type-hint Foo[]);
+                    // the phpdoc keeps the full notation, with any oneOf alias expanded to its union.
+                    phpReturnTypeOptions.add(phpBaseType(response.dataType, response.isArray || response.isMap, oneOfTypeHints));
+                    String responseDocType = oneOfDocType(response, oneOfTypeHints);
+                    docReturnTypeOptions.add(responseDocType != null ? responseDocType : response.dataType);
                 } else {
                     hasEmptyResponse = true;
                 }
@@ -260,16 +322,9 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             }
 
             for (CodegenParameter param : operation.allParams) {
-                String paramType;
-                if (param.isArray || param.isMap) {
-                    paramType = "array";
-                } else {
-                    paramType = oneOfTypeHints.getOrDefault(param.dataType, param.dataType);
-                }
-                if ((!param.required || param.isNullable) && !paramType.equals("mixed")) { // optional or nullable but not mixed
-                    paramType = makeNullable(paramType);
-                }
-                param.vendorExtensions.putIfAbsent("x-php-param-type", paramType);
+                param.vendorExtensions.putIfAbsent("x-php-param-type",
+                        phpSignatureType(param.dataType, param.isArray || param.isMap, param.notRequiredOrIsNullable(), oneOfTypeHints));
+                param.vendorExtensions.putIfAbsent("x-php-param-doc-type", phpDocType(param, oneOfTypeHints));
             }
         }
 

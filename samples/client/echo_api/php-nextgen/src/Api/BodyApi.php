@@ -181,7 +181,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \SplFileObject, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \SplFileObject, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBinaryGifWithHttpInfo(
         string $contentType = self::contentTypes['testBinaryGif'][0]
@@ -438,7 +438,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyApplicationOctetstreamBinaryWithHttpInfo(
         ?\SplFileObject $body = null,
@@ -710,7 +710,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(
         array $files,
@@ -990,7 +990,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyMultipartFormdataSingleBinaryWithHttpInfo(
         ?\SplFileObject $my_file = null,
@@ -1264,7 +1264,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Pet, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEchoBodyAllOfPetWithHttpInfo(
         ?\OpenAPI\Client\Model\Pet $pet = null,
@@ -1536,7 +1536,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEchoBodyFreeFormObjectResponseStringWithHttpInfo(
         ?array $body = null,
@@ -1808,7 +1808,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\Pet, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEchoBodyPetWithHttpInfo(
         ?\OpenAPI\Client\Model\Pet $pet = null,
@@ -2080,7 +2080,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEchoBodyPetResponseStringWithHttpInfo(
         ?\OpenAPI\Client\Model\Pet $pet = null,
@@ -2352,7 +2352,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of \OpenAPI\Client\Model\StringEnumRef, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: \OpenAPI\Client\Model\StringEnumRef, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEchoBodyStringEnumWithHttpInfo(
         ?string $body = null,
@@ -2624,7 +2624,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEchoBodyTagResponseStringWithHttpInfo(
         ?\OpenAPI\Client\Model\Tag $tag = null,

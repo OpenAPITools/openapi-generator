@@ -269,6 +269,32 @@ public class PhpNextgenClientCodegenTest {
                 a -> a.contains("\\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana"),
                 "Fruit response is hinted as a union");
 
+        // The phpdoc must describe the concrete member union too, not the oneOf alias: the members
+        // do not inherit from the alias, so `@param Mammal` / `@return Fruit` would be a lie.
+        Assert.assertListContains(fakeApi,
+                a -> a.startsWith("* @param") && a.contains("\\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra"),
+                "Mammal request body @param phpdoc expands to the member union");
+        Assert.assertListContains(fakeApi,
+                a -> a.startsWith("* @return") && a.contains("\\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana"),
+                "Fruit response @return phpdoc expands to the member union");
+        // The WithHttpInfo tuple phpdoc is a real array-shape type and expands the oneOf alias too.
+        Assert.assertListContains(fakeApi,
+                a -> a.startsWith("* @return array{0: ") && a.contains("\\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana")
+                        && a.contains("1: int, 2: array<string, string[]>}"),
+                "WithHttpInfo @return is an array{...} shape that expands the Fruit oneOf to its member union");
+
+        // The bare alias must not leak into any @param or @return phpdoc (including the
+        // WithHttpInfo array-shape tuple line).
+        Assert.assertListNotContains(fakeApi,
+                a -> (a.startsWith("* @param") || a.startsWith("* @return"))
+                        && (a.contains("\\OpenAPI\\Client\\Model\\Mammal") || a.contains("\\OpenAPI\\Client\\Model\\Fruit")),
+                "the oneOf alias must not leak into the @param/@return phpdoc");
+
+        // Repeated response types collapse: the WithHttpInfo @return must not list a type twice.
+        Assert.assertListNotContains(fakeApi,
+                a -> a.contains("\\OpenAPI\\Client\\Model\\ErrorResponse|\\OpenAPI\\Client\\Model\\ErrorResponse"),
+                "duplicate response types must be collapsed in the WithHttpInfo @return");
+
         // ObjectSerializer dispatches oneOf deserialization to the member types.
         List<String> objectSerializer = Files.readAllLines(files.get("ObjectSerializer.php").toPath())
                 .stream().map(String::trim).collect(Collectors.toList());
@@ -324,5 +350,25 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertListContains(zoo,
                 a -> a.equals("public function getMammals(): ?array"),
                 "array of Mammal property getter degrades to a (nullable) array hint");
+
+        // The phpdoc must describe the concrete member union, not the oneOf alias: Apple and
+        // Banana do not inherit from Fruit, so `@param Fruit` would be a lie.
+        Assert.assertListContains(zoo,
+                a -> a.equals("* @return \\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana|null"),
+                "snack @return phpdoc expands the Fruit oneOf to its member union");
+        Assert.assertListContains(zoo,
+                a -> a.equals("* @param \\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana|null $snack snack"),
+                "snack @param phpdoc expands the Fruit oneOf to its member union");
+        Assert.assertListNotContains(zoo,
+                a -> a.contains("@param \\OpenAPI\\Client\\Model\\Fruit") || a.contains("@return \\OpenAPI\\Client\\Model\\Fruit"),
+                "the Fruit oneOf alias must not leak into the phpdoc");
+
+        // An array of a oneOf is documented as `(Type1|Type2)[]` so the brackets bind to the union.
+        Assert.assertListContains(zoo,
+                a -> a.equals("* @return (\\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra)[]|null"),
+                "mammals @return phpdoc nests the member union inside the array");
+        Assert.assertListContains(zoo,
+                a -> a.equals("* @param (\\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra)[]|null $mammals mammals"),
+                "mammals @param phpdoc nests the member union inside the array");
     }
 }

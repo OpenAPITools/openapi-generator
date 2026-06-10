@@ -157,7 +157,7 @@ class AuthApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testAuthHttpBasicWithHttpInfo(
         string $contentType = self::contentTypes['testAuthHttpBasic'][0]
@@ -416,7 +416,7 @@ class AuthApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testAuthHttpBearerWithHttpInfo(
         string $contentType = self::contentTypes['testAuthHttpBearer'][0]
