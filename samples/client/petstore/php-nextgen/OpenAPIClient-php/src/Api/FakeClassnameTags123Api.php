@@ -72,7 +72,7 @@ class FakeClassnameTags123Api
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'testClassname' => [
             'application/json',
@@ -195,7 +195,6 @@ class FakeClassnameTags123Api
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
