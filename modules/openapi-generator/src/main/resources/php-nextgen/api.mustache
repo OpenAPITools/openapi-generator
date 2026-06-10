@@ -747,6 +747,7 @@ use {{invokerPackage}}\ObjectSerializer;
             $multipart
         );
 
+        {{#hasBodyOrFormParams}}
         // for model (json/xml)
         {{#bodyParams}}
         if (isset(${{paramName}})) {
@@ -783,6 +784,7 @@ use {{invokerPackage}}\ObjectSerializer;
                 $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
+        {{/hasBodyOrFormParams}}
 
         {{#authMethods}}
         {{#isApiKey}}
