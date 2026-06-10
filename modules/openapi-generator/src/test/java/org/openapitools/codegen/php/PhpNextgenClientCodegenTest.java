@@ -276,4 +276,53 @@ public class PhpNextgenClientCodegenTest {
                 a -> a.contains("private static function deserializeOneOf("),
                 "ObjectSerializer resolves oneOf schemas");
     }
+
+    @Test
+    public void testOneOfAsPropertyType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Zoo references the oneOf schemas Mammal (with discriminator) and Fruit (without) as
+        // property types, so the accessors must be hinted with the PHP union of the member types.
+        List<String> zoo = Files.readAllLines(files.get("Zoo.php").toPath())
+                .stream().map(String::trim).collect(Collectors.toList());
+
+        // A required oneOf property is hinted as the bare union (no `|null`).
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getFavoriteMammal(): \\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra"),
+                "required Mammal property getter is hinted as the member union");
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function setFavoriteMammal(\\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra $favorite_mammal): static"),
+                "required Mammal property setter is hinted as the member union");
+
+        // PHP forbids `?` on unions, so an optional oneOf property gains an explicit `|null` member.
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getOptionalMammal(): \\OpenAPI\\Client\\Model\\Whale|\\OpenAPI\\Client\\Model\\Zebra|null"),
+                "optional Mammal property getter appends |null to the union");
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getSnack(): \\OpenAPI\\Client\\Model\\Apple|\\OpenAPI\\Client\\Model\\Banana|null"),
+                "optional Fruit property getter appends |null to the union");
+        Assert.assertListNotContains(zoo,
+                a -> a.contains("?\\OpenAPI\\Client\\Model\\Whale") || a.contains("?\\OpenAPI\\Client\\Model\\Apple"),
+                "a union type must never use the nullable shorthand `?`");
+
+        // An array of a oneOf degrades to a plain `array` hint (the union lives only in the
+        // phpdoc); being optional it keeps the `?` shorthand that is legal on a non-union type.
+        Assert.assertListContains(zoo,
+                a -> a.equals("public function getMammals(): ?array"),
+                "array of Mammal property getter degrades to a (nullable) array hint");
+    }
 }

@@ -190,6 +190,7 @@ Class | Method | HTTP request | Description
 - [User](docs/Model/User.md)
 - [Whale](docs/Model/Whale.md)
 - [Zebra](docs/Model/Zebra.md)
+- [Zoo](docs/Model/Zoo.md)
 
 ## Authorization
 

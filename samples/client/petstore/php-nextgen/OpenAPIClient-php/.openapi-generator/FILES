@@ -72,6 +72,7 @@ docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Model/User.md
 docs/Model/Whale.md
 docs/Model/Zebra.md
+docs/Model/Zoo.md
 git_push.sh
 phpunit.xml.dist
 src/Api/AnotherFakeApi.php
@@ -148,4 +149,5 @@ src/Model/TestInlineFreeformAdditionalPropertiesRequest.php
 src/Model/User.php
 src/Model/Whale.php
 src/Model/Zebra.php
+src/Model/Zoo.php
 src/ObjectSerializer.php

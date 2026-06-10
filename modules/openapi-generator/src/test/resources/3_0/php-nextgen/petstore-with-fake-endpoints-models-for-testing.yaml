@@ -2385,3 +2385,24 @@ components:
           whale: '#/components/schemas/Whale'
           zebra: '#/components/schemas/Zebra'
 
+    Zoo:
+      type: object
+      description: A model that uses oneOf schemas as property types.
+      required:
+        - favoriteMammal
+      properties:
+        favoriteMammal:
+          # required, discriminated oneOf -> non-nullable PHP union
+          $ref: '#/components/schemas/Mammal'
+        optionalMammal:
+          # optional, discriminated oneOf -> nullable PHP union
+          $ref: '#/components/schemas/Mammal'
+        snack:
+          # optional, discriminator-less oneOf -> nullable PHP union
+          $ref: '#/components/schemas/Fruit'
+        mammals:
+          # array of oneOf -> degrades to an `array` type hint (the union lives in the phpdoc)
+          type: array
+          items:
+            $ref: '#/components/schemas/Mammal'
+
