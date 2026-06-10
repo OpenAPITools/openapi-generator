@@ -1613,7 +1613,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$mammal = new \OpenAPI\Client\Model\Mammal(); // \OpenAPI\Client\Model\Mammal
+$mammal = new \OpenAPI\Client\Model\Whale(); // \OpenAPI\Client\Model\Mammal
 
 try {
     $result = $apiInstance->testOneOf($mammal);
