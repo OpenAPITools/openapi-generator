@@ -629,7 +629,8 @@ use {{invokerPackage}}\ObjectSerializer;
         $variables = array_key_exists('variables', $associative_array) ? $associative_array['variables'] : [];
 {{/servers.0}}
         $contentType = $associative_array['contentType'] ?? self::contentTypes['{{{operationId}}}'][0];
-        {{/exts.x-group-parameters}}{{#allParams}}
+        {{/exts.x-group-parameters}}
+        {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
         if (${{paramName}} === null || (is_array(${{paramName}}) && count(${{paramName}}) === 0)) {
@@ -674,7 +675,8 @@ use {{invokerPackage}}\ObjectSerializer;
             throw new InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
         }
         {{/minItems}}
-        {{/hasValidation}}{{/allParams}}
+        {{/hasValidation}}
+        {{/allParams}}
 
         $resourcePath = '{{{path}}}';
         $formParams = [];
