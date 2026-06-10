@@ -32,7 +32,6 @@ use Psr\Http\Message\ResponseInterface;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\HeaderSelector;
-use {{invokerPackage}}\FormDataProcessor;
 use {{invokerPackage}}\ObjectSerializer;
 
 /**
@@ -728,7 +727,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#formParams}}
         {{#-first}}
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \{{invokerPackage}}\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
         {{/-first}}
