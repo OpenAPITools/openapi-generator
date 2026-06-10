@@ -277,7 +277,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -795,7 +794,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1115,7 +1113,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1634,7 +1631,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1898,7 +1894,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2162,7 +2157,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2426,7 +2420,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2690,7 +2683,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2971,7 +2963,6 @@ class FakeApi
                     );
                 
             }
-            
             if ($this->responseWithinRangeCode('4xx', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '\OpenAPI\Client\Model\ErrorResponse',
@@ -3274,7 +3265,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -3558,7 +3548,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -3845,7 +3834,6 @@ class FakeApi
                     );
                 
             }
-            
             if ($this->responseWithinRangeCode('4xx', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '\OpenAPI\Client\Model\ErrorResponse',
@@ -4140,7 +4128,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -5340,7 +5327,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(

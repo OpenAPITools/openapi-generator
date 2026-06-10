@@ -868,7 +868,6 @@ class PetApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1155,7 +1154,6 @@ class PetApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1443,7 +1441,6 @@ class PetApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2400,7 +2397,6 @@ class PetApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2716,7 +2712,6 @@ class PetApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(

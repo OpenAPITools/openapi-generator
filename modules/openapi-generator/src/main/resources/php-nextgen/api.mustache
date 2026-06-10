@@ -307,14 +307,21 @@ use {{invokerPackage}}\ObjectSerializer;
             }
             {{/-last}}
             {{/responses}}
-            {{#responses}}{{#dataType}}{{#isRange}}{{^isWildcard}}
+            {{#responses}}
+            {{#dataType}}
+            {{#isRange}}
+            {{^isWildcard}}
             if ($this->responseWithinRangeCode('{{code}}', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '{{{dataType}}}',
                     $request,
                     $response,
                 );
-            }{{/isWildcard}}{{/isRange}}{{/dataType}}{{/responses}}
+            }
+            {{/isWildcard}}
+            {{/isRange}}
+            {{/dataType}}
+            {{/responses}}
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(

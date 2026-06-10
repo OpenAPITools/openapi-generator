@@ -210,7 +210,6 @@ class FormApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -500,7 +499,6 @@ class FormApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -800,7 +798,6 @@ class FormApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(

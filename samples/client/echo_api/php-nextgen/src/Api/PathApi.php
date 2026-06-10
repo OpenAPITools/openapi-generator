@@ -208,7 +208,6 @@ class PathApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
