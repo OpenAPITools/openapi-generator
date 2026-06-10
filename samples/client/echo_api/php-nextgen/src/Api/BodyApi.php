@@ -73,7 +73,7 @@ class BodyApi
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'testBinaryGif' => [
             'application/json',

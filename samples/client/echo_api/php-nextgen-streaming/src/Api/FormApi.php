@@ -73,7 +73,7 @@ class FormApi
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'testFormIntegerBooleanString' => [
             'application/x-www-form-urlencoded',

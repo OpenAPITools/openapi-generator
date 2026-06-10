@@ -72,7 +72,7 @@ class FakeClassnameTags123Api
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'testClassname' => [
             'application/json',

@@ -73,7 +73,7 @@ class AuthApi
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'testAuthHttpBasic' => [
             'application/json',

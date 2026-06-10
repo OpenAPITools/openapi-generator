@@ -72,7 +72,7 @@ class FakeApi
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'fakeBigDecimalMap' => [
             'application/json',

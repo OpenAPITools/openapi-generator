@@ -73,7 +73,7 @@ class HeaderApi
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'testHeaderIntegerBooleanStringEnums' => [
             'application/json',

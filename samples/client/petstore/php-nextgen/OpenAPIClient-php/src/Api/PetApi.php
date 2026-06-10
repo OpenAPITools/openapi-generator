@@ -72,7 +72,7 @@ class PetApi
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'addPet' => [
             'application/json',

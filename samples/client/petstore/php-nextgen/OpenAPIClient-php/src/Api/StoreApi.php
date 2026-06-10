@@ -72,7 +72,7 @@ class StoreApi
      */
     protected int $hostIndex;
 
-    /** @var string[] $contentTypes **/
+    /** @var array<string,string[]> $contentTypes **/
     public const contentTypes = [
         'deleteOrder' => [
             'application/json',
