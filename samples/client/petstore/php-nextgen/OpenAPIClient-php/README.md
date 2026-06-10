@@ -101,6 +101,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/Api/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/Api/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testNullable**](docs/Api/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
+*FakeApi* | [**testOneOf**](docs/Api/FakeApi.md#testoneof) | **POST** /fake/oneof | test oneOf polymorphism
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**testStringMapReference**](docs/Api/FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/Api/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -132,9 +133,11 @@ Class | Method | HTTP request | Description
 - [AllOfWithSingleRef](docs/Model/AllOfWithSingleRef.md)
 - [Animal](docs/Model/Animal.md)
 - [ApiResponse](docs/Model/ApiResponse.md)
+- [Apple](docs/Model/Apple.md)
 - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
 - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
 - [ArrayTest](docs/Model/ArrayTest.md)
+- [Banana](docs/Model/Banana.md)
 - [Capitalization](docs/Model/Capitalization.md)
 - [Cat](docs/Model/Cat.md)
 - [Category](docs/Model/Category.md)
@@ -157,8 +160,10 @@ Class | Method | HTTP request | Description
 - [Foo](docs/Model/Foo.md)
 - [FooGetDefaultResponse](docs/Model/FooGetDefaultResponse.md)
 - [FormatTest](docs/Model/FormatTest.md)
+- [Fruit](docs/Model/Fruit.md)
 - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
 - [HealthCheckResult](docs/Model/HealthCheckResult.md)
+- [Mammal](docs/Model/Mammal.md)
 - [MapTest](docs/Model/MapTest.md)
 - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)
 - [Model200Response](docs/Model/Model200Response.md)
@@ -183,6 +188,8 @@ Class | Method | HTTP request | Description
 - [Tag](docs/Model/Tag.md)
 - [TestInlineFreeformAdditionalPropertiesRequest](docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md)
 - [User](docs/Model/User.md)
+- [Whale](docs/Model/Whale.md)
+- [Zebra](docs/Model/Zebra.md)
 
 ## Authorization
 

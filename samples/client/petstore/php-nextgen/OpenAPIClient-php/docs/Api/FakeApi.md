@@ -31,6 +31,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | [**testInlineFreeformAdditionalProperties()**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**testNullable()**](FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property |
+| [**testOneOf()**](FakeApi.md#testOneOf) | **POST** /fake/oneof | test oneOf polymorphism |
 | [**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 | [**testStringMapReference()**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
@@ -1584,6 +1585,62 @@ No authorization required
 
 - **Content-Type**: `application/json`
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testOneOf()`
+
+```php
+testOneOf($mammal): \OpenAPI\Client\Model\Fruit
+```
+
+test oneOf polymorphism
+
+Accepts and returns oneOf schemas to exercise polymorphism support
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$mammal = new \OpenAPI\Client\Model\Mammal(); // \OpenAPI\Client\Model\Mammal
+
+try {
+    $result = $apiInstance->testOneOf($mammal);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testOneOf: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **mammal** | [**\OpenAPI\Client\Model\Mammal**](../Model/Mammal.md)|  | |
+
+### Return type
+
+[**\OpenAPI\Client\Model\Fruit**](../Model/Fruit.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
