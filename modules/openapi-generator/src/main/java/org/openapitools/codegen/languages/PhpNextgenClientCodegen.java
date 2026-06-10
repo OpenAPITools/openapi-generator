@@ -299,7 +299,10 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                     phpReturnTypeOptions.add(phpBaseType(response.dataType, response.isArray || response.isMap, oneOfTypeHints));
                     String responseDocType = oneOfDocType(response, oneOfTypeHints);
                     docReturnTypeOptions.add(responseDocType != null ? responseDocType : response.dataType);
-                } else {
+                } else if (response.is2xx) {
+                    // Only a body-less *success* response makes the method return null. A body-less
+                    // error response throws an ApiException instead, so it must not make the return
+                    // type nullable.
                     hasEmptyResponse = true;
                 }
             }

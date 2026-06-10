@@ -3217,12 +3217,12 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet|null
+     * @return \OpenAPI\Client\Model\Pet
      */
     public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint(
         \OpenAPI\Client\Model\Pet $pet,
         string $contentType = self::contentTypes['fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint'][0]
-    ): ?\OpenAPI\Client\Model\Pet
+    ): \OpenAPI\Client\Model\Pet
     {
         list($response) = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet, $contentType);
         return $response;
@@ -3238,7 +3238,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\Pet|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\Pet, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,
@@ -4083,12 +4083,12 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet|null
+     * @return \OpenAPI\Client\Model\Pet
      */
     public function fakeWith4xxRangeResponseNo4xxDatatypeEndpoint(
         \OpenAPI\Client\Model\Pet $pet,
         string $contentType = self::contentTypes['fakeWith4xxRangeResponseNo4xxDatatypeEndpoint'][0]
-    ): ?\OpenAPI\Client\Model\Pet
+    ): \OpenAPI\Client\Model\Pet
     {
         list($response) = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet, $contentType);
         return $response;
@@ -4104,7 +4104,7 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\Pet|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\Pet, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo(
         \OpenAPI\Client\Model\Pet $pet,

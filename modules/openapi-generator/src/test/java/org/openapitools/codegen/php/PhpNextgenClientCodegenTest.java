@@ -212,8 +212,19 @@ public class PhpNextgenClientCodegenTest {
                 .map(String::trim)
                 .collect(Collectors.toList());
 
-        Assert.assertListContains(modelContent, a -> a.equals("): int|string|null"), "Expected to find nullable return type declaration.");
-        Assert.assertListNotContains(modelContent, a -> a.equals("): ?int|string"), "Expected to not find invalid union type with '?'.");
+        // A body-less *success* response (204) means the method can return null, so the union
+        // gains a `|null` member — never the `?` shorthand, which is illegal on a union.
+        Assert.assertListContains(modelContent, a -> a.equals("): int|string|null"),
+                "an empty success (204) response makes the union return type nullable");
+        Assert.assertListNotContains(modelContent, a -> a.equals("): ?int|string"),
+                "a union return type must never use the invalid `?` shorthand");
+
+        // A body-less *error* response (500) throws an ApiException rather than returning null,
+        // so it must NOT make the return type nullable.
+        Assert.assertListContains(modelContent, a -> a.equals("): float"),
+                "an empty error (500) response does not make the return type nullable");
+        Assert.assertListNotContains(modelContent, a -> a.equals("): ?float"),
+                "an empty error response must not add a nullable member to the return type");
     }
 
     @Test

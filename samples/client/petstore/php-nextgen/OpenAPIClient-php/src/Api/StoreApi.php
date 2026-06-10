@@ -635,12 +635,12 @@ class StoreApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Order|null
+     * @return \OpenAPI\Client\Model\Order
      */
     public function getOrderById(
         int $order_id,
         string $contentType = self::contentTypes['getOrderById'][0]
-    ): ?\OpenAPI\Client\Model\Order
+    ): \OpenAPI\Client\Model\Order
     {
         list($response) = $this->getOrderByIdWithHttpInfo($order_id, $contentType);
         return $response;
@@ -656,7 +656,7 @@ class StoreApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\Order|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\Order, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function getOrderByIdWithHttpInfo(
         int $order_id,
@@ -920,12 +920,12 @@ class StoreApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Order|null
+     * @return \OpenAPI\Client\Model\Order
      */
     public function placeOrder(
         \OpenAPI\Client\Model\Order $order,
         string $contentType = self::contentTypes['placeOrder'][0]
-    ): ?\OpenAPI\Client\Model\Order
+    ): \OpenAPI\Client\Model\Order
     {
         list($response) = $this->placeOrderWithHttpInfo($order, $contentType);
         return $response;
@@ -941,7 +941,7 @@ class StoreApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\Order|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\Order, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function placeOrderWithHttpInfo(
         \OpenAPI\Client\Model\Order $order,

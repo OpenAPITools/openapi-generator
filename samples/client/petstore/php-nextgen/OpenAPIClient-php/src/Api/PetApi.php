@@ -808,12 +808,12 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet[]|null
+     * @return \OpenAPI\Client\Model\Pet[]
      */
     public function findPetsByStatus(
         array $status,
         string $contentType = self::contentTypes['findPetsByStatus'][0]
-    ): ?array
+    ): array
     {
         list($response) = $this->findPetsByStatusWithHttpInfo($status, $contentType);
         return $response;
@@ -829,7 +829,7 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\Pet[]|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\Pet[], 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function findPetsByStatusWithHttpInfo(
         array $status,
@@ -1093,13 +1093,13 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet[]|null
+     * @return \OpenAPI\Client\Model\Pet[]
      * @deprecated
      */
     public function findPetsByTags(
         array $tags,
         string $contentType = self::contentTypes['findPetsByTags'][0]
-    ): ?array
+    ): array
     {
         list($response) = $this->findPetsByTagsWithHttpInfo($tags, $contentType);
         return $response;
@@ -1115,7 +1115,7 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\Pet[]|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\Pet[], 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      * @deprecated
      */
     public function findPetsByTagsWithHttpInfo(
@@ -1383,12 +1383,12 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet|null
+     * @return \OpenAPI\Client\Model\Pet
      */
     public function getPetById(
         int $pet_id,
         string $contentType = self::contentTypes['getPetById'][0]
-    ): ?\OpenAPI\Client\Model\Pet
+    ): \OpenAPI\Client\Model\Pet
     {
         list($response) = $this->getPetByIdWithHttpInfo($pet_id, $contentType);
         return $response;
@@ -1404,7 +1404,7 @@ class PetApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\Pet|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\Pet, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function getPetByIdWithHttpInfo(
         int $pet_id,

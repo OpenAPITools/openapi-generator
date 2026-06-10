@@ -1077,12 +1077,12 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\User|null
+     * @return \OpenAPI\Client\Model\User
      */
     public function getUserByName(
         string $username,
         string $contentType = self::contentTypes['getUserByName'][0]
-    ): ?\OpenAPI\Client\Model\User
+    ): \OpenAPI\Client\Model\User
     {
         list($response) = $this->getUserByNameWithHttpInfo($username, $contentType);
         return $response;
@@ -1098,7 +1098,7 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \OpenAPI\Client\Model\User|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \OpenAPI\Client\Model\User, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function getUserByNameWithHttpInfo(
         string $username,
@@ -1357,13 +1357,13 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return string|null
+     * @return string
      */
     public function loginUser(
         string $username,
         string $password,
         string $contentType = self::contentTypes['loginUser'][0]
-    ): ?string
+    ): string
     {
         list($response) = $this->loginUserWithHttpInfo($username, $password, $contentType);
         return $response;
@@ -1380,7 +1380,7 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: string|null, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function loginUserWithHttpInfo(
         string $username,
