@@ -149,9 +149,3 @@ src/Model/User.php
 src/Model/Whale.php
 src/Model/Zebra.php
 src/ObjectSerializer.php
-tests/Model/AppleTest.php
-tests/Model/BananaTest.php
-tests/Model/FruitTest.php
-tests/Model/MammalTest.php
-tests/Model/WhaleTest.php
-tests/Model/ZebraTest.php
