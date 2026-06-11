@@ -1007,6 +1007,56 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(petModel, "companion object { }");
     }
 
+    @Test(description = "generate multiplatform oneOf with discriminator as sealed class")
+    public void multiplatformOneOfDiscriminatorSealedClass() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("multiplatform")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put("dateLibrary", "kotlinx-datetime");
+                    put("useOneOfDiscriminatorSealedClass", true);
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator-simple.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        final Path petKt = Paths.get(output + "/src/commonMain/kotlin/org/openapitools/client/models/Pet.kt");
+        // parent is sealed class with discriminator annotation
+        TestUtils.assertFileContains(petKt, "sealed class Pet");
+        TestUtils.assertFileContains(petKt, "@JsonClassDiscriminator(discriminator = \"petType\")");
+        TestUtils.assertFileContains(petKt, "@Serializable");
+        // parent does not contain discriminator property or child properties
+        TestUtils.assertFileNotContains(petKt, "val petType");
+        TestUtils.assertFileNotContains(petKt, "val breed");
+        TestUtils.assertFileNotContains(petKt, "val color");
+
+        final Path dogKt = Paths.get(output + "/src/commonMain/kotlin/org/openapitools/client/models/Dog.kt");
+        // child extends parent
+        TestUtils.assertFileContains(dogKt, "data class Dog");
+        TestUtils.assertFileContains(dogKt, ": Pet()");
+        // child has discriminator value annotation
+        TestUtils.assertFileContains(dogKt, "@SerialName(value = \"DOG\")");
+        // child does not contain discriminator property
+        TestUtils.assertFileNotContains(dogKt, "val petType");
+        // child has its own properties
+        TestUtils.assertFileContains(dogKt, "val breed");
+
+        final Path catKt = Paths.get(output + "/src/commonMain/kotlin/org/openapitools/client/models/Cat.kt");
+        // child extends parent
+        TestUtils.assertFileContains(catKt, "data class Cat");
+        TestUtils.assertFileContains(catKt, ": Pet()");
+        // child has discriminator value annotation
+        TestUtils.assertFileContains(catKt, "@SerialName(value = \"CAT\")");
+        // child has its own properties
+        TestUtils.assertFileContains(catKt, "val color");
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;

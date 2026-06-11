@@ -1,0 +1,9 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-multiplatform-oneOf-discriminator
+library: multiplatform
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator-simple.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-multiplatform-oneOf-discriminator
+  dateLibrary: kotlinx-datetime
+  useOneOfDiscriminatorSealedClass: true

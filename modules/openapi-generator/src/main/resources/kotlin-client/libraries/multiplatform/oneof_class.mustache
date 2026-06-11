@@ -1,4 +1,23 @@
 {{#multiplatform}}
+{{#vendorExtensions.x-oneof-sealed-class}}
+import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
+import kotlinx.serialization.json.JsonClassDiscriminator
+
+/**
+ * {{{description}}}
+ *
+ */
+{{#isDeprecated}}
+@Deprecated(message = "This schema is deprecated.")
+{{/isDeprecated}}
+@Serializable
+@OptIn(ExperimentalSerializationApi::class)
+@JsonClassDiscriminator(discriminator = "{{{discriminator.propertyName}}}")
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed class {{classname}}
+{{/vendorExtensions.x-oneof-sealed-class}}
+{{^vendorExtensions.x-oneof-sealed-class}}
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -76,4 +95,5 @@ import kotlinx.serialization.json.*
         }
     }
 }
+{{/vendorExtensions.x-oneof-sealed-class}}
 {{/multiplatform}}

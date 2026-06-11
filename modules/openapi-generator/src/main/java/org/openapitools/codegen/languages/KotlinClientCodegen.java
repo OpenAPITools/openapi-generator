@@ -114,6 +114,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String COMPANION_OBJECT = "companionObject";
 
+    public static final String USE_ONEOF_DISCRIMINATOR_SEALED_CLASS = "useOneOfDiscriminatorSealedClass";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
 
@@ -132,6 +134,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     @Setter protected boolean companionObject = false;
+    @Setter protected boolean useOneOfDiscriminatorSealedClass = false;
 
     protected String authFolder;
 
@@ -298,6 +301,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
 
         cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
+
+        cliOptions.add(CliOption.newBoolean(USE_ONEOF_DISCRIMINATOR_SEALED_CLASS, "When true, oneOf schemas with discriminators generate sealed class hierarchies instead of brute-force wrapper classes. Only applies to the multiplatform library.", false));
 
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
@@ -498,6 +503,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
             setGenerateOneOfAnyOfWrappers(convertPropertyToBooleanAndWriteBack(GENERATE_ONEOF_ANYOF_WRAPPERS));
+        }
+
+        if (additionalProperties.containsKey(USE_ONEOF_DISCRIMINATOR_SEALED_CLASS)) {
+            setUseOneOfDiscriminatorSealedClass(convertPropertyToBooleanAndWriteBack(USE_ONEOF_DISCRIMINATOR_SEALED_CLASS));
         }
 
         if (additionalProperties.containsKey(FAIL_ON_UNKNOWN_PROPERTIES)) {
@@ -1003,10 +1012,53 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         continue;
                     }
 
+                    boolean isOneOfModel = cm.oneOf != null && !cm.oneOf.isEmpty();
+
+                    // For multiplatform oneOf with discriminator, generate sealed class polymorphism
+                    // instead of brute-force wrapper deserialization (opt-in via useOneOfDiscriminatorSealedClass)
+                    if (isOneOfModel && useOneOfDiscriminatorSealedClass && getLibrary() != null && getLibrary().equals(MULTIPLATFORM)) {
+                        // Remove discriminator property from the parent - kotlinx.serialization handles it via @JsonClassDiscriminator
+                        getAllVarProperties(cm).forEach(list -> list.removeIf(var -> var.name.equals(discriminator.getPropertyName())));
+
+                        // Clear all merged properties from oneOf parent - they belong to children only
+                        cm.vars.clear();
+                        cm.allVars.clear();
+                        cm.requiredVars.clear();
+                        cm.optionalVars.clear();
+                        cm.setHasVars(false);
+
+                        // Mark this model to use sealed class rendering in the oneOf template
+                        cm.vendorExtensions.put("x-oneof-sealed-class", true);
+
+                        for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                            CodegenModel childModel = mappedModel.getModel();
+
+                            // Set parent-child relationship
+                            childModel.setParent(cm.getClassname());
+                            childModel.setParentModel(cm);
+
+                            // Set discriminator value for @SerialName annotation
+                            CodegenProperty additionalProperties = childModel.getAdditionalProperties();
+                            if (additionalProperties == null) {
+                                additionalProperties = new CodegenProperty();
+                                childModel.setAdditionalProperties(additionalProperties);
+                            }
+                            additionalProperties.discriminatorValue = mappedModel.getMappingName();
+
+                            // Remove discriminator property from child - handled by kotlinx.serialization
+                            getAllVarProperties(childModel).forEach(list -> list.removeIf(prop -> prop.name.equals(discriminator.getPropertyName())));
+
+                            if (childModel.vars.isEmpty() && !childModel.isEnum && !childModel.isAlias) {
+                                childModel.setHasVars(false);
+                            }
+                        }
+                        continue;
+                    }
+
                     // When using generateOneOfAnyOfWrappers and encountering oneOf, we keep discriminator properties,
                     // because single entity can be referenced in multiple "parent" entities,
                     // so discriminator for one might not be discriminator for another.
-                    boolean shouldKeepDiscriminatorField = generateOneOfAnyOfWrappers && cm.oneOf != null && !cm.oneOf.isEmpty();
+                    boolean shouldKeepDiscriminatorField = generateOneOfAnyOfWrappers && isOneOfModel;
 
                     if (shouldKeepDiscriminatorField) {
                         continue;
