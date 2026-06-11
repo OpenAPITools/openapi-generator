@@ -1283,7 +1283,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             } else {
                 property.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
             }
-            property.vendorExtensions.put("x-has-json-include-non-null", true);
             model.imports.add("JsonSetter");
             model.imports.add("Nulls");
             model.imports.add("JsonInclude");
@@ -1467,7 +1466,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     } else {
                         var.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
                     }
-                    var.vendorExtensions.put("x-has-json-include-non-null", true);
                 }
                 // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
                 if (openApiNullable && !var.required && var.isNullable) {

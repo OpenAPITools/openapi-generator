@@ -1209,7 +1209,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         // serialized output regardless of who deserializes on the other end — closer to spec.
         // When openApiNullable=false, also add @JsonSetter(nulls = Nulls.SKIP) on the setter.
         if (!property.required && !property.isNullable) {
-            property.vendorExtensions.put("x-has-json-include-non-null", true);
             model.imports.add("JsonInclude");
             if (!openApiNullable) {
                 property.vendorExtensions.put("x-has-json-setter-nulls-skip", true);

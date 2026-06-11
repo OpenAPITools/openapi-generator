@@ -60,10 +60,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
 {{>lombokAnnotation}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
-  {{/vendorExtensions.x-field-extra-annotation}}
-  {{#vendorExtensions.x-has-json-include-non-null}}
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  {{/vendorExtensions.x-has-json-include-non-null}}
+  {{/vendorExtensions.x-field-extra-annotation}}{{^required}}{{^isNullable}}  @JsonInclude(JsonInclude.Include.NON_NULL){{/isNullable}}{{/required}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
