@@ -94,7 +94,16 @@ public class GoRestyClient extends GoGinServer2Codegen {
     }
 
     private String appendPackage(String content) {
-        return content.trim().replace("[]", "[]models.");
+        content = content.trim();
+        if (content.startsWith("[]")) {
+            String itemType = content.substring(2);
+            // Only add models. prefix for unqualified model/enum names (uppercase, no existing package dot)
+            if (!itemType.isEmpty() && Character.isUpperCase(itemType.charAt(0)) && !itemType.contains(".")) {
+                return "[]models." + itemType;
+            }
+            return content;
+        }
+        return content.replace("[]", "[]models.");
     }
 
     private String toPackage(String content) {
