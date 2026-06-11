@@ -79,12 +79,12 @@ func New{{operationId}}Params({{#pathParams}}{{paramName}} {{dataType}}{{^-last}
 {{#-first}}
 
 {{/-first}}
-func (p *{{operationId}}Params) With{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}} {{#isNullable}}*{{/isNullable}}{{dataType}}) *{{operationId}}Params {
+func (p *{{operationId}}Params) With{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}} {{#isNullable}}*{{/isNullable}}{{>partial_query_type}}) *{{operationId}}Params {
     p.Set{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}})
     return p
 }
 
-func (p *{{operationId}}Params) Set{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}} {{#isNullable}}*{{/isNullable}}{{dataType}}) {
+func (p *{{operationId}}Params) Set{{nameInPascalCase}}({{#lambda.pascalcase}}{{paramName}}{{/lambda.pascalcase}} {{#isNullable}}*{{/isNullable}}{{>partial_query_type}}) {
     if (p.QueryParams == nil) {
         p.QueryParams = &{{operationId}}QueryParams{}
     }
