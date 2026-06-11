@@ -1,2 +1,2 @@
     // {{nameInPascalCase}} {{description}}
-    {{nameInPascalCase}} {{#isNullable}}*{{/isNullable}}{{dataType}} `form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}} url:"{{baseName}}{{^required}},omitempty{{/required}}"`
+    {{nameInPascalCase}} {{#isNullable}}*{{/isNullable}}{{#isEnum}}{{#isArray}}{{#lambda.append-package}}{{dataType}}{{/lambda.append-package}}{{/isArray}}{{^isArray}}models.{{dataType}}{{/isArray}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}} `form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}} url:"{{baseName}}{{^required}},omitempty{{/required}}"`

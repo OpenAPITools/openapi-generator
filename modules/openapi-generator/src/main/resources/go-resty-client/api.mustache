@@ -236,7 +236,7 @@ func (a *API) {{nickname}}(ctx context.Context, {{#hasParams}}params *{{operatio
 {{/bodyParam}}
 {{/hasBodyParam}}
 {{#returnType}}
-        SetResult(&{{>response_type}}{}).
+        SetResult(new({{>response_type}})).
 {{/returnType}}
         {{#lambda.pascalcase}}{{httpMethod}}{{/lambda.pascalcase}}("{{path}}")
 
