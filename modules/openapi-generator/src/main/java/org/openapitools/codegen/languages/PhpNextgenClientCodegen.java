@@ -230,14 +230,21 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         return docTypeOf(prop.isArray, prop.isMap, prop.items, prop.dataType, oneOfTypeHints);
     }
 
+    /** @see #oneOfDocType(CodegenProperty, Map) */
     private String oneOfDocType(CodegenParameter param, Map<String, String> oneOfTypeHints) {
         return docTypeOf(param.isArray, param.isMap, param.items, param.dataType, oneOfTypeHints);
     }
 
+    /** @see #oneOfDocType(CodegenProperty, Map) */
     private String oneOfDocType(CodegenResponse response, Map<String, String> oneOfTypeHints) {
         return docTypeOf(response.isArray, response.isMap, response.items, response.dataType, oneOfTypeHints);
     }
 
+    /**
+     * The shared core of the {@code oneOfDocType} overloads: expands a oneOf {@code dataType} to the
+     * union of its members (recursing through array/map items so the expansion reaches nested oneOfs),
+     * or returns {@code null} when no oneOf is involved. See {@link #oneOfDocType(CodegenProperty, Map)}.
+     */
     private String docTypeOf(boolean isArray, boolean isMap, CodegenProperty items, String dataType, Map<String, String> oneOfTypeHints) {
         if ((isArray || isMap) && items != null) {
             return wrapContainerDoc(isArray, oneOfDocType(items, oneOfTypeHints));
@@ -246,7 +253,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     }
 
     /**
-     * The fully-baked phpdoc type the template can emit verbatim: the oneOf-expanded type (or the
+     * The final phpdoc type, ready for the template to emit verbatim: the oneOf-expanded type (or the
      * unchanged {@code dataType} when no oneOf is involved), with a {@code |null} member appended
      * when the element is optional or nullable. phpdoc unions always spell out {@code |null}
      * rather than using the {@code ?T} shorthand.
@@ -259,6 +266,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         return bakeDocType(oneOfDocType(param, oneOfTypeHints), param.dataType, param.notRequiredOrIsNullable());
     }
 
+    /**
+     * The shared core of the {@code phpDocType} overloads: uses {@code expandedType}, falling back to
+     * {@code dataType} when it is {@code null}, and appends {@code |null} when {@code nullable}.
+     * See {@link #phpDocType(CodegenProperty, Map)}.
+     */
     private static String bakeDocType(String expandedType, String dataType, boolean nullable) {
         String docType = expandedType != null ? expandedType : dataType;
         return nullable ? docType + "|null" : docType;
