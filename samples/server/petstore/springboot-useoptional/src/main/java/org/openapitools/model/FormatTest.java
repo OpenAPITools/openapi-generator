@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -30,34 +31,44 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FormatTest {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<@Min(value = 10) @Max(value = 100) Integer> integer = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<@Min(value = 20) @Max(value = 200) Integer> int32 = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<Long> int64 = Optional.empty();
 
   private BigDecimal number;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<@DecimalMin(value = "54.3") @DecimalMax(value = "987.6") Float> _float = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<@DecimalMin(value = "67.8") @DecimalMax(value = "123.4") Double> _double = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<@Pattern(regexp = "[a-zA-Z]") String> string = Optional.empty();
 
   private byte[] _byte;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<org.springframework.core.io.Resource> binary = Optional.empty();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private Optional<OffsetDateTime> dateTime = Optional.empty();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<UUID> uuid = Optional.empty();
 
   private String password;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Optional<BigDecimal> bigDecimal = Optional.empty();
 
   public FormatTest() {

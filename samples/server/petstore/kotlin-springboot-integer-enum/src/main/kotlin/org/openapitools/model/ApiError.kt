@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
@@ -28,6 +29,7 @@ data class ApiError(
     @get:JsonProperty("errorCode", required = true) val errorCode: ApiError.ErrorCode,
 
     @field:Valid
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("reasonCode") val reasonCode: ReasonCode? = null
 ) {

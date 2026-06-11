@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
@@ -23,9 +24,11 @@ import jakarta.validation.Valid
 data class UserList(
 
     @field:Valid
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("content") val content: kotlin.collections.List<User>? = null,
 
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("description") val description: kotlin.String? = null
 ) : java.io.Serializable {

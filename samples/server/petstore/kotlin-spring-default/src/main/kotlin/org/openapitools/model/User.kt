@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
@@ -34,30 +35,37 @@ data class User(
     @get:JsonProperty("username", required = true) val username: kotlin.String,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("email") val email: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("password") val password: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("phone") val phone: kotlin.String? = null,
 
     @Schema(example = "null", description = "User Status")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
 ) : UserOrPet, UserOrPetOrArrayString {

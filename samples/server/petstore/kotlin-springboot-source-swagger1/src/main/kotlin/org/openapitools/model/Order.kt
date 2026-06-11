@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
@@ -29,26 +30,32 @@ import io.swagger.annotations.ApiModelProperty
 data class Order(
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("petId") val petId: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
     @ApiModelProperty(example = "null", value = "Order Status")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("status") val status: Order.Status? = null,
 
     @ApiModelProperty(example = "null", value = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) : java.io.Serializable {

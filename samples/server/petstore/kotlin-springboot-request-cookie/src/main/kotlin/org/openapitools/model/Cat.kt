@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
@@ -28,10 +29,12 @@ data class Cat(
     @get:JsonProperty("className", required = true) override val className: kotlin.String,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("declawed") val declawed: kotlin.Boolean? = null,
 
     @Schema(example = "null", description = "")
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("color") override val color: kotlin.String? = "red"
 ) : Animal {
