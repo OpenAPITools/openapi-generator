@@ -556,6 +556,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Only jackson-databind moved to tools.jackson.databind in Jackson 3.x.
         importMapping.put("JsonSetter", "com.fasterxml.jackson.annotation.JsonSetter");
         importMapping.put("Nulls", "com.fasterxml.jackson.annotation.Nulls");
+        importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
         // jackson-databind-nullable >= 0.2.10 supports both Jackson 2 and 3.
         importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
         // JsonDeserialize lives in jackson-databind which moved packages in Jackson 3.x.
@@ -1274,14 +1275,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Scenario 3: optional + non-nullable → always emit @JsonSetter to handle explicit JSON nulls.
         // When openApiNullable=true: Nulls.FAIL → reject explicit null (strict PATCH semantics).
         // When openApiNullable=false: Nulls.SKIP → silently ignore explicit null (lenient, protects defaults).
+        // Always emit @JsonInclude(NON_NULL) so null fields are omitted from serialized output regardless
+        // of who is deserializing on the other end — closer to spec, avoids round-trip failures.
         if (!property.required && !property.isNullable) {
             if (openApiNullable) {
                 property.vendorExtensions.put("x-has-json-setter-nulls-fail", true);
             } else {
                 property.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
             }
+            property.vendorExtensions.put("x-has-json-include-non-null", true);
             model.imports.add("JsonSetter");
             model.imports.add("Nulls");
+            model.imports.add("JsonInclude");
         }
 
         // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T> = JsonNullable.undefined()
@@ -1454,7 +1459,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             for (CodegenProperty var : cm.optionalVars) {
-                // Scenario 3: optional + non-nullable → always emit @JsonSetter.
+                // Scenario 3: optional + non-nullable → always emit @JsonSetter and @JsonInclude(NON_NULL).
                 // openApiNullable=true: Nulls.FAIL (strict). openApiNullable=false: Nulls.SKIP (lenient).
                 if (!var.required && !var.isNullable) {
                     if (openApiNullable) {
@@ -1462,6 +1467,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     } else {
                         var.vendorExtensions.put("x-has-json-setter-nulls-skip", true);
                     }
+                    var.vendorExtensions.put("x-has-json-include-non-null", true);
                 }
                 // Scenario 4: optional + nullable with openApiNullable → use JsonNullable<T>
                 if (openApiNullable && !var.required && var.isNullable) {
