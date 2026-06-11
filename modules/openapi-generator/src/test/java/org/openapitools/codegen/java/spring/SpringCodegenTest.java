@@ -8132,4 +8132,35 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("MyObject.java"))
                 .assertProperty("optionalRef").withType("JsonNullable<com.example.ExternalModel>");
     }
+
+    @Test
+    public void testDiscriminatorValueUsedInJsonTypeName_issue23997() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_23997_discriminator_jsontypename.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setModelNameSuffix("ProviderDTO");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Child models must use the declared discriminator value, not the (suffixed) schema name.
+        JavaFileAssert.assertThat(files.get("UserBrLockProviderDTO.java"))
+                .fileContains("@JsonTypeName(\"USER\")")
+                .fileDoesNotContain("@JsonTypeName(\"UserBrLock\")");
+        JavaFileAssert.assertThat(files.get("ComponentBrLockProviderDTO.java"))
+                .fileContains("@JsonTypeName(\"COMPONENT\")")
+                .fileDoesNotContain("@JsonTypeName(\"ComponentBrLock\")");
+    }
 }
