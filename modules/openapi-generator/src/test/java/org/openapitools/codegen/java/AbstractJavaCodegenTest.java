@@ -999,6 +999,21 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void annotationsContainerPatternMessageTest() {
+        codegen.setUseBeanValidation(true);
+
+        Schema<?> itemSchema = new Schema<>()
+                .type("string")
+                .pattern("^[a-z]$");
+        itemSchema.addExtension("x-pattern-message", "Custom message for list");
+
+        Schema<?> schema = new ArraySchema().items(itemSchema);
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue,
+                "List<@Pattern(regexp = \"^[a-z]$\", message=\"Custom message for list\")String>");
+    }
+
+    @Test
     public void disableDiscriminatorJsonIgnorePropertiesFlagTest() {
         codegen.additionalProperties().put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, true);
 

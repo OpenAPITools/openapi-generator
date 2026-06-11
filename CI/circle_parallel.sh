@@ -43,6 +43,5 @@ elif [ "$NODE_INDEX" = "3" ]; then
 else
   echo "Running node $NODE_INDEX ..."
   java -version
-  ./mvnw clean install
 
 fi

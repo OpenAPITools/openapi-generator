@@ -104,7 +104,7 @@ public class {{classname}} {
         {{/pathParams}}
         {{/hasPathParams}}
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -112,21 +112,21 @@ public class {{classname}} {
 
             {{#queryParams}}
             {{#queryIsJsonMimeType}}
-        queryParams.putAll(apiClient.parameterToMultiValueMapJson({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
             {{/queryIsJsonMimeType}}
             {{^queryIsJsonMimeType}}
             {{#isExplode}}
                 {{#hasVars}}
                     {{#vars}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}.{{getter}}()));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}.{{getter}}()));
                     {{/vars}}
                 {{/hasVars}}
                 {{^hasVars}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
             {{/isExplode}}
             {{/queryIsJsonMimeType}}
             {{/queryParams}}
@@ -165,7 +165,7 @@ public class {{classname}} {
         String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
 
         {{#returnType}}ParameterizedTypeReference<{{#vendorExtensions.x-webclient-return-except-list-of-string}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}{{/vendorExtensions.x-webclient-return-except-list-of-string}}> localVarReturnType = new ParameterizedTypeReference<{{#vendorExtensions.x-webclient-return-except-list-of-string}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnBaseType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnBaseType}}}{{/isResponseFile}}{{/vendorExtensions.x-webclient-return-except-list-of-string}}{{^vendorExtensions.x-webclient-return-except-list-of-string}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}{{/vendorExtensions.x-webclient-return-except-list-of-string}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.invokeAPI("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

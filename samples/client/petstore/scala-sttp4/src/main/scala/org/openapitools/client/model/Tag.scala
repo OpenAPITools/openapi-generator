@@ -20,4 +20,3 @@ case class Tag(
   id: Option[Long] = None,
   name: Option[String] = None
 )
-

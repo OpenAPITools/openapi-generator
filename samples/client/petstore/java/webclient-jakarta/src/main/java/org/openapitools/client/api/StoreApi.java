@@ -26,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -65,7 +65,7 @@ public class StoreApi {
 
         pathParams.put("order_id", orderId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -78,7 +78,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -132,7 +132,7 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -147,7 +147,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
-        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -206,7 +206,7 @@ public class StoreApi {
 
         pathParams.put("order_id", orderId);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -221,7 +221,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**
@@ -286,7 +286,7 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
@@ -303,7 +303,7 @@ public class StoreApi {
         String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, localVarQueryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
     /**

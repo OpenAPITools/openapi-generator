@@ -11,3 +11,4 @@ additionalProperties:
   annotationLibrary: none
   documentationProvider: none
   enumPropertyNaming: UPPERCASE
+  useEnumValueInterface: "true"

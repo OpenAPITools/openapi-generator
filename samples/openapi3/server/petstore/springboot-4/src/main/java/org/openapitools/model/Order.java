@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +30,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Order")
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Order {
 
   private @Nullable Long id;
@@ -44,7 +45,7 @@ public class Order {
   /**
    * Order Status
    */
-  public enum StatusEnum {
+  public enum StatusEnum implements ValuedEnum<String> {
     PLACED("placed"),
     
     APPROVED("approved"),

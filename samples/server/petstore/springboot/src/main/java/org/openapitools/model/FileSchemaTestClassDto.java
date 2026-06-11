@@ -12,20 +12,20 @@ import org.openapitools.model.FileDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 /**
  * FileSchemaTestClassDto
  */
 
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
 
   private @Nullable FileDto file;

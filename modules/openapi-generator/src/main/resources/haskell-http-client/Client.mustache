@@ -30,6 +30,7 @@ import qualified Data.ByteString.Lazy.Char8 as BCL
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
+import qualified Data.Maybe as M
 import qualified Network.HTTP.Client as NH
 import qualified Network.HTTP.Client.MultipartFormData as NH
 import qualified Network.HTTP.Types as NH
@@ -169,7 +170,7 @@ _toInitRequest config req0  =
     req1 <- P.liftIO $ _applyAuthMethods req0 config
     P.when
         (configValidateAuthMethods config && (not . null . rAuthTypes) req1)
-        (E.throw $ AuthMethodException $ "AuthMethod not configured: " <> (show . head . rAuthTypes) req1)
+        (E.throw $ AuthMethodException $ "AuthMethod not configured: " <> (maybe "" show .  M.listToMaybe . rAuthTypes) req1)
     let req2 = req1 & _setContentTypeHeader & _setAcceptHeader
         params = rParams req2
         reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders params

@@ -2105,16 +2105,16 @@ public class JavaClientCodegenTest {
                 .printFileContent()
                 .assertMethod("searchRequestCreation")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
                                 + " regularParam));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
                                 + " objectParam.getSomeString()));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
                                 + " objectParam.getSomeBoolean()));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
                                 + " objectParam.getSomeInteger()));");
     }
 
@@ -3453,6 +3453,77 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test(description = "Regression test for issue #23860: with useJackson3=true the generated"
+            + " restclient ApiClient must build XmlMapper via the immutable Builder API,"
+            + " because XmlMapper.configure(...) and registerModule(...) were removed in Jackson 3.")
+    public void testRestClientWithXMLAndJackson3_issue_23860() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true,
+                        JavaClientCodegen.USE_JACKSON_3, true,
+                        JavaClientCodegen.USE_SPRING_BOOT4, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, false
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import tools.jackson.dataformat.xml.XmlMapper;",
+                "import tools.jackson.dataformat.xml.XmlWriteFeature;",
+                "XmlMapper xmlMapper = XmlMapper.builder()",
+                ".enable(XmlWriteFeature.WRITE_XML_DECLARATION)",
+                ".build();"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "xmlMapper.configure(",
+                "xmlMapper.registerModule(",
+                "import tools.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
+    @Test(description = "Regression test for issue #23860: with useJackson3=true and"
+            + " openApiNullable=true, the JsonNullableJackson3Module must be wired via the"
+            + " XmlMapper.Builder#addModule API.")
+    public void testRestClientWithXMLAndJackson3AndOpenApiNullable_issue_23860() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true,
+                        JavaClientCodegen.USE_JACKSON_3, true,
+                        JavaClientCodegen.USE_SPRING_BOOT4, true,
+                        JavaClientCodegen.OPENAPI_NULLABLE, true
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import org.openapitools.jackson.nullable.JsonNullableJackson3Module;",
+                "XmlMapper xmlMapper = XmlMapper.builder()",
+                ".addModule(new JsonNullableJackson3Module())",
+                ".build();"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "xmlMapper.registerModule("
+        );
+    }
+
 
     @Test
     public void testRestClientWithUseSingleRequestParameter_issue_19406() {
@@ -4177,11 +4248,11 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
-                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
+                "localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
         );
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
-                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
+                "localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
                         ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
         );
     }
@@ -4465,5 +4536,26 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test
+    public void testSwagger2TagImportRestAssured() throws IOException {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml",
+                JavaClientCodegen.REST_ASSURED,
+                Map.of(ANNOTATION_LIBRARY, "swagger2")
+        );
+
+        // find the generated API file
+        File apiFile = files.values().stream()
+                .filter(f -> f.getName().endsWith("Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("No API file generated"));
+
+        String content = Files.readString(apiFile.toPath());
+
+        // verify tags import is present when swagger2 is used with rest-assured
+        assertThat(content)
+                .contains("import io.swagger.v3.oas.annotations.tags.*;")
+                .contains("@Tag(");
+    }
 
 }

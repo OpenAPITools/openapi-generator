@@ -4,7 +4,12 @@ package {{invokerPackage}};
 
 {{#withXml}}
 import {{jacksonPackage}}.dataformat.xml.XmlMapper;
+{{^useJackson3}}
 import {{jacksonPackage}}.dataformat.xml.ser.ToXmlGenerator;
+{{/useJackson3}}
+{{#useJackson3}}
+import {{jacksonPackage}}.dataformat.xml.XmlWriteFeature;
+{{/useJackson3}}
 {{/withXml}}
 
 import {{jacksonPackage}}.databind.DeserializationFeature;
@@ -238,16 +243,21 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     */
     public static RestClient.Builder buildRestClientBuilder({{#useJackson3}}JsonMapper{{/useJackson3}}{{^useJackson3}}ObjectMapper{{/useJackson3}} mapper) {
         {{#withXml}}
+        {{#useJackson3}}
+        XmlMapper xmlMapper = XmlMapper.builder()
+                .enable(XmlWriteFeature.WRITE_XML_DECLARATION)
+                {{#openApiNullable}}
+                .addModule(new JsonNullableJackson3Module())
+                {{/openApiNullable}}
+                .build();
+        {{/useJackson3}}
+        {{^useJackson3}}
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         {{#openApiNullable}}
-        {{^useJackson3}}
         xmlMapper.registerModule(new JsonNullableModule());
-        {{/useJackson3}}
-        {{#useJackson3}}
-        xmlMapper.registerModule(new JsonNullableJackson3Module());
-        {{/useJackson3}}
         {{/openApiNullable}}
+        {{/useJackson3}}
         {{/withXml}}
 
         {{#useJackson3}}

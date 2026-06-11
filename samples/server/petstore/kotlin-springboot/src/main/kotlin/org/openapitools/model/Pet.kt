@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.Nulls
 import org.openapitools.model.Category
 import org.openapitools.model.Tag
+import org.openapitools.configuration.ValuedEnum
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -52,7 +53,7 @@ data class Pet(
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(@get:JsonValue val value: kotlin.String) {
+    enum class Status(@get:JsonValue override val value: kotlin.String) : ValuedEnum<kotlin.String> {
 
         available("available"),
         pending("pending"),

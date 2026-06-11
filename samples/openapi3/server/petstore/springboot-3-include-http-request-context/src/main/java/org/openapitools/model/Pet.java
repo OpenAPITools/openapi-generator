@@ -11,6 +11,7 @@ import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
+import org.openapitools.configuration.ValuedEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Pet")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.23.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class Pet {
 
   private @Nullable Long id;
@@ -49,7 +50,7 @@ public class Pet {
   /**
    * pet status in the store
    */
-  public enum StatusEnum {
+  public enum StatusEnum implements ValuedEnum<String> {
     AVAILABLE("available"),
     
     PENDING("pending"),

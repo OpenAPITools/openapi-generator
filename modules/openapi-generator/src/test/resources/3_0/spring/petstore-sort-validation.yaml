@@ -540,6 +540,96 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+  /pet/findWithSizeConstraintFromAllOfRef:
+    get:
+      tags:
+        - pet
+      summary: Find pets — size maximum resolved from allOf $ref (no inline maximum)
+      operationId: findPetsWithSizeConstraintFromAllOfRef
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/PageSizeWithMax'
+        - name: sort
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithDefaultFromAllOfRef:
+    get:
+      tags:
+        - pet
+      summary: Find pets — size default resolved from allOf $ref (no inline default)
+      operationId: findPetsWithDefaultFromAllOfRef
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/PageSizeWithDefault'
+        - name: sort
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithMinSizeConstraintFromAllOfRef:
+    get:
+      tags:
+        - pet
+      summary: Find pets — size minimum resolved from allOf $ref (no inline minimum)
+      operationId: findPetsWithMinSizeConstraintFromAllOfRef
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/PageSizeWithMin'
+        - name: sort
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
   # ---- openApiNullable / 4-state required×nullable test cases ----
 
   /nullable/check-required-only:
@@ -627,6 +717,18 @@ components:
         - "id,desc"
         - "createdAt,asc"
         - "createdAt,desc"
+    PageSizeWithMax:
+      type: integer
+      format: int32
+      maximum: 75
+    PageSizeWithDefault:
+      type: integer
+      format: int32
+      default: 7
+    PageSizeWithMin:
+      type: integer
+      format: int32
+      minimum: 5
     Pet:
       type: object
       required:
