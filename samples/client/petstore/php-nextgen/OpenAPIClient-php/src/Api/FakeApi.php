@@ -31,7 +31,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -40,7 +39,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -396,10 +394,7 @@ class FakeApi
     ): Request
     {
 
-
         $resourcePath = '/fake/BigDecimalMap';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -414,30 +409,6 @@ class FakeApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -636,7 +607,6 @@ class FakeApi
         string $contentType = self::contentTypes['fakeDeletePet'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
@@ -644,10 +614,7 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/pet/{pet_id}';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -670,30 +637,6 @@ class FakeApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -934,21 +877,18 @@ class FakeApi
         string $contentType = self::contentTypes['fakeEnumEndpoint'][0]
     ): Request
     {
-
         // verify the required parameter 'enum_class' is set
         if ($enum_class === null || (is_array($enum_class) && count($enum_class) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $enum_class when calling fakeEnumEndpoint'
             );
         }
-
         // verify the required parameter 'enum_class_array' is set
         if ($enum_class_array === null || (is_array($enum_class_array) && count($enum_class_array) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $enum_class_array when calling fakeEnumEndpoint'
             );
         }
-
         // verify the required parameter 'enum_class_map' is set
         if ($enum_class_map === null || (is_array($enum_class_map) && count($enum_class_map) === 0)) {
             throw new InvalidArgumentException(
@@ -956,9 +896,7 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/enum/endpoint';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1001,30 +939,6 @@ class FakeApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1236,10 +1150,7 @@ class FakeApi
     ): Request
     {
 
-
         $resourcePath = '/fake/health';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1254,30 +1165,6 @@ class FakeApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1471,16 +1358,12 @@ class FakeApi
         string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet when calling fakeHttpSignatureTest'
             );
         }
-
-
-
 
         $resourcePath = '/fake/http-signature-test';
         $formParams = [];
@@ -1533,7 +1416,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -1756,11 +1639,8 @@ class FakeApi
     ): Request
     {
 
-
-
         $resourcePath = '/fake/outer/boolean';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1796,7 +1676,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2019,11 +1899,8 @@ class FakeApi
     ): Request
     {
 
-
-
         $resourcePath = '/fake/outer/composite';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2059,7 +1936,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2282,11 +2159,8 @@ class FakeApi
     ): Request
     {
 
-
-
         $resourcePath = '/fake/outer/number';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2322,7 +2196,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2545,11 +2419,8 @@ class FakeApi
     ): Request
     {
 
-
-
         $resourcePath = '/fake/outer/string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2585,7 +2456,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2807,7 +2678,6 @@ class FakeApi
         string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
     ): Request
     {
-
         // verify the required parameter 'outer_object_with_enum_property' is set
         if ($outer_object_with_enum_property === null || (is_array($outer_object_with_enum_property) && count($outer_object_with_enum_property) === 0)) {
             throw new InvalidArgumentException(
@@ -2815,10 +2685,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/property/enum-int';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2854,7 +2722,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -3116,7 +2984,6 @@ class FakeApi
         string $contentType = self::contentTypes['fakeWith400And4xxRangeResponseEndpoint'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
@@ -3124,10 +2991,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/with_400_and_4xx_range_response/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -3163,7 +3028,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -3393,7 +3258,6 @@ class FakeApi
         string $contentType = self::contentTypes['fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
@@ -3401,10 +3265,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -3440,7 +3302,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -3684,7 +3546,6 @@ class FakeApi
         string $contentType = self::contentTypes['fakeWith400ResponseEndpoint'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
@@ -3692,10 +3553,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/with_400_response/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -3731,7 +3590,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -3979,7 +3838,6 @@ class FakeApi
         string $contentType = self::contentTypes['fakeWith4xxRangeResponseEndpoint'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
@@ -3987,10 +3845,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/with_4xx_range_response/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4026,7 +3882,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -4256,7 +4112,6 @@ class FakeApi
         string $contentType = self::contentTypes['fakeWith4xxRangeResponseNo4xxDatatypeEndpoint'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
@@ -4264,10 +4119,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/with_4xx_range_response_no_4xx_datatype/endpoint';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4303,7 +4156,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -4486,7 +4339,6 @@ class FakeApi
         string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
     ): Request
     {
-
         // verify the required parameter 'request_body' is set
         if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
             throw new InvalidArgumentException(
@@ -4494,10 +4346,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/additionalProperties-reference';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4533,7 +4383,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -4708,7 +4558,6 @@ class FakeApi
         string $contentType = self::contentTypes['testBodyWithBinary'][0]
     ): Request
     {
-
         // verify the required parameter 'body' is set
         if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new InvalidArgumentException(
@@ -4716,10 +4565,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/body-with-binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4755,7 +4602,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -4930,7 +4777,6 @@ class FakeApi
         string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
     ): Request
     {
-
         // verify the required parameter 'file_schema_test_class' is set
         if ($file_schema_test_class === null || (is_array($file_schema_test_class) && count($file_schema_test_class) === 0)) {
             throw new InvalidArgumentException(
@@ -4938,10 +4784,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/body-with-file-schema';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -4977,7 +4821,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -5162,21 +5006,18 @@ class FakeApi
         string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
     ): Request
     {
-
         // verify the required parameter 'query' is set
         if ($query === null || (is_array($query) && count($query) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $query when calling testBodyWithQueryParams'
             );
         }
-
         // verify the required parameter 'user' is set
         if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $user when calling testBodyWithQueryParams'
             );
         }
-
 
         $resourcePath = '/fake/body-with-query-params';
         $formParams = [];
@@ -5225,7 +5066,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -5455,7 +5296,6 @@ class FakeApi
         string $contentType = self::contentTypes['testClientModel'][0]
     ): Request
     {
-
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new InvalidArgumentException(
@@ -5463,10 +5303,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -5502,7 +5340,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -5815,7 +5653,6 @@ class FakeApi
         string $contentType = self::contentTypes['testEndpointParameters'][0]
     ): Request
     {
-
         // verify the required parameter 'number' is set
         if ($number === null || (is_array($number) && count($number) === 0)) {
             throw new InvalidArgumentException(
@@ -5828,7 +5665,6 @@ class FakeApi
         if ($number < 32.1) {
             throw new InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
         }
-        
         // verify the required parameter 'double' is set
         if ($double === null || (is_array($double) && count($double) === 0)) {
             throw new InvalidArgumentException(
@@ -5841,7 +5677,6 @@ class FakeApi
         if ($double < 67.8) {
             throw new InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
         }
-        
         // verify the required parameter 'pattern_without_delimiter' is set
         if ($pattern_without_delimiter === null || (is_array($pattern_without_delimiter) && count($pattern_without_delimiter) === 0)) {
             throw new InvalidArgumentException(
@@ -5851,52 +5686,39 @@ class FakeApi
         if (!preg_match("/^[A-Z].*/", $pattern_without_delimiter)) {
             throw new InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.");
         }
-        
         // verify the required parameter 'byte' is set
         if ($byte === null || (is_array($byte) && count($byte) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $byte when calling testEndpointParameters'
             );
         }
-
         if ($integer !== null && $integer > 100) {
             throw new InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.');
         }
         if ($integer !== null && $integer < 10) {
             throw new InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
-        
         if ($int32 !== null && $int32 > 200) {
             throw new InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
         }
         if ($int32 !== null && $int32 < 20) {
             throw new InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
         }
-        
-
         if ($float !== null && $float > 987.6) {
             throw new InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
         }
-        
         if ($string !== null && !preg_match("/[a-z]/i", $string)) {
             throw new InvalidArgumentException("invalid value for \"string\" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.");
         }
-        
-
-
-
         if ($password !== null && strlen($password) > 64) {
             throw new InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
         }
         if ($password !== null && strlen($password) < 10) {
             throw new InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
-        
-
 
         $resourcePath = '/fake';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -5905,7 +5727,7 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'integer' => $integer,
@@ -5947,7 +5769,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -6216,16 +6038,6 @@ class FakeApi
     ): Request
     {
 
-
-
-
-
-
-
-
-
-
-
         $resourcePath = '/fake';
         $formParams = [];
         $queryParams = [];
@@ -6293,7 +6105,7 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'enum_form_string_array' => $enum_form_string_array,
@@ -6323,7 +6135,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -6544,21 +6356,18 @@ class FakeApi
         $boolean_group = array_key_exists('boolean_group', $associative_array) ? $associative_array['boolean_group'] : null;
         $int64_group = array_key_exists('int64_group', $associative_array) ? $associative_array['int64_group'] : null;
         $contentType = $associative_array['contentType'] ?? self::contentTypes['testGroupParameters'][0];
-        
         // verify the required parameter 'required_string_group' is set
         if ($required_string_group === null || (is_array($required_string_group) && count($required_string_group) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $required_string_group when calling testGroupParameters'
             );
         }
-
         // verify the required parameter 'required_boolean_group' is set
         if ($required_boolean_group === null || (is_array($required_boolean_group) && count($required_boolean_group) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $required_boolean_group when calling testGroupParameters'
             );
         }
-
         // verify the required parameter 'required_int64_group' is set
         if ($required_int64_group === null || (is_array($required_int64_group) && count($required_int64_group) === 0)) {
             throw new InvalidArgumentException(
@@ -6566,12 +6375,7 @@ class FakeApi
             );
         }
 
-
-
-
-
         $resourcePath = '/fake';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -6631,30 +6435,6 @@ class FakeApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         // this endpoint requires Bearer (JWT) authentication (access token)
         if (!empty($this->config->getAccessToken())) {
@@ -6833,7 +6613,6 @@ class FakeApi
         string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
     ): Request
     {
-
         // verify the required parameter 'request_body' is set
         if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
             throw new InvalidArgumentException(
@@ -6841,10 +6620,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/inline-additionalProperties';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -6880,7 +6657,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -7063,7 +6840,6 @@ class FakeApi
         string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
     ): Request
     {
-
         // verify the required parameter 'test_inline_freeform_additional_properties_request' is set
         if ($test_inline_freeform_additional_properties_request === null || (is_array($test_inline_freeform_additional_properties_request) && count($test_inline_freeform_additional_properties_request) === 0)) {
             throw new InvalidArgumentException(
@@ -7071,10 +6847,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/inline-freeform-additionalProperties';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -7110,7 +6884,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -7303,14 +7077,12 @@ class FakeApi
         string $contentType = self::contentTypes['testJsonFormData'][0]
     ): Request
     {
-
         // verify the required parameter 'param' is set
         if ($param === null || (is_array($param) && count($param) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $param when calling testJsonFormData'
             );
         }
-
         // verify the required parameter 'param2' is set
         if ($param2 === null || (is_array($param2) && count($param2) === 0)) {
             throw new InvalidArgumentException(
@@ -7318,10 +7090,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/jsonFormData';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -7330,7 +7100,7 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'param' => $param,
@@ -7360,7 +7130,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -7543,7 +7313,6 @@ class FakeApi
         string $contentType = self::contentTypes['testNullable'][0]
     ): Request
     {
-
         // verify the required parameter 'child_with_nullable' is set
         if ($child_with_nullable === null || (is_array($child_with_nullable) && count($child_with_nullable) === 0)) {
             throw new InvalidArgumentException(
@@ -7551,10 +7320,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/nullable';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -7590,7 +7357,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -7825,42 +7592,36 @@ class FakeApi
         string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
     ): Request
     {
-
         // verify the required parameter 'pipe' is set
         if ($pipe === null || (is_array($pipe) && count($pipe) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pipe when calling testQueryParameterCollectionFormat'
             );
         }
-
         // verify the required parameter 'ioutil' is set
         if ($ioutil === null || (is_array($ioutil) && count($ioutil) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $ioutil when calling testQueryParameterCollectionFormat'
             );
         }
-
         // verify the required parameter 'http' is set
         if ($http === null || (is_array($http) && count($http) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $http when calling testQueryParameterCollectionFormat'
             );
         }
-
         // verify the required parameter 'url' is set
         if ($url === null || (is_array($url) && count($url) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $url when calling testQueryParameterCollectionFormat'
             );
         }
-
         // verify the required parameter 'context' is set
         if ($context === null || (is_array($context) && count($context) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $context when calling testQueryParameterCollectionFormat'
             );
         }
-
         // verify the required parameter 'allow_empty' is set
         if ($allow_empty === null || (is_array($allow_empty) && count($allow_empty) === 0)) {
             throw new InvalidArgumentException(
@@ -7868,10 +7629,7 @@ class FakeApi
             );
         }
 
-
-
         $resourcePath = '/fake/test-query-parameters';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -7950,30 +7708,6 @@ class FakeApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -8147,7 +7881,6 @@ class FakeApi
         string $contentType = self::contentTypes['testStringMapReference'][0]
     ): Request
     {
-
         // verify the required parameter 'request_body' is set
         if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
             throw new InvalidArgumentException(
@@ -8155,10 +7888,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/stringMap-reference';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -8194,7 +7925,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters

@@ -215,4 +215,63 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertListContains(modelContent, a -> a.equals("): int|string|null"), "Expected to find nullable return type declaration.");
         Assert.assertListNotContains(modelContent, a -> a.equals("): ?int|string"), "Expected to not find invalid union type with '?'.");
     }
+
+    @Test
+    public void testFormParamsBlockOnlyEmittedWhenBodyOrFormParamsExist() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/form-body-params.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String apiContent = Files.readString(files.get("DefaultApi.php").toPath());
+
+        // Each operation produces a "*Request" helper holding its own httpBody handling.
+        String noBodyNoForm = extractMethod(apiContent, "noBodyNoFormRequest");
+        String bodyParam = extractMethod(apiContent, "bodyParamRequest");
+        String formParam = extractMethod(apiContent, "formParamRequest");
+
+        // No body, no form: the dead form-params block must not be generated at all.
+        Assert.assertFalse(noBodyNoForm.contains("if (count($formParams) > 0)"),
+                "Operation without body or form params must not emit the form-params block");
+        Assert.assertFalse(noBodyNoForm.contains("// for model (json/xml)"),
+                "Operation without body or form params must not emit the json/xml comment");
+
+        // Body param: emits the body block followed by the elseif form-params branch.
+        Assert.assertTrue(bodyParam.contains("if (isset($thing)) {"),
+                "Body param operation must emit the body serialization block");
+        Assert.assertTrue(bodyParam.contains("} elseif (count($formParams) > 0) {"),
+                "Body param operation must keep the elseif form-params branch");
+
+        // Form param: emits the standalone form-params block.
+        Assert.assertTrue(formParam.contains("if (count($formParams) > 0) {"),
+                "Form param operation must emit the standalone form-params block");
+        Assert.assertFalse(formParam.contains("} elseif (count($formParams) > 0) {"),
+                "Form-only operation must not have an elseif (no body branch precedes it)");
+    }
+
+    /**
+     * Extracts the source of a single PHP method (from its declaration up to, but not
+     * including, the next method declaration) so per-operation assertions don't leak
+     * across operations sharing the same generated file.
+     */
+    private static String extractMethod(String content, String methodName) {
+        int start = content.indexOf("function " + methodName + "(");
+        Assert.assertTrue(start >= 0, "Expected to find method " + methodName + " in generated API");
+        int next = content.indexOf("\n    public function ", start + 1);
+        if (next < 0) {
+            next = content.indexOf("\n    protected function ", start + 1);
+        }
+        return next < 0 ? content.substring(start) : content.substring(start, next);
+    }
 }

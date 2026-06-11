@@ -32,7 +32,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -41,7 +40,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -342,10 +340,7 @@ class BodyApi
     ): Request
     {
 
-
         $resourcePath = '/binary/gif';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -360,30 +355,6 @@ class BodyApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -605,11 +576,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/body/application/octetstream/binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -645,7 +613,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -875,7 +843,6 @@ class BodyApi
         string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
     ): Request
     {
-
         // verify the required parameter 'files' is set
         if ($files === null || (is_array($files) && count($files) === 0)) {
             throw new InvalidArgumentException(
@@ -883,10 +850,8 @@ class BodyApi
             );
         }
 
-
         $resourcePath = '/body/application/octetstream/array_of_binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -895,7 +860,7 @@ class BodyApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'files' => $files,
@@ -924,7 +889,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -1155,11 +1120,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/body/application/octetstream/single_binary';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1168,7 +1130,7 @@ class BodyApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'my-file' => $my_file,
@@ -1197,7 +1159,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -1428,11 +1390,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/allOf/Pet';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1468,7 +1427,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -1699,11 +1658,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/FreeFormObject/response_string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1739,7 +1695,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -1970,11 +1926,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/Pet';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2010,7 +1963,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2241,11 +2194,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/Pet/response_string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2281,7 +2231,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2512,11 +2462,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/string_enum';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2552,7 +2499,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2783,11 +2730,8 @@ class BodyApi
     ): Request
     {
 
-
-
         $resourcePath = '/echo/body/Tag/response_string';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2823,7 +2767,7 @@ class BodyApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters

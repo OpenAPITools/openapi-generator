@@ -32,7 +32,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -41,7 +40,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -354,28 +352,24 @@ class PathApi
         string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): Request
     {
-
         // verify the required parameter 'path_string' is set
         if ($path_string === null || (is_array($path_string) && count($path_string) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $path_string when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
-
         // verify the required parameter 'path_integer' is set
         if ($path_integer === null || (is_array($path_integer) && count($path_integer) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $path_integer when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
-
         // verify the required parameter 'enum_nonref_string_path' is set
         if ($enum_nonref_string_path === null || (is_array($enum_nonref_string_path) && count($enum_nonref_string_path) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $enum_nonref_string_path when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'
             );
         }
-
         // verify the required parameter 'enum_ref_string_path' is set
         if ($enum_ref_string_path === null || (is_array($enum_ref_string_path) && count($enum_ref_string_path) === 0)) {
             throw new InvalidArgumentException(
@@ -383,10 +377,7 @@ class PathApi
             );
         }
 
-
         $resourcePath = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -433,30 +424,6 @@ class PathApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {

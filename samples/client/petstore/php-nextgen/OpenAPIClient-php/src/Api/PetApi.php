@@ -31,7 +31,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -40,7 +39,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -407,7 +405,6 @@ class PetApi
         string $contentType = self::contentTypes['addPet'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
@@ -415,10 +412,8 @@ class PetApi
             );
         }
 
-
         $resourcePath = '/pet';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -454,7 +449,7 @@ class PetApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -708,7 +703,6 @@ class PetApi
         string $contentType = self::contentTypes['deletePet'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
@@ -716,11 +710,7 @@ class PetApi
             );
         }
 
-
-
         $resourcePath = '/pet/{petId}';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -747,30 +737,6 @@ class PetApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         // this endpoint requires OAuth (access token)
         if (!empty($this->config->getAccessToken())) {
@@ -996,7 +962,6 @@ class PetApi
         string $contentType = self::contentTypes['findPetsByStatus'][0]
     ): Request
     {
-
         // verify the required parameter 'status' is set
         if ($status === null || (is_array($status) && count($status) === 0)) {
             throw new InvalidArgumentException(
@@ -1004,9 +969,7 @@ class PetApi
             );
         }
 
-
         $resourcePath = '/pet/findByStatus';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1031,30 +994,6 @@ class PetApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         // this endpoint requires OAuth (access token)
         if (!empty($this->config->getAccessToken())) {
@@ -1285,17 +1224,14 @@ class PetApi
         string $contentType = self::contentTypes['findPetsByTags'][0]
     ): Request
     {
-
         // verify the required parameter 'tags' is set
         if ($tags === null || (is_array($tags) && count($tags) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $tags when calling findPetsByTags'
             );
         }
-        
 
         $resourcePath = '/pet/findByTags';
-        $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
@@ -1320,30 +1256,6 @@ class PetApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         // this endpoint requires OAuth (access token)
         if (!empty($this->config->getAccessToken())) {
@@ -1569,7 +1481,6 @@ class PetApi
         string $contentType = self::contentTypes['getPetById'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
@@ -1577,10 +1488,7 @@ class PetApi
             );
         }
 
-
         $resourcePath = '/pet/{petId}';
-        $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1603,30 +1511,6 @@ class PetApi
             $multipart
         );
 
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
 
         // this endpoint requires API key authentication
         $apiKey = $this->config->getApiKeyWithPrefix('api_key');
@@ -1911,7 +1795,6 @@ class PetApi
         string $contentType = self::contentTypes['updatePet'][0]
     ): Request
     {
-
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new InvalidArgumentException(
@@ -1919,10 +1802,8 @@ class PetApi
             );
         }
 
-
         $resourcePath = '/pet';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -1958,7 +1839,7 @@ class PetApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2222,7 +2103,6 @@ class PetApi
         string $contentType = self::contentTypes['updatePetWithForm'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
@@ -2230,12 +2110,8 @@ class PetApi
             );
         }
 
-
-
-
         $resourcePath = '/pet/{petId}';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2252,7 +2128,7 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'name' => $name,
@@ -2282,7 +2158,7 @@ class PetApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2537,7 +2413,6 @@ class PetApi
         string $contentType = self::contentTypes['uploadFile'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
@@ -2545,12 +2420,8 @@ class PetApi
             );
         }
 
-
-
-
         $resourcePath = '/pet/{petId}/uploadImage';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2567,7 +2438,7 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'additionalMetadata' => $additional_metadata,
@@ -2597,7 +2468,7 @@ class PetApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
@@ -2852,14 +2723,12 @@ class PetApi
         string $contentType = self::contentTypes['uploadFileWithRequiredFile'][0]
     ): Request
     {
-
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
             throw new InvalidArgumentException(
                 'Missing the required parameter $pet_id when calling uploadFileWithRequiredFile'
             );
         }
-
         // verify the required parameter 'required_file' is set
         if ($required_file === null || (is_array($required_file) && count($required_file) === 0)) {
             throw new InvalidArgumentException(
@@ -2867,11 +2736,8 @@ class PetApi
             );
         }
 
-
-
         $resourcePath = '/fake/{petId}/uploadImageWithRequiredFile';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -2888,7 +2754,7 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
+        $formDataProcessor = new \OpenAPI\Client\FormDataProcessor();
 
         $formData = $formDataProcessor->prepare([
             'additionalMetadata' => $additional_metadata,
@@ -2918,7 +2784,7 @@ class PetApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
