@@ -34,6 +34,11 @@ public class GoRestyClient extends GoGinServer2Codegen {
         embeddedTemplateDir = templateDir = "go-resty-client";
 
         replacePath = false;
+
+        // map[string]any and any are Go builtins mapped from object/AnyType — not model types
+        languageSpecificPrimitives.add("map[string]any");
+        languageSpecificPrimitives.add("map[string]interface{}");
+        languageSpecificPrimitives.add("any");
     }
 
     @Override
