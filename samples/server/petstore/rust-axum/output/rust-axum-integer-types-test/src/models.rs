@@ -12,8 +12,8 @@ pub type SSE = std::pin::Pin<
     std::boxed::Box<
         dyn futures_util::Stream<
                 Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
-            > + Send
-            + Sync,
+            > + std::marker::Send
+            + std::marker::Sync,
     >,
 >;
 
