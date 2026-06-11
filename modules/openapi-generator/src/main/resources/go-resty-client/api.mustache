@@ -13,7 +13,9 @@ import (
     "github.com/go-resty/resty/v2"
 
     "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/common"
+{{#hasModels}}
     "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/models"
+{{/hasModels}}
 )
 {{#operation}}
 {{#hasParams}}

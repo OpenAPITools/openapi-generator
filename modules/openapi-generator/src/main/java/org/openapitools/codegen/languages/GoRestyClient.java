@@ -2,11 +2,15 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.GoHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.HttpStatusNameLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 
 import java.io.File;
+import java.util.List;
 
 public class GoRestyClient extends GoGinServer2Codegen {
 
@@ -57,6 +61,36 @@ public class GoRestyClient extends GoGinServer2Codegen {
         additionalProperties.put("lambda.to-package", (Mustache.Lambda) (fragment, writer) -> writer.write(toPackage(fragment.execute())));
         additionalProperties.put("goHttpStatus", new GoHttpStatusLambda());
         additionalProperties.put("goHttpStatusName", new HttpStatusNameLambda());
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
+
+        boolean hasModels = false;
+        outer:
+        for (CodegenOperation op : operations) {
+            if (op.returnType != null && !op.returnTypeIsPrimitive && !op.isMap) {
+                hasModels = true;
+                break;
+            }
+            for (CodegenResponse r : op.responses) {
+                if (r.isModel) {
+                    hasModels = true;
+                    break outer;
+                }
+            }
+            if (op.bodyParam != null && !op.bodyParam.isPrimitiveType) {
+                hasModels = true;
+                break;
+            }
+        }
+
+        objs.put("hasModels", hasModels);
+        return objs;
     }
 
     private String appendPackage(String content) {
