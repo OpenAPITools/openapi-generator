@@ -9,9 +9,9 @@ use crate::{models, types::*};
 
 #[allow(dead_code)]
 pub type SSE = std::pin::Pin<
-    Box<
+    std::boxed::Box<
         dyn futures_util::Stream<
-                Item = Result<axum::response::sse::Event, std::convert::Infallible>,
+                Item = std::result::Result<axum::response::sse::Event, std::convert::Infallible>,
             > + Send
             + Sync,
     >,
