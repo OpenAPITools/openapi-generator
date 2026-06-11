@@ -83,11 +83,10 @@ where
         .ping_get(&method, &host, &cookies, &claims)
         .await;
 
-    let mut response = Response::builder();
-
     let resp = match result {
         Ok(rsp) => match rsp {
             apis::default::PingGetResponse::Status201_OK => {
+                let mut response = Response::builder();
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }

@@ -9,13 +9,13 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.codegen.CodegenOperation;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.antlr4.KotlinLexer;
@@ -750,5 +750,39 @@ public class KotlinServerCodegenTest {
                 multipleOfModel,
                 "if (intVal % 2 != 0) {"
         );
+    }
+
+    // ==================== Cross-tag path shadowing (issue #23414) ====================
+
+    @Test
+    public void testCommonPathDoesNotShadowOtherTags_jaxrsSpec() throws IOException {
+        // Regression test for https://github.com/OpenAPITools/openapi-generator/issues/23414
+        // tag-one owns /foo/bar/one and /foo/bar/two
+        // tag-two owns /foo/bar/three and /baz/bar/four
+        // TagOneApi must NOT have @Path("/foo/bar") at class level because that would shadow
+        // TagTwoApi's /foo/bar/three route in the JAX-RS runtime.
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(USE_TAGS, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/issue_23414.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path tagOneApi = Paths.get(outputPath + "/apis/TagOneApi.kt");
+        Path tagTwoApi = Paths.get(outputPath + "/apis/TagTwoApi.kt");
+
+        // TagOneApi must NOT have @Path("/foo/bar") — this shadows TagTwoApi's /foo/bar/three
+        assertFileNotContains(tagOneApi, "@Path(\"/foo/bar\")");
+
+        // All operations must still be reachable with their full paths
+        assertFileContains(tagOneApi, "@Path(\"/foo/bar/one\")", "@Path(\"/foo/bar/two\")");
+        assertFileContains(tagTwoApi, "@Path(\"/foo/bar/three\")", "@Path(\"/baz/bar/four\")");
     }
 }

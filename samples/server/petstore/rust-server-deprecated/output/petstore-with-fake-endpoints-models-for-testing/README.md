@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.0
-- Generator version: 7.23.0-SNAPSHOT
+- Generator version: 7.24.0-SNAPSHOT
 
 
 
@@ -232,7 +232,6 @@ Method | HTTP request | Description
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [TestEnumParametersEnumHeaderStringArrayParameterInner](docs/TestEnumParametersEnumHeaderStringArrayParameterInner.md)
- - [TestEnumParametersEnumHeaderStringParameter](docs/TestEnumParametersEnumHeaderStringParameter.md)
  - [TestEnumParametersEnumQueryDoubleParameter](docs/TestEnumParametersEnumQueryDoubleParameter.md)
  - [TestEnumParametersEnumQueryIntegerParameter](docs/TestEnumParametersEnumQueryIntegerParameter.md)
  - [TestEnumParametersRequestEnumFormString](docs/TestEnumParametersRequestEnumFormString.md)
