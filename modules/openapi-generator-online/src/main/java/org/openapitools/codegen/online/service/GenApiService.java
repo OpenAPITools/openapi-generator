@@ -194,6 +194,21 @@ public class GenApiService implements GenApiDelegate {
         }
     }
 
+    /** @VisibleForTesting */
+    Generated getFileEntry(String code) {
+        return fileMap.get(code);
+    }
+
+    /** @VisibleForTesting */
+    void putFileEntry(String code, Generated entry) {
+        fileMap.put(code, entry);
+    }
+
+    /** @VisibleForTesting */
+    void removeFileEntry(String code) {
+        fileMap.remove(code);
+    }
+
     @Scheduled(fixedDelay = 3_600_000) // run every hour
     public void cleanExpiredFiles() {
         Instant cutoff = Instant.now().minusMillis(FILE_TTL_MS);
