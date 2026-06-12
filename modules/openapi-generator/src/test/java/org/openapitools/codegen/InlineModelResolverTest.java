@@ -275,6 +275,61 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveInlineModelKeepsUntitledSchemasDifferingOnlyByDescriptionDistinct() {
+        // Regression test for #24004: two distinct *untitled* inline object schemas that differ
+        // only in their descriptions (here the nested 'result' property: "ABC Result" vs
+        // "DEF Result") must NOT be merged. The volatile-stripped structural-signature fallback in
+        // matchGenerated() collapses them once description/type are removed; that fallback is only
+        // intended to unify titled named types across parser volatility, so it must not fire for
+        // untitled inline schemas — otherwise 'def' silently gets the type generated for 'abc' and
+        // breaks user code that expects two separate types (regression introduced in 7.23).
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        Schema abc = new ObjectSchema()
+                .description("first container")
+                .addProperty("result", new StringSchema().description("ABC Result"));
+        Schema def = new ObjectSchema()
+                .description("second container")
+                .addProperty("result", new StringSchema().description("DEF Result"));
+
+        Schema response = new ObjectSchema()
+                .addProperty("abc", abc)
+                .addProperty("def", def);
+
+        ApiResponse apiResponse = new ApiResponse()
+                .description("OK")
+                .content(new Content().addMediaType("application/json",
+                        new MediaType().schema(response)));
+
+        openapi.getPaths().addPathItem("/default", new PathItem().get(
+                new Operation().operationId("apiGetDefault")
+                        .responses(new ApiResponses().addApiResponse("200", apiResponse))));
+
+        new InlineModelResolver().flatten(openapi);
+
+        // Locate the flattened response model (the only component schema carrying both properties).
+        Schema responseModel = null;
+        for (Schema candidate : openapi.getComponents().getSchemas().values()) {
+            if (candidate.getProperties() != null
+                    && candidate.getProperties().containsKey("abc")
+                    && candidate.getProperties().containsKey("def")) {
+                responseModel = candidate;
+                break;
+            }
+        }
+        assertNotNull("Flattened response model with abc/def properties must exist", responseModel);
+
+        String abcRef = ((Schema) responseModel.getProperties().get("abc")).get$ref();
+        String defRef = ((Schema) responseModel.getProperties().get("def")).get$ref();
+        assertNotNull("abc property must be a $ref to a generated schema", abcRef);
+        assertNotNull("def property must be a $ref to a generated schema", defRef);
+        assertFalse("abc and def must resolve to DISTINCT schemas, not be merged: " + abcRef,
+                abcRef.equals(defRef));
+    }
+
+    @Test
     public void resolveInlineModelDeduplicatesMultipleRefsToSameExternalFile() {
         // Regression test: when the same external schema file is referenced from three separate
         // paths (simulating DeletionRequest appearing multiple times in the TAMS spec), the parser

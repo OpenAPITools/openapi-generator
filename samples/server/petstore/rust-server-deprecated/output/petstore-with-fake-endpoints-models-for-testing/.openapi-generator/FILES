@@ -51,6 +51,7 @@ docs/ReadOnlyFirst.md
 docs/Return.md
 docs/Tag.md
 docs/TestEnumParametersEnumHeaderStringArrayParameterInner.md
+docs/TestEnumParametersEnumHeaderStringParameter.md
 docs/TestEnumParametersEnumQueryDoubleParameter.md
 docs/TestEnumParametersEnumQueryIntegerParameter.md
 docs/TestEnumParametersRequestEnumFormString.md

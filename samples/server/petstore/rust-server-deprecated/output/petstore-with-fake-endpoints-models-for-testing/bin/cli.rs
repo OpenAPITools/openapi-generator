@@ -182,13 +182,13 @@ enum Operation {
         enum_header_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Header parameter enum test (string)
         #[structopt(parse(try_from_str = parse_json))]
-        enum_header_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         /// Query parameter enum test (string array)
         #[structopt(parse(try_from_str = parse_json), long)]
         enum_query_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Query parameter enum test (string)
         #[structopt(parse(try_from_str = parse_json))]
-        enum_query_string: Option<models::TestEnumParametersRequestEnumFormString>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         /// Query parameter enum test (double)
         #[structopt(parse(try_from_str = parse_json))]
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,

@@ -987,7 +987,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_enum_header_string = headers.get(HeaderName::from_static("enum_header_string"));
 
                 let param_enum_header_string = match param_enum_header_string {
-                    Some(v) => match header::IntoHeaderValue::<models::TestEnumParametersRequestEnumFormString>::try_from((*v).clone()) {
+                    Some(v) => match header::IntoHeaderValue::<models::TestEnumParametersEnumHeaderStringParameter>::try_from((*v).clone()) {
                         Ok(result) =>
                             Some(result.0),
                         Err(err) => {
@@ -1018,7 +1018,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_enum_query_string = match param_enum_query_string {
                     Some(param_enum_query_string) => {
                         let param_enum_query_string =
-                            <models::TestEnumParametersRequestEnumFormString as std::str::FromStr>::from_str
+                            <models::TestEnumParametersEnumHeaderStringParameter as std::str::FromStr>::from_str
                                 (&param_enum_query_string);
                         match param_enum_query_string {
                             Ok(param_enum_query_string) => Some(param_enum_query_string),
