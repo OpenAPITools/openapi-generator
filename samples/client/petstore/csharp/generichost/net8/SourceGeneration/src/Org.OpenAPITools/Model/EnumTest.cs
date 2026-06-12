@@ -762,8 +762,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "outerEnum":
                             string? outerEnumRawValue = utf8JsonReader.GetString();
-                            if (outerEnumRawValue != null)
-                                outerEnum = new Option<OuterEnum?>(OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue));
+                            outerEnum = new Option<OuterEnum?>(outerEnumRawValue == null ? null : OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue));
                             break;
                         case "outerEnumDefaultValue":
                             string? outerEnumDefaultValueRawValue = utf8JsonReader.GetString();

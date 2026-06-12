@@ -26,14 +26,32 @@ case class Order(
   status: Option[OrderEnums.Status] = None,
   complete: Option[Boolean] = None
 )
-
 object OrderEnums {
 
-  type Status = Status.Value
-  object Status extends Enumeration {
-    val Placed = Value("placed")
-    val Approved = Value("approved")
-    val Delivered = Value("delivered")
-  }
+  sealed trait Status
+  object Status {
+    case object Placed extends Status
+    case object Approved extends Status
+    case object Delivered extends Status
 
+    import org.json4s._
+
+    implicit object StatusSerializer extends Serializer[Status] {
+      def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), Status] = {
+        case (TypeInfo(clazz, _), json) if classOf[Status].isAssignableFrom(clazz) =>
+          json match {
+            case JString("placed") => Placed
+            case JString("approved") => Approved
+            case JString("delivered") => Delivered
+            case other => throw new MappingException(s"Invalid Status: $other")
+          }
+      }
+
+      def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
+        case Placed => JString("placed")
+        case Approved => JString("approved")
+        case Delivered => JString("delivered")
+      }
+    }
+  }
 }

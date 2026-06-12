@@ -2105,16 +2105,16 @@ public class JavaClientCodegenTest {
                 .printFileContent()
                 .assertMethod("searchRequestCreation")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
                                 + " regularParam));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
                                 + " objectParam.getSomeString()));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
                                 + " objectParam.getSomeBoolean()));")
                 .bodyContainsLines(
-                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
                                 + " objectParam.getSomeInteger()));");
     }
 
@@ -4248,11 +4248,11 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
-                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
+                "localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
         );
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
-                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
+                "localVarQueryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
                         ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
         );
     }
@@ -4536,5 +4536,26 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test
+    public void testSwagger2TagImportRestAssured() throws IOException {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/petstore.yaml",
+                JavaClientCodegen.REST_ASSURED,
+                Map.of(ANNOTATION_LIBRARY, "swagger2")
+        );
+
+        // find the generated API file
+        File apiFile = files.values().stream()
+                .filter(f -> f.getName().endsWith("Api.java"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("No API file generated"));
+
+        String content = Files.readString(apiFile.toPath());
+
+        // verify tags import is present when swagger2 is used with rest-assured
+        assertThat(content)
+                .contains("import io.swagger.v3.oas.annotations.tags.*;")
+                .contains("@Tag(");
+    }
 
 }
