@@ -1,51 +1,39 @@
 # Maven CI build for the smals-belgium openapi-generator
-name: openapi-generator-maven-ci
+name: Maven build and publish snapshot
+
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-jobs:
-  build:
-    runs-on: ubuntu-latest
 
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up JDK 11
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
           cache: 'maven'
-      - name: Update maven groupId
+
+      - name: Update group id
+        uses: ./.github/actions/update-group-id
+        with:
+          old-group-id: org.openapitools
+          new-group-id: io.github.smals-belgium
+
+      - name: Update artifact version
         run: |
-          set -euo pipefail
-          
-          ROOT_POM="pom.xml"
-          NEW_GROUP_ID="io.github.smals-belgium"
-          OLD_GROUP_ID="org.openapitools"
-          
-          mapfile -t MODULE_POMS < <(find modules -type f -name pom.xml)
-          
-          replace_group_id() {
-          local file="$1"
-          sed -i "s|<groupId>${OLD_GROUP_ID}</groupId>|<groupId>${NEW_GROUP_ID}</groupId>|g" "$file"
-          }
-          
-          # --- UPDATE ROOT POM ---
-          if grep -q "<artifactId>openapi-generator-project</artifactId>" "$ROOT_POM"; then
-          echo "Updating groupId in root pom"
-          replace_group_id "$ROOT_POM"
-          
-          echo "Updating enforcer exclude in root pom"
-          sed -i "s|<exclude>${OLD_GROUP_ID}:\*</exclude>|<exclude>${NEW_GROUP_ID}:*</exclude>|g" "$ROOT_POM"
-          fi
-          
-          # --- UPDATE MODULE POMS ---
-          for pom in "${MODULE_POMS[@]}"; do
-          echo "Updating groupId in $pom"
-          replace_group_id "$pom"
-          done
-      - name: Build with Maven
-        run: mvn -B verify
+          VERSION=${{ github.event_name == 'pull_request' && format('pr{0}-SNAPSHOT', github.event.pull_request.number) || 'latest-SNAPSHOT' }}
+          mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
+
+      - name: Build and publish with Maven
+        run: mvn -B deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,57 @@
+# Maven release for the smals-belgium openapi-generator
+name: Maven build and publish release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Validate tag
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TAG="${GITHUB_REF_NAME}"
+
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-smals[0-9]+$ ]]; then
+            echo "Invalid tag: $TAG"
+            echo "Expected format: vX.Y.Z-smalsN"
+            exit 1
+          fi
+
+          echo "Tag is valid: $TAG"
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 11
+          cache: maven
+
+      - uses: ./.github/actions/update-group-id
+        with:
+          old-group-id: org.openapitools
+          new-group-id: io.github.smals-belgium
+
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          
+          mvn -B versions:set \
+            -DnewVersion="$VERSION" \
+            -DgenerateBackupPoms=false \
+            -DprocessAllModules=true
+
+      - run: mvn -B deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

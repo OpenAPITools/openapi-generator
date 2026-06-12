@@ -26,7 +26,7 @@
     <modules>
         <module>modules/openapi-generator-core</module>
         <module>modules/openapi-generator</module>
-        <module>modules/openapi-generator-cli</module>
+        <!--                <module>modules/openapi-generator-cli</module>-->
         <module>modules/openapi-generator-maven-plugin</module>
         <!--                <module>modules/openapi-generator-gradle-plugin</module>-->
         <!--                <module>modules/openapi-generator-mill-plugin</module>-->
@@ -1185,14 +1185,19 @@
         </profile>
         <profile>
             <id>smals</id>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/smals-belgium/openapi-generator</url>
+                </repository>
+                <snapshotRepository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/smals-belgium/openapi-generator</url>
+                </snapshotRepository>
+            </distributionManagement>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <modules>
-                <module>modules/openapi-generator-core</module>
-                <module>modules/openapi-generator</module>
-                <module>modules/openapi-generator-maven-plugin</module>
-            </modules>
         </profile>
     </profiles>
     <reporting>
