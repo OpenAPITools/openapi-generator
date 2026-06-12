@@ -362,7 +362,7 @@ export function exists(json: any, key: string) {
 
 export function canConsumeForm(consumes: Consume[]): boolean {
     for (const consume of consumes) {
-        if ('multipart/form-data' === consume.contentType) {
+        if (consume.contentType?.startsWith('multipart/form-data') == true) {
             return true;
         }
     }
