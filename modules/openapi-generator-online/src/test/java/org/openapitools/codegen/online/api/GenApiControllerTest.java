@@ -197,6 +197,32 @@ public class GenApiControllerTest {
         assertTrue(Long.parseLong(contentLength) > 0, "Content-Length should be greater than 0");
     }
 
+    private static void setCreatedAt(Generated g, Instant value) throws Exception {
+        Field f = Generated.class.getDeclaredField("createdAt");
+        f.setAccessible(true);
+        f.set(g, value);
+    }
+
+    // Fix: expired entry still in map returns 404, not the file
+    @Test
+    public void downloadExpiredEntryInMapReturns404() throws Exception {
+        Field field = GenApiService.class.getDeclaredField("fileMap");
+        field.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Generated> fileMap = (Map<String, Generated>) field.get(null);
+
+        Generated expired = new Generated();
+        expired.setFilename("/tmp/some-file.zip");
+        expired.setFriendlyName("test");
+        setCreatedAt(expired, Instant.now().minusSeconds(25 * 3600)); // 25h ago, beyond 24h TTL
+        fileMap.put("ttl-check-key", expired);
+
+        mockMvc.perform(get("http://test.com:1234/api/gen/download/ttl-check-key"))
+                .andExpect(status().isNotFound());
+
+        fileMap.remove("ttl-check-key");
+    }
+
     // Fix #1: downloading an expired/evicted fileId returns 404, not NPE
     @Test
     public void downloadExpiredFileReturns404() throws Exception {
@@ -225,7 +251,7 @@ public class GenApiControllerTest {
         Generated expired = new Generated();
         expired.setFilename("/tmp/nonexistent-expired.zip");
         expired.setFriendlyName("test");
-        expired.setCreatedAt(Instant.now().minusSeconds(25 * 3600)); // 25 hours ago, beyond 24h TTL
+        setCreatedAt(expired, Instant.now().minusSeconds(25 * 3600)); // 25 hours ago, beyond 24h TTL
         fileMap.put("expired-test-key", expired);
 
         genApiService.cleanExpiredFiles();

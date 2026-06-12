@@ -91,7 +91,7 @@ public class GenApiService implements GenApiDelegate {
     public ResponseEntity<Resource> downloadFile(String fileId) {
         Generated g = fileMap.get(fileId);
         LOGGER.debug("looking for fileId {}", fileId);
-        if (g == null) {
+        if (g == null || g.getCreatedAt().plusMillis(FILE_TTL_MS).isBefore(Instant.now())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found or has expired");
         }
         LOGGER.debug("got filename {}", g.getFilename());

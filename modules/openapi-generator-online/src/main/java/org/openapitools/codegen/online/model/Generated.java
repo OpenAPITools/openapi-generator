@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.online.model;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,5 +28,6 @@ import java.time.Instant;
 public class Generated {
     private String filename;
     private String friendlyName;
+    @Setter(AccessLevel.NONE)
     private Instant createdAt = Instant.now();
 }
