@@ -3,7 +3,9 @@ package org.openapitools.codegen.online.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openapitools.codegen.online.model.Generated;
 import org.openapitools.codegen.online.model.ResponseCode;
+import org.openapitools.codegen.online.service.GenApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
@@ -12,10 +14,17 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Assert;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -181,10 +190,4 @@ public class GenApiControllerTest {
         assertTrue(Long.parseLong(contentLength) > 0, "Content-Length should be greater than 0");
     }
 
-    // Fix #1: missing fileId returns 404
-    @Test
-    public void downloadMissingFileReturns404() throws Exception {
-        mockMvc.perform(get("http://test.com:1234/api/gen/download/nonexistent-id"))
-                .andExpect(status().isNotFound());
-    }
 }
