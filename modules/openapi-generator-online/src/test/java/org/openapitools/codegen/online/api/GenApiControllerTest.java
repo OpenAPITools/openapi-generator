@@ -197,6 +197,13 @@ public class GenApiControllerTest {
         assertTrue(Long.parseLong(contentLength) > 0, "Content-Length should be greater than 0");
     }
 
+    // Fix #1: downloading an expired/evicted fileId returns 404, not NPE
+    @Test
+    public void downloadExpiredFileReturns404() throws Exception {
+        mockMvc.perform(get("http://test.com:1234/api/gen/download/nonexistent-or-expired-id"))
+                .andExpect(status().isNotFound());
+    }
+
     // Fix #1: fileMap uses ConcurrentHashMap (thread-safe)
     @Test
     public void fileMapIsConcurrentHashMap() throws Exception {
@@ -218,7 +225,7 @@ public class GenApiControllerTest {
         Generated expired = new Generated();
         expired.setFilename("/tmp/nonexistent-expired.zip");
         expired.setFriendlyName("test");
-        expired.setCreatedAt(Instant.now().minusSeconds(3600)); // 1 hour ago
+        expired.setCreatedAt(Instant.now().minusSeconds(25 * 3600)); // 25 hours ago, beyond 24h TTL
         fileMap.put("expired-test-key", expired);
 
         genApiService.cleanExpiredFiles();

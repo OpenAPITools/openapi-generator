@@ -58,7 +58,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GenApiService implements GenApiDelegate {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenApiService.class);
-    private static final long FILE_TTL_MS = 30 * 60 * 1000L; // 30 minutes
+    private static final long FILE_TTL_MS = 24 * 60 * 60 * 1000L; // 24 hours
 
     private static List<String> clients = new ArrayList<>();
     private static List<String> servers = new ArrayList<>();
@@ -91,6 +91,9 @@ public class GenApiService implements GenApiDelegate {
     public ResponseEntity<Resource> downloadFile(String fileId) {
         Generated g = fileMap.get(fileId);
         LOGGER.debug("looking for fileId {}", fileId);
+        if (g == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found or has expired");
+        }
         LOGGER.debug("got filename {}", g.getFilename());
 
         File file = new File(g.getFilename());
@@ -191,7 +194,7 @@ public class GenApiService implements GenApiDelegate {
         }
     }
 
-    @Scheduled(fixedDelay = 60_000)
+    @Scheduled(fixedDelay = 3_600_000) // run every hour
     public void cleanExpiredFiles() {
         Instant cutoff = Instant.now().minusMillis(FILE_TTL_MS);
         fileMap.entrySet().removeIf(entry -> {
