@@ -6368,37 +6368,55 @@ public class KotlinSpringServerCodegenTest {
 
     /**
      * Scenario 1: required=true, nullable=false
-     * Expected: non-nullable type, no default value, @JsonProperty(required=true).
+     * Expected by default: non-nullable type with @NotNull, preserving the model contract.
      */
-    @Test(description = "Scenario 1 – required+non-nullable: strict non-nullable property with no default")
+    @Test(description = "Scenario 1 – required+non-nullable: non-nullable type by default")
     public void requiredNullable_scenario1_requiredNonNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 new HashMap<>());
 
         Path modelFile = files.get("TestModel.kt").toPath();
-        // Must be non-nullable type (no '?'), must have @JsonProperty(required=true), must have no default
+        // Must stay non-nullable by default
         assertFileContains(modelFile,
                 "@get:JsonProperty(\"requiredNonNullable\", required = true) val requiredNonNullable: kotlin.String");
-        // Must NOT have a nullable marker or default value
+        // Must NOT be nullable unless the opt-in is enabled
         assertFileNotContains(modelFile, "val requiredNonNullable: kotlin.String?");
-        assertFileNotContains(modelFile, "val requiredNonNullable: kotlin.String = ");
+        // Must NOT emit @NotNull in the default path for required nullable fields
+        assertFileNotContains(modelFile, "@field:NotNull");
+    }
+
+    /**
+     * Scenario 1 with nullableRequiredForBeanValidation=true.
+     * Expected: nullable type + @NotNull so missing JSON fields reach bean validation instead of Jackson.
+     */
+    @Test(description = "Scenario 1 – required+non-nullable with nullableRequiredForBeanValidation: nullable type with @NotNull")
+    public void requiredNullable_scenario1_requiredNonNullable_nullableRequiredForBeanValidation() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
+                Map.of("nullableRequiredForBeanValidation", "true"));
+
+        Path modelFile = files.get("TestModel.kt").toPath();
+        assertFileContains(modelFile,
+                "@field:NotNull\n    @get:JsonProperty(\"requiredNonNullable\", required = true) val requiredNonNullable: kotlin.String?");
+        assertFileNotContains(modelFile, "val requiredNonNullable: kotlin.String,\n");
     }
 
     /**
      * Scenario 2: required=true, nullable=true
-     * Expected: nullable type, no default value, @JsonProperty(required=true).
+     * Expected: nullable type, @JsonProperty(required=true), and no @NotNull so explicit null remains valid.
      */
-    @Test(description = "Scenario 2 – required+nullable: nullable type enforced by Jackson required=true")
+    @Test(description = "Scenario 2 – required+nullable: nullable type without @NotNull")
     public void requiredNullable_scenario2_requiredNullable() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/required-nullable-4-states.yaml",
                 new HashMap<>());
 
         Path modelFile = files.get("TestModel.kt").toPath();
-        // Must be nullable type with @JsonProperty(required=true), no default value
+        // Must be nullable type with @JsonProperty(required=true) and no @NotNull, no default value
         assertFileContains(modelFile,
                 "@get:JsonProperty(\"requiredNullable\", required = true) val requiredNullable: kotlin.String?");
+        assertFileNotContains(modelFile, "@field:NotNull");
         // Must NOT have a default value
         assertFileNotContains(modelFile, "val requiredNullable: kotlin.String? = ");
     }
