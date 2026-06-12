@@ -167,7 +167,7 @@ class FormApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testFormIntegerBooleanStringWithHttpInfo(
         ?int $integer_form = null,
@@ -453,7 +453,7 @@ class FormApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testFormObjectMultipartWithHttpInfo(
         \OpenAPI\Client\Model\TestFormObjectMultipartRequestMarker $marker,
@@ -744,7 +744,7 @@ class FormApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testFormOneofWithHttpInfo(
         ?string $form1 = null,

@@ -154,7 +154,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -229,7 +229,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -241,7 +241,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: {{#returnType}}{{{exts.x-php-doc-return-type}}}{{/returnType}}{{^returnType}}null{{/returnType}}, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
@@ -409,7 +409,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -487,7 +487,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}
@@ -593,7 +593,7 @@ use {{invokerPackage}}\ObjectSerializer;
 {{/-last}}
 {{/servers}}
 {{#allParams}}
-     * @param  {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+     * @param  {{{exts.x-php-param-doc-type}}} ${{paramName}}{{#description}} {{.}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
 {{/allParams}}
 {{#servers}}
 {{#-first}}

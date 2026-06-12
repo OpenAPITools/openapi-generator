@@ -505,6 +505,11 @@ class ObjectSerializer
                 $data = (object) $data;
             }
 
+            // A oneOf schema is not a value object: resolve the data to one of its member types.
+            if (is_subclass_of($class, '\OpenAPI\Client\Model\OneOfInterface')) {
+                return self::deserializeOneOf($data, $class, $httpHeaders);
+            }
+
             // If a discriminator is defined and points to a valid subclass, use it.
             $discriminator = $class::DISCRIMINATOR;
             if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
@@ -538,6 +543,49 @@ class ObjectSerializer
             }
             return $instance;
         }
+    }
+
+    /**
+     * Deserialize data into one of the member types of a `oneOf` schema.
+     *
+     * When the schema declares a discriminator, its value selects the member type directly.
+     * Otherwise each member type is tried in turn and the first one that yields a valid model
+     * (or a non-null primitive) is returned.
+     *
+     * @param mixed         $data        the data already decoded to an object
+     * @param string        $class       a class name implementing OneOfInterface
+     * @param string[]|null $httpHeaders HTTP headers
+     *
+     * @return mixed an instance of one of the `oneOf` member types
+     */
+    private static function deserializeOneOf(mixed $data, string $class, ?array $httpHeaders): mixed
+    {
+        $discriminator = $class::getOneOfDiscriminator();
+        if ($discriminator !== null && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
+            $mappings = $class::getOneOfDiscriminatorMappings();
+            if (isset($mappings[$data->{$discriminator}])) {
+                return self::deserialize($data, $mappings[$data->{$discriminator}], $httpHeaders);
+            }
+        }
+
+        foreach ($class::getOneOfTypes() as $type) {
+            try {
+                $instance = self::deserialize($data, $type, $httpHeaders);
+            } catch (\Throwable $e) {
+                // The data does not match this member type, try the next one.
+                continue;
+            }
+
+            if ($instance instanceof ModelInterface) {
+                if ($instance->valid()) {
+                    return $instance;
+                }
+            } elseif ($instance !== null) {
+                return $instance;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('No matching schema in oneOf %s for the given data', $class));
     }
 
     /**

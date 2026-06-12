@@ -188,7 +188,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testEnumRefStringWithHttpInfo(
         ?string $enum_nonref_string_query = null,
@@ -456,7 +456,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryDatetimeDateStringWithHttpInfo(
         ?\DateTime $datetime_query = null,
@@ -740,7 +740,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryIntegerBooleanStringWithHttpInfo(
         ?int $integer_query = null,
@@ -1018,7 +1018,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(
         ?\OpenAPI\Client\Model\Pet $query_object = null,
@@ -1264,7 +1264,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(
         ?\OpenAPI\Client\Model\TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object = null,
@@ -1510,7 +1510,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(
         ?array $query_object = null,
@@ -1756,7 +1756,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(
         ?array $query_object = null,
@@ -2002,7 +2002,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(
         ?\OpenAPI\Client\Model\TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object = null,
@@ -2248,7 +2248,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleFormExplodeTrueObjectWithHttpInfo(
         ?\OpenAPI\Client\Model\Pet $query_object = null,
@@ -2494,7 +2494,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(
         ?\OpenAPI\Client\Model\DataQuery $query_object = null,
@@ -2743,7 +2743,7 @@ class QueryApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testQueryStyleJsonSerializationObjectWithHttpInfo(
         ?\OpenAPI\Client\Model\Pet $json_serialized_object_ref_string_query = null,
