@@ -121,6 +121,7 @@ docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
 docs/models/TestDescendants.md
 docs/models/TestDescendantsObjectType.md
+docs/models/TestEnumParametersEnumHeaderStringParameter.md
 docs/models/TestEnumParametersEnumQueryDoubleParameter.md
 docs/models/TestEnumParametersEnumQueryIntegerParameter.md
 docs/models/TestEnumParametersRequestEnumFormString.md
@@ -140,6 +141,7 @@ docs/models/ZeroBasedEnumClassZeroBasedEnum.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
 src/Org.OpenAPITools.Test/Api/DependencyInjectionTests.cs
+src/Org.OpenAPITools.Test/Model/TestEnumParametersEnumHeaderStringParameterTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools.Test/README.md
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
@@ -289,6 +291,7 @@ src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
 src/Org.OpenAPITools/Model/TestDescendants.cs
 src/Org.OpenAPITools/Model/TestDescendantsObjectType.cs
+src/Org.OpenAPITools/Model/TestEnumParametersEnumHeaderStringParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersEnumQueryDoubleParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersEnumQueryIntegerParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersRequestEnumFormString.cs

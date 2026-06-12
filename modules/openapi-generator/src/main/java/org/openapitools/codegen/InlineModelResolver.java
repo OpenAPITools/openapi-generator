@@ -849,6 +849,10 @@ public class InlineModelResolver {
         }
     }
 
+    private static boolean isEnumSchema(Schema model) {
+        return model != null && model.getEnum() != null && !model.getEnum().isEmpty();
+    }
+
     private String matchGenerated(Schema model) {
         if (skipSchemaReuse) { // skip reusing schema
             return null;
@@ -862,9 +866,18 @@ public class InlineModelResolver {
             }
             // Structural match: compare with volatile fields stripped at every level.
             // See generatedStructuralSignature field for a full explanation of why this is needed.
-            String structural = computeStructuralSignature(model);
-            if (generatedStructuralSignature.containsKey(structural)) {
-                return generatedStructuralSignature.get(structural);
+            //
+            // Skip this fallback for enum schemas: the structural matcher strips 'description',
+            // but for an enum the description is the only thing distinguishing two schemas that
+            // share the same values yet represent different things (e.g. two properties whose
+            // enums happen to list the same values but mean different things). Stripping it would
+            // wrongly unify them and make the second usage silently reuse the first enum's type
+            // (#23978). Enum schemas therefore dedup on exact content only.
+            if (!isEnumSchema(model)) {
+                String structural = computeStructuralSignature(model);
+                if (generatedStructuralSignature.containsKey(structural)) {
+                    return generatedStructuralSignature.get(structural);
+                }
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
