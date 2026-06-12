@@ -7462,7 +7462,6 @@ class FakeApi
                         $response,
                     );
             }
-            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -7591,7 +7590,6 @@ class FakeApi
         string $contentType = self::contentTypes['testOneOf'][0]
     ): Request
     {
-
         // verify the required parameter 'mammal' is set
         if ($mammal === null || (is_array($mammal) && count($mammal) === 0)) {
             throw new InvalidArgumentException(
@@ -7599,10 +7597,8 @@ class FakeApi
             );
         }
 
-
         $resourcePath = '/fake/oneof';
         $formParams = [];
-        $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
@@ -7638,7 +7634,7 @@ class FakeApi
                     }
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
+                $httpBody = new \GuzzleHttp\Psr7\MultipartStream($multipartContents);
 
             } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the form parameters
