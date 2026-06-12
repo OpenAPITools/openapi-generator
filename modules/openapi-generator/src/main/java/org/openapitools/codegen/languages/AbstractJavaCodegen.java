@@ -1380,6 +1380,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
+        // When generateAliasAsModel is enabled, a property that $refs an array/map alias is typed
+        // as the generated alias model (e.g. "ItemArray extends ArrayList<Item>"), not the inlined
+        // collection. Dereferencing below would otherwise yield a collection default such as
+        // "new ArrayList<>()", which is not assignable to the alias type and does not compile.
+        // Use the alias model's own default instead.
+        // See https://github.com/OpenAPITools/openapi-generator/issues/23988
+        if (schema.get$ref() != null && !cp.isArray && !cp.isMap) {
+            Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+            if (ModelUtils.isArraySchema(referencedSchema)
+                    || (ModelUtils.isMapSchema(referencedSchema) && !ModelUtils.isComposedSchema(referencedSchema))) {
+                if (cp.isNullable || containerDefaultToNull) {
+                    return null;
+                }
+                return "new " + cp.datatypeWithEnum + "()";
+            }
+        }
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (defaultToEmptyContainer) {
