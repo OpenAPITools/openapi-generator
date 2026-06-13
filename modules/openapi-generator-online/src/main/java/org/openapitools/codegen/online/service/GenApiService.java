@@ -215,11 +215,14 @@ public class GenApiService implements GenApiDelegate {
         fileMap.entrySet().removeIf(entry -> {
             Generated g = entry.getValue();
             if (g.getCreatedAt().isBefore(cutoff)) {
-                File file = new File(g.getFilename());
-                try {
-                    FileUtils.deleteDirectory(file.getParentFile());
-                } catch (IOException e) {
-                    LOGGER.warn("failed to delete expired file {}", g.getFilename());
+                File dir = new File(g.getFilename()).getParentFile();
+                if (dir.exists()) {
+                    try {
+                        FileUtils.deleteDirectory(dir);
+                    } catch (IOException | IllegalArgumentException e) {
+                        LOGGER.warn("failed to delete expired file {}, will retry on next run", g.getFilename());
+                        return false;
+                    }
                 }
                 LOGGER.debug("evicted expired file entry {}", entry.getKey());
                 return true;

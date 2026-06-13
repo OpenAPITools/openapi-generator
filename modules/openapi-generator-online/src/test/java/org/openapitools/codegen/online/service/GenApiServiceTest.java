@@ -55,6 +55,27 @@ public class GenApiServiceTest {
         assertFalse(tempDir.exists(), "Temp directory should have been deleted");
     }
 
+    // Fix: entry is retained if directory deletion fails (no orphaned files)
+    @Test
+    public void cleanExpiredFilesRetainsEntryWhenDeletionFails() throws Exception {
+        // Point filename at a path whose "parent" is a regular file — deleteDirectory will fail
+        File fakeParent = Files.createTempFile("codegen-not-a-dir", ".tmp").toFile();
+
+        Generated entry = new Generated();
+        entry.setFilename(new File(fakeParent, "bundle.zip").getAbsolutePath());
+        entry.setFriendlyName("test");
+        entry.setCreatedAt(Instant.now().minusSeconds(25 * 3600));
+        genApiService.putFileEntry("test-deletion-fail-key", entry);
+
+        genApiService.cleanExpiredFiles();
+
+        assertNotNull(genApiService.getFileEntry("test-deletion-fail-key"), "Entry should be retained when deletion fails");
+
+        // cleanup
+        fakeParent.delete();
+        genApiService.removeFileEntry("test-deletion-fail-key");
+    }
+
     // Fix #1: recent entry is not evicted by cleanup
     @Test
     public void cleanExpiredFilesKeepsRecentEntry() throws Exception {
