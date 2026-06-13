@@ -574,6 +574,12 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                         // if this is oneOf interface, make sure we include the necessary imports for it
                         addImportsToOneOfInterface(modelsImports);
+                        //
+                        // ensure that no JsonTypeName is created when the parent interface has a discriminator mapping
+                        if (cm.discriminator != null && cm.discriminator.getMappedModels().size() > 0) {
+                            cm.discriminator.getMappedModels().forEach(mappedModel ->
+                                    mappedModel.getModel().setHasDiscriminatorWithNonEmptyMapping(true));
+                        }
                     }
                 }
             }
