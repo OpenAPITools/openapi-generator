@@ -92,6 +92,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useTags = true;
+    /**
+     * All resource paths seen across every tag, collected during the first pass
+     * ({@link #addOperationToGroup}).  Used in {@link #postProcessOperationsWithModels} to
+     * detect cross-tag path shadowing for the jaxrs-spec library.
+     */
+    private final Set<String> allResourcePaths = new HashSet<>();
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
@@ -731,37 +737,33 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (useTags) {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-            return;
+        } else {
+            String basePath = StringUtils.substringBefore(resourcePath.startsWith("/") ? resourcePath.substring(1) : resourcePath, "/");
+            if (StringUtils.isEmpty(basePath) || basePath.chars().anyMatch(ch -> ch == '{' || ch == '}')) {
+                basePath = "default";
+            }
+            super.addOperationToGroup(basePath, resourcePath, operation, co, operations);
         }
 
-        String basePath = StringUtils.substringBefore(resourcePath.startsWith("/") ? resourcePath.substring(1) : resourcePath, "/");
-        if (StringUtils.isEmpty(basePath) || basePath.chars().anyMatch(ch -> ch == '{' || ch == '}')) {
-            basePath = "default";
-        }
-        super.addOperationToGroup(basePath, resourcePath, operation, co, operations);
+        allResourcePaths.add(resourcePath);
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
-        // For JAXRS_SPEC library, compute commonPath for all library modes
         if (operations != null && Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
-            // Compute commonPath from operations in this group (called once per API class)
-            String commonPath = null;
-            for (CodegenOperation operation : ops) {
-                if (commonPath == null) {
-                    commonPath = operation.path;
-                } else {
-                    commonPath = getCommonPath(commonPath, operation.path);
-                }
+
+            String commonPath = computeCommonPath(ops);
+
+            if (commonPath != null && !commonPath.isEmpty() && !"/".equals(commonPath)
+                    && wouldShadowOtherTags(commonPath, ops, allResourcePaths)) {
+                commonPath = null;
             }
-            for (CodegenOperation co : ops) {
-                co.path = StringUtils.removeStart(co.path, commonPath);
-                co.subresourceOperation = co.path.length() > 1;
-            }
-            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
+
+            applyCommonPath(ops, commonPath, objs);
         }
+
         // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
@@ -853,6 +855,55 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     private boolean isKtor2() {
         return Constants.KTOR2.equals(library);
+    }
+
+    /** Computes the longest common path prefix shared by all operations. */
+    private static String computeCommonPath(List<CodegenOperation> ops) {
+        String commonPath = null;
+        for (CodegenOperation operation : ops) {
+            if (commonPath == null) {
+                commonPath = operation.path;
+            } else {
+                commonPath = getCommonPath(commonPath, operation.path);
+            }
+        }
+        return commonPath;
+    }
+
+    /** Strips {@code commonPath} from operation paths and writes it to {@code objs}; null means shadowing was detected. */
+    private static void applyCommonPath(List<CodegenOperation> ops, String commonPath, OperationsMap objs) {
+        if (commonPath == null) {
+            for (CodegenOperation co : ops) {
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", StringUtils.EMPTY);
+        } else {
+            for (CodegenOperation co : ops) {
+                co.path = StringUtils.removeStart(co.path, commonPath);
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
+        }
+    }
+
+    /** Returns {@code true} if using {@code commonPath} as the class-level {@code @Path} would shadow routes of another tag. */
+    private static boolean wouldShadowOtherTags(String commonPath, List<CodegenOperation> ops, Set<String> allResourcePaths) {
+        if (allResourcePaths == null || allResourcePaths.isEmpty()) {
+            return false;
+        }
+        Set<String> currentTagPaths = new HashSet<>();
+        for (CodegenOperation co : ops) {
+            currentTagPaths.add(co.path);
+        }
+        for (String path : allResourcePaths) {
+            if (currentTagPaths.contains(path)) {
+                continue;
+            }
+            if (path.startsWith(commonPath + "/") || path.equals(commonPath)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static String getCommonPath(String path1, String path2) {
