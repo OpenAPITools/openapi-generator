@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 /**
  * Language-agnostic utility for detecting OpenAPI schemas that represent paginated responses
@@ -61,21 +62,56 @@ public final class PagedModelScanUtils {
     /**
      * Carries the result of a single detected paged-model schema.
      *
-     * @param schemaName     Name of the detected schema to suppress (e.g. {@code UserPage}).
-     * @param itemSchemaName Simple name of the array item type (e.g. {@code User}).
-     * @param metaSchemaName Name of the pagination-metadata schema to suppress
-     *                       (e.g. {@code PageMetadata}), or {@code null} if it could not
-     *                       be resolved to a named component.
+     * <p>Two name variants are stored for each schema:</p>
+     * <ul>
+     *   <li><b>transformed</b> ({@code schemaName} / {@code metaSchemaName}) — the model name
+     *       after the generator's {@code toModelName()} has been applied.  These are the names
+     *       that appear in codegen-operation imports and {@code CodegenModel.imports}, so they
+     *       must be used for import removal / import-presence checks.</li>
+     *   <li><b>raw</b> ({@code rawSchemaName} / {@code rawMetaSchemaName}) — the original
+     *       OpenAPI component-schema name.  {@code DefaultGenerator} keys {@code allProcessedModels}
+     *       (the {@code objs} map passed to {@code postProcessAllModels}) by the <em>raw</em>
+     *       schema name, so these values must be used for {@code objs.remove()} calls.</li>
+     * </ul>
+     *
+     * <p>When {@link #scanPagedModels(OpenAPI)} is used (no transform), the raw and transformed
+     * names are identical.  When {@link #scanPagedModels(OpenAPI, UnaryOperator)} is used, they
+     * may differ (e.g. {@code rawSchemaName="UserPage"}, {@code schemaName="UserPageDto"}).</p>
+     *
+     * @param schemaName        Transformed model name of the detected paged schema.
+     * @param itemSchemaName    Raw item schema name (always raw; callers apply
+     *                          {@code toModelName()} at the point of use).
+     * @param metaSchemaName    Transformed model name of the pagination-metadata schema,
+     *                          or {@code null} if unresolved.
+     * @param rawSchemaName     Raw OpenAPI schema name of the paged schema (for {@code objs.remove}).
+     * @param rawMetaSchemaName Raw OpenAPI schema name of the pagination-metadata schema
+     *                          (for {@code objs.remove}), or {@code null} if unresolved.
      */
     public static final class DetectedPagedModel {
+        /** Transformed model name — use for import removal / import-presence checks. */
         public final String schemaName;
         public final String itemSchemaName;
+        /** Transformed meta model name — use for import-presence checks. */
         public final String metaSchemaName;
+        /** Raw OpenAPI schema name — use for {@code objs.remove()} in {@code postProcessAllModels}. */
+        public final String rawSchemaName;
+        /** Raw OpenAPI meta schema name — use for {@code objs.remove()} in {@code postProcessAllModels}. */
+        public final String rawMetaSchemaName;
 
+        /**
+         * Convenience constructor used when no name transform is active (raw == transformed).
+         */
         public DetectedPagedModel(String schemaName, String itemSchemaName, String metaSchemaName) {
+            this(schemaName, itemSchemaName, metaSchemaName, schemaName, metaSchemaName);
+        }
+
+        DetectedPagedModel(String schemaName, String itemSchemaName, String metaSchemaName,
+                           String rawSchemaName, String rawMetaSchemaName) {
             this.schemaName = schemaName;
             this.itemSchemaName = itemSchemaName;
             this.metaSchemaName = metaSchemaName;
+            this.rawSchemaName = rawSchemaName;
+            this.rawMetaSchemaName = rawMetaSchemaName;
         }
     }
 
@@ -112,7 +148,43 @@ public final class PagedModelScanUtils {
     }
 
     /**
-     * Returns {@code true} if the given schema looks like a pagination-metadata schema.
+     * Convenience overload that scans for paged-model schemas and immediately re-keys the
+     * resulting map by applying {@code toModelName} to every schema name.
+     *
+     * <p>Generator classes must use this overload (passing {@code this::toModelName}) so that
+     * the registry keys match the model-name-processed values used at lookup time
+     * (e.g. {@code codegenOperation.returnBaseType}, {@code objs} keys).  This ensures
+     * correctness when {@code modelNameSuffix}, {@code modelNamePrefix}, {@code schemaMapping},
+     * or {@code modelNameMapping} are active.</p>
+     *
+     * <p>{@code itemSchemaName} inside each {@link DetectedPagedModel} is intentionally left as
+     * the raw spec name because every call site already passes it through {@code toModelName()}
+     * at the point of use.</p>
+     *
+     * @param openAPI     the parsed OpenAPI document
+     * @param toModelName name-transformation function supplied by the generator
+     *                    (typically {@code this::toModelName})
+     * @return map from transformed schema name to {@link DetectedPagedModel}
+     */
+    public static Map<String, DetectedPagedModel> scanPagedModels(
+            OpenAPI openAPI, UnaryOperator<String> toModelName) {
+        Map<String, DetectedPagedModel> raw = scanPagedModels(openAPI);
+        if (raw.isEmpty()) {
+            return raw;
+        }
+        Map<String, DetectedPagedModel> result = new LinkedHashMap<>();
+        for (Map.Entry<String, DetectedPagedModel> entry : raw.entrySet()) {
+            DetectedPagedModel d = entry.getValue();
+            String rawKey = entry.getKey();
+            String newKey = toModelName.apply(rawKey);
+            String rawMeta = d.metaSchemaName;
+            String newMeta = rawMeta != null ? toModelName.apply(rawMeta) : null;
+            result.put(newKey, new DetectedPagedModel(newKey, d.itemSchemaName, newMeta, rawKey, rawMeta));
+        }
+        return result;
+    }
+
+    /**
      *
      * <p>The heuristic checks that at least {@value #PAGINATION_FIELD_THRESHOLD} of the
      * well-known field names ({@code size}, {@code number}, {@code page},

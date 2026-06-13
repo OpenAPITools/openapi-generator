@@ -15,3 +15,4 @@ additionalProperties:
   generateConstructorWithAllArgs: true
   generateBuilders: true
   openApiNullable: false
+  useEnumValueInterface: "true"
