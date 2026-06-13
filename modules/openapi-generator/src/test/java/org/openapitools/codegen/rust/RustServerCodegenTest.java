@@ -3,6 +3,7 @@ package org.openapitools.codegen.rust;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -108,6 +109,38 @@ public class RustServerCodegenTest {
         TestUtils.assertFileExists(exampleClientMain);
         TestUtils.assertFileContains(exampleClientMain, "Disabled because there's no example.");
         TestUtils.assertFileContains(exampleClientMain, "Some(\"QueryExampleGet\")");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    @Test
+    public void testPatternValidationModelsEnableClientRegexDependencies() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/pattern-validation.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path cargoPath = Path.of(target.toString(), "/Cargo.toml");
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(cargoPath);
+        TestUtils.assertFileExists(modelsPath);
+        TestUtils.assertFileContains(modelsPath, "lazy_static::lazy_static!", "regex::Regex");
+
+        String cargoToml = Files.readString(cargoPath);
+        int clientStart = cargoToml.indexOf("client = [");
+        int clientEnd = cargoToml.indexOf("]\n# TLS support", clientStart);
+        Assert.assertTrue(clientStart >= 0, "Generated Cargo.toml should contain a client feature");
+        Assert.assertTrue(clientEnd > clientStart, "Generated Cargo.toml should close the client feature before TLS support");
+        String clientFeature = cargoToml.substring(clientStart, clientEnd);
+        Assert.assertTrue(clientFeature.contains("\"lazy_static\""),
+                "Client-only builds need lazy_static when shared models emit pattern validation statics");
+        Assert.assertTrue(clientFeature.contains("\"regex\""),
+                "Client-only builds need regex when shared models emit pattern validation statics");
 
         // Clean up
         target.toFile().deleteOnExit();

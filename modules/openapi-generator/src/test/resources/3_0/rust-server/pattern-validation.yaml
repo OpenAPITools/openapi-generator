@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Pattern validation test
+  version: 1.0.0
+paths:
+  /phone:
+    get:
+      operationId: getPhone
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+components:
+  schemas:
+    PhoneNumber:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          pattern: '^[+][1-9]\d{1,14}$'
