@@ -21,7 +21,7 @@
 })
 {{#isClassnameSanitized}}
 {{^hasDiscriminatorWithNonEmptyMapping}}
-@JsonTypeName("{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}")
+@JsonTypeName("{{#vendorExtensions.x-discriminator-value}}{{#lambda.escapeJava}}{{{vendorExtensions.x-discriminator-value}}}{{/lambda.escapeJava}}{{/vendorExtensions.x-discriminator-value}}{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}")
 {{/hasDiscriminatorWithNonEmptyMapping}}
 {{/isClassnameSanitized}}
 {{/jackson}}
