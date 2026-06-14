@@ -819,6 +819,36 @@ public class KotlinClientCodegenModelTest {
   }
 
   @Test
+  public void testBooleanConstEnumUsesBooleanLiteral() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName("kotlin")
+              .setLibrary("jvm-ktor")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                put(CodegenConstants.MODEL_PACKAGE, "model");
+                put(ENUM_PROPERTY_NAMING, "original");
+              }})
+              .setInputSpec("src/test/resources/3_1/kotlin/issue23550-boolean-const.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ExceptionState.kt");
+
+      TestUtils.assertFileContains(modelKt,
+              "enum class ExceptionPeriodIsClosed(val value: kotlin.Boolean)",
+              "@JsonProperty(value = \"true\")",
+              "`true`(true);");
+      TestUtils.assertFileNotContains(modelKt, "`true`(\"true\")");
+  }
+
+  @Test
   public void testJacksonEnumsUseJsonCreator() throws IOException {
       File output = Files.createTempDirectory("test").toFile();
       output.deleteOnExit();
