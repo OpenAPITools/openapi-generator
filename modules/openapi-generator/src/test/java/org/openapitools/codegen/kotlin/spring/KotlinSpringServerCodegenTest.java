@@ -6777,4 +6777,26 @@ public class KotlinSpringServerCodegenTest {
         String content = Files.readString(myObjectFile.toPath());
         assertThat(content).contains("com.example.ExternalModel?");
     }
+
+    @Test
+    public void mapPropertiesDoNotGetFieldValidAnnotation_HV000271() throws IOException {
+        // Hibernate Validator deprecated @Valid on Map containers (HV000271).
+        // @field:Valid must not be emitted for Map properties; it must still be emitted for List properties.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/map-field-valid-hv000271.yaml",
+                new HashMap<>(Map.of(KotlinSpringServerCodegen.USE_BEANVALIDATION, "true"))
+        );
+
+        File containerFile = files.get("Container.kt");
+        assertThat(containerFile).isNotNull();
+
+        String content = Files.readString(containerFile.toPath());
+        assertThat(content).contains("val mapProp:");
+        assertThat(content).contains("val listProp:");
+
+        long fieldValidCount = content.lines().filter(line -> line.contains("@field:Valid")).count();
+        assertThat(fieldValidCount)
+                .as("@field:Valid must appear only on the list property, not on the map property (HV000271)")
+                .isEqualTo(1);
+    }
 }

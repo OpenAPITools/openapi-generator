@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: map-field-valid-hv000271
+paths: {}
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+    Container:
+      type: object
+      properties:
+        mapProp:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+        listProp:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
