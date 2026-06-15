@@ -14,14 +14,14 @@
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{#discriminator}}{{#useSealedDiscriminatorInterfaces}}sealed {{/useSealedDiscriminatorInterfaces}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#vendorExtensions.x-is-open-class}}open {{/vendorExtensions.x-is-open-class}}{{^vendorExtensions.x-is-open-class}}{{#hasVars}}data {{/hasVars}}{{/vendorExtensions.x-is-open-class}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
 ){{/discriminator}}{{! no newline
-}}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
+}}{{#parent}} : {{{.}}}{{#vendorExtensions.x-parent-is-class}}({{{vendorExtensions.x-parent-ctor-args}}}){{/vendorExtensions.x-parent-is-class}}{{^vendorExtensions.x-parent-is-class}}{{#isMap}}(){{/isMap}}{{/vendorExtensions.x-parent-is-class}}{{! no newline
       }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! <- serializableModel is also handled via x-kotlin-implements
       }}{{#vendorExtensions.x-implements-sealed-interfaces}}{{#.}}, {{{.}}}{{/.}}{{/vendorExtensions.x-implements-sealed-interfaces}}{{! <- add sealed interface implementations
 }}{{/parent}}{{! no newline
@@ -43,6 +43,29 @@
         {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/discriminator}}
+{{#vendorExtensions.x-is-open-class}}
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+        other as {{classname}}
+        return {{#allVars}}{{name}} == other.{{name}}{{^-last}}
+                && {{/-last}}{{/allVars}}{{^allVars}}true{{/allVars}}
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash({{#allVars}}{{name}}{{^-last}}, {{/-last}}{{/allVars}})
+    }
+
+    override fun toString(): String {
+        return "{{classname}}({{#allVars}}{{name}}=${{name}}{{^-last}}, {{/-last}}{{/allVars}})"
+    }
+
+    fun copy(
+{{#allVars}}
+        {{name}}: {{{dataType}}}{{^required}}?{{/required}} = this.{{name}}{{^-last}},{{/-last}}
+{{/allVars}}
+    ): {{classname}} = {{classname}}({{#allVars}}{{name}} = {{name}}{{^-last}}, {{/-last}}{{/allVars}})
+{{/vendorExtensions.x-is-open-class}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**
     * {{{description}}}

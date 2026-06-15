@@ -1176,7 +1176,7 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
                 "@get:JsonProperty(\"name\", required = true) override val name: kotlin.String,",
                 "@get:JsonProperty(\"photoUrls\", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,",
-                "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String,",
+                "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String = \"Dog\",",
                 "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
                 "@get:JsonProperty(\"category\") override val category: Category? = null,",
                 "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<Tag>? = null,",
@@ -6776,5 +6776,215 @@ public class KotlinSpringServerCodegenTest {
         assertThat(myObjectFile).isNotNull();
         String content = Files.readString(myObjectFile.toPath());
         assertThat(content).contains("com.example.ExternalModel?");
+    }
+
+    // ==================== allOf discriminator default value tests ====================
+
+    @Test(description = "allOf discriminator children get a default value from the schema name when no explicit mapping")
+    public void testAllOfDiscriminatorChildrenGetDefaultValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Cat and Dog are allOf children of Pet; no explicit mapping → schema name is the discriminating value
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"),
+                "data class Cat",
+                "override val petType: kotlin.String = \"Cat\""
+        );
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "data class Dog",
+                "override val petType: kotlin.String = \"Dog\""
+        );
+        // Pet parent is a plain interface when useSealedDiscriminatorInterfaces is at its default
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "interface Pet"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Cat.kt"),
+                "petType: kotlin.String?", "petType: kotlin.Any"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"),
+                "petType: kotlin.String?", "petType: kotlin.Any"
+        );
+    }
+
+    @Test(description = "allOf discriminator children get default value matching the explicit mapping key")
+    public void testAllOfDiscriminatorWithExplicitMappingDefaultValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Pet has discriminator petType with explicit mapping: Dog → "Dog", Cat → "Cat"
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "data class Dog",
+                "override val petType: kotlin.String = \"Dog\""
+        );
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"),
+                "data class Cat",
+                "override val petType: kotlin.String = \"Cat\""
+        );
+    }
+
+    // ==================== allOf sealed interface tests ====================
+
+    @Test(description = "allOf discriminator parent generates sealed interface by default")
+    public void testAllOfDiscriminatorParentIsSealedInterfaceByDefault() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Pet should be a sealed interface with Jackson annotations
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "sealed interface Pet",
+                "@JsonTypeInfo", "property = \"petType\"", "visible = true",
+                "@JsonSubTypes"
+        );
+        // Children must remain data classes — sealing only applies to the discriminator parent
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "sealed");
+        assertFileNotContains(Paths.get(outputPath + "/Cat.kt"), "sealed");
+    }
+
+    @Test(description = "allOf discriminator parent generates plain interface when useSealedDiscriminatorInterfaces=false")
+    public void testAllOfDiscriminatorOptOutPlainInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(USE_SEALED_DISCRIMINATOR_INTERFACES, "false");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Opt-out: plain interface, not sealed
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"), "interface Pet");
+        assertFileNotContains(Paths.get(outputPath + "/Pet.kt"), "sealed interface Pet");
+    }
+
+    @Test(description = "allOf sealed interface correctly composes external x-kotlin-implements supertypes")
+    public void testSealedInterfaceWithExternalSupertypes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Pet has x-kotlin-implements external supertypes; sealed should come before those
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "sealed interface Pet : com.some.pack.Named"
+        );
+    }
+
+    @Test(description = "oneOf sealed interface stays sealed when useSealedDiscriminatorInterfaces=false (different template path)")
+    public void testOneOfInterfaceStillSealedWhenAllOfFlagOff() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(USE_SEALED_DISCRIMINATOR_INTERFACES, "false");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // oneOf parent uses oneof_interface.mustache, not dataClass.mustache — flag has no effect on it
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"), "sealed interface Animal");
+    }
+
+    // ==================== multi-level allOf inheritance tests (fixes #18206) ====================
+
+    @Test(description = "multi-level allOf: mid-level model becomes open class, leaf stays data class with parent ctor call")
+    public void testMultiLevelAllOfInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal: sealed interface with Jackson annotations listing ALL descendants
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "sealed interface Animal",
+                "@JsonTypeInfo", "property = \"className\"", "visible = true",
+                "BigDog::class",
+                "Dog::class",
+                "Cat::class"
+        );
+
+        // Dog: open class (not data class) so BigDog can extend it; no ctor call to Animal (interface parent)
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "open class Dog(",
+                ") : Animal {",
+                "override val className: kotlin.String = \"Dog\"",
+                "open val breed: kotlin.String?"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), ": Animal(");
+        // open class generates equals/hashCode/toString/copy since data class would normally provide these
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "override fun equals(other: Any?): Boolean",
+                "if (other?.javaClass != javaClass) return false",
+                "override fun hashCode(): Int",
+                "Objects.hash(",
+                "override fun toString(): String",
+                "fun copy(",
+                "): Dog = Dog("
+        );
+
+        // Cat: leaf (no children) — stays a data class, unaffected
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+
+        // BigDog: data class extending open class Dog with constructor call passing all parent ctor args
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"),
+                "data class BigDog(",
+                "override val className: kotlin.String = \"BigDog\"",
+                "override val breed",
+                "override val color"
+        );
+        // Must call Dog's constructor (not bare `: Dog`)
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog(");
+        assertFileNotContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog {");
     }
 }
