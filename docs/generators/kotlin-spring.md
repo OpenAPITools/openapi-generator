@@ -68,6 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useFlowForArrayReturnType|Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.| |true|
 |useJackson3|Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled.| |false|
 |useResponseEntity|Whether (when false) to return actual type (e.g. List&lt;Fruit&gt;) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity&lt;List&lt;Fruit&gt;&gt;). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition| |true|
+|useSealedDiscriminatorInterfaces|Generate sealed interfaces instead of plain interfaces for allOf discriminator parent models. When true (default), discriminator parents rendered as `sealed interface`, enabling exhaustive `when` matching and preventing external implementors (which cannot know all subtypes). Set to false to restore the legacy plain `interface` behavior, e.g. when you implement the generated interface from a module outside the generated package.| |true|
 |useSealedResponseInterfaces|Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)| |false|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.| |false|
@@ -314,7 +315,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
-|allOf|✗|OAS2,OAS3
+|allOf|✓|OAS2,OAS3
 |anyOf|✗|OAS3
 |oneOf|✓|OAS3
 |not|✗|OAS3
