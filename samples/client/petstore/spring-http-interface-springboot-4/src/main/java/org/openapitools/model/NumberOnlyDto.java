@@ -2,9 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.math.BigDecimal;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
@@ -24,6 +27,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.24.0-SNAPSHOT")
 public class NumberOnlyDto {
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable BigDecimal justNumber;
 
   public NumberOnlyDto justNumber(@Nullable BigDecimal justNumber) {
@@ -41,6 +45,7 @@ public class NumberOnlyDto {
     return justNumber;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("JustNumber")
   public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;

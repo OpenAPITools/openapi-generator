@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ public class NullableModel implements Serializable {
 
   private JsonNullable<String> requiredNullable = JsonNullable.<String>undefined();
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String optionalNonNullable;
 
   private JsonNullable<String> optionalNullable = JsonNullable.<String>undefined();

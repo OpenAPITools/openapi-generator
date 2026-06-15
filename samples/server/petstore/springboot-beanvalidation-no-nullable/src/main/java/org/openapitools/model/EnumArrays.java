@@ -2,9 +2,12 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.Nulls;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +63,7 @@ public class EnumArrays {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable JustSymbolEnum justSymbol;
 
   /**
@@ -97,6 +101,7 @@ public class EnumArrays {
     }
   }
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(@Nullable JustSymbolEnum justSymbol) {
@@ -115,6 +120,7 @@ public class EnumArrays {
     return justSymbol;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("just_symbol")
   public void setJustSymbol(@Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -144,6 +150,7 @@ public class EnumArrays {
     return arrayEnum;
   }
 
+  @JsonSetter(nulls = Nulls.SKIP)
   @JsonProperty("array_enum")
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;

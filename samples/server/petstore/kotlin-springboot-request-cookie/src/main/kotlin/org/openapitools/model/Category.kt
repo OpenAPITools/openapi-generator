@@ -1,6 +1,7 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
@@ -26,7 +27,8 @@ data class Category(
     @get:JsonProperty("name", required = true) val name: kotlin.String = "default-name",
 
     @Schema(example = "null", description = "")
-    @field:JsonSetter(nulls = Nulls.FAIL)
+    @field:JsonInclude(JsonInclude.Include.NON_NULL)
+    @field:JsonSetter(nulls = Nulls.SKIP)
     @get:JsonProperty("id") val id: kotlin.Long? = null
 ) {
 
