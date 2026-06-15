@@ -1333,27 +1333,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         Map<String, CodegenModel> allModelsMap = getAllModels(objs);
 
-        // For each oneOf interface with a discriminator, mark the discriminator property
-        // as inherited in each subtype and set its default value from the discriminator mapping
+        // For each discriminator parent (oneOf interfaces and allOf parents alike), mark the
+        // discriminator property as inherited in each child and set its default value.
         for (CodegenModel cm : allModelsMap.values()) {
-            if (Boolean.TRUE.equals(cm.vendorExtensions.get(CodegenConstants.X_IS_ONE_OF_INTERFACE))
-                    && cm.discriminator != null) {
-                String discrimBaseName = cm.discriminator.getPropertyBaseName();
-                String discrimType = cm.discriminator.getPropertyType();
-                boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
-
-                // Build child name -> mapping name lookup from discriminator mappings
-                Map<String, String> childToMappingName = new HashMap<>();
-                for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
-                    childToMappingName.put(mm.getModelName(), mm.getMappingName());
-                }
-
-                for (String childName : cm.oneOf) {
-                    CodegenModel child = allModelsMap.get(childName);
-                    if (child != null) {
-                        String mappingName = childToMappingName.get(childName);
-                        markPropertyAsInherited(child, discrimBaseName, discrimType, mappingName, isEnumDiscriminator);
-                    }
+            if (cm.discriminator == null
+                    || cm.discriminator.getMappedModels() == null
+                    || cm.discriminator.getMappedModels().isEmpty()) continue;
+            String discrimBaseName = cm.discriminator.getPropertyBaseName();
+            String discrimType = cm.discriminator.getPropertyType();
+            boolean isEnumDiscriminator = cm.discriminator.getIsEnum();
+            for (CodegenDiscriminator.MappedModel mm : cm.discriminator.getMappedModels()) {
+                CodegenModel child = allModelsMap.get(mm.getModelName());
+                if (child != null && child != cm) {
+                    markPropertyAsInherited(child, discrimBaseName, discrimType,
+                            mm.getMappingName(), isEnumDiscriminator);
                 }
             }
         }

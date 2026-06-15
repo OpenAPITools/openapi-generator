@@ -1176,7 +1176,7 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
                 "@get:JsonProperty(\"name\", required = true) override val name: kotlin.String,",
                 "@get:JsonProperty(\"photoUrls\", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,",
-                "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String,",
+                "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String = \"Dog\",",
                 "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
                 "@get:JsonProperty(\"category\") override val category: Category? = null,",
                 "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<Tag>? = null,",
@@ -6776,5 +6776,67 @@ public class KotlinSpringServerCodegenTest {
         assertThat(myObjectFile).isNotNull();
         String content = Files.readString(myObjectFile.toPath());
         assertThat(content).contains("com.example.ExternalModel?");
+    }
+
+    // ==================== allOf discriminator default value tests ====================
+
+    @Test(description = "allOf discriminator children get a default value from the schema name when no explicit mapping")
+    public void testAllOfDiscriminatorChildrenGetDefaultValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Cat and Dog are allOf children of Pet; no explicit mapping → schema name is the discriminating value
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"),
+                "data class Cat",
+                "override val petType: kotlin.String = \"Cat\""
+        );
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "data class Dog",
+                "override val petType: kotlin.String = \"Dog\""
+        );
+        // Pet parent is a plain interface when useSealedDiscriminatorInterfaces is at its default
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "interface Pet"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Cat.kt"),
+                "petType: kotlin.String?", "petType: kotlin.Any"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"),
+                "petType: kotlin.String?", "petType: kotlin.Any"
+        );
+    }
+
+    @Test(description = "allOf discriminator children get default value matching the explicit mapping key")
+    public void testAllOfDiscriminatorWithExplicitMappingDefaultValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Pet has discriminator petType with explicit mapping: Dog → "Dog", Cat → "Cat"
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "data class Dog",
+                "override val petType: kotlin.String = \"Dog\""
+        );
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"),
+                "data class Cat",
+                "override val petType: kotlin.String = \"Cat\""
+        );
     }
 }
