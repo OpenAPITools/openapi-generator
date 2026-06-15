@@ -60,21 +60,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 11
-          cache: gradle
-      - name: Cache maven dependencies
-        uses: actions/cache@v5
-        env:
-          cache-name: maven-repository
-        with:
-          path: |
-            ~/.gradle
-          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
-      - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v3
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
-          build-root-directory: ${{ matrix.sample }}
-          arguments: wrapper
+          cache: maven
+
+      # The official action automatically handles the Gradle cache
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: ./gradlew build -x test
