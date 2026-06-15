@@ -120,13 +120,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
         if (schemaWrapper.getOpenAPI() != null) {
             SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
             if (version.atLeast("3.1")) {
-                // ModelUtils.isNullable checks schema.getNullable(), but swagger-parser does not populate
-                // that field when parsing OAS 3.1 documents — 'nullable' is not a valid 3.1 keyword, so
-                // the parser stores it as a raw extension under the key "nullable" instead.
-                // We must check both paths to catch the deprecated usage in either case.
-                boolean hasNullableExtension = schema.getExtensions() != null
-                        && Boolean.TRUE.equals(schema.getExtensions().get("nullable"));
-                if (ModelUtils.isNullable(schema) || hasNullableExtension) {
+                if (ModelUtils.isNullable(schema)) {
                     result = new ValidationRule.Fail();
                     result.setDetails(String.format(Locale.ROOT,
                             "OAS document is version '%s'. Schema '%s' uses 'nullable' attribute, which has been deprecated in OAS 3.1.",
