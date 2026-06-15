@@ -1,6 +1,8 @@
 package org.openapitools.codegen.validations.oas;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.validation.Invalid;
 import org.openapitools.codegen.validation.ValidationResult;
 import org.testng.Assert;
@@ -65,6 +67,75 @@ public class OpenApiSchemaValidationsTest {
 
         Assert.assertNotNull(warnings);
         Assert.assertEquals(warnings.size(), 0, "Expected rule to be disabled.");
+    }
+
+    /**
+     * Probe: verify where swagger-parser stores `nullable: true` when parsing an OAS 3.1 spec.
+     * In OAS 3.1, `nullable` is not a recognized keyword — it may be stored in schema.getExtensions()
+     * under the raw key "nullable", or it may be silently dropped.
+     * This test documents the actual parser behavior so the fix in checkNullableAttribute
+     * knows which field to check.
+     */
+    @Test(description = "Probe: where does swagger-parser store 'nullable: true' in an OAS 3.1 spec?")
+    public void probe_nullableInOas31_parserStorageLocation() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/nullable-deprecated-in-oas31.yaml");
+        Schema<?> proxyUrl = (Schema<?>) openAPI.getComponents().getSchemas().get("TestModel").getProperties().get("proxyUrl");
+
+        // Document actual parser behavior — at least one of these must be non-null for the fix to work.
+        // If both are null, the parser silently drops 'nullable: true' and a different approach is needed.
+        Boolean getNullable = proxyUrl.getNullable();
+        Object extensionNullable = proxyUrl.getExtensions() != null ? proxyUrl.getExtensions().get("nullable") : null;
+
+        // swagger-parser stores it in extensions["nullable"] (not in getNullable() which stays null for 3.1)
+        Assert.assertNull(getNullable,
+                "In OAS 3.1, getNullable() should be null because 'nullable' is not a valid 3.1 keyword");
+        Assert.assertEquals(extensionNullable, Boolean.TRUE,
+                "In OAS 3.1, swagger-parser stores 'nullable: true' in schema.getExtensions()[\"nullable\"]");
+    }
+
+    /**
+     * The validation warning for 'nullable: true' in an OAS 3.1 spec must fire.
+     * The existing checkNullableAttribute only checked ModelUtils.isNullable(schema) which relies on
+     * schema.getNullable() — but swagger-parser does not populate that field for 3.1 specs (it stores
+     * the value in extensions["nullable"] instead). The fix must also check extensions["nullable"].
+     */
+    @Test(description = "nullable: true in OAS 3.1 spec must trigger the nullable-deprecated warning")
+    public void testNullableAttributeInOas31_triggerWarning() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/nullable-deprecated-in-oas31.yaml");
+        Schema<?> proxyUrl = (Schema<?>) openAPI.getComponents().getSchemas().get("TestModel").getProperties().get("proxyUrl");
+
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        ValidationResult result = validator.validate(new SchemaWrapper(openAPI, proxyUrl));
+        List<Invalid> nullableWarnings = result.getWarnings().stream()
+                .filter(invalid -> "Schema uses the 'nullable' attribute.".equals(invalid.getRule().getDescription()))
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(nullableWarnings.size(), 1,
+                "Expected exactly one 'nullable attribute deprecated' warning for a 3.1 spec using nullable: true");
+    }
+
+    /**
+     * The nullable-deprecated warning must NOT fire for an OAS 3.1 spec using the correct 3.1 null type syntax.
+     */
+    @Test(description = "correct OAS 3.1 null type syntax (type: [string, null]) must NOT trigger the nullable-deprecated warning")
+    public void testNullTypeInOas31_noWarning() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/null-types-simple.yaml");
+        Schema<?> stringDataOrNull = (Schema<?>) openAPI.getComponents().getSchemas().get("WithNullableType").getProperties().get("stringDataOrNull");
+
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
+
+        ValidationResult result = validator.validate(new SchemaWrapper(openAPI, stringDataOrNull));
+        List<Invalid> nullableWarnings = result.getWarnings().stream()
+                .filter(invalid -> "Schema uses the 'nullable' attribute.".equals(invalid.getRule().getDescription()))
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(nullableWarnings.size(), 0,
+                "OAS 3.1 with type:[string,null] must not trigger the nullable-deprecated warning");
     }
 
     @DataProvider(name = "apacheNginxRecommendationExpectations")
