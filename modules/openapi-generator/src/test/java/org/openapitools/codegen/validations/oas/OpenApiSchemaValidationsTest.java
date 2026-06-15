@@ -70,30 +70,6 @@ public class OpenApiSchemaValidationsTest {
     }
 
     /**
-     * Probe: verify where swagger-parser stores `nullable: true` when parsing an OAS 3.1 spec.
-     * In OAS 3.1, `nullable` is not a recognized keyword — it may be stored in schema.getExtensions()
-     * under the raw key "nullable", or it may be silently dropped.
-     * This test documents the actual parser behavior so the fix in checkNullableAttribute
-     * knows which field to check.
-     */
-    @Test(description = "Probe: where does swagger-parser store 'nullable: true' in an OAS 3.1 spec?")
-    public void probe_nullableInOas31_parserStorageLocation() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/nullable-deprecated-in-oas31.yaml");
-        Schema<?> proxyUrl = (Schema<?>) openAPI.getComponents().getSchemas().get("TestModel").getProperties().get("proxyUrl");
-
-        // Document actual parser behavior — at least one of these must be non-null for the fix to work.
-        // If both are null, the parser silently drops 'nullable: true' and a different approach is needed.
-        Boolean getNullable = proxyUrl.getNullable();
-        Object extensionNullable = proxyUrl.getExtensions() != null ? proxyUrl.getExtensions().get("nullable") : null;
-
-        // swagger-parser stores it in extensions["nullable"] (not in getNullable() which stays null for 3.1)
-        Assert.assertNull(getNullable,
-                "In OAS 3.1, getNullable() should be null because 'nullable' is not a valid 3.1 keyword");
-        Assert.assertEquals(extensionNullable, Boolean.TRUE,
-                "In OAS 3.1, swagger-parser stores 'nullable: true' in schema.getExtensions()[\"nullable\"]");
-    }
-
-    /**
      * The validation warning for 'nullable: true' in an OAS 3.1 spec must fire.
      * The existing checkNullableAttribute only checked ModelUtils.isNullable(schema) which relies on
      * schema.getNullable() — but swagger-parser does not populate that field for 3.1 specs (it stores
