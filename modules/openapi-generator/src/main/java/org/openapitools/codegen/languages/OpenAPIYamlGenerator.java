@@ -19,10 +19,13 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.mustache.OnChangeLambda;
+import org.openapitools.codegen.utils.OpenAPISorter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +36,12 @@ import java.util.Map;
 
 public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfig {
     public static final String OUTPUT_NAME = "outputFile";
+    public static final String SORT_OUTPUT = "sortOutput";
 
     private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIYamlGenerator.class);
 
     protected String outputFile = "openapi/openapi.yaml";
+    protected boolean sortOutput = false;
 
     public OpenAPIYamlGenerator() {
         super();
@@ -54,6 +59,10 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         embeddedTemplateDir = templateDir = "openapi-yaml";
         outputFolder = "generated-code/openapi-yaml";
         cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output filename").defaultValue(outputFile));
+        cliOptions.add(CliOption.newBoolean(SORT_OUTPUT,
+                "Sort paths alphabetically, schemas/parameters by name, and HTTP methods in classical order "
+                        + "(GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE).")
+                .defaultValue(Boolean.FALSE.toString()));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
     }
 
@@ -80,6 +89,17 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         }
         LOGGER.info("Output file [outputFile={}]", outputFile);
         supportingFiles.add(new SupportingFile("openapi.mustache", outputFile));
+
+        if (additionalProperties.containsKey(SORT_OUTPUT)) {
+            sortOutput = Boolean.parseBoolean(additionalProperties.get(SORT_OUTPUT).toString());
+        }
+    }
+
+    @Override
+    public void processOpenAPI(OpenAPI openAPI) {
+        if (sortOutput) {
+            OpenAPISorter.sort(openAPI);
+        }
     }
 
     @Override
@@ -98,6 +118,15 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         List<CodegenOperation> opList = operations.computeIfAbsent(resourcePath,
                 k -> new ArrayList<>());
         opList.add(co);
+    }
+
+    @Override
+    public void generateYAMLSpecFile(Map<String, Object> objs) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
+        String yaml = SerializerUtils.toYamlString(openAPI, sortOutput);
+        if (yaml != null) {
+            objs.put("openapi-yaml", yaml);
+        }
     }
 
     @Override

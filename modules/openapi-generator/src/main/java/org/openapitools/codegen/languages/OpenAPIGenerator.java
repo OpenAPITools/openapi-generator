@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
+import org.openapitools.codegen.utils.OpenAPISorter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +32,12 @@ import java.util.EnumSet;
 
 public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
     public static final String OUTPUT_NAME = "outputFileName";
+    public static final String SORT_OUTPUT = "sortOutput";
 
     private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIGenerator.class);
 
     protected String outputFileName = "openapi.json";
+    protected boolean sortOutput = false;
 
     public OpenAPIGenerator() {
         super();
@@ -55,6 +58,10 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
 
         cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output file name").defaultValue(outputFileName));
+        cliOptions.add(CliOption.newBoolean(SORT_OUTPUT,
+                "Sort paths alphabetically, schemas/parameters by name, and HTTP methods in classical order "
+                        + "(GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE).")
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -80,11 +87,18 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
             outputFileName = additionalProperties.get(OUTPUT_NAME).toString();
         }
         LOGGER.info("Output file name [outputFileName={}]", outputFileName);
+
+        if (additionalProperties.containsKey(SORT_OUTPUT)) {
+            sortOutput = Boolean.parseBoolean(additionalProperties.get(SORT_OUTPUT).toString());
+        }
     }
 
     @Override
     public void processOpenAPI(OpenAPI openAPI) {
-        String jsonOpenAPI = SerializerUtils.toJsonString(openAPI);
+        if (sortOutput) {
+            OpenAPISorter.sort(openAPI);
+        }
+        String jsonOpenAPI = SerializerUtils.toJsonString(openAPI, sortOutput);
 
         try {
             String outputFile = outputFolder + File.separator + outputFileName;

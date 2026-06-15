@@ -4,6 +4,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.OpenAPIGenerator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -66,5 +67,79 @@ public class JsonGeneratorTest {
         assertFileContains(Paths.get(outputPath + "/.openapi-generator/VERSION"));
 
         output.deleteOnExit();
+    }
+
+
+    @Test
+    public void testSortOutput() throws Exception {
+        File output = Files.createTempDirectory("test-sort-json").toFile();
+        output.deleteOnExit();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(OpenAPIGenerator.SORT_OUTPUT, "true");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("openapi")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/sort-output-test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String json = new String(Files.readAllBytes(Paths.get(output.getAbsolutePath(), "openapi.json")));
+
+        // Paths alphabetical: /animals, /mammals, /zebra
+        int idxAnimals = json.indexOf("\"/animals\"");
+        int idxMammals = json.indexOf("\"/mammals\"");
+        int idxZebra   = json.indexOf("\"/zebra\"");
+        Assert.assertTrue(idxAnimals < idxMammals, "/animals must come before /mammals");
+        Assert.assertTrue(idxMammals < idxZebra,   "/mammals must come before /zebra");
+
+        // Schemas alphabetical: AnimalModel, MammalModel, ZebraModel
+        int idxAnimal = json.indexOf("\"AnimalModel\"");
+        int idxMammal = json.indexOf("\"MammalModel\"");
+        int idxZebraM = json.indexOf("\"ZebraModel\"");
+        Assert.assertTrue(idxAnimal < idxMammal, "AnimalModel must come before MammalModel");
+        Assert.assertTrue(idxMammal < idxZebraM, "MammalModel must come before ZebraModel");
+
+        // Parameters alphabetical: aFilter, mPage, zLimit
+        int idxAFilter = json.indexOf("\"aFilter\"");
+        int idxMPage   = json.indexOf("\"mPage\"");
+        int idxZLimit  = json.indexOf("\"zLimit\"");
+        Assert.assertTrue(idxAFilter < idxMPage,  "aFilter must come before mPage");
+        Assert.assertTrue(idxMPage   < idxZLimit, "mPage must come before zLimit");
+
+        // HTTP method order — GET before POST in /zebra (spec has POST first)
+        int zebraBlock = json.indexOf("\"/zebra\"");
+        Assert.assertTrue(json.indexOf("\"get\"",  zebraBlock) < json.indexOf("\"post\"", zebraBlock),
+                "GET must appear before POST within /zebra");
+
+        // HTTP method order — GET before DELETE in /mammals (spec has DELETE first)
+        int mammalsBlock = json.indexOf("\"/mammals\"");
+        Assert.assertTrue(json.indexOf("\"get\"", mammalsBlock) < json.indexOf("\"delete\"", mammalsBlock),
+                "GET must appear before DELETE within /mammals");
+    }
+
+    @Test
+    public void testSortOutputDisabledPreservesOriginalOrder() throws Exception {
+        File output = Files.createTempDirectory("test-nosort-json").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("openapi")
+                .setAdditionalProperties(new HashMap<>())
+                .setInputSpec("src/test/resources/3_0/sort-output-test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        String json = new String(Files.readAllBytes(Paths.get(output.getAbsolutePath(), "openapi.json")));
+
+        // Without sortOutput, paths are in spec order: /zebra first, then /mammals, then /animals
+        int idxZebra   = json.indexOf("\"/zebra\"");
+        int idxMammals = json.indexOf("\"/mammals\"");
+        int idxAnimals = json.indexOf("\"/animals\"");
+        Assert.assertTrue(idxZebra < idxMammals, "Without sortOutput /zebra must come before /mammals (spec order)");
+        Assert.assertTrue(idxMammals < idxAnimals, "Without sortOutput /mammals must come before /animals (spec order)");
     }
 }
