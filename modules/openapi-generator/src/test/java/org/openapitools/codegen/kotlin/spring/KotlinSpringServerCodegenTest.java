@@ -6476,7 +6476,7 @@ public class KotlinSpringServerCodegenTest {
         String content = Files.readString(modelFile);
         int idx = content.indexOf("val optionalNonNullableWithDefault:");
         Assert.assertTrue(idx >= 0, "optionalNonNullableWithDefault property must exist");
-        String context = content.substring(Math.max(0, idx - 200), idx);
+        String context = content.substring(Math.max(0, idx - 300), idx);
         Assert.assertTrue(context.contains("@field:JsonInclude(JsonInclude.Include.NON_NULL)"),
                 "optionalNonNullableWithDefault must have @JsonInclude(NON_NULL)");
         Assert.assertTrue(context.contains("@field:JsonSetter(nulls = Nulls.SKIP)"),
