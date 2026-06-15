@@ -21,7 +21,7 @@ type {{operationId}}{{#hasPathParams}}Query{{/hasPathParams}}Params struct {
 {{#queryParams}}
 
     // {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{description}}
-    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{#goRemovePointer}}{{^isRequired}}*{{dataType}}{{/isRequired}}{{/goRemovePointer}} `json:"{{baseName}}{{^required}},omitempty{{/required}}" form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+    {{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} {{#goRemovePointer}}{{^isRequired}}*{{/isRequired}}{{dataType}}{{/goRemovePointer}} `json:"{{baseName}}{{^required}},omitempty{{/required}}" form:"{{baseName}}{{^required}},omitempty{{/required}}"{{#required}} binding:"required"{{/required}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/queryParams}}
 }
 {{/hasQueryParams}}
