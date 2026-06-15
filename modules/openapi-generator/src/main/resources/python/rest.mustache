@@ -28,7 +28,10 @@ def is_socks_proxy_url(url):
         return split_section[0].lower() in SUPPORTED_SOCKS_PROXIES
 
 def contenttype_matches(contenttype, maintype, subtype):
-    pattern = '{type}/(?:[^+;]+\\+)?{subtype}(?:;.*)?'.format(type = re.escape(maintype), subtype = re.escape(subtype))
+    pattern = '{type}/(?:[^+;]+\\+)?{subtype}(?:[ \t]*;.*)?'.format(
+        type = re.escape(maintype),
+        subtype = re.escape(subtype),
+    )
     return re.fullmatch(pattern, contenttype, re.IGNORECASE) is not None
 
 def should_bypass_proxies(url: str, no_proxy: str) -> bool:
