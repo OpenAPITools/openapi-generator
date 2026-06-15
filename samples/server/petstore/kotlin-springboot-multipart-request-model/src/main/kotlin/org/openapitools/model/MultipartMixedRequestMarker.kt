@@ -25,6 +25,7 @@ data class MultipartMixedRequestMarker(
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("name")
     @get:JsonProperty("name") val name: kotlin.String? = null
 ) {
 

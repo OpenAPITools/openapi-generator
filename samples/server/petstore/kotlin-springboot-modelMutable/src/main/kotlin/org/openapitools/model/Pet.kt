@@ -32,31 +32,37 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Pet(
 
     @Schema(example = "doggie", required = true, description = "")
+    @param:JsonProperty("name")
     @get:JsonProperty("name", required = true) var name: kotlin.String,
 
     @Schema(example = "null", required = true, description = "")
+    @param:JsonProperty("photoUrls")
     @get:JsonProperty("photoUrls", required = true) var photoUrls: kotlin.collections.MutableList<kotlin.String>,
 
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") var id: kotlin.Long? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("category")
     @get:JsonProperty("category") var category: Category? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("tags")
     @get:JsonProperty("tags") var tags: kotlin.collections.MutableList<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("status")
     @get:JsonProperty("status") var status: Pet.Status? = null
 ) : java.io.Serializable {
 

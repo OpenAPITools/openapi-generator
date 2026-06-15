@@ -24,10 +24,12 @@ data class User(
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("id")
     @get:JsonProperty("id") val id: kotlin.String? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("name")
     @get:JsonProperty("name") val name: kotlin.String? = null
 ) : java.io.Serializable {
 

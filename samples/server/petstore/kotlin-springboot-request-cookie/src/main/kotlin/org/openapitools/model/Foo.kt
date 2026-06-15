@@ -25,6 +25,7 @@ data class Foo(
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("bar")
     @get:JsonProperty("bar") val bar: kotlin.String? = "bar"
 ) {
 

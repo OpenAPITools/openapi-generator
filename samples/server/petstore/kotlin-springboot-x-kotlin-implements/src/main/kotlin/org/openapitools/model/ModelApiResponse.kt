@@ -27,16 +27,19 @@ data class ModelApiResponse(
     @ApiModelProperty(example = "null", value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("code")
     @get:JsonProperty("code") val code: kotlin.Int? = null,
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("type")
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
     @ApiModelProperty(example = "null", value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("message")
     @get:JsonProperty("message") val message: kotlin.String? = null
 ) : java.io.Serializable {
 

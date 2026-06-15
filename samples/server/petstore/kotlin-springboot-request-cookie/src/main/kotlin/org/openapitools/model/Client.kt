@@ -25,6 +25,7 @@ data class Client(
     @Schema(example = "null", description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
+    @param:JsonProperty("client")
     @get:JsonProperty("client") val client: kotlin.String? = null
 ) {
 
