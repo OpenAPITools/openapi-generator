@@ -136,12 +136,7 @@ public class RustServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "lazy_static::lazy_static!");
         TestUtils.assertFileContains(modelsPath, "regex::Regex");
 
-        String cargoToml = Files.readString(cargoPath);
-        int clientStart = cargoToml.indexOf("client = [");
-        int clientEnd = cargoToml.indexOf("]\n# TLS support", clientStart);
-        Assert.assertTrue(clientStart >= 0, "Generated Cargo.toml should contain a client feature");
-        Assert.assertTrue(clientEnd > clientStart, "Generated Cargo.toml should close the client feature before TLS support");
-        String clientFeature = cargoToml.substring(clientStart, clientEnd);
+        String clientFeature = clientFeature(Files.readString(cargoPath));
         Assert.assertTrue(clientFeature.contains("\"lazy_static\""),
                 "Client-only builds need lazy_static when shared models emit pattern validation statics");
         Assert.assertTrue(clientFeature.contains("\"regex\""),
@@ -150,5 +145,46 @@ public class RustServerCodegenTest {
 
         // Clean up
         target.toFile().deleteOnExit();
+    }
+
+    /**
+     * Test that model pattern validation dependencies are not enabled for client-only builds
+     * when no generated model emits pattern validation code.
+     */
+    @Test
+    public void testClientFeatureOmitsPatternValidationDependenciesWithoutModelPatterns() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec("src/test/resources/3_0/rust-server/no-pattern-client-feature.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path cargoPath = Path.of(target.toString(), "/Cargo.toml");
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(cargoPath);
+        TestUtils.assertFileExists(modelsPath);
+
+        TestUtils.assertFileNotContains(modelsPath, "lazy_static::lazy_static!");
+        TestUtils.assertFileNotContains(modelsPath, "regex::Regex");
+
+        String clientFeature = clientFeature(Files.readString(cargoPath));
+        Assert.assertFalse(clientFeature.contains("\"lazy_static\""),
+                "Client-only builds should not enable lazy_static when generated models do not emit pattern validation statics");
+        Assert.assertFalse(clientFeature.contains("\"regex\""),
+                "Client-only builds should not enable regex when generated models do not emit pattern validation statics");
+
+        // Clean up
+        target.toFile().deleteOnExit();
+    }
+
+    private static String clientFeature(String cargoToml) {
+        int clientStart = cargoToml.indexOf("client = [");
+        int clientEnd = cargoToml.indexOf("]\n# TLS support", clientStart);
+        Assert.assertTrue(clientStart >= 0, "Generated Cargo.toml should contain a client feature");
+        Assert.assertTrue(clientEnd > clientStart, "Generated Cargo.toml should close the client feature before TLS support");
+        return cargoToml.substring(clientStart, clientEnd);
     }
 }

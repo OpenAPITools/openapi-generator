@@ -1288,6 +1288,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesByteArray", true);
             }
 
+            if (!prop.isByteArray && StringUtils.isNotBlank(prop.pattern)) {
+                additionalProperties.put("apiUsesModelRegexPatternValidation", true);
+            }
+
             String xmlName = modelXmlNames.get(prop.dataType);
             if (xmlName != null) {
                 prop.vendorExtensions.put("x-item-xml-name", xmlName);
