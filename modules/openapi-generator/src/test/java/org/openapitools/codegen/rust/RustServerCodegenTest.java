@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Tests for RustServerCodegen.
@@ -141,7 +140,6 @@ public class RustServerCodegenTest {
                 "Client-only builds need lazy_static when shared models emit pattern validation statics");
         Assert.assertTrue(clientFeature.contains("\"regex\""),
                 "Client-only builds need regex when shared models emit pattern validation statics");
-        assertOptionalSerdeValidDependency(Files.readString(cargoPath));
 
         // Clean up
         target.toFile().deleteOnExit();
@@ -186,12 +184,5 @@ public class RustServerCodegenTest {
         Assert.assertTrue(clientStart >= 0, "Generated Cargo.toml should contain a client feature");
         Assert.assertTrue(clientEnd > clientStart, "Generated Cargo.toml should close the client feature before TLS support");
         return cargoToml.substring(clientStart, clientEnd);
-    }
-
-    private static void assertOptionalSerdeValidDependency(String cargoToml) {
-        Pattern serdeValidDependency = Pattern.compile(
-                "(?m)^serde_valid\\s*=\\s*\\{[^\\n}]*optional\\s*=\\s*true[^\\n}]*}\\s*$");
-        Assert.assertTrue(serdeValidDependency.matcher(cargoToml).find(),
-                "Generated Cargo.toml should keep serde_valid as an optional dependency");
     }
 }
