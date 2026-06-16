@@ -115,6 +115,7 @@ serde_json = "1.0"
 {{#apiUsesIntegerEnums}}
 serde_repr = "0.1"
 {{/apiUsesIntegerEnums}}
+{{! serde_valid 2.0.2 changed enum validation APIs used by swagger 7.0.0. }}
 serde_valid = { version = ">=2.0, <2.0.2", optional = true }
 
 validator = { version = "0.20", features = ["derive"] }
